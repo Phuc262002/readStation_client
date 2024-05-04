@@ -115,11 +115,14 @@ const password = defineInputBinds("password");
 
 // Submit handler
 const onSubmit = handleSubmit(async (values) => {
-    console.log("🚀 ~ onSubmit ~ values:", values);
-    // Submit to API
     isSubmitting.value = true;
-    await authStore.login(values);
+    try {
+        await authStore.login(values);
+    } catch (error) {
+        console.log(error);
+        message.error('Login failed! Please try again.');
+        errorToast('Login failed!', 'Please try again.');
+    }
     isSubmitting.value = false;
-
 });
 </script>
