@@ -1,0 +1,44 @@
+export default defineNuxtPlugin(() => {
+    const userAuth = useAuthStore()
+    const config = useRuntimeConfig()
+
+    const $customFetch = $fetch.create({
+        baseURL: config.baseUrl ?? 'http://readsstation.com:8000/',
+        onRequest({ request, options }) {
+            if (userAuth.isLogged) {
+                // Add Authorization header
+                options.headers = options.headers || {}
+                options.headers.Authorization = `Bearer ${userAuth.authUser.token.accessToken}`
+                options.headers['Accept'] = 'application/json'
+            }
+        },
+        onRequestError({ request, options, error }) {
+            console.log('onRequestError', error);
+          },
+        onResponse({ request, response, options }) {
+            // console.log('onResponse', response);
+        },
+        async onResponseError({ request, response, options }) {
+            if (response.status === 401 && userAuth.isLogged) {
+                try {
+                    await userAuth.refreshToken()
+                    // Retry original request with new token
+                    return $customFetch(request)
+                } catch (error) {
+                    // Handle refreshToken error, e.g., log out user
+                    userAuth.logout()
+                }
+            }
+
+            if (response.status === 403) {
+                userAuth.logout()
+            }
+        }
+    })
+    // Expose to useNuxtApp().$customFetch
+    return {
+        provide: {
+            customFetch: $customFetch
+        }
+    }
+})
