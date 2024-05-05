@@ -24,10 +24,15 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  runtimeConfig: {
+    public: {
+      apiUrl: process.env.API_URL,
+    },
+  },
   // nitro: {
   //   routeRules: {
   //     "/backend/**": {
-  //       proxy: "http://readsstation.com:8000/**"
+  //       proxy: `${process.env.API_URL}/**`
   //     }
   //   }
   // }

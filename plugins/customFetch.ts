@@ -3,8 +3,8 @@ export default defineNuxtPlugin(() => {
     const config = useRuntimeConfig()
 
     const $customFetch = $fetch.create({
-        baseURL: config.baseUrl ?? 'http://readsstation.com:8000/',
-        onRequest({ request, options }) {
+        baseURL: config.public.apiUrl,
+        onRequest({ request, options }) {            
             if (userAuth.isLogged) {
                 // Add Authorization header
                 options.headers = options.headers || {}
