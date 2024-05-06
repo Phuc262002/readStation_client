@@ -4,12 +4,12 @@ export default defineNuxtPlugin(() => {
 
     const $customFetch = $fetch.create({
         baseURL: config.public.apiUrl,
-        onRequest({ request, options }) {            
+        onRequest({ request, options }) {   
+            options.headers = options.headers || {}   
+            options.headers['Accept'] = 'application/json'      
             if (userAuth.isLogged) {
                 // Add Authorization header
-                options.headers = options.headers || {}
                 options.headers.Authorization = `Bearer ${userAuth.authUser.token.accessToken}`
-                options.headers['Accept'] = 'application/json'
             }
         },
         onRequestError({ request, options, error }) {
