@@ -3,13 +3,13 @@ export default defineNuxtPlugin(() => {
     const config = useRuntimeConfig()
 
     const $customFetch = $fetch.create({
-        baseURL: config.baseUrl ?? 'http://readsstation.com:8000/',
-        onRequest({ request, options }) {
+        baseURL: config.public.apiUrl,
+        onRequest({ request, options }) {   
+            options.headers = options.headers || {}   
+            options.headers['Accept'] = 'application/json'      
             if (userAuth.isLogged) {
                 // Add Authorization header
-                options.headers = options.headers || {}
                 options.headers.Authorization = `Bearer ${userAuth.authUser.token.accessToken}`
-                options.headers['Accept'] = 'application/json'
             }
         },
         onRequestError({ request, options, error }) {
