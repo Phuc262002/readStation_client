@@ -1,5 +1,11 @@
 <template>
     <div class="flex items-center justify-center gap-[30px]">
+        <div  v-if="isSubmitting" class="absolute top-0 left-0 w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default">
+            <a-spin
+                size="large"
+                class="absolute top-1/2 left-1/2"
+            />
+        </div>
         <div class="">
             <div class="w-full max-w-[506px]">
                 <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
@@ -151,10 +157,12 @@ const onSubmit = handleSubmit(async (values) => {
 });
 
 // handle success event
-const handleLoginSuccess = (response: CredentialResponse) => {
+const handleLoginSuccess = async (response: CredentialResponse) => {
     const { credential } = response;
     console.log("Access Token", credential);
-    authStore.loginWithGoogle(credential);
+    isSubmitting.value = true;
+    await authStore.loginWithGoogle(credential);
+    isSubmitting.value = false;
 };
 
 // handle an error event
