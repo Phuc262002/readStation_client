@@ -1,5 +1,5 @@
-<template>
 
+<template>
     <div class="mx-auto container h-50">
         <div>
             <div class="h-auto bg-[white] w-full border-2 shadow-lg rounded-full flex justify-between py-3 px-10">
@@ -68,20 +68,29 @@
 
 
                 <!-- Cart && Account -->
-                <div class="mx-10 flex gap-3 text-2xl items-center">
-                    <!-- Account -->
-                    <div class="flex items-center">
-                        <UserOutlined
-                            class="h-6 w-6 text-gray-600 hover:-translate-y-1 hover:scale-110 duration-300 " />
-                    </div>
-                    <!-- Separator -->
-                    <div class="border-solid border border-gray-600 h-5">
-                    </div>
-                    <!-- Cart -->
-                    <div class="flex items-center">
-                        <ShoppingCartOutlined
-                            class="h-6 w-6 text-gray-600 hover:-translate-y-1 hover:scale-110 duration-300 " />
-                    </div>
+                <div class="flex gap-3 items-center">
+                    <ul class="flex">
+                        <li>
+                            <NuxtLink to="/">
+                                <a-button class="text-black text-lg mb-1" type="link">
+                                    <div class="flex justify-between items-center gap-2">
+                                        <SmileOutlined />
+                                        <h2>Tài khoản</h2>
+                                    </div>
+                                </a-button>
+                            </NuxtLink>
+                        </li>
+                        <li>
+                            <div class=" border-solid mt-2 border border-gray-300 h-6 "></div>
+                        </li>
+                        <li>
+                            <NuxtLink to="/">
+                                <a-button class="text-black text-2xl flex" type="link">
+                                        <ShoppingOutlined />                    
+                                </a-button>
+                            </NuxtLink>
+                        </li>
+                    </ul>
 
                 </div>
             </div>

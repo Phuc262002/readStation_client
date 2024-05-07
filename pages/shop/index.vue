@@ -1,7 +1,6 @@
 <template>
     <div class="container  mx-auto p-20">
           <aside class="flex">
-        
             <div class="w-1/4">
               <h6 class="text-black font-bold text-base uppercase">Thể loại</h6>
               <div class="">

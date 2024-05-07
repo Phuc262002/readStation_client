@@ -17,137 +17,88 @@
                 </div>
             </div>
         </div>
-        <div class="flex justify-center items-center gap-10 mx-10 ">
-            <!-- 1 -->
-            <div>
-                <div>
-                    <img class="w-52"
-                        src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTORxa-vhknyItxEjdMruUXHi0noaZVZNlOXSnhjOF-rRqIuUgrl6REOBtTmFczCp_HQhBfHPaw9BjfbaTuttkmLkkHF-WOfbcnvanenQC5dNBAgUPIYPSkaw&usqp=CAE"
-                        alt="">
-                </div>
-                <div class="mt-5">
-                    <div class="mb-4">
-                        <div class="mb-2">
-                            <span class="italic">By Arthur Gonzalez</span>
-                        </div>
-                        <div class="uppercase text-lg font-semibold">
-                            <h2>The Story of Success</h2>
-                        </div>
-                    </div>
-                    <div>
-                        <span class="text-[#ee5151] text-lg">$170.00</span>
-                    </div>
-                </div>
-            </div>
-            <!-- 2 -->
-            <div>
-                <div>
-                    <img class="w-52"
-                        src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTORxa-vhknyItxEjdMruUXHi0noaZVZNlOXSnhjOF-rRqIuUgrl6REOBtTmFczCp_HQhBfHPaw9BjfbaTuttkmLkkHF-WOfbcnvanenQC5dNBAgUPIYPSkaw&usqp=CAE"
-                        alt="">
-                </div>
-                <div class="mt-5">
-                    <div class="mb-4">
-                        <div class="mb-2">
-                            <span class="italic">By Arthur Gonzalez</span>
-                        </div>
-                        <div class="uppercase text-lg font-semibold">
-                            <h2>The Story of Success</h2>
-                        </div>
-                    </div>
-                    <div>
-                        <del class="mr-[5px] text-[#999999] ">$99.00</del>
-                        <span class="text-[#ee5151] text-lg">$170.00</span>
-                    </div>
-                </div>
-            </div>
-            <!-- 3 -->
-            <div>
-                <div>
-                    <img class="w-52"
-                        src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTORxa-vhknyItxEjdMruUXHi0noaZVZNlOXSnhjOF-rRqIuUgrl6REOBtTmFczCp_HQhBfHPaw9BjfbaTuttkmLkkHF-WOfbcnvanenQC5dNBAgUPIYPSkaw&usqp=CAE"
-                        alt="">
-                </div>
-                <div class="mt-5">
-                    <div class="mb-4">
-                        <div class="mb-2">
-                            <span class="italic">By Arthur Gonzalez</span>
-                        </div>
-                        <div class="uppercase text-lg font-semibold">
-                            <h2>The Story of Success</h2>
-                        </div>
-                    </div>
-                    <div>
-                        <span class="text-[#ee5151] text-lg">$170.00</span>
-                    </div>
-                </div>
-            </div>
-            <!-- 4 -->
-            <div>
-                <div>
-                    <img class="w-52"
-                        src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTORxa-vhknyItxEjdMruUXHi0noaZVZNlOXSnhjOF-rRqIuUgrl6REOBtTmFczCp_HQhBfHPaw9BjfbaTuttkmLkkHF-WOfbcnvanenQC5dNBAgUPIYPSkaw&usqp=CAE"
-                        alt="">
-                </div>
-                <div class="mt-5">
-                    <div class="mb-4">
-                        <div class="mb-2">
-                            <span class="italic">By Arthur Gonzalez</span>
-                        </div>
-                        <div class="uppercase text-lg font-semibold">
-                            <h2>The Story of Success</h2>
-                        </div>
-                    </div>
-                    <div>
-                        <span class="text-[#ee5151] text-lg">$170.00</span>
-                    </div>
-                </div>
-            </div>
-            <!-- 5 -->
-            <div>
-                <div>
-                    <img class="w-52"
-                        src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTORxa-vhknyItxEjdMruUXHi0noaZVZNlOXSnhjOF-rRqIuUgrl6REOBtTmFczCp_HQhBfHPaw9BjfbaTuttkmLkkHF-WOfbcnvanenQC5dNBAgUPIYPSkaw&usqp=CAE"
-                        alt="">
-                </div>
-                <div class="mt-5">
-                    <div class="mb-4">
-                        <div class="mb-2">
-                            <span class="italic">By Arthur Gonzalez</span>
-                        </div>
-                        <div class="uppercase text-lg font-semibold">
-                            <h2>The Story of Success</h2>
-                        </div>
-                    </div>
-                    <div>
-                        <del class="mr-[5px] text-[#999999] ">$99.00</del>
-                        <span class="text-[#ee5151] text-lg">$170.00</span>
-                    </div>
-                </div>
-            </div>
-            <!-- 6 -->
-            <div>
-                <div>
-                    <img class="w-52"
-                        src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTORxa-vhknyItxEjdMruUXHi0noaZVZNlOXSnhjOF-rRqIuUgrl6REOBtTmFczCp_HQhBfHPaw9BjfbaTuttkmLkkHF-WOfbcnvanenQC5dNBAgUPIYPSkaw&usqp=CAE"
-                        alt="">
-                </div>
-                <div class="mt-5">
-                    <div class="mb-4">
-                        <div class="mb-2">
-                            <span class="italic">By Arthur Gonzalez</span>
-                        </div>
-                        <div class="uppercase text-lg font-semibold">
-                            <h2>The Story of Success</h2>
-                        </div>
-                    </div>
-                    <div>
-                        <del class="mr-[5px] text-[#999999] ">$99.00</del>
-                        <span class="text-[#ee5151] text-lg">$170.00</span>
-                    </div>
-                </div>
-            </div>
 
-        </div>
     </div>
+    <swiper :slidesPerView="4" :spaceBetween="7" >
+        <swiper-slide>
+            <CommonProductBook/>
+        </swiper-slide>
+        <swiper-slide>
+            <CommonProductBook/>
+        </swiper-slide>
+        <swiper-slide>
+            <CommonProductBook/>
+        </swiper-slide>
+        <swiper-slide>
+            <CommonProductBook/>
+        </swiper-slide>
+        <swiper-slide>
+            <CommonProductBook/>
+        </swiper-slide>
+        <swiper-slide>
+            <CommonProductBook/>
+        </swiper-slide>
+        <swiper-slide>
+            <CommonProductBook/>
+        </swiper-slide>
+        <swiper-slide>
+            <CommonProductBook/>
+        </swiper-slide>
+        <swiper-slide>
+            <CommonProductBook/>
+        </swiper-slide>
+      
+    </swiper>
 </template>
+
+
+<script>
+  // Import Swiper Vue.js components
+  import { Swiper, SwiperSlide } from 'swiper/vue';
+
+  // Import Swiper styles
+  import 'swiper/css';
+
+  import 'swiper/css/pagination';
+
+
+
+  // import required modules
+  import { Pagination } from 'swiper/modules';
+
+  export default {
+    components: {
+      Swiper,
+      SwiperSlide,
+    },
+    setup() {
+      return {
+        modules: [Pagination],
+      };
+    },
+  };
+</script>
+<style>
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+</style>
