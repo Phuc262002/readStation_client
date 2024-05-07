@@ -1,7 +1,8 @@
 
 <template>
     <div>
-        
+       <HomeSliderBig/>
+       <HomeSwiperItemHome/>
     </div>
 </template>
 
