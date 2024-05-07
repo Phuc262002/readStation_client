@@ -1,109 +1,79 @@
 <template>
-    <div class="container  mx-auto p-20">
-          <aside class="flex">
-        
-            <div class="w-1/4">
-              <h6 class="text-black font-bold text-base uppercase">Thể loại</h6>
-              <div class="">
-                <ul class="checkbox-container search-list">
-                  <li class="inline-grid grid-cols-1">
-                   <div>
-                      <input type="checkbox" class="custom-control-input" id="customCheck1">
-                      <label class="custom-control-label" for="customCheck1">    Trẻ em</label>
-                    </div>
-                    <div>
-                      <input type="checkbox" class="custom-control-input" id="customCheck1">
-                      <label class="custom-control-label" for="customCheck2">    Người lớn</label>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h6 class="text-black font-bold text-base uppercase">Tác giả</h6>
-              <div class="">
-                <ul class="checkbox-container search-list">
-                  <li class="inline-grid grid-cols-1">
-                   <div>
-                      <input type="checkbox" class="custom-control-input" id="customCheck1">
-                      <label class="custom-control-label" for="customCheck3"> Nguyễn Kim</label>
-                    </div>
-                    <div>
-                      <input type="checkbox" class="custom-control-input" id="customCheck1">
-                      <label class="custom-control-label" for="customCheck4"> Ngô Tất Tố</label>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              </div>
-              
-              
-            
-           
-           
-              <h6 class="stext-black font-bold text-base uppercase">Price Range</h6>
-              <div class="sidebar-body">
-                <ul class="radio-container search-list">
-                  <li>
-                    <div class="custom-control custom-radio">
-                      <input type="radio" class="custom-control-input" id="customCheck50">
-                      <label class="custom-control-label" for="customCheck50"> dưới 100k </label>
-                    </div>
-                  </li>
-                 
-                </ul>
-              </div>
-         
-          </div>
-
-        
-          
-            <div class="w-3/4  grid grid-cols-3 gap-4">
-                <div class="w-1/3">
-                  sản phẩm1 
-                </div>
-                <div class="w-1/3">
-                  sản phẩm 2
-                </div>
-                <div class="w-1/3">
-                  sản phẩm 3 
-                </div>
-                <a-pagination v-model:current="current" :total="50" show-less-items />
-            </div>
-            
-        
-          </aside>
+  <div class="container mx-auto p-20 bg-[#f5f5fa]">
+    <div class="flex gap-6">
+      <div class="w-1/5 bg-[#ffffff] rounded-lg">
+        <div class="px-4 py-3 text-lg font-semibold border-b-2">
+          Khám phá theo danh mục
         </div>
+         <div>
+          <div
+          class="px-4 py-2 text-base flex justify-between items-center"
+            @click="toggleCategories('category1')">
+            <span> Sách giáo khoa</span>
+            <img
+              ref="bookIcon1"
+              width="20"
+              height="20"
+              src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
+              alt=""
+            />
+          </div>
+          <div v-if="showCategories.category1" class="px-4">
+            <span class="px-4 py-2">Toán</span><br />
+            <span class="px-4 py-2">Anh</span><br />
+            <span class="px-4 py-2">Văn</span><br />
+          </div>
+        </div>
+        <div>
+          <div
+            class="px-4 py-2 text-base flex justify-between items-center border-t-2"
+            @click="toggleCategories('category2')">
+            <span> Sách khác</span>
+            <img
+              ref="bookIcon2"
+              width="20"
+              height="20"
+              src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
+              alt=""
+            />
+          </div>
+          <div v-if="showCategories.category2" class="px-4">
+            <span class="px-4 py-2">Lịch sử</span><br />
+            <span class="px-4 py-2">Văn hóa</span><br />
+            <span class="px-4 py-2">Khoa học</span><br />
+          </div>
+        </div>
+        
+      </div>
 
+      <div class="w-4/5 bg-red-100">ccccccccccc</div>
+    </div>
+  </div>
 </template>
 
-  <script lang="ts" setup>
-  import { ref } from 'vue';
-  const value = ref([]);
-  const selectedKeys1 = ref<string[]>(['2']);
-  const selectedKeys2 = ref<string[]>(['1']);
-  const openKeys = ref<string[]>(['sub1']);
-
-
-
-const current = ref(1);
-  </script>
-  <style scoped>
-  #components-layout-demo-top-side .logo {
-    float: left;
-    width: 120px;
-    height: 31px;
-    margin: 16px 24px 16px 0;
-    background: rgba(245, 7, 7, 0.3);
-  }
-  
-  .ant-row-rtl #components-layout-demo-top-side .logo {
-    float: right;
-    margin: 16px 0 16px 24px;
-  }
-  
-  .site-layout-background {
-    background: #fff;
-  }
-
-  </style>
-  
+<script>
+export default {
+  data() {
+    return {
+      showCategories: {
+        category1: false,
+        category2: false,
+      },
+    };
+  },
+  methods: {
+    toggleCategories(category) {
+      // Đảo ngược giá trị của biến showCategories tương ứng với danh mục được nhấp vào
+      this.showCategories[category] = !this.showCategories[category];
+      // Thực hiện quay hình ảnh khi thay đổi trạng thái showCategories
+      const bookIcon = this.$refs[`bookIcon${category.charAt(category.length - 1)}`]; // Lấy tham chiếu tới hình ảnh từ ref
+      if (this.showCategories[category]) {
+        bookIcon.style.transform = "rotate(360deg)"; // Quay hình ảnh 90 độ khi showCategories là true
+      } else {
+        bookIcon.style.transform = "rotate(180deg)"; // Đặt lại góc quay về 0 độ khi showCategories là false
+      }
+    },
+  },
+};
+</script>
+<style scoped></style>
