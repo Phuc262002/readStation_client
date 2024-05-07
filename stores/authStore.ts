@@ -19,6 +19,28 @@ export const useAuthStore = defineStore('auth-store', {
             navigateTo('/');
             return data;
         },
+        async register(body: any) {
+            const data: any = await useCustomFetch('/api/auth/register', {
+                method: 'POST',
+                body: body
+            })
+            this.authUser = data.data._rawValue.data;
+            this.isLogged = true;
+            navigateTo('/');
+            return data;
+        },
+        async loginWithGoogle(body: any) {
+            const data: any = await useCustomFetch('/api/auth/google', {
+                method: 'POST',
+                body: {
+                    idToken: body,
+                }
+            })
+            this.authUser = data.data._rawValue.data;
+            this.isLogged = true;
+            navigateTo('/');
+            return data;
+        },
         async refreshToken() {
             const data: any = await useCustomFetch('/api/auth/refresh', {
                 method: 'POST',
