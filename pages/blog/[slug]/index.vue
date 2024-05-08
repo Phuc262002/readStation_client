@@ -3,10 +3,10 @@
         <div class="flex gap-[30px]">
             <div class="w-3/4">
                 <div
-                    class="relative overflow-hidden h-[462px] w-full bg-[url('/assets/images/VNE-Rainbow-2-3983-1585305448.jpg')] bg-cover bg-center bg-no-repeat rounded-xl"
+                    class="relative overflow-hidden h-[462px] w-full bg-[url('https://images.unsplash.com/photo-1510777554755-dd3dad5980ab?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center bg-no-repeat rounded-xl"
                 >
                     <div
-                        class="absolute h-[166px] w-full bottom-0 left-0 backdrop-opacity-10 backdrop-invert blur-sm bg-black/50"
+                        class="absolute h-[166px] w-full bottom-0 left-0 backdrop-opacity-90 blur-sm bg-black/50"
                     ></div>
                     <div
                         class="absolute h-[166px] bottom-10 left-10 font-semibold text-4xl"

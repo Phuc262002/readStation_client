@@ -113,7 +113,6 @@
 </template>
 
 <script setup lang="ts">
-const config = useRuntimeConfig()
 const authStore = useAuthStore();
 const isSubmitting = ref(false);
 
@@ -167,6 +166,6 @@ const handleLoginSuccess = async (response: CredentialResponse) => {
 
 // handle an error event
 const handleLoginError = () => {
-    console.error("Login failed");
+    errorToast("Đăng nhập không thành công", "Vui lòng thử lại bằng cách nhấn vào nút đăng nhập bên dưới");
 };
 </script>
