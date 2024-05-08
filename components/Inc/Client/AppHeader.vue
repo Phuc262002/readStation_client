@@ -48,8 +48,7 @@
                                     class="text-black text-base hover:-translate-y-1 transition-transform"
                                     type="link"
                                     >Blog</a-button
-                                ></NuxtLink
-                            >
+                                ></NuxtLink>
                         </li>
                         <li>
                             <NuxtLink to="/"
