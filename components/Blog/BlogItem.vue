@@ -19,9 +19,6 @@
       <div class="text-black w-3/4 font-semibold text-2xl">
         The Impact of Technology on the Workplace: How Technology is Changing
       </div>
-      <div class="text-black w-3/4 font-semibold text-2xl">
-        The Impact of Technology on the Workplace: How Technology is Changing
-      </div>
       <div class="flex items-center text-base text-[#97989F] gap-5 mt-6">
         <div class="flex items-center gap-5 text-sm font-medium">
           <a-avatar
