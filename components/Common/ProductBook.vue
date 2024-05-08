@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="p-5 border-2 rounded-lg overflow-hidden">
+        <div class="p-5 border-2 rounded-lg overflow-hidden bg-white">
             <div>
                 <div class="overflow-hidden">
                     <img src="https://salt.tikicdn.com/cache/280x280/ts/product/0c/ff/1f/091c739d2cc4c1b2a3a9c5025930adcc.jpg.webp"
