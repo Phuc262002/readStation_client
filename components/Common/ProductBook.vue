@@ -19,8 +19,9 @@
                     <div class="pr-14">
                         <p>Sách Tài Chính Cá Nhân Cho Người Việt Nam - Tặng Khóa học Online về Tài chính</p>
                     </div>
-                    <div class="mt-5">
+                    <div class="mt-5 flex justify-center items-center gap-2 mr-16 pr-20">
                         <span class="font-semibold text-[#e8526b]">200.000 VNĐ</span>
+                        <span class="text-[gray] border border-2 rounded-full w-16 text-center bg-gray-100">-50%</span>
                     </div>
                 </div>
             </div>
