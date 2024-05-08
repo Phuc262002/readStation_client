@@ -25,7 +25,7 @@
                             </NuxtLink>
                         </li>
                         <li>
-                            <NuxtLink to="/"
+                            <NuxtLink to="/shop"
                                 ><a-button
                                     class="text-black text-base hover:-translate-y-1 transition-transform"
                                     type="link"
@@ -43,7 +43,7 @@
                             </NuxtLink>
                         </li>
                         <li>
-                            <NuxtLink to="/"
+                            <NuxtLink to="/blog"
                                 ><a-button
                                     class="text-black text-base hover:-translate-y-1 transition-transform"
                                     type="link"
@@ -104,7 +104,7 @@
                             <CommonThemeSelect />
                         </li>
                         <li>
-                            <NuxtLink to="/">
+                            <NuxtLink to="/login">
                                 <a-button
                                     class="text-black text-lg"
                                     type="link"

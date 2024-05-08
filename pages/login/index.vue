@@ -69,9 +69,9 @@
                         >
                             <p class="text-sm">Bạn quên mật khẩu?</p>
                         </div>
-                        <div class="pt-[30px] text-center px-[40px]">
+                        <div class="pt-[30px] text-center">
                             <GoogleSignInButton
-                                class="px-5"
+                                width="389px"
                                 @success="handleLoginSuccess"
                                 @error="handleLoginError"
                                 one-tap
