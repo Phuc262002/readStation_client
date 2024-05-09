@@ -1,6 +1,9 @@
 
 <template>
    <div class="md:px-20 px-8 md:container md:mx-auto">
+    <div>
+      <BlogBreadcrumb/>
+    </div>
     <div class="pb-12">
         <BlogBanner/>
     </div>
