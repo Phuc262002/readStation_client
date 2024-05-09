@@ -70,7 +70,7 @@
 
       <div class="w-4/5 rounded-lg h-fit">
         <div class="grid gap-y-4">
-          <div class="bg-[#ffffff]">
+          <div class="bg-[#ffffff] rounded-lg">
             <div class="text-xl px-4 py-3 border-b-2">Tất cả sản phẩm</div>
             <div class="flex gap-5 justify-between items-center px-4 h-fit">
               <div class="text-base">1234 sản phẩm</div>
@@ -106,9 +106,12 @@
               <CommonProductBook />
             </div>
           </div>
-          <div class="flex justify-center"> 
-            <a-pagination v-model:current="current" :total="50" show-less-items />
-
+          <div class="flex justify-center">
+            <a-pagination
+              v-model:current="current"
+              :total="50"
+              show-less-items
+            />
           </div>
         </div>
       </div>
@@ -124,7 +127,6 @@ export default defineComponent({
     const showCategories = {
       category1: ref(false),
       category2: ref(false),
-    
     };
 
     const toggleCategories = (category) => {
@@ -157,9 +159,7 @@ export default defineComponent({
 });
 </script>
 <style scoped>
-::v-deep .ant-select-selector {
+:deep(.ant-select-selector) {
   border-radius: 200px !important;
 }
-
-
 </style>
