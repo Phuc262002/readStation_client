@@ -1,6 +1,6 @@
 import { NuxtLink } from '../../../.nuxt/components';
 <template>
-    <div class="mx-auto container">
+    <div class="mx-auto container md:px-20 px-8">
         <div class="h-50 py-5">
             <div
                 class="h-max bg-[white] w-full border-2 shadow-lg rounded-full flex justify-between py-3 px-10"

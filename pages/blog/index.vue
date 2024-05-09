@@ -1,6 +1,6 @@
 
 <template>
-   <div class="md:px-0 px-8 md:container md:mx-auto">
+   <div class="md:px-20 px-8 md:container md:mx-auto">
     <div class="pb-12">
         <BlogBanner/>
     </div>
