@@ -1,115 +1,137 @@
 <template>
-    <div class="flex items-center justify-center gap-[30px]">
-        <div  v-if="isSubmitting" class="absolute top-0 left-0 w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default">
-            <a-spin
-                size="large"
-                class="absolute top-1/2 left-1/2"
-            />
+    <div class="relative">
+        <div
+            v-if="isSubmitting"
+            class="absolute top-0 left-0 min-w-[100vw] min-h-[100vh] bg-black/40 z-[99999] cursor-default"
+        >
+            <a-spin size="large" class="absolute top-1/2 left-1/2" />
         </div>
-        <div class="">
-            <div class="w-full max-w-[506px]">
-                <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
-                    Chào mừng bạn đã quay trở lại 👋
-                </h2>
-                <p class="mt-[20px]">
-                    Hôm nay là một ngày mới. Đây là ngày của bạn. Bạn định hình
-                    nó. Đăng nhập để bắt đầu quản lý dự án của bạn.
-                </p>
-            </div>
+        <div
+            class="fixed left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-full h-full py-[32px] px-[150px] flex items-center justify-between"
+        >
+            <div class="w-1/2 flex flex-col items-center justify-center">
+                <div>
+                    <div class="w-full max-w-[506px]">
+                        <NuxtLink to="/home">
+                            <IconBack />
+                        </NuxtLink>
 
-            <div class="mt-8 max-w-[388px]">
-                <div class="bg-white py-8">
-                    <form class="space-y-6" @submit="onSubmit">
-                        <div>
-                            <label
-                                for="email"
-                                class="block text-sm font-medium text-gray-700"
-                            >
-                                Email
-                            </label>
-                            <div class="mt-1">
-                                <a-input
-                                    :status="errors.email ? 'error' : ''"
-                                    id="email"
-                                    v-bind="email"
-                                    name="email"
-                                    type="email"
-                                    placeholder="Nhập Email"
-                                />
-                            </div>
-                            <small class="my-2 text-red-500">
-                                {{ errors.email }}
-                            </small>
-                        </div>
+                        <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
+                            Chào mừng bạn 👋
+                        </h2>
+                        <p class="mt-[20px]">
+                            Đăng nhập để bắt đầu quản lý dự án của bạn.
+                        </p>
+                    </div>
 
-                        <div>
-                            <label
-                                for="password"
-                                class="block text-sm font-medium text-gray-700"
-                            >
-                                Mật khẩu
-                            </label>
-                            <div class="mt-1">
-                                <a-input-password
-                                    :status="errors.password ? 'error' : ''"
-                                    id="password"
-                                    v-bind="password"
-                                    name="password"
-                                    type="password"
-                                    placeholder="Nhập mật khẩu"
-                                />
-                            </div>
+                    <div class="max-w-[388px]">
+                        <div class="bg-white py-8">
+                            <form class="space-y-6" @submit="onSubmit">
+                                <div>
+                                    <label
+                                        for="email"
+                                        class="block text-sm font-medium text-gray-700"
+                                    >
+                                        Email
+                                    </label>
+                                    <div class="mt-1">
+                                        <a-input
+                                            class="w-[388px] h-[48px]"
+                                            :status="
+                                                errors.email ? 'error' : ''
+                                            "
+                                            id="email"
+                                            v-bind="email"
+                                            name="email"
+                                            type="email"
+                                            placeholder="Nhập Email"
+                                        />
+                                    </div>
+                                    <small class="my-2 text-red-500">
+                                        {{ errors.email }}
+                                    </small>
+                                </div>
 
-                            <small class="my-2 text-red-500">
-                                {{ errors.password }}
-                            </small>
-                        </div>
-                        <div
-                            class="mt-1 float-end font-medium text-indigo-600 hover:text-indigo-500"
-                        >
-                            <p class="text-sm">Bạn quên mật khẩu?</p>
-                        </div>
-                        <div class="pt-[30px] text-center">
-                            <GoogleSignInButton
-                                width="389px"
-                                @success="handleLoginSuccess"
-                                @error="handleLoginError"
-                                one-tap
-                            />
-                        </div>
+                                <div>
+                                    <label
+                                        for="password"
+                                        class="block text-sm font-medium text-gray-700"
+                                    >
+                                        Mật khẩu
+                                    </label>
+                                    <div class="mt-1">
+                                        <a-input-password
+                                            :status="
+                                                errors.password ? 'error' : ''
+                                            "
+                                            id="password"
+                                            v-bind="password"
+                                            name="password"
+                                            type="password"
+                                            placeholder="Nhập mật khẩu"
+                                            class="w-[388px] h-[48px]"
+                                        />
+                                    </div>
 
-                        <div>
-                            <a-button
-                                type="primary"
-                                html-type="submit"
-                                class="w-full bg-[#162D3A]"
-                                :loading="isSubmitting"
-                            >
-                                Đăng nhập
-                            </a-button>
-                            <p class="text-center">or</p>
-                        </div>
-
-                        <div>
-                            <p class="mt-2 text-center text-sm text-gray-600">
-                                Bạn không có tài khoản?
-                                <NuxtLink
-                                    to="/register"
-                                    class="font-medium text-indigo-600 hover:text-indigo-500"
+                                    <small class="my-2 text-red-500">
+                                        {{ errors.password }}
+                                    </small>
+                                </div>
+                                <div
+                                    class="mt-1 float-end font-medium text-indigo-600 hover:text-indigo-500"
                                 >
-                                    Đăng ký
-                                </NuxtLink>
-                            </p>
+                                    <p class="text-sm">Bạn quên mật khẩu?</p>
+                                </div>
+
+                                <div>
+                                    <a-button
+                                        type=""
+                                        html-type="submit"
+                                        class="w-full bg-[#162D3A] w-[388px] h-[48px] text-white hover:bg-slate-600"
+                                        :loading="isSubmitting"
+                                    >
+                                        Đăng nhập
+                                    </a-button>
+                                    <p class="text-center pt-[16px] pb-[12px]">
+                                        Or
+                                    </p>
+                                    <div class="pt-[30px] text-center">
+                                        <GoogleSignInButton
+                                            width="389px"
+                                            @success="handleLoginSuccess"
+                                            @error="handleLoginError"
+                                            one-tap
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <p
+                                        class="mt-2 text-center text-sm text-gray-600"
+                                    >
+                                        Bạn không có tài khoản?
+                                        <NuxtLink
+                                            to="/register"
+                                            class="font-medium text-indigo-600 hover:text-indigo-500"
+                                        >
+                                            Đăng ký
+                                        </NuxtLink>
+                                    </p>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="max-w-[500px] max-h-[700px] flex">
-            <img src="../../assets/images/backgound-login.jpg" alt="" />
+            <div class="w-1/2 h-full flex">
+                <img
+                    class="w-full h-full object-cover rounded-2xl"
+                    src="/assets/images/backgound-login.jpg"
+                    alt=""
+                />
+            </div>
         </div>
     </div>
-    <FooterComponent />
 </template>
 
 <script setup lang="ts">
@@ -122,7 +144,6 @@ import {
     GoogleSignInButton,
     type CredentialResponse,
 } from "vue3-google-signin";
-
 
 const props = defineProps({
     name: String,
@@ -166,6 +187,9 @@ const handleLoginSuccess = async (response: CredentialResponse) => {
 
 // handle an error event
 const handleLoginError = () => {
-    errorToast("Đăng nhập không thành công", "Vui lòng thử lại bằng cách nhấn vào nút đăng nhập bên dưới");
+    errorToast(
+        "Đăng nhập không thành công",
+        "Vui lòng thử lại bằng cách nhấn vào nút đăng nhập bên dưới",
+    );
 };
 </script>

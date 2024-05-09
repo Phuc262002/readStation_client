@@ -11,20 +11,37 @@
                         alt="">
                 </div>
             </div>
-            <div class="h-auto flex">
+            <div class="h-auto flex mb-3 ">
                 <div class="flex-wrap text-left mt-3 ">
-                    <div class="mb-5 uppercase text-[gray]">
+                    <div class="mb-1 uppercase text-[gray]">
                         Lâm Minh Chánh
                     </div>
                     <div class="pr-14">
                         <p>Sách Tài Chính Cá Nhân Cho Người Việt Nam - Tặng Khóa học Online về Tài chính</p>
                     </div>
-                    <div class="mt-5 flex justify-center items-center gap-2 mr-16 pr-20">
-                        <span class="font-semibold text-[#e8526b]">200.000 VNĐ</span>
-                        <span class="text-[gray] border border-2 rounded-full w-16 text-center bg-gray-100">-50%</span>
+                    <div class="mt-3 flex justify-center items-center gap-2 mr-20 pr-20">
+                        <span class="font-extrabold text-[#ff4c57]">200.000 VNĐ</span>
+                        <span class=" w-11 h-5 rounded-lg bg-gray-100 ">
+                           <p class="text-center text-sm font-medium">-25%</p>
+                        </span>
                     </div>
                 </div>
             </div>
+            <div class="border-t-2 border-gray-200 ">
+                <div class="flex justify-start items-center gap-4 mt-2">
+                    <div>
+                        Đánh giá
+                    </div>
+                    <div class="flex justify-center items-center gap-1">
+                       <StarOutlined />
+                       <StarOutlined />
+                       <StarOutlined />
+                       <StarOutlined />
+                       <StarOutlined />
+                    </div>
+                </div>
+            </div>
+           
         </div>
     </div>
 

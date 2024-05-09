@@ -1,8 +1,9 @@
+import { NuxtLink } from '../../../.nuxt/components';
 <template>
-    <div class="mx-auto container h-50">
-        <div>
+    <div class="mx-auto container md:px-20 px-8">
+        <div class="h-50 py-5">
             <div
-                class="h-auto bg-[white] w-full border-2 shadow-lg rounded-full flex justify-between py-3 px-10"
+                class="h-max bg-[white] w-full border-2 shadow-lg rounded-full flex justify-between py-3 px-10"
             >
                 <!-- Logo -->
                 <div class=" ">
@@ -13,7 +14,7 @@
                     />
                 </div>
                 <!-- Menu -->
-                <div class="flex pt-1">
+                <div class="flex">
                     <ul class="flex">
                         <li>
                             <NuxtLink to="/">
@@ -48,7 +49,8 @@
                                     class="text-black text-base hover:-translate-y-1 transition-transform"
                                     type="link"
                                     >Blog</a-button
-                                ></NuxtLink>
+                                ></NuxtLink
+                            >
                         </li>
                         <li>
                             <NuxtLink to="/"
@@ -59,15 +61,12 @@
                                 >
                             </NuxtLink>
                         </li>
-                        <li>
-                            <NuxtLink to="/"
-                                ><a-button
+                        <!-- <li>
+                            <NuxtLink to="/"><a-button
                                     class="text-black text-base hover:-translate-y-1 transition-transform"
-                                    type="link"
-                                    >Về chúng tôi</a-button
-                                >
+                                    type="link">Về chúng tôi</a-button>
                             </NuxtLink>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
                 <!-- Search -->
@@ -79,7 +78,7 @@
                             placeholder="Tìm kiếm..."
                         />
                         <div
-                            class="absolute border-solid right-24 mt-2 border border-gray-300 h-7"
+                            class="absolute right-1/4 mt-2 border-solid border border-gray-300 h-6"
                         ></div>
                         <button
                             type="button"
@@ -97,45 +96,38 @@
                 </div>
 
                 <!-- Cart && Account -->
-                <div class="flex gap-3 items-center">
-                    <ul class="flex items-center">
-                        <li>
+                <div class="flex justify-center items-center">
+                    <div class="flex justify-center items-center gap-2 mr-4">
+                        <div class="text-center">
                             <CommonThemeSelect />
-                        </li>
-                        <li>
-                            <NuxtLink to="/login">
-                                <a-button
-                                    class="text-black text-lg"
-                                    type="link"
+                        </div>
+                        <NuxtLink to="/login">
+                            <button
+                                class="w-36 hover:bg-gray-100 hover:rounded-xl hover:border-2 h-10"
+                            >
+                                <div
+                                    class="flex justify-center items-center gap-3 text-xl"
                                 >
-                                    <div
-                                        class="flex justify-between items-center gap-2"
-                                    >
-                                        <SmileOutlined />
-                                        <h2>Tài khoản</h2>
-                                    </div>
-                                </a-button>
-                            </NuxtLink>
-                        </li>
-                        <li>
+                                    <SmileOutlined />
+                                    <h2>Tài khoản</h2>
+                                </div>
+                            </button>
+                        </NuxtLink>
+                    </div>
+                    <div class="border-solid border border-gray-300 h-8"></div>
+                    <div class="ml-3">
+                        <button
+                            class="w-10 hover:bg-blue-200 hover:rounded-xl hover:border h-10"
+                        >
                             <div
-                                class="border-solid mt-2 border border-gray-300 h-6"
-                            ></div>
-                        </li>
-                        <li>
-                            <NuxtLink to="/">
-                                <a-button
-                                    class="text-black text-2xl flex"
-                                    type="link"
-                                >
-                                    <ShoppingOutlined />
-                                </a-button>
-                            </NuxtLink>
-                        </li>
-                    </ul>
+                                class="text-2xl flex justify-center items-center"
+                            >
+                                <ShoppingOutlined />
+                            </div>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
-

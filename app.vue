@@ -2,7 +2,7 @@
     <div>
         <NuxtLoadingIndicator />
         <NuxtLayout>
-            <div class="container mx-auto">
+            <div>
                 <div
                     v-if="isSubmitting"
                     class="absolute top-0 left-0 w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default"

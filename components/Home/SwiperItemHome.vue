@@ -1,5 +1,5 @@
 <template>
-    <div class="h-auto mb-9 mx-auto container">
+    <div class="h-auto mb-2 mx-auto container">
         <div class="flex justify-between">
             <div class="my-10 text-bold text-xl">
                 <h1>Lastest Collections</h1>
