@@ -1,6 +1,7 @@
 <template>
     <div>
-aaaaaaaaaaaaaaaa
+<ProductDetailImage/>
+<ProductDetailPayment/>
     </div>
   </template>
   <script setup>
