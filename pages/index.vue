@@ -3,6 +3,7 @@
     <div>
        <HomeSliderBig/>
        <HomeSwiperItemHome/>
+       <BoxUpdateUser/>
     </div>
 </template>
 
