@@ -12,23 +12,40 @@
       <div class="w-1/2 flex flex-col items-center justify-center">
         <div>
           <div class="w-full max-w-[506px]">
-            <NuxtLink to="/home"> <IconBack /> </NuxtLink>
-
-            <h2 class="text-4xl font-extrabold text-gray-900">
-              Chào mừng bạn 👋
-            </h2>
-            <p class="mt-[35px] text-xl">
-              Đăng nhập để bắt đầu quản lý dự án của bạn.
-            </p>
+            <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Đăng ký</h2>
+            <p class="mt-[20px]">Đăng ký để bắt đầu quản lý dự án của bạn.</p>
           </div>
 
           <div class="max-w-[388px]">
-            <div class="bg-white py-12">
+            <div class="bg-white py-8">
               <form class="space-y-6" @submit="onSubmit">
                 <div>
                   <label
+                    for="name"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    Họ tên
+                  </label>
+                  <div class="mt-1">
+                    <a-input
+                      class="w-[388px] h-[48px]"
+                      :status="errors.name ? 'error' : ''"
+                      id="name"
+                      v-bind="name"
+                      name="name"
+                      type="name"
+                      placeholder="Nhập họ tên"
+                    />
+                  </div>
+                  <small class="my-2 text-red-500">
+                    {{ errors.name }}
+                  </small>
+                </div>
+
+                <div>
+                  <label
                     for="email"
-                    class="block text-base font-medium text-gray-700"
+                    class="block text-sm font-medium text-gray-700"
                   >
                     Email
                   </label>
@@ -51,7 +68,7 @@
                 <div>
                   <label
                     for="password"
-                    class="block text-base font-medium text-gray-700"
+                    class="block text-sm font-medium text-gray-700"
                   >
                     Mật khẩu
                   </label>
@@ -67,35 +84,48 @@
                     />
                   </div>
 
-                  <small class="mt-2 text-red-500">
+                  <small class="my-2 text-red-500">
                     {{ errors.password }}
                   </small>
                 </div>
-                <div class="float-end font-medium text-indigo-600">
-                  <p class="text-base mb-[21px]">Bạn quên mật khẩu?</p>
+
+                <div>
+                  <label
+                    for="password_confirmation"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    Nhập lại mật khẩu
+                  </label>
+                  <div class="mt-1">
+                    <a-input-password
+                      :status="errors.password_confirmation ? 'error' : ''"
+                      id="password_confirmation"
+                      v-bind="password_confirmation"
+                      name="password_confirmation"
+                      type="password"
+                      placeholder="Nhập lại mật khẩu"
+                      class="w-[388px] h-[48px]"
+                    />
+                  </div>
+
+                  <small class="my-2 text-red-500">
+                    {{ errors.password_confirmation }}
+                  </small>
                 </div>
 
                 <div>
                   <a-button
                     type=""
                     html-type="submit"
-                    class="w-full bg-[#162D3A] w-[388px] h-[48px] text-white hover:bg-slate-600 text-xl"
+                    class="w-full bg-[#162D3A] w-[388px] h-[48px] text-white hover:bg-slate-600"
                     :loading="isSubmitting"
                   >
-                    Đăng nhập
+                    Đăng ký
                   </a-button>
-                  <div
-                    class="relative flex items-center justify-between text-center pt-[54px]"
-                  >
-                    <hr class="solid w-[169px] border-t-2" />
-                    <p class="">Or</p>
-                    <hr class="solid w-[169px] border-t-2" />
-                  </div>
-
-                  <div class="pt-[30px] flex justify-center">
+                  <p class="text-center pt-[16px] pb-[12px]">Or</p>
+                  <div class="pt-[30px] text-center">
                     <GoogleSignInButton
                       width="389px"
-                      style="text-align: center"
                       @success="handleLoginSuccess"
                       @error="handleLoginError"
                       one-tap
@@ -104,13 +134,13 @@
                 </div>
 
                 <div>
-                  <p class="mt-[44px] text-center text-lg text-gray-600">
+                  <p class="mt-2 text-center text-sm text-gray-600">
                     Bạn không có tài khoản?
                     <NuxtLink
-                      to="/register"
-                      class="font-medium text-lg text-indigo-600 hover:text-indigo-500"
+                      to="/login"
+                      class="font-medium text-indigo-600 hover:text-indigo-500"
                     >
-                      Đăng ký
+                      Đăng nhập
                     </NuxtLink>
                   </p>
                 </div>
@@ -147,7 +177,12 @@ const props = defineProps({
 
 // Create the form
 const { defineInputBinds, handleSubmit, errors } = useForm({
-  validationSchema: {
+  validationSchema: yup.object().shape({
+    name: yup
+      .string()
+      .required("Trường này không được để trống")
+      .min(8, "Ký tự phải từ 8 -> 50")
+      .max(50, "Ký tự phải từ 8 -> 50"),
     email: yup
       .string()
       .required("Trường này không được để trống")
@@ -156,19 +191,24 @@ const { defineInputBinds, handleSubmit, errors } = useForm({
       .string()
       .required("Trường này không được để trống")
       .min(1, "Mật khẩu phải có ít nhất 1 ký tự"),
-  },
+    password_confirmation: yup
+      .string()
+      .oneOf([yup.ref("password"), null], "Mật khẩu không khớp!"),
+  }),
 });
 
 // Define fields
+const name = defineInputBinds("name");
 const email = defineInputBinds("email");
 const password = defineInputBinds("password");
+const password_confirmation = defineInputBinds("password_confirmation");
 
 // Submit handler
 const onSubmit = handleSubmit(async (values) => {
   console.log("🚀 ~ onSubmit ~ values:", values);
   // Submit to API
   isSubmitting.value = true;
-  await authStore.login(values);
+  await authStore.register(values);
   isSubmitting.value = false;
 });
 
