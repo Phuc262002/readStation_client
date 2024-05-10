@@ -1,9 +1,8 @@
+
+
 <template>
     <div>
-aaaaaaaaaaaaaaaa
+        <ProductDetailItem/>
     </div>
   </template>
-  <script setup>
-
-  </script>
   
