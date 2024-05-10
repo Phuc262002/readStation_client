@@ -179,10 +179,14 @@ const onSubmit = handleSubmit(async (values) => {
 // handle success event
 const handleLoginSuccess = async (response: CredentialResponse) => {
     const { credential } = response;
-    console.log("Access Token", credential);
-    isSubmitting.value = true;
-    await authStore.loginWithGoogle(credential);
-    isSubmitting.value = false;
+    try {
+        isSubmitting.value = true;
+        await authStore.loginWithGoogle(credential);
+    } catch (error) {
+        console.error("🚀 ~ handleLoginSuccess ~ error", error);
+    } finally {
+        isSubmitting.value = false;
+    }
 };
 
 // handle an error event
