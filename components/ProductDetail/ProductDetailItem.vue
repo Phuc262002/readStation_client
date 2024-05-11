@@ -27,12 +27,7 @@
             </div>
             <div class="flex gap-3">
                 <p class="text-sm font-medium">4.8</p>
-                <a-rate
-                    v-model:value="value"
-                    style="font-size: 12px"
-                    allow-half
-                    disabled
-                />
+                <CommonRating rating="3.5"/>
                 <p class="text-[#787878] text-sm">(105)</p>
                 <p class="text-[#787878] text-sm">Đã bán 1614</p>
                 <p class="text-[#787878] text-sm">Đã thuê 1614</p>
@@ -111,8 +106,8 @@
             <div class="font-semibold text-base pb-1">
                 <div>Thông tin chi tiết</div>
             </div>
-            <div class="flex">
-                <p class="text-sm w-1/2">
+            <div class="flex gap-9">
+                <p class="text-sm w-1/2 text-[#808089]">
                     Giao đến Q. 1, P. Bến Nghé, Hồ Chí Minh
                 </p>
                 <p class="text-sm w-1/2">
@@ -121,8 +116,8 @@
             </div>
 
             <div class="border-b border-gray-200 my-2"></div>
-            <div class="flex">
-                <p class="text-sm w-1/2">
+            <div class="flex gap-9">
+                <p class="text-sm w-1/2 text-[#808089]">
                     Giao đến Q. 1, P. Bến Nghé, Hồ Chí Minh
                 </p>
                 <p class="text-sm w-1/2">
@@ -130,8 +125,8 @@
                 </p>
             </div>
             <div class="border-b border-gray-200 my-2"></div>
-            <div class="flex">
-                <p class="text-sm w-1/2">
+            <div class="flex gap-9">
+                <p class="text-sm w-1/2 text-[#808089] ">
                     Giao đến Q. 1, P. Bến Nghé, Hồ Chí Minh
                 </p>
                 <p class="text-sm w-1/2">
@@ -139,8 +134,8 @@
                 </p>
             </div>
             <div class="border-b border-gray-200 my-2"></div>
-            <div class="flex">
-                <p class="text-sm w-1/2">
+            <div class="flex gap-9">
+                <p class="text-sm w-1/2 text-[#808089]">
                     Giao đến Q. 1, P. Bến Nghé, Hồ Chí Minh
                 </p>
                 <p class="text-sm w-1/2">
@@ -148,8 +143,8 @@
                 </p>
             </div>
             <div class="border-b border-gray-200 my-2"></div>
-            <div class="flex">
-                <p class="text-sm w-1/2">
+            <div class="flex gap-9">
+                <p class="text-sm w-1/2 text-[#808089]">
                     Giao đến Q. 1, P. Bến Nghé, Hồ Chí Minh
                 </p>
                 <p class="text-sm w-1/2">
@@ -157,8 +152,8 @@
                 </p>
             </div>
             <div class="border-b border-gray-200 my-2"></div>
-            <div class="flex">
-                <p class="text-sm w-1/2">
+            <div class="flex gap-9">
+                <p class="text-sm w-1/2 text-[#808089]">
                     Giao đến Q. 1, P. Bến Nghé, Hồ Chí Minh
                 </p>
                 <p class="text-sm w-1/2">
@@ -166,8 +161,17 @@
                 </p>
             </div>
             <div class="border-b border-gray-200 my-2"></div>
-            <div class="flex">
-                <p class="text-sm w-1/2">
+            <div class="flex gap-9">
+                <p class="text-sm w-1/2 text-[#808089]">
+                    Giao đến Q. 1, P. Bến Nghé, Hồ Chí Minh
+                </p>
+                <p class="text-sm w-1/2 ">
+                    Công ty cổ phần đầu tư và phát triển giáo dục quốc tế Á Châu
+                </p>
+            </div>
+            <div class="border-b border-gray-200 my-2"></div>
+            <div class="flex gap-9">
+                <p class="text-sm w-1/2 text-[#808089]">
                     Giao đến Q. 1, P. Bến Nghé, Hồ Chí Minh
                 </p>
                 <p class="text-sm w-1/2">
@@ -175,17 +179,8 @@
                 </p>
             </div>
             <div class="border-b border-gray-200 my-2"></div>
-            <div class="flex">
-                <p class="text-sm w-1/2">
-                    Giao đến Q. 1, P. Bến Nghé, Hồ Chí Minh
-                </p>
-                <p class="text-sm w-1/2">
-                    Công ty cổ phần đầu tư và phát triển giáo dục quốc tế Á Châu
-                </p>
-            </div>
-            <div class="border-b border-gray-200 my-2"></div>
-            <div class="flex">
-                <p class="text-sm w-1/2">
+            <div class="flex gap-9">
+                <p class="text-sm w-1/2 text-[#808089]">
                     Giao đến Q. 1, P. Bến Nghé, Hồ Chí Minh
                 </p>
                 <p class="text-sm w-1/2">
@@ -202,7 +197,7 @@
                 <p class="text-sm pb-2 text-[#242424]">
                     Đánh Thức Tiềm Năng Tài Chính
                 </p>
-                <p>
+                <p class="line-clamp-6">
                     Khi chúng ta đang vươn tới những vì sao, chính bởi những
                     thách thức đặt ra phía trước mà chúng ta có lẽ sẽ phải chung
                     tay để ứng phó: du hành vào vũ trụ không phải với tư cách
@@ -233,11 +228,10 @@
                     tù mà các nhà lãnh đạo thế giới thường phải nỗ lực để thoát
                     ra”.
                 </p>
+                
+                <p class="flex justify-center text-[#189EFF] text-sm font-normal  pt-4">Xem thêm</p>
             </div>
         </div>
     </div>
 </template>
-<script lang="ts" setup>
-import { ref } from "vue";
-const value = ref<number>(2.5);
-</script>
+
