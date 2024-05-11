@@ -12,25 +12,23 @@
             <div class="w-1/2 flex flex-col items-center justify-center">
                 <div>
                     <div class="w-full max-w-[506px]">
-                        <NuxtLink to="/home">
-                            <IconBack />
-                        </NuxtLink>
+                        <NuxtLink to="/home"> <IconBack /> </NuxtLink>
 
-                        <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
+                        <h2 class="text-4xl font-extrabold text-gray-900">
                             Chào mừng bạn 👋
                         </h2>
-                        <p class="mt-[20px]">
+                        <p class="mt-[35px] text-xl">
                             Đăng nhập để bắt đầu quản lý dự án của bạn.
                         </p>
                     </div>
 
                     <div class="max-w-[388px]">
-                        <div class="bg-white py-8">
+                        <div class="bg-white py-12">
                             <form class="space-y-6" @submit="onSubmit">
                                 <div>
                                     <label
                                         for="email"
-                                        class="block text-sm font-medium text-gray-700"
+                                        class="block text-base font-medium text-gray-700"
                                     >
                                         Email
                                     </label>
@@ -55,7 +53,7 @@
                                 <div>
                                     <label
                                         for="password"
-                                        class="block text-sm font-medium text-gray-700"
+                                        class="block text-base font-medium text-gray-700"
                                     >
                                         Mật khẩu
                                     </label>
@@ -73,31 +71,43 @@
                                         />
                                     </div>
 
-                                    <small class="my-2 text-red-500">
+                                    <small class="mt-2 text-red-500">
                                         {{ errors.password }}
                                     </small>
                                 </div>
                                 <div
-                                    class="mt-1 float-end font-medium text-indigo-600 hover:text-indigo-500"
+                                    class="float-end font-medium text-indigo-600"
                                 >
-                                    <p class="text-sm">Bạn quên mật khẩu?</p>
+                                    <p class="text-base mb-[21px]">
+                                        Bạn quên mật khẩu?
+                                    </p>
                                 </div>
 
                                 <div>
                                     <a-button
                                         type=""
                                         html-type="submit"
-                                        class="w-full bg-[#162D3A] w-[388px] h-[48px] text-white hover:bg-slate-600"
+                                        class="w-full bg-[#162D3A] w-[388px] h-[48px] text-white hover:bg-slate-600 text-xl"
                                         :loading="isSubmitting"
                                     >
                                         Đăng nhập
                                     </a-button>
-                                    <p class="text-center pt-[16px] pb-[12px]">
-                                        Or
-                                    </p>
-                                    <div class="pt-[30px] text-center">
+                                    <div
+                                        class="relative flex items-center justify-between text-center pt-[54px]"
+                                    >
+                                        <hr
+                                            class="solid w-[169px] border-t-2"
+                                        />
+                                        <p class="">Or</p>
+                                        <hr
+                                            class="solid w-[169px] border-t-2"
+                                        />
+                                    </div>
+
+                                    <div class="pt-[30px] flex justify-center">
                                         <GoogleSignInButton
                                             width="389px"
+                                            style="text-align: center"
                                             @success="handleLoginSuccess"
                                             @error="handleLoginError"
                                             one-tap
@@ -107,12 +117,12 @@
 
                                 <div>
                                     <p
-                                        class="mt-2 text-center text-sm text-gray-600"
+                                        class="mt-[44px] text-center text-lg text-gray-600"
                                     >
                                         Bạn không có tài khoản?
                                         <NuxtLink
                                             to="/register"
-                                            class="font-medium text-indigo-600 hover:text-indigo-500"
+                                            class="font-medium text-lg text-indigo-600 hover:text-indigo-500"
                                         >
                                             Đăng ký
                                         </NuxtLink>
@@ -183,7 +193,13 @@ const handleLoginSuccess = async (response: CredentialResponse) => {
         isSubmitting.value = true;
         await authStore.loginWithGoogle(credential);
     } catch (error) {
-        console.error("🚀 ~ handleLoginSuccess ~ error", error);
+        message.error({
+            content: "Đăng nhập không thành công",
+        });
+        errorToast(
+            "Đăng nhập không thành công",
+            "Vui lòng thử lại bằng cách đăng nhập bên trang đăng nhập",
+        );
     } finally {
         isSubmitting.value = false;
     }

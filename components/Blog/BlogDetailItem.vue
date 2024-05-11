@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <div class="p-4 bg-[#F8F8F8] rounded-lg">
+    <div class="p-4 bg-white rounded-lg">
       <div class="flex justify-center items-center ">
         <img
           class="rounded-md"
