@@ -35,18 +35,35 @@
           </div>
           <div class="">
             <div class="text-lg font-semibold">Số lượng</div>
-            <div class="flex items-center border rounded overflow-hidden">
-              <button @click="decreaseQuantity" class="px-3 py-1 border-r bg-gray-200 hover:bg-gray-300 focus:outline-none">
+            <div class="flex items-center p-2 w-2/4">
+              <div>
+                <button
+                @click="decreaseQuantity"
+                class="border border-lg rounded-lg text-base bg-[#fff] hover:bg-[#ececec]"
+              >
                 -
               </button>
-              <input type="number" v-model="quantity" min="1" class="px-3 py-1 text-center bg-gray-100 focus:outline-none">
-              <button @click="increaseQuantity" class="px-3 py-1 border-l bg-gray-200 hover:bg-gray-300 focus:outline-none">
+              </div>
+              <div class="px-2">
+                <input
+            
+                v-model="quantity"
+                min="1"
+                class="px-2 py-1 w-[60px] border border-lg rounded-lg text-center text-lg bg-[#fff] "
+              />
+              </div>
+              <div>
+                <button
+                @click="increaseQuantity"
+                class="border border-lg rounded-lg text-base bg-[#fff] hover:bg-[#ececec]"
+              >
                 +
               </button>
+              </div>
             </div>
-          
-       
           </div>
+          
+          
         </div>
       </div>
     </div>
@@ -74,8 +91,7 @@ export default {
     return {
       quantity,
       increaseQuantity,
-      decreaseQuantity
-    
+      decreaseQuantity,
     };
   },
 };
