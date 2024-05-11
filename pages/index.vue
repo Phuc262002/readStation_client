@@ -26,7 +26,7 @@ const getProfile = async () => {
 };
 
 useSeoMeta({
-    title: authStore.authUser.user.name ?? "My Amazing Site",
+    title: "My Amazing Site",
     ogTitle: "My Amazing Site",
     description: "This is my amazing site, let me tell you all about it.",
     ogDescription: "This is my amazing site, let me tell you all about it.",
