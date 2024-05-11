@@ -12,18 +12,16 @@
       <div class="w-1/2 flex flex-col items-center justify-center">
         <div>
           <div class="w-full max-w-[506px]">
-            <NuxtLink to="/home"> <IconBack /> </NuxtLink>
+            <NuxtLink to="/home"> </NuxtLink>
 
-            <h2 class="text-4xl font-extrabold text-gray-900">
+            <h2 class="text-3xl font-extrabold text-gray-900">
               Chào mừng bạn 👋
             </h2>
-            <p class="mt-[35px] text-xl">
-              Đăng nhập để bắt đầu quản lý dự án của bạn.
-            </p>
+            <p class="mt-[20px]">Đăng nhập để bắt đầu quản lý dự án của bạn.</p>
           </div>
 
-          <div class="max-w-[388px]">
-            <div class="bg-white py-12">
+          <div class="">
+            <div class="bg-white py-8">
               <form class="space-y-6" @submit="onSubmit">
                 <div>
                   <label
@@ -51,7 +49,7 @@
                 <div>
                   <label
                     for="password"
-                    class="block text-base font-medium text-gray-700"
+                    class="block text-sm font-medium text-gray-700"
                   >
                     Mật khẩu
                   </label>
@@ -72,7 +70,7 @@
                   </small>
                 </div>
                 <div class="float-end font-medium text-indigo-600">
-                  <p class="text-base mb-[21px]">Bạn quên mật khẩu?</p>
+                  <p class="text-sm mb-[21px]">Bạn quên mật khẩu?</p>
                 </div>
 
                 <div>
@@ -85,14 +83,14 @@
                     Đăng nhập
                   </a-button>
                   <div
-                    class="relative flex items-center justify-between text-center pt-[54px]"
+                    class="relative flex items-center justify-between text-center pt-[20px]"
                   >
                     <hr class="solid w-[169px] border-t-2" />
                     <p class="">Or</p>
                     <hr class="solid w-[169px] border-t-2" />
                   </div>
 
-                  <div class="pt-[30px] flex justify-center">
+                  <div class="pt-[20px] flex justify-center">
                     <GoogleSignInButton
                       width="389px"
                       style="text-align: center"
@@ -104,11 +102,11 @@
                 </div>
 
                 <div>
-                  <p class="mt-[44px] text-center text-lg text-gray-600">
+                  <p class="mt-[35px] text-center text-sm text-gray-600">
                     Bạn không có tài khoản?
                     <NuxtLink
                       to="/register"
-                      class="font-medium text-lg text-indigo-600 hover:text-indigo-500"
+                      class="font-medium text-sm text-indigo-600 hover:text-indigo-500"
                     >
                       Đăng ký
                     </NuxtLink>
@@ -121,7 +119,7 @@
       </div>
       <div class="w-1/2 h-full flex">
         <img
-          class="w-full h-full object-cover rounded-2xl"
+          class="max-lg:hidden w-full h-full object-cover rounded-2xl"
           src="/assets/images/backgound-login.jpg"
           alt=""
         />
