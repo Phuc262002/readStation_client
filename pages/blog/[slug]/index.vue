@@ -1,7 +1,7 @@
 <template>
     <div class="md:px-20 md:container md:mx-auto px-8 md:py-10 py-5">
         <div class="pb-5">
-            <BlogBreadcrum />
+           <CommonBreadcrum/>
         </div>
         <div class="flex gap-[30px]">
             <div class="w-3/4">
