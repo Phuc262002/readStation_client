@@ -7,9 +7,9 @@
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
     </div>
     <div
-      class="lg:fixed lg:left-1/2 lg:-translate-x-1/2 lg:top-1/2 lg:-translate-y-1/2 w-full h-full py-[32px] px-[150px] flex items-center justify-between"
+      class="fixed left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-full h-full py-[32px] px-[150px] flex items-center justify-between"
     >
-      <div class="lg:w-1/2 w-full flex flex-col items-center justify-center">
+      <div class="w-1/2 flex flex-col items-center justify-center">
         <div>
           <div class="w-full max-w-[506px]">
             <NuxtLink to="/home"> <IconBack /> </NuxtLink>
@@ -119,7 +119,7 @@
           </div>
         </div>
       </div>
-      <div class="md:hidden lg:block w-1/2 h-full flex">
+      <div class="w-1/2 h-full flex">
         <img
           class="w-full h-full object-cover rounded-2xl"
           src="/assets/images/backgound-login.jpg"
@@ -179,7 +179,13 @@ const handleLoginSuccess = async (response: CredentialResponse) => {
     isSubmitting.value = true;
     await authStore.loginWithGoogle(credential);
   } catch (error) {
-    console.error("🚀 ~ handleLoginSuccess ~ error", error);
+    message.error({
+      content: "Đăng nhập không thành công",
+    });
+    errorToast(
+      "Đăng nhập không thành công",
+      "Vui lòng thử lại bằng cách đăng nhập bên trang đăng nhập"
+    );
   } finally {
     isSubmitting.value = false;
   }
