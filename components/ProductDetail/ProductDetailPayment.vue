@@ -62,7 +62,39 @@
                     </div>
                 </div>
             </div>
-        </div>
+          </div>
+          <div class="">
+            <div class="text-lg font-semibold">Số lượng</div>
+            <div class="flex items-center p-2 w-2/4">
+              <div>
+                <button
+                @click="decreaseQuantity"
+                class="border border-lg rounded-lg text-base bg-[#fff] hover:bg-[#ececec]"
+              >
+                -
+              </button>
+              </div>
+              <div class="px-2">
+                <input
+            
+                v-model="quantity"
+                min="1"
+                class="px-2 py-1 w-[60px] border border-lg rounded-lg text-center text-lg bg-[#fff] "
+              />
+              </div>
+              <div>
+                <button
+                @click="increaseQuantity"
+                class="border border-lg rounded-lg text-base bg-[#fff] hover:bg-[#ececec]"
+              >
+                +
+              </button>
+              </div>
+            </div>
+          </div>
+          
+          
+        
     </div>
 </template>
 
@@ -84,12 +116,12 @@ export default {
             }
         }
 
-        return {
-            quantity,
-            increaseQuantity,
-            decreaseQuantity,
-        };
-    },
+    return {
+      quantity,
+      increaseQuantity,
+      decreaseQuantity,
+    };
+  },
 };
 </script>
 
