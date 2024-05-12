@@ -14,9 +14,11 @@ export const useAuthStore = defineStore('auth-store', {
                 method: 'POST',
                 body: body
             })
+            if (data.error) {
+                return data;
+            }
             this.authUser = data.data._rawValue.data;
             this.isLogged = true;
-            navigateTo('/');
             return data;
         },
         async register(body: any) {
@@ -24,7 +26,6 @@ export const useAuthStore = defineStore('auth-store', {
                 method: 'POST',
                 body: body
             })
-            navigateTo('/login');
             return data;
         },
         async loginWithGoogle(body: any) {
