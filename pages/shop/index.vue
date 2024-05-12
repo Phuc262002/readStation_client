@@ -2,13 +2,55 @@
     <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
         <div class="flex gap-6">
             <div class="w-1/5 bg-white rounded-lg h-fit">
-                <div class="px-4 py-3 text-lg font-semibold border-b-2">
+                <div class="px-4 py-3 text-lg font-semibold">
                     Khám phá theo danh mục
                 </div>
                 <div>
                     <div
-                        class="px-4 py-2 text-base flex justify-between items-cente"
+                        class="px-4 py-2 text-base flex justify-between items-center border-t-2"
                         @click="toggleCategories('category1')"
+                    >
+                        <span> Nhà xuất bản</span>
+                        <img
+                            ref="bookIcon2"
+                            class="rotate-180"
+                            width="20"
+                            height="20"
+                            src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
+                            alt=""
+                        />
+                    </div>
+                    <div
+                        v-if="showCategories.category1.value"
+                        class="px-4 pb-3"
+                    >
+                        <ul class="px-4 space-y-1">
+                            <li class="flex items-center">
+                                <label for="history" class="flex items-center">
+                                    <input type="checkbox" id="history">
+                                    <span class="pl-2">Kim Đồng</span>
+                                </label>
+                            </li>
+                            <li class="flex items-center">
+                                <label for="culture" class="flex items-center">
+                                    <input type="checkbox" id="culture">
+                                    <span class="pl-2">Văn hóa và Truyền Thông</span>
+                                </label>
+                            </li>
+                            <li class="flex items-center">
+                                <label for="science" class="flex items-center">
+                                    <input type="checkbox" id="science">
+                                    <span class="pl-2">Em yêu khoa học</span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div>
+                    <div
+                        class="px-4 py-2 text-base flex justify-between items-cente border-t-2 "
+                        @click="toggleCategories('category2')"
                     >
                         <span> Sách giáo khoa</span>
                         <img
@@ -21,7 +63,7 @@
                         />
                     </div>
                     <div
-                        v-if="showCategories.category1.value"
+                        v-if="showCategories.category2.value"
                         class="px-4 space-y-4 pb-3"
                     >
                         <ul class="px-4 space-y-1">
@@ -40,7 +82,7 @@
                 <div>
                     <div
                         class="px-4 py-2 text-base flex justify-between items-center border-t-2"
-                        @click="toggleCategories('category2')"
+                        @click="toggleCategories('category3')"
                     >
                         <span> Sách khác</span>
                         <img
@@ -53,7 +95,7 @@
                         />
                     </div>
                     <div
-                        v-if="showCategories.category2.value"
+                        v-if="showCategories.category3.value"
                         class="px-4 pb-3"
                     >
                         <ul class="px-4 space-y-1">
@@ -69,6 +111,63 @@
                         </ul>
                     </div>
                 </div>
+                <div>
+                    <div
+                        class="px-4 py-2 text-base flex justify-between items-center border-t-2"
+                        @click="toggleCategories('category4')"
+                    >
+                        <span>Đánh giá</span>
+                        <img
+                            ref="bookIcon2"
+                            class="rotate-180"
+                            width="20"
+                            height="20"
+                            src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
+                            alt=""
+                        />
+                    </div>
+                    <div
+                        v-if="showCategories.category4.value"
+                        class="px-4 pb-3"
+                    >
+                        <ul class="px-4 space-y-1">
+                            <li class="flex items-center justify-between">
+                                <label for="star1" class="flex items-center justify-between">
+                                    <input type="checkbox" id="star1">
+                                    <CommonStar rating="1"/>
+                                </label>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <label for="star2" class="flex items-center justify-between">
+                                    <input type="checkbox" id="star2">
+                                    <CommonStar rating="2"/>
+                                </label>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <label for="star3" class="flex items-center justify-between">
+                                    <input type="checkbox" id="star3">
+                                    <CommonStar rating="3"/>
+                                </label>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <label for="star4" class="flex items-center justify-between">
+                                    <input type="checkbox" id="star4">
+                                    <CommonStar rating="4"/>
+                                </label>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <label for="star5" class="flex items-center justify-between">
+                                    <input type="checkbox" id="star5">
+                                    <CommonStar rating="5"/>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                
+               
+                
             </div>
 
             <div class="w-4/5 rounded-lg h-fit">
@@ -142,6 +241,8 @@ export default defineComponent({
         const showCategories = {
             category1: ref(false),
             category2: ref(false),
+            category3: ref(false),
+            category4: ref(false),
         };
 
         const toggleCategories = (category) => {
