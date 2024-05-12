@@ -1,5 +1,5 @@
 <template>
-    <div class="h-auto mb-9 mx-auto container">
+    <div class="h-auto mb-2 mx-auto container">
         <div class="flex justify-between">
             <div class="my-10 text-bold text-xl">
                 <h1>Lastest Collections</h1>
@@ -95,13 +95,13 @@ export default {
     },
 };
 </script>
-<style>
-.swiper {
+<style scoped>
+:deep(.swiper)  {
     width: 100%;
     height: 100%;
 }
 
-.swiper-slide {
+:deep(.swiper-slide) {
     text-align: center;
     font-size: 18px;
     display: flex;

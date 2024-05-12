@@ -276,9 +276,4 @@ const colorMode = useColorMode();
 const changeTheme = (theme: string) => {
     colorMode.preference = theme;
 };
-
-watchEffect(() => {
-    console.log(colorMode.value);
-    console.log(colorMode.preference);
-});
 </script>

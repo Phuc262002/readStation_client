@@ -2,10 +2,10 @@
     <div>
         <NuxtLoadingIndicator />
         <NuxtLayout>
-            <div class="container mx-auto">
+            <div>
                 <div
                     v-if="isSubmitting"
-                    class="absolute top-0 left-0 w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default"
+                    class="fixed top-0 left-0 w-full h-full bg-black/40 z-[99999] cursor-default"
                 >
                     <a-spin size="large" class="absolute top-1/2 left-1/2" />
                 </div>
@@ -24,13 +24,23 @@ const isSubmitting = ref(false);
 useOneTap({
     onSuccess: async (response: CredentialResponse) => {
         const { credential } = response;
-        console.log("Access Token", credential);
-        isSubmitting.value = true;
-        await authStore.loginWithGoogle(credential);
-        isSubmitting.value = false;
+        try {
+            isSubmitting.value = true;
+            await authStore.loginWithGoogle(credential);
+        } catch (error) {
+            errorToast(
+                "Đăng nhập không thành công",
+                "Vui lòng thử lại bằng cách đăng nhập bên trang đăng nhập",
+            );
+        } finally {
+            isSubmitting.value = false;
+        }
     },
     onError: () => {
-        errorToast("Đăng nhập không thành công", "Vui lòng thử lại bằng cách đăng nhập bên trang đăng nhập");
+        errorToast(
+            "Đăng nhập không thành công",
+            "Vui lòng thử lại bằng cách đăng nhập bên trang đăng nhập",
+        );
     },
     // options
 });

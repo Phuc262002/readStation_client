@@ -24,9 +24,7 @@ export const useAuthStore = defineStore('auth-store', {
                 method: 'POST',
                 body: body
             })
-            this.authUser = data.data._rawValue.data;
-            this.isLogged = true;
-            navigateTo('/');
+            navigateTo('/login');
             return data;
         },
         async loginWithGoogle(body: any) {
