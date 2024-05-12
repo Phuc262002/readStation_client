@@ -38,6 +38,13 @@ export default defineNuxtConfig({
       apiUrl: process.env.API_URL,
     },
   },
+  build: {
+    rollupOptions: {
+        external: [
+            "vue3-icons"
+        ],
+    }
+  },
   // nitro: {
   //   routeRules: {
   //     "/backend/**": {
