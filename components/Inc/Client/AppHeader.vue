@@ -84,15 +84,17 @@ import { NuxtLink } from '../../../.nuxt/components';
                         </div>
                         <div class="border-solid border border-gray-300 h-8"></div>
                         <div class="ml-3">
-                            <button class="relative w-10 hover:bg-blue-100 hover:rounded-xl h-10">
-                                <div class="text-2xl flex justify-center items-center">
-                                    <ShoppingOutlined />
-                                </div>
-                                <div
-                                    class="absolute top-0 right-0 bg-red-500 text-white w-4 h-4 rounded-full flex justify-center items-center text-xs">
-                                    1
-                                </div>
-                            </button>
+                           <NuxtLink to="/cart">
+                                <button class="relative w-10 hover:bg-blue-100 hover:rounded-xl h-10">
+                                    <div class="text-2xl flex justify-center items-center">
+                                        <ShoppingOutlined />
+                                    </div>
+                                    <div
+                                        class="absolute top-0 right-0 bg-red-500 text-white w-4 h-4 rounded-full flex justify-center items-center text-xs">
+                                        1
+                                    </div>
+                                </button>
+                            </NuxtLink>
                         </div>
                     </div>
                     <!-- Mobie Menu -->
