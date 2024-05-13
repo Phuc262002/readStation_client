@@ -42,11 +42,7 @@
                         <div class="flex justify-start items-center gap-4 mt-2">
                             <div>Đánh giá</div>
                             <div class="flex justify-center items-center gap-1">
-                                <StarOutlined />
-                                <StarOutlined />
-                                <StarOutlined />
-                                <StarOutlined />
-                                <StarOutlined />
+                                <CommonStar rating="5"/>
                             </div>
                         </div>
                     </div>

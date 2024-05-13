@@ -5,21 +5,18 @@
                 <!-- Logo -->
                 <div class="w-1/2">
                     <img class="w-1/3" src="https://thumbs.dreamstime.com/b/reading-book-logo-designs-164296495.jpg"
-                        alt="">
+                        alt="" />
                 </div>
                 <!-- ReadStation -->
                 <div class="w-1/4 flex flex-col gap-3">
                     <h1 class="text-xl font-medium uppercase">ReadSation</h1>
                     <ul class="flex flex-col gap-2">
-                        <li class=" text-black text-base hover:-translate-y-1 transition-transform hover:text-blue-500">
-                            Terms of service</li>
-                        <li class=" text-black text-base hover:-translate-y-1 transition-transform hover:text-blue-500">
-                            Privacy Policy</li>
-                        <li class=" text-black text-base hover:-translate-y-1 transition-transform hover:text-blue-500">
-                            Data Processing Agreement</li>
-                        <li class=" text-black text-base hover:-translate-y-1 transition-transform hover:text-blue-500">
-                            GBD Software as a Service Ltd</li>
-
+                        <li class="text-black text-base hover:-translate-y-1 transition-transform hover:text-blue-500">
+                            Terms of service
+                        </li>
+                        <li class="text-black text-base hover:-translate-y-1 transition-transform hover:text-blue-500">
+                            Privacy Policy
+                        </li>
                     </ul>
                 </div>
                 <!-- Phương Thức Thanh Toán -->
@@ -37,7 +34,6 @@
                         <img class="w-16 rounded-md hover:-translate-y-1 hover:scale-110 duration-300"
                             src="https://static.ybox.vn/2021/9/4/1631756121713-1631085786958-Thi%E1%BA%BFt%20k%E1%BA%BF%20kh%C3%B4ng%20t%C3%AAn%20-%202021-09-08T002253.248.png"
                             alt="" />
-
                     </div>
                 </div>
             </div>

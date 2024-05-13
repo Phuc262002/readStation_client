@@ -96,8 +96,8 @@ import { NuxtLink } from '../../../.nuxt/components';
                         </div>
                     </div>
                     <!-- Mobie Menu -->
-                    <div>
-                        <button class="md:hidden block">
+                    <div class="md:hidden block" >
+                        <button>
                             <AppMobieHeader/>
                         </button>
                     </div>
