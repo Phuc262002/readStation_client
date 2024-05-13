@@ -1,9 +1,8 @@
-import { NuxtLink } from '../../../.nuxt/components';
 <template>
-    <div class="dark:bg-[#0f172a]">
+    <div class="fixed w-full backdrop-blur-sm z-50">
         <div class="mx-auto container md:px-20 px-8">
-            <div class="h-50 py-5">
-                <div class="h-max bg-[white] w-full border-2 shadow-lg rounded-full flex justify-between py-3 px-10">
+            <div class="h-50 pt-5">
+                <div class="h-max bg-[white] w-full border-2 border-[#ffffffad] shadow-sm rounded-full flex justify-between py-3 px-10">
                     <!-- Logo -->
                     <div class=" ">
                         <img class="w-10" src="https://thumbs.dreamstime.com/b/reading-book-logo-designs-164296495.jpg"
@@ -84,20 +83,22 @@ import { NuxtLink } from '../../../.nuxt/components';
                         </div>
                         <div class="border-solid border border-gray-300 h-8"></div>
                         <div class="ml-3">
-                            <button class="relative w-10 hover:bg-blue-100 hover:rounded-xl h-10">
-                                <div class="text-2xl flex justify-center items-center">
-                                    <ShoppingOutlined />
-                                </div>
-                                <div
-                                    class="absolute top-0 right-0 bg-red-500 text-white w-4 h-4 rounded-full flex justify-center items-center text-xs">
-                                    1
-                                </div>
-                            </button>
+                           <NuxtLink to="/cart">
+                                <button class="relative w-10 hover:bg-blue-100 hover:rounded-xl h-10">
+                                    <div class="text-2xl flex justify-center items-center">
+                                        <ShoppingOutlined />
+                                    </div>
+                                    <div
+                                        class="absolute top-0 right-0 bg-red-500 text-white w-4 h-4 rounded-full flex justify-center items-center text-xs">
+                                        1
+                                    </div>
+                                </button>
+                            </NuxtLink>
                         </div>
                     </div>
                     <!-- Mobie Menu -->
-                    <div>
-                        <button class="md:hidden block">
+                    <div class="md:hidden block" >
+                        <button>
                             <AppMobieHeader/>
                         </button>
                     </div>
