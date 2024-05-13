@@ -1,9 +1,9 @@
 <template>
-    <div class=" h-auto mx-auto container mt-7">
-        <div class="h-auto flex justify-between items-center mx-10">
+    <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
+        <div class="h-auto flex justify-between items-center gap-9">
             <!-- Right -->
             <div class="w-3/5 h-full">
-                <div class="px-20 flex flex-col gap-6">
+                <div class=" flex flex-col gap-6">
                     <div class="">
                         <h1 class="text-2xl font-semibold">Xin chào,</h1>
                     </div>
@@ -30,9 +30,9 @@
                                     :options="districts" :filter-option="filterOption" @focus="handleFocus"
                                     @blur="handleBlur" @change="handleChangeDistrict">
                                 </a-select>
-                                <a-select v-model:value="valueWards" show-search placeholder="Phường/Xã" class="w-1/3"
+                                <a-select v-model:value="valueWards" show-search placeholder="Quận/Huyện" class="w-1/3"
                                     :options="wards" :filter-option="filterOption" @focus="handleFocus"
-                                    @blur="handleBlur" @change="handleChange">
+                                    @blur="handleBlur" @change="handleChangeWard">
                                 </a-select>
                             </div>
                             <div class="h-8 ">
@@ -118,7 +118,7 @@ const handleChangeProvince = valuePronvines => {
 const handleChangeDistrict = valueDistricts => {
     console.log(`selected district ${valueDistricts}`);
 };
-const handleChangeWard = value => {
+const handleChangeWard = valueWards => {
     console.log(`selected district ${valueWards}`);
 };
 const handleBlur = () => {
