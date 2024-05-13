@@ -1,9 +1,8 @@
-import { NuxtLink } from '../../../.nuxt/components';
 <template>
-    <div class="dark:bg-[#0f172a]">
+    <div class="fixed w-full backdrop-blur-sm z-50">
         <div class="mx-auto container md:px-20 px-8">
-            <div class="h-50 py-5">
-                <div class="h-max bg-[white] w-full border-2 shadow-lg rounded-full flex justify-between py-3 px-10">
+            <div class="h-50 pt-5">
+                <div class="h-max bg-[white] w-full border-2 border-[#ffffffad] shadow-sm rounded-full flex justify-between py-3 px-10">
                     <!-- Logo -->
                     <div class=" ">
                         <img class="w-10" src="https://thumbs.dreamstime.com/b/reading-book-logo-designs-164296495.jpg"
