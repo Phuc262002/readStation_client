@@ -4,8 +4,7 @@
             <div class="flex flex-col items-center">
                 <div class="mb-8 w-full h-[370px] flex justify-center">
                     <a-image
-                        :preview="{ visible: false }"
-                        @click="visible = true"
+                       
                         :height="370"
                         :src="selectedImage"
                         alt="Main Image"
@@ -38,7 +37,7 @@
                         </swiper-slide>
                     </swiper>
                 </div>
-                <div style="display: none">
+                <!-- <div style="display: none">
                     <a-image-preview-group
                         :preview="{
                             visible,
@@ -51,7 +50,7 @@
                             :src="image"
                         />
                     </a-image-preview-group>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -59,7 +58,6 @@
 
 <script>
 import { Swiper, SwiperSlide } from "swiper/vue";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import { ref } from "vue";
