@@ -51,8 +51,8 @@
                             </div>
                             <div class="text-base font-bold w-1/4 flex justify-center items-center text-[#8231D3]">$100
                             </div>
-                            <div class=" w-1/4 text-center">
-                        
+                            <div class=" w-1/4 text-center text-2xl text-red-400 flex justify-center items-center ">
+                                <LuTrash2/>
                             </div>
                         </div>
                       
@@ -164,5 +164,5 @@
 <script setup>
 import { ref } from 'vue';
 const value1 = ref("value1");
-
+import { LuTrash2 } from 'vue3-icons/lu';
 </script>
