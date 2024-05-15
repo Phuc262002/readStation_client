@@ -44,7 +44,7 @@
                                 >
                             </li>
                             <li>
-                                <NuxtLink to="/"
+                                <NuxtLink to="/about_us"
                                     ><a-button
                                         class="text-black text-base hover:-translate-y-1 transition-transform"
                                         type="link"
@@ -53,7 +53,7 @@
                                 </NuxtLink>
                             </li>
                             <li>
-                                <NuxtLink to="/"
+                                <NuxtLink to="/contact"
                                     ><a-button
                                         class="text-black text-base hover:-translate-y-1 transition-transform"
                                         type="link"

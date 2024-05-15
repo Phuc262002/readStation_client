@@ -1,35 +1,28 @@
 <template>
-  <div>
-    <div class="flex items-center justify-center min-h-screen relative">
-      <!-- Hình ảnh -->
-      <div class="absolute inset-0 overflow-hidden p-8">
-        <img
-          src="../../assets/images/aboutus.svg"
-          alt=""
-          class="object-cover w-full h-full rounded-3xl"
-        />
-      </div>
-
-      <!-- Phần nội dung văn bản -->
+  <div
+    class="md:px-20 px-8 md:container md:mx-auto md:py-10 flex flex-col space-y-8"
+  >
+    <div>
       <div
-        class="w-1/2 p-8 absolute top-1/2 transform -translate-y-1/2 left-30"
+        class="relative h-[450px] w-full bg-[url('../../assets/images/aboutus.svg')] bg-cover bg-center bg-no-repeat rounded-3xl"
       >
-        <h1 class="text-4xl font-bold pb-4">Thuê sách không giới hạn</h1>
-        <ul class="text-lg pb-6 space-y-2">
-          <li>Thuê sách không giới hạn ngày trả</li>
-          <li>Tặng 60 ngày thuê cho thành viên mới</li>
-          <li>Bảo lưu vĩnh viễn khi không thuê sách</li>
-          <li>Không phát sinh phụ phí</li>
-        </ul>
-        <button
-          class="bg-blue-600 text-white px-6 py-3 rounded-md shadow-md hover:bg-blue-700"
-        >
-          Tham gia ngay
-        </button>
+        <div class="absolute bottom-12 left-80 font-semibold text-4xl">
+          <h1 class="text-4xl font-bold pb-4">Thuê sách không giới hạn</h1>
+          <ul class="text-lg pb-6 space-y-2">
+            <li>Thuê sách không giới hạn ngày trả</li>
+            <li>Tặng 60 ngày thuê cho thành viên mới</li>
+            <li>Bảo lưu vĩnh viễn khi không thuê sách</li>
+            <li>Không phát sinh phụ phí</li>
+          </ul>
+          <button
+            class="bg-blue-600 text-white text-lg px-6 py-3 rounded-lg shadow-md hover:bg-blue-700"
+          >
+            Tham gia ngay
+          </button>
+        </div>
       </div>
     </div>
-
-    <div class="bg-white p-16">
+    <div class="bg-white md:px-16 md:py-10 rounded-3xl">
       <div
         class="mx-auto flex flex-col md:flex-row items-center md:items-start text-center md:text-left space-x-8"
       >
@@ -87,20 +80,18 @@
       </div>
     </div>
 
-    <section class="bg-gray-100 p-8">
+    <section class="bg-white rounded-3xl p-8">
       <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-3xl font-bold mb-4">
-          The Feature Of Carlio Engine Oil That You Will Benefit From
-        </h2>
+        <h2 class="text-3xl font-bold mb-4">Chức năng gì chưa nhớ nữa</h2>
         <div class="flex justify-center space-x-4">
           <div class="bg-white border rounded-lg p-6 w-1/3">
-            <h3 class="font-bold">High Quality Product</h3>
+            <h3 class="font-bold">Chức năng 1</h3>
           </div>
           <div class="bg-white border rounded-lg p-6 w-1/3">
-            <h3 class="font-bold">Cleaning of deposits</h3>
+            <h3 class="font-bold">Chức năng 2</h3>
           </div>
           <div class="bg-white border rounded-lg p-6 w-1/3">
-            <h3 class="font-bold">Engine protection</h3>
+            <h3 class="font-bold">Chức năng 3</h3>
           </div>
         </div>
       </div>
@@ -114,43 +105,42 @@
         />
       </div>
       <div class="w-1/2 ">
-        <section class=" p-8">
+        <div class="px-8 py-4">
           <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl font-bold mb-4 text-center">Câu hỏi thường gặp</h2>
+            <h2 class="text-3xl font-bold mb-4 text-center">
+              Câu hỏi thường gặp
+            </h2>
             <div class="space-y-4">
-              <div class="bg-white p-4 rounded-lg">
-                <h3 class="font-bold text-lg">
-                  Trứng có trước hay gà có trước ???
-                </h3>
-                <p class="mt-2">
-                  Nào cũng được. Có để ăn là được
-                </p>
-              </div>
-              <div class="bg-white p-4 rounded-lg">
-                <h3 class="font-bold text-lg">
-                  Trứng có trước hay gà có trước ???
-                </h3>
-                <p class="mt-2">
-                  Nào cũng được. Có để ăn là được
-                </p>
-              </div>
-              <div class="bg-white p-4 rounded-lg">
-                <h3 class="font-bold text-lg">
-                  Trứng có trước hay gà có trước ???
-                </h3>
-                <p class="mt-2">
-                  Nào cũng được. Có để ăn là được
-                </p>
-              </div>
-             
+              <a-collapse v-model:activeKey="activeKey" accordion>
+                <a-collapse-panel key="1" header="#1. Thanh toán khoản đặt cọc" show-extra-content>
+                  <p v-html="text"></p>
+                </a-collapse-panel>
+                <a-collapse-panel key="2" header="#2. Thuê sách lần đầu" show-extra-content>
+                  <p v-html="text2"></p>
+                </a-collapse-panel>
+                <a-collapse-panel key="3" header="#3. Mượn, đổi sách tại Read Station như thế nào?" show-extra-content>
+                  <p v-html="text3"></p>
+                </a-collapse-panel>
+              </a-collapse>
             </div>
           </div>
-        </section>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<script></script>
+<script lang="ts" setup>
+import { ref } from "vue";
+const activeKey = ref([]);
+const text = `Khoản đặt cọc này để hỗ trợ Read Station trong các trường hợp hư hỏng hay mất sách, sẽ được hoàn lại cho bạn sau thời gian trải nghiệm miễn phí`;
+const text2 = `Tận hưởng 60 ngày thuê sách của Read Station miễn phí, chọn quyển sách bạn ưng ý nhất nhé`;
+const text3 = `Khi đã là bạn đọc tại Read Station, bạn có thể:<br/>
+- Giữ sách và thưởng thức trọn vẹn nội dung không giới hạn ngày trả.<br/>
+- Khi đã đọc xong, bạn có thể đặt mượn quyển tiếp theo, Read Station sẽ chuyển cho bạn quyển mới, đồng thời nhận lại quyển hiện tại. Theo quy định hiện tại, bạn có thể giữ tối đa cùng lúc là 1 quyển.<br/>
+- Read Station mong bạn ưu tiên hoàn trả lại sách trong mọi trường hợp.<br/>
+- Bạn có thể lưu lại những quyển sách mình thích nhưng chưa đọc ngay thông qua tính năng "Thả tim".<br/>
+- Tùy theo gói thành viên, phí thành viên của bạn sẽ giảm theo số năm bạn tham gia liên tục tại Read Station từ 5-10%/ năm.`;
+</script>
 
 <style scoped></style>
