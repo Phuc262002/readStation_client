@@ -39,7 +39,7 @@
                                             show-icon
                                         >
                                             <template #action v-if="error[0] === 'Email is not verified'">
-                                              <NuxtLink href="/">
+                                              <NuxtLink to="/">
                                                 <a-button size="small" type="primary">Xác thực</a-button>
                                               </NuxtLink>
                                             </template>

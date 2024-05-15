@@ -35,7 +35,7 @@
                                 </NuxtLink>
                             </li>
                             <li>
-                                <NuxtLink to="/blog"
+                                <NuxtLink to="/post"
                                     ><a-button
                                         class="text-black text-base hover:-translate-y-1 transition-transform"
                                         type="link"
