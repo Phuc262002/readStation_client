@@ -38,7 +38,7 @@
                 </div>
                 <div>
                   <label
-                    for="name"
+                    for="fullname"
                     class="block text-sm font-medium text-gray-700"
                   >
                     Họ tên
@@ -47,9 +47,9 @@
                     <a-input
                       class="w-[388px] h-[45px]"
                       :status="errors.name ? 'error' : ''"
-                      id="name"
-                      v-bind="name"
-                      name="name"
+                      id="fullname"
+                      v-bind="fullname"
+                      name="fullname"
                       placeholder="Nhập họ tên"
                     />
                   </div>
@@ -205,14 +205,10 @@ import {
   type CredentialResponse,
 } from "vue3-google-signin";
 
-const props = defineProps({
-  name: String,
-});
-
 // Create the form
 const { defineInputBinds, handleSubmit, errors } = useForm({
   validationSchema: yup.object().shape({
-    name: yup
+    fullname: yup
       .string()
       .required("Trường này không được để trống")
       .min(2, "Tên phải có ít nhất 2 ký tự")
@@ -233,7 +229,7 @@ const { defineInputBinds, handleSubmit, errors } = useForm({
 });
 
 // Define fields
-const name = defineInputBinds("name");
+const fullname = defineInputBinds("fullname");
 const email = defineInputBinds("email");
 const password = defineInputBinds("password");
 const password_confirmation = defineInputBinds("password_confirmation");
@@ -248,7 +244,7 @@ const onSubmit = handleSubmit(async (values) => {
       successToast("Đăng ký thành công", "Chuyển hướng đến trang đăng nhập");
       navigateTo("/login");
     } else {
-      resErrors.value = resData.error.value.data.errors;
+      resErrors.value = resData.error.value.data?.errors;
       errorToast("Đăng ký không thành công", "Vui lòng thử lại");
     }
   } catch (error) {
