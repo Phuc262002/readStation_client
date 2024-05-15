@@ -182,7 +182,7 @@ const { defineInputBinds, handleSubmit, errors } = useForm({
     password: yup
       .string()
       .required("Trường này không được để trống")
-      .min(1, "Mật khẩu phải có ít nhất 1 ký tự"),
+      .min(8, "Mật khẩu phải có ít nhất 8 ký tự"),
   },
 });
 
