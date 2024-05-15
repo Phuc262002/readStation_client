@@ -44,7 +44,7 @@
                                 >
                             </li>
                             <li>
-                                <NuxtLink to="/about_us"
+                                <NuxtLink to="/about-us"
                                     ><a-button
                                         class="text-black text-base hover:-translate-y-1 transition-transform"
                                         type="link"
