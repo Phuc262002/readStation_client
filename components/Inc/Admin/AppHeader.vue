@@ -1,5 +1,8 @@
 <template>
-    <a-layout-header class="!bg-white !px-6 flex items-center justify-between">
+    <a-layout-header
+        class="!bg-white !px-6 flex items-center right-0 justify-between fixed h-[4.375rem] transition-all ease-linear"
+        :class="props.collapsedValue ? 'left-20' : 'left-[theme(padding.sidebar)]'"
+    >
         <div>
             <menu-unfold-outlined
                 v-if="props.collapsedValue"
@@ -12,7 +15,10 @@
                 @click="changeCollapsed"
             />
         </div>
-        <div class="">Header</div>
+        <div class="flex items-center gap-5">
+            <CommonThemeSelect />
+            <div>Header</div>
+        </div>
     </a-layout-header>
 </template>
 
