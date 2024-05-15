@@ -2,22 +2,15 @@
     <a-layout style="min-height: 100vh">
         <IncAdminSidebarAdmin :collapsed="collapsed" />
         <a-layout>
-            <IncAdminAppHeader :collapsed="changeCollapsed" :collapsedValue="collapsed"/>
-            <a-layout-content :style="{
-                padding: '0 24px',
-                background: '#f1f5f9',
-            }">
-                <CommonBreadcrum />
-                <div
-                    :style="{
-                        padding: '24px',
-                        borderRadius: '8px',
-                        background: '#fff',
-                        minHeight: '360px',
-                    }"
-                >
-                    <slot />
-                </div>
+            <IncAdminAppHeader
+                :collapsed="changeCollapsed"
+                :collapsedValue="collapsed"
+            />
+            <a-layout-content
+                class="p-4 pt-[4.375rem] !bg-[#f1f5f9] transition-all ease-linear"
+                :class="collapsed ? 'p-4 pt-[4.375rem] pl-[calc(theme(padding.20)+theme(padding.4))]' : 'pt-[4.375rem] pl-[calc(theme(padding.sidebar)+theme(padding.4))]'"
+            >
+                <slot />
             </a-layout-content>
             <IncAdminAppFooter />
         </a-layout>
@@ -29,5 +22,5 @@ const collapsed = ref<boolean>(false);
 
 const changeCollapsed = () => {
     collapsed.value = !collapsed.value;
-};  
+};
 </script>

@@ -130,38 +130,39 @@
                         v-if="showCategories.category4.value"
                         class="px-4 pb-3"
                     >
-                        <ul class="px-4 space-y-1">
-                            <li class="flex items-center justify-between">
-                                <label for="star1" class="flex items-center justify-between">
-                                    <input type="checkbox" id="star1">
-                                    <CommonStar rating="1"/>
-                                </label>
-                            </li>
-                            <li class="flex items-center justify-between">
-                                <label for="star2" class="flex items-center justify-between">
-                                    <input type="checkbox" id="star2">
-                                    <CommonStar rating="2"/>
-                                </label>
-                            </li>
-                            <li class="flex items-center justify-between">
-                                <label for="star3" class="flex items-center justify-between">
-                                    <input type="checkbox" id="star3">
-                                    <CommonStar rating="3"/>
-                                </label>
-                            </li>
-                            <li class="flex items-center justify-between">
-                                <label for="star4" class="flex items-center justify-between">
-                                    <input type="checkbox" id="star4">
-                                    <CommonStar rating="4"/>
-                                </label>
-                            </li>
-                            <li class="flex items-center justify-between">
-                                <label for="star5" class="flex items-center justify-between">
-                                    <input type="checkbox" id="star5">
-                                    <CommonStar rating="5"/>
-                                </label>
-                            </li>
-                        </ul>
+                    <ul class="px-4 space-y-1">
+                        <li class="flex items-center justify-between">
+                            <label for="star5" class="flex items-center justify-between">
+                                <input type="checkbox" id="star5">
+                                <CommonStar rating="5"/>
+                            </label>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <label for="star4" class="flex items-center justify-between">
+                                <input type="checkbox" id="star4">
+                                <CommonStar rating="4"/>
+                            </label>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <label for="star3" class="flex items-center justify-between">
+                                <input type="checkbox" id="star3">
+                                <CommonStar rating="3"/>
+                            </label>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <label for="star2" class="flex items-center justify-between">
+                                <input type="checkbox" id="star2">
+                                <CommonStar rating="2"/>
+                            </label>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <label for="star1" class="flex items-center justify-between">
+                                <input type="checkbox" id="star1">
+                                <CommonStar rating="1"/>
+                            </label>
+                        </li>
+                    </ul>
+                    
                     </div>
                 </div>
                 

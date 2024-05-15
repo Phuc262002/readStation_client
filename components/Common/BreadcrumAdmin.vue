@@ -1,5 +1,5 @@
 <template>
-    <a-breadcrumb class="my-4">
+    <a-breadcrumb>
       <a-breadcrumb-item>Home</a-breadcrumb-item>
       <a-breadcrumb-item><a href="">Application Center</a></a-breadcrumb-item>
       <a-breadcrumb-item><a href="">Application List</a></a-breadcrumb-item>
