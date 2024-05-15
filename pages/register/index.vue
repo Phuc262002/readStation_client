@@ -258,14 +258,30 @@ const onSubmit = handleSubmit(async (values) => {
 // handle success event
 const handleLoginSuccess = async (response: CredentialResponse) => {
   const { credential } = response;
-  try {
-    isSubmitting.value = true;
-    await authStore.loginWithGoogle(credential);
-  } catch (error) {
-    errorToast("Đăng ký không thành công", "Vui lòng thử lại");
-  } finally {
-    isSubmitting.value = false;
-  }
+    try {
+        isSubmitting.value = true;
+        const resData = await authStore.loginWithGoogle(credential);
+        if (resData?.data?._rawValue?.status == true) {
+            successToast(
+                "Đăng nhập thành công",
+                "Chào mừng bạn đến với ReadStation",
+            );
+            navigateTo("/");
+        } else {
+            resErrors.value = resData.error.value.data.errors;
+            errorToast("Đăng nhập không thành công", "Vui lòng thử lại sau");
+        }
+    } catch (error) {
+        message.error({
+            content: "Đăng nhập không thành công",
+        });
+        errorToast(
+            "Đăng nhập không thành công",
+            "Vui lòng thử lại bằng cách đăng nhập bên trang đăng nhập",
+        );
+    } finally {
+        isSubmitting.value = false;
+    }
 };
 
 // handle an error event

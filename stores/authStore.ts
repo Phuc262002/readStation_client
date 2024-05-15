@@ -35,6 +35,9 @@ export const useAuthStore = defineStore('auth-store', {
                     idToken: body,
                 }
             })
+            if (data.error.value) {
+                return data;
+            }
             this.authUser = data.data._rawValue.data;
             this.isLogged = true;
             navigateTo('/');
