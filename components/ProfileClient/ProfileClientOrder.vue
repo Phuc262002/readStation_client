@@ -2,7 +2,7 @@
     <div class="container mx-auto">
         <UTabs :items="items" class="w-full">
             <template #default="{ item, index, selected }">
-              <div class="flex items-center gap-2 relative truncate" @click="">
+              <div class="flex items-center gap-2 relative truncate" @click="handleSelectTab(index)">
                 
                 <UIcon :name="item.icon" class="w-4 h-4 flex-shrink-0" />
         
@@ -12,7 +12,7 @@
               </div>
             </template>
           </UTabs>
-      <a-table :columns="columns" :data-source="filteredOrders">
+      <a-table :columns="columns" :data-source="filteredOrders" v-if="selectTab===1">
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
             <span>
@@ -65,10 +65,20 @@
   </template>
   
   <script lang="ts" setup>
-  import { ref, computed } from 'vue';
+  import { ref, computed, watchEffect  } from 'vue';
   import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
   import { Button, Input, Table, Tag, Divider } from 'ant-design-vue';
   
+  const selectTab = ref(0);
+
+const handleSelectTab = (number: number) => {
+  selectTab.value = number;
+}
+
+watchEffect(() => {
+  console.log(selectTab.value);
+});
+      
   const columns = [
     {
       title: 'Name',
@@ -140,6 +150,7 @@
   label: 'Getting Started',
   icon: 'i-heroicons-information-circle',
   content: 'This is the content shown for Tab1'
+
 }, {
   label: 'Installation',
   icon: 'i-heroicons-arrow-down-tray',

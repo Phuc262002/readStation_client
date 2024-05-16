@@ -28,7 +28,7 @@
         <IoIosKey class="text-2xl" />
         <span>Đổi mật khẩu</span></NuxtLink
       >
-      <NuxtLink to="/" class="flex items-center gap-2 hover:text-[#8231D3]">
+      <NuxtLink to="/account/order-manager" class="flex items-center gap-2 hover:text-[#8231D3]">
         <IoMdGift class="text-2xl" />
         <span>Quản lý đơn hàng</span></NuxtLink
       >
