@@ -1,6 +1,6 @@
 <template>
     <div class="bg-[#f8f7fa] dark:bg-[#0f172a]">
-        <div class="bg-slate-800 dark:bg-zink-700 rounded-t-[3.75rem] overflow-hidden">
+        <div class="bg-[#282828] dark:bg-zink-700 overflow-hidden">
             <div class="mx-auto container md:px-20 px-8 py-14">
                 <div class="flex justify-between md:flex-row flex-col">
                     <!-- Logo -->
