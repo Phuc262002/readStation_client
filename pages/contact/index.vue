@@ -2,8 +2,8 @@
   <div
     class="md:px-20 px-8 md:container md:mx-auto md:py-10 flex flex-col space-y-8"
   >
-    <div class="flex space-x-5">
-      <div class="w-1/2 bg-[#f4ebdc] p-4 py-20 pl-20 rounded-2xl">
+    <div class="flex space-x-5 items-center">
+      <div class="w-3/5 bg-[#f4ebdc] p-4 py-20 pl-20 rounded-2xl">
         <div class="pb-5 border-b-2 border-white">
           <div class="text-5xl font-bold">Read Station</div>
           <div class="text-2xl font-semibold pt-4">ReadStation.com</div>
@@ -38,41 +38,64 @@
           </div>
         </div>
       </div>
-      <div class="w-1/2 bg-white p-4 rounded-2xl ">
-        
-        <div class="flex">
+      <div class="w-2/5 bg-white p-4 rounded-2xl">
+        <div class="p-8 w-full max-w-md">
+          <h2 class="text-3xl font-bold pb-6">
+            Read Station có thể giúp đỡ bạn điều gì?
+          </h2>
+          <form @submit.prevent="validateForm" class="space-y-4">
             <div>
-                Read Station có thể giúp đỡ bạn điều gì?
+              <input
+                type="text"
+                v-model="name"
+                placeholder="Tên của bạn"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <p v-if="errors.name" class="text-red-500 text-sm">
+                {{ errors.name }}
+              </p>
             </div>
-          <a-form
-            :model="formState"
-            v-bind="layout"
-            name="nest-messages"
-            :validate-messages="validateMessages"
-            @finish="onFinish"
-          >
-            <a-form-item
-              :name="['user', 'name']"
-              label="Tên"
-              :rules="[{ required: true }, { validator: validateName }]"
-            >
-              <a-input v-model:value="formState.user.name" />
-            </a-form-item>
-            <a-form-item
-              :name="['user', 'email']"
-              label="Email"
-              :rules="[{ type: 'email' }]"
-            >
-              <a-input v-model:value="formState.user.email" />
-            </a-form-item>
-            
-            <a-form-item :name="['user', 'introduction']" label="Introduction">
-              <a-textarea v-model:value="formState.user.introduction" />
-            </a-form-item>
-            <a-form-item :wrapper-col="{ ...layout.wrapperCol, offset: 8 }">
-              <a-button type="primary" html-type="submit">Submit</a-button>
-            </a-form-item>
-          </a-form>
+            <div>
+              <input
+                type="email"
+                v-model="email"
+                placeholder="E-mail của bạn"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <p v-if="errors.email" class="text-red-500 text-sm">
+                {{ errors.email }}
+              </p>
+            </div>
+            <div>
+              <input
+                type="text"
+                v-model="subject"
+                placeholder="Tiêu đề"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <p v-if="errors.subject" class="text-red-500 text-sm">
+                {{ errors.subject }}
+              </p>
+            </div>
+            <div>
+              <textarea
+                v-model="message"
+                placeholder="Ý kiến của bạn"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 h-40" 
+              ></textarea>
+              <p v-if="errors.message" class="text-red-500 text-sm">
+                {{ errors.message }}
+              </p>
+            </div>
+            <div class="text-center">
+              <button
+                type="submit"
+                class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                Gửi phản hồi
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -80,37 +103,38 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
+import { ref } from "vue";
 
-const validateMessages = {
-  required: "${label} chưa được nhập!",
-  types: {
-    email: "${label} không hợp lệ",
-  },
-};
+const name = ref("");
+const email = ref("");
+const subject = ref("");
+const message = ref("");
+const errors = ref<{ [key: string]: string }>({});
 
-const formState = reactive({
-  user: {
-    name: "",
-    email: "",
-    introduction: "",
-  },
-});
+const validateForm = () => {
+  errors.value = {};
 
-const validateName = (rule: any, value: string, callback: Function) => {
-  const regex = /^[^\d\W]+$/; // Biểu thức chính quy không cho phép chứa số và ký tự đặc biệt
-  if (!regex.test(value)) {
-    callback(new Error("Tên không được chứa số và ký tự đặc biệt"));
-  } else {
-    callback();
+  if (!name.value) {
+    errors.value.name = "Tên của bạn là bắt buộc.";
+  } else if (/\d/.test(name.value)) {
+    errors.value.name = "Tên không được chứa số.";
   }
-};
 
-const onFinish = (values: any) => {
-  console.log("Success:", values);
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email.value || !emailPattern.test(email.value)) {
+    errors.value.email = "E-mail chưa hợp lệ.";
+  }
+
+  if (!subject.value) {
+    errors.value.subject = "Tiêu đề là bắt buộc.";
+  }
+
+  if (!message.value) {
+    errors.value.message = "Nội dung là bắt buộc.";
+  }
+
+  if (Object.keys(errors.value).length === 0) {
+    alert("Form submitted successfully!");
+  }
 };
 </script>

@@ -22,6 +22,7 @@ const authStore = useAuthStore();
 const isSubmitting = ref(false);
 
 useOneTap({
+    disableAutomaticPrompt: authStore.isLogged,
     onSuccess: async (response: CredentialResponse) => {
         const { credential } = response;
         try {
