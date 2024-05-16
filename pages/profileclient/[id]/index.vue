@@ -6,8 +6,9 @@
       </div>
       <div class="w-4/5">
         <!-- <ProfileClientSetting /> -->
-        <ProfileClientManager />
+        <!-- <ProfileClientManager /> -->
         <!-- <ProfileClientEdit /> -->
+        <ProfileClientOrder/>
       </div>
     </div>
   </div>
