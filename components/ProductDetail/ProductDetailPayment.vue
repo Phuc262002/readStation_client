@@ -43,7 +43,7 @@
             </div>
           </div>
         </div>
-        <div class="">
+        <!-- <div >
           <div class="text-lg font-semibold">Số lượng</div>
           <div class="flex items-center pt-2 w-2/4">
             <div>
@@ -71,24 +71,24 @@
               </button>
             </div>
           </div>
-        </div>
+        </div> -->
         <div>
             <div class="text-lg font-semibold">Tạm tính</div>
             <div class="text-2xl font-semibold">200k</div>
         </div>
         <div class="grid gap-2">
-          <div
+          <!-- <div
             class="bg-[#ff424e] border border-lg rounded-lg text-center text-white text-base"
           >
             <button>Mua ngay</button>
-          </div>
+          </div> -->
           <div
             class="bg-[#fff] border border-lg border-[#2679ff] rounded-lg text-center text-[#2679ff] text-base"
           >
             <button>Thêm vào giỏ</button>
           </div>
           <div
-            class="bg-[#fff] border border-lg border-[#2679ff] rounded-lg text-center text-[#2679ff] text-base"
+            class="bg-[#ff424e] border border-lg rounded-lg text-center text-white text-base"
           >
             <button>Thuê ngay</button>
           </div>
