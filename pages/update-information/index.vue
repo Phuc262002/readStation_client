@@ -12,37 +12,40 @@
                     </div>
                     <div class="">
                         <form action="" class="flex flex-col gap-4 ">
-                            <div class="h-8">
-                                <a-input placeholder="Họ và tên" />
+                            <div>
+                                <a-input class="h-11" placeholder="Email" readonly />
                             </div>
-                            <div class="h-8 ">
-                                <a-input placeholder="Số điện thoại" />
+                            <div class="flex justify-between gap-5">
+                                <div class="w-1/2">
+                                    <a-input class="h-11" placeholder="Họ và tên" />
+                                </div>
+                                <div class="w-1/2">
+                                    <a-input class="h-11" placeholder="Số điện thoại" />
+                                </div>
                             </div>
-                            <div class="h-8 ">
-                                <a-input placeholder="Email" readonly />
-                            </div>
-                            <div class="flex w-full gap-3 ">
-                                <a-select v-model:value="valuePronvines" show-search placeholder="Tỉnh/Thành phố" class="w-1/3"
-                                    :options="provinces" :filter-option="filterOption" @focus="handleFocus"
-                                    @blur="handleBlur" @change="handleChangeProvince">
+                            <div class="flex w-full gap-3">
+                                <a-select v-model:value="valuePronvines" show-search placeholder="Tỉnh/Thành phố"
+                                    class="w-1/3" :options="provinces" :filter-option="filterOption"
+                                    @focus="handleFocus" @blur="handleBlur" @change="handleChangeProvince">
                                 </a-select>
-                                <a-select v-model:value="valueDistricts" show-search placeholder="Quận/Huyện" class="w-1/3"
-                                    :options="districts" :filter-option="filterOption" @focus="handleFocus"
-                                    @blur="handleBlur" @change="handleChangeDistrict">
+                                <a-select v-model:value="valueDistricts" show-search placeholder="Quận/Huyện"
+                                    class="w-1/3" :options="districts" :filter-option="filterOption"
+                                    @focus="handleFocus" @blur="handleBlur" @change="handleChangeDistrict">
                                 </a-select>
-                                <a-select v-model:value="valueWards" show-search placeholder="Quận/Huyện" class="w-1/3"
-                                    :options="wards" :filter-option="filterOption" @focus="handleFocus"
-                                    @blur="handleBlur" @change="handleChangeWard">
+                                <a-select v-model:value="valueWards" show-search placeholder="Phường/Xã"
+                                    class="w-1/3" :options="wards" :filter-option="filterOption"
+                                    @focus="handleFocus" @blur="handleBlur" @change="handleChangeWard">
                                 </a-select>
+                            
                             </div>
-                            <div class="h-8 ">
-                                <a-input placeholder="Đường" />
+                            <div>
+                                <a-input  class="h-11" v-model:value="address.street" placeholder="Đường" />
                             </div>
-                            <div class="h-8">
-                                <a-input placeholder="Địa chỉ" readonly />
+                            <div>
+                                <a-input class="h-11" :value="`${address.street}, ${address.ward}, ${address.district}, ${address.province}`" readonly />
                             </div>
-                            <div class="h-8 ">
-                                <a-input placeholder="Mã giới thiệu" />
+                            <div>
+                                <a-input  class="h-11" placeholder="Mã giới thiệu" />
                             </div>
                         </form>
                     </div>
@@ -72,7 +75,12 @@
 
 import { ref } from 'vue';
 const baseStore = useBaseStore();
-
+const address = ref({
+    province: '',
+    district: '',
+    ward: '',
+    street: ''
+});
 const provinces = ref([]);
 const districts = ref([]);
 const wards = ref([]);
@@ -97,29 +105,33 @@ useAsyncData(async () => {
         value: item.DistrictID,
         label: item.DistrictName
     }));
-},{
+}, {
     watch: valuePronvines
 });
 
 useAsyncData(async () => {
-    const dataWards = await baseStore.getWards(valueDistricts._value);
+    const dataWards = await baseStore.getWards(valueDistricts._rawValue);
     wards.value = dataWards.data._rawValue.data.map(item => ({
-        value: item.WardID,
+        value: item.WardCode,
         label: item.WardName
     }));
-},{
+}, {
     watch: valueDistricts
 });
 
-const handleChangeProvince = valuePronvines => {
-    console.log(`selected province ${valuePronvines}`);
+const handleChangeProvince = province => {
+    const selectedProvince = provinces.value.find(item => item.value === province);
+    address.value.province = selectedProvince ? selectedProvince.label : '';
 };
 
-const handleChangeDistrict = valueDistricts => {
-    console.log(`selected district ${valueDistricts}`);
+const handleChangeDistrict = district => {
+    const selectedDistrict = districts.value.find(item => item.value === district);
+    address.value.district = selectedDistrict ? selectedDistrict.label : '';
 };
-const handleChangeWard = valueWards => {
-    console.log(`selected district ${valueWards}`);
+
+const handleChangeWard = ward => {
+    const selectedWard = wards.value.find(item => item.value === ward);
+    address.value.ward = selectedWard ? selectedWard.label : '';
 };
 const handleBlur = () => {
     console.log('blur');
@@ -128,8 +140,8 @@ const handleFocus = () => {
     console.log('focus');
 };
 const filterOption = (input, option) => {
-    return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
-};
+    return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 4;
+}
 
 console.log(valueDistricts);
 </script>

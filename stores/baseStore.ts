@@ -38,13 +38,16 @@ export const useBaseStore = defineStore("base-store", {
     async getWards(districtsId: any) {
       console.log(1);
       const data: any = await useFetch(
-        `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${districtsId}`,
+        `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward`,
         {
-          method: "GET",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
             token: "4ea3750f-0e12-11ef-be43-f60ece3fb56e",
           },
+          body: JSON.stringify({
+            district_id: districtsId,
+          }),
         }
       );
       return data;

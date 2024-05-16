@@ -1,22 +1,17 @@
 <template>
-    <div class="flex flex-col gap-5 min-h-[calc(100vh-188px)] sm:min-h-[calc(100vh-204px)]">
-      <!-- Nội dung bỏ trong đây -->
-    </div>
-  </template>
-  <!-- file nào scp nào thiếu thêm vô
- -->
-  <script setup>
-  useHead({
-    script: [
-      {
-        src: "_nuxt/assets/admin/js/apexcharts.js",
-        type: "text/javascript",
-      },
-      {
-        src: "_nuxt/assets/admin/js/apex-ecom.js",
-        type: "text/javascript",
-      },
-    ],
-  });
-  </script>
-  
+  <div>
+      <div
+          class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
+      >
+          <div class="grow">
+              <h5 class="text-xl text-[#1e293b] font-semibold">List View</h5>
+          </div>
+          <CommonBreadcrumAdmin />
+      </div>
+
+      <!-- Đây là phần code mẫu body -->
+      <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
+        Nội dung
+      </div>
+  </div>
+</template>

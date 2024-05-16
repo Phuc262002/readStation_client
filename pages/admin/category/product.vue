@@ -8,9 +8,10 @@
             </div>
             <CommonBreadcrumAdmin />
         </div>
-
-        <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
+  
+        <!-- Đây là phần code mẫu body -->
+        <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
           Nội dung
         </div>
     </div>
-</template>
+  </template>
