@@ -1,5 +1,5 @@
 <template>
-    <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
+    <div class="">
         <div class="flex flex-col gap-10">
             <div>
                 <h1 class="font-extrabold text-4xl">Chính sách riêng tư</h1>

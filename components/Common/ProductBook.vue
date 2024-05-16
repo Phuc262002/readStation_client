@@ -28,12 +28,8 @@
                                 </p>
                             </div>
                             <div class="flex justify-start items-center gap-2 ">
+                                <h1>Giá bìa : </h1>
                                 <span class="font-extrabold text-[#ff4c57]">200.000 VNĐ</span>
-                                <span class="w-11 h-5 rounded-lg bg-gray-100">
-                                    <p class="text-center text-sm font-medium">
-                                        -25%
-                                    </p>
-                                </span>
                             </div>
                         </div>
                     </div>
