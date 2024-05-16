@@ -3,7 +3,7 @@
         <div class="mx-auto container md:px-20 px-8">
             <div class="h-50 pt-5">
                 <div
-                    class="h-max bg-[white] w-full border-2 border-[#ffffffad] shadow-sm rounded-full flex justify-between py-3 px-10"
+                    class="h-max bg-[white] w-full border-2 border-[#ffffffad] shadow-sm rounded-lg flex justify-between py-3 px-10"
                 >
                     <!-- Logo -->
                     <div class=" ">
