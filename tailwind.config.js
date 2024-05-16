@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       padding: {
-        'sidebar': '200px',
+        'sidebar': '250px',
       },
     },
   },

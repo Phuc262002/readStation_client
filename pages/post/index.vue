@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
         <div class="pb-12">
             <BlogBanner />
         </div>

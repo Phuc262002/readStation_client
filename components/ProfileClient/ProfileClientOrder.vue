@@ -1,168 +1,157 @@
 <template>
-    <div class="p-6 bg-gray-100 min-h-screen">
-      <div class="bg-white p-6 rounded-lg shadow flex-col space-y-4">
-        <h1 class="text-2xl font-semibold">Đơn hàng của tôi</h1>
-        <div class="flex border-b border-gray-200">
-          <button
-            v-for="tab in tabs"
-            :key="tab"
-            @click="activeTab = tab"
-            :class="{
-              'border-indigo-500 text-indigo-500': activeTab === tab,
-              'border-transparent text-gray-500': activeTab !== tab
-            }"
-            class="py-4 px-6 border-b-2 font-medium text-sm focus:outline-none"
-          >
-            {{ tab }}
-          </button>
-        </div>
-        <div class="relative text-gray-600">
-          <input
-            type="search"
-            name="search"
-            placeholder="Tìm đơn hàng theo Mã đơn hàng, Nhà bán hoặc Tên sản phẩm"
-            class="bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none w-full"
-            v-model="searchQuery"
-          />
-          <button type="submit" class="absolute right-0 top-0 mt-2 mr-4">
-            <svg
-              class="h-4 w-4 fill-current"
-              xmlns="http://www.w3.org/2000/svg"
-              version="1.1"
-              id="Capa_1"
-              x="0px"
-              y="0px"
-              viewBox="0 0 56.966 56.966"
-              xml:space="preserve"
-              width="512px"
-              height="512px"
-            >
-              <path
-                d="M55.146,51.887L41.588,38.329c3.486-4.209,5.585-9.605,5.585-15.434C47.173,10.251,36.922,0,24.586,0   C12.251,0,2,10.251,2,22.586s10.251,22.586,22.586,22.586c5.829,0,11.225-2.099,15.434-5.585l13.559,13.559   c0.789,0.789,2.067,0.789,2.856,0l1.711-1.711C55.934,53.954,55.934,52.675,55.146,51.887z M24.586,40.172   c-9.693,0-17.586-7.893-17.586-17.586S14.893,5,24.586,5s17.586,7.893,17.586,17.586S34.279,40.172,24.586,40.172z"
-              />
-            </svg>
-          </button>
-        </div>
-        <div v-if="orders.length === 0" class="text-center text-gray-500">
-          Không có đơn hàng nào
-        </div>
-        <div v-for="(orderGroup, index) in filteredOrders" :key="index">
-          <h2 class="text-lg font-semibold mt-6">{{ orderGroup.status }}</h2>
-          <div
-            v-for="order in orderGroup.orders"
-            :key="order.id"
-            class="bg-white p-4 mt-4 rounded-lg shadow-sm"
-          >
-            <div class="flex items-center mb-4">
-              <img :src="order.productImage" alt="Product Image" class="w-20 h-20 object-cover rounded-lg" />
-              <div class="ml-4 flex-1">
-                <h3 class="text-lg font-semibold">{{ order.productName }}</h3>
-                <div class="text-gray-500">{{ order.sellerName }}</div>
+    <div class="container mx-auto">
+        <UTabs :items="items" class="w-full">
+            <template #default="{ item, index, selected }">
+              <div class="flex items-center gap-2 relative truncate" @click="">
+                
+                <UIcon :name="item.icon" class="w-4 h-4 flex-shrink-0" />
+        
+                <span class="truncate">{{ index + 1 }}. {{ item.label }}</span>
+        
+                <span v-if="selected" class="absolute -right-4 w-2 h-2 rounded-full bg-primary-500 dark:bg-primary-400" />
               </div>
-              <div class="text-right">
-                <div class="text-gray-900 font-semibold">{{ formatCurrency(order.totalAmount) }} ₫</div>
-                <div class="text-sm text-gray-500">Tổng tiền: {{ formatCurrency(order.totalAmount) }} ₫</div>
-              </div>
-            </div>
-            <div class="flex justify-end items-center space-x-4">
-              <button
-                class="px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded-lg hover:bg-blue-600"
-                @click="reorder(order)"
+            </template>
+          </UTabs>
+      <a-table :columns="columns" :data-source="filteredOrders">
+        <template #headerCell="{ column }">
+          <template v-if="column.key === 'name'">
+            <span>
+              <smile-outlined />
+              Name
+            </span>
+          </template>
+        </template>
+  
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'name'">
+            <a>
+              {{ record.name }}
+            </a>
+          </template>
+          <template v-else-if="column.key === 'tags'">
+            <span>
+              <a-tag
+                v-for="tag in record.tags"
+                :key="tag"
+                :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
               >
-                Mua lại
-              </button>
-              <button
-                class="px-4 py-2 bg-gray-100 text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-200"
-                @click="viewDetails(order)"
-              >
-                Xem chi tiết
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+                {{ tag.toUpperCase() }}
+              </a-tag>
+            </span>
+          </template>
+          <template v-else-if="column.key === 'action'">
+            <a-dropdown :trigger="['click']">
+                <a class="ant-dropdown-link" @click.prevent>
+                  Click me
+                  <DownOutlined />
+                </a>
+                <template #overlay>
+                  <a-menu>
+                    <a-menu-item key="0">
+                      <a href="http://www.alipay.com/">1st menu item</a>
+                    </a-menu-item>
+                    <a-menu-item key="1">
+                      <a href="http://www.taobao.com/">2nd menu item</a>
+                    </a-menu-item>
+                    <a-menu-divider />
+                    <a-menu-item key="3">3rd menu item</a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown>
+          </template>
+        </template>
+      </a-table>
     </div>
   </template>
   
   <script lang="ts" setup>
   import { ref, computed } from 'vue';
+  import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
+  import { Button, Input, Table, Tag, Divider } from 'ant-design-vue';
   
-  interface Order {
-    id: number;
-    productName: string;
-    productImage: string;
-    sellerName: string;
-    totalAmount: number;
-    status: string;
-  }
-  
-  const tabs = ['Tất cả đơn', 'Chờ thanh toán', 'Đang xử lý', 'Đang vận chuyển', 'Đã giao', 'Đã hủy'];
-  const activeTab = ref('Tất cả đơn');
-  const searchQuery = ref('');
-  
-  const orders = ref<Order[]>([
+  const columns = [
     {
-      id: 1,
-      productName: 'Ổ cắm điện đa năng Hoco DC15 sạc nhanh PD18W hỗ trợ 4 cổng USB - cổng AC tiện dụng - Hàng chính hãng',
-      productImage: '../../assets/images/khuong.jpg',
-      sellerName: 'X Game',
-      totalAmount: 274000,
-      status: 'Đã hủy',
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
-      id: 2,
-      productName: 'Hổ Ly Biết Yêu (Bản Thông Thường)',
-      productImage: 'path/to/image2.jpg',
-      sellerName: 'Tiki Trading',
-      totalAmount: 71400,
-      status: 'Đã giao',
+      title: 'Age',
+      dataIndex: 'age',
+      key: 'age',
+    },
+    {
+      title: 'Address',
+      dataIndex: 'address',
+      key: 'address',
+    },
+    {
+      title: 'Tags',
+      key: 'tags',
+      dataIndex: 'tags',
+    },
+    {
+      title: 'Action',
+      key: 'action',
+    },
+  ];
+  
+  const data = ref([
+    {
+      key: '1',
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park',
+      tags: ['nice', 'developer'],
+    },
+    {
+      key: '2',
+      name: 'Jim Green',
+      age: 42,
+      address: 'London No. 1 Lake Park',
+      tags: ['loser'],
+    },
+    {
+      key: '3',
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park',
+      tags: ['cool', 'teacher'],
     },
   ]);
   
+  const searchQuery = ref('');
+  const currentStatus = ref('All Orders');
+  const statuses = ['All Orders', 'Pending', 'Delivered', 'Cancelled'];
+  
   const filteredOrders = computed(() => {
-    let filtered = orders.value;
-    if (activeTab.value !== 'Tất cả đơn') {
-      filtered = filtered.filter(order => order.status === activeTab.value);
-    }
-    if (searchQuery.value) {
-      const query = searchQuery.value.toLowerCase();
-      filtered = filtered.filter(
-        order =>
-          order.productName.toLowerCase().includes(query) ||
-          order.sellerName.toLowerCase().includes(query)
-      );
-    }
-    const groupedOrders: { status: string; orders: Order[] }[] = [];
-    const statusMap: { [key: string]: Order[] } = {};
-  
-    filtered.forEach(order => {
-      if (!statusMap[order.status]) {
-        statusMap[order.status] = [];
-      }
-      statusMap[order.status].push(order);
+    return data.value.filter(order => {
+      const matchesQuery = order.name.toLowerCase().includes(searchQuery.value.toLowerCase());
+      const matchesStatus = currentStatus.value === 'All Orders' || order.tags.includes(currentStatus.value.toLowerCase());
+      return matchesQuery && matchesStatus;
     });
-  
-    for (const status in statusMap) {
-      groupedOrders.push({ status, orders: statusMap[status] });
-    }
-  
-    return groupedOrders;
   });
   
-  const formatCurrency = (amount: number) => {
-    return amount.toLocaleString('vi-VN');
+  const filterOrders = status => {
+    currentStatus.value = status;
   };
-  
-  const reorder = (order: Order) => {
-    alert(`Reordering: ${order.productName}`);
-  };
-  
-  const viewDetails = (order: Order) => {
-    alert(`Viewing details for: ${order.productName}`);
-  };
+
+  const items = [{
+  label: 'Getting Started',
+  icon: 'i-heroicons-information-circle',
+  content: 'This is the content shown for Tab1'
+}, {
+  label: 'Installation',
+  icon: 'i-heroicons-arrow-down-tray',
+  content: 'And, this is the content for Tab2'
+}, {
+  label: 'Theming',
+  icon: 'i-heroicons-eye-dropper',
+  content: 'Finally, this is the content for Tab3'
+}]
   </script>
   
   <style scoped>
-  /* Custom styles here */
+  /* Thêm kiểu nếu cần */
   </style>
   

@@ -4,13 +4,15 @@
     :trigger="null"
     collapsible
     class="!fixed h-full !bg-white dark:!bg-[#132337] !border-r border-r-[#e2e8f0]"
+    :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
   >
     <div class="bg-red-400 h-8 m-4" />
     <a-menu
       v-model:selectedKeys="selectedKeys"
       :theme="$colorMode.value === 'dark' ? 'dark' : 'light'"
       mode="inline"
-      class="!border-0 dark:!bg-[#6c819b] dark:!text-white"
+      class="!border-0 dark:!bg-[#6c819b] dark:!text-white overflow-auto h-5/6"
+      :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
     >
       <a-menu-item key="1">
         <pie-chart-outlined />

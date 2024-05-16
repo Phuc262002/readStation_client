@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="md:px-20 px-8 md:container md:mx-auto md:py-10 flex flex-col space-y-8"
-  >
+  <div>
     <div class="flex space-x-5 items-center">
       <div class="w-3/5 bg-[#f4ebdc] p-4 py-20 pl-20 rounded-2xl">
         <div class="pb-5 border-b-2 border-white">
@@ -81,7 +79,7 @@
               <textarea
                 v-model="message"
                 placeholder="Ý kiến của bạn"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 h-40" 
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 h-40"
               ></textarea>
               <p v-if="errors.message" class="text-red-500 text-sm">
                 {{ errors.message }}
