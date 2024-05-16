@@ -5,6 +5,7 @@
     }"
     :modules="modules"
     class="mySwiper"
+    loop="true"
   >
     <swiper-slide>
       <img
@@ -49,25 +50,7 @@ export default {
   },
 };
 </script>
-<style>
-#app {
-  height: 100%;
-}
-html,
-body {
-  position: relative;
-  height: 100%;
-}
-
-body {
-  /* background: #eee; */
-  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  color: #000;
-  margin: 0;
-  padding: 0;
-}
-
+<style scoped>
 .swiper {
   width: 100%;
   height: 100%;
@@ -78,7 +61,8 @@ body {
   text-align: center;
   font-size: 18px;
   background: #fff;
-
+  border-radius: 12px;
+  overflow: hidden;
   /* Center slide text vertically */
   display: flex;
   justify-content: center;
@@ -88,7 +72,7 @@ body {
 .swiper-slide img {
   display: block;
   width: 100%;
-  height: 100%;
+  height: 450px;
   object-fit: cover;
 }
 </style>
