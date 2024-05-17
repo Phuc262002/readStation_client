@@ -1,7 +1,11 @@
 <template>
     <div>
         <HomeSliderBig />
-        <HomeSwiperItemHome />
+        <HomeCategory/>
+        <HomeFeaturedBooks />
+        <HomeFeatureAuthor/>
+        <HomeRecomended/>
+        <HomeFourBox/>
     </div>
 </template>
 

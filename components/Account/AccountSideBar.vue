@@ -1,74 +1,85 @@
 <template>
-  <div
-    class="items-center justify-center border rounded-2xl bg-white min-h-[500px]"
+  <a-layout-sider
+    v-model:collapsed="props.collapsed"
+    :trigger="null"
+    collapsible
+    class="!bg-white dark:!bg-[#132337] border rounded-2xl"
+    :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
   >
     <div class="text-center">
-      <div>Hình</div>
+      <div class="flex items-center justify-center pt-3">
+        <img
+          class="rounded-full w-20 h-20"
+          src="../../assets/images/VNE-Rainbow-2-3983-1585305448.jpg"
+          alt=""
+        />
+      </div>
       <div class="mt-[17px] mb-[23px]">
         <h2 class="font-bold">Duran Clayton</h2>
         <p>UX/UI Design</p>
       </div>
     </div>
-    <ul class="w-full flex flex-col space-y-4 border-t-2 p-4">
-      <li>
-        <NuxtLink
-          to="/account/account-edit"
-          class="flex items-center gap-2 hover:text-[#8231D3]"
-        >
+    <a-menu
+      v-model:selectedKeys="selectedKeys"
+      :theme="$colorMode.value === 'dark' ? 'dark' : 'light'"
+      mode="inline"
+      class="!border-0 dark:!bg-[#6c819b] dark:!text-white overflow-auto h-5/6 border rounded-2xl"
+      :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
+    >
+      <a-menu-item key="1">
+        <NuxtLink to="/account/account-edit" class="flex items-center gap-2">
           <IoMdPerson class="text-2xl" />
-          <span>Chỉnh sửa thông tin cá nhân</span></NuxtLink
-        >
-      </li>
-      <li>
-        <NuxtLink
-          to="/account/account-manager"
-          class="flex items-center gap-2 hover:text-[#8231D3]"
-        >
+          <span>Chỉnh sửa thông tin cá nhân</span>
+        </NuxtLink>
+      </a-menu-item>
+
+      <a-menu-item key="key2">
+        <NuxtLink to="/account/account-manager" class="flex items-center gap-2">
           <IoMdPerson class="text-2xl" />
-          <span>Quản lý tài khoản</span></NuxtLink
-        >
-      </li>
-      <li>
-        <NuxtLink
-          to="/account/account-setting"
-          class="flex items-center gap-2 hover:text-[#8231D3]"
-        >
+          <span>Quản lý tài khoản</span>
+        </NuxtLink>
+      </a-menu-item>
+
+      <a-menu-item key="key3">
+        <NuxtLink to="/account/account-setting" class="flex items-center gap-2">
           <IoIosCog class="text-2xl" />
-          <span>Cài đặt tài khoản</span></NuxtLink
-        >
-      </li>
-      <li>
-        <NuxtLink to="/" class="flex items-center gap-2 hover:text-[#8231D3]">
+          <span>Cài đặt tài khoản</span>
+        </NuxtLink>
+      </a-menu-item>
+
+      <a-menu-item key="key4">
+        <NuxtLink to="/" class="flex items-center gap-2">
           <IoIosKey class="text-2xl" />
-          <span>Đổi mật khẩu</span></NuxtLink
-        >
-      </li>
-      <li>
-        <NuxtLink
-          to="/account/order-manager"
-          class="flex items-center gap-2 hover:text-[#8231D3]"
-        >
+          <span>Đổi mật khẩu</span>
+        </NuxtLink>
+      </a-menu-item>
+
+      <a-menu-item key="key5">
+        <NuxtLink to="/account/order-manager" class="flex items-center gap-2">
           <IoMdGift class="text-2xl" />
-          <span>Quản lý đơn hàng</span></NuxtLink
-        >
-      </li>
-      <li>
-        <NuxtLink to="/" class="flex items-center gap-2 hover:text-[#8231D3]">
+          <span>Quản lý đơn hàng</span>
+        </NuxtLink>
+      </a-menu-item>
+
+      <a-menu-item key="key6">
+        <NuxtLink to="/" class="flex items-center gap-2">
           <IoMdPeople class="text-2xl" />
-          <span>Mạng xã hội</span></NuxtLink
-        >
-      </li>
-      <li>
-        <NuxtLink to="/" class="flex items-center gap-2 hover:text-[#8231D3]">
+          <span>Mạng xã hội</span>
+        </NuxtLink>
+      </a-menu-item>
+
+      <a-menu-item key="key7">
+        <NuxtLink to="/" class="flex items-center gap-2">
           <IoMdNotificationsOutline class="text-2xl" />
-          <span>Thông báo</span></NuxtLink
-        >
-      </li>
-    </ul>
-  </div>
+          <span>Thông báo</span>
+        </NuxtLink>
+      </a-menu-item>
+    </a-menu>
+  </a-layout-sider>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import {
   IoIosReturnLeft,
   IoIosCog,
@@ -78,8 +89,8 @@ import {
   IoIosKey,
   IoMdGift,
 } from "vue3-icons/io";
-// import Vue from 'vue'
-// export default Vue.extend({
-
-// })
+const props = defineProps<{
+  collapsed: boolean;
+}>();
+const selectedKeys = ref<string[]>(["1"]);
 </script>
