@@ -38,6 +38,9 @@ export default defineNuxtConfig({
       apiUrl: process.env.API_URL,
     },
   },
+  ui: {
+    icons: 'all'
+  },
   // nitro: {
   //   routeRules: {
   //     "/backend/**": {

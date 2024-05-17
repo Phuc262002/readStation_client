@@ -15,7 +15,7 @@
       :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
     >
       <a-menu-item key="1">
-        <pie-chart-outlined />
+        <UIcon name="i-material-symbols-light-space-dashboard" />
         <span>Dashboards</span>
       </a-menu-item>
       <!-- <a-menu-item key="2">
