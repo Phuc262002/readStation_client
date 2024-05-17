@@ -9,7 +9,7 @@
             <CommonBreadcrumAdmin />
         </div>
   
-        <!-- Đây là phần code mẫu body -->
+       
         <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
           Nội dung qeqweqweq
         </div>
