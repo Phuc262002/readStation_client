@@ -2,9 +2,9 @@
   <div>
     <div>
       <div
-        class="relative h-[450px] w-full bg-[url('../../assets/images/aboutus.svg')] bg-cover bg-center bg-no-repeat rounded-3xl"
+        class="relative h-[600px] w-full bg-[url('../../assets/images/aboutus.svg')] bg-cover bg-center bg-no-repeat rounded-3xl"
       >
-        <div class="absolute bottom-12 left-80 font-semibold text-4xl">
+        <div class="absolute bottom-20 left-[500px] font-semibold text-4xl">
           <h1 class="text-4xl font-bold pb-4">Thuê sách không giới hạn</h1>
           <ul class="text-lg pb-6 space-y-2">
             <li>Thuê sách không giới hạn ngày trả</li>
@@ -13,7 +13,7 @@
             <li>Không phát sinh phụ phí</li>
           </ul>
           <button
-            class="bg-blue-600 text-white text-lg px-6 py-3 rounded-lg shadow-md hover:bg-blue-700"
+            class="text-lg px-6 py-3 rounded-lg shadow-md bg-[#f65d4e] hover:bg-[#f4402f] text-white"
           >
             Tham gia ngay
           </button>
@@ -45,17 +45,17 @@
           <div class="space-x-4 py-4">
             <a
               href="#"
-              class="bg-[#f3f3f3] text-black text-base px-8 py-3 rounded-lg hover:bg-[#40d7ec] hover:text-white hover:shadow-lg"
+              class="bg-[#f3f3f3] text-black text-base px-8 py-3 rounded-lg hover:bg-[#f65d4e] hover:text-white hover:shadow-lg"
               >Sản phẩm</a
             >
             <a
               href="#"
-              class="bg-[#f3f3f3] text-black text-base px-8 py-3 rounded-lg hover:bg-[#40d7ec] hover:text-white hover:shadow-lg"
+              class="bg-[#f3f3f3] text-black text-base px-8 py-3 rounded-lg hover:bg-[#f65d4e] hover:text-white hover:shadow-lg"
               >Sản phẩm</a
             >
             <a
               href="#"
-              class="bg-[#f3f3f3] text-black text-base px-8 py-3 rounded-lg hover:bg-[#40d7ec] hover:text-white hover:shadow-lg"
+              class="bg-[#f3f3f3] text-black text-base px-8 py-3 rounded-lg hover:bg-[#f65d4e] hover:text-white hover:shadow-lg"
               >Sản phẩm</a
             >
           </div>
@@ -70,7 +70,7 @@
           <div class="text-lg py-4">
             <a
               href="#"
-              class="text-base px-8 py-3 rounded-lg bg-[#40d7ec] text-black hover:shadow-lg"
+              class="text-base px-8 py-3 rounded-lg bg-[#f65d4e] hover:bg-[#f4402f] text-white hover:shadow-lg "
               >Tìm hiểu thêm</a
             >
           </div>

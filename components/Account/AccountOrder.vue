@@ -1,6 +1,15 @@
 <template>
   <div class="container mx-auto">
-    <UTabs :items="items" class="w-full">
+    Danh sách đơn hàng
+    <div >
+      <a-input-search
+      v-model:value="value"
+      placeholder="input search text"
+      enter-button
+      @search="onSearch"
+    />
+    </div>
+    <UTabs :items="items" class="w-1/2">
       <template #default="{ item, index, selected }">
         <div
           class="flex items-center gap-2 relative truncate"
@@ -32,16 +41,20 @@ const handleSelectTab = (number: number) => {
 
 const items = [
   {
-    label: "Getting Started",
-    icon: "i-heroicons-information-circle",
+    label: "Tất cả đơn hàng",
+    icon: "i-heroicons-bars-4",
   },
   {
-    label: "Installation",
+    label: "Đã nhận",
     icon: "i-heroicons-arrow-down-tray",
   },
   {
-    label: "Theming",
+    label: "Chờ lấy hàng",
     icon: "i-heroicons-eye-dropper",
+  },
+  {
+    label: "Đã hủy",
+    icon: "i-material-symbols-cancel-outline",
   },
 ];
 </script>
