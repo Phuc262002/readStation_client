@@ -8,7 +8,7 @@
         <!-- <ProfileClientSetting /> -->
         <!-- <ProfileClientManager /> -->
         <!-- <ProfileClientEdit /> -->
-        <ProfileClientOrder/>
+        <!-- <ProfileClientOrder/> -->
       </div>
     </div>
   </div>

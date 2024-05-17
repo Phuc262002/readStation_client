@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ProfileClientProfileClientSideBar />
-    <ProfileClientProfileClientOrder />
+    <ProfileClientSideBar />
+    <ProfileClientOrder />
   </div>
 </template>
