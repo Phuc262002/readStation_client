@@ -7,7 +7,7 @@
         <div class="absolute flex justify-center items-center gap-10 w-full px-16 py-6">
           <div class="">
             <img class=""
-              src="https://play-lh.googleusercontent.com/uGING6fqBnOaRKAHF_HAVkIMQZLFPIT8jU03zvxHFPSt0FL6zodbdrazbpUJ0Pa_eP0"
+              src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/02/revslider_book-2.png"
               alt="">
           </div>
           <div class="w-1/2 flex flex-col gap-7 text-left pl-20">
@@ -28,7 +28,7 @@
         <div class="absolute flex justify-center items-center gap-10 w-full px-16 py-6">
           <div class="">
             <img class=""
-              src="https://play-lh.googleusercontent.com/uGING6fqBnOaRKAHF_HAVkIMQZLFPIT8jU03zvxHFPSt0FL6zodbdrazbpUJ0Pa_eP0"
+              src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/02/revslider_book-3.png"
               alt="">
           </div>
           <div class="w-1/2 flex flex-col gap-7 text-left pl-20">
@@ -52,7 +52,7 @@
         <div class="absolute flex justify-center items-center gap-10 w-full px-16 py-6">
           <div class="">
             <img class=""
-              src="https://play-lh.googleusercontent.com/uGING6fqBnOaRKAHF_HAVkIMQZLFPIT8jU03zvxHFPSt0FL6zodbdrazbpUJ0Pa_eP0"
+              src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/02/revslider_book-4.png"
               alt="">
           </div>
           <div class="w-1/2 flex flex-col gap-7 text-left pl-20">
