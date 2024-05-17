@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <div class="flex flex-col gap-10">
+        <div class="flex flex-col gap-10 md:px-20 px-8">
             <div>
                 <h1 class="font-extrabold text-4xl">Chính sách riêng tư</h1>
             </div>

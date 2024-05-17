@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <div class=" flex justify-between h-auto gap-5">
+        <div class=" flex justify-between h-auto gap-5 md:px-20 px-8">
             <!-- Left -->
             <div class="w-3/4">
                 <div class="bg-white h-auto shadow-lg rounded-lg">
