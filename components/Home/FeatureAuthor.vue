@@ -1,5 +1,5 @@
 <template>
-    <div class="h-auto mx-auto container">
+    <div class="h-auto mx-auto container md:px-20 px-8">
         <div class="p-10 flex justify-between w-full gap-10">
             <div class="w-1/3 text-right flex flex-col gap-6">
                 <div class="text-base text-[#f65d4e]">FEATURED AUTHOR</div>

@@ -1,6 +1,6 @@
 <template>
-    <div class="mx-auto container">
-        <div class="flex justify-center gap-10 w-full p-14">
+    <div class="mx-auto container md:px-20 px-8">
+        <div class="flex justify-center gap-10 w-full py-14">
             <div class="w-1/5 h-36 border border-gray-00 rounded-2xl flex justify-center items-center">
                 <div class="flex justify-center items-center gap-10">
                     <button class="text-5xl bg-[#d8d4f7] rounded-full p-2 text-[#7261D4] hover:-translate-y-1 hover:scale-110 duration-300">
@@ -39,7 +39,7 @@
                     <button class="text-5xl bg-[#f7e4cf] rounded-full p-2 text-[#fa8c17] hover:-translate-y-1 hover:scale-110 duration-300">
                         <TbMoodWink2 />
                     </button>
-                    <div class="flex flex-col gap-2  uppercase">
+                    <div class="flex flex-col gap-2 uppercase">
                         <div class="font-bold text-xl">10,000</div>
                         <div class="text-[#7d7d7d99]">Happy Customer</div>
                     </div>

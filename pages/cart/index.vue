@@ -1,12 +1,9 @@
 <template>
     <div class="">
-        <div>
-            <CommonBreadcrum />
-        </div>
-        <div class=" flex justify-between h-auto gap-2 my-10">
+        <div class=" flex justify-between h-auto gap-5">
             <!-- Left -->
             <div class="w-3/4">
-                <div class="bg-white h-auto">
+                <div class="bg-white h-auto shadow-lg rounded-lg">
                     <div class="p-5 w-full flex flex-col gap-5">
                         <div class="bg-slate-100 rounded-lg h-12">
                             <div class="flex justify-between items-center text-base font-semibold p-3 w-full">
@@ -29,7 +26,7 @@
                                         alt="">
                                 </div>
                                 <div class="flex flex-col gap-2 w-full">
-                                    <div class="text-base font-bold">Thiên Long Thiên Long Thiên Long  Thiên Long Thiên Long Thiên LongThiên Long</div>
+                                    <div class="text-base font-bold">Thiên Long Thiên Long</div>
                                     <div class="flex justify-between items-center gap-4">
                                         <div>
                                             <span class="font-bold">Size : </span><span>Large</span>
@@ -64,8 +61,8 @@
                 </div>
             </div>
             <!-- Right -->
-            <div class="w-1/4">
-                <div class="bg-white ">
+            <div class="w-1/4 ">
+                <div class="bg-white shadow-lg rounded-lg">
                     <div class="p-6 w-full">
                         <div class="flex flex-col gap-5">
                             <div class="text-xl font-semibold">Thông tin đơn hàng</div>
