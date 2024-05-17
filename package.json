@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
+    "@iconify/json": "^2.2.211",
     "@nuxt/ui": "^2.15.2",
     "@pinia/nuxt": "^0.5.1",
     "ant-design-vue": "^4.1.2",
