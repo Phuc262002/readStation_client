@@ -9,25 +9,27 @@
                 <div class="bg-white h-auto">
                     <div class="p-5 w-full flex flex-col gap-5">
                         <div class="bg-slate-100 rounded-lg h-12">
-                            <div class="flex justify-between items-center text-base font-semibold p-3  w-full">
-                                <h1 class="w-3/5">Sản phẩm</h1>
-                                <h1 class="w-1/4 flex justify-center items-center">Giá bìa</h1>
-                                <h1 class="w-1/4 flex justify-center items-center">Phần trăm cọc</h1>
-                                <h1 class="w-1/4 flex justify-center items-center">Tổng cộng</h1>
-                                <h1 class="w-1/4 flex justify-center items-center"></h1>
+                            <div class="flex justify-between items-center text-base font-semibold p-3 w-full">
+                                <h1 class="w-2/6">Sản phẩm</h1>
+                                <h1 class="w-1/6 flex justify-center items-center">Giá bìa</h1>
+                                <h1 class="w-1/6 flex justify-center items-center">Phần trăm cọc</h1>
+                                <h1 class="w-1/6 flex justify-center items-center">Cọc tạm tính</h1>
+                                <h1 class="w-1/6 flex justify-center items-center">Phí dịch vụ</h1>
+                                <h1 class="w-1/6 flex justify-center items-center">Tổng tạm tính</h1>
+                                <h1 class="w-1/6 h-full flex justify-center items-center"></h1>
                             </div>
 
                         </div>
                         <!--  -->
                         <div class="flex justify-between items-center">
-                            <div class="flex justify-start gap-1 items-center w-3/5 pl-3">
-                                <div>
-                                    <img class="w-24"
+                            <div class="flex justify-start gap-1 items-center w-2/6 pl-3">
+                                <div class="w-[100px]">
+                                    <img class="w-[100px] h-[120px] object-fit"
                                         src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTkq--XPUpG5wMjalO5g75ViJHb50FvEtpKNjOU1olwD9t5-53kn5HORepp_dR8ZlPWEsu1ZWPlsZUiVXq1Cp8KKQDIFdwa-mUgwZWqZh2NULBviHRQ9ly_zRdx4mu5SfcmIX5HNA&usqp=CAc"
                                         alt="">
                                 </div>
-                                <div class="flex flex-col gap-2">
-                                    <div class="text-base font-bold">Thiên Long</div>
+                                <div class="flex flex-col gap-2 w-full">
+                                    <div class="text-base font-bold">Thiên Long Thiên Long Thiên Long  Thiên Long Thiên Long Thiên LongThiên Long</div>
                                     <div class="flex justify-between items-center gap-4">
                                         <div>
                                             <span class="font-bold">Size : </span><span>Large</span>
@@ -39,46 +41,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class=" text-base font-bold w-1/4 flex justify-center items-center">200.000đ</div>
-                            <div class="flex justify-center items-center gap-2 w-1/4 text-center text-base font-bold">
+                            <div class="w-1/6 text-base font-bold flex justify-center">200.000đ</div>
+                            <div class="w-1/6 text-base font-bold flex justify-center">
                                 10%
                             </div>
-                            <div class="text-base font-bold w-1/4 flex justify-center items-center text-[#8231D3]">
-                                220.000đ
+                            <div class="w-1/6 text-base font-bold flex justify-center ">
+                                20.000đ
                             </div>
-                            <div class=" w-1/4 text-center text-2xl text-red-400 flex justify-center items-center ">
-                                <LuTrash2 />
+                            <div class="w-1/6 text-base font-bold flex justify-center">
+                                5.000đ
                             </div>
-                        </div>
-                        <div class="border-solid border border-gray-100 w-full"></div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex justify-start gap-1 items-center w-3/5 pl-3">
-                                <div>
-                                    <img class="w-24"
-                                        src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTkq--XPUpG5wMjalO5g75ViJHb50FvEtpKNjOU1olwD9t5-53kn5HORepp_dR8ZlPWEsu1ZWPlsZUiVXq1Cp8KKQDIFdwa-mUgwZWqZh2NULBviHRQ9ly_zRdx4mu5SfcmIX5HNA&usqp=CAc"
-                                        alt="">
-                                </div>
-                                <div class="flex flex-col gap-2">
-                                    <div class="text-base font-bold">Thiên Long</div>
-                                    <div class="flex justify-between items-center gap-4">
-                                        <div>
-                                            <span class="font-bold">Size : </span><span>Large</span>
-                                        </div>
-                                        <div>
-                                            <span class="font-bold">Color :</span><span> Black</span>
-                                        </div>
-
-                                    </div>
-                                </div>
+                            <div class="w-1/6 text-base font-bold text-center flex justify-center">
+                                225.000đ
                             </div>
-                            <div class=" text-base font-bold w-1/4 flex justify-center items-center">200.000đ</div>
-                            <div class="flex justify-center items-center gap-2 w-1/4 text-center text-base font-bold">
-                                10%
-                            </div>
-                            <div class="text-base font-bold w-1/4 flex justify-center items-center text-[#8231D3]">
-                                220.000đ
-                            </div>
-                            <div class=" w-1/4 text-center text-2xl text-red-400 flex justify-center items-center ">
+                            <div class="w-1/6 text-center text-2xl text-red-400 flex justify-center ">
                                 <LuTrash2 />
                             </div>
                         </div>

@@ -10,7 +10,7 @@ export const useAuthStore = defineStore('auth-store', {
     persist: true,
     actions: {
         async login(body: any) {
-            const data: any = await useCustomFetch('/api/auth/login', {
+            const data: any = await useCustomFetch('/auth/login', {
                 method: 'POST',
                 body: body
             })
@@ -22,14 +22,14 @@ export const useAuthStore = defineStore('auth-store', {
             return data;
         },
         async register(body: any) {
-            const data: any = await useCustomFetch('/api/auth/register', {
+            const data: any = await useCustomFetch('/auth/register', {
                 method: 'POST',
                 body: body
             })
             return data;
         },
         async loginWithGoogle(body: any) {
-            const data: any = await useCustomFetch('/api/auth/google', {
+            const data: any = await useCustomFetch('/auth/google', {
                 method: 'POST',
                 body: {
                     idToken: body,
@@ -44,7 +44,7 @@ export const useAuthStore = defineStore('auth-store', {
             return data;
         },
         async refreshToken() {
-            const data: any = await useCustomFetch('/api/auth/refresh', {
+            const data: any = await useCustomFetch('/auth/refresh', {
                 method: 'POST',
                 body: { refreshToken: this.authUser.token.refreshToken }
             })
@@ -57,7 +57,7 @@ export const useAuthStore = defineStore('auth-store', {
             navigateTo('/');
         },
         async getProfile() {
-            const data: any = await useCustomFetch('/api/auth/profile')
+            const data: any = await useCustomFetch('/auth/profile')
             return data;
         }
     }
