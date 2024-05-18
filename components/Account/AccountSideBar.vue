@@ -3,7 +3,7 @@
     v-model:collapsed="props.collapsed"
     :trigger="null"
     collapsible
-    class="!bg-white dark:!bg-[#132337] border rounded-2xl"
+    class="!bg-white dark:!bg-[#132337] border rounded-lg"
     :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
   >
     <div class="text-center">
@@ -26,33 +26,31 @@
       class="!border-0 dark:!bg-[#6c819b] dark:!text-white overflow-auto h-5/6 border rounded-2xl"
       :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
     >
-      <a-menu-item key="1">
-        <NuxtLink to="/account/account-edit" class="flex items-center gap-2">
-          <IoMdPerson class="text-2xl" />
-          <span>Chỉnh sửa thông tin cá nhân</span>
-        </NuxtLink>
-      </a-menu-item>
+      <a-sub-menu key="sub1">
+        <template #title>
+          <span>
+            <user-outlined />
+            <span>Thông tin cá nhân</span>
+          </span>
+        </template>
+        <a-menu-item key="1">
+          <NuxtLink
+            to="/account/account-manager"
+            class="flex items-center gap-2"
+          >
+            Quản lý tài khoản
+          </NuxtLink>
+        </a-menu-item>
 
-      <a-menu-item key="key2">
-        <NuxtLink to="/account/account-manager" class="flex items-center gap-2">
-          <IoMdPerson class="text-2xl" />
-          <span>Quản lý tài khoản</span>
-        </NuxtLink>
-      </a-menu-item>
-
-      <a-menu-item key="key3">
-        <NuxtLink to="/account/account-setting" class="flex items-center gap-2">
-          <IoIosCog class="text-2xl" />
-          <span>Cài đặt tài khoản</span>
-        </NuxtLink>
-      </a-menu-item>
-
-      <a-menu-item key="key4">
-        <NuxtLink to="/" class="flex items-center gap-2">
-          <IoIosKey class="text-2xl" />
-          <span>Đổi mật khẩu</span>
-        </NuxtLink>
-      </a-menu-item>
+        <a-menu-item key="2">
+          <NuxtLink
+            to="/account/account-setting"
+            class="flex items-center gap-2"
+          >
+            Cài đặt tài khoản
+          </NuxtLink>
+        </a-menu-item>
+      </a-sub-menu>
 
       <a-menu-item key="key5">
         <NuxtLink to="/account/order-manager" class="flex items-center gap-2">
@@ -74,6 +72,13 @@
           <span>Thông báo</span>
         </NuxtLink>
       </a-menu-item>
+
+      <a-menu-item key="key4">
+        <NuxtLink to="/" class="flex items-center gap-2">
+          <IoIosKey class="text-2xl" />
+          <span>Đổi mật khẩu</span>
+        </NuxtLink>
+      </a-menu-item>
     </a-menu>
   </a-layout-sider>
 </template>
@@ -92,5 +97,5 @@ import {
 const props = defineProps<{
   collapsed: boolean;
 }>();
-const selectedKeys = ref<string[]>(["1"]);
+const selectedKeys = ref<string[]>(["sub1"]);
 </script>
