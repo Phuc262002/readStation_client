@@ -15,7 +15,7 @@
       :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
     >
       <a-menu-item key="1">
-        <UIcon name="i-material-symbols-light-space-dashboard" />
+        <UIcon  name="i-material-symbols-light-space-dashboard" />
         <span>Dashboards</span>
       </a-menu-item>
       <!-- <a-menu-item key="2">
@@ -25,7 +25,7 @@
       <a-sub-menu key="sub1">
         <template #title>
           <span>
-            <user-outlined />
+            <UIcon name="i-material-symbols-person-rounded" />
             <span>Quản lí người dùng</span>
           </span>
         </template>
@@ -38,7 +38,7 @@
       <a-sub-menu key="sub2">
         <template #title>
           <span>
-            <team-outlined />
+            <UIcon name="i-ant-design-product-outlined" />
             <span>Quản lí sản phẩm</span>
           </span>
         </template>
@@ -49,27 +49,27 @@
       <a-sub-menu key="sub3">
         <template #title>
           <span>
-            <team-outlined />
+            <UIcon name="i-icon-park-outline-ad-product" />
             <span>Quản lí đơn hàng</span>
           </span>
         </template>
         <a-menu-item key="11">Thêm đơn hàng</a-menu-item>
         <a-menu-item key="12">Tất cả đơn hàng</a-menu-item>
       </a-sub-menu>
-      <a-sub-menu key="sub4">
+      <!-- <a-sub-menu key="sub4">
         <template #title>
           <span>
-            <team-outlined />
+            <UIcon name="i-material-symbols-light-space-dashboard" />
             <span>Quản lí mã giảm giá</span>
           </span>
         </template>
         <a-menu-item key="13">Thêm mã giảm giá</a-menu-item>
         <a-menu-item key="14">Tất cả mã giảm giá</a-menu-item>
-      </a-sub-menu>
+      </a-sub-menu> -->
       <a-sub-menu key="sub5">
         <template #title>
           <span>
-            <team-outlined />
+            <UIcon name="i-material-symbols-light-post" />
             <span>Quản lí bài viết</span>
           </span>
         </template>
@@ -80,7 +80,7 @@
       <a-sub-menu key="sub6">
         <template #title>
           <span>
-            <team-outlined />
+            <UIcon name="i-material-symbols-book-5" />
             <span>Quản lí tủ sách</span>
           </span>
         </template>
@@ -90,7 +90,7 @@
       <a-sub-menu key="sub7">
         <template #title>
           <span>
-            <team-outlined />
+            <UIcon name="i-bi-bookshelf" />
             <span>Quản lí kệ sách</span>
           </span>
         </template>
@@ -100,7 +100,7 @@
       <a-sub-menu key="sub8">
         <template #title>
           <span NuxtLin>
-            <team-outlined />
+            <UIcon name="i-material-symbols-category-rounded" />
             <span>Quản lí danh mục</span>
           </span>
         </template>
@@ -114,7 +114,7 @@
       <a-sub-menu key="sub9">
         <template #title>
           <span>
-            <team-outlined />
+            <UIcon name="i-material-symbols-person-rounded" />
             <span>Quản lí tác giả</span>
           </span>
         </template>
@@ -124,7 +124,7 @@
       <a-sub-menu key="sub10">
         <template #title>
           <span>
-            <team-outlined />
+            <UIcon name="i-material-symbols-person-rounded" />
             <span>Quản lí nhà xuất bản</span>
           </span>
         </template>
@@ -134,7 +134,7 @@
       <a-sub-menu key="sub11">
         <template #title>
           <span>
-            <team-outlined />
+            <UIcon name="i-ri-bill-fill" />
             <span>Quản lí hóa đơn nhập hàng</span>
           </span>
         </template>
