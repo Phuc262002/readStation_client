@@ -34,10 +34,7 @@
           </span>
         </template>
         <a-menu-item key="1">
-          <NuxtLink
-            to="/account/account-manager"
-            class="flex items-center gap-2"
-          >
+          <NuxtLink to="/account" class="flex items-center gap-2">
             Quản lý tài khoản
           </NuxtLink>
         </a-menu-item>
