@@ -10,7 +10,7 @@
     </div>
 
     <div class="bg-white min-h-[260px] w-full rounded-lg p-5">
-      <div class="flex justify-between">
+      <div class="flex justify-between pb-4">
         <div class="relative w-1/4 md:block hidden">
           <div class="flex">
             <input
@@ -29,20 +29,52 @@
           <a-button type="primary" @click="showModal"
             >Thêm danh mục bài viết</a-button
           >
-          <a-modal v-model:open="open" title="Basic Modal" @ok="handleOk">
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
+          <a-modal
+            v-model:open="open"
+            title="Thêm danh mục bài viết"
+            @ok="handleOk"
+          >
+            <div class="">
+              <div class="bg-white py-2">
+                <div class="pb-4">
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    Tên danh mục
+                  </label>
+                  <div class="mt-1">
+                    <a-input
+                      class="w-[450px] h-[45px]"
+                      placeholder="Nhập tên danh mục"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    Nội dụng
+                  </label>
+                  <div class="mt-1">
+                    <a-input
+                      class="w-[450px] h-[45px]"
+                      placeholder="Nhập nội dung"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </a-modal>
         </div>
       </div>
+
       <a-table :columns="columns" :data-source="filteredOrders">
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
-            <span>
-              <smile-outlined />
-              Name
-            </span>
+            <span> Name </span>
           </template>
         </template>
 
@@ -71,20 +103,65 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <a-dropdown :trigger="['click']">
-              <a class="ant-dropdown-link" @click.prevent>
-                Click me
-                <DownOutlined />
-              </a>
+              <a class="ant-dropdown-link" @click.prevent> ... </a>
               <template #overlay>
                 <a-menu>
                   <a-menu-item key="0">
-                    <a href="http://www.alipay.com/">1st menu item</a>
-                  </a-menu-item>
-                  <a-menu-item key="1">
-                    <a href="http://www.taobao.com/">2nd menu item</a>
+                    <div class="">
+                      <a-menu-item @click="showModal">
+                        <UIcon name="i-material-symbols-edit-outline"
+                      /></a-menu-item>
+                      <a-modal v-model:open="open" title="Sửa" @ok="handleOk">
+                        <div class="">
+                          <div class="bg-white py-2">
+                            <div class="pb-4">
+                              <label
+                                for="email"
+                                class="block text-sm font-medium text-gray-700"
+                              >
+                                Tên danh mục
+                              </label>
+                              <div class="mt-1">
+                                <a-input
+                                  class="w-[450px] h-[45px]"
+                                  placeholder="Nhập tên danh mục"
+                                />
+                              </div>
+                            </div>
+
+                            <div>
+                              <label
+                                for="email"
+                                class="block text-sm font-medium text-gray-700"
+                              >
+                                Nội dụng
+                              </label>
+                              <div class="mt-1">
+                                <a-input
+                                  class="w-[450px] h-[45px]"
+                                  placeholder="Nhập nội dung"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </a-modal>
+                    </div>
                   </a-menu-item>
                   <a-menu-divider />
-                  <a-menu-item key="3">3rd menu item</a-menu-item>
+                  <a-menu-item class="h-[40px]">
+                    <a-popconfirm
+                      title="Bạn có muốn xóa không?"
+                      ok-text="Yes"
+                      cancel-text="No"
+                      @confirm="confirm"
+                      @cancel="cancel"
+                    >
+                      <a class="flex justify-center items-center" href="#"
+                        ><UIcon name="i-ic-baseline-delete-outline"
+                      /></a>
+                    </a-popconfirm>
+                  </a-menu-item>
                 </a-menu>
               </template>
             </a-dropdown>
@@ -96,7 +173,16 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
+import { message } from "ant-design-vue";
+const confirm = (e: MouseEvent) => {
+  console.log(e);
+  message.success("Xóa thành công");
+};
 
+const cancel = (e: MouseEvent) => {
+  console.log(e);
+  message.error("Xóa thất bại");
+};
 const columns = [
   {
     title: "Name",
@@ -158,11 +244,11 @@ const filteredOrders = computed(() => {
     return matchesQuery && matchesStatus;
   });
 });
-const searchQuery = ref('');
-const currentStatus = ref('All Orders');
-const filterOrders = status => {
-    currentStatus.value = status;
-  };
+const searchQuery = ref("");
+const currentStatus = ref("All Orders");
+const filterOrders = (status) => {
+  currentStatus.value = status;
+};
 const open = ref<boolean>(false);
 
 const showModal = () => {
