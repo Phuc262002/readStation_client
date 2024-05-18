@@ -13,7 +13,7 @@
                         </div>
                         <div class="bg-white rounded-lg h-auto">
                             <div class=" p-5 w-full flex justify-center gap-10">
-                                <div class="w-1/3">
+                                <div class="w-1/3 pt-16">
                                     <img class="rounded-lg"
                                         src="https://images.unsplash.com/photo-1585923035139-4f1e0cb749f5?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Ym9vayUyMG5hdHVyZXxlbnwwfHwwfHx8MA%3D%3D"
                                         alt="">
@@ -35,10 +35,8 @@
                                         </div>
                                         <div>
                                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, voluptatibus
-                                                officia voluptas tempora facilis atque doloribus dolor laboriosam
-                                                dignissimos expedita, pariatur laborum voluptate laudantium tempore
-                                                dolorem
-                                                delectus et nihil molestias?</p>
+                                                officia voluptas tempora facilis
+                                                </p>
                                         </div>
                                         <div class="grid grid-cols-2 gap-1">
                                             <h1 class="text-[gray]">Tác giả</h1>
