@@ -217,14 +217,15 @@
           <div>
             <div class="grid grid-cols-3">
               <CommonBookShop/>
-              <CommonBookShop/>           
+              <CommonBookShop2/>           
               <CommonBookShop/>
               <CommonBookShop/>
+              <CommonBookShop2/>           
               <CommonBookShop/>
               <CommonBookShop/>
+              <CommonBookShop2/>           
               <CommonBookShop/>
-              <CommonBookShop/>           
-              <CommonBookShop/>
+             
             </div>
           </div>
           <div class="flex justify-center">

@@ -1,6 +1,6 @@
 <template>
     <div class="py-5 border-b  ">
-        <div class="flex flex-col gap-5 px-5">
+        <div class="flex flex-col gap-5 px-5 border-x">
             <div >
                 <img class="rounded-lg " src="../../assets/images/bookshop.jpg" alt="">
             </div>
