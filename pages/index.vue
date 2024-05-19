@@ -15,7 +15,7 @@ const isLoading = ref(false);
 
 const authStore = useAuthStore();
 
-const getProfile = async () => {
+useAsyncData(async () => {
     isLoading.value = true;
     try {
         const response = await authStore.getProfile();
@@ -25,7 +25,7 @@ const getProfile = async () => {
     } finally {
         isLoading.value = false;
     }
-};
+});
 
 useSeoMeta({
     title: "My Amazing Site",
