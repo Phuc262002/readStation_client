@@ -71,7 +71,7 @@
         </div>
       </div>
 
-      <a-table :columns="columns" :data-source="filteredOrders">
+      <a-table :columns="columns" :data-source="filteredOrders" :loading="isLoading">
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
             <span> Name </span>
@@ -174,6 +174,32 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { message } from "ant-design-vue";
+const dataCate = ref({})
+
+const categoryStore = useCategoryStore();
+const isLoading = ref(false);
+
+
+
+useAsyncData(async () => {
+  isLoading.value = true;
+  try {
+    const res = await categoryStore.getAll({
+      type: 'post'
+    });
+    dataCate.value = res.data._value?.data;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
+});
+
+
+watchEffect(() => {
+  console.log(dataCate.value);
+});
+
 const confirm = (e: MouseEvent) => {
   console.log(e);
   message.success("Xóa thành công");
@@ -183,29 +209,25 @@ const cancel = (e: MouseEvent) => {
   console.log(e);
   message.error("Xóa thất bại");
 };
+
 const columns = [
   {
-    title: "Name",
+    title: "Tên",
     dataIndex: "name",
     key: "name",
   },
   {
-    title: "Age",
-    dataIndex: "age",
-    key: "age",
+    title: "Nội dung",
+    dataIndex: "description",
+    key: "description",
   },
   {
-    title: "Address",
-    dataIndex: "address",
-    key: "address",
+    title: "Trạng thái",
+    key: "status",
+    dataIndex: "status",
   },
   {
-    title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
-  },
-  {
-    title: "Action",
+    title: "Chức năng",
     key: "action",
   },
 ];
