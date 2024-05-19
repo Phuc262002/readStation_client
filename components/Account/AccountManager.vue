@@ -14,35 +14,29 @@
             >Chỉnh sửa</a-button
           >
         </div>
-        <form class="w-full">
+        <form class="w-full" @submit="onSubmit">
           <div class="flex flex-col space-y-6 bg-[#cfcfcf] rounded-md p-4">
             <div class="border-b flex items-center justify-between pb-2 h-10">
               <span class="w-1/2">Họ tên</span>
               <div class="w-1/2 text-right">
                 <input
-                  type="text"
+                  type="fullname"
+                  v-bind="fullname"
+                  name="fullname"
                   v-if="isShow"
                   class="w-full focus:ring-2 focus:ring-[#f65d4e] focus:outline-none rounded-md pl-3 border border-[#e6e6e6] h-8"
                 />
                 <span v-else class="w-full">{{ data?.fullname }}</span>
               </div>
             </div>
-            <div class="border-b flex items-center justify-between pb-2 h-10">
-              <span class="w-1/2">Ngày sinh</span>
-              <div class="w-1/2 text-right">
-                <input
-                  type="text"
-                  v-if="isShow"
-                  class="w-full focus:ring-2 focus:ring-[#f65d4e] focus:outline-none rounded-md pl-3 border border-[#e6e6e6] h-8"
-                />
-                <span v-else>01/01/2000</span>
-              </div>
-            </div>
+
             <div class="border-b flex items-center justify-between pb-2 h-10">
               <span class="w-1/2">Giới tính</span>
               <div class="w-1/2 text-right">
                 <input
-                  type="text"
+                  type="gender"
+                  v-bind="gender"
+                  name="gender"
                   v-if="isShow"
                   class="w-full focus:ring-2 focus:ring-[#f65d4e] focus:outline-none rounded-md pl-3 border border-[#e6e6e6] h-8"
                 />
@@ -53,7 +47,9 @@
               <span class="w-1/2">Số điện thoại</span>
               <div class="w-1/2 text-right">
                 <input
-                  type="text"
+                  type="phone"
+                  v-bind="phone"
+                  name="phone"
                   v-if="isShow"
                   class="w-full focus:ring-2 focus:ring-[#f65d4e] focus:outline-none rounded-md pl-3 border border-[#e6e6e6] h-8"
                 />
@@ -64,47 +60,13 @@
               <span class="w-1/2">Email</span>
               <div class="w-1/2 text-right">
                 <input
-                  type="text"
                   v-if="isShow"
+                  v-bind="email"
+                  name="email"
+                  type="email"
                   class="w-full focus:ring-2 focus:ring-[#f65d4e] focus:outline-none rounded-md pl-3 border border-[#e6e6e6] h-8"
                 />
                 <span v-else>{{ data?.email }}</span>
-              </div>
-            </div>
-
-            <div class="border-b flex items-center justify-between pb-2 h-10">
-              <span class="w-1/2">Số CMND/ CCCD</span>
-              <div class="w-1/2 text-right">
-                <input
-                  type="text"
-                  v-if="isShow"
-                  class="w-full focus:ring-2 focus:ring-[#f65d4e] focus:outline-none rounded-md pl-3 border border-[#e6e6e6] h-8"
-                />
-                <span v-else>0123456789</span>
-              </div>
-            </div>
-
-            <div class="border-b flex items-center justify-between pb-2 h-10">
-              <span class="w-1/2">Nơi cấp</span>
-              <div class="w-1/2 text-right">
-                <input
-                  type="text"
-                  v-if="isShow"
-                  class="w-full focus:ring-2 focus:ring-[#f65d4e] focus:outline-none rounded-md pl-3 border border-[#e6e6e6] h-8"
-                />
-                <span v-else>Cục trưởng cục cảnh sát ĐKDC</span>
-              </div>
-            </div>
-
-            <div class="border-b flex items-center justify-between pb-2 h-10">
-              <span class="w-1/2">Ngày cấp</span>
-              <div class="w-1/2 text-right">
-                <input
-                  type="text"
-                  v-if="isShow"
-                  class="w-full h-8 focus:ring-2 focus:ring-[#f65d4e] focus:outline-none rounded-md pl-3 border border-[#e6e6e6]"
-                />
-                <span v-else>01/01/2000</span>
               </div>
             </div>
 
@@ -122,6 +84,9 @@
                   @blur="handleBlur"
                   @change="handleChangeProvince"
                   v-if="isShow"
+                  type="province"
+                  v-bind="province"
+                  name="province"
                 >
                 </a-select>
                 <span v-else>Hải Dương</span>
@@ -142,6 +107,9 @@
                   @blur="handleBlur"
                   @change="handleChangeDistrict"
                   v-if="isShow"
+                  type="district"
+                  v-bind="district"
+                  name="district"
                 >
                 </a-select>
                 <span v-else>Kinh Môn</span>
@@ -162,6 +130,9 @@
                   @blur="handleBlur"
                   @change="handleChangeWard"
                   v-if="isShow"
+                  type="ward"
+                  v-bind="ward"
+                  name="ward"
                 >
                 </a-select>
                 <span v-else>Bạch Đằng</span>
@@ -172,7 +143,9 @@
               <span class="w-1/2">Địa chỉ</span>
               <div class="w-1/2 text-right">
                 <input
-                  type="text"
+                  type="address_detail"
+                  v-bind="address_detail"
+                  name="address_detail"
                   v-if="isShow"
                   class="w-full focus:ring-2 focus:ring-[#f65d4e] focus:outline-none rounded-md pl-3 border border-[#e6e6e6] h-8"
                 />
@@ -246,11 +219,33 @@
 <script setup lang="ts">
 import { IoMdPerson } from "vue3-icons/io";
 import { ref } from "vue";
-// import { useForm } from "vee-validate";
-// import * as yup from "yup";
+import { useForm } from "vee-validate";
+import * as yup from "yup";
 
 //Create the form
-// const {handleSubmit, errors} = useForm({})
+const { defineInputBinds, handleSubmit, errors } = useForm({
+  validationSchema: {
+    email: yup
+      .string()
+      .required("Trường này không được để trống")
+      .email("Email không hợp lệ"),
+    fullname: yup.string().required("Trường này không được để trống"),
+    gender: yup.string().required("Trường này không được để trống"),
+    phone: yup.string().required("Trường này không được để trống"),
+    province: yup.string().required("Trường này không được để trống"),
+    district: yup.string().required("Trường này không được để trống"),
+    address_detail: yup.string().required("Trường này không được để trống"),
+  },
+});
+// Define fields
+const email = defineInputBinds("email");
+const fullname = defineInputBinds("fullname");
+const gender = defineInputBinds("gender");
+const phone = defineInputBinds("phone");
+const province = defineInputBinds("province");
+const district = defineInputBinds("district");
+const ward = defineInputBinds("ward");
+const address_detail = defineInputBinds("address_detail");
 
 const baseStore = useBaseStore();
 const address = ref({

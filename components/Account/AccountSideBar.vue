@@ -3,7 +3,7 @@
     v-model:collapsed="props.collapsed"
     :trigger="null"
     collapsible
-    class="!bg-white dark:!bg-[#132337] border rounded-lg"
+    class="!bg-white dark:!bg-[#132337] border rounded-lg !w-fit !max-w-none"
     :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
   >
     <div class="text-center">

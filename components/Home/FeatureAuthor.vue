@@ -25,18 +25,18 @@
             </div>
             <div class="w-1/3 flex flex-col gap-2">
                 <div class="flex justify-between">
-                    <CommonBook />
-                    <div class="border-solid border border-gray-200"></div>
-                    <CommonBook />
+                    <CommonBook :numberOfItems="4" />
+                    <div class=" border border-[#e6e6e6]"></div>
                 </div>
-                <div class="border-solid border border-gray-200 w-full"></div>
+                <div class=" border border-[#e6e6e6] w-full"></div>
                 <div class="flex justify-between">
-                    <CommonBook />
-                    <div class="border-solid border border-gray-200"></div>
-                    <CommonBook />
+                    <div class=" border border-[#e6e6e6]"></div>
                 </div>
-
             </div>
         </div>
     </div>
 </template>
+
+<script setup>
+
+</script>
