@@ -1,116 +1,148 @@
 <template>
-  <div>
+  <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container ">
     <div class="flex gap-6">
-      <div class="w-1/5 bg-white rounded-lg h-fit">
-        <div class="px-4 py-3 text-lg font-semibold">
+      <div class="w-1/5 rounded-lg h-fit flex flex-col space-y-4">
+        <div class="px-3 pb-2 text-xl font-semibold">
           Khám phá theo danh mục
         </div>
-        <div>
+        <div class="bg-white">
           <div
-            class="px-4 py-2 text-base flex justify-between items-center border-t-2"
+            class="text-base cursor-pointer rounded-xl border"
             @click="toggleCategories('category1')"
           >
-            <span> Nhà xuất bản</span>
-            <img
-              ref="bookIcon2"
-              class="rotate-180"
-              width="20"
-              height="20"
-              src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
-              alt=""
-            />
-          </div>
-          <div v-if="showCategories.category1.value" class="px-4 pb-3">
-            <ul class="px-4 space-y-1">
-              <li class="flex items-center">
-                <label for="history" class="flex items-center">
-                  <input type="checkbox" id="history" />
-                  <span class="pl-2">Kim Đồng</span>
-                </label>
-              </li>
-              <li class="flex items-center">
-                <label for="culture" class="flex items-center">
-                  <input type="checkbox" id="culture" />
-                  <span class="pl-2">Văn hóa và Truyền Thông</span>
-                </label>
-              </li>
-              <li class="flex items-center">
-                <label for="science" class="flex items-center">
-                  <input type="checkbox" id="science" />
-                  <span class="pl-2">Em yêu khoa học</span>
-                </label>
-              </li>
-            </ul>
+            <div class="flex justify-between items-center px-4 py-2">
+              <span>Nhà xuất bản</span>
+              <img
+                ref="bookIcon2"
+                class="rotate-180"
+                width="20"
+                height="20"
+                src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
+                alt=""
+              />
+            </div>
+            <div
+              v-if="showCategories.category1.value"
+              class="border-t px-4 py-2"
+            >
+              <ul class="px-4 space-y-1">
+                <li class="flex items-center">
+                  <label for="history" class="flex items-center">
+                    <input type="checkbox" id="history" class="mr-2" />
+                    <span>Kim Đồng</span>
+                  </label>
+                </li>
+                <li class="flex items-center">
+                  <label for="culture" class="flex items-center">
+                    <input type="checkbox" id="culture" class="mr-2" />
+                    <span>Văn hóa và Truyền Thông</span>
+                  </label>
+                </li>
+                <li class="flex items-center">
+                  <label for="science" class="flex items-center">
+                    <input type="checkbox" id="science" class="mr-2" />
+                    <span>Em yêu khoa học</span>
+                  </label>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
-        <div>
+        <div class="bg-white">
           <div
-            class="px-4 py-2 text-base flex justify-between items-cente border-t-2"
+            class="text-base cursor-pointer rounded-xl border "
             @click="toggleCategories('category2')"
           >
-            <span> Sách giáo khoa</span>
-            <img
-              ref="bookIcon1"
-              class="rotate-180"
-              width="20"
-              height="20"
-              src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
-              alt=""
-            />
-          </div>
-          <div
-            v-if="showCategories.category2.value"
-            class="px-4 space-y-4 pb-3"
-          >
-            <ul class="px-4 space-y-1">
-              <li>
-                <button>Toán</button>
-              </li>
-              <li>
-                <button>Văn</button>
-              </li>
-              <li>
-                <button>Anh</button>
-              </li>
-            </ul>
+            <div class="flex justify-between items-center px-4 py-2">
+              <span>Sách giáo khoa</span>
+              <img
+                ref="bookIcon2"
+                class="rotate-180"
+                width="20"
+                height="20"
+                src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
+                alt=""
+              />
+            </div>
+            <div
+              v-if="showCategories.category2.value"
+              class="border-t px-4 py-2"
+            >
+              <ul class="px-4 space-y-1">
+                <li class="flex items-center">
+                  <label for="history" class="flex items-center">
+                    <input type="checkbox" id="history" class="mr-2" />
+                    <span>Toán</span>
+                  </label>
+                </li>
+                <li class="flex items-center">
+                  <label for="culture" class="flex items-center">
+                    <input type="checkbox" id="culture" class="mr-2" />
+                    <span>Lý</span>
+                  </label>
+                </li>
+                <li class="flex items-center">
+                  <label for="science" class="flex items-center">
+                    <input type="checkbox" id="science" class="mr-2" />
+                    <span>Hóa</span>
+                  </label>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-        <div>
+        <div class="bg-white">
           <div
-            class="px-4 py-2 text-base flex justify-between items-center border-t-2"
+            class="text-base cursor-pointer rounded-xl border"
             @click="toggleCategories('category3')"
           >
-            <span> Sách khác</span>
-            <img
-              ref="bookIcon2"
-              class="rotate-180"
-              width="20"
-              height="20"
-              src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
-              alt=""
-            />
-          </div>
-          <div v-if="showCategories.category3.value" class="px-4 pb-3">
-            <ul class="px-4 space-y-1">
-              <li>
-                <button>Lịch sử</button>
-              </li>
-              <li>
-                <button>Văn hóa</button>
-              </li>
-              <li>
-                <button>Khoa học</button>
-              </li>
-            </ul>
+            <div class="flex justify-between items-center px-4 py-2">
+              <span>Sách khác</span>
+              <img
+                ref="bookIcon2"
+                class="rotate-180"
+                width="20"
+                height="20"
+                src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
+                alt=""
+              />
+            </div>
+            <div
+              v-if="showCategories.category3.value"
+              class="border-t px-4 py-2"
+            >
+              <ul class="px-4 space-y-1">
+                <li class="flex items-center">
+                  <label for="history" class="flex items-center">
+                    <input type="checkbox" id="history" class="mr-2" />
+                    <span>Văn</span>
+                  </label>
+                </li>
+                <li class="flex items-center">
+                  <label for="culture" class="flex items-center">
+                    <input type="checkbox" id="culture" class="mr-2" />
+                    <span>Sử</span>
+                  </label>
+                </li>
+                <li class="flex items-center">
+                  <label for="science" class="flex items-center">
+                    <input type="checkbox" id="science" class="mr-2" />
+                    <span>Địa</span>
+                  </label>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-        <div>
+      
+        <div class="bg-white">
           <div
-            class="px-4 py-2 text-base flex justify-between items-center border-t-2"
+          class="text-base cursor-pointer rounded-xl border"
             @click="toggleCategories('category4')"
           >
-            <span>Đánh giá</span>
+          <div class="flex justify-between items-center px-4 py-2">
+            <span >Đánh giá</span>
             <img
               ref="bookIcon2"
               class="rotate-180"
@@ -120,7 +152,7 @@
               alt=""
             />
           </div>
-          <div v-if="showCategories.category4.value" class="px-4 pb-3">
+          <div v-if="showCategories.category4.value" class="border-t px-4 py-2">
             <ul class="px-4 space-y-1">
               <li class="flex items-center justify-between">
                 <label for="star5" class="flex items-center justify-between">
@@ -154,14 +186,17 @@
               </li>
             </ul>
           </div>
+          </div>
+            
+          
         </div>
       </div>
 
-      <div class="w-4/5 rounded-lg h-fit">
+      <div class="w-4/5 h-fit">
         <div class="grid gap-y-4">
-          <div class="bg-[#ffffff] rounded-lg">
-            <div class="text-xl px-4 py-3 border-b-2">Tất cả sản phẩm</div>
-            <div class="flex gap-5 justify-between items-center px-4 h-fit">
+          <div class="bg-white rounded-lg border">
+            <div class="text-xl px-4 py-3 ">Tất cả sản phẩm</div>
+            <div class="flex gap-5 justify-between items-center px-4 h-fit border-t">
               <div class="text-base">1234 sản phẩm</div>
               <div class="text-base px-4 py-3 text-right flex items-center">
                 <div class="px-4 text-[#cac9cd]">Sắp xếp</div>
@@ -180,19 +215,17 @@
           </div>
 
           <div>
-            <div class="grid grid-cols-4 gap-2">
-              <CommonProductBook />
-              <CommonProductBook />
-              <CommonProductBook />
-              <CommonProductBook />
-              <CommonProductBook />
-              <CommonProductBook />
-              <CommonProductBook />
-              <CommonProductBook />
-              <CommonProductBook />
-              <CommonProductBook />
-              <CommonProductBook />
-              <CommonProductBook />
+            <div class="grid grid-cols-3">
+              <CommonBookShop/>
+              <CommonBookShop2/>           
+              <CommonBookShop/>
+              <CommonBookShop/>
+              <CommonBookShop2/>           
+              <CommonBookShop/>
+              <CommonBookShop/>
+              <CommonBookShop2/>           
+              <CommonBookShop/>
+             
             </div>
           </div>
           <div class="flex justify-center">
@@ -222,14 +255,13 @@ export default defineComponent({
 
     const toggleCategories = (category) => {
       showCategories[category].value = !showCategories[category].value;
-      // Thực hiện quay hình ảnh khi thay đổi trạng thái showCategories
       const bookIcon = document.getElementById(
         `bookIcon${category.charAt(category.length - 1)}`
       );
       if (showCategories[category].value) {
-        bookIcon.style.transform = "rotate(180deg)"; // Quay hình ảnh 90 độ khi showCategories là true
+        bookIcon.style.transform = "rotate(180deg)";
       } else {
-        bookIcon.style.transform = "rotate(0deg)"; // Đặt lại góc quay về 0 độ khi showCategories là false
+        bookIcon.style.transform = "rotate(0deg)";
       }
     };
 

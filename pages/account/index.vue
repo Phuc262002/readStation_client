@@ -5,7 +5,7 @@
         <AccountSideBar />
       </div>
       <div class="w-4/5">
-        <AccountSetting />
+        <AccountManager />
       </div>
     </div>
   </div>
