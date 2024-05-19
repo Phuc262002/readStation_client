@@ -1,3 +1,4 @@
+import { CommonLogged } from '../../../.nuxt/components';
 <template>
   <div class="fixed w-full backdrop-blur-sm z-50">
     <div class="mx-auto container md:px-20 px-8">
@@ -101,7 +102,9 @@
               <div class="text-center">
                 <CommonThemeSelect />
               </div>
-              <NuxtLink to="/login">
+              <CommonLogged v-if="authStore.isLogged" />
+
+              <NuxtLink to="/login" v-else>
                 <button class="w-32 hover:bg-gray-100 hover:rounded-xl h-10">
                   <div class="flex justify-center items-center gap-3 text-base">
                     <SmileOutlined />
@@ -139,3 +142,6 @@
     </div>
   </div>
 </template>
+<script setup>
+const authStore = useAuthStore();
+</script>
