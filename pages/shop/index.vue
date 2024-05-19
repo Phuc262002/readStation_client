@@ -1,5 +1,5 @@
 <template>
-  <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container ">
+  <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
     <div class="flex gap-6">
       <div class="w-1/5 rounded-lg h-fit flex flex-col space-y-4">
         <div class="px-3 pb-2 text-xl font-semibold">
@@ -51,7 +51,7 @@
 
         <div class="bg-white">
           <div
-            class="text-base cursor-pointer rounded-xl border "
+            class="text-base cursor-pointer rounded-xl border"
             @click="toggleCategories('category2')"
           >
             <div class="flex justify-between items-center px-4 py-2">
@@ -135,69 +135,72 @@
             </div>
           </div>
         </div>
-      
+
         <div class="bg-white">
           <div
-          class="text-base cursor-pointer rounded-xl border"
+            class="text-base cursor-pointer rounded-xl border"
             @click="toggleCategories('category4')"
           >
-          <div class="flex justify-between items-center px-4 py-2">
-            <span >Đánh giá</span>
-            <img
-              ref="bookIcon2"
-              class="rotate-180"
-              width="20"
-              height="20"
-              src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
-              alt=""
-            />
+            <div class="flex justify-between items-center px-4 py-2">
+              <span>Đánh giá</span>
+              <img
+                ref="bookIcon2"
+                class="rotate-180"
+                width="20"
+                height="20"
+                src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
+                alt=""
+              />
+            </div>
+            <div
+              v-if="showCategories.category4.value"
+              class="border-t px-4 py-2"
+            >
+              <ul class="px-4 space-y-1">
+                <li class="flex items-center justify-between">
+                  <label for="star5" class="flex items-center justify-between">
+                    <input type="checkbox" id="star5" />
+                    <CommonStar rating="5" />
+                  </label>
+                </li>
+                <li class="flex items-center justify-between">
+                  <label for="star4" class="flex items-center justify-between">
+                    <input type="checkbox" id="star4" />
+                    <CommonStar rating="4" />
+                  </label>
+                </li>
+                <li class="flex items-center justify-between">
+                  <label for="star3" class="flex items-center justify-between">
+                    <input type="checkbox" id="star3" />
+                    <CommonStar rating="3" />
+                  </label>
+                </li>
+                <li class="flex items-center justify-between">
+                  <label for="star2" class="flex items-center justify-between">
+                    <input type="checkbox" id="star2" />
+                    <CommonStar rating="2" />
+                  </label>
+                </li>
+                <li class="flex items-center justify-between">
+                  <label for="star1" class="flex items-center justify-between">
+                    <input type="checkbox" id="star1" />
+                    <CommonStar rating="1" />
+                  </label>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div v-if="showCategories.category4.value" class="border-t px-4 py-2">
-            <ul class="px-4 space-y-1">
-              <li class="flex items-center justify-between">
-                <label for="star5" class="flex items-center justify-between">
-                  <input type="checkbox" id="star5" />
-                  <CommonStar rating="5" />
-                </label>
-              </li>
-              <li class="flex items-center justify-between">
-                <label for="star4" class="flex items-center justify-between">
-                  <input type="checkbox" id="star4" />
-                  <CommonStar rating="4" />
-                </label>
-              </li>
-              <li class="flex items-center justify-between">
-                <label for="star3" class="flex items-center justify-between">
-                  <input type="checkbox" id="star3" />
-                  <CommonStar rating="3" />
-                </label>
-              </li>
-              <li class="flex items-center justify-between">
-                <label for="star2" class="flex items-center justify-between">
-                  <input type="checkbox" id="star2" />
-                  <CommonStar rating="2" />
-                </label>
-              </li>
-              <li class="flex items-center justify-between">
-                <label for="star1" class="flex items-center justify-between">
-                  <input type="checkbox" id="star1" />
-                  <CommonStar rating="1" />
-                </label>
-              </li>
-            </ul>
-          </div>
-          </div>
-            
-          
         </div>
       </div>
 
       <div class="w-4/5 h-fit">
         <div class="grid gap-y-4">
           <div class="bg-white rounded-lg border">
-            <div class="text-xl px-4 py-3 ">Tất cả sản phẩm</div>
-            <div class="flex gap-5 justify-between items-center px-4 h-fit border-t">
-              <div class="text-base">1234 sản phẩm</div>
+            <div class="text-xl px-4 py-3">Tất cả sản phẩm</div>
+            <div
+              class="flex gap-5 justify-between items-center px-4 h-fit border-t"
+            >
+              <div class="text-base">{{ dataBooks?.totalResults }} sản phẩm</div>
               <div class="text-base px-4 py-3 text-right flex items-center">
                 <div class="px-4 text-[#cac9cd]">Sắp xếp</div>
                 <a-select
@@ -215,17 +218,17 @@
           </div>
 
           <div>
+            <div v-if="isLoading" class="flex items-center justify-center py-10">
+              <a-spin></a-spin>
+            </div>
             <div class="grid grid-cols-3">
-              <CommonBookShop/>
-              <CommonBookShop2/>           
-              <CommonBookShop/>
-              <CommonBookShop/>
-              <CommonBookShop2/>           
-              <CommonBookShop/>
-              <CommonBookShop/>
-              <CommonBookShop2/>           
-              <CommonBookShop/>
-             
+              <NuxtLink
+                v-for="(book, index) in dataBooks?.books"
+                :key="index"
+                :to="`/product/${book.slug}`"
+              >
+                <CommonBookShop :book="book" />
+              </NuxtLink>
             </div>
           </div>
           <div class="flex justify-center">
@@ -241,45 +244,52 @@
   </div>
 </template>
 
-<script>
-import { defineComponent, ref } from "vue";
+<script setup>
+import { ref } from "vue";
 
-export default defineComponent({
-  setup() {
-    const showCategories = {
-      category1: ref(false),
-      category2: ref(false),
-      category3: ref(false),
-      category4: ref(false),
-    };
+
+const showCategories = {
+  category1: ref(false),
+  category2: ref(false),
+  category3: ref(false),
+  category4: ref(false),
+};
+
+    const bookstore = useBookStore();
+    const dataBooks = ref({});
+    const isLoading = ref(false);
+
+    useAsyncData(async () => {
+      isLoading.value = true;
+      try {
+        const response = await bookstore.getAllBooks();
+        dataBooks.value = response?.data?._rawValue?.data;
+      } catch (error) {
+        console.error(error);
+      } finally {
+        isLoading.value = false;
+      }
+    });
 
     const toggleCategories = (category) => {
-      showCategories[category].value = !showCategories[category].value;
-      const bookIcon = document.getElementById(
-        `bookIcon${category.charAt(category.length - 1)}`
-      );
-      if (showCategories[category].value) {
-        bookIcon.style.transform = "rotate(180deg)";
-      } else {
-        bookIcon.style.transform = "rotate(0deg)";
-      }
-    };
+  showCategories[category].value = !showCategories[category].value;
+  const bookIcon = document.getElementById(
+    `bookIcon${category.charAt(category.length - 1)}`
+  );
+  if (showCategories[category].value) {
+    bookIcon.style.transform = "rotate(180deg)";
+  } else {
+    bookIcon.style.transform = "rotate(0deg)";
+  }
+};
 
-    const value1 = ref("lucy");
-    const handleChange = (value) => {
-      console.log(`selected ${value}`);
-    };
-    const current = ref(1);
+const value1 = ref("lucy");
+const handleChange = (value) => {
+  console.log(`selected ${value}`);
+};
+const current = ref(1);
 
-    return {
-      showCategories,
-      toggleCategories,
-      value1,
-      handleChange,
-      current,
-    };
-  },
-});
+
 </script>
 <style scoped>
 :deep(.ant-select-selector) {
