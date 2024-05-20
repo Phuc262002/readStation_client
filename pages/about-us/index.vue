@@ -20,18 +20,18 @@
         </div>
       </div>
     </div>
-    <div class=" md:px-16 md:py-10 rounded-3xl">
+    <div class="md:py-10">
       <div
-        class="mx-auto flex flex-col md:flex-row items-center md:items-start text-center md:text-left space-x-8"
+        class=" flex items-center md:items-start  space-x-8"
       >
-        <div class="flex-shrink-0 md:w-1/2 lg:w-1/3">
+        <div class=" w-1/2">
           <img
             src="https://via.placeholder.com/800x600"
             alt="Car Image"
             class="w-full"
           />
         </div>
-        <div class="p-4">
+        <div class="p-4 w-1/2">
           <div class="text-3xl font-bold pb-4">Tổng quan về chúng tôi</div>
           <div class="text-lg pb-4">
             Read Station là điểm đến lý tưởng cho những người yêu sách muốn tận
