@@ -1,10 +1,10 @@
 <template>
   <div class="md:py-14 h-auto mx-auto md:px-20 px-8 container">
-    <div class="flex justify-center items-center min-h-screen">
+    <div class="flex ">
       <div
         class="flex flex-col md:flex-row overflow-hidden space-x-8 md:space-x-8"
       >
-        <div class="w-full md:w-1/2 bg-[#f4ebdc] p-8 md:p-20 rounded-3xl">
+        <div class="w-full md:w-1/2 bg-[#f4ebdc] md:p-20 rounded-3xl">
           <div class="pb-5 border-b-2 border-white">
             <div class="text-5xl font-bold">Read Station</div>
             <div class="text-2xl font-semibold pt-4">ReadStation.com</div>
