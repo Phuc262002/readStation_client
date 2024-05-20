@@ -18,7 +18,7 @@ import { message } from 'ant-design-vue';
             </div>
             <div class="w-1/3 flex flex-col gap-2">
                 <div class="grid grid-cols-2 gap-4">
-                    <CommonBook  v-for="(book,index) in AuthorFeatured.books.slice(0,4)" :data=book :key="index" />  
+                    <CommonBook  :data=book  />  
                 </div>
             </div>
         </div>
