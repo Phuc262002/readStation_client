@@ -103,7 +103,6 @@ import { CommonLogged } from '../../../.nuxt/components';
                 <CommonThemeSelect />
               </div>
               <CommonLogged v-if="authStore.isLogged" />
-
               <NuxtLink to="/login" v-else>
                 <button class="w-32 hover:bg-gray-100 hover:rounded-xl h-10">
                   <div class="flex justify-center items-center gap-3 text-base">
