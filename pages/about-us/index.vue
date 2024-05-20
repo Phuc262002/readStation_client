@@ -24,14 +24,14 @@
       <div
         class=" flex items-center md:items-start  space-x-8"
       >
-        <div class=" w-1/2">
+        <div class=" w-1/3">
           <img
             src="https://via.placeholder.com/800x600"
             alt="Car Image"
             class="w-full"
           />
         </div>
-        <div class="p-4 w-1/2">
+        <div class="p-4 w-2/3">
           <div class="text-3xl font-bold pb-4">Tổng quan về chúng tôi</div>
           <div class="text-lg pb-4">
             Read Station là điểm đến lý tưởng cho những người yêu sách muốn tận
