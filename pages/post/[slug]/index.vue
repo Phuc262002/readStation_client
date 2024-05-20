@@ -73,6 +73,10 @@
             </div>
           </div>
         </div>
+
+        <div>
+          <BlogComment/>
+        </div>
         <hr class="mb-5" />
 
         <div class="mb-5 font-bold text-[27px]">Related Articles</div>
