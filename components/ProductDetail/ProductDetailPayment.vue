@@ -73,8 +73,11 @@
           </div>
         </div> -->
         <div>
+          <div>phiên bản A</div>
+        </div>
+        <div>
             <div class="text-lg font-semibold">Tạm tính</div>
-            <div class="text-2xl font-semibold">200k</div>
+            <div class="text-2xl font-semibold">{{ props?.book?.book_detail[0]?.price }}</div>
         </div>
         <div class="grid gap-2">
           <!-- <div
@@ -98,39 +101,24 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
+const props = defineProps(['book'])
+watchEffect(()=>{
+  console.log("props?.book?.book_detail[0]?.price")
+})
+// const quantity = ref(1);
+// function increaseQuantity() {
+//   if (quantity.value < 999) {
+//     quantity.value++;
+//   }
+// }
+// function decreaseQuantity() {
+//   if (quantity.value > 1) {
+//     quantity.value--;
+//   }
+// }
 
-export default {
-  data() {},
-  setup() {
-    const quantity = ref(1);
-
-    function increaseQuantity() {
-      quantity.value++;
-      if (quantity.value < 999) {
-        quantity.value++;
-      }
-    }
-    function increaseQuantity() {
-      if (quantity.value < 999) {
-        quantity.value++;
-      }
-    }
-
-    function decreaseQuantity() {
-      if (quantity.value > 1) {
-        quantity.value--;
-      }
-    }
-
-    return {
-      quantity,
-      increaseQuantity,
-      decreaseQuantity,
-    };
-  },
-};
 </script>
 
 <style scoped>

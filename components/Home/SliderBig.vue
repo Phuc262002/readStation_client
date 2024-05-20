@@ -75,7 +75,7 @@
   </swiper>
 </template>
 <script>
-import { TbChevronRight } from 'vue3-icons/tb';
+
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/pagination';

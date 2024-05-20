@@ -1,6 +1,6 @@
 <template>
-    <div class="">
-        <div class=" flex justify-between h-auto gap-5 md:px-20 px-8">
+    <div class="md:py-14 h-auto mx-auto md:px-20 px-8 container">
+        <div class=" flex justify-between h-auto gap-5 ">
             <!-- Left -->
             <div class="w-3/4">
                 <div class="bg-white h-auto shadow-lg rounded-lg">
@@ -19,23 +19,22 @@
                         </div>
                         <!--  -->
                         <div class="flex justify-between items-center">
-                            <div class="flex justify-start gap-1 items-center w-2/6 pl-3">
-                                <div class="w-[100px]">
-                                    <img class="w-[100px] h-[120px] object-fit"
-                                        src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTkq--XPUpG5wMjalO5g75ViJHb50FvEtpKNjOU1olwD9t5-53kn5HORepp_dR8ZlPWEsu1ZWPlsZUiVXq1Cp8KKQDIFdwa-mUgwZWqZh2NULBviHRQ9ly_zRdx4mu5SfcmIX5HNA&usqp=CAc"
+                            <div class="flex justify-start gap-1 items-center w-2/6">
+                                <div class="w-full">
+                                    <img src="https://salt.tikicdn.com/cache/750x750/ts/product/fc/73/c8/996f0f7fdf9082eb56b6370c19f1bab6.png.webp"
                                         alt="">
                                 </div>
-                                <div class="flex flex-col gap-2 w-full">
-                                    <div class="text-base font-bold">Thiên Long Thiên Long</div>
-                                    <div class="flex justify-between items-center gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <div class="text-base font-bold">Cho tôi xin một vé đi tuổi thơ</div>
+                                    <div class="text-[14px]">
                                         <div>
-                                            <span class="font-bold">Size : </span><span>Large</span>
+                                            <span class="font-bold">Tác giả : </span><span>Nguyễn Nhật Ánh</span>
                                         </div>
                                         <div>
-                                            <span class="font-bold">Color :</span><span> Black</span>
+                                            <span class="font-bold">Phiên bản :</span><span> Bìa cứng</span>
                                         </div>
-
                                     </div>
+
                                 </div>
                             </div>
                             <div class="w-1/6 text-base font-bold flex justify-center">200.000đ</div>

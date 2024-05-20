@@ -16,7 +16,7 @@ import { CommonLogged } from '../../../.nuxt/components';
           </div>
           <!-- Menu -->
           <div class="md:block hidden">
-            <ul class="flex">
+            <ul class="flex items-center py-[3px]">
               <li>
                 <NuxtLink to="/">
                   <a-button
@@ -79,7 +79,7 @@ import { CommonLogged } from '../../../.nuxt/components';
                 placeholder="Tìm kiếm..."
               />
               <div
-                class="absolute right-1/4 mt-2 border-solid border border-gray-300 h-6"
+                class="absolute right-24 mt-2 border-solid border border-gray-300 h-6"
               ></div>
               <button
                 type="button"

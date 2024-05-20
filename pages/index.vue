@@ -3,7 +3,7 @@
         <HomeSliderBig />
         <HomeCategory/>
         <HomeFeaturedBooks />
-        <HomeFeatureAuthor/>
+        
         <HomeRecomended/>
         <HomeFourBox/>
     </div>

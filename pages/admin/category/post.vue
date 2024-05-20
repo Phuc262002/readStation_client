@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div
-      class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
-    >
+    <div class="flex gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Danh mục bài viết</h5>
       </div>
@@ -32,9 +30,9 @@
           <a-modal
             v-model:open="open"
             title="Thêm danh mục bài viết"
-            @ok="handleOk"
+            :footer="null"
           >
-            <div class="">
+            <form @submit.prevent="onSubmit" >
               <div class="bg-white py-2">
                 <div class="pb-4">
                   <label
@@ -45,8 +43,10 @@
                   </label>
                   <div class="mt-1">
                     <a-input
+                      v-model:value="category.name"
                       class="w-[450px] h-[45px]"
                       placeholder="Nhập tên danh mục"
+                      required
                     />
                   </div>
                 </div>
@@ -60,18 +60,31 @@
                   </label>
                   <div class="mt-1">
                     <a-input
+                      v-model:value="category.description"
                       class="w-[450px] h-[45px]"
                       placeholder="Nhập nội dung"
                     />
                   </div>
                 </div>
+                <div class="flex justify-end items-end gap-4">
+                  <a-button
+                    @click="onCancel"
+                    type="primary"danger
+                    html-type="button"
+                    class="mt-4"
+                    >Hủy</a-button
+                  >
+                  <a-button type="primary" html-type="submit" class="mt-4"
+                    >Lưu</a-button
+                  >
+                </div>
               </div>
-            </div>
+            </form>
           </a-modal>
         </div>
       </div>
 
-      <a-table :columns="columns" :data-source="filteredOrders" :loading="isLoading">
+      <a-table :columns="columns" :data-source="categoryStore.categoriesAdmin?.categories" :loading="isLoading">
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
             <span> Name </span>
@@ -84,20 +97,10 @@
               {{ record.name }}
             </a>
           </template>
-          <template v-else-if="column.key === 'tags'">
+          <template v-else-if="column.key === 'status'">
             <span>
-              <a-tag
-                v-for="tag in record.tags"
-                :key="tag"
-                :color="
-                  tag === 'loser'
-                    ? 'volcano'
-                    : tag.length > 5
-                    ? 'geekblue'
-                    : 'green'
-                "
-              >
-                {{ tag.toUpperCase() }}
+              <a-tag :color="record.status === 'active' ? 'green' : 'volcano'">
+                {{ record.status }}
               </a-tag>
             </span>
           </template>
@@ -174,31 +177,28 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { message } from "ant-design-vue";
-const dataCate = ref({})
+
+const category = ref({
+  name: "",
+  description: "",
+  type: "post",
+});
 
 const categoryStore = useCategoryStore();
 const isLoading = ref(false);
 
-
-
-useAsyncData(async () => {
+const getData = async () => {
   isLoading.value = true;
-  try {
-    const res = await categoryStore.getAll({
-      type: 'post'
-    });
-    dataCate.value = res.data._value?.data;
-  } catch (error) {
-    console.error(error);
-  } finally {
-    isLoading.value = false;
-  }
+  await categoryStore.getAllCategory({
+    type: "post",
+  })
+  isLoading.value = false;
+};
+
+onMounted(() => {
+  getData();
 });
 
-
-watchEffect(() => {
-  console.log(dataCate.value);
-});
 
 const confirm = (e: MouseEvent) => {
   console.log(e);
@@ -222,6 +222,11 @@ const columns = [
     key: "description",
   },
   {
+    title: "Slug",
+    dataIndex: "slug",
+    key: "slug",
+  },
+  {
     title: "Trạng thái",
     key: "status",
     dataIndex: "status",
@@ -232,53 +237,20 @@ const columns = [
   },
 ];
 
-const data = ref([
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
-  },
-]);
-const filteredOrders = computed(() => {
-  return data.value.filter((order) => {
-    const matchesQuery = order.name
-      .toLowerCase()
-      .includes(searchQuery.value.toLowerCase());
-    const matchesStatus =
-      currentStatus.value === "All Orders" ||
-      order.tags.includes(currentStatus.value.toLowerCase());
-    return matchesQuery && matchesStatus;
-  });
-});
-const searchQuery = ref("");
-const currentStatus = ref("All Orders");
-const filterOrders = (status) => {
-  currentStatus.value = status;
-};
 const open = ref<boolean>(false);
 
 const showModal = () => {
   open.value = true;
 };
 
-const handleOk = (e: MouseEvent) => {
-  console.log(e);
+const onCancel = () => {
+  open.value = false;
+};
+const onSubmit = async () => {
+  
+  console.log("category.value", category.value);
+  await categoryStore.createCategory(category.value);
+  getData();
   open.value = false;
 };
 </script>
