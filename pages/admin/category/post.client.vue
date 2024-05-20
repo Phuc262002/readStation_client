@@ -104,6 +104,7 @@
               </a-tag>
             </span>
           </template>
+
           <template v-else-if="column.key === 'action'">
             <a-dropdown :trigger="['click']">
               <a class="ant-dropdown-link" @click.prevent> ... </a>
@@ -238,7 +239,6 @@ const columns = [
 ];
 
 const open = ref<boolean>(false);
-
 const showModal = () => {
   open.value = true;
 };
