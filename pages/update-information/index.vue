@@ -11,17 +11,16 @@
             <p class="text-lg">Cập nhật tài khoản</p>
           </div>
           <div class="">
-            <form action="" class="flex flex-col gap-4" @submit="onSubmit">
+            <form action="" :model="updateIf" class="flex flex-col gap-4" @submit="onSubmit">
               <div>
                 <a-input class="h-11" placeholder="Email" readonly />
               </div>
               <div class="flex justify-between gap-5">
                 <div class="w-1/2">
-                  <a-input class="h-11" placeholder="Họ và tên" />
-
+                  <a-input class="h-11" placeholder="Họ và tên" v-model:value="updateIf.fullName" />
                 </div>
                 <div class="w-1/2">
-                  <a-input class="h-11" laceholder="Số điện thoại" />
+                  <a-input class="h-11" laceholder="Số điện thoại" v-model:value="updateIf.phoneNumber" />
                 </div>
               </div>
               <div class="flex w-full gap-3">
@@ -45,7 +44,7 @@
                   :value="`${address.street}, ${address.ward}, ${address.district}, ${address.province}`" readonly />
               </div>
               <div>
-                <a-input class="h-11" placeholder="Mã giới thiệu" />
+                <a-input class="h-11" placeholder="Mã giới thiệu" v-model:value="updateIf.referralCode" />
               </div>
               <div class="">
                 <button type="submit" class="w-full bg-[#162D3A] h-11 rounded-lg text-lg text-white">
@@ -73,17 +72,17 @@
 </template>
 <script setup>
 import { ref } from "vue";
+const isSubmitting = ref(false);
 const baseStore = useBaseStore();
 const authStore = useAuthStore();
-
-const onsubmit = (async (values) => {
- alert("Cập nhật thành công");
+const updateIf = ref({
+  fullName: "",
+  phoneNumber: "",
+  get address() {
+    return { ...address.value };
+  },
+  referralCode: "",
 });
-
-
-
-
-
 
 const address = ref({
   province: "",
@@ -91,6 +90,27 @@ const address = ref({
   ward: "",
   street: "",
 });
+const onSubmit = (async () => {
+  alert(JSON.stringify(updateIf.value));
+  // try {
+  //   isSubmitting.value = true;
+  //   const resUpdateIf = await authStore.updateProfile(updateIf);
+  //   if (resUpdateIf?.data?._rawValue?.status == true) {
+  //     successToast("Cập nhật thành công", "Chuyển hướng đến trang chủ");
+  //     navigateTo("/");
+  //   } else {
+  //     resErrors.value = resUpdateIf.error.value.data?.errors;
+  //     errorToast("Đăng ký không thành công", "Vui lòng thử lại");
+  //   }
+  // } catch (error) {
+  //   // console.log(error);
+  //   errorToast("Cập nhật không thành công", "Vui lòng thử lại");
+  // } finally {
+  //   isSubmitting.value = false;
+  // }
+  
+});
+
 const provinces = ref([]);
 const districts = ref([]);
 const wards = ref([]);
@@ -163,5 +183,5 @@ const filterOption = (input, option) => {
   return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 4;
 };
 
-console.log(valueDistricts);
+
 </script>

@@ -5,7 +5,7 @@
         </div>
         <div class="flex flex-col gap-3">
             <div class="text-xl font-bold hover:text-[#f65d4e]">{{data?.title}}</div>
-            <div class=" flex justify-start">
+            <div class=" flex justify-start">   
                 <CommonStar rating="5" />
             </div>
             <!-- <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
