@@ -42,11 +42,12 @@
           </div>
         </div>
         <div
-          class="w-full md:w-1/2 p-6 flex flex-col justify-center items-center bg-white rounded-3xl border border-[#e6e6e6]"
+          class="w-full md:w-1/2 p-6 flex flex-col justify-center items-center bg-white rounded-3xl border border-[#e6e6e6] md:p-20"
         >
           <h1 class="text-4xl font-bold pb-6">
-            Read Station có thể giúp đỡ bạn điều gì?
+            Read Station
           </h1>
+          <h1 class="text-4xl font-bold pb-6"> có thể giúp đỡ bạn điều gì?</h1>
           <form
             @submit.prevent="validateForm"
             class="w-full max-w-lg space-y-8"
