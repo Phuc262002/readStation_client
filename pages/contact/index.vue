@@ -77,7 +77,7 @@
             <div>
               <textarea
                 v-model="message"
-                placeholder="Phản hồi  của bạn"
+                placeholder="Phản hồi của bạn"
                 class="w-full px-4 py-2 border border-[#e6e6e6] rounded-3xl focus:outline-none focus:ring-2 focus:ring-[#f65d4e] h-40 resize-none"
               ></textarea>
               <p v-if="errors.message" class="text-[#f4402f] text-sm">
