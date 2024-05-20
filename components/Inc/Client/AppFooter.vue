@@ -10,12 +10,14 @@
                     </div>
                     <!-- ReadStation -->
                     <div class="w-1/4 flex flex-col gap-3">
-                        <h1 class="text-xl font-medium uppercase text-white">ReadSation</h1>
+                        <h1 class="text-xl font-medium uppercase text-white">ReadStation</h1>
                         <ul class="flex flex-col gap-2">
-                            <li
-                                class="text-white text-base hover:-translate-y-1 transition-transform hover:text-blue-500">
-                                Terms of service
-                            </li>
+                            <Nuxt-link to="/">
+                                <li
+                                    class="text-white text-base hover:-translate-y-1 transition-transform hover:text-blue-500">
+                                    Terms of service
+                                </li>
+                            </Nuxt-link>
                             <Nuxt-link to="/privacy-policy">
                                 <li
                                     class="text-white text-base hover:-translate-y-1 transition-transform hover:text-blue-500">
@@ -44,5 +46,8 @@
                 </div>
             </div>
         </div>
+        <a-layout-footer style="text-align: center">
+            ©2024 Created by ReadStation
+        </a-layout-footer>
     </div>
 </template>
