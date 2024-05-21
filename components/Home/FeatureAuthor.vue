@@ -1,4 +1,3 @@
-import { message } from 'ant-design-vue';
 
 <template>
     <div class="h-auto mx-auto container md:px-20 px-8">
@@ -17,7 +16,7 @@ import { message } from 'ant-design-vue';
                 <img :src="AuthorFeatured.avatar" alt="">
             </div>
             <div class="w-1/3 flex flex-col gap-2">
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 gap-4" v-if="AuthorFeatured.books && AuthorFeatured.books.length > 0">
                     <CommonBook  v-for="(books,index) in AuthorFeatured.books.slice(0,4)" :data=books :key="index" />  
                 </div>
             </div>
@@ -25,8 +24,21 @@ import { message } from 'ant-design-vue';
     </div>
 </template>
 
-<script>
-export default  {
-    props: ['AuthorFeatured']
-}
+<script setup>
+const isLoading = ref(false);
+const bookstore = useBookStore();
+const AuthorFeatured = ref({});
+
+
+useAsyncData(async () => {
+    isLoading.value = true;
+    try {
+        const response = await bookstore.getAuthorFeatured(); //promise
+        AuthorFeatured.value = response.data._rawValue?.data[0];
+    } catch (error) {
+        console.error(error);
+    } finally {
+        isLoading.value = false;
+    }
+});
 </script>
