@@ -12,16 +12,16 @@
                     <div class="w-1/4 flex flex-col gap-3">
                         <h1 class="text-xl font-medium uppercase text-white">ReadStation</h1>
                         <ul class="flex flex-col gap-2">
-                            <Nuxt-link to="/">
+                            <Nuxt-link to="/rules">
                                 <li
                                     class="text-white text-base hover:-translate-y-1 transition-transform hover:text-blue-500">
-                                    Terms of service
+                                    Điều khoản và dịch vụ
                                 </li>
                             </Nuxt-link>
                             <Nuxt-link to="/privacy-policy">
                                 <li
                                     class="text-white text-base hover:-translate-y-1 transition-transform hover:text-blue-500">
-                                    Privacy Policy
+                                    Chính sách bảo mật
                                 </li>
                             </Nuxt-link>
                         </ul>

@@ -132,8 +132,3 @@ const pagination = {
 };
 </script>
 
-<style scoped>
-.ant-table-row{
-  text-align: center !important;
-}
-</style>

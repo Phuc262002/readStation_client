@@ -13,7 +13,10 @@
         </a-menu>
       </template>
       <div class="flex justify-center items-center gap-3 text-base">
-        <SmileOutlined />
+        <a-avatar
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYNwja6CBPcvCyFKxcFn690YYPt1VZW-CtEM3EiDz-fw&s"
+          alt=""
+        />
       </div>
     </a-dropdown>
   </div>

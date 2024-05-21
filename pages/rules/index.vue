@@ -2,7 +2,7 @@
     <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
         <div class="flex flex-col gap-10 ">
             <div>
-                <h1 class="font-extrabold text-4xl">Chính sách riêng tư</h1>
+                <h1 class="font-extrabold text-4xl">Điều khoản và dịch vụ</h1>
             </div>
             <div class="flex flex-col gap-3">
                 <div class="flex flex-col gap-4">
