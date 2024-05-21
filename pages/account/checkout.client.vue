@@ -129,7 +129,7 @@
             <div class="w-full flex flex-col pb-4 font-medium">
               <h1>Delivery</h1>
             </div>
-            <div class="flex gap-10">
+            <div class=" grid grid-cols-2 gap-4">
               <div>
                 <div
                   class="flex flex-col gap-4 p-5 border rounded-lg cursor-pointer border-slate-200 hover:border-violet-500"
@@ -138,7 +138,7 @@
                     <img
                       src="/assets/images/meta-logo.png"
                       alt=""
-                      class="w-fit h-12"
+                      class="w-[65px] h-[50px]"
                     />
                     <div class="flex">
                       <div>
@@ -162,7 +162,7 @@
                     <img
                       src="/assets/images/meta-logo.png"
                       alt=""
-                      class="w-fit h-12"
+                      class="w-[65px] h-[50px]"
                     />
                     <div class="flex">
                       <div>
