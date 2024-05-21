@@ -1,8 +1,10 @@
 <template>
-  <div class="container mx-auto">
-    <h1 class="text-xl text-[#1e293b] font-semibold">Danh sách đơn hàng</h1>
-    <div >
-      <div class="relative w-1/4 md:block hidden py-4">
+  <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
+    <h1 class="text-xl text-[#1e293b] font-semibold pb-3">
+      Danh sách đơn hàng
+    </h1>
+    <div class="bg-[#fff] p-4 rounded-xl">
+      <div class="relative w-1/4 md:block hidden">
         <div class="flex">
           <input
             type="text"
@@ -16,29 +18,26 @@
           <SearchOutlined class="text-gray-500" />
         </div>
       </div>
+
+      <div class="py-3">
+        <UTabs :items="items" class="w-1/2">
+          <template #default="{ item, index, selected }">
+            <div
+              class="flex items-center gap-2 relative truncate"
+              @click="handleSelectTab(index)"
+            >
+              <UIcon :name="item.icon" class="w-4 h-4 flex-shrink-0" />
+              <span class="truncate">{{ index + 1 }}. {{ item.label }}</span>
+              <span
+                v-if="selected"
+                class="absolute -right-4 w-2 h-2 rounded-full bg-primary-500 dark:bg-primary-400"
+              />
+            </div>
+          </template>
+        </UTabs>
+      </div>
+      <AccountTableOrder />
     </div>
-    <div class="py-4">
-      <UTabs :items="items" class="w-1/2">
-        <template #default="{ item, index, selected }">
-          <div
-            class="flex items-center gap-2 relative truncate"
-            @click="handleSelectTab(index)"
-          >
-            <UIcon :name="item.icon" class="w-4 h-4 flex-shrink-0" />
-  
-            <span class="truncate">{{ index + 1 }}. {{ item.label }}</span>
-  
-            <span
-              v-if="selected"
-              class="absolute -right-4 w-2 h-2 rounded-full bg-primary-500 dark:bg-primary-400"
-            />
-          </div>
-        </template>
-      </UTabs>
-      
-    </div>
-    
-    <AccountTableOrder />
   </div>
 </template>
 
