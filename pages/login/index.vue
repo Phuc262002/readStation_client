@@ -28,7 +28,7 @@
 
           <div class="">
             <div class="bg-white py-8">
-              <form @submit="onSubmit">
+              <form class="space-y-6" @submit="onSubmit">
                 <div class="space-y-6">
                   <div>
                     <a-alert
@@ -53,9 +53,9 @@
                   <div>
                     <label
                       for="email"
-                      class="block text-sm font-medium text-gray-700"
+                      class="flex text-sm font-medium text-gray-700 gap-1"
                     >
-                      Email
+                      <span>Email</span><span class="text-red-600">*</span>
                     </label>
                     <div class="mt-1">
                       <a-input
@@ -76,9 +76,10 @@
                   <div>
                     <label
                       for="password"
-                      class="block text-sm font-medium text-gray-700"
+                      class="flex text-sm font-medium text-gray-700 gap-1"
                     >
-                      Mật khẩu
+                      <span> Mật khẩu</span>
+                      <span class="text-red-600">*</span>
                     </label>
                     <div class="mt-1">
                       <a-input-password
@@ -131,7 +132,7 @@
                 </div>
 
                 <div>
-                  <p class="mt-[25px] text-center text-sm text-gray-600">
+                  <p class="text-center text-sm text-gray-600">
                     Bạn không có tài khoản?
                     <NuxtLink
                       to="/register"
@@ -142,13 +143,20 @@
                   </p>
                 </div>
               </form>
-              <div class="max-w-[388px] mt-5 text-center">
+              <div class="max-w-[388px] text-center pt-6">
                 <span
                   >Bằng việc đăng nhập, bạn đọc và đồng ý với
-                  <span class="border-b-2">điều khoản sử dụng</span>
+                  <NuxtLink to="/privacy-policy"
+                    ><span class="border-b-2"
+                      >điều khoản sử dụng</span
+                    ></NuxtLink
+                  >
                   và
-                  <span class="border-b-2"
-                    >Chính sách bảo mật thông tin cá nhân của </span
+
+                  <span class="border-b-2">
+                    <NuxtLink to="/privacy-policy"
+                      >Chính sách bảo mật thông tin cá nhân của
+                    </NuxtLink> </span
                   >ReadStation</span
                 >
               </div>
