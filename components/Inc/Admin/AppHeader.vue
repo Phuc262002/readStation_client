@@ -15,9 +15,11 @@
                 @click="changeCollapsed"
             />
         </div>
-        <div class="flex items-center gap-5">
+        <div class="flex items-center gap-2">
             <CommonThemeSelect />
-            <div>Header</div>
+            <div class="flex">
+                <CommonLogged />
+            </div>
         </div>
     </a-layout-header>
 </template>

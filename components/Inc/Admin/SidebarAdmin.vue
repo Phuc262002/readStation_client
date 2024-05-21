@@ -15,7 +15,7 @@
       :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
     >
       <a-menu-item key="1">
-        <UIcon  name="i-material-symbols-light-space-dashboard" />
+        <UIcon name="i-material-symbols-light-space-dashboard" />
         <span>Dashboards</span>
       </a-menu-item>
       <!-- <a-menu-item key="2">
@@ -73,10 +73,15 @@
             <span>Quản lí bài viết</span>
           </span>
         </template>
-        <a-menu-item key="13">Thêm bài viết</a-menu-item>
-        <a-menu-item key="14">Bài viết chờ duyệt</a-menu-item>
-        <a-menu-item key="40">Tất cả bài viết</a-menu-item>
-        <!-- <a-menu-item key="15">Quản lí bình luận</a-menu-item> -->
+        <NuxtLink to="/admin/post">
+          <a-menu-item key="40">Tất cả bài viết</a-menu-item>
+        </NuxtLink>
+        <NuxtLink to="/admin/post/add-post">
+          <a-menu-item key="13">Thêm bài viết</a-menu-item>
+        </NuxtLink>
+        <NuxtLink to="/admin/post/post-await">
+          <a-menu-item key="14">Bài viết chờ duyệt</a-menu-item>
+        </NuxtLink>
       </a-sub-menu>
       <a-sub-menu key="sub40">
         <template #title>
@@ -85,8 +90,12 @@
             <span>Quản lí bình luận</span>
           </span>
         </template>
-        <a-menu-item key="43">Bình luận gần đây</a-menu-item>
-        <a-menu-item key="42">Tất cả bình luận</a-menu-item>
+        <NuxtLink to="/admin/comment/recent-comment">
+          <a-menu-item key="43">Bình luận gần đây</a-menu-item>
+        </NuxtLink>
+        <NuxtLink to="/admin/comment/comment-manager">
+          <a-menu-item key="42">Tất cả bình luận</a-menu-item>
+        </NuxtLink>
       </a-sub-menu>
       <a-sub-menu key="sub6">
         <template #title>
@@ -96,7 +105,9 @@
           </span>
         </template>
         <a-menu-item key="16">Thêm tủ sách</a-menu-item>
-        <a-menu-item key="17">Tất cả tủ sách</a-menu-item>
+        <NuxtLink to="/admin/book-case/bookcase-manager">
+          <a-menu-item key="17">Tất cả tủ sách</a-menu-item>
+        </NuxtLink>
       </a-sub-menu>
       <a-sub-menu key="sub7">
         <template #title>
@@ -106,7 +117,9 @@
           </span>
         </template>
         <a-menu-item key="18">Thêm kệ sách</a-menu-item>
-        <a-menu-item key="19">Tất cả kệ sách</a-menu-item>
+        <NuxtLink to="/admin/book-shelves/bookshelves-manager">
+          <a-menu-item key="19">Tất cả kệ sách</a-menu-item>
+        </NuxtLink>
       </a-sub-menu>
       <a-sub-menu key="sub8">
         <template #title>
