@@ -29,9 +29,9 @@
       </span>
       <span key="comment-basic-reply-to">Reply to</span>
     </template>
-    <template #author><a>Han Solo</a></template>
+    <template #author><a>Kiệt</a></template>
     <template #avatar>
-      <a-avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
+      <a-avatar  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYNwja6CBPcvCyFKxcFn690YYPt1VZW-CtEM3EiDz-fw&s" alt="" />
     </template>
     <template #content>
       <p>

@@ -3,7 +3,7 @@
     clickable: true,
   }" :modules="modules" class="mySwiper">
     <swiper-slide>
-      <div class="bg-[#fcedec] w-full h-[556px] rounded-xl relative">
+      <div class="bg-[#fcedec] w-full h-[556px]  relative ">
         <div class="absolute flex justify-center items-center gap-10 w-full px-16 py-6">
           <div class="">
             <img class=""
@@ -24,7 +24,7 @@
       </div>
     </swiper-slide>
     <swiper-slide>
-      <div class="bg-[#fbf1e6] w-full h-[556px] rounded-xl relative">
+      <div class="bg-[#fbf1e6] w-full h-[556px]  relative">
         <div class="absolute flex justify-center items-center gap-10 w-full px-16 py-6">
           <div class="">
             <img class=""
@@ -48,7 +48,7 @@
       </div>
     </swiper-slide>
     <swiper-slide>
-      <div class="bg-[#dfdfdf] w-full h-[556px] rounded-xl relative">
+      <div class="bg-[#dfdfdf] w-full h-[556px]  relative">
         <div class="absolute flex justify-center items-center gap-10 w-full px-16 py-6">
           <div class="">
             <img class=""
@@ -71,7 +71,6 @@
         </div>
       </div>
     </swiper-slide>
-
   </swiper>
 </template>
 <script>
@@ -106,6 +105,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-top: 20px;
 }
 
 :deep(.swiper-slide img) {
