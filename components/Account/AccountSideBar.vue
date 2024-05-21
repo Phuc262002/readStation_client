@@ -28,8 +28,8 @@
     >
       <a-sub-menu key="sub1">
         <template #title>
-          <span>
-            <user-outlined />
+          <span class="flex items-center gap-2">
+            <UIcon name="i-ant-design-user-outlined" class="text-base" />
             <span>Thông tin cá nhân</span>
           </span>
         </template>
@@ -51,28 +51,28 @@
 
       <a-menu-item key="key5">
         <NuxtLink to="/account/order-manager" class="flex items-center gap-2">
-          <IoMdGift class="text-2xl" />
+          <UIcon name="i-bi-basket" class="text-base" />
           <span>Quản lý đơn hàng</span>
         </NuxtLink>
       </a-menu-item>
 
       <a-menu-item key="key6">
         <NuxtLink to="/" class="flex items-center gap-2">
-          <IoMdPeople class="text-2xl" />
+          <UIcon name="i-ph-users-bold" class="text-base" />
           <span>Mạng xã hội</span>
         </NuxtLink>
       </a-menu-item>
 
       <a-menu-item key="key7">
         <NuxtLink to="/" class="flex items-center gap-2">
-          <IoMdNotificationsOutline class="text-2xl" />
+          <UIcon name="i-gala-bell" class="text-base" />
           <span>Thông báo</span>
         </NuxtLink>
       </a-menu-item>
 
       <a-menu-item key="key4">
         <NuxtLink to="/" class="flex items-center gap-2">
-          <IoIosKey class="text-2xl" />
+          <UIcon name="i-carbon-password" class="text-base" />
           <span>Đổi mật khẩu</span>
         </NuxtLink>
       </a-menu-item>
@@ -82,15 +82,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import {
-  IoIosReturnLeft,
-  IoIosCog,
-  IoMdPerson,
-  IoMdPeople,
-  IoMdNotificationsOutline,
-  IoIosKey,
-  IoMdGift,
-} from "vue3-icons/io";
 const props = defineProps<{
   collapsed: boolean;
 }>();

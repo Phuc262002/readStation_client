@@ -32,7 +32,7 @@
             title="Thêm danh mục bài viết"
             :footer="null"
           >
-            <form @submit.prevent="onSubmit" >
+            <form @submit.prevent="onSubmit">
               <div class="bg-white py-2">
                 <div class="pb-4">
                   <label
@@ -69,7 +69,8 @@
                 <div class="flex justify-end items-end gap-4">
                   <a-button
                     @click="onCancel"
-                    type="primary"danger
+                    type="primary"
+                    danger
                     html-type="button"
                     class="mt-4"
                     >Hủy</a-button
@@ -84,14 +85,23 @@
         </div>
       </div>
 
-      <a-table :columns="columns" :data-source="categoryStore.categoriesAdmin?.categories" :loading="isLoading">
+      <a-table
+        :columns="columns"
+        :data-source="categoryStore.categoriesAdmin?.categories"
+        :loading="isLoading"
+      >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
             <span> Name </span>
           </template>
         </template>
 
-        <template #bodyCell="{ column, record }">
+        <template #bodyCell="{ column, record, index  }">
+          <template v-if="column.key === '#'">
+            <a>
+              {{ index + 1 }}
+            </a>
+          </template>
           <template v-if="column.key === 'name'">
             <a>
               {{ record.name }}
@@ -99,7 +109,7 @@
           </template>
           <template v-else-if="column.key === 'status'">
             <span>
-              <a-tag :color="record.status === 'active' ? 'green' : 'volcano'">
+              <a-tag :color="record.status === 'active' ? 'volcano' : 'green'">
                 {{ record.status }}
               </a-tag>
             </span>
@@ -192,14 +202,14 @@ const getData = async () => {
   isLoading.value = true;
   await categoryStore.getAllCategory({
     type: "post",
-  })
+  });
   isLoading.value = false;
 };
 
-onMounted(() => {
-  getData();
+useAsyncData( async () => {
+  
+  await getData();
 });
-
 
 const confirm = (e: MouseEvent) => {
   console.log(e);
@@ -212,6 +222,11 @@ const cancel = (e: MouseEvent) => {
 };
 
 const columns = [
+  {
+    title: "#",
+    dataIndex: "#",
+    key: "#",
+  },
   {
     title: "Tên",
     dataIndex: "name",
@@ -247,7 +262,6 @@ const onCancel = () => {
   open.value = false;
 };
 const onSubmit = async () => {
-  
   console.log("category.value", category.value);
   await categoryStore.createCategory(category.value);
   getData();

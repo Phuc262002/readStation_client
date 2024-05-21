@@ -66,8 +66,19 @@
           </span>
         </template>
         <a-menu-item key="13">Thêm bài viết</a-menu-item>
-        <a-menu-item key="14">Tất cả bài viết</a-menu-item>
-        <a-menu-item key="15">Quản lí bình luận</a-menu-item>
+        <a-menu-item key="14">Bài viết chờ duyệt</a-menu-item>
+        <a-menu-item key="40">Tất cả bài viết</a-menu-item>
+        <!-- <a-menu-item key="15">Quản lí bình luận</a-menu-item> -->
+      </a-sub-menu>
+      <a-sub-menu key="sub40">
+        <template #title>
+          <span>
+            <UIcon name="i-material-symbols-light-post" />
+            <span>Quản lí bình luận</span>
+          </span>
+        </template>
+        <a-menu-item key="43">Bình luận gần đây</a-menu-item>
+        <a-menu-item key="42">Tất cả bình luận</a-menu-item>
       </a-sub-menu>
       <a-sub-menu key="sub6">
         <template #title>

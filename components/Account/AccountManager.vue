@@ -10,17 +10,17 @@
       <div class="w-1/2">
         <div class="flex justify-between mb-4">
           <div class="flex items-center justify-between gap-2">
-            <IoMdPerson />
+            <UIcon name="i-material-symbols-person-check-outline" />
             <h2 class="text-sm font-bold">Thông tin cơ bản</h2>
           </div>
 
           <a-button
             @click="handleChangeEditAcc"
-            type="primary"
-            class="flex items-center justify-center"
+            class="flex gap-1 items-center justify-center border-0"
           >
-            Chỉnh sửa</a-button
-          >
+            <UIcon name="i-solar-pen-2-linear" />
+            <span>Chỉnh sửa</span>
+          </a-button>
         </div>
         <form @submit="onSubmit">
           <div
@@ -157,7 +157,7 @@
               </div>
             </div>
 
-            <div class="flex items-center justify-between pb-2 h-10">
+            <div class="border-b flex items-center justify-between pb-2 h-10">
               <span class="w-1/2">Địa chỉ</span>
               <div class="w-1/2 text-left">
                 <a-input
@@ -185,8 +185,8 @@
       <div class="w-1/2 flex flex-col space-y-4">
         <div>
           <div class="flex items-center gap-2 mb-3">
-            <IoMdPerson />
-            <h2>Tài khoản</h2>
+            <UIcon name="i-material-symbols-person-outline" />
+            <h2 class="text-sm font-bold">Tài khoản</h2>
           </div>
           <div
             class="flex-col space-y-2 p-4 bg-[#f9f9f9] shadow-md shadow-gray-300 rounded-md"
