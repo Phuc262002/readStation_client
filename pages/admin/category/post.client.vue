@@ -109,7 +109,7 @@
           </template>
           <template v-else-if="column.key === 'status'">
             <span>
-              <a-tag :color="record.status === 'active' ? 'green' : 'volcano'">
+              <a-tag :color="record.status === 'active' ? 'volcano' : 'green'">
                 {{ record.status }}
               </a-tag>
             </span>

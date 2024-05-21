@@ -1,6 +1,6 @@
 <template>
     <div class="h-auto mx-auto container md:px-20 px-8">
-        <div class="w-full h-[400px] flex justify-center gap-5">
+        <div class="w-full h-[450px] flex justify-center gap-5">
             <div class="bg-[#FFE6D5] w-1/2 rounded-lg relative ">
                 <div class="absolute p-8 ">
                     <div class="flex flex-col gap-5">

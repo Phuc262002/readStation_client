@@ -1,5 +1,5 @@
 <template>
-    <div class="md:py-14 h-auto mx-auto md:px-20 px-8 container">
+    <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
         <div class=" flex justify-between h-auto gap-5 ">
             <!-- Left -->
             <div class="w-3/4">
@@ -8,19 +8,19 @@
                         <div class="bg-slate-100 rounded-lg h-12">
                             <div class="flex justify-between items-center text-base font-semibold p-3 w-full">
                                 <h1 class="w-2/6">Sản phẩm</h1>
-                                <h1 class="w-1/6 flex justify-center items-center">Giá bìa</h1>
-                                <h1 class="w-1/6 flex justify-center items-center">Phần trăm cọc</h1>
-                                <h1 class="w-1/6 flex justify-center items-center">Cọc tạm tính</h1>
-                                <h1 class="w-1/6 flex justify-center items-center">Phí dịch vụ</h1>
-                                <h1 class="w-1/6 flex justify-center items-center">Tổng tạm tính</h1>
-                                <h1 class="w-1/6 h-full flex justify-center items-center"></h1>
+                                <h1 class="flex justify-center items-center">Giá bìa</h1>
+                                <h1 class="flex justify-center items-center">Phần trăm cọc</h1>
+                                <h1 class="flex justify-center items-center">Cọc tạm tính</h1>
+                                <h1 class="flex justify-center items-center">Phí dịch vụ</h1>
+                                <h1 class="flex justify-center items-center">Tổng tạm tính</h1>
+                                <h1 class="h-full flex justify-center items-center"></h1>
                             </div>
 
                         </div>
                         <!--  -->
                         <div class="flex justify-between items-center">
-                            <div class="flex justify-start gap-1 items-center w-2/6">
-                                <div class="w-full">
+                            <div class="flex justify-start items-center w-2/6">
+                                <div class="w-2/3">
                                     <img src="https://salt.tikicdn.com/cache/750x750/ts/product/fc/73/c8/996f0f7fdf9082eb56b6370c19f1bab6.png.webp"
                                         alt="">
                                 </div>
@@ -37,20 +37,20 @@
 
                                 </div>
                             </div>
-                            <div class="w-1/6 text-base font-bold flex justify-center">200.000đ</div>
-                            <div class="w-1/6 text-base font-bold flex justify-center">
+                            <div class="text-base font-bold flex justify-center">200.000đ</div>
+                            <div class="text-base font-bold flex items-center pl-3">
                                 10%
                             </div>
-                            <div class="w-1/6 text-base font-bold flex justify-center ">
+                            <div class=" w-1/6 text-base font-bold flex justify-center ">
                                 20.000đ
                             </div>
-                            <div class="w-1/6 text-base font-bold flex justify-center">
+                            <div class="text-base font-bold flex justify-center pr-6">
                                 5.000đ
                             </div>
-                            <div class="w-1/6 text-base font-bold text-center flex justify-center">
+                            <div class=" text-base font-bold text-center flex justify-center">
                                 225.000đ
                             </div>
-                            <div class="w-1/6 text-center text-2xl text-red-400 flex justify-center ">
+                            <div class="text-center text-2xl text-red-400 flex justify-center ">
                                 <LuTrash2 />
                             </div>
                         </div>

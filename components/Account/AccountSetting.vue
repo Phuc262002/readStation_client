@@ -52,14 +52,6 @@
               >
             </div>
           </div>
-          <div>
-            <a-button type="primary" class="mr-6 bg-[#3b8aea] h-10"
-              >Lưu thay đổi</a-button
-            >
-            <a-button type="primary" class="h-10 bg-[#D9D9D9] text-black"
-              >Hủy</a-button
-            >
-          </div>
         </div>
       </div>
     </form>
