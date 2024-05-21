@@ -25,5 +25,18 @@ export const useCategoryStore = defineStore("category-store", {
       });
       return data;
     },
+    async deleteCategory(id: string) {
+      const data: any = await useCustomFetch(`/categories/${id}`, {
+        method: "DELETE",
+      });
+      return data;
+    },
+    async updateCategory(id: string, category: any) {
+      const data: any = await useCustomFetch(`/categories/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(category),
+      });
+      return data;
+    },
   },
 });

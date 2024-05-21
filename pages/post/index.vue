@@ -17,7 +17,7 @@
             <div>
                 <a-button
                     class="text-base flex justify-center items-center border border-gray-200 rounded-md w-[123px] h-[48px]"
-                    >Load More</a-button
+                    >Xem thêm</a-button
                 >
             </div>
         </div>

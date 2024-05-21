@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
     <div>
       <div
         class="relative h-[600px] w-full bg-[url('../../assets/images/aboutus.svg')] bg-cover bg-center bg-no-repeat rounded-3xl"
       >
-        <div class="absolute bottom-20 left-[500px] font-semibold text-4xl">
+        <div class="absolute bottom-20 left-[320px] font-semibold text-4xl">
           <h1 class="text-4xl font-bold pb-4">Thuê sách không giới hạn</h1>
           <ul class="text-lg pb-6 space-y-2">
             <li>Thuê sách không giới hạn ngày trả</li>
@@ -20,18 +20,18 @@
         </div>
       </div>
     </div>
-    <div class="bg-white md:px-16 md:py-10 rounded-3xl">
+    <div class="md:py-10">
       <div
-        class="mx-auto flex flex-col md:flex-row items-center md:items-start text-center md:text-left space-x-8"
+        class=" flex items-center md:items-start  space-x-8"
       >
-        <div class="flex-shrink-0 md:w-1/2 lg:w-1/3">
+        <div class=" w-1/3">
           <img
             src="https://via.placeholder.com/800x600"
             alt="Car Image"
             class="w-full"
           />
         </div>
-        <div class="p-4">
+        <div class="p-4 w-2/3">
           <div class="text-3xl font-bold pb-4">Tổng quan về chúng tôi</div>
           <div class="text-lg pb-4">
             Read Station là điểm đến lý tưởng cho những người yêu sách muốn tận
