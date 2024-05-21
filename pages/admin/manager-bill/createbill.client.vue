@@ -1,8 +1,10 @@
 <template>
     <div>
-        <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+        <div
+            class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
+        >
             <div class="grow">
-                <h5 class="text-xl text-[#1e293b] font-semibold">List View</h5>
+                <h5 class="text-xl text-[#1e293b] font-semibold">Thêm hóa đơn</h5>
             </div>
             <CommonBreadcrumAdmin />
         </div>

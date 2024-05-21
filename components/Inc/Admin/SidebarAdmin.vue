@@ -1,21 +1,13 @@
 <template>
-  <a-layout-sider
-    v-model:collapsed="props.collapsed"
-    :trigger="null"
-    collapsible
+  <a-layout-sider v-model:collapsed="props.collapsed" :trigger="null" collapsible
     class="!fixed h-full !bg-white dark:!bg-[#132337] !border-r border-r-[#e2e8f0]"
-    :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
-  >
+    :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'">
     <div class="bg-red-400 h-8 m-4" />
-    <a-menu
-      v-model:selectedKeys="selectedKeys"
-      :theme="$colorMode.value === 'dark' ? 'dark' : 'light'"
-      mode="inline"
+    <a-menu v-model:selectedKeys="selectedKeys" :theme="$colorMode.value === 'dark' ? 'dark' : 'light'" mode="inline"
       class="!border-0 dark:!bg-[#6c819b] dark:!text-white overflow-auto h-5/6"
-      :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
-    >
+      :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'">
       <a-menu-item key="1">
-        <UIcon  name="i-material-symbols-light-space-dashboard" />
+        <UIcon name="i-material-symbols-light-space-dashboard" />
         <span>Dashboards</span>
       </a-menu-item>
       <!-- <a-menu-item key="2">
@@ -138,8 +130,12 @@
             <span>Quản lí hóa đơn nhập hàng</span>
           </span>
         </template>
-        <a-menu-item key="22">Thêm hóa đơn</a-menu-item>
-        <a-menu-item key="23">Tất cả hóa đơn</a-menu-item>
+        <NuxtLink to="/admin/manager-bill/createbill">
+          <a-menu-item key="22">Thêm hóa đơn</a-menu-item>
+        </NuxtLink>
+        <NuxtLink to="/admin/manager-bill/listbill">
+          <a-menu-item key="23">Tất cả hóa đơn</a-menu-item>
+        </NuxtLink>
       </a-sub-menu>
     </a-menu>
   </a-layout-sider>
