@@ -1,19 +1,11 @@
 <template>
-  <a-layout-sider
-    v-model:collapsed="props.collapsed"
-    :trigger="null"
-    collapsible
+  <a-layout-sider v-model:collapsed="props.collapsed" :trigger="null" collapsible
     class="!fixed h-full !bg-white dark:!bg-[#132337] !border-r border-r-[#e2e8f0]"
-    :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
-  >
+    :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'">
     <div class="bg-red-400 h-8 m-4" />
-    <a-menu
-      v-model:selectedKeys="selectedKeys"
-      :theme="$colorMode.value === 'dark' ? 'dark' : 'light'"
-      mode="inline"
+    <a-menu v-model:selectedKeys="selectedKeys" :theme="$colorMode.value === 'dark' ? 'dark' : 'light'" mode="inline"
       class="!border-0 dark:!bg-[#6c819b] dark:!text-white overflow-auto h-5/6"
-      :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
-    >
+      :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'">
       <a-menu-item key="1">
         <span class="flex items-center gap-2">
           <UIcon name="i-material-symbols-light-space-dashboard" />
@@ -43,11 +35,15 @@
         <template #title>
           <span class="flex items-center gap-2">
             <UIcon name="i-ant-design-product-outlined" />
-            <span>Quản lí sản phẩm</span>
+            <span>Quản lí sách</span>
           </span>
         </template>
-        <a-menu-item key="8">Thêm sản phẩm</a-menu-item>
-        <a-menu-item key="9">Tất cả sản phẩm</a-menu-item>
+        <NuxtLink to="/admin/book/create-book">
+          <a-menu-item key="8">Thêm sách</a-menu-item>
+        </NuxtLink>
+        <NuxtLink to="/admin/book">
+          <a-menu-item key="9">Tất cả sách</a-menu-item>
+        </NuxtLink>
         <a-menu-item key="10">Quản lí đánh giá</a-menu-item>
       </a-sub-menu>
       <a-sub-menu key="sub3">
@@ -61,7 +57,7 @@
         <NuxtLink to="/admin/product-manager/product">
           <a-menu-item key="12">Tất cả đơn hàng</a-menu-item>
         </NuxtLink>
-        
+
       </a-sub-menu>
       <!-- <a-sub-menu key="sub4">
         <template #title>
@@ -169,10 +165,10 @@
             <span>Quản lí hóa đơn nhập hàng</span>
           </span>
         </template>
-        <NuxtLink to="/admin/manager-bill/createbill">
+        <NuxtLink to="/admin/manager-bill/create-bill">
           <a-menu-item key="22">Thêm hóa đơn</a-menu-item>
         </NuxtLink>
-        <NuxtLink to="/admin/manager-bill/listbill">
+        <NuxtLink to="/admin/manager-bill">
           <a-menu-item key="23">Tất cả hóa đơn</a-menu-item>
         </NuxtLink>
       </a-sub-menu>
