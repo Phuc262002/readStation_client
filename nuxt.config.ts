@@ -31,12 +31,12 @@ export default defineNuxtConfig({
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
-      cssnano:
-        process.env.NODE_ENV === 'production'
-          ? { preset: ['default', { discardComments: { removeAll: true } }] }
-          : false, // disable cssnano when not in production
+     cssnano:
+       process.env.NODE_ENV === 'production'
+         ? { preset: ['default', { discardComments: { removeAll: true } }] }
+         : false, // disable cssnano when not in production
     },
-  },
+ },
   runtimeConfig: {
     public: {
       apiUrl: process.env.API_URL,
@@ -52,5 +52,4 @@ export default defineNuxtConfig({
   //     }
   //   }
   // }
-
 })
