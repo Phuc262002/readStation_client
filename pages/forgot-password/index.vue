@@ -10,7 +10,7 @@
             <h2 class="text-2xl text-sky-600 font-bold pb-3">Quên mật khẩu</h2>
             <p>Đặt lại mật khẩu của bạn</p>
           </div>
-          <div class="text-center p-3 bg-[#000]">
+          <div class="text-center p-3 bg-[#FCEDEC] rounded-lg">
             <span
               >Cung cấp địa chỉ email của bạn và hướng dẫn sẽ được gửi cho
               bạn</span
