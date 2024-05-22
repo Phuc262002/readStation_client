@@ -248,6 +248,11 @@ const columns = [
     dataIndex: "status",
   },
   {
+    title: 'Tags',
+    key: 'tags',
+    dataIndex: 'tags',
+  },
+  {
     title: "Chức năng",
     key: "action",
   },
