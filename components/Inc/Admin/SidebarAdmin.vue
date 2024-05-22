@@ -46,7 +46,10 @@
           </span>
         </template>
         <a-menu-item key="11">Thêm đơn hàng</a-menu-item>
-        <a-menu-item key="12">Tất cả đơn hàng</a-menu-item>
+        <NuxtLink to="/admin/product-manager/product">
+          <a-menu-item key="12">Tất cả đơn hàng</a-menu-item>
+        </NuxtLink>
+        
       </a-sub-menu>
       <!-- <a-sub-menu key="sub4">
         <template #title>
