@@ -13,7 +13,10 @@
                     <input type="text"
                         class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
                         placeholder="Tìm kiếm..." />
-                    <SearchOutlined class="text-gray-500 absolute left-2 top-1 text-lg" />
+                        <div class="text-gray-500 absolute left-2 top-1 text-lg">
+                            icon
+                        </div>
+                   
                 </div>
                 <div class="flex flex-col gap-3">
                     <h1>Sản phẩm</h1>

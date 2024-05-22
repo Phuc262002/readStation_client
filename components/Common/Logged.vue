@@ -9,7 +9,20 @@
         />
       </div>
       <template #overlay>
-        <a-menu class="">
+        <a-menu class="p-4">
+          <nuxt-link to="">
+            <a-menu-item key="1">
+              <span class="flex items-center gap-2">
+                <a-avatar
+                  size="small"
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYNwja6CBPcvCyFKxcFn690YYPt1VZW-CtEM3EiDz-fw&s"
+                  alt=""
+                />
+                <span>Kiệt</span>
+              </span>
+            </a-menu-item>
+          </nuxt-link>
+          <div class="border-solid border border-gray-200 w-full"></div>
           <nuxt-link to="/account">
             <a-menu-item key="1">
               <span class="flex items-center gap-2">

@@ -92,7 +92,7 @@
               class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
             >
               <!-- Heroicon name: search -->
-              <SearchOutlined class="text-gray-500" />
+              icon
             </div>
           </div>
 
@@ -106,7 +106,7 @@
               <NuxtLink to="/login" v-else>
                 <button class="w-32 hover:bg-gray-100 hover:rounded-xl h-10">
                   <div class="flex justify-center items-center gap-3 text-base">
-                    <SmileOutlined />
+                    icon
                     <h2>Tài khoản</h2>
                   </div>
                 </button>
@@ -119,7 +119,7 @@
                   class="relative w-10 hover:bg-blue-100 hover:rounded-xl h-10"
                 >
                   <div class="text-2xl flex justify-center items-center">
-                    <ShoppingOutlined />
+                    icon
                   </div>
                   <div
                     class="absolute top-0 right-0 bg-red-500 text-white w-4 h-4 rounded-full flex justify-center items-center text-xs"

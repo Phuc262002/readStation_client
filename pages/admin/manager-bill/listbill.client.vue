@@ -19,11 +19,17 @@
                                 <input type="text"
                                     class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
                                     placeholder="Tìm kiếm..." />
-                                <SearchOutlined class="text-gray-500 absolute left-2 top-1 text-lg" />
+                                <div class="text-gray-500 absolute left-2 top-1 text-lg" >
+                                    icon
+                                </div>   
+                                
                             </div>
                             <button type="button"
                                 class=" rounded-lg flex items-center justify-center size-[37.5px] p-0 text-sky-500 btn bg-sky-100 hover:text-white hover:bg-sky-600 focus:text-white focus:bg-sky-600 focus:ring focus:ring-sky-100 active:text-white active:bg-sky-600 active:ring active:ring-sky-100 dark:bg-sky-500/20 dark:text-sky-400 dark:hover:bg-sky-500 dark:hover:text-white dark:focus:bg-sky-500 dark:focus:text-white dark:active:bg-sky-500 dark:active:text-white dark:ring-sky-400/20">
-                                <IoIosOptions class="text-lg font-semibold" />
+                                <IoIosOptions  />
+                                <div class="text-lg font-semibold">
+                                    icon
+                                </div>
                             </button>
                         </div>
                     </div>
@@ -166,14 +172,14 @@
                                 <div class="flex items-center gap-2">
                                     <button type="button"
                                         class=" flex  gap-2 items-center w-full bg-blue-500 p-2 rounded-lg text-white">
-                                        <IoIosSave class="text-xl" /><span class="align-middle">Save & Print</span>
+                                        icon<span class="align-middle">Save & Print</span>
                                     </button>
                                     <a-dropdown>
                                         <a class="ant-dropdown-link" @click.prevent>
                                             <button
                                                 class="flex items-center justify-center rounded-lg w-10 h-10 dropdown-toggle p-0 text-slate-500 btn bg-slate-100 hover:text-white hover:bg-slate-600 focus:text-white focus:bg-slate-600 focus:ring focus:ring-slate-100 active:text-white active:bg-slate-600 active:ring active:ring-slate-100 dark:bg-slate-500/20 dark:text-slate-400 dark:hover:bg-slate-500 dark:hover:text-white dark:focus:bg-slate-500 dark:focus:text-white dark:active:bg-slate-500 dark:active:text-white dark:ring-slate-400/20"
                                                 id="categoryNotes1" data-bs-toggle="dropdown">
-                                                <IoIosMore />
+                                                icon
                                             </button>
 
                                         </a>
@@ -361,8 +367,5 @@
 </template>
 
 <script setup>
-import { IoIosOptions } from 'vue3-icons/io'
-import { IoMdCalendar } from 'vue3-icons/io'
-import { IoIosMore } from 'vue3-icons/io'
-import { IoIosSave } from 'vue3-icons/io'
+
 </script>
