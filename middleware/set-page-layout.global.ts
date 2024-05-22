@@ -11,3 +11,4 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
   to.meta.layout = layout as any
 })
+  

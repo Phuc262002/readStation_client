@@ -19,55 +19,44 @@
         </div>
       </div>
 
-      <div class="py-3">
-        <UTabs :items="items" class="w-1/2">
-          <template #default="{ item, index, selected }">
-            <div
-              class="flex items-center gap-2 relative truncate"
-              @click="handleSelectTab(index)"
-            >
-              <UIcon :name="item.icon" class="w-4 h-4 flex-shrink-0" />
-              <span class="truncate">{{ index + 1 }}. {{ item.label }}</span>
-              <span
-                v-if="selected"
-                class="absolute -right-4 w-2 h-2 rounded-full bg-primary-500 dark:bg-primary-400"
-              />
-            </div>
-          </template>
-        </UTabs>
+      <div class="flex gap-2 py-2">
+        <a-button
+          :type="selectedButton === 'all' ? 'primary' : 'default'"
+          @click="selectButton('all')"
+        >Tất cả đơn</a-button>
+        <a-button
+          :type="selectedButton === 'received' ? 'primary' : 'default'"
+          @click="selectButton('received')"
+        >Đã nhận</a-button>
+        <a-button
+          :type="selectedButton === 'pending' ? 'primary' : 'default'"
+          @click="selectButton('pending')"
+        >Chờ nhận đơn</a-button>
+        <a-button
+          :type="selectedButton === 'cancelled' ? 'primary' : 'default'"
+          @click="selectButton('cancelled')"
+        >Đã hủy</a-button>
+        <a-button
+          :type="selectedButton === 'search5' ? 'primary' : 'default'"
+          @click="selectButton('search5')"
+        >Search5</a-button>
       </div>
+      
       <AccountTableOrder />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watchEffect } from "vue";
+import { ref } from 'vue';
 
-const selectTab = ref(0);
+// Tạo một trạng thái để theo dõi button nào đang được chọn
+const selectedButton = ref('all');
 
-const handleSelectTab = (number: number) => {
-  selectTab.value = number;
+// Phương thức để thay đổi button được chọn
+const selectButton = (button: string) => {
+  selectedButton.value = button;
 };
-
-const items = [
-  {
-    label: "Tất cả đơn hàng",
-    icon: "i-heroicons-bars-4",
-  },
-  {
-    label: "Đã nhận",
-    icon: "i-heroicons-arrow-down-tray",
-  },
-  {
-    label: "Chờ lấy hàng",
-    icon: "i-heroicons-eye-dropper",
-  },
-  {
-    label: "Đã hủy",
-    icon: "i-material-symbols-cancel-outline",
-  },
-];
 </script>
 
 <style scoped>
