@@ -32,8 +32,8 @@
   
         <a-table :columns="columns" :data-source="data">
           <template #headerCell="{ column }">
-            <template v-if="column.key === 'name'">
-              <span> Mã sách </span>
+            <template v-if="column.key === 'sku'">
+              <span> Mã sách</span>
             </template>
           </template>
   
@@ -124,9 +124,9 @@
   };
   const columns = [
     {
-      name: "Name",
-      dataIndex: "Name",
-      key: "name",
+      name: "Mã sách",
+      dataIndex: "sku",
+      key: "sku",
     },
     {
       title: "Tên sách",
@@ -157,11 +157,11 @@
   const data = [
     {
       key: "1",
-      name: "123",
+      sku: "123",
       title: "Cho tôi vé đi tuổi thơ",
       author: "Nguyễn Nhật Ánh",
       category: "New York No. 1 Lake Park",
-      dicription: "My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.",
+      dicription: "My name is John Brown",
     },
   ];
   </script>

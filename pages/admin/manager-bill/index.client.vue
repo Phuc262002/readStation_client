@@ -19,16 +19,16 @@
                                 <input type="text"
                                     class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
                                     placeholder="Tìm kiếm..." />
-                                <div class="text-gray-500 absolute left-2 top-1 text-lg" >
-                                    icon
+                                <div class="text-gray-500 absolute left-2 top-2 text-lg" >
+                                    <UIcon class="text-xl"  name="i-material-symbols-search" />
                                 </div>   
                                 
                             </div>
                             <button type="button"
                                 class=" rounded-lg flex items-center justify-center size-[37.5px] p-0 text-sky-500 btn bg-sky-100 hover:text-white hover:bg-sky-600 focus:text-white focus:bg-sky-600 focus:ring focus:ring-sky-100 active:text-white active:bg-sky-600 active:ring active:ring-sky-100 dark:bg-sky-500/20 dark:text-sky-400 dark:hover:bg-sky-500 dark:hover:text-white dark:focus:bg-sky-500 dark:focus:text-white dark:active:bg-sky-500 dark:active:text-white dark:ring-sky-400/20">
-                                <IoIosOptions  />
-                                <div class="text-lg font-semibold">
-                                    icon
+                                
+                                <div class="text-lg font-semibold flex items-center">
+                                    <UIcon name="i-material-symbols-format-list-bulleted-rounded" class="text-2xl"/>
                                 </div>
                             </button>
                         </div>
@@ -172,14 +172,14 @@
                                 <div class="flex items-center gap-2">
                                     <button type="button"
                                         class=" flex  gap-2 items-center w-full bg-blue-500 p-2 rounded-lg text-white">
-                                        icon<span class="align-middle">Save & Print</span>
+                                        <UIcon name="i-material-symbols-edit-document-outline" class="text-xl"/><span class="align-middle">Save & Print</span>
                                     </button>
                                     <a-dropdown>
                                         <a class="ant-dropdown-link" @click.prevent>
                                             <button
                                                 class="flex items-center justify-center rounded-lg w-10 h-10 dropdown-toggle p-0 text-slate-500 btn bg-slate-100 hover:text-white hover:bg-slate-600 focus:text-white focus:bg-slate-600 focus:ring focus:ring-slate-100 active:text-white active:bg-slate-600 active:ring active:ring-slate-100 dark:bg-slate-500/20 dark:text-slate-400 dark:hover:bg-slate-500 dark:hover:text-white dark:focus:bg-slate-500 dark:focus:text-white dark:active:bg-slate-500 dark:active:text-white dark:ring-slate-400/20"
                                                 id="categoryNotes1" data-bs-toggle="dropdown">
-                                                icon
+                                                <UIcon name="i-material-symbols-more-horiz" class="text-2xl"/>
                                             </button>
 
                                         </a>

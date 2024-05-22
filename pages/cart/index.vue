@@ -51,7 +51,7 @@
                                 225.000đ
                             </div>
                             <div class="text-center text-2xl text-red-400 flex justify-center ">
-                                
+                                <UIcon class="text-2xl" name="i-material-symbols-delete-outline-rounded"/>
                             </div>
                         </div>
                         <div class="border-solid border border-gray-100 w-full"></div>
@@ -87,7 +87,7 @@
                                 <Nuxt-link to="/shop">
                                     <button
                                         class="flex justify-center text-sm items-center gap-2 hover:text-yellow-500 ">
-                                        
+                                        <UIcon class="text-xl" name="i-material-symbols-turn-left-rounded"/>
                                         <h1>Tiếp tục thuê sách </h1>
                                     </button>
                                 </Nuxt-link>

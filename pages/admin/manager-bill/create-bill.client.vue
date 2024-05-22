@@ -13,8 +13,8 @@
                     <input type="text"
                         class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
                         placeholder="Tìm kiếm..." />
-                        <div class="text-gray-500 absolute left-2 top-1 text-lg">
-                            icon
+                        <div class="text-gray-500 absolute left-2 top-2 text-lg">
+                            <UIcon class="text-xl"  name="i-material-symbols-search" />
                         </div>
                    
                 </div>
