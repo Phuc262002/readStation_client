@@ -20,15 +20,15 @@
           <div
             class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
           >
-          <UIcon class="text-gray-500" name="i-material-symbols-search" />
+            <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
         <div class="">
-          <a-button type="primary" @click="showModal"
+          <a-button type="primary" @click="showModalAdd"
             >Thêm danh mục bài viết</a-button
           >
           <a-modal
-            v-model:open="open"
+            v-model:open="openModalAdd"
             title="Thêm danh mục bài viết"
             :footer="null"
           >
@@ -131,13 +131,13 @@
                   class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md"
                 >
                   <div>
-                    <button @click="showModal">
+                    <button @click="showModalEdit">
                       <UIcon
                         class="hover:text-[green]"
                         name="i-material-symbols-edit-outline"
                       />
                     </button>
-                    <a-modal v-model:open="open" title="Sửa" >
+                    <a-modal v-model:open="openModalEdit" title="Sửa">
                       <div class="">
                         <div class="bg-white py-2">
                           <div class="pb-4">
@@ -273,18 +273,23 @@ const columns = [
   },
 ];
 
-const open = ref<boolean>(false);
-const showModal = () => {
-  open.value = true;
+const openModalEdit = ref<boolean>(false);
+const openModalAdd = ref<boolean>(false);
+
+const showModalAdd = () => {
+  openModalAdd.value = true;
+};
+const showModalEdit = () => {
+  openModalEdit.value = true;
 };
 
 const onCancel = () => {
-  open.value = false;
+  openModalAdd.value = false;
 };
 const onSubmit = async () => {
   console.log("category.value", category.value);
   await categoryStore.createCategory(category.value);
   getData();
-  open.value = false;
+  openModalAdd.value = false;
 };
 </script>

@@ -24,11 +24,11 @@
           </div>
         </div>
         <div class="">
-          <a-button type="primary" @click="showModal"
+          <a-button type="primary" @click="showModalAdd"
             >Thêm danh mục sản phẩm</a-button
           >
           <a-modal
-            v-model:open="open"
+            v-model:open="openModalAdd"
             title="Thêm danh mục bài viết"
             :footer="null"
           >
@@ -130,13 +130,13 @@
                   class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md"
                 >
                   <div>
-                    <button @click="showModal">
+                    <button @click="showModalEdit">
                       <UIcon
                         class="hover:text-[green]"
                         name="i-material-symbols-edit-outline"
                       />
                     </button>
-                    <a-modal v-model:open="open" title="Sửa" @ok="">
+                    <a-modal v-model:open="openModalEdit" title="Sửa" @ok="">
                       <div class="">
                         <div class="bg-white py-2">
                           <div class="pb-4">
@@ -266,19 +266,19 @@ const columns = [
   },
 ];
 
-const open = ref<boolean>(false);
+const openModalEdit = ref<boolean>(false);
+const openModalAdd = ref<boolean>(false);
 
-const showModal = () => {
-  open.value = true;
+const showModalAdd = () => {
+  openModalAdd.value = true;
 };
-
-const onCancel = () => {
-  open.value = false;
+const showModalEdit = () => {
+  openModalEdit.value = true;
 };
 const onSubmit = async () => {
   console.log("category.value", category.value);
   await categoryStore.createCategory(category.value);
   getData();
-  open.value = false;
+  openModalAdd.value = false;
 };
 </script>

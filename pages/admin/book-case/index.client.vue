@@ -70,7 +70,7 @@
                         name="i-material-symbols-edit-outline"
                       />
                     </button>
-                    <a-modal v-model:open="open" title="Sửa" @ok="handleOk">
+                    <a-modal v-model:open="open" title="Sửa" >
                       <div class="">
                         <div class="bg-white py-2">
                           <div class="pb-4">
