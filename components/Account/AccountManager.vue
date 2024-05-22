@@ -207,6 +207,7 @@
         </div>
         <div class="">
           <div class="flex items-center gap-2 mb-3">
+            <UIcon name="i-ph-users-bold" class="text-base" />
             <h2 class="text-sm font-bold">Kết nối tài khoản</h2>
           </div>
           <div class="bg-[#f9f9f9] rounded-md shadow-md shadow-gray-300 p-4">
