@@ -21,7 +21,9 @@
             <span>Quản lí người dùng</span>
           </span>
         </template>
-        <a-menu-item key="3">Tạo người dùng</a-menu-item>
+        <NuxtLink to="/admin/user/create-user">
+          <a-menu-item key="3">Tạo người dùng</a-menu-item>
+        </NuxtLink>
         <a-menu-item key="4">Tất cả người dùng</a-menu-item>
         <a-menu-item key="5">Tài khoản chờ duyệt</a-menu-item>
         <a-menu-item key="6">Thêm mã giảm giá cho người dùng</a-menu-item>
