@@ -32,7 +32,7 @@
             title="Thêm danh mục bài viết"
             :footer="null"
           >
-            <form @submit.prevent="onSubmit" >
+            <form @submit.prevent="onSubmit">
               <div class="bg-white py-2">
                 <div class="pb-4">
                   <label
@@ -85,14 +85,23 @@
         </div>
       </div>
 
-      <a-table :columns="columns" :data-source="categoryStore.categoriesAdmin?.categories" :loading="isLoading">
+      <a-table
+        :columns="columns"
+        :data-source="categoryStore.categoriesAdmin?.categories"
+        :loading="isLoading"
+      >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
             <span> Name </span>
           </template>
         </template>
 
-        <template #bodyCell="{ column, record }">
+        <template #bodyCell="{ column, record, index }">
+          <template v-if="column.key === '#'">
+            <a>
+              {{ index + 1 }}
+            </a>
+          </template>
           <template v-if="column.key === 'name'">
             <a>
               {{ record.name }}
@@ -191,12 +200,13 @@ const getData = async () => {
   isLoading.value = true;
   await categoryStore.getAllCategory({
     type: "book",
-  })
+  });
   isLoading.value = false;
 };
 
-onMounted(() => {
-  getData();
+useAsyncData( async () => {
+  
+  await getData();
 });
 
 const confirm = (e: MouseEvent) => {
@@ -211,9 +221,9 @@ const cancel = (e: MouseEvent) => {
 
 const columns = [
   {
-    title: "Tên",
-    dataIndex: "name",
-    key: "name",
+    title: "#",
+    dataIndex: "#",
+    key: "#",
   },
   {
     title: "Nội dung",
@@ -246,7 +256,6 @@ const onCancel = () => {
   open.value = false;
 };
 const onSubmit = async () => {
-  
   console.log("category.value", category.value);
   await categoryStore.createCategory(category.value);
   getData();

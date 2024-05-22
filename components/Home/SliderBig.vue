@@ -106,6 +106,7 @@ export default {
   justify-content: center;
   align-items: center;
   padding-top: 20px;
+  
 }
 
 :deep(.swiper-slide img) {

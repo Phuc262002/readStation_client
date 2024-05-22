@@ -20,7 +20,7 @@
                   <a-input class="h-11" placeholder="Họ và tên" v-model:value="updateIf.fullName" />
                 </div>
                 <div class="w-1/2">
-                  <a-input class="h-11" laceholder="Số điện thoại" v-model:value="updateIf.phoneNumber" />
+                  <a-input class="h-11" placeholder="Số điện thoại" v-model:value="updateIf.phoneNumber" />
                 </div>
               </div>
               <div class="flex w-full gap-3">

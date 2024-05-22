@@ -28,7 +28,7 @@
     >
       <a-sub-menu key="sub1">
         <template #title>
-          <span class="flex items-center gap-2">
+          <span class="flex items-center gap-1">
             <UIcon name="i-ant-design-user-outlined" class="text-base" />
             <span>Thông tin cá nhân</span>
           </span>

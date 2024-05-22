@@ -9,7 +9,7 @@ export const useCategoryStore = defineStore("category-store", {
   actions: {
     async getAllCategory({ page, pageSize, search, status, type }: any) {
       const data: any = await useCustomFetch(
-        `/categories?type=${type}${page ? `&page=${page}` : ""}${
+        `/categories/admin/get-all?type=${type}${page ? `&page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
         }${search ? `&search=${search}` : ""}${
           status ? `&status=${status}` : ""

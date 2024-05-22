@@ -1,4 +1,4 @@
-import { CommonLogged } from '../../../.nuxt/components';
+
 <template>
   <div class="fixed w-full backdrop-blur-sm z-50">
     <div class="mx-auto container md:px-20 px-8">
