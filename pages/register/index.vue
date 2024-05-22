@@ -16,7 +16,7 @@
               to="/"
               class="flex mb-4 w-fit items-center text-gray-400 hover:text-gray-900 gap-2"
             >
-              <IoIosReturnLeft class="text-2xl" />
+              <span>icon</span>
               <span>Trang chủ</span>
             </NuxtLink>
             <h2 class="text-3xl font-extrabold text-gray-900">
@@ -202,7 +202,6 @@
 </template>
 
 <script setup lang="ts">
-import { IoIosReturnLeft } from "vue3-icons/io";
 const authStore = useAuthStore();
 const isSubmitting = ref(false);
 const resErrors = ref({});
