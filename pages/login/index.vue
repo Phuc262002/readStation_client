@@ -16,7 +16,7 @@
               to="/"
               class="flex mb-4 items-center w-fit text-gray-400 hover:text-gray-900 gap-2"
             >
-              <span>icon</span>
+              <UIcon name="i-ion-return-down-back-outline" />
               <span>Trang chủ</span>
             </NuxtLink>
 
