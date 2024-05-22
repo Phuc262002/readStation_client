@@ -2,7 +2,11 @@
 export default {
   content: [],
   theme: {
-    extend: {},
+    extend: {
+      padding: {
+        'sidebar': '250px',
+      },
+    },
   },
   plugins: [],
 }

@@ -10,37 +10,41 @@ export const useAuthStore = defineStore('auth-store', {
     persist: true,
     actions: {
         async login(body: any) {
-            const data: any = await useCustomFetch('/api/auth/login', {
+            const data: any = await useCustomFetch('/auth/login', {
                 method: 'POST',
                 body: body
             })
+            if (data.error.value) {
+                return data;
+            }
             this.authUser = data.data._rawValue.data;
             this.isLogged = true;
-            navigateTo('/');
             return data;
         },
         async register(body: any) {
-            const data: any = await useCustomFetch('/api/auth/register', {
+            const data: any = await useCustomFetch('/auth/register', {
                 method: 'POST',
                 body: body
             })
-            navigateTo('/login');
             return data;
         },
         async loginWithGoogle(body: any) {
-            const data: any = await useCustomFetch('/api/auth/google', {
+            const data: any = await useCustomFetch('/auth/google', {
                 method: 'POST',
                 body: {
                     idToken: body,
                 }
             })
+            if (data.error.value) {
+                return data;
+            }
             this.authUser = data.data._rawValue.data;
             this.isLogged = true;
             navigateTo('/');
             return data;
         },
         async refreshToken() {
-            const data: any = await useCustomFetch('/api/auth/refresh', {
+            const data: any = await useCustomFetch('/auth/refresh', {
                 method: 'POST',
                 body: { refreshToken: this.authUser.token.refreshToken }
             })
@@ -53,7 +57,14 @@ export const useAuthStore = defineStore('auth-store', {
             navigateTo('/');
         },
         async getProfile() {
-            const data: any = await useCustomFetch('/api/auth/profile')
+            const data: any = await useCustomFetch('/auth/profile')
+            return data;
+        },
+        async updateProfile(body: any) {
+            const data: any = await useCustomFetch('/auth/update-profile', {
+                method: 'PUT',
+                body: JSON.stringify(body)
+            })
             return data;
         }
     }

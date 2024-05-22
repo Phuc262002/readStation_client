@@ -1,32 +1,38 @@
 <template>
-    <div class="h-[60px] items-center justify-around flex bg-teal-200">
-        <div>Admin</div>
-        <div>
-            <ul class="flex gap-10">
-                <li>
-                    <NuxtLink to="/admin">
-                        <a-button type="link">Admin</a-button>
-                    </NuxtLink>
-                </li>
-                <li>
-                    <NuxtLink to="/"
-                        ><a-button type="link">Client</a-button></NuxtLink
-                    >
-                </li>
-                <li>
-                    <NuxtLink to="/login"
-                        ><a-button type="link">Login</a-button></NuxtLink
-                    >
-                </li>
-            </ul>
-        </div>
-        <div>
-            <a-select class="w-[100px]" v-model:value="$colorMode.preference">
-                <a-select-option value="system">System</a-select-option>
-                <a-select-option value="light">Light</a-select-option>
-                <a-select-option value="dark">Dark</a-select-option>
-                <a-select-option value="sepia">Sepia</a-select-option>
-            </a-select>
-        </div>
+  <a-layout-header
+    class="!bg-white !px-6 flex items-center right-0 justify-between fixed h-[4.375rem] transition-all ease-linear"
+    :class="props.collapsedValue ? 'left-20' : 'left-[theme(padding.sidebar)]'"
+  >
+    <div>
+      <menu-unfold-outlined
+        v-if="props.collapsedValue"
+        class="trigger p-3 rounded-lg hover:bg-[#f1f5f9]"
+        @click="changeCollapsed"
+      />
+      <menu-fold-outlined
+        v-else
+        class="trigger p-3 rounded-lg hover:bg-[#f1f5f9]"
+        @click="changeCollapsed"
+      />
     </div>
+    <div class="flex items-center gap-2">
+      <div>
+        <CommonThemeSelect />
+      </div>
+      <div class="pr-10">
+        <CommonLogged />
+      </div>
+    </div>
+  </a-layout-header>
 </template>
+
+<script lang="ts" setup>
+const props = defineProps<{
+  collapsed: any;
+  collapsedValue: any;
+}>();
+
+const changeCollapsed = () => {
+  props.collapsed();
+};
+</script>

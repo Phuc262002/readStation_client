@@ -1,53 +1,69 @@
 <template>
-  <div class="relative">
+  <div class="relative md:px-20 px-8 py-8">
     <div
       v-if="isSubmitting"
-      class="absolute top-0 left-0 min-w-[100vw] min-h-[100vh] bg-black/40 z-[99999] cursor-default"
+      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
     >
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
     </div>
-    <div
-      class="fixed left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-full h-full py-[32px] px-[150px] flex items-center justify-between"
-    >
-      <div class="w-1/2 flex flex-col items-center justify-center">
+    <div class="w-full h-full flex items-center justify-between">
+      <div
+        class="md:w-1/2 w-full min-h-[90vh] flex flex-col items-center justify-center"
+      >
         <div>
           <div class="w-full">
-            <h2 class="text-3xl font-extrabold text-gray-900">Đăng ký</h2>
-            <p class="mt-2">Đăng ký để bắt đầu quản lý dự án của bạn.</p>
+            <NuxtLink
+              to="/"
+              class="flex mb-4 w-fit items-center text-gray-400 hover:text-gray-900 gap-2"
+            >
+              <span>icon</span>
+              <span>Trang chủ</span>
+            </NuxtLink>
+            <h2 class="text-3xl font-extrabold text-gray-900">
+              Đăng ký tài khoản
+            </h2>
+            <p class="mt-2">Đăng ký để bắt đầu thuê sách.</p>
           </div>
-
           <div class="">
             <div class="bg-white py-8">
               <form class="space-y-6" @submit="onSubmit">
+                <div class="space-y-2">
+                  <a-alert
+                    v-if="resErrors"
+                    v-for="(error, index) in resErrors"
+                    :message="error"
+                    type="error"
+                    show-icon
+                  />
+                </div>
                 <div>
                   <label
-                    for="name"
-                    class="block text-sm font-medium text-gray-700"
+                    for="fullname"
+                    class="flex gap-1 text-sm font-medium text-gray-700"
                   >
-                    Họ tên
+                    <span>Họ tên</span><span class="text-red-600">*</span>
                   </label>
                   <div class="mt-1">
                     <a-input
                       class="w-[388px] h-[45px]"
-                      :status="errors.name ? 'error' : ''"
-                      id="name"
-                      v-bind="name"
-                      name="name"
-                      type="name"
+                      :status="errors.fullname ? 'error' : ''"
+                      id="fullname"
+                      v-bind="fullname"
+                      name="fullname"
                       placeholder="Nhập họ tên"
                     />
                   </div>
                   <small class="my-2 text-red-500">
-                    {{ errors.name }}
+                    {{ errors.fullname }}
                   </small>
                 </div>
 
                 <div>
                   <label
                     for="email"
-                    class="block text-sm font-medium text-gray-700"
+                    class="flex gap-1 text-sm font-medium text-gray-700"
                   >
-                    Email
+                    <span>Email</span><span class="text-red-600">*</span>
                   </label>
                   <div class="mt-1">
                     <a-input
@@ -68,9 +84,9 @@
                 <div>
                   <label
                     for="password"
-                    class="block text-sm font-medium text-gray-700"
+                    class="flex gap-1 text-sm font-medium text-gray-700"
                   >
-                    Mật khẩu
+                    <span>Mật khẩu</span><span class="text-red-600">*</span>
                   </label>
                   <div class="mt-1">
                     <a-input-password
@@ -92,9 +108,10 @@
                 <div>
                   <label
                     for="password_confirmation"
-                    class="block text-sm font-medium text-gray-700"
+                    class="flex gap-1 text-sm font-medium text-gray-700"
                   >
-                    Nhập lại mật khẩu
+                    <span>Nhập lại mật khẩu</span
+                    ><span class="text-red-600">*</span>
                   </label>
                   <div class="mt-1">
                     <a-input-password
@@ -115,9 +132,8 @@
 
                 <div>
                   <a-button
-                    type=""
                     html-type="submit"
-                    class="w-full bg-[#162D3A] w-[388px] h-[45px] text-white hover:bg-slate-600 text-base"
+                    class="w-full bg-[#162D3A] h-[45px] !text-white hover:bg-slate-600 text-base"
                     :loading="isSubmitting"
                   >
                     Đăng ký
@@ -142,7 +158,7 @@
                 </div>
 
                 <div>
-                  <p class="mt-[25px] text-center text-sm text-gray-600">
+                  <p class="text-center text-sm text-gray-600">
                     Bạn đã có tài khoản?
                     <NuxtLink
                       to="/login"
@@ -152,14 +168,31 @@
                     </NuxtLink>
                   </p>
                 </div>
+                <div class="max-w-[388px] text-center">
+                  <span
+                    >Bằng việc đăng nhập, bạn đọc và đồng ý với
+                    <NuxtLink to="/privacy-policy"
+                      ><span class="border-b-2"
+                        >điều khoản sử dụng</span
+                      ></NuxtLink
+                    >
+                    và
+
+                    <span class="border-b-2">
+                      <NuxtLink to="/privacy-policy"
+                        >Chính sách bảo mật thông tin cá nhân của
+                      </NuxtLink> </span
+                    >ReadStation</span
+                  >
+                </div>
               </form>
             </div>
           </div>
         </div>
       </div>
-      <div class="w-1/2 h-full flex">
+      <div class="w-1/2 h-full pr-20 py-8 md:block hidden fixed top-0 right-0">
         <img
-          class="max-lg:hidden w-full h-full object-cover rounded-2xl"
+          class="h-full w-full object-cover rounded-2xl"
           src="/assets/images/backgound-login.jpg"
           alt=""
         />
@@ -171,6 +204,7 @@
 <script setup lang="ts">
 const authStore = useAuthStore();
 const isSubmitting = ref(false);
+const resErrors = ref({});
 
 import { useForm } from "vee-validate";
 import * as yup from "yup";
@@ -179,18 +213,14 @@ import {
   type CredentialResponse,
 } from "vue3-google-signin";
 
-const props = defineProps({
-  name: String,
-});
-
 // Create the form
 const { defineInputBinds, handleSubmit, errors } = useForm({
   validationSchema: yup.object().shape({
-    name: yup
+    fullname: yup
       .string()
       .required("Trường này không được để trống")
-      .min(8, "Ký tự phải từ 8 -> 50")
-      .max(50, "Ký tự phải từ 8 -> 50"),
+      .min(2, "Tên phải có ít nhất 2 ký tự")
+      .max(50, "Tên không được quá 50 ký tự"),
     email: yup
       .string()
       .required("Trường này không được để trống")
@@ -198,26 +228,39 @@ const { defineInputBinds, handleSubmit, errors } = useForm({
     password: yup
       .string()
       .required("Trường này không được để trống")
-      .min(1, "Mật khẩu phải có ít nhất 1 ký tự"),
+      .min(8, "Mật khẩu phải có ít nhất 8 ký tự"),
     password_confirmation: yup
       .string()
+      .required("Trường này không để trống")
       .oneOf([yup.ref("password"), null], "Mật khẩu không khớp!"),
   }),
 });
 
 // Define fields
-const name = defineInputBinds("name");
+const fullname = defineInputBinds("fullname");
 const email = defineInputBinds("email");
 const password = defineInputBinds("password");
 const password_confirmation = defineInputBinds("password_confirmation");
 
 // Submit handler
 const onSubmit = handleSubmit(async (values) => {
-  console.log("🚀 ~ onSubmit ~ values:", values);
   // Submit to API
-  isSubmitting.value = true;
-  await authStore.register(values);
-  isSubmitting.value = false;
+  try {
+    isSubmitting.value = true;
+    const resData = await authStore.register(values);
+    if (resData?.data?._rawValue?.status == true) {
+      successToast("Đăng ký thành công", "Chuyển hướng đến trang đăng nhập");
+      navigateTo("/login");
+    } else {
+      resErrors.value = resData.error.value.data?.errors;
+      errorToast("Đăng ký không thành công", "Vui lòng thử lại");
+    }
+  } catch (error) {
+    // console.log(error);
+    errorToast("Đăng ký không thành công", "Vui lòng thử lại");
+  } finally {
+    isSubmitting.value = false;
+  }
 });
 
 // handle success event
@@ -225,9 +268,22 @@ const handleLoginSuccess = async (response: CredentialResponse) => {
   const { credential } = response;
   try {
     isSubmitting.value = true;
-    await authStore.loginWithGoogle(credential);
+    const resData = await authStore.loginWithGoogle(credential);
+    if (resData?.data?._rawValue?.status == true) {
+      successToast("Đăng nhập thành công", "Chào mừng bạn đến với ReadStation");
+      navigateTo("/");
+    } else {
+      resErrors.value = resData.error.value.data.errors;
+      errorToast("Đăng nhập không thành công", "Vui lòng thử lại sau");
+    }
   } catch (error) {
-    errorToast("Đăng ký không thành công", "Vui lòng thử lại");
+    message.error({
+      content: "Đăng nhập không thành công",
+    });
+    errorToast(
+      "Đăng nhập không thành công",
+      "Vui lòng thử lại bằng cách đăng nhập bên trang đăng nhập"
+    );
   } finally {
     isSubmitting.value = false;
   }

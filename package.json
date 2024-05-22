@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
+    "@iconify/json": "^2.2.211",
     "@nuxt/ui": "^2.15.2",
     "@pinia/nuxt": "^0.5.1",
     "ant-design-vue": "^4.1.2",
@@ -28,7 +29,6 @@
     "@ant-design/compatible": "^5.1.2",
     "@nuxtjs/color-mode": "^3.4.0",
     "@nuxtjs/tailwindcss": "^6.11.4",
-    "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
-    "nuxt-svgo": "^4.0.0"
+    "@pinia-plugin-persistedstate/nuxt": "^1.2.0"
   }
 }

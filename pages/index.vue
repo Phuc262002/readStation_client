@@ -1,19 +1,18 @@
 <template>
     <div>
         <HomeSliderBig />
-        <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
-            <HomeSwiperItemHome />
-        </div>
+        <HomeCategory/>
+        <HomeFeaturedBooks />
+        <HomeFeatureAuthor/>
+        <HomeRecomended/>
+        <HomeFourBox/>
     </div>
 </template>
 
 <script setup>
 const data = ref(null);
-const isLoading = ref(false);
-
 const authStore = useAuthStore();
-
-const getProfile = async () => {
+useAsyncData(async () => {
     isLoading.value = true;
     try {
         const response = await authStore.getProfile();
@@ -23,7 +22,7 @@ const getProfile = async () => {
     } finally {
         isLoading.value = false;
     }
-};
+});
 
 useSeoMeta({
     title: "My Amazing Site",

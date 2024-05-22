@@ -1,5 +1,5 @@
 <template>
-    <div class="h-[100px] bg-teal-700 flex items-center justify-center">
-        Footer Admin
-    </div>
+    <a-layout-footer style="text-align: center">
+        ©2024 Created by ReadStation
+    </a-layout-footer>
 </template>

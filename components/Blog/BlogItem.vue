@@ -1,7 +1,7 @@
 <template>
     <div class="w-full">
-        <NuxtLink to="/blog/1">
-            <div class="p-4 border border-gray-200 rounded-lg bg-white">
+        <NuxtLink to="/post/1">
+            <div class="p-4 border border-gray-100 rounded-lg bg-white shadow-md">
                 <div class="flex justify-center items-center mb-4">
                     <img
                         class="rounded-md"
