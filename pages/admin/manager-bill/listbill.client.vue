@@ -7,9 +7,9 @@
             <CommonBreadcrumAdmin />
         </div>
 
-        <div class=" min-h-auto w-full rounded-lg shadow-sm">
+        <div class=" w-full rounded-lg shadow-sm">
             <div class="flex justify-between gap-4">
-                <div class="w-1/4 bg-white auto flex flex-col p-5 gap-5 rounded-lg">
+                <div class="w-1/4 h-[600px] bg-white  flex flex-col p-5 gap-5 rounded-lg">
                     <div class="flex flex-col gap-4">
                         <div class="flex flex-col">
                             <h1 class="text-xl font-bold">Invoice List</h1>
@@ -27,6 +27,58 @@
                             </button>
                         </div>
                     </div>
+                    <div class="h-full overflow-auto">
+                        <div class="border-t p-5 ">
+                        <div class="float-right">
+                            <span
+                                class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Paid</span>
+                        </div>
+                        <h6 class="text-base font-semibold">#TW15090251</h6>
+                        <div class="flex">
+                            <div class="grow">
+                                <h6 class="mt-3 mb-1 text-16 text-base font-semibold">Paula Keenan</h6>
+                                <p class="text-slate-500 dark:text-zink-200 text-base">$873.96</p>
+                            </div>
+                            <p class="self-end mb-0 text-slate-500 dark:text-zink-200 shrink-0 flex items-center gap-2">
+                                <IoMdCalendar class="text-base" />
+                                <span class="align-middle text-base">21 Jan, 2024</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="border-t p-5">
+                        <div class="float-right">
+                            <span
+                                class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Paid</span>
+                        </div>
+                        <h6 class="text-base font-semibold">#TW15090251</h6>
+                        <div class="flex">
+                            <div class="grow">
+                                <h6 class="mt-3 mb-1 text-16 text-base font-semibold">Paula Keenan</h6>
+                                <p class="text-slate-500 dark:text-zink-200 text-base">$873.96</p>
+                            </div>
+                            <p class="self-end mb-0 text-slate-500 dark:text-zink-200 shrink-0 flex items-center gap-2">
+                                <IoMdCalendar class="text-base" />
+                                <span class="align-middle text-base">21 Jan, 2024</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="border-t p-5">
+                        <div class="float-right">
+                            <span
+                                class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Paid</span>
+                        </div>
+                        <h6 class="text-base font-semibold">#TW15090251</h6>
+                        <div class="flex">
+                            <div class="grow">
+                                <h6 class="mt-3 mb-1 text-16 text-base font-semibold">Paula Keenan</h6>
+                                <p class="text-slate-500 dark:text-zink-200 text-base">$873.96</p>
+                            </div>
+                            <p class="self-end mb-0 text-slate-500 dark:text-zink-200 shrink-0 flex items-center gap-2">
+                                <IoMdCalendar class="text-base" />
+                                <span class="align-middle text-base">21 Jan, 2024</span>
+                            </p>
+                        </div>
+                    </div>
                     <div class="border-t p-5">
                         <div class="float-right">
                             <span
@@ -78,6 +130,25 @@
                             </p>
                         </div>
                     </div>
+                    <div class="border-t p-5">
+                        <div class="float-right">
+                            <span
+                                class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Paid</span>
+                        </div>
+                        <h6 class="text-base font-semibold">#TW15090251</h6>
+                        <div class="flex">
+                            <div class="grow">
+                                <h6 class="mt-3 mb-1 text-16 text-base font-semibold">Paula Keenan</h6>
+                                <p class="text-slate-500 dark:text-zink-200 text-base">$873.96</p>
+                            </div>
+                            <p class="self-end mb-0 text-slate-500 dark:text-zink-200 shrink-0 flex items-center gap-2">
+                                <IoMdCalendar class="text-base" />
+                                <span class="align-middle text-base">21 Jan, 2024</span>
+                            </p>
+                        </div>
+                    </div>
+                    </div>
+                
 
 
                 </div>
