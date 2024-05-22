@@ -207,7 +207,6 @@
         </div>
         <div class="">
           <div class="flex items-center gap-2 mb-3">
-            <IoMdPerson />
             <h2 class="text-sm font-bold">Kết nối tài khoản</h2>
           </div>
           <div class="bg-[#f9f9f9] rounded-md shadow-md shadow-gray-300 p-4">
@@ -237,7 +236,6 @@
 </template>
 
 <script setup lang="ts">
-import { IoMdPerson } from "vue3-icons/io";
 import { ref } from "vue";
 import { useForm } from "vee-validate";
 import * as yup from "yup";

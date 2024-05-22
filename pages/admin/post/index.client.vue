@@ -1,4 +1,4 @@
-import { NuxtLink } from '../../../.nuxt/components';
+
 <template>
   <div>
     <div
@@ -23,7 +23,7 @@ import { NuxtLink } from '../../../.nuxt/components';
           <div
             class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
           >
-            <SearchOutlined class="text-gray-500" />
+          <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
         <NuxtLink to="/admin/post/add-post" class="">
@@ -63,9 +63,87 @@ import { NuxtLink } from '../../../.nuxt/components';
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <span><UIcon name="i-icon-park-outline-eyes" /></span>
-              <span><UIcon name="i-material-symbols-edit-outline" /></span>
-              <span><UIcon name="i-material-symbols-delete-outline" /></span>
+              <a-tooltip placement="top"  color="gold">
+                <template #title>
+                  <span>Xem chi tiết</span>
+                </template>
+                <span class="hover:bg-[#faad14]/20 flex items-center justify-center w-6 h-6 rounded-md"><UIcon class="hover:text-[#faad14]" name="i-icon-park-outline-eyes" /></span>
+              </a-tooltip>
+              <a-tooltip placement="top" color="green">
+                <template #title>
+                  <span>Sửa</span>
+                </template>
+                <span
+                  class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md"
+                >
+                  <div>
+                    <button @click="showModal">
+                      <UIcon
+                        class="hover:text-[green]"
+                        name="i-material-symbols-edit-outline"
+                      />
+                    </button>
+                    <a-modal v-model:open="open" title="Sửa" >
+                      <div class="">
+                        <div class="bg-white py-2">
+                          <div class="pb-4">
+                            <label
+                              for="email"
+                              class="block text-sm font-medium text-gray-700"
+                            >
+                              Tên danh mục
+                            </label>
+                            <div class="mt-1">
+                              <a-input
+                                class="w-[450px] h-[45px]"
+                                placeholder="Nhập tên danh mục"
+                              />
+                            </div>
+                          </div>
+
+                          <div>
+                            <label
+                              for="email"
+                              class="block text-sm font-medium text-gray-700"
+                            >
+                              Nội dụng
+                            </label>
+                            <div class="mt-1">
+                              <a-input
+                                class="w-[450px] h-[45px]"
+                                placeholder="Nhập nội dung"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a-modal>
+                  </div>
+                </span>
+              </a-tooltip>
+              <a-tooltip placement="top" color="red">
+                <template #title>
+                  <span>Xóa</span>
+                </template>
+                <span
+                  class="hover:bg-[red]/20 flex items-center justify-center w-6 h-6 rounded-md"
+                >
+                  <a-popconfirm
+                    title="Are you sure delete this task?"
+                    placement="right"
+                    ok-text="Yes"
+                    cancel-text="No"
+                    @confirm="confirm"
+                    @cancel="cancel"
+                  >
+                    <a href="#">
+                      <UIcon
+                        class="hover:text-[red]"
+                        name="i-material-symbols-delete-outline"
+                    /></a>
+                  </a-popconfirm>
+                </span>
+              </a-tooltip>
             </div>
           </template>
         </template>
@@ -74,6 +152,15 @@ import { NuxtLink } from '../../../.nuxt/components';
   </div>
 </template>
 <script lang="ts" setup>
+const confirm = (e: MouseEvent) => {
+  console.log(e);
+  message.success("Xóa thành công");
+};
+
+const cancel = (e: MouseEvent) => {
+  console.log(e);
+  message.error("Xóa thất bại");
+};
 const columns = [
   {
     name: "Name",
@@ -128,4 +215,10 @@ const data = [
     tags: ["nice", "developer"],
   },
 ];
+const open = ref<boolean>(false);
+const showModal = () => {
+  open.value = true;
+};
+
+
 </script>

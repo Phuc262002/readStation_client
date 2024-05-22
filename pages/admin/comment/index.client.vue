@@ -1,13 +1,15 @@
 <template>
   <div>
-    <div class="flex gap-2 py-4 md:flex-row md:items-center print:hidden">
+    <div
+      class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
+    >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Danh mục bài viết</h5>
+        <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả tủ sách</h5>
       </div>
       <CommonBreadcrumAdmin />
     </div>
 
-    <div class="bg-white min-h-[260px] w-full rounded-lg p-5">
+    <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
         <div class="relative w-1/4 md:block hidden">
           <div class="flex">
@@ -23,106 +25,49 @@
           <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
-        <div class="">
-          <a-button type="primary" @click="showModal"
-            >Thêm danh mục bài viết</a-button
-          >
-          <a-modal
-            v-model:open="open"
-            title="Thêm danh mục bài viết"
-            :footer="null"
-          >
-            <form @submit.prevent="onSubmit">
-              <div class="bg-white py-2">
-                <div class="pb-4">
-                  <label
-                    for="email"
-                    class="block text-sm font-medium text-gray-700"
-                  >
-                    Tên danh mục
-                  </label>
-                  <div class="mt-1">
-                    <a-input
-                      v-model:value="category.name"
-                      class="w-[450px] h-[45px]"
-                      placeholder="Nhập tên danh mục"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    for="email"
-                    class="block text-sm font-medium text-gray-700"
-                  >
-                    Nội dụng
-                  </label>
-                  <div class="mt-1">
-                    <a-input
-                      v-model:value="category.description"
-                      class="w-[450px] h-[45px]"
-                      placeholder="Nhập nội dung"
-                    />
-                  </div>
-                </div>
-                <div class="flex justify-end items-end gap-4">
-                  <a-button
-                    @click="onCancel"
-                    type="primary"
-                    danger
-                    html-type="button"
-                    class="mt-4"
-                    >Hủy</a-button
-                  >
-                  <a-button type="primary" html-type="submit" class="mt-4"
-                    >Lưu</a-button
-                  >
-                </div>
-              </div>
-            </form>
-          </a-modal>
-        </div>
+        <NuxtLink to="/admin/book-case/add-bookcase" class="">
+          <a-button type="primary">Thêm tủ sách</a-button>
+        </NuxtLink>
       </div>
 
-      <a-table
-        :columns="columns"
-        :data-source="categoryStore.categoriesAdmin?.categories"
-        :loading="isLoading"
-      >
+      <a-table :columns="columns" :data-source="data">
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
-            <span> Name </span>
+            <span> parent_id</span>
           </template>
         </template>
 
-        <template #bodyCell="{ column, record, index }">
-          <template v-if="column.key === '#'">
-            <a>
-              {{ index + 1 }}
-            </a>
-          </template>
+        <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
             <a>
               {{ record.name }}
             </a>
           </template>
-          <template v-else-if="column.key === 'status'">
+          <template v-else-if="column.key === 'tags'">
             <span>
-              <a-tag :color="record.status === 'active' ? 'volcano' : 'green'">
-                {{ record.status }}
+              <a-tag
+                v-for="tag in record.tags"
+                :key="tag"
+                :color="
+                  tag === 'loser'
+                    ? 'volcano'
+                    : tag.length > 5
+                    ? 'geekblue'
+                    : 'green'
+                "
+              >
+                {{ tag.toUpperCase() }}
               </a-tag>
             </span>
           </template>
-
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <!-- <a-tooltip placement="top"  color="gold">
+              <a-tooltip placement="top"  color="gold">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
                 <span class="hover:bg-[#faad14]/20 flex items-center justify-center w-6 h-6 rounded-md"><UIcon class="hover:text-[#faad14]" name="i-icon-park-outline-eyes" /></span>
-              </a-tooltip> -->
+              </a-tooltip>
               <a-tooltip placement="top" color="green">
                 <template #title>
                   <span>Sửa</span>
@@ -206,30 +151,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
-import { message } from "ant-design-vue";
-
-const category = ref({
-  name: "",
-  description: "",
-  type: "post",
-});
-
-const categoryStore = useCategoryStore();
-const isLoading = ref(false);
-
-const getData = async () => {
-  isLoading.value = true;
-  await categoryStore.getAllCategory({
-    type: "post",
-  });
-  isLoading.value = false;
+const open = ref<boolean>(false);
+const showModal = () => {
+  open.value = true;
 };
-
-useAsyncData(async () => {
-  await getData();
-});
-
 const confirm = (e: MouseEvent) => {
   console.log(e);
   message.success("Xóa thành công");
@@ -239,52 +164,34 @@ const cancel = (e: MouseEvent) => {
   console.log(e);
   message.error("Xóa thất bại");
 };
-
 const columns = [
   {
-    title: "#",
-    dataIndex: "#",
-    key: "#",
-  },
-  {
-    title: "Tên",
-    dataIndex: "name",
+    name: "Name",
+    dataIndex: "Name",
     key: "name",
   },
   {
-    title: "Nội dung",
-    dataIndex: "description",
-    key: "description",
+    title: "Tên người viết",
+    dataIndex: "user_id",
+    key: "user_id",
   },
   {
-    title: "Slug",
-    dataIndex: "slug",
-    key: "slug",
+    title: "Tên bài viết",
+    dataIndex: "post_id",
+    key: "post_id",
   },
   {
-    title: "Trạng thái",
-    key: "status",
-    dataIndex: "status",
-  },
-
-  {
-    title: "Chức năng",
+    title: "Action",
     key: "action",
   },
 ];
 
-const open = ref<boolean>(false);
-const showModal = () => {
-  open.value = true;
-};
-
-const onCancel = () => {
-  open.value = false;
-};
-const onSubmit = async () => {
-  console.log("category.value", category.value);
-  await categoryStore.createCategory(category.value);
-  getData();
-  open.value = false;
-};
+const data = [
+  {
+    key: "1",
+    name: "123",
+    user_id: "New York No. 1 Lake Park",
+    post_id: "New York No. 1 Lake Park",
+  },
+];
 </script>

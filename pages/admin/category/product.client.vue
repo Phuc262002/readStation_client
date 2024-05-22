@@ -20,7 +20,7 @@
           <div
             class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
           >
-            <SearchOutlined class="text-gray-500" />
+          <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
         <div class="">
@@ -115,69 +115,89 @@
             </span>
           </template>
           <template v-else-if="column.key === 'action'">
-            <a-dropdown :trigger="['click']">
-              <a class="ant-dropdown-link" @click.prevent> ... </a>
-              <template #overlay>
-                <a-menu>
-                  <a-menu-item key="0">
-                    <div class="">
-                      <a-menu-item @click="showModal">
-                        <UIcon name="i-material-symbols-edit-outline"
-                      /></a-menu-item>
-                      <a-modal v-model:open="open" title="Sửa" @ok="handleOk">
-                        <div class="">
-                          <div class="bg-white py-2">
-                            <div class="pb-4">
-                              <label
-                                for="email"
-                                class="block text-sm font-medium text-gray-700"
-                              >
-                                Tên danh mục
-                              </label>
-                              <div class="mt-1">
-                                <a-input
-                                  class="w-[450px] h-[45px]"
-                                  placeholder="Nhập tên danh mục"
-                                />
-                              </div>
+            <div class="flex text-[16px] gap-4">
+              <!-- <a-tooltip placement="top"  color="gold">
+                <template #title>
+                  <span>Xem chi tiết</span>
+                </template>
+                <span class="hover:bg-[#faad14]/20 flex items-center justify-center w-6 h-6 rounded-md"><UIcon class="hover:text-[#faad14]" name="i-icon-park-outline-eyes" /></span>
+              </a-tooltip> -->
+              <a-tooltip placement="top" color="green">
+                <template #title>
+                  <span>Sửa</span>
+                </template>
+                <span
+                  class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md"
+                >
+                  <div>
+                    <button @click="showModal">
+                      <UIcon
+                        class="hover:text-[green]"
+                        name="i-material-symbols-edit-outline"
+                      />
+                    </button>
+                    <a-modal v-model:open="open" title="Sửa" @ok="">
+                      <div class="">
+                        <div class="bg-white py-2">
+                          <div class="pb-4">
+                            <label
+                              for="email"
+                              class="block text-sm font-medium text-gray-700"
+                            >
+                              Tên danh mục
+                            </label>
+                            <div class="mt-1">
+                              <a-input
+                                class="w-[450px] h-[45px]"
+                                placeholder="Nhập tên danh mục"
+                              />
                             </div>
+                          </div>
 
-                            <div>
-                              <label
-                                for="email"
-                                class="block text-sm font-medium text-gray-700"
-                              >
-                                Nội dụng
-                              </label>
-                              <div class="mt-1">
-                                <a-input
-                                  class="w-[450px] h-[45px]"
-                                  placeholder="Nhập nội dung"
-                                />
-                              </div>
+                          <div>
+                            <label
+                              for="email"
+                              class="block text-sm font-medium text-gray-700"
+                            >
+                              Nội dụng
+                            </label>
+                            <div class="mt-1">
+                              <a-input
+                                class="w-[450px] h-[45px]"
+                                placeholder="Nhập nội dung"
+                              />
                             </div>
                           </div>
                         </div>
-                      </a-modal>
-                    </div>
-                  </a-menu-item>
-                  <a-menu-divider />
-                  <a-menu-item class="h-[40px]">
-                    <a-popconfirm
-                      title="Bạn có muốn xóa không?"
-                      ok-text="Yes"
-                      cancel-text="No"
-                      @confirm="confirm"
-                      @cancel="cancel"
-                    >
-                      <a class="flex justify-center items-center" href="#"
-                        ><UIcon name="i-ic-baseline-delete-outline"
-                      /></a>
-                    </a-popconfirm>
-                  </a-menu-item>
-                </a-menu>
-              </template>
-            </a-dropdown>
+                      </div>
+                    </a-modal>
+                  </div>
+                </span>
+              </a-tooltip>
+              <a-tooltip placement="top" color="red">
+                <template #title>
+                  <span>Xóa</span>
+                </template>
+                <span
+                  class="hover:bg-[red]/20 flex items-center justify-center w-6 h-6 rounded-md"
+                >
+                  <a-popconfirm
+                    title="Are you sure delete this task?"
+                    placement="right"
+                    ok-text="Yes"
+                    cancel-text="No"
+                    @confirm="confirm"
+                    @cancel="cancel"
+                  >
+                    <a href="#">
+                      <UIcon
+                        class="hover:text-[red]"
+                        name="i-material-symbols-delete-outline"
+                    /></a>
+                  </a-popconfirm>
+                </span>
+              </a-tooltip>
+            </div>
           </template>
         </template>
       </a-table>
