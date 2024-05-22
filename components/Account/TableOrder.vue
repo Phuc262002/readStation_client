@@ -1,5 +1,5 @@
 <template>
-  <a-table :columns="columns" :data-source="data" :pagination="pagination" bordered >
+  <a-table :columns="columns" :data-source="data" :pagination="pagination" bordered :scroll="{ x: 1200, y: 300 }">
     <!-- <a-table :columns="columns" :data-source="data" :pagination="pagination" bordered > -->
     <template #headerCell="{ column }">
       <template v-if="column.key === 'name'">
@@ -15,14 +15,22 @@
           {{ record.name }}
         </a>
       </template>
-      <template v-else-if="column.key === 'tags'">
+      <template v-else-if="column.key === 'status'">
         <span>
           <a-tag
-            v-for="tag in record.tags"
+            v-for="tag in record.status"
             :key="tag"
             :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'green' : 'geekblue'"
           >
             {{ tag.toUpperCase() }}
+          </a-tag>
+        </span>
+      </template>
+      
+      <template v-else-if="column.key === 'payment_method'">
+        <span class="flex justify-center">
+          <a-tag :color="record.payment_method === 'active' ? 'volcano' : 'green'">
+            {{ record.payment_method }}
           </a-tag>
         </span>
       </template>
@@ -37,8 +45,6 @@
       </template>
       <template v-else-if="column.key === 'action'">
         <span class="flex space-x-2">
-          <!-- <a>Invite — {{ record.name }}</a>
-          <a-divider type="vertical" /> -->
           <a><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
           </svg>
@@ -48,11 +54,6 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
           </svg>
           </a>
-          <!-- <a-divider type="vertical" />
-          <a class="ant-dropdown-link">
-            More actions
-            <down-outlined />
-          </a> -->
         </span>
       </template>
     </template>
@@ -63,70 +64,79 @@
 const columns = [
   {
     title: 'Mã đơn hàng',
-    dataIndex: 'order_id',
-    key: 'order_id',
-    width: 120,
+    dataIndex: 'order_code',
+    key: 'order_code',
+    width: 150,
   },
   {
     title: 'Ngày đặt',
-    dataIndex: 'book_date',
-    key: 'book_date',
+    dataIndex: 'created_at',
+    key: 'created_at',
+    width: 110,
   },
   {
     title: 'Ngày nhận',
-    dataIndex: 'book_receipt_date',
-    key: 'book_receipt_date',
-  },
-  {
-    title: 'Thời gian trả sách',
-    key: 'book_return',
-    dataIndex: 'book_return',
+    dataIndex: 'receipt_date',
+    key: 'receipt_date',
+    width: 110,
   },
   {
     title: 'Phương thức thanh toán',
-    key: 'payment_methods',
-    dataIndex: 'payment_methods',
+    key: 'payment_method',
+    dataIndex: 'payment_method',
+    width: 190,
   },
   {
     title: 'Trạng thái đơn',
-    key: 'tags',
-    dataIndex: 'tags',
-  },
-  {
-    title: 'Tổng tiền',
-    key: 'total',
-    dataIndex: 'total',
+    key: 'status',
+    dataIndex: 'status',
+    width: 130,
+    
   },
   {
     title: 'Gia hạn',
-    key: 'extend',
-    dataIndex: 'extend',
+    key: 'extension_dates',
+    dataIndex: 'extension_dates',
+    width: 120,
+  },
+  {
+    title: 'Số lần gia hạn',
+    key: 'current_extensions',
+    dataIndex: 'current_extensions',
+    width: 130,
+  },
+  {
+    title: 'Tổng tiền',
+    key: 'total_fee',
+    dataIndex: 'total_fee',
+    width: 100,
   },
   {
     title: 'Action',
     key: 'action',
+    fixed: 'right',
+    width: 120,
   },
 ];
 
 const data = [
   {
     key: '1',
-    order_id: '2683242197997',
-    book_date: '20/5/2024',
-    book_receipt_date: '22/5/2024',
-    book_return: '22/8/2024',
-    payment_methods: 'credit',
-    // status: 'Hoàn thành',
-    total:'200k',
-    extend:'thời gian',
-    tags: ['Hoàn thành'],
+    order_code: '2683242197997',
+    created_at: '20/5/2024',
+    receipt_date: '22/5/2024',
+    payment_method: 'Thanh Toán Ví ',
+    current_extensions: '123',
+    total_fee:'200k',
+    extension_dates:'thêm 3 ngày',
+    status: ['Hoàn thành'],
   },
 ];
 
 
 const pagination = {
   total: data.length, 
-  pageSize: 2,
+  pageSize: 3,
   // showTotal: (total, range) => `Đang hiển thị ${range[1] - range[0] + 1} trên ${total} sản phẩm`,
   // position: ['bottomCenter'],
 };
