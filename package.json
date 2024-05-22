@@ -22,7 +22,6 @@
     "vee-validate": "^4.12.6",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
-    "vue3-icons": "^0.1.13",
     "yup": "^1.4.0"
   },
   "devDependencies": {
@@ -30,7 +29,6 @@
     "@ant-design/compatible": "^5.1.2",
     "@nuxtjs/color-mode": "^3.4.0",
     "@nuxtjs/tailwindcss": "^6.11.4",
-    "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
-    "nuxt-svgo": "^4.0.0"
+    "@pinia-plugin-persistedstate/nuxt": "^1.2.0"
   }
 }
