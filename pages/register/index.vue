@@ -201,8 +201,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { IoIosReturnLeft } from "vue3-icons/io";
+<script setup lang="ts">;
 const authStore = useAuthStore();
 const isSubmitting = ref(false);
 const resErrors = ref({});

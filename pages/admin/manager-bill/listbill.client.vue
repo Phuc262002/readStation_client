@@ -367,8 +367,5 @@
 </template>
 
 <script setup>
-import { IoIosOptions } from 'vue3-icons/io'
-import { IoMdCalendar } from 'vue3-icons/io'
-import { IoIosMore } from 'vue3-icons/io'
-import { IoIosSave } from 'vue3-icons/io'
+
 </script>
