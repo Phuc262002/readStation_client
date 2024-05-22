@@ -16,7 +16,7 @@
               to="/"
               class="flex mb-4 items-center w-fit text-gray-400 hover:text-gray-900 gap-2"
             >
-              <IoIosReturnLeft class="text-2xl" />
+              <UIcon name="i-ion-return-down-back-outline" />
               <span>Trang chủ</span>
             </NuxtLink>
 
@@ -176,7 +176,6 @@
 </template>
 
 <script setup lang="ts">
-
 const authStore = useAuthStore();
 const isSubmitting = ref(false);
 const resErrors = ref({});
