@@ -24,9 +24,66 @@
           <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
-        <NuxtLink to="/admin/book-case/add-bookcase" class="">
-          <a-button type="primary">Thêm kệ sách</a-button>
-        </NuxtLink>
+        <div class="">
+          <a-button type="primary" @click="showModalAdd"
+            >Thêm tủ sách</a-button
+          >
+          <a-modal
+            v-model:open="openModalAdd"
+            title="Thêm tủ sách"
+            :footer="null"
+          >
+            <form @submit.prevent="">
+              <div class="bg-white py-2">
+                <div class="pb-4">
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    Tên danh mục
+                  </label>
+                  <div class="mt-1">
+                    <a-input
+                  
+                      class="w-[450px] h-[45px]"
+                      placeholder="Nhập tên danh mục"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    Nội dụng
+                  </label>
+                  <div class="mt-1">
+                    <a-input
+                  
+                      class="w-[450px] h-[45px]"
+                      placeholder="Nhập nội dung"
+                    />
+                  </div>
+                </div>
+                <div class="flex justify-end items-end gap-4">
+                  <a-button
+                    @click="onCancel"
+                    type="primary"
+                    danger
+                    html-type="button"
+                    class="mt-4"
+                    >Hủy</a-button
+                  >
+                  <a-button type="primary" html-type="submit" class="mt-4"
+                    >Lưu</a-button
+                  >
+                </div>
+              </div>
+            </form>
+          </a-modal>
+        </div>
       </div>
 
       <a-table :columns="columns" :data-source="data">
@@ -63,13 +120,13 @@
                   class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md"
                 >
                   <div>
-                    <button @click="showModal">
+                    <button @click="showModalEdit">
                       <UIcon
                         class="hover:text-[green]"
                         name="i-material-symbols-edit-outline"
                       />
                     </button>
-                    <a-modal v-model:open="open" title="Sửa" >
+                    <a-modal v-model:open="openModalEdit" title="Sửa" >
                       <div class="">
                         <div class="bg-white py-2">
                           <div class="pb-4">
@@ -147,9 +204,17 @@ const cancel = (e: MouseEvent) => {
   console.log(e);
   message.error("Xóa thất bại");
 };
-const open = ref<boolean>(false);
-const showModal = () => {
-  open.value = true;
+const openModalEdit = ref<boolean>(false);
+const openModalAdd = ref<boolean>(false);
+
+const showModalAdd = () => {
+  openModalAdd.value = true;
+};
+const showModalEdit = () => {
+  openModalEdit.value = true;
+};
+const onCancel = () => {
+  openModalAdd.value = false;
 };
 const columns = [
   {

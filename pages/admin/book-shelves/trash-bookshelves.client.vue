@@ -4,11 +4,10 @@
         class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
       >
         <div class="grow">
-          <h5 class="text-xl text-[#1e293b] font-semibold">Bình luận gần đây</h5>
+          <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả kệ sách đã xóa</h5>
         </div>
         <CommonBreadcrumAdmin />
       </div>
-  
       <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
         <div class="flex justify-between pb-4">
           <div class="relative w-1/4 md:block hidden">
@@ -25,15 +24,72 @@
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
             </div>
           </div>
-          <!-- <NuxtLink to="/admin/book-case/add-bookcase" class="">
-            <a-button type="primary">Thêm bình luận</a-button>
-          </NuxtLink> -->
+          <!-- <div class="">
+            <a-button type="primary" @click="showModalAdd"
+              >Thêm tủ sách</a-button
+            >
+            <a-modal
+              v-model:open="openModalAdd"
+              title="Thêm tủ sách"
+              :footer="null"
+            >
+              <form @submit.prevent="">
+                <div class="bg-white py-2">
+                  <div class="pb-4">
+                    <label
+                      for="email"
+                      class="block text-sm font-medium text-gray-700"
+                    >
+                      Tên danh mục
+                    </label>
+                    <div class="mt-1">
+                      <a-input
+                    
+                        class="w-[450px] h-[45px]"
+                        placeholder="Nhập tên danh mục"
+                        required
+                      />
+                    </div>
+                  </div>
+  
+                  <div>
+                    <label
+                      for="email"
+                      class="block text-sm font-medium text-gray-700"
+                    >
+                      Nội dụng
+                    </label>
+                    <div class="mt-1">
+                      <a-input
+                    
+                        class="w-[450px] h-[45px]"
+                        placeholder="Nhập nội dung"
+                      />
+                    </div>
+                  </div>
+                  <div class="flex justify-end items-end gap-4">
+                    <a-button
+                      @click="onCancel"
+                      type="primary"
+                      danger
+                      html-type="button"
+                      class="mt-4"
+                      >Hủy</a-button
+                    >
+                    <a-button type="primary" html-type="submit" class="mt-4"
+                      >Lưu</a-button
+                    >
+                  </div>
+                </div>
+              </form>
+            </a-modal>
+          </div> -->
         </div>
   
         <a-table :columns="columns" :data-source="data">
           <template #headerCell="{ column }">
             <template v-if="column.key === 'name'">
-              <span> parent_id</span>
+              <span> Mã tủ sách </span>
             </template>
           </template>
   
@@ -43,30 +99,18 @@
                 {{ record.name }}
               </a>
             </template>
-            <template v-else-if="column.key === 'tags'">
-              <span>
-                <a-tag
-                  v-for="tag in record.tags"
-                  :key="tag"
-                  :color="
-                    tag === 'loser'
-                      ? 'volcano'
-                      : tag.length > 5
-                      ? 'geekblue'
-                      : 'green'
-                  "
-                >
-                  {{ tag.toUpperCase() }}
-                </a-tag>
-              </span>
-            </template>
             <template v-else-if="column.key === 'action'">
               <div class="flex text-[16px] gap-4">
-                <a-tooltip placement="top"  color="gold">
+                <a-tooltip placement="top" color="gold">
                   <template #title>
                     <span>Xem chi tiết</span>
                   </template>
-                  <span class="hover:bg-[#faad14]/20 flex items-center justify-center w-6 h-6 rounded-md"><UIcon class="hover:text-[#faad14]" name="i-icon-park-outline-eyes" /></span>
+                  <span
+                    class="hover:bg-[#faad14]/20 flex items-center justify-center w-6 h-6 rounded-md"
+                    ><UIcon
+                      class="hover:text-[#faad14]"
+                      name="i-icon-park-outline-eyes"
+                  /></span>
                 </a-tooltip>
                 <!-- <a-tooltip placement="top" color="green">
                   <template #title>
@@ -76,13 +120,13 @@
                     class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md"
                   >
                     <div>
-                      <button @click="showModal">
+                      <button @click="showModalEdit">
                         <UIcon
                           class="hover:text-[green]"
                           name="i-material-symbols-edit-outline"
                         />
                       </button>
-                      <a-modal v-model:open="open" title="Sửa" >
+                      <a-modal v-model:open="openModalEdit" title="Sửa" >
                         <div class="">
                           <div class="bg-white py-2">
                             <div class="pb-4">
@@ -151,10 +195,6 @@
     </div>
   </template>
   <script lang="ts" setup>
-  const open = ref<boolean>(false);
-  const showModal = () => {
-    open.value = true;
-  };
   const confirm = (e: MouseEvent) => {
     console.log(e);
     message.success("Xóa thành công");
@@ -164,6 +204,18 @@
     console.log(e);
     message.error("Xóa thất bại");
   };
+  const openModalEdit = ref<boolean>(false);
+  const openModalAdd = ref<boolean>(false);
+  
+  const showModalAdd = () => {
+    openModalAdd.value = true;
+  };
+  const showModalEdit = () => {
+    openModalEdit.value = true;
+  };
+  const onCancel = () => {
+    openModalAdd.value = false;
+  };
   const columns = [
     {
       name: "Name",
@@ -171,14 +223,14 @@
       key: "name",
     },
     {
-      title: "Tên người viết",
-      dataIndex: "user_id",
-      key: "user_id",
+      title: "Mã kệ sách",
+      dataIndex: "bookshelf_code",
+      key: "bookshelf_code",
     },
     {
-      title: "Tên bài viết",
-      dataIndex: "post_id",
-      key: "post_id",
+      title: "Danh mục",
+      dataIndex: "category_id",
+      key: "category_id",
     },
     {
       title: "Action",
@@ -190,8 +242,8 @@
     {
       key: "1",
       name: "123",
-      user_id: "New York No. 1 Lake Park",
-      post_id: "New York No. 1 Lake Park",
+      bookshelf_code: "123",
+      category_id: "New York No. 1 Lake Park",
     },
   ];
   </script>
