@@ -6,12 +6,15 @@
     <a-menu v-model:selectedKeys="selectedKeys" :theme="$colorMode.value === 'dark' ? 'dark' : 'light'" mode="inline"
       class="!border-0 dark:!bg-[#6c819b] dark:!text-white overflow-auto h-5/6"
       :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'">
-      <a-menu-item key="1">
-        <span class="flex items-center gap-2">
-          <UIcon name="i-material-symbols-light-space-dashboard" />
-          <span>Dashboards</span>
-        </span>
-      </a-menu-item>
+      <NuxtLink to="/admin/dashboards">
+        <a-menu-item key="1">
+          <span class="flex items-center gap-2">
+            <UIcon name="i-material-symbols-light-space-dashboard" />
+            <span>Dashboards</span>
+          </span>
+        </a-menu-item>
+      </NuxtLink>
+
       <!-- <a-menu-item key="2">
                     <desktop-outlined />
                     <span>Option 2</span>
@@ -53,7 +56,10 @@
             <span>Quản lí đơn hàng</span>
           </span>
         </template>
-        <a-menu-item key="11">Thêm đơn hàng</a-menu-item>
+        <NuxtLink to="/admin/product-manager/create-product">
+          <a-menu-item key="11">Thêm đơn hàng</a-menu-item>
+        </NuxtLink>
+      
         <NuxtLink to="/admin/product-manager/product">
           <a-menu-item key="12">Tất cả đơn hàng</a-menu-item>
         </NuxtLink>
@@ -170,6 +176,20 @@
         </NuxtLink>
         <NuxtLink to="/admin/manager-bill">
           <a-menu-item key="23">Tất cả hóa đơn</a-menu-item>
+        </NuxtLink>
+      </a-sub-menu>
+      <a-sub-menu key="sub12">
+        <template #title>
+          <span class="flex items-center gap-2">
+            <UIcon name="i-material-symbols-wallet" />
+            <span>Quản lí ví</span>
+          </span>
+        </template>
+        <NuxtLink to="/admin/wallet/create-wallet">
+          <a-menu-item key="24">Tạo ví</a-menu-item>
+        </NuxtLink>
+        <NuxtLink to="/admin/wallet">
+          <a-menu-item key="25">Tất cả ví</a-menu-item>
         </NuxtLink>
       </a-sub-menu>
     </a-menu>
