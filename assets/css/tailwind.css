@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 * {
-  font-family: 'Nunito', sans-serif;
+	font-family: 'Nunito', sans-serif;
 }
 
 /* Transitions */
@@ -19,7 +19,36 @@
 .page-leave-to {
 	opacity: 0;
 	/* transform: scale(0.99); */
-  transform: translateY(1rem);
+	transform: translateY(1rem);
 }
 
 /* Custom Styles */
+
+.ag-root-wrapper {
+	border-radius: 8px;
+	border-color: #eee !important;
+}
+
+.Toastify__toast-container {
+	z-index: 99999 !important;
+}
+
+::-webkit-scrollbar {
+	width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}

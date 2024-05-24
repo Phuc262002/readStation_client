@@ -152,7 +152,7 @@
                       style="text-align: center"
                       @success="handleLoginSuccess"
                       @error="handleLoginError"
-                      one-tap
+                      :one-tap="!authStore.isLogged"
                     />
                   </div>
                 </div>
