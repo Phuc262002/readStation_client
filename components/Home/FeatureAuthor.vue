@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="w-1/3">
-                <img :src="AuthorFeatured.avatar" alt="">
+                <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTw2JBZldTGIF1_CzPJcgG5ruegc9cSMJ9mqFwwGd8_sxnHWRTQU_uUFTIae6RVggG7z3QVUWdLk6uW1SLd6OfWHCGEVlpCa2_Xnhb2X2A" alt="">
             </div>
             <div class="w-1/3 flex flex-col gap-2">
                 <div class="grid grid-cols-2 gap-4" v-if="AuthorFeatured.books && AuthorFeatured.books.length > 0">
