@@ -61,7 +61,6 @@
         <NuxtLink to="/admin/product-manager/product">
           <a-menu-item key="12">Tất cả đơn hàng</a-menu-item>
         </NuxtLink>
-        
       </a-sub-menu>
       <!-- <a-sub-menu key="sub4">
         <template #title>
@@ -149,8 +148,10 @@
             <span>Quản lí tác giả</span>
           </span>
         </template>
-        <a-menu-item key="22">Thêm tác giả</a-menu-item>
-        <a-menu-item key="23">Tất cả tác giả</a-menu-item>
+        <NuxtLink to="/admin/author-manager">
+          <a-menu-item key="22">Tất cả tác giả</a-menu-item>
+        </NuxtLink>
+        <a-menu-item key="23">Thêm tác giả</a-menu-item>
       </a-sub-menu>
       <a-sub-menu key="sub10">
         <template #title>
