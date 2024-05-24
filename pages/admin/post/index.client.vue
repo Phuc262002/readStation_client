@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <div
@@ -63,12 +62,15 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top"  color="gold">
+              <nuxt-link to="/admin/post/post-detail">
+                <a-tooltip placement="top"  color="gold">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
                 <span class="hover:bg-[#faad14]/20 flex items-center justify-center w-6 h-6 rounded-md"><UIcon class="hover:text-[#faad14]" name="i-icon-park-outline-eyes" /></span>
               </a-tooltip>
+              </nuxt-link>
+              
               <a-tooltip placement="top" color="green">
                 <template #title>
                   <span>Sửa</span>

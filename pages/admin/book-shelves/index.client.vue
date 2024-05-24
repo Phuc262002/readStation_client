@@ -21,13 +21,11 @@
           <div
             class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
           >
-          <UIcon class="text-gray-500" name="i-material-symbols-search" />
+            <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
         <div class="">
-          <a-button type="primary" @click="showModalAdd"
-            >Thêm tủ sách</a-button
-          >
+          <a-button type="primary" @click="showModalAdd">Thêm tủ sách</a-button>
           <a-modal
             v-model:open="openModalAdd"
             title="Thêm tủ sách"
@@ -36,35 +34,46 @@
             <form @submit.prevent="">
               <div class="bg-white py-2">
                 <div class="pb-4">
-                  <label
-                    for="email"
-                    class="block text-sm font-medium text-gray-700"
-                  >
-                    Tên danh mục
+                  <label class="block text-sm font-medium text-gray-700">
+                    Mã tủ sách
                   </label>
                   <div class="mt-1">
                     <a-input
-                  
                       class="w-[450px] h-[45px]"
-                      placeholder="Nhập tên danh mục"
+                      placeholder="Nhập mã tủ sách"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="pb-4">
+                  <label class="block text-sm font-medium text-gray-700">
+                    Mã kệ sách
+                  </label>
+                  <div class="mt-1">
+                    <a-input
+                      class="w-[450px] h-[45px]"
+                      placeholder="Nhập mã kệ sách"
                       required
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label
-                    for="email"
-                    class="block text-sm font-medium text-gray-700"
-                  >
-                    Nội dụng
+                  <label class="block text-sm font-medium text-gray-700">
+                    Tên danh mục
                   </label>
-                  <div class="mt-1">
-                    <a-input
-                  
-                      class="w-[450px] h-[45px]"
-                      placeholder="Nhập nội dung"
-                    />
+                  <div class="mt-2">
+                    <a-space>
+                      <a-select
+                        class="w-[450px] h-[45px] flex justify-center items-center"
+                        ref="select"
+                        v-model:value="value1"
+                        @focus="focus"
+                      >
+                        <a-select-option value="jack">Jack</a-select-option>
+                        <a-select-option value="lucy">Lucy</a-select-option>
+                      </a-select>
+                    </a-space>
                   </div>
                 </div>
                 <div class="flex justify-end items-end gap-4">
@@ -126,7 +135,7 @@
                         name="i-material-symbols-edit-outline"
                       />
                     </button>
-                    <a-modal v-model:open="openModalEdit" title="Sửa" >
+                    <a-modal v-model:open="openModalEdit" title="Sửa">
                       <div class="">
                         <div class="bg-white py-2">
                           <div class="pb-4">
@@ -195,6 +204,26 @@
   </div>
 </template>
 <script lang="ts" setup>
+import type { SelectProps } from "ant-design-vue";
+const value1 = ref("lucy");
+const value2 = ref("lucy");
+const options1 = ref<SelectProps["options"]>([
+  {
+    value: "jack",
+    label: "Jack",
+  },
+  {
+    value: "lucy",
+    label: "Lucy",
+  },
+]);
+const focus = () => {
+  console.log("focus");
+};
+
+const handleChange = (value: string) => {
+  console.log(`selected ${value}`);
+};
 const confirm = (e: MouseEvent) => {
   console.log(e);
   message.success("Xóa thành công");

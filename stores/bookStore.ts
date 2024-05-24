@@ -9,11 +9,11 @@ export const useBookStore = defineStore("book-store", {
 
   actions: {
     async getAuthorFeatured() {
-      const data: any = await useCustomFetch("/home/get-feautured-author");
+      const data: any = await useCustomFetch("/api/v1/home/get-feautured-author");
       return data;
     },
     async getAllBooks() {
-      const data: any = await useCustomFetch("/books");
+      const data: any = await useCustomFetch("/api/v1/books");
       return data;
     },
   },

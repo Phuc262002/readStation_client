@@ -4,7 +4,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
   if (authStore.isLogged) {
     if (to.fullPath.startsWith("/login") || to.fullPath.startsWith("/register")) {
       return navigateTo('/account')
-    } else if (to.fullPath.startsWith("/admin") && (authStore?.authUser?.user?.role?.name !== 'admin' || authStore?.authUser?.user?.role?.name !== 'manager')) {
+    } else if (to.fullPath.startsWith("/admin") && (authStore?.authUser?.user?.role?.name !== 'admin' && authStore?.authUser?.user?.role?.name !== 'manager')) {
       return navigateTo('/404')
     }
   } else {
