@@ -10,7 +10,7 @@
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
-      <div class="flex flex-col gap-2 w-full pb-4">
+      <div class="flex flex-col gap-2 w-[90%] pb-4">
         <label class="text-sm font-semibold" for="">Tên bài viết</label>
         <a-input
           size="large"
@@ -36,20 +36,20 @@
           ></a-select>
         </div>
 
-        <!-- <div class="flex flex-col gap-2 w-[80%]">
+        <div class="flex flex-col gap-2 w-[80%]">
           <label class="text-sm font-semibold" for="">Trạng thái</label>
           <a-select
             size="large"
             v-model:value="value"
             show-search
             placeholder="Trạng thái"
-            :options="options"
+            :options="status"
             :filter-option="filterOption"
             @focus="handleFocus"
             @blur="handleBlur"
             @change="handleChange"
           ></a-select>
-        </div> -->
+        </div>
 
 
         <div>
@@ -87,6 +87,16 @@ const options = ref([
     label: "Y dược",
   },
 ]);
+const status = ref([
+  {
+    value: "active",
+    label: "active",
+  },
+  {
+    value: "inactive",
+    label: "inactive",
+  },
+]);
 const handleChange = (value) => {
   console.log(`selected ${value}`);
 };
@@ -96,7 +106,7 @@ const handleBlur = () => {
 const handleFocus = () => {
   console.log("focus");
 };
-const filterOption = (input, option) => {
+const filterOption = (input, option, status) => {
   return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
 </script>
