@@ -13,11 +13,11 @@
                 </div>
             </div>
             <div class="w-1/3">
-                <img :src="AuthorFeatured.avatar" alt="">
+                <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTw2JBZldTGIF1_CzPJcgG5ruegc9cSMJ9mqFwwGd8_sxnHWRTQU_uUFTIae6RVggG7z3QVUWdLk6uW1SLd6OfWHCGEVlpCa2_Xnhb2X2A" alt="">
             </div>
             <div class="w-1/3 flex flex-col gap-2">
-                <div class="grid grid-cols-2 gap-4" v-if="AuthorFeatured.books && AuthorFeatured.books.length > 0">
-                    <CommonBook  v-for="(books,index) in AuthorFeatured.books" :data=books :key="index" />  
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- <CommonBook  v-for="(books,index) in AuthorFeatured.books" :data=books :key="index" />   -->
                 </div>
             </div>
         </div>
@@ -25,20 +25,20 @@
 </template>
 
 <script setup>
-const isLoading = ref(false);
-const bookstore = useBookStore();
-const AuthorFeatured = ref({});
+// const isLoading = ref(false);
+// const bookstore = useBookStore();s
+// const AuthorFeatured = ref({});
 
 
-useAsyncData(async () => {
-    isLoading.value = true;
-    try {
-        const response = await bookstore.getAuthorFeatured(); //promise
-        AuthorFeatured.value = response.data._rawValue?.data[0];
-    } catch (error) {
-        console.error(error);
-    } finally {
-        isLoading.value = false;
-    }
-});
+// useAsyncData(async () => {
+//     isLoading.value = true;
+//     try {
+//         const response = await bookstore.getAuthorFeatured(); //promise
+//         AuthorFeatured.value = response.data._rawValue?.data[0];
+//     } catch (error) {
+//         console.error(error);
+//     } finally {
+//         isLoading.value = false;
+//     }
+// });
 </script>
