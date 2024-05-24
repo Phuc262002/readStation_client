@@ -54,7 +54,7 @@ export default defineNuxtConfig({
         exclude: ['ckeditor5-custom-build']
       }
     },
-  }
+  },
   // nitro: {
   //   routeRules: {
   //     "/backend/**": {
