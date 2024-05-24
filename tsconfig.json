@@ -1,28 +1,4 @@
 {
     // https://nuxt.com/docs/guide/concepts/typescript
     "extends": "./.nuxt/tsconfig.json",
-    "compilerOptions": {
-        "target": "esnext",
-        "module": "esnext",
-        "strict": true,
-        "jsx": "preserve",
-        "importHelpers": true,
-        "moduleResolution": "node",
-        "skipLibCheck": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "sourceMap": true,
-        "baseUrl": ".",
-        "paths": {
-            "~/*": ["./*"],
-            "@/*": ["./*"]
-        },
-        "types": ["node"]
-    },
-    "include": [
-        "nuxt.config.ts",
-        "plugins/**/*",
-        "types/**/*.d.ts",
-        "vue-shim.d.ts"
-    ]
 }
