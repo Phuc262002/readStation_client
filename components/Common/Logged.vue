@@ -1,3 +1,4 @@
+import { useAuthStore } from '../../stores/authStore';
 <template>
   <div class="ml-2">
     <a-dropdown :trigger="['click']" placement="bottom">
@@ -60,9 +61,16 @@
             >
           </nuxt-link>
           <div class="border-solid border border-gray-200 w-full"></div>
-          <a-menu-item key="5"> Đăng xuất </a-menu-item>
+
+          <a-menu-item key="5" @click="logout"> Đăng xuất </a-menu-item>
         </a-menu>
       </template>
     </a-dropdown>
   </div>
 </template>
+<script setup>
+const authStore = useAuthStore();
+const logout = async () => {
+  await authStore.logout();
+};
+</script>
