@@ -219,7 +219,7 @@ const onSubmit = handleSubmit(async (values) => {
 
     if (resData?.data?._rawValue?.status == true) {
       successToast("Đăng nhập thành công", "Chào mừng bạn đến với ReadStation");
-      navigateTo("/");
+      navigateTo("/account");
     } else {
       resErrors.value = resData.error.value.data.errors;
       errorToast("Đăng nhập không thành công", "Vui lòng thử lại sau");
@@ -239,7 +239,7 @@ const handleLoginSuccess = async (response: CredentialResponse) => {
     const resData = await authStore.loginWithGoogle(credential);
     if (resData?.data?._rawValue?.status == true) {
       successToast("Đăng nhập thành công", "Chào mừng bạn đến với ReadStation");
-      navigateTo("/");
+      navigateTo("/account");
     } else {
       resErrors.value = resData.error.value.data.errors;
       errorToast("Đăng nhập không thành công", "Vui lòng thử lại sau");
