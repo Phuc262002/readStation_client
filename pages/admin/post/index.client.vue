@@ -22,7 +22,7 @@
           <div
             class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
           >
-          <UIcon class="text-gray-500" name="i-material-symbols-search" />
+            <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
         <NuxtLink to="/admin/post/add-post" class="">
@@ -62,30 +62,35 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <nuxt-link to="/admin/post/post-detail">
-                <a-tooltip placement="top"  color="gold">
-                <template #title>
-                  <span>Xem chi tiết</span>
-                </template>
-                <span class="hover:bg-[#faad14]/20 flex items-center justify-center w-6 h-6 rounded-md"><UIcon class="hover:text-[#faad14]" name="i-icon-park-outline-eyes" /></span>
-              </a-tooltip>
+              <nuxt-link to="/admin/post/1">
+                <a-tooltip placement="top" color="gold">
+                  <template #title>
+                    <span>Xem chi tiết</span>
+                  </template>
+                  <span
+                    class="group hover:bg-[#faad14]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                    ><UIcon
+                      class="group-hover:text-[#faad14]"
+                      name="i-icon-park-outline-eyes"
+                  /></span>
+                </a-tooltip>
               </nuxt-link>
-              
+
               <a-tooltip placement="top" color="green">
                 <template #title>
                   <span>Sửa</span>
                 </template>
                 <span
-                  class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md"
+                  class="group hover:bg-[green]/20 flex items-center justify-center w-8 h-8 rounded-md"
                 >
                   <div>
                     <button @click="showModal">
                       <UIcon
-                        class="hover:text-[green]"
+                        class="group-hover:text-[green]"
                         name="i-material-symbols-edit-outline"
                       />
                     </button>
-                    <a-modal v-model:open="open" title="Sửa" >
+                    <a-modal v-model:open="open" title="Sửa">
                       <div class="">
                         <div class="bg-white py-2">
                           <div class="pb-4">
@@ -128,7 +133,7 @@
                   <span>Xóa</span>
                 </template>
                 <span
-                  class="hover:bg-[red]/20 flex items-center justify-center w-6 h-6 rounded-md"
+                  class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
                 >
                   <a-popconfirm
                     title="Are you sure delete this task?"
@@ -138,11 +143,10 @@
                     @confirm="confirm"
                     @cancel="cancel"
                   >
-                    <a href="#">
-                      <UIcon
-                        class="hover:text-[red]"
-                        name="i-material-symbols-delete-outline"
-                    /></a>
+                    <UIcon
+                      class="group-hover:text-[red] text-lg"
+                      name="i-material-symbols-delete-outline"
+                    />
                   </a-popconfirm>
                 </span>
               </a-tooltip>
@@ -221,6 +225,4 @@ const open = ref<boolean>(false);
 const showModal = () => {
   open.value = true;
 };
-
-
 </script>
