@@ -10,6 +10,8 @@ export default defineNuxtRouteMiddleware((to, from) => {
   } else {
     if (to.fullPath.startsWith("/account")) {
       return navigateTo("/login")
+    } else if (to.fullPath.startsWith("/admin")) {
+      return navigateTo("/404")
     }
   }
 });
