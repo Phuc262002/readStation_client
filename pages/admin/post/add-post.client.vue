@@ -1,112 +1,116 @@
 <template>
-  <div>
-    <div
-      class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
-    >
-      <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Thêm bài viết</h5>
-      </div>
-      <CommonBreadcrumAdmin />
+    <div>
+        <div
+            class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
+        >
+            <div class="grow">
+                <h5 class="text-xl text-[#1e293b] font-semibold">
+                    Thêm bài viết
+                </h5>
+            </div>
+            <CommonBreadcrumAdmin />
+        </div>
+
+        <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
+            <div class="flex flex-col gap-2 w-full pb-4">
+                <label class="text-sm font-semibold" for="">Tên bài viết</label>
+                <a-input
+                    size="large"
+                    type="text"
+                    class="border rounded-md"
+                    placeholder="Tên bài viết"
+                />
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="flex flex-col gap-2 w-[80%]">
+                    <label class="text-sm font-semibold" for="">Danh mục</label>
+                    <a-select
+                        size="large"
+                        v-model:value="value"
+                        show-search
+                        placeholder="Danh mục"
+                        :options="options"
+                        :filter-option="filterOption"
+                        @focus="handleFocus"
+                        @blur="handleBlur"
+                        @change="handleChange"
+                    ></a-select>
+                </div>
+                <div>
+                    <CommonCKEditor
+                        :value="content"
+                        @input="(event) => (content = event)"
+                    />
+                    <div>{{ content }}</div>
+                </div>
+                <!-- <div class="flex flex-col gap-2 w-[80%]">
+                    <label class="text-sm font-semibold" for=""
+                        >Trạng thái</label
+                    >
+                    <a-select
+                        size="large"
+                        v-model:value="value"
+                        show-search
+                        placeholder="Trạng thái"
+                        :options="options"
+                        :filter-option="filterOption"
+                        @focus="handleFocus"
+                        @blur="handleBlur"
+                        @change="handleChange"
+                    ></a-select>
+                </div> -->
+                <div>
+                    <div>
+                        <a-upload
+                            v-model:file-list="fileList"
+                            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                            list-type="picture"
+                        >
+                            <a-button
+                                class="flex justify-center gap-2 items-center text-base"
+                            >
+                                <upload-outlined></upload-outlined>
+                                upload
+                            </a-button>
+                        </a-upload>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-end gap-4 pt-4">
+                <a-button danger type="primary"> Hủy</a-button>
+                <a-button type="primary"> Lưu</a-button>
+            </div>
+        </div>
     </div>
-
-    <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
-      <div class="flex flex-col gap-2 w-[90%] pb-4">
-        <label class="text-sm font-semibold" for="">Tên bài viết</label>
-        <a-input
-          size="large"
-          type="text"
-          class="border rounded-md"
-          placeholder="Tên bài viết"
-        />
-      </div>
-
-      <div class="grid grid-cols-2 gap-4">
-        <div class="flex flex-col gap-2 w-[80%]">
-          <label class="text-sm font-semibold" for="">Danh mục</label>
-          <a-select
-            size="large"
-            v-model:value="value"
-            show-search
-            placeholder="Danh mục"
-            :options="options"
-            :filter-option="filterOption"
-            @focus="handleFocus"
-            @blur="handleBlur"
-            @change="handleChange"
-          ></a-select>
-        </div>
-
-        <div class="flex flex-col gap-2 w-[80%]">
-          <label class="text-sm font-semibold" for="">Trạng thái</label>
-          <a-select
-            size="large"
-            v-model:value="value"
-            show-search
-            placeholder="Trạng thái"
-            :options="status"
-            :filter-option="filterOption"
-            @focus="handleFocus"
-            @blur="handleBlur"
-            @change="handleChange"
-          ></a-select>
-        </div>
-
-
-        <div>
-          <div>
-            <a-upload
-              v-model:file-list="fileList"
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              list-type="picture"
-            >
-              <a-button
-                class="flex justify-center gap-2 items-center text-base"
-              >
-                <upload-outlined></upload-outlined>
-                upload
-              </a-button>
-            </a-upload>
-          </div>
-        </div>
-      </div>
-      <div class="flex items-end gap-4 pt-4">
-        <a-button danger type="primary"> Hủy</a-button>
-        <a-button type="primary"> Lưu</a-button>
-      </div>
-    </div>
-  </div>
 </template>
 <script setup>
+const content = ref("");
 const options = ref([
-  {
-    value: "CNTT",
-    label: "CNTT",
-  },
-  {
-    value: "Y dược",
-    label: "Y dược",
-  },
+    {
+        value: "CNTT",
+        label: "CNTT",
+    },
+    {
+        value: "Y dược",
+        label: "Y dược",
+    },
 ]);
-const status = ref([
-  {
-    value: "active",
-    label: "active",
-  },
-  {
-    value: "inactive",
-    label: "inactive",
-  },
-]);
+
+watchEffect(() => {
+    console.log(content);
+});
+
 const handleChange = (value) => {
-  console.log(`selected ${value}`);
+    console.log(`selected ${value}`);
 };
 const handleBlur = () => {
-  console.log("blur");
+    console.log("blur");
 };
 const handleFocus = () => {
-  console.log("focus");
+    console.log("focus");
 };
-const filterOption = (input, option, status) => {
-  return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+const filterOption = (input, option) => {
+    return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
 </script>

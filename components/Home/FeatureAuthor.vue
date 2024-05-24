@@ -5,8 +5,8 @@
             <div class="w-1/3 text-right flex flex-col gap-6">
                 <div class="text-base text-[#f65d4e]">FEATURED AUTHOR</div>
                 <div class="flex flex-col gap-5">
-                    <h1 class="text-5xl font-bold">{{ AuthorFeatured.author }}</h1>
-                    <p class="text-[#999999]">{{ AuthorFeatured.description}}</p>
+                    <h1 class="text-5xl font-bold">Nguyễn Nhật Ánh</h1>
+                    <p class="text-[#999999]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni modi provident quasi doloremque </p>
                 </div>
                 <div>
                     <button class="w-1/3 bg-[#f65d4e] text-white p-2 rounded-full font-bold text-base">Xem thông tin</button>
