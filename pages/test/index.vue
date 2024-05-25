@@ -1,6 +1,6 @@
 <template>
-  <div class="relative md:px-20 px-8 py-8">
-    <div class="w-full h-full flex gap-5">
+  <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
+    <div class="flex">
       <div class="w-1/5">
      
       </div>
