@@ -1,9 +1,24 @@
 <template>
-    <a-result status="404" title="404" sub-title="Sorry, the page you visited does not exist.">
-      <template #extra>
-        <NuxtLink href="/">
-            <a-button type="primary">Back Home</a-button>
+  <div class="bg-[url('/assets/images/bg-404.svg')]">
+    <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
+      <div class="flex flex-col items-center justify-center space-y-4">
+        <div>
+          <img src="/assets/images/not-found.svg" alt="" />
+        </div>
+        <div class="text-2xl max-w-[454px] text-center">
+          <span
+            >Có vẻ như chúng tôi đã gặp phải một chút vấn đề với trang này, </span
+          ><span class="text-rose-500 font-bold">vui lòng tải lại.</span>
+        </div>
+        <NuxtLink to="/" class="pt-10">
+          <a-button
+            type="primary"
+            class="h-10 bg-[#E66070] hover:!bg-[#ed7381] flex items-center gap-1"
+            >Trở về trang chủ
+            <UIcon name="i-ic-twotone-refresh" class="text-base" />
+          </a-button>
         </NuxtLink>
-      </template>
-    </a-result>
-  </template>
+      </div>
+    </div>
+  </div>
+</template>

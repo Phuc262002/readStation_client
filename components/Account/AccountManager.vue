@@ -6,7 +6,7 @@
     >
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
     </div>
-    <div class="flex gap-6 py-5 px-7">
+    <div class="flex gap-6 px-7">
       <div class="w-1/2">
         <div class="flex justify-between mb-4">
           <div class="flex items-center justify-between gap-2">
@@ -14,13 +14,13 @@
             <h2 class="text-sm font-bold">Thông tin cơ bản</h2>
           </div>
 
-          <a-button
+          <span
             @click="handleChangeEditAcc"
             class="flex gap-1 items-center justify-center border-0"
           >
             <UIcon name="i-solar-pen-2-linear" />
             <span>Chỉnh sửa</span>
-          </a-button>
+          </span>
         </div>
         <form @submit="onSubmit">
           <div
@@ -182,9 +182,9 @@
           </div>
         </form>
       </div>
-      <div class="w-1/2 flex flex-col space-y-4">
+      <div class="w-1/2 flex flex-col space-y-6">
         <div>
-          <div class="flex items-center gap-2 mb-3">
+          <div class="flex items-center gap-2 mb-4">
             <UIcon name="i-material-symbols-person-outline" />
             <h2 class="text-sm font-bold">Tài khoản</h2>
           </div>
