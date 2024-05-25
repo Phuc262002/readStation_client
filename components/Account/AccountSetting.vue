@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full w-2/3 py-5 px-7">
+  <div class="w-full w-2/3">
     <div class="border-b pb-6">
       <h2 class="font-bold pb-[14px]">Cài đặt tài khoản</h2>
       <p>Cập nhật tài khoản của bạn</p>
