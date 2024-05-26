@@ -16,26 +16,32 @@
       </div>
       <form action="" class="w-full space-y-6">
         <div>
-          <label for="" class="flex gap-1 text-sm font-medium text-gray-700">
+          <label class="flex gap-1 text-sm font-medium text-gray-700">
             <span>Mật khẩu</span><span class="text-red-600">*</span>
           </label>
-          <a-input-password placeholder="Nhập mật khẩu mới" class="mt-1 h-11" />
+          <div>
+            <a-input-password
+              placeholder="Nhập mật khẩu mới"
+              class="mt-1 h-11"
+            />
+          </div>
         </div>
         <div>
-          <label for="" class="flex gap-1 text-sm font-medium text-gray-700">
+          <label class="flex gap-1 text-sm font-medium text-gray-700">
             <span>Xác nhận lại mật khẩu</span
             ><span class="text-red-600">*</span>
           </label>
-          <a-input-password
-            placeholder="Xác nhận lại mật khẩu mới"
-            class="mt-1 h-11"
-          />
+          <div>
+            <a-input-password
+              placeholder="Xác nhận lại mật khẩu mới"
+              class="mt-1 h-11"
+            />
+          </div>
         </div>
 
         <a-button
           html-type="submit"
           class="w-full bg-[#162D3A] h-[45px] !text-white hover:bg-slate-600 text-base"
-          :loading="isSubmitting"
         >
           <span>Đặt lại mật khẩu mới</span>
         </a-button>

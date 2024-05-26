@@ -24,10 +24,10 @@
         </div>
         <form @submit="onSubmit">
           <div
-            class="flex flex-col space-y-6 bg-[#f9f9f9] shadow-md shadow-gray-300 rounded-md p-4"
+            class="flex flex-col bg-[#f9f9f9] shadow-md shadow-gray-300 rounded-md p-4"
           >
-            <div class="border-b flex items-center justify-between pb-2 h-10">
-              <span class="w-1/2">Họ tên</span>
+            <div class="border-b flex items-center justify-between py-4">
+              <span class="w-1/2 h-8 flex items-center">Họ tên</span>
               <div class="w-1/2 text-left">
                 <a-input
                   id="fullname"
@@ -40,8 +40,8 @@
               </div>
             </div>
 
-            <div class="border-b flex items-center justify-between pb-2 h-10">
-              <span class="w-1/2">Giới tính</span>
+            <div class="border-b flex items-center justify-between py-4">
+              <span class="w-1/2 h-8 flex items-center">Giới tính</span>
               <div class="w-1/2 text-left">
                 <a-radio-group
                   type="gender"
@@ -58,8 +58,8 @@
               </div>
             </div>
 
-            <div class="border-b flex items-center justify-between pb-2 h-10">
-              <div class="w-1/2 flex gap-1">
+            <div class="border-b flex items-center justify-between py-4">
+              <div class="w-1/2 flex gap-1 h-8 flex items-center">
                 <span>Số điện thoại</span>
                 <span class="text-red-600">*</span>
               </div>
@@ -75,8 +75,8 @@
                 <span v-else>{{ data?.phone }}</span>
               </div>
             </div>
-            <div class="border-b flex items-center justify-between pb-2 h-10">
-              <span class="w-1/2">Email</span>
+            <div class="border-b flex items-center justify-between py-4">
+              <span class="w-1/2 h-8 flex items-center">Email</span>
               <div class="w-1/2 text-left">
                 <a-input
                   v-if="isShow"
@@ -88,8 +88,8 @@
               </div>
             </div>
 
-            <div class="border-b flex items-center justify-between pb-2 h-10">
-              <span class="w-1/2">Tỉnh/ Thành Phố</span>
+            <div class="border-b flex items-center justify-between py-4">
+              <span class="w-1/2 h-8 flex items-center">Tỉnh/ Thành Phố</span>
               <div class="w-1/2 text-left">
                 <a-select
                   v-model:value="valuePronvines"
@@ -111,8 +111,8 @@
               </div>
             </div>
 
-            <div class="border-b flex items-center justify-between pb-2 h-10">
-              <span class="w-1/2">Quận/ Huyện</span>
+            <div class="border-b flex items-center justify-between py-4">
+              <span class="w-1/2 h-8 flex items-center">Quận/ Huyện</span>
               <div class="w-1/2 text-left">
                 <a-select
                   v-model:value="valueDistricts"
@@ -134,8 +134,10 @@
               </div>
             </div>
 
-            <div class="border-b flex items-center justify-between pb-2 h-10">
-              <span class="w-1/2">Xã/ Phường/ Thị trấn</span>
+            <div class="border-b flex items-center justify-between py-4">
+              <span class="w-1/2 h-8 flex items-center"
+                >Xã/ Phường/ Thị trấn</span
+              >
               <div class="w-1/2 text-left">
                 <a-select
                   v-model:value="valueWards"
@@ -157,8 +159,10 @@
               </div>
             </div>
 
-            <div class="border-b flex items-center justify-between pb-2 h-10">
-              <span class="w-1/2">Địa chỉ</span>
+            <div class="border-b flex items-center justify-between py-4">
+              <span class="w-1/2 h-8 flex items-center flex items-center"
+                >Địa chỉ</span
+              >
               <div class="w-1/2 text-left">
                 <a-input
                   type="address_detail"
@@ -170,12 +174,10 @@
               </div>
             </div>
             <div class="w-full flex items-center justify-center pt-5">
-              <a-button
-                html-type="submit"
-                class="mr-6 !text-white bg-[#3b8aea] h-10"
+              <a-button html-type="submit" class="mr-6 !text-white bg-[#3b8aea]"
                 >Lưu thay đổi</a-button
               >
-              <a-button type="primary" class="h-10 bg-[#D9D9D9] text-black"
+              <a-button type="primary" class="bg-[#D9D9D9] text-black"
                 >Hủy</a-button
               >
             </div>
