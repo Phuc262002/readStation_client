@@ -79,6 +79,21 @@
     </a-menu>
   </a-layout-sider>
 </template>
+<style>
+.ant-menu-item {
+  padding-left: 24px;
+  padding-right: 34px;
+}
+.ant-menu-submenu,
+.ant-menu-item.ant-menu-item-only-child {
+  padding: 0 !important;
+}
+.router-link-active.router-link-exact-active {
+  width: 100%;
+  color: #1677ff !important;
+  background: #e6f4ff !important;
+}
+</style>
 
 <script setup lang="ts">
 import { ref } from "vue";
