@@ -1,4 +1,3 @@
-import { useAuthStore } from '../../stores/authStore';
 <template>
   <div class="ml-2">
     <a-dropdown :trigger="['click']" placement="bottom">
@@ -10,20 +9,30 @@ import { useAuthStore } from '../../stores/authStore';
         />
       </div>
       <template #overlay>
-        <a-menu class="p-4">
+        <a-menu class="px-8">
           <nuxt-link to="">
-            <a-menu-item key="1">
-              <span class="flex items-center gap-2">
+            <a-menu-item key="6">
+              <span class="flex items-center gap-2 ">
                 <a-avatar
-                  size="small"
+                  size="large"
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYNwja6CBPcvCyFKxcFn690YYPt1VZW-CtEM3EiDz-fw&s"
                   alt=""
                 />
-                <span>Kiệt</span>
+                <div class="flex">
+                  <div>
+                    <div class="block font-semibold text-15">
+                      Kiệt
+                    </div>
+                    <div class="text-slate-500 dark:text-zink-200">
+                    Admin
+                    </div>
+                  </div>
+                </div>
               </span>
             </a-menu-item>
+            
           </nuxt-link>
-          <div class="border-solid border border-gray-200 w-full"></div>
+          <div class="border-solid border border-gray-200 w-full "></div>
           <nuxt-link to="/account">
             <a-menu-item key="1">
               <span class="flex items-center gap-2">
