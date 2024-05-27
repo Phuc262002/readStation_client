@@ -33,13 +33,13 @@
             <span>Thông tin cá nhân</span>
           </span>
         </template>
-        <a-menu-item key="1">
+        <a-menu-item key="2">
           <NuxtLink to="/account" class="flex items-center gap-2">
             Quản lý tài khoản
           </NuxtLink>
         </a-menu-item>
 
-        <a-menu-item key="2">
+        <a-menu-item key="3">
           <NuxtLink
             to="/account/account-setting"
             class="flex items-center gap-2"
@@ -49,54 +49,76 @@
         </a-menu-item>
       </a-sub-menu>
 
-      <a-menu-item key="key5">
+      <a-sub-menu key="sub2">
+        <template #title>
+          <span class="flex items-center gap-1">
+            <UIcon name="i-material-symbols-post-add" class="text-base" />
+            <span>Đóng góp bài viết</span>
+          </span>
+        </template>
+        <a-menu-item key="4">
+          <NuxtLink to="/account" class="flex items-center gap-2">
+            Bài viết của bạn
+          </NuxtLink>
+        </a-menu-item>
+
+        <a-menu-item key="5">
+          <NuxtLink
+            to="/account/account-setting"
+            class="flex items-center gap-2"
+          >
+            Bài viết đã bình luận
+          </NuxtLink>
+        </a-menu-item>
+
+        <a-menu-item key="6">
+          <NuxtLink
+            to="/account/account-setting"
+            class="flex items-center gap-2"
+          >
+            Bài viết đang chờ duyệt
+          </NuxtLink>
+        </a-menu-item>
+      </a-sub-menu>
+
+      <a-menu-item key="7">
+        <NuxtLink to="/account/order-manager" class="flex items-center gap-2">
+          <UIcon name="i-tabler-credit-card-pay" class="text-base" />
+          <span>Quản lý ví</span>
+        </NuxtLink>
+      </a-menu-item>
+
+      <a-menu-item key="8">
         <NuxtLink to="/account/order-manager" class="flex items-center gap-2">
           <UIcon name="i-bi-basket" class="text-base" />
           <span>Quản lý đơn hàng</span>
         </NuxtLink>
       </a-menu-item>
 
-      <a-menu-item key="key6">
-        <NuxtLink to="/" class="flex items-center gap-2">
-          <UIcon name="i-ph-users-bold" class="text-base" />
-          <span>Mạng xã hội</span>
-        </NuxtLink>
-      </a-menu-item>
-
-      <a-menu-item key="key7">
-        <NuxtLink to="/" class="flex items-center gap-2">
-          <UIcon name="i-gala-bell" class="text-base" />
-          <span>Thông báo</span>
-        </NuxtLink>
-      </a-menu-item>
-
-      <a-menu-item key="key4">
-        <NuxtLink to="/" class="flex items-center gap-2">
+      <a-menu-item key="9">
+        <NuxtLink to="/reset-password" class="flex items-center gap-2">
           <UIcon name="i-carbon-password" class="text-base" />
           <span>Đổi mật khẩu</span>
+        </NuxtLink>
+      </a-menu-item>
+
+      <a-menu-item key="10">
+        <NuxtLink to="/" class="flex items-center gap-2">
+          <UIcon name="i-tabler-logout-2" class="text-base" />
+          <span>Đăng xuất</span>
         </NuxtLink>
       </a-menu-item>
     </a-menu>
   </a-layout-sider>
 </template>
-<style>
-.ant-menu-item {
-  padding-left: 24px;
-  padding-right: 34px;
-}
-.ant-menu-submenu,
-.ant-menu-item.ant-menu-item-only-child {
-  padding: 0 !important;
-}
+<style scoped>
 .router-link-active.router-link-exact-active {
-  width: 100%;
   color: #1677ff !important;
   background: #e6f4ff !important;
 }
 </style>
 
 <script setup lang="ts">
-import { ref } from "vue";
 const props = defineProps<{
   collapsed: boolean;
 }>();

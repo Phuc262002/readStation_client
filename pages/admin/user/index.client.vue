@@ -13,7 +13,7 @@
 
     <!-- Đây là phần code mẫu body -->
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
-      <a-table :columns="columns" :data-source="data">
+      <a-table :columns="columns" :data-source="data" :scroll="{ x: 2000 }">
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'avatar'">
             <img
@@ -24,6 +24,14 @@
           </template>
           <template v-if="column.dataIndex === 'name'">
             <a>{{ text }}</a>
+          </template>
+          <template v-else-if="column.key === 'action'">
+            <span>
+              <a>Invite 一 {{ record.name }}</a>
+              <a-divider type="vertical" />
+              <a>Delete</a>
+              <a-divider type="vertical" />
+            </span>
           </template>
         </template>
       </a-table>
@@ -69,24 +77,34 @@ const columns = [
     key: "phone",
   },
   {
+    title: "Tỉnh/Thành phố",
+    dataIndex: "province",
+    key: "province",
+  },
+  {
+    title: "Quận/Huyện",
+    dataIndex: "district",
+    key: "district",
+  },
+  {
+    title: "Xã/Phường/Thị trấn",
+    dataIndex: "ward",
+    key: "ward",
+  },
+  {
     title: "Đường",
     dataIndex: "street",
     key: "street",
   },
   {
-    title: "Thành phố",
-    dataIndex: "province",
-    key: "province",
+    title: "Địa chỉ",
+    dataIndex: "address_detail",
+    key: "address_detail",
   },
   {
-    title: "Quận",
-    dataIndex: "district",
-    key: "district",
-  },
-  {
-    title: "Phường",
-    dataIndex: "ward",
-    key: "ward",
+    title: "Hành động",
+    dataIndex: "action",
+    key: "action",
   },
 ];
 
@@ -97,13 +115,14 @@ const data = [
     fullname: "John Brown",
     job: "32",
     gender: "Nam",
-    dob: "developer",
-    email: "developer",
-    phone: "developer",
-    street: "developer",
-    province: "developer",
-    district: "developer",
-    ward: "developer",
+    dob: "12/01/2003",
+    email: "nguyenvana@gmail.com",
+    phone: "0123456789",
+    province: "TP.HCM",
+    district: "Quận 12",
+    ward: "Tân Chánh Hiệp",
+    street: "Tô Ký",
+    address_detail: "22",
   },
 ];
 </script>
