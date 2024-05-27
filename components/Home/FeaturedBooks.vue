@@ -1,6 +1,6 @@
 <template>
         <div class="bg-[#f2f0fe]">
-            <div class="px-10 py-7">
+            <div class="px-5 py-7">
                 <div class="flex justify-between gap-20 w-full  h-auto mx-auto container md:px-20 px-8">
                     <!-- left -->
                     <div class="flex flex-col gap-10 w-1/2">

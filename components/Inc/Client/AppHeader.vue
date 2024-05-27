@@ -92,7 +92,7 @@
               class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
             >
               <!-- Heroicon name: search -->
-              <UIcon class="text-xl"  name="i-material-symbols-search" />
+              <UIcon class="text-xl text-gray-400"  name="i-material-symbols-search" />
             </div>
           </div>
 

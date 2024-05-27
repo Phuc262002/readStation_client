@@ -1,10 +1,11 @@
 <template>
-  <swiper :spaceBetween="30" :pagination="{
+  <div class="mt-8">
+    <swiper :spaceBetween="30" :pagination="{
     clickable: true,
   }" :modules="modules" class="mySwiper">
     <swiper-slide>
       <div class="bg-[#fcedec] w-full h-[556px]  relative ">
-        <div class="absolute flex justify-center items-center gap-10 w-full px-16 py-6">
+        <div class="absolute flex justify-center items-center gap-10 w-full px-16 ">
           <div class="">
             <img class=""
               src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/02/revslider_book-2.png"
@@ -72,6 +73,8 @@
       </div>
     </swiper-slide>
   </swiper>
+  </div>
+
 </template>
 <script>
 
@@ -104,9 +107,7 @@ export default {
   background: #fff;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding-top: 20px;
-  
+  align-items: center; 
 }
 
 :deep(.swiper-slide img) {
