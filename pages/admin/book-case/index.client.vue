@@ -109,22 +109,22 @@
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
-                <span
-                  class="group hover:bg-[#faad14]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                <button
+                  class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                   ><UIcon
                     class="group-hover:text-[#faad14]"
                     name="i-icon-park-outline-eyes"
-                /></span>
+                /></button>
               </a-tooltip>
               <a-tooltip placement="top" color="green">
                 <template #title>
                   <span>Sửa</span>
                 </template>
                 <span
-                  class="group hover:bg-[green]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                  class="group hover:bg-[green]/20 bg-[#e4e1e1] flex justify-center items-center cursor-pointer w-8 h-8 rounded-md"
                 >
                   <div>
-                    <button @click="showModalEdit">
+                    <button class="flex items-center" @click="showModalEdit">
                       <UIcon
                         class="group-hover:text-[green]"
                         name="i-material-symbols-edit-outline"
@@ -173,7 +173,7 @@
                   <span>Xóa</span>
                 </template>
                 <span
-                  class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                  class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
                 >
                   <a-popconfirm
                     title="Are you sure delete this task?"
@@ -183,11 +183,11 @@
                     @confirm="confirm"
                     @cancel="cancel"
                   >
-                    <a href="#">
+                    <button class="flex items-center">
                       <UIcon
                         class="group-hover:text-[red]"
                         name="i-material-symbols-delete-outline"
-                    /></a>
+                    /></button>
                   </a-popconfirm>
                 </span>
               </a-tooltip>
@@ -201,17 +201,6 @@
 <script lang="ts" setup>
 import type { SelectProps } from "ant-design-vue";
 const value1 = ref("lucy");
-const value2 = ref("lucy");
-const options1 = ref<SelectProps["options"]>([
-  {
-    value: "jack",
-    label: "Jack",
-  },
-  {
-    value: "lucy",
-    label: "Lucy",
-  },
-]);
 const focus = () => {
   console.log("focus");
 };

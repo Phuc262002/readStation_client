@@ -4,24 +4,38 @@
         class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
       >
         <div class="grow">
-          <h5 class="text-xl text-[#1e293b] font-semibold">Thêm nhà xuất bản</h5>
+          <h5 class="text-xl text-[#1e293b] font-semibold">Chỉnh sửa bài viết</h5>
         </div>
         <CommonBreadcrumAdmin />
       </div>
   
       <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
         <div class="flex flex-col gap-2 w-full pb-4">
-          <label class="text-sm font-semibold" for="">Tên nhà xuất bản</label>
+          <label class="text-sm font-semibold" for="">Tên bài viết</label>
           <a-input
             size="large"
             type="text"
             class="border rounded-md"
-            placeholder="Tên nhà xuất bản"
+            placeholder="Tên bài viết"
           />
         </div>
   
         <div class="grid grid-cols-2 gap-4 pb-4">
-          <div class="flex flex-col gap-2 w-[100%]">
+          <div class="flex flex-col gap-2 w-full">
+            <label class="text-sm font-semibold" for="">Danh mục</label>
+            <a-select
+              size="large"
+              v-model:value="value"
+              show-search
+              placeholder="Danh mục"
+              :options="options"
+              :filter-option="filterOption"
+              @focus="handleFocus"
+              @blur="handleBlur"
+              @change="handleChange"
+            ></a-select>
+          </div>
+          <div class="flex flex-col gap-2 w-full">
             <label class="text-sm font-semibold" for="">Trạng thái</label>
             <a-select
               size="large"
@@ -35,10 +49,10 @@
               @change="handleChange"
             ></a-select>
           </div>
-          <div class="flex flex-col gap-2 w-[100%]">
-            <label class="text-sm font-semibold" for="">Logo</label>
-            <a-input   placeholder="logo" class="border p-2 rounded-md" />
-          </div>
+        </div>
+        <div class="flex flex-col gap-2 w-full  pb-4 ">
+          <label class="text-sm font-semibold" for="">Nội dung ngắn</label>
+          <a-textarea placeholder="Nhập nội dung ngắn" allow-clear />
         </div>
         <div class="flex flex-col gap-2 f-full pb-4">
           <label class="text-sm font-semibold" for="">Nội dung</label>
@@ -64,7 +78,7 @@
         </div>
         <div class="flex items-end gap-4 pt-4">
           <a-button danger type="primary"> Hủy</a-button>
-          <a-button type="primary"> Lưu</a-button>
+          <a-button type="primary"> Cập nhật</a-button>
         </div>
       </div>
     </div>

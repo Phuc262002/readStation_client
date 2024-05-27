@@ -65,91 +65,40 @@
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
               <a-tooltip placement="top" color="gold">
-                <template #title>
-                  <span>Xem chi tiết</span>
-                </template>
-                <span
-                  class="group hover:bg-[#faad14]/20 flex items-center justify-center w-8 h-8  rounded-md"
-                  ><UIcon
-                    class="group-hover:text-[#faad14]"
-                    name="i-icon-park-outline-eyes"
-                /></span>
-              </a-tooltip>
-              <!-- <a-tooltip placement="top" color="green">
                   <template #title>
-                    <span>Sửa</span>
+                    <span>Xem chi tiết</span>
                   </template>
                   <span
-                    class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md"
+                    class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md"
+                    ><UIcon
+                      class="group-hover:text-[#faad14]"
+                      name="i-icon-park-outline-eyes"
+                  /></span>
+                </a-tooltip>
+               
+                <a-tooltip placement="top" color="red">
+                  <template #title>
+                    <span>Khôi ph</span>
+                  </template>
+                  <span
+                    class="group hover:bg-[red]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md"
                   >
-                    <div>
-                      <button @click="showModal">
+                    <a-popconfirm
+                      title="Are you sure delete this task?"
+                      placement="right"
+                      ok-text="Yes"
+                      cancel-text="No"
+                      @confirm="confirm"
+                      @cancel="cancel"
+                    >
+                      <button class="flex items-center">
                         <UIcon
-                          class="hover:text-[green]"
-                          name="i-material-symbols-edit-outline"
-                        />
-                      </button>
-                      <a-modal v-model:open="open" title="Sửa" >
-                        <div class="">
-                          <div class="bg-white py-2">
-                            <div class="pb-4">
-                              <label
-                                for="email"
-                                class="block text-sm font-medium text-gray-700"
-                              >
-                                Tên danh mục
-                              </label>
-                              <div class="mt-1">
-                                <a-input
-                                  class="w-[450px] h-[45px]"
-                                  placeholder="Nhập tên danh mục"
-                                />
-                              </div>
-                            </div>
-  
-                            <div>
-                              <label
-                                for="email"
-                                class="block text-sm font-medium text-gray-700"
-                              >
-                                Nội dụng
-                              </label>
-                              <div class="mt-1">
-                                <a-input
-                                  class="w-[450px] h-[45px]"
-                                  placeholder="Nhập nội dung"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </a-modal>
-                    </div>
+                          class="group-hover:text-[red]"
+                          name="i-material-symbols-autorenew-rounded"
+                      /></button>
+                    </a-popconfirm>
                   </span>
-                </a-tooltip> -->
-              <a-tooltip placement="top" color="red">
-                <template #title>
-                  <span>Xóa</span>
-                </template>
-                <span
-                  class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
-                >
-                  <a-popconfirm
-                    title="Are you sure delete this task?"
-                    placement="right"
-                    ok-text="Yes"
-                    cancel-text="No"
-                    @confirm="confirm"
-                    @cancel="cancel"
-                  >
-                    <a href="#">
-                      <UIcon
-                        class="group-hover:text-[red]"
-                        name="i-material-symbols-delete-outline"
-                    /></a>
-                  </a-popconfirm>
-                </span>
-              </a-tooltip>
+                </a-tooltip>
             </div>
           </template>
         </template>

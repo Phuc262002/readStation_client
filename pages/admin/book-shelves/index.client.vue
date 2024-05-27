@@ -60,7 +60,7 @@
 
                 <div>
                   <label class="block text-sm font-medium text-gray-700">
-                    Tên danh mục
+                    Tên kệ sách
                   </label>
                   <div class="mt-2">
                     <a-space>
@@ -115,7 +115,7 @@
                   <span>Xem chi tiết</span>
                 </template>
                 <span
-                  class="group hover:bg-[#faad14]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                  class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md"
                   ><UIcon
                     class="group-hover:text-[#faad14]"
                     name="i-icon-park-outline-eyes"
@@ -126,10 +126,10 @@
                   <span>Sửa</span>
                 </template>
                 <span
-                  class="group hover:bg-[green]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                  class="group hover:bg-[green]/20 bg-[#e4e1e1] flex justify-center items-center cursor-pointer w-8 h-8 rounded-md"
                 >
                   <div>
-                    <button @click="showModalEdit">
+                    <button class="flex items-center" @click="showModalEdit">
                       <UIcon
                         class="group-hover:text-[green]"
                         name="i-material-symbols-edit-outline"
@@ -143,12 +143,27 @@
                               for="email"
                               class="block text-sm font-medium text-gray-700"
                             >
-                              Tên danh mục
+                              Mã tủ sách
                             </label>
                             <div class="mt-1">
                               <a-input
                                 class="w-[450px] h-[45px]"
-                                placeholder="Nhập tên danh mục"
+                                placeholder="Nhập tên kệ sách"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="pb-4">
+                            <label
+                              for="email"
+                              class="block text-sm font-medium text-gray-700"
+                            >
+                             Mã kệ sách
+                            </label>
+                            <div class="mt-1">
+                              <a-input
+                                class="w-[450px] h-[45px]"
+                                placeholder="Nhập tên kệ sách"
                               />
                             </div>
                           </div>
@@ -178,7 +193,7 @@
                   <span>Xóa</span>
                 </template>
                 <span
-                  class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                  class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
                 >
                   <a-popconfirm
                     title="Are you sure delete this task?"
@@ -188,11 +203,11 @@
                     @confirm="confirm"
                     @cancel="cancel"
                   >
-                    <a href="#">
+                    <button class="flex items-center">
                       <UIcon
                         class="group-hover:text-[red]"
                         name="i-material-symbols-delete-outline"
-                    /></a>
+                    /></button>
                   </a-popconfirm>
                 </span>
               </a-tooltip>
@@ -257,7 +272,7 @@ const columns = [
     key: "bookshelf_code",
   },
   {
-    title: "Danh mục",
+    title: "kệ sách",
     dataIndex: "category_id",
     key: "category_id",
   },
