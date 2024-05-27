@@ -76,59 +76,54 @@
                 </a-tooltip>
               </nuxt-link>
 
-              <a-tooltip placement="top" color="green">
-                <template #title>
-                  <span>Sửa</span>
-                </template>
-                <span
-                  class="group hover:bg-[green]/20 flex items-center justify-center w-8 h-8 rounded-md"
+              <a-dropdown :trigger="['click']" placement="bottom">
+                <button
+                  class="group hover:bg-[#faad14]/20 flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <div>
-                    <button @click="showModal">
-                      <UIcon
-                        class="group-hover:text-[green]"
-                        name="i-material-symbols-edit-outline"
-                      />
-                    </button>
-                    <a-modal v-model:open="open" title="Sửa">
-                      <div class="">
-                        <div class="bg-white py-2">
-                          <div class="pb-4">
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Tên danh mục
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-[450px] h-[45px]"
-                                placeholder="Nhập tên danh mục"
-                              />
-                            </div>
-                          </div>
+                  <UIcon
+                    class="group-hover:text-[#faad14]"
+                    name="i-solar-menu-dots-bold"
+                  />
+                </button>
+                <template #overlay>
+                  <a-menu>
+                    <NuxtLink to="/admin/post/update-post">
+                      <a-menu-item key="2" class="p-4">
+                        <span class="flex items-center gap-2 text-blue-400">
+                          <UIcon
+                            class="group-hover:text-[green]"
+                            name="i-material-symbols-edit-outline"
+                          />
+                          <span>Sửa</span>
+                        </span>
+                      </a-menu-item>
+                    </NuxtLink>
 
-                          <div>
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Nội dụng
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-[450px] h-[45px]"
-                                placeholder="Nhập nội dung"
-                              />
-                            </div>
+                    <a-menu-item key="3" class="p-4">
+                      <span>
+                        <a-popconfirm
+                          title="Are you sure delete this task?"
+                          placement="right"
+                          ok-text="Yes"
+                          cancel-text="No"
+                          @confirm="confirm"
+                          @cancel="cancel"
+                        >
+                          <div class="flex items-center gap-1 text-blue-400">
+                            <UIcon
+                              class="group-hover:text-[red] text-lg"
+                              name="i-material-symbols-delete-outline"
+                            />
+                            <span>Xóa</span>
                           </div>
-                        </div>
-                      </div>
-                    </a-modal>
-                  </div>
-                </span>
-              </a-tooltip>
-              <a-tooltip placement="top" color="red">
+                        </a-popconfirm>
+                      </span>
+                    </a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown>
+
+              <!-- <a-tooltip placement="top" color="red">
                 <template #title>
                   <span>Xóa</span>
                 </template>
@@ -149,7 +144,7 @@
                     />
                   </a-popconfirm>
                 </span>
-              </a-tooltip>
+              </a-tooltip> -->
             </div>
           </template>
         </template>

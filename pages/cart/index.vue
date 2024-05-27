@@ -20,9 +20,10 @@
                         <!--  -->
                         <div class="flex justify-between items-center">
                             <div class="flex justify-start items-center w-2/6">
-                                <div class="w-2/3">
-                                    <img src="https://salt.tikicdn.com/cache/750x750/ts/product/fc/73/c8/996f0f7fdf9082eb56b6370c19f1bab6.png.webp"
-                                        alt="">
+                                <div class="min-w-[100px] min-h-[100px]">
+                                    <img class="w-24  rounded-md"
+                                        src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTkq--XPUpG5wMjalO5g75ViJHb50FvEtpKNjOU1olwD9t5-53kn5HORepp_dR8ZlPWEsu1ZWPlsZUiVXq1Cp8KKQDIFdwa-mUgwZWqZh2NULBviHRQ9ly_zRdx4mu5SfcmIX5HNA&usqp=CAc"
+                                        alt="" />
                                 </div>
                                 <div class="flex flex-col gap-2">
                                     <div class="text-base font-bold">Cho tôi xin một vé đi tuổi thơ</div>
@@ -51,7 +52,7 @@
                                 225.000đ
                             </div>
                             <div class="text-center text-2xl text-red-400 flex justify-center ">
-                                <UIcon class="text-2xl" name="i-material-symbols-delete-outline-rounded"/>
+                                <UIcon class="text-2xl" name="i-material-symbols-delete-outline-rounded" />
                             </div>
                         </div>
                         <div class="border-solid border border-gray-100 w-full"></div>
@@ -87,7 +88,7 @@
                                 <Nuxt-link to="/shop">
                                     <button
                                         class="flex justify-center text-sm items-center gap-2 hover:text-yellow-500 ">
-                                        <UIcon class="text-xl" name="i-material-symbols-turn-left-rounded"/>
+                                        <UIcon class="text-xl" name="i-material-symbols-turn-left-rounded" />
                                         <h1>Tiếp tục thuê sách </h1>
                                     </button>
                                 </Nuxt-link>
