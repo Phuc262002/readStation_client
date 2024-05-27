@@ -19,7 +19,7 @@
                         </div>
                         <!--  -->
                         <div class="flex justify-between items-center">
-                            <div class="flex justify-start items-center w-2/6">
+                            <div class="flex justify-start  w-2/6">
                                 <div class="min-w-[100px] min-h-[100px]">
                                     <img class="w-24  rounded-md"
                                         src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTkq--XPUpG5wMjalO5g75ViJHb50FvEtpKNjOU1olwD9t5-53kn5HORepp_dR8ZlPWEsu1ZWPlsZUiVXq1Cp8KKQDIFdwa-mUgwZWqZh2NULBviHRQ9ly_zRdx4mu5SfcmIX5HNA&usqp=CAc"
