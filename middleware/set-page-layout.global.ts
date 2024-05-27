@@ -5,9 +5,12 @@ export default defineNuxtRouteMiddleware((to, from) => {
     layout = 'admin-default'
   } else if (to.fullPath.startsWith('/login') || to.fullPath.startsWith('/register') || to.name === '404' || to.fullPath.startsWith('/reset-password') || to.fullPath.startsWith('/forgot-password') || to.fullPath.startsWith('/verify-email') || to.fullPath.startsWith('/verify-code')) {
     layout = 'none-default'
-  } else {
-    layout = 'client-default'
+  } else if(to.fullPath.startsWith('/account')){
+    layout='account-default'
   }
+   else {
+    layout = 'client-default'
+  } 
 
   to.meta.layout = layout as any
 })

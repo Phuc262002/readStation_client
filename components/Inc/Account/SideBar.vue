@@ -10,7 +10,7 @@
       <div class="flex items-center justify-center pt-3">
         <img
           class="rounded-full w-20 h-20"
-          src="../../assets/images/VNE-Rainbow-2-3983-1585305448.jpg"
+          src="../../../assets/images/VNE-Rainbow-2-3983-1585305448.jpg"
           alt=""
         />
       </div>
@@ -40,12 +40,7 @@
         </a-menu-item>
 
         <a-menu-item key="3">
-          <NuxtLink
-            to="/account/account-setting"
-            class="flex items-center gap-2"
-          >
-            Cài đặt tài khoản
-          </NuxtLink>
+          <NuxtLink to="/account/account-setting"> Cài đặt tài khoản </NuxtLink>
         </a-menu-item>
       </a-sub-menu>
 
@@ -111,12 +106,6 @@
     </a-menu>
   </a-layout-sider>
 </template>
-<style scoped>
-.router-link-active.router-link-exact-active {
-  color: #1677ff !important;
-  background: #e6f4ff !important;
-}
-</style>
 
 <script setup lang="ts">
 const props = defineProps<{
