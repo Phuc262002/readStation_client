@@ -58,7 +58,9 @@
         <NuxtLink to="/admin/book">
           <a-menu-item key="9">Tất cả sách</a-menu-item>
         </NuxtLink>
+        <NuxtLink to="/admin/book/reviewbook-manager">
         <a-menu-item key="10">Quản lí đánh giá</a-menu-item>
+      </NuxtLink>
       </a-sub-menu>
       <a-sub-menu key="sub3">
         <template #title>
@@ -171,8 +173,15 @@
             <span>Quản lí tác giả</span>
           </span>
         </template>
-        <a-menu-item key="22">Thêm tác giả</a-menu-item>
-        <a-menu-item key="23">Tất cả tác giả</a-menu-item>
+        <NuxtLink to="/admin/author">
+          <a-menu-item key="22">Tất cả tác giả</a-menu-item>
+        </NuxtLink>
+        <NuxtLink to="/admin/author/add-author">
+          <a-menu-item key="35">Thêm tác giả</a-menu-item>
+        </NuxtLink>
+        <NuxtLink to="/admin/author/trash-author">
+          <a-menu-item key="23">Thùng rác</a-menu-item>
+        </NuxtLink>
       </a-sub-menu>
       <a-sub-menu key="sub10">
         <template #title>
@@ -181,8 +190,15 @@
             <span>Quản lí nhà xuất bản</span>
           </span>
         </template>
-        <a-menu-item key="22">Thêm nhà xuất bản</a-menu-item>
-        <a-menu-item key="23">Tất cả nhà xuất bản</a-menu-item>
+        <NuxtLink to="/admin/publish">
+          <a-menu-item key="22">Tất cả nhà xuất bản</a-menu-item>
+        </NuxtLink>
+        <NuxtLink to="/admin/publish/add-publish">
+          <a-menu-item key="36">Thêm nhà xuất bản</a-menu-item>
+        </NuxtLink>
+        <NuxtLink to="/admin/trash-publish">
+          <a-menu-item key="23">Thùng rác</a-menu-item>
+        </NuxtLink>
       </a-sub-menu>
       <a-sub-menu key="sub11">
         <template #title>
