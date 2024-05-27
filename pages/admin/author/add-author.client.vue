@@ -4,38 +4,24 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Thêm bài viết</h5>
+        <h5 class="text-xl text-[#1e293b] font-semibold">Thêm tác giả</h5>
       </div>
       <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex flex-col gap-2 w-full pb-4">
-        <label class="text-sm font-semibold" for="">Tên bài viết</label>
+        <label class="text-sm font-semibold" for="">Tên tác giả</label>
         <a-input
           size="large"
           type="text"
           class="border rounded-md"
-          placeholder="Tên bài viết"
+          placeholder="Tên tác giả"
         />
       </div>
 
       <div class="grid grid-cols-2 gap-4 pb-4">
-        <div class="flex flex-col gap-2 w-full">
-          <label class="text-sm font-semibold" for="">Danh mục</label>
-          <a-select
-            size="large"
-            v-model:value="value"
-            show-search
-            placeholder="Danh mục"
-            :options="options"
-            :filter-option="filterOption"
-            @focus="handleFocus"
-            @blur="handleBlur"
-            @change="handleChange"
-          ></a-select>
-        </div>
-        <div class="flex flex-col gap-2 w-full">
+        <div class="flex flex-col gap-2 w-[100%]">
           <label class="text-sm font-semibold" for="">Trạng thái</label>
           <a-select
             size="large"
@@ -49,11 +35,19 @@
             @change="handleChange"
           ></a-select>
         </div>
+        <div class="flex flex-col gap-2 w-[100%]">
+          <label class="text-sm font-semibold" for="">SLug</label>
+          <a-input   placeholder="slug" class="border p-2 rounded-md" />
+        </div>
       </div>
-      <div class="flex flex-col gap-2 w-[80%] pb-4 ">
+      <div class="flex flex-col gap-2 w-1/5 pb-4">
+        <label class="text-sm font-semibold" for="">Ngày đặt</label>
+        <a-input type="date" class="border p-2 rounded-md" />
+      </div>
+      <!-- <div class="flex flex-col gap-2 w-[80%] pb-4">
         <label class="text-sm font-semibold" for="">Nội dung ngắn</label>
         <a-textarea placeholder="Nhập nội dung ngắn" allow-clear />
-      </div>
+      </div> -->
       <div class="flex flex-col gap-2 f-full pb-4">
         <label class="text-sm font-semibold" for="">Nội dung</label>
         <CommonCKEditor
