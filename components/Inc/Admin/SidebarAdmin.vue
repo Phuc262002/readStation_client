@@ -45,10 +45,40 @@
         <a-menu-item key="6">Thêm mã giảm giá cho người dùng</a-menu-item>
         <a-menu-item key="7">Thống kê người giới thiệu</a-menu-item>
       </a-sub-menu>
+     
+      <a-sub-menu key="sub12">
+        <template #title>
+          <span class="flex items-center gap-2">
+            <UIcon name="i-material-symbols-wallet" />
+            <span>Quản lí ví</span>
+          </span>
+        </template>
+        <NuxtLink to="/admin/wallet/create-wallet">
+          <a-menu-item key="24">Tạo ví</a-menu-item>
+        </NuxtLink>
+        <NuxtLink to="/admin/wallet">
+          <a-menu-item key="25">Tất cả ví</a-menu-item>
+        </NuxtLink>
+      </a-sub-menu>
+      <a-sub-menu key="sub3">
+        <template #title>
+          <span class="flex items-center gap-2">
+            <UIcon name="i-material-symbols-post-outline-rounded" />
+            <span>Quản lí đơn hàng</span>
+          </span>
+        </template>
+        <NuxtLink to="/admin/product-manager/create-product">
+          <a-menu-item key="11">Thêm đơn hàng</a-menu-item>
+        </NuxtLink>
+
+        <NuxtLink to="/admin/product-manager/product">
+          <a-menu-item key="12">Tất cả đơn hàng</a-menu-item>
+        </NuxtLink>
+      </a-sub-menu>
       <a-sub-menu key="sub2">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon name="i-ant-design-product-outlined" />
+            <UIcon name="i-material-symbols-book-4" />
             <span>Quản lí sách</span>
           </span>
         </template>
@@ -62,21 +92,6 @@
         <a-menu-item key="10">Quản lí đánh giá</a-menu-item>
       </NuxtLink>
       </a-sub-menu>
-      <a-sub-menu key="sub3">
-        <template #title>
-          <span class="flex items-center gap-2">
-            <UIcon name="i-icon-park-outline-ad-product" />
-            <span>Quản lí đơn hàng</span>
-          </span>
-        </template>
-        <NuxtLink to="/admin/product-manager/create-product">
-          <a-menu-item key="11">Thêm đơn hàng</a-menu-item>
-        </NuxtLink>
-
-        <NuxtLink to="/admin/product-manager/product">
-          <a-menu-item key="12">Tất cả đơn hàng</a-menu-item>
-        </NuxtLink>
-      </a-sub-menu>
       <!-- <a-sub-menu key="sub4">
         <template #title>
           <span>
@@ -87,6 +102,7 @@
         <a-menu-item key="13">Thêm mã giảm giá</a-menu-item>
         <a-menu-item key="14">Tất cả mã giảm giá</a-menu-item>
       </a-sub-menu> -->
+
       <a-sub-menu key="sub5">
         <template #title>
           <span class="flex items-center gap-2">
@@ -196,7 +212,7 @@
         <NuxtLink to="/admin/publish/add-publish">
           <a-menu-item key="36">Thêm nhà xuất bản</a-menu-item>
         </NuxtLink>
-        <NuxtLink to="/admin/trash-publish">
+        <NuxtLink to="/admin/publish/trash-publish">
           <a-menu-item key="23">Thùng rác</a-menu-item>
         </NuxtLink>
       </a-sub-menu>
@@ -204,7 +220,7 @@
         <template #title>
           <span class="flex items-center gap-2">
             <UIcon name="i-ri-bill-fill" />
-            <span>Quản lí hóa đơn nhập hàng</span>
+            <span>Hóa đơn nhập hàng</span>
           </span>
         </template>
         <NuxtLink to="/admin/manager-bill/create-bill">
@@ -214,20 +230,7 @@
           <a-menu-item key="23">Tất cả hóa đơn</a-menu-item>
         </NuxtLink>
       </a-sub-menu>
-      <a-sub-menu key="sub12">
-        <template #title>
-          <span class="flex items-center gap-2">
-            <UIcon name="i-material-symbols-wallet" />
-            <span>Quản lí ví</span>
-          </span>
-        </template>
-        <NuxtLink to="/admin/wallet/create-wallet">
-          <a-menu-item key="24">Tạo ví</a-menu-item>
-        </NuxtLink>
-        <NuxtLink to="/admin/wallet">
-          <a-menu-item key="25">Tất cả ví</a-menu-item>
-        </NuxtLink>
-      </a-sub-menu>
+      
     </a-menu>
   </a-layout-sider>
 </template>

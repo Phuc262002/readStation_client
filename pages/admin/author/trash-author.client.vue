@@ -25,66 +25,7 @@
               <UIcon class="text-gray-500" name="i-material-symbols-search" />
             </div>
           </div>
-          <!-- <div class="">
-            <a-button type="primary" @click="showModalAdd"
-              >Thêm tác gỉa</a-button
-            >
-            <a-modal
-              v-model:open="openModalAdd"
-              title="Thêm tác gỉa"
-              :footer="null"
-            >
-              <form @submit.prevent="">
-                <div class="bg-white py-2">
-                  <div class="pb-4">
-                    <label
-                      for="email"
-                      class="block text-sm font-medium text-gray-700"
-                    >
-                      Tên danh mục
-                    </label>
-                    <div class="mt-1">
-                      <a-input
-                    
-                        class="w-[450px] h-[45px]"
-                        placeholder="Nhập tên danh mục"
-                        required
-                      />
-                    </div>
-                  </div>
-  
-                  <div>
-                    <label
-                      for="email"
-                      class="block text-sm font-medium text-gray-700"
-                    >
-                      Nội dụng
-                    </label>
-                    <div class="mt-1">
-                      <a-input
-                    
-                        class="w-[450px] h-[45px]"
-                        placeholder="Nhập nội dung"
-                      />
-                    </div>
-                  </div>
-                  <div class="flex justify-end items-end gap-4">
-                    <a-button
-                      @click="onCancel"
-                      type="primary"
-                      danger
-                      html-type="button"
-                      class="mt-4"
-                      >Hủy</a-button
-                    >
-                    <a-button type="primary" html-type="submit" class="mt-4"
-                      >Lưu</a-button
-                    >
-                  </div>
-                </div>
-              </form>
-            </a-modal>
-          </div> -->
+          
         </div>
   
         <a-table :columns="columns" :data-source="data">
@@ -107,70 +48,19 @@
                     <span>Xem chi tiết</span>
                   </template>
                   <span
-                    class="group hover:bg-[#faad14]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                    class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md"
                     ><UIcon
                       class="group-hover:text-[#faad14]"
                       name="i-icon-park-outline-eyes"
                   /></span>
                 </a-tooltip>
-                <!-- <a-tooltip placement="top" color="green">
-                  <template #title>
-                    <span>Sửa</span>
-                  </template>
-                  <span
-                    class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md"
-                  >
-                    <div>
-                      <button @click="showModalEdit">
-                        <UIcon
-                          class="hover:text-[green]"
-                          name="i-material-symbols-edit-outline"
-                        />
-                      </button>
-                      <a-modal v-model:open="openModalEdit" title="Sửa" >
-                        <div class="">
-                          <div class="bg-white py-2">
-                            <div class="pb-4">
-                              <label
-                                for="email"
-                                class="block text-sm font-medium text-gray-700"
-                              >
-                                Tên danh mục
-                              </label>
-                              <div class="mt-1">
-                                <a-input
-                                  class="w-[450px] h-[45px]"
-                                  placeholder="Nhập tên danh mục"
-                                />
-                              </div>
-                            </div>
-  
-                            <div>
-                              <label
-                                for="email"
-                                class="block text-sm font-medium text-gray-700"
-                              >
-                                Nội dụng
-                              </label>
-                              <div class="mt-1">
-                                <a-input
-                                  class="w-[450px] h-[45px]"
-                                  placeholder="Nhập nội dung"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </a-modal>
-                    </div>
-                  </span>
-                </a-tooltip> -->
+               
                 <a-tooltip placement="top" color="red">
                   <template #title>
-                    <span>Xóa</span>
+                    <span>Khôi phục</span>
                   </template>
                   <span
-                    class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                    class="group hover:bg-[red]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md"
                   >
                     <a-popconfirm
                       title="Are you sure delete this task?"
@@ -180,11 +70,11 @@
                       @confirm="confirm"
                       @cancel="cancel"
                     >
-                      <a href="#">
+                      <button class="flex items-center">
                         <UIcon
                           class="group-hover:text-[red]"
-                          name="i-material-symbols-delete-outline"
-                      /></a>
+                          name="i-material-symbols-autorenew-rounded"
+                      /></button>
                     </a-popconfirm>
                   </span>
                 </a-tooltip>

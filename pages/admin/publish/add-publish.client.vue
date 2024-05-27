@@ -36,18 +36,10 @@
             ></a-select>
           </div>
           <div class="flex flex-col gap-2 w-[100%]">
-            <label class="text-sm font-semibold" for="">SLug</label>
-            <a-input   placeholder="slug" class="border p-2 rounded-md" />
+            <label class="text-sm font-semibold" for="">Logo</label>
+            <a-input   placeholder="logo" class="border p-2 rounded-md" />
           </div>
         </div>
-        <div class="flex flex-col gap-2 w-1/5 pb-4">
-          <label class="text-sm font-semibold" for="">Ngày đặt</label>
-          <a-input type="date" class="border p-2 rounded-md" />
-        </div>
-        <!-- <div class="flex flex-col gap-2 w-[80%] pb-4">
-          <label class="text-sm font-semibold" for="">Nội dung ngắn</label>
-          <a-textarea placeholder="Nhập nội dung ngắn" allow-clear />
-        </div> -->
         <div class="flex flex-col gap-2 f-full pb-4">
           <label class="text-sm font-semibold" for="">Nội dung</label>
           <CommonCKEditor
