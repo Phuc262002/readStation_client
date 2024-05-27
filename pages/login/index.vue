@@ -40,7 +40,7 @@
                     >
                       <template
                         #action
-                        v-if="error[0] === 'Email is not verified'"
+                        v-if="error[0] === 'Email chưa được xác thực'"
                       >
                         <NuxtLink to="/">
                           <a-button size="small" type="primary"
