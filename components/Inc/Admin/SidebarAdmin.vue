@@ -256,16 +256,16 @@
             <span>Quản lý nhà xuất bản</span>
           </span>
         </template>
-        <a-menu-item key="36" @click="navigateTo('/admin/publish')"
+        <a-menu-item key="36" @click="navigateTo('/admin/publishing-company')"
           >Tất cả nhà xuất bản</a-menu-item
         >
-        <a-menu-item key="22" @click="navigateTo('/admin/publish/add-publish')"
+        <a-menu-item key="22" @click="navigateTo('/admin/publishing-company/add-publishing-company')"
           >Thêm nhà xuất bản</a-menu-item
         >
 
         <a-menu-item
           key="23"
-          @click="navigateTo('/admin/publish/trash-publish')"
+          @click="navigateTo('/admin/publishing-company/trash-publishing-company')"
           >Thùng rác</a-menu-item
         >
       </a-sub-menu>
