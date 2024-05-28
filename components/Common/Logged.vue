@@ -69,7 +69,7 @@
           <div class="border-solid border border-gray-200 w-full my-2"></div>
           <a-menu-item key="5" @click="logout" class="mt-1">
             <span class="flex items-center gap-2">
-                <UIcon name="i-ic-round-log-out" class="text-base" />
+                <UIcon name="i-iconoir-log-out" class="text-base" />
                 <span>Đăng xuất</span>
               </span>
           </a-menu-item>

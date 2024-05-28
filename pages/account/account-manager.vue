@@ -252,7 +252,8 @@ const address = ref({
 //get API
 const data = ref(null);
 const isLoading = ref(false);
-const authStore = useAuthStore();
+const authUser = useAuthStore();
+console.log("aa", authUser);
 
 interface EditAcc {
   isShow: boolean;
@@ -268,18 +269,7 @@ const valueWards = ref(undefined);
 const isShow = ref(false);
 //Create the form
 const { defineInputBinds, handleSubmit, errors, setFieldValue } = useForm({
-  validationSchema: {
-    // email: yup
-    //   .string()
-    //   .required("Trường này không được để trống")
-    //   .email("Email không hợp lệ"),
-    // fullname: yup.string().required("Trường này không được để trống"),
-    // gender: yup.string().required("Trường này không được để trống"),
-    // phone: yup.string().required("Trường này không được để trống"),
-    // province: yup.string().required("Trường này không được để trống"),
-    // district: yup.string().required("Trường này không được để trống"),
-    // address_detail: yup.string().required("Trường này không được để trống"),
-  },
+  validationSchema: {},
 });
 // Define fields
 const email = defineInputBinds("email");
@@ -311,7 +301,7 @@ const onSubmit = handleSubmit(async (values) => {
   console.log("messges dataa", newData);
   try {
     isSubmitting.value = true;
-    const resData = await authStore.updateProfile(newData);
+    const resData = await authUser.updateProfile(newData);
     console.log("resData", resData);
 
     if (resData?.data?._rawValue?.status == true) {
@@ -335,7 +325,7 @@ const handleChangeEditAcc = () => {
 useAsyncData(async () => {
   isLoading.value = true;
   try {
-    const response = await authStore.getProfile();
+    const response = await authUser.getProfile();
     data.value = response.data._rawValue.data;
     setFieldValue("email", data.value.email);
     setFieldValue("fullname", data.value.fullname);
