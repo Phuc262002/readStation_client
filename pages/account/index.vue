@@ -239,9 +239,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
+// import { useBaseStore, useAuthStore } from "@/stores";
 
 const baseStore = useBaseStore();
 const address = ref({
@@ -253,7 +253,7 @@ const address = ref({
 const data = ref(null);
 const isLoading = ref(false);
 const authStore = useAuthStore();
-
+console.log("data", authStore);
 interface EditAcc {
   isShow: boolean;
 }
@@ -351,7 +351,6 @@ useAsyncData(async () => {
     isLoading.value = false;
   }
 });
-console.log("data", data);
 
 useAsyncData(async () => {
   const data = await baseStore.getProvinces();
