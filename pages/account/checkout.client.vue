@@ -58,17 +58,17 @@
                 10%
               </div>
               <div
-                class="text-base font-bold w-1/4 flex justify-center items-center text-[#8231D3]"
+                class="text-base font-bold w-1/4 flex justify-center items-center"
               >
                 220.000đ
               </div>
               <div
-                class="text-base font-bold w-1/4 flex justify-center items-center text-[#8231D3]"
+                class="text-base font-bold w-1/4 flex justify-center items-center"
               >
                 220.000đ
               </div>
               <div
-                class="text-base font-bold w-1/4 flex justify-center items-center text-[#8231D3]"
+                class="text-base font-bold w-1/4 flex justify-center items-center"
               >
                 220.000đ
               </div>
@@ -106,17 +106,17 @@
                 10%
               </div>
               <div
-                class="text-base font-bold w-1/4 flex justify-center items-center text-[#8231D3]"
+                class="text-base font-bold w-1/4 flex justify-center items-center "
               >
                 220.000đ
               </div>
               <div
-                class="text-base font-bold w-1/4 flex justify-center items-center text-[#8231D3]"
+                class="text-base font-bold w-1/4 flex justify-center items-center "
               >
                 220.000đ
               </div>
               <div
-                class="text-base font-bold w-1/4 flex justify-center items-center text-[#8231D3]"
+                class="text-base font-bold w-1/4 flex justify-center items-center "
               >
                 220.000đ
               </div>

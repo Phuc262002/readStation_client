@@ -67,7 +67,7 @@
                   <span>Xem chi tiết</span>
                 </template>
                 <span
-                  class="group hover:bg-[#faad14]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                  class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md"
                   ><UIcon
                     class="group-hover:text-[#faad14]"
                     name="i-icon-park-outline-eyes"
@@ -130,7 +130,7 @@
                   <span>Xóa</span>
                 </template>
                 <span
-                  class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                  class="group hover:bg-[red]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md"
                 >
                   <a-popconfirm
                     title="Are you sure delete this task?"
@@ -140,11 +140,11 @@
                     @confirm="confirm"
                     @cancel="cancel"
                   >
-                    <a href="#">
+                    <button class="flex items-center">
                       <UIcon
                         class="group-hover:text-[red]"
                         name="i-material-symbols-delete-outline"
-                    /></a>
+                    /></button>
                   </a-popconfirm>
                 </span>
               </a-tooltip>

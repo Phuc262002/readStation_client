@@ -106,91 +106,91 @@
             <template v-else-if="column.key === 'action'">
               <div class="flex text-[16px] gap-4">
                 <a-tooltip placement="top" color="gold">
-                  <template #title>
-                    <span>Xem chi tiết</span>
-                  </template>
-                  <span
-                    class="group hover:bg-[#faad14]/20 flex items-center justify-center w-8 h-8 rounded-md"
-                    ><UIcon
-                      class="group-hover:text-[#faad14]"
-                      name="i-icon-park-outline-eyes"
-                  /></span>
-                </a-tooltip>
-                <a-tooltip placement="top" color="green">
-                  <template #title>
-                    <span>Sửa</span>
-                  </template>
-                  <span
-                    class="group hover:bg-[green]/20 flex items-center justify-center w-8 h-8 rounded-md"
-                  >
-                    <div>
-                      <button @click="showModalEdit">
-                        <UIcon
-                          class="group-hover:text-[green]"
-                          name="i-material-symbols-edit-outline"
-                        />
-                      </button>
-                      <a-modal v-model:open="openModalEdit" title="Sửa">
-                        <div class="">
-                          <div class="bg-white py-2">
-                            <div class="pb-4">
-                              <label
-                                for="email"
-                                class="block text-sm font-medium text-gray-700"
-                              >
-                                Tên danh mục
-                              </label>
-                              <div class="mt-1">
-                                <a-input
-                                  class="w-[450px] h-[45px]"
-                                  placeholder="Nhập tên danh mục"
-                                />
-                              </div>
+                <template #title>
+                  <span>Xem chi tiết</span>
+                </template>
+                <button
+                  class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                  ><UIcon
+                    class="group-hover:text-[#faad14]"
+                    name="i-icon-park-outline-eyes"
+                /></button>
+              </a-tooltip>
+              <a-tooltip placement="top" color="green">
+                <template #title>
+                  <span>Sửa</span>
+                </template>
+                <span
+                  class="group hover:bg-[green]/20 bg-[#e4e1e1] flex justify-center items-center cursor-pointer w-8 h-8 rounded-md"
+                >
+                  <div>
+                    <button class="flex items-center" @click="showModalEdit">
+                      <UIcon
+                        class="group-hover:text-[green]"
+                        name="i-material-symbols-edit-outline"
+                      />
+                    </button>
+                    <a-modal v-model:open="openModalEdit" title="Sửa">
+                      <div class="">
+                        <div class="bg-white py-2">
+                          <div class="pb-4">
+                            <label
+                              for="email"
+                              class="block text-sm font-medium text-gray-700"
+                            >
+                              Tên nhà xuất bản
+                            </label>
+                            <div class="mt-1">
+                              <a-input
+                                class="w-[450px] h-[45px]"
+                                placeholder="Nhập tên nhà xuất bản"
+                              />
                             </div>
-  
-                            <div>
-                              <label
-                                for="email"
-                                class="block text-sm font-medium text-gray-700"
-                              >
-                                Nội dụng
-                              </label>
-                              <div class="mt-1">
-                                <a-input
-                                  class="w-[450px] h-[45px]"
-                                  placeholder="Nhập nội dung"
-                                />
-                              </div>
+                          </div>
+
+                          <div>
+                            <label
+                              for="email"
+                              class="block text-sm font-medium text-gray-700"
+                            >
+                              Nội dụng
+                            </label>
+                            <div class="mt-1">
+                              <a-input
+                                class="w-[450px] h-[45px]"
+                                placeholder="Nhập nội dung"
+                              />
                             </div>
                           </div>
                         </div>
-                      </a-modal>
-                    </div>
-                  </span>
-                </a-tooltip>
-                <a-tooltip placement="top" color="red">
-                  <template #title>
-                    <span>Xóa</span>
-                  </template>
-                  <span
-                    class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                      </div>
+                    </a-modal>
+                  </div>
+                </span>
+              </a-tooltip>
+              <a-tooltip placement="top" color="red">
+                <template #title>
+                  <span>Xóa</span>
+                </template>
+                <span
+                  class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
+                >
+                  <a-popconfirm
+                    title="Are you sure delete this task?"
+                    placement="right"
+                    ok-text="Yes"
+                    cancel-text="No"
+                    @confirm="confirm"
+                    @cancel="cancel"
                   >
-                    <a-popconfirm
-                      title="Are you sure delete this task?"
-                      placement="right"
-                      ok-text="Yes"
-                      cancel-text="No"
-                      @confirm="confirm"
-                      @cancel="cancel"
-                    >
-                      <a href="#">
-                        <UIcon
-                          class="group-hover:text-[red]"
-                          name="i-material-symbols-delete-outline"
-                      /></a>
-                    </a-popconfirm>
-                  </span>
-                </a-tooltip>
+                    <button class="flex items-center">
+                      <UIcon
+                        class="group-hover:text-[red]"
+                        name="i-material-symbols-delete-outline"
+                    /></button>
+                  </a-popconfirm>
+                </span>
+              </a-tooltip>
               </div>
             </template>
           </template>
@@ -236,7 +236,7 @@
       key: "name",
     },
     {
-      title: "Danh mục",
+      title: "nhà xuất bản",
       dataIndex: "category",
       key: "category",
     },

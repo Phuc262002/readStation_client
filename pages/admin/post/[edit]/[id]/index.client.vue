@@ -50,7 +50,7 @@
             ></a-select>
           </div>
         </div>
-        <div class="flex flex-col gap-2 w-[80%] pb-4 ">
+        <div class="flex flex-col gap-2 w-full  pb-4 ">
           <label class="text-sm font-semibold" for="">Nội dung ngắn</label>
           <a-textarea placeholder="Nhập nội dung ngắn" allow-clear />
         </div>

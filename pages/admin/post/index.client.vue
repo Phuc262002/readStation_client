@@ -62,32 +62,77 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <nuxt-link to="/admin/post/1">
-                <a-tooltip placement="top" color="gold">
-                  <template #title>
-                    <span>Xem chi tiết</span>
-                  </template>
-                  <span
-                    class="group hover:bg-[#faad14]/20 flex items-center justify-center w-8 h-8 rounded-md"
-                    ><UIcon
-                      class="group-hover:text-[#faad14]"
-                      name="i-icon-park-outline-eyes"
-                  /></span>
-                </a-tooltip>
-              </nuxt-link>
+              <a-tooltip placement="top">
+                <template #title>
+                  <span>Xem chi tiết</span>
+                </template>
+                <span
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                >
+                  <div>
+                    <button class="flex items-center" @click="showModal">
+                      <UIcon
+                        class="group-hover:text-[green]"
+                        name="i-icon-park-outline-eyes"
+                      />
+                    </button>
+                    <a-modal v-model:open="open" title="Sửa" width="70%">
+                      <div class="flex justify-between gap-4">
+                        <div class="grow">
+                          <h1 class="font-bold text-xl">Bài viết số 1</h1>
+                        </div>
+                        <div class="flex gap-4">
+                          <a-tooltip placement="top" color="red">
+                            <template #title>
+                              <span>Hủy</span>
+                            </template>
+                            <span
+                              class="group hover:bg-[red]/20 flex items-center justify-center w-10 h-10 rounded-md"
+                            >
+                              <UIcon
+                                class="group-hover:text-[red] text-2xl"
+                                name="i-material-symbols-close-small-outline"
+                              />
+                            </span>
+                          </a-tooltip>
+                          <a-tooltip placement="top" color="gold">
+                            <template #title>
+                              <span>Sửa</span>
+                            </template>
+                            <span
+                              class="group hover:bg-[#faad14]/20 flex items-center justify-center w-10 h-10 rounded-md"
+                              ><UIcon
+                                class="group-hover:text-[#faad14]"
+                                name="i-material-symbols-edit-rounded"
+                            /></span>
+                          </a-tooltip>
+                        </div>
+                      </div>
+                      <div
+                        class="flex border border-transparent border-b-gray-300 pb-2"
+                      >
+                        <div class="w-1/5">
+                          <h4 class="font-bold">Tên người viết</h4>
+                        </div>
+                        <div class="w-4/5">Huỳnh Tuấn Kiệt</div>
+                      </div>
+                    </a-modal>
+                  </div></span
+                >
+              </a-tooltip>
 
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
-                  class="group hover:bg-[#faad14]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
                   <UIcon
-                    class="group-hover:text-[#faad14]"
+                    class="group-hover:text-[#131313]"
                     name="i-solar-menu-dots-bold"
                   />
                 </button>
                 <template #overlay>
                   <a-menu>
-                    <NuxtLink to="/admin/post/update-post">
+                    <NuxtLink to="/admin/post/edit/1">
                       <a-menu-item key="2" class="p-4">
                         <span class="flex items-center gap-2 text-blue-400">
                           <UIcon
