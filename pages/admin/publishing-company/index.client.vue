@@ -71,6 +71,20 @@
                     />
                   </div>
                 </div>
+                <div class="pb-4">
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    Logo nhà xuất bản
+                  </label>
+                  <div class="mt-1">
+                    <CommonUploadImg
+                      :value="file"
+                      @input="(event) => (file = event)"
+                    />
+                  </div>
+                </div>
 
                 <div class="flex justify-end items-end gap-4">
                   <a-button
@@ -196,22 +210,16 @@
                 <span
                   class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
                 >
-                  <a-popconfirm
-                    @click="onDelete"
-                    title="Are you sure delete this task?"
-                    placement="right"
-                    ok-text="Yes"
-                    cancel-text="No"
-                    @confirm="confirm"
-                    @cancel="cancel"
+                  <button
+                    @click="showDeleteConfirm(record?.id)"
+                    class="flex items-center"
                   >
-                    <button class="flex items-center">
-                      <UIcon
-                        class="group-hover:text-[red]"
-                        name="i-material-symbols-delete-outline"
-                      />
-                    </button>
-                  </a-popconfirm>
+                    <UIcon
+                      class="group-hover:text-[red]"
+                      name="i-material-symbols-delete-outline"
+                    />
+                  </button>
+                  <contextHolder />
                 </span>
               </a-tooltip>
             </div>
@@ -222,13 +230,21 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { SelectProps } from "ant-design-vue";
+const baseStore = useBaseStore();
+const file = ref("");
+
+const [modal, contextHolder] = Modal.useModal();
 const publishingCompanyStore = usePublishingCompanyStore();
-// watchEffect(() => {
-//   console.log(
-//     publishingCompanyStore.publishingCompaniesAdmin.publishing_companies
-//   );
-// });
+const uploadFile = async () => {
+  console.log(file._rawValue.target.files[0]);
+  const formData = new FormData();
+  formData.append("image", file._rawValue.target.files[0]);
+  const dataUpload = await baseStore.uploadImg(formData);
+  console.log(dataUpload);
+  
+  return dataUpload.data._rawValue.data.link;
+};
+
 const publishingCompany = ref({
   name: "",
   description: "",
@@ -246,17 +262,26 @@ useAsyncData(async () => {
   await getData();
 });
 
-const handleChange = (value: string) => {
-  console.log(`selected ${value}`);
-};
-const confirm = (e: MouseEvent) => {
-  console.log(e);
-  message.success("Xóa thành công");
+const onDelete = async (id: string) => {
+  await publishingCompanyStore.deletePublishingCompany(id);
+  getData();
 };
 
-const cancel = (e: MouseEvent) => {
-  console.log(e);
-  message.error("Xóa thất bại");
+const showDeleteConfirm = (id: string) => {
+  modal.confirm({
+    title: "Are you sure delete this task?",
+
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      onDelete(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
 };
 
 const columns = [
@@ -299,12 +324,13 @@ const onCancel = () => {
   openModalAdd.value = false;
 };
 const onSubmit = async () => {
-  await publishingCompanyStore.createPublishingCompany(publishingCompany.value);
+  const url = await uploadFile();
+  await publishingCompanyStore.createPublishingCompany({
+    name: publishingCompany.value.name,
+    description: publishingCompany.value.description,
+    logo_company: url,
+  });
   getData();
   openModalAdd.value = false;
-};
-const onDelete = async (id: string) => {
-  await publishingCompanyStore.deletePublishingCompany(id);
-  getData();
 };
 </script>
