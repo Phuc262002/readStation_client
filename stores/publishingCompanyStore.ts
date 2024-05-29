@@ -32,9 +32,19 @@ export const usePublishingCompanyStore = defineStore(
       },
       async deletePublishingCompany(id: string) {
         const data: any = await useCustomFetch(
-          `/api/v1/publishing-companies/${id}`,
+          `/api/v1/publishing-companies/delete/${id}`,
           {
             method: "DELETE",
+          }
+        );
+        return data;
+      },
+      async updatePublishingCompany(id: string, publishingCompany: any) {
+        const data: any = await useCustomFetch(
+          `/api/v1/publishing-companies/${id}`,
+          {
+            method: "PUT",
+            body: JSON.stringify(publishingCompany),
           }
         );
         return data;

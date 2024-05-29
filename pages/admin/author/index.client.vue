@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+    <div
+      class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
+    >
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả tác giả</h5>
       </div>
@@ -11,36 +13,58 @@
       <div class="flex justify-between pb-4">
         <div class="relative w-1/4 md:block hidden">
           <div class="flex">
-            <input type="text"
+            <input
+              type="text"
               class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..." />
+              placeholder="Tìm kiếm..."
+            />
           </div>
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <div
+            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          >
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
         <div class="">
           <a-button type="primary" @click="showModalAdd">Thêm tác giả</a-button>
-          <a-modal v-model:open="openModalAdd" title="Thêm tác giả" :footer="null">
+          <a-modal
+            v-model:open="openModalAdd"
+            title="Thêm tác giả"
+            :footer="null"
+          >
             <form @submit.prevent="">
               <div class="bg-white py-2">
                 <div class="pb-4">
-                  <label for="email" class="block text-sm font-medium text-gray-700">
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700"
+                  >
                     Mã tác giả
                   </label>
                   <div class="mt-1">
-                    <a-input class="w-[450px] h-[45px]" placeholder="Nhập mã tác giả" required />
+                    <a-input
+                      class="w-[450px] h-[45px]"
+                      placeholder="Nhập mã tác giả"
+                      required
+                    />
                   </div>
                 </div>
 
                 <div>
-                  <label for="email" class="block text-sm font-medium text-gray-700">
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700"
+                  >
                     Nội dụng
                   </label>
                   <div class="mt-2">
                     <a-space>
-                      <a-select class="w-[450px] h-[45px] flex justify-center items-center" ref="select"
-                        v-model:value="value1" @focus="focus">
+                      <a-select
+                        class="w-[450px] h-[45px] flex justify-center items-center"
+                        ref="select"
+                        v-model:value="value1"
+                        @focus="focus"
+                      >
                         <a-select-option value="jack">Jack</a-select-option>
                         <a-select-option value="lucy">Lucy</a-select-option>
                       </a-select>
@@ -48,8 +72,17 @@
                   </div>
                 </div>
                 <div class="flex justify-end items-end gap-4">
-                  <a-button @click="onCancel" type="primary" danger html-type="button" class="mt-4">Hủy</a-button>
-                  <a-button type="primary" html-type="submit" class="mt-4">Lưu</a-button>
+                  <a-button
+                    @click="onCancel"
+                    type="primary"
+                    danger
+                    html-type="button"
+                    class="mt-4"
+                    >Hủy</a-button
+                  >
+                  <a-button type="primary" html-type="submit" class="mt-4"
+                    >Lưu</a-button
+                  >
                 </div>
               </div>
             </form>
@@ -57,7 +90,10 @@
         </div>
       </div>
 
-      <a-table :columns="columns" :data-source="AuthorStore?.AuthorAdmin?.authors">
+      <a-table
+        :columns="columns"
+        :data-source="AuthorStore?.AuthorAdmin?.authors"
+      >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
             <span> Mã tác giả </span>
@@ -99,8 +135,12 @@
                   <span>Xem chi tiết</span>
                 </template>
                 <button
-                  class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
-                  <UIcon class="group-hover:text-[#faad14]" name="i-icon-park-outline-eyes" />
+                  class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                >
+                  <UIcon
+                    class="group-hover:text-[#faad14]"
+                    name="i-icon-park-outline-eyes"
+                  />
                 </button>
               </a-tooltip>
               <a-tooltip placement="top" color="green">
@@ -108,29 +148,45 @@
                   <span>Sửa</span>
                 </template>
                 <span
-                  class="group hover:bg-[green]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md">
+                  class="group hover:bg-[green]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md"
+                >
                   <div>
                     <button class="flex items-center" @click="showModalEdit">
-                      <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
+                      <UIcon
+                        class="group-hover:text-[green]"
+                        name="i-material-symbols-edit-outline"
+                      />
                     </button>
                     <a-modal v-model:open="openModalEdit" title="Sửa">
                       <div class="">
                         <div class="bg-white py-2">
                           <div class="pb-4">
-                            <label for="email" class="block text-sm font-medium text-gray-700">
+                            <label
+                              for="email"
+                              class="block text-sm font-medium text-gray-700"
+                            >
                               Tên danh mục
                             </label>
                             <div class="mt-1">
-                              <a-input class="w-[450px] h-[45px]" placeholder="Nhập tên danh mục" />
+                              <a-input
+                                class="w-[450px] h-[45px]"
+                                placeholder="Nhập tên danh mục"
+                              />
                             </div>
                           </div>
 
                           <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700">
+                            <label
+                              for="email"
+                              class="block text-sm font-medium text-gray-700"
+                            >
                               Nội dụng
                             </label>
                             <div class="mt-1">
-                              <a-input class="w-[450px] h-[45px]" placeholder="Nhập nội dung" />
+                              <a-input
+                                class="w-[450px] h-[45px]"
+                                placeholder="Nhập nội dung"
+                              />
                             </div>
                           </div>
                         </div>
@@ -144,11 +200,21 @@
                   <span>Xóa</span>
                 </template>
                 <span
-                  class="group hover:bg-[red]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md">
-                  <a-popconfirm title="Are you sure delete this task?" placement="right" ok-text="Yes" cancel-text="No"
-                    @confirm="confirm" @cancel="cancel">
+                  class="group hover:bg-[red]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md"
+                >
+                  <a-popconfirm
+                    title="Are you sure delete this task?"
+                    placement="right"
+                    ok-text="Yes"
+                    cancel-text="No"
+                    @confirm="confirm"
+                    @cancel="cancel"
+                  >
                     <buttton class="flex items-center">
-                      <UIcon class="group-hover:text-[red]" name="i-material-symbols-delete-outline" />
+                      <UIcon
+                        class="group-hover:text-[red]"
+                        name="i-material-symbols-delete-outline"
+                      />
                     </buttton>
                   </a-popconfirm>
                 </span>
@@ -181,8 +247,7 @@ const focus = () => {
 };
 
 const AuthorStore = useAuthorStore();
-console.log("🚀 ~ AuthorStore:", AuthorStore?.AuthorAdmin?.authors
-);
+console.log("🚀 ~ AuthorStore:", AuthorStore?.AuthorAdmin?.authors);
 
 const isLoading = ref(false);
 
@@ -190,17 +255,13 @@ const getDataAuthor = async () => {
   isLoading.value = true;
   await AuthorStore.getAllAuthor({
     type: "post",
-  });;
+  });
   isLoading.value = false;
 };
 
 useAsyncData(async () => {
   await getDataAuthor();
 });
-
-
-
-
 
 const handleChange = (value: string) => {
   console.log(`selected ${value}`);
