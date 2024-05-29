@@ -16,6 +16,7 @@
 
           <p
             @click="handleChangeEditAcc"
+            v-if="!isShow"
             class="flex gap-1 items-center justify-center border-0 cursor-pointer text-sm font-bold hover:font-medium"
           >
             <UIcon name="i-solar-pen-2-linear" />
@@ -173,11 +174,17 @@
                 <span v-else>{{ data?.address_detail }}</span>
               </div>
             </div>
-            <div class="w-full flex items-center justify-center pt-5">
+            <div
+              class="w-full flex items-center justify-center pt-5"
+              v-if="isShow"
+            >
               <a-button html-type="submit" class="mr-6 !text-white bg-[#3b8aea]"
                 >Lưu thay đổi</a-button
               >
-              <a-button type="primary" class="bg-[#D9D9D9] text-black"
+              <a-button
+                type="primary"
+                class="bg-[#D9D9D9] text-black"
+                @click="handleCancel"
                 >Hủy</a-button
               >
             </div>
@@ -331,7 +338,9 @@ const onSubmit = handleSubmit(async (values) => {
 const handleChangeEditAcc = () => {
   isShow.value = !isShow.value;
 };
-
+const handleCancel = () => {
+  isShow.value = false;
+};
 useAsyncData(async () => {
   isLoading.value = true;
   try {
