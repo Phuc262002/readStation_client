@@ -240,7 +240,9 @@ const uploadFile = async () => {
   const formData = new FormData();
   formData.append("image", file._rawValue.target.files[0]);
   const dataUpload = await baseStore.uploadImg(formData);
-  return dataUpload._rawValue.data.link;
+  console.log(dataUpload);
+  
+  return dataUpload.data._rawValue.data.link;
 };
 
 const publishingCompany = ref({
