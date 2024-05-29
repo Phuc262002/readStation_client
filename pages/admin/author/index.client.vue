@@ -87,10 +87,18 @@
           </template>
           <template v-if="column.key === 'is_featured'">
             <span>
-              <a-tag :color="record.is_featured === true ? 'green' : 'gray'">
-                {{ record.is_featured }}
+              <a-tag :color="record.is_featured ? 'green' : 'gray'">
+                <span>
+                  <template v-if="record.is_featured">
+                    <UIcon class="flex items-center w-5 h-7" name="i-material-symbols-check-box-outline" />
+                  </template>
+                  <template v-else>
+                    <UIcon class="flex items-center w-5 h-7" name="i-material-symbols-cancel-presentation-outline" />
+                  </template>
+                </span>
               </a-tag>
             </span>
+
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">

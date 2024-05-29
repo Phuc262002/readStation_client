@@ -4,13 +4,12 @@
             <div class="mx-auto container md:px-20 px-8 py-14">
                 <div class="flex justify-between md:flex-row flex-col">
                     <!-- Logo -->
-                    <div class="w-1/2">
-                        <img class="w-1/3" src="https://thumbs.dreamstime.com/b/reading-book-logo-designs-164296495.jpg"
-                            alt="" />
-                    </div>
+                        <div class="w-1/2">
+                            <img class="w-1/2" src="../../../assets/images/Logo.svg" alt="" />
+                        </div>
                     <!-- ReadStation -->
                     <div class="w-1/4 flex flex-col gap-3">
-                        <h1 class="text-xl font-medium uppercase text-white">ReadStation</h1>
+                        <h1 class="text-xl font-medium uppercase tesxt-white">ReadStation</h1>
                         <ul class="flex flex-col gap-2">
                             <Nuxt-link to="/rules">
                                 <li

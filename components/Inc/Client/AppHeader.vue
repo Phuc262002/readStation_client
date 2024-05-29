@@ -9,8 +9,8 @@
           <!-- Logo -->
           <div class=" ">
             <img
-              class="w-10"
-              src="https://thumbs.dreamstime.com/b/reading-book-logo-designs-164296495.jpg"
+              class="w-40"
+              src="../../../assets/images/Logo.svg"
               alt=""
             />
           </div>

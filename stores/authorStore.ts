@@ -10,6 +10,13 @@ export const useAuthorStore = defineStore("author-store", {
             const data: any = await useCustomFetch(`/api/v1/authors/admin/get-all`);
             this.AuthorAdmin = data.data._value?.data;
             return data;
+        },
+        async createAuthor(ValueAuthor: any) {
+            const data: any = await useCustomFetch(`/api/v1/authors/create`, {
+                method: "POST",
+                body: JSON.stringify(ValueAuthor),
+            });
+            return data;
         }
     }
 });
