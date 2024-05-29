@@ -13,7 +13,7 @@
 
     <!-- Đây là phần code mẫu body -->
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
-      <a-table :columns="columns" :data-source="data" :scroll="{ x: 2000 }">
+      <a-table :columns="columns" :data-source="data">
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'avatar'">
             <img
@@ -52,19 +52,9 @@ const columns = [
     key: "fullname",
   },
   {
-    title: "Nghề nghiệp",
-    dataIndex: "job",
-    key: "job",
-  },
-  {
     title: "Giới tính",
     dataIndex: "gender",
     key: "gender",
-  },
-  {
-    title: "Ngày sinh",
-    dataIndex: "dob",
-    key: "dob",
   },
   {
     title: "Email",
@@ -77,29 +67,9 @@ const columns = [
     key: "phone",
   },
   {
-    title: "Tỉnh/Thành phố",
-    dataIndex: "province",
-    key: "province",
-  },
-  {
-    title: "Quận/Huyện",
-    dataIndex: "district",
-    key: "district",
-  },
-  {
-    title: "Xã/Phường/Thị trấn",
-    dataIndex: "ward",
-    key: "ward",
-  },
-  {
-    title: "Đường",
-    dataIndex: "street",
-    key: "street",
-  },
-  {
-    title: "Địa chỉ",
-    dataIndex: "address_detail",
-    key: "address_detail",
+    title: "Vai trò",
+    dataIndex: "role",
+    key: "role",
   },
   {
     title: "Hành động",
@@ -113,16 +83,10 @@ const data = [
     key: "1",
     avatar: "../../../assets/images/khuong.jpg",
     fullname: "John Brown",
-    job: "32",
     gender: "Nam",
-    dob: "12/01/2003",
     email: "nguyenvana@gmail.com",
     phone: "0123456789",
-    province: "TP.HCM",
-    district: "Quận 12",
-    ward: "Tân Chánh Hiệp",
-    street: "Tô Ký",
-    address_detail: "22",
+    role: "Admin",
   },
 ];
 </script>

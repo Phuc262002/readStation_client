@@ -12,18 +12,10 @@
           <h2 class="text-2xl text-sky-600 font-bold pb-3">
             Xác thực Email của bạn ✉️
           </h2>
-          <p>
-            Liên kết kích hoạt tài khoản được gửi đến địa chỉ email của bạn:
-            hello@example.com Vui lòng nhấp vào liên kết bên trong để tiếp tục.
-          </p>
+          <p>Mã OTP đã được gửi đến Email của bạn.</p>
+          <p>Vui lòng kiểm tra lại Email !</p>
         </div>
         <form action="" class="w-full space-y-6">
-          <a-button
-            html-type="submit"
-            class="w-full bg-[#162D3A] h-[45px] !text-white hover:bg-slate-600 text-base"
-          >
-            <span>Gửi</span>
-          </a-button>
           <div class="flex items-center gap-1 justify-center">
             <span>Không nhận được thư ?</span>
             <NuxtLink to="/login" class="text-indigo-400 hover:text-indigo-900">

@@ -91,7 +91,7 @@
       </a-menu-item>
 
       <a-menu-item key="9">
-        <NuxtLink to="/reset-password" class="flex items-center gap-2">
+        <NuxtLink to="/account/change-password" class="flex items-center gap-2">
           <UIcon name="i-carbon-password" class="text-base" />
           <span>Đổi mật khẩu</span>
         </NuxtLink>
