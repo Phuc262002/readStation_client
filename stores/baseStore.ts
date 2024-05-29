@@ -59,6 +59,7 @@ export const useBaseStore = defineStore("base-store", {
         },
         body: file,
       });
+      return data;
     },
   },
 });
