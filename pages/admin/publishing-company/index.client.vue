@@ -36,7 +36,7 @@
             title="Thêm nhà xuất bản"
             :footer="null"
           >
-            <form @submit.prevent="">
+            <form @submit.prevent="onSubmit">
               <div class="bg-white py-2">
                 <div class="pb-4">
                   <label
@@ -47,6 +47,7 @@
                   </label>
                   <div class="mt-1">
                     <a-input
+                      v-model:value="publishingCompany.name"
                       class="w-[450px] h-[45px]"
                       placeholder="Nhập mã nhà xuất bản"
                       required
@@ -54,27 +55,23 @@
                   </div>
                 </div>
 
-                <div>
+                <div class="pb-4">
                   <label
                     for="email"
                     class="block text-sm font-medium text-gray-700"
                   >
-                    Nội dụng
+                    Mô tả
                   </label>
-                  <div class="mt-2">
-                    <a-space>
-                      <a-select
-                        class="w-[450px] h-[45px] flex justify-center items-center"
-                        ref="select"
-                        v-model:value="value1"
-                        @focus="focus"
-                      >
-                        <a-select-option value="jack">Jack</a-select-option>
-                        <a-select-option value="lucy">Lucy</a-select-option>
-                      </a-select>
-                    </a-space>
+                  <div class="mt-1">
+                    <a-input
+                      v-model:value="publishingCompany.description"
+                      class="w-[450px] h-[45px]"
+                      placeholder="Nhập mã nhà xuất bản"
+                      required
+                    />
                   </div>
                 </div>
+
                 <div class="flex justify-end items-end gap-4">
                   <a-button
                     @click="onCancel"
@@ -94,12 +91,16 @@
         </div>
       </div>
 
-      <a-table :columns="columns" 
-      :loading="isLoading"
-      :data-source="usePublishingCompanyStore.publishingCompaniesAdmin">
+      <a-table
+        :columns="columns"
+        :loading="isLoading"
+        :data-source="
+          publishingCompanyStore?.publishingCompaniesAdmin?.publishing_companies
+        "
+      >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
-            <span> Mã nhà xuất bản </span>
+            <span> Name </span>
           </template>
         </template>
 
@@ -108,6 +109,11 @@
             <a>
               {{ record.name }}
             </a>
+          </template>
+          <template v-if="column.key === 'logo_company'">
+            <div class="flex justify-start gap-4 items-center">
+              <a-avatar :src="record.logo_company" :size="60" />
+            </div>
           </template>
           <template v-else-if="column.key === 'status'">
             <span>
@@ -191,6 +197,7 @@
                   class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
                 >
                   <a-popconfirm
+                    @click="onDelete"
                     title="Are you sure delete this task?"
                     placement="right"
                     ok-text="Yes"
@@ -216,40 +223,28 @@
 </template>
 <script lang="ts" setup>
 import type { SelectProps } from "ant-design-vue";
+const publishingCompanyStore = usePublishingCompanyStore();
+// watchEffect(() => {
+//   console.log(
+//     publishingCompanyStore.publishingCompaniesAdmin.publishing_companies
+//   );
+// });
 const publishingCompany = ref({
   name: "",
-  category: "",
-  logo_company: "",
   description: "",
-  status: "",
+  logo_company: "",
 });
-
-const publishingCompanyStore = usePublishingCompanyStore();
 const isLoading = ref(false);
+
 const getData = async () => {
   isLoading.value = true;
-  await publishingCompanyStore.getAllPublishingCompany();
+  await publishingCompanyStore.getAllPublishingCompany({});
   isLoading.value = false;
 };
+
 useAsyncData(async () => {
   await getData();
 });
-
-const value1 = ref("lucy");
-const value2 = ref("lucy");
-const options1 = ref<SelectProps["options"]>([
-  {
-    value: "jack",
-    label: "Jack",
-  },
-  {
-    value: "lucy",
-    label: "Lucy",
-  },
-]);
-const focus = () => {
-  console.log("focus");
-};
 
 const handleChange = (value: string) => {
   console.log(`selected ${value}`);
@@ -267,13 +262,8 @@ const cancel = (e: MouseEvent) => {
 const columns = [
   {
     name: "Name",
-    dataIndex: "Name",
+    dataIndex: "name",
     key: "name",
-  },
-  {
-    title: "nhà xuất bản",
-    dataIndex: "category",
-    key: "category",
   },
   {
     title: "Hình ảnh",
@@ -281,7 +271,7 @@ const columns = [
     key: "logo_company",
   },
   {
-    title: "Nội dung",
+    title: "Mô tả",
     dataIndex: "description",
     key: "description",
   },
@@ -296,8 +286,6 @@ const columns = [
   },
 ];
 
-
-
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 
@@ -309,5 +297,14 @@ const showModalEdit = () => {
 };
 const onCancel = () => {
   openModalAdd.value = false;
+};
+const onSubmit = async () => {
+  await publishingCompanyStore.createPublishingCompany(publishingCompany.value);
+  getData();
+  openModalAdd.value = false;
+};
+const onDelete = async (id: string) => {
+  await publishingCompanyStore.deletePublishingCompany(id);
+  getData();
 };
 </script>
