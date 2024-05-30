@@ -250,7 +250,7 @@ const onSubmit = handleSubmit(async (values) => {
     const resData = await authStore.register(values);
     if (resData?.data?._rawValue?.status == true) {
       successToast("Đăng ký thành công", "Chuyển hướng đến trang đăng nhập");
-      navigateTo("/login");
+      navigateTo(`/verify-code?email=${email.value.value}`);
     } else {
       resErrors.value = resData.error.value.data?.errors;
       errorToast("Đăng ký không thành công", "Vui lòng thử lại");

@@ -260,7 +260,6 @@ const address = ref({
 const data = ref(null);
 const isLoading = ref(false);
 const authStore = useAuthStore();
-console.log("data", authStore);
 interface EditAcc {
   isShow: boolean;
 }
