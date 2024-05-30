@@ -9,8 +9,8 @@
           <!-- Logo -->
           <div class=" ">
             <img
-              class="w-40"
-              src="../../../assets/images/Logo.svg"
+                class="w-60"
+              src="../../../assets/images/logo_header.svg"
               alt=""
             />
           </div>
