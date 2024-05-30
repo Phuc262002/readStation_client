@@ -326,9 +326,10 @@ const onCancel = () => {
 const onSubmit = async () => {
   const url = await uploadFile();
   await publishingCompanyStore.createPublishingCompany({
+    logo_company: url,
     name: publishingCompany.value.name,
     description: publishingCompany.value.description,
-    logo_company: url,
+    
   });
   getData();
   openModalAdd.value = false;

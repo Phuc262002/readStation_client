@@ -17,6 +17,15 @@ export const useAuthorStore = defineStore("author-store", {
                 body: JSON.stringify(ValueAuthor),
             });
             return data;
-        }
+        },
+        async deleteAuthor(id: string) {
+            const data: any = await useCustomFetch(
+              `/api/v1/authors/delete/${id}`,
+              {
+                method: "DELETE",
+              }
+            );
+            return data;
+          },
     }
 });
