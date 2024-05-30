@@ -87,11 +87,11 @@ const optionsStatus = ref([
     label: "Active",
   },
   {
-    value: "InActive",
+    value: "inactive",
     label: "InActive",
   },
   {
-    value: "Deleted",
+    value: "deleted",
     label: "Deleted",
   },
 ]);
@@ -108,21 +108,22 @@ watchEffect(() => {
   console.log("🚀 ~ ValueAuthor:", ValueAuthor)
 })
 const onSubmit = async () => {
-  try {
-    const url = await uploadFile();
-    await AuthorStore.createAuthor({
-      avatar: url,
-      author: ValueAuthor.value.author,
-      dob: ValueAuthor.value.dob,
-      statusValue: ValueAuthor.value.statusValue,
-      description: ValueAuthor.value.description,
-      is_featured: ValueAuthor.value.value,
-    })
-    message.success("Thêm thành công");
-    navigateTo("/admin/author");
-  } catch (error) {
-    message.error("Thêm thất bại");
-  }
+  alert(JSON.stringify(ValueAuthor.value));
+  // try {
+  //   const url = await uploadFile();
+  //   await AuthorStore.createAuthor({
+  //     avatar: url,
+  //     author: ValueAuthor.value.author,
+  //     dob: ValueAuthor.value.dob,
+  //     statusValue: ValueAuthor.value.statusValue,
+  //     description: ValueAuthor.value.description,
+  //     is_featured: ValueAuthor.value.value,
+  //   })
+  //   message.success("Thêm thành công");
+  //   navigateTo("/admin/author");
+  // } catch (error) {
+  //   message.error("Thêm thất bại");
+  // }
 };
 
 const handleChange = (value) => {
