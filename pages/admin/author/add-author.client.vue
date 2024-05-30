@@ -118,6 +118,7 @@ const onSubmit = async () => {
       is_featured: ValueAuthor.value.value,
     })
     message.success("Thêm thành công");
+    navigateTo("/admin/author");
   } catch (error) {
     message.error("Thêm thất bại");
   }

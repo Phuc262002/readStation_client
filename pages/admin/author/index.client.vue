@@ -165,7 +165,7 @@ const onDelete = async (id: string) => {
   await AuthorStore.deleteAuthor(id);
   getDataAuthor()
 };
-
+const [modal, contextHolder] = Modal.useModal();
 const showDeleteConfirm = (id: string) => {
   modal.confirm({
     title: "Are you sure delete this task?",
