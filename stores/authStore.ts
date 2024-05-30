@@ -69,5 +69,26 @@ export const useAuthStore = defineStore("auth-store", {
       });
       return data;
     },
+    async resendOtp(body: any) {
+      const data: any = await useCustomFetch("/api/v1/auth/resend-otp", {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+      return data;
+    },
+    async verifyEmail(body: any) {
+      const data: any = await useCustomFetch("/api/v1/auth/verify-email", {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+      return data;
+    },
+    async resetPassword(body: any) {
+      const data: any = await useCustomFetch("/api/v1/auth/reset-password", {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+      return data;
+    },
   },
 });
