@@ -4,8 +4,11 @@
             <div class="mx-auto container md:px-20 px-8 py-14">
                 <div class="flex justify-between md:flex-row flex-col">
                     <!-- Logo -->
+                        <!-- <div class="w-1/2">
+                            <img class="w-60" src="../../../assets/images/logo_footer.svg" alt="" />
+                        </div> -->
                         <div class="w-1/2">
-                            <img class="w-1/2" src="../../../assets/images/Logo.svg" alt="" />
+                            <img class="w-[170px]" src="../../../assets/images/logo_footer.svg" alt="" />
                         </div>
                     <!-- ReadStation -->
                     <div class="w-1/4 flex flex-col gap-3">
