@@ -97,10 +97,10 @@
               <a-tag :color="record.is_featured ? 'green' : 'gray'">
                 <span>
                   <template v-if="record.is_featured">
-                    <UIcon class="flex items-center w-5 h-7" name="i-material-symbols-check-box-outline" />
+                    <UIcon class="flex items-center w-5 h-5" name="i-material-symbols-check-box-outline" />
                   </template>
                   <template v-else>
-                    <UIcon class="flex items-center w-5 h-7" name="i-material-symbols-cancel-presentation-outline" />
+                    <UIcon class="flex items-center w-5 h-5" name="i-material-symbols-cancel-presentation-outline" />
                   </template>
                 </span>
               </a-tag>
