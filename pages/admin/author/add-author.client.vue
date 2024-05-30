@@ -34,7 +34,7 @@
         <div class="grid grid-cols-3 gap-4 pb-4 mt-5">
           <div class="flex flex-col gap-2 w-[100%]">
             <label class="text-sm font-semibold" for="">Tên tác giả</label>
-            <a-input placeholder="Tên tác giả" class="border p-2 rounded-md" v-model:value="ValueAuthor.author" />
+            <a-input placeholder="Tên tác giả" class="border p-2 rounded-md" v-model:value="ValueAuthor.author" required />
           </div>
           <div class="flex flex-col gap-2 w-[100%]">
             <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
@@ -68,6 +68,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
+
 const AuthorStore = useAuthorStore()
 const baseStore = useBaseStore();
 const file = ref("");
