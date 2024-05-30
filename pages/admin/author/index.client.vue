@@ -77,11 +77,11 @@
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
-                <button @click="showModaDetail(record?.id)"
+                <button
                   class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                   <UIcon class="group-hover:text-[#faad14]" name="i-icon-park-outline-eyes" />
                 </button>
-                <a-modal v-model:open="openModalDetail" title="Xem chi tiết" style="width: 70%;">
+                <!-- <a-modal v-model:open="openModalDetail" title="Xem chi tiết" style="width: 70%;">
 
                   <div class="bg-white py-2">
                     <div class="grid grid-cols-2 gap-4 pb-4">
@@ -111,63 +111,23 @@
                       <CommonUploadImg :value="file" @input="(event) => (file = event)" />
                     </div>
                   </div>
-                </a-modal>
+                </a-modal> -->
               </a-tooltip>
               <!-- Sửa tác giả -->
-              <a-tooltip placement="top" color="green">
-                <template #title>
-                  <span>Sửa</span>
-                </template>
-                <span
-                  class="group hover:bg-[green]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md">
-                  <div>
-                    <button class="flex items-center" @click="showModalEdit">
-                      <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
-                    </button>
-                    <a-modal style="width: 70%;" v-model:open="openModalEdit" title="Sửa">
-                      <form @submit.prevent="onSubmit">
-                        <div class="bg-white py-2">
-                          <div class="grid grid-cols-2 gap-4 pb-4">
-                            <div class="flex flex-col gap-2 w-[100%]">
-                              <label class="text-sm font-semibold" for="">Tên tác giả</label>
-                              <a-input placeholder="Tên tác giả" class="border p-2 rounded-md"
-                                v-model:value="ValueAuthor.author" />
-                            </div>
-                            <div class="flex flex-col gap-2 w-[100%]">
-                              <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
-                              <a-input placeholder="Ngày, tháng, năm sinh" class="border p-2 rounded-md" type="date"
-                                v-model:value="ValueAuthor.dob" />
-                            </div>
-                          </div>
-                          <div class="grid grid-cols-2 gap-4 pb-4">
-                            <div class="flex flex-col gap-2 w-[100%]">
-                              <label class="text-sm font-semibold" for="">Trạng thái</label>
-                              <a-select size="large" v-model:value="ValueAuthor.statusValue" show-search
-                                placeholder="Trạng thái" :options="optionsStatus"></a-select>
-                            </div>
-                            <!-- <div class="flex flex-col gap-2 w-[100%]">
-                    <label class="text-sm font-semibold" for="">SLug</label>
-                    <a-input placeholder="slug" class="border p-2 rounded-md" v-model:value="slug" />
-                  </div> -->
-                          </div>
-                          <div class="flex flex-col gap-2 f-full pb-4">
-                            <label class="text-sm font-semibold" for="">Nội dung</label>
-                            <CommonCKEditor v-model:value="ValueAuthor.description" />
-                          </div>
-                          <div class="mt-1">
-                            <CommonUploadImg :value="file" @input="(event) => (file = event)" />
-                          </div>
-                          <div class="flex justify-end items-end gap-4">
-                            <a-button @click="onCancel" type="primary" danger html-type="button"
-                              class="mt-4">Hủy</a-button>
-                            <a-button type="primary" html-type="submit" class="mt-4">Lưu</a-button>
-                          </div>
-                        </div>
-                      </form>
-                    </a-modal>
-                  </div>
-                </span>
-              </a-tooltip>
+              <NuxtLink :to="`author/edit/${record.id}`"> <a-tooltip placement="top" color="green">
+                  <template #title>
+                    <span>Sửa</span>
+                  </template>
+                  <span
+                    class="group hover:bg-[green]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md">
+                    <div>
+                      <button class="flex items-center" @click="showModalEdit">
+                        <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
+                      </button>
+                    </div>
+                  </span>
+                </a-tooltip></NuxtLink>
+
               <!-- Xóa tác giả -->
               <a-tooltip placement="top" color="red">
                 <template #title>
@@ -190,71 +150,13 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-const baseStore = useBaseStore();
 const AuthorStore = useAuthorStore();
-const file = ref("");
-const [modal, contextHolder] = Modal.useModal();
-const uploadFile = async () => {
-  console.log(file._rawValue.target.files[0]);
-  const formData = new FormData();
-  formData.append("image", file._rawValue.target.files[0]);
-  const dataUpload = await baseStore.uploadImg(formData);
-  console.log(dataUpload);
-  return dataUpload.data._rawValue.data.link;
-};
-
-
-
-
-const statusValue = ref(null);
-const optionsStatus = ref([
-  {
-    value: "active",
-    label: "Active",
-  },
-  {
-    value: "InActive",
-    label: "InActive",
-  },
-  {
-    value: "Deleted",
-    label: "Deleted",
-  },
-]);
-// const optionsIs_Featured = ref([
-//   {
-//     value: "true",
-//     label: "True",
-//   },
-//   {
-//     value: "false",
-//     label: "False",
-//   },
-// ]);
-
-const ValueAuthor = ref({
-  author: "",
-  dob: "",
-  statusValue: "",
-  description: "",
-  avatar: ""
-});
 const isLoading = ref(false);
 const getDataAuthor = async () => {
   isLoading.value = true;
   await AuthorStore.getAllAuthor();
   isLoading.value = false;
 };
-const getAuthorById = async (id: string) => {
-  isLoading.value = true;
-  await AuthorStore.getAuthorById(id);
-  isLoading.value = false;
-};
-const showModaDetail = (id: string) => {
-  getAuthorById(id)
-  openModalDetail.value = true;
-};
-
 useAsyncData(async () => {
   await getDataAuthor();
 });
@@ -315,30 +217,9 @@ const columns = [
 
 
 const openModalEdit = ref<boolean>(false);
-const openModalAdd = ref<boolean>(false);
 const openModalDetail = ref<boolean>(false);
-const showModalAdd = () => {
-  openModalAdd.value = true;
-};
 const showModalEdit = () => {
   openModalEdit.value = true;
 };
-
-const onCancel = () => {
-  openModalAdd.value = false;
-};
-const onSubmit = async () => {
-  const url = await uploadFile();
-  await AuthorStore.createAuthor({
-    author: ValueAuthor.value.author,
-    dob: ValueAuthor.value.dob,
-    statusValue: ValueAuthor.value.statusValue,
-    description: ValueAuthor.value.description,
-    avatar: url
-  })
-  getDataAuthor()
-  openModalAdd.value = false;
-};
-
 
 </script>

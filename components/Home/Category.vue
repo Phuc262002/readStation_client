@@ -4,7 +4,7 @@
             <div class="text-3xl font-bold">
                 Categories
             </div>
-            <div class="flex justify-center items-center gap-16 ">
+            <div class="grid grid-cols-6 gap-10 ">
                 <div class="flex flex-col items-center gap-5">
                     <div class="w-40 h-40 border rounded-full relative bg-[##F6F6F6] hover:bg-[#f65d4e]">
                         <div

@@ -18,7 +18,7 @@
                   <h1 class=" text-6xl font-bold">Great Year</h1>
               </div>
               <div>
-                <button class=" w-40 h-12 bg-[white] p-2 rounded-full text-black text-base font-semibold hover:bg-black hover:text-white">Shop now</button>
+                <button class=" w-40 h-12 bg-[#FF7D29] p-2 rounded-lg text-white text-base font-semibold hover:bg-black hover:text-white">Thuê Ngay</button>
               </div>
           </div>
         </div>
@@ -42,7 +42,7 @@
                   <p class="text-[#f65d4e] text-2xl font-bold">$24.55</p>
               </div>
               <div>
-                <button class=" w-40 h-12 bg-[white] p-2 rounded-full text-black text-base font-semibold hover:bg-black hover:text-white">Shop now</button>
+                <button class=" w-40 h-12 bg-[#FF7D29] p-2 rounded-lg text-white text-base font-semibold hover:bg-black hover:text-white">Thuê Ngay</button>
               </div>
           </div>
         </div>
@@ -66,7 +66,7 @@
                   <p class="text-[#f65d4e] text-2xl font-bold">$24.55</p>
               </div>
               <div>
-                <button class=" w-40 h-12 bg-[white] p-2 rounded-full text-black text-base font-semibold hover:bg-black hover:text-white">Shop now</button>
+                <button class=" w-40 h-12 bg-[#FF7D29] p-2 rounded-lg text-white text-base font-semibold hover:bg-black hover:text-white">Thuê Ngay</button>
               </div>
           </div>
         </div>

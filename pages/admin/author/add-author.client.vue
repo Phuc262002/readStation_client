@@ -77,7 +77,7 @@ const uploadFile = async () => {
   formData.append("image", file._rawValue.target.files[0]);
   const dataUpload = await baseStore.uploadImg(formData);
   console.log(dataUpload);
-  
+
   return dataUpload.data._rawValue.data.link;
 };
 const optionsStatus = ref([
@@ -107,16 +107,20 @@ watchEffect(() => {
   console.log("🚀 ~ ValueAuthor:", ValueAuthor)
 })
 const onSubmit = async () => {
-  const url = await uploadFile();
-  await AuthorStore.createAuthor({
-    avatar: url,
-    author: ValueAuthor.value.author,
-    dob: ValueAuthor.value.dob,
-    statusValue: ValueAuthor.value.statusValue,
-    description: ValueAuthor.value.description,
-    is_featured: ValueAuthor.value.value,
-    
-  })
+  try {
+    const url = await uploadFile();
+    await AuthorStore.createAuthor({
+      avatar: url,
+      author: ValueAuthor.value.author,
+      dob: ValueAuthor.value.dob,
+      statusValue: ValueAuthor.value.statusValue,
+      description: ValueAuthor.value.description,
+      is_featured: ValueAuthor.value.value,
+    })
+    message.success("Thêm thành công");
+  } catch (error) {
+    message.error("Thêm thất bại");
+  }
 };
 
 const handleChange = (value) => {
