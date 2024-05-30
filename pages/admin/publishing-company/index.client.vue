@@ -36,7 +36,7 @@
             title="Thêm nhà xuất bản"
             :footer="null"
           >
-            <form @submit.prevent="">
+            <form @submit.prevent="onSubmit">
               <div class="bg-white py-2">
                 <div class="pb-4">
                   <label
@@ -47,6 +47,7 @@
                   </label>
                   <div class="mt-1">
                     <a-input
+                      v-model:value="publishingCompany.name"
                       class="w-[450px] h-[45px]"
                       placeholder="Nhập mã nhà xuất bản"
                       required
@@ -54,27 +55,37 @@
                   </div>
                 </div>
 
-                <div>
+                <div class="pb-4">
                   <label
                     for="email"
                     class="block text-sm font-medium text-gray-700"
                   >
-                    Nội dụng
+                    Mô tả
                   </label>
-                  <div class="mt-2">
-                    <a-space>
-                      <a-select
-                        class="w-[450px] h-[45px] flex justify-center items-center"
-                        ref="select"
-                        v-model:value="value1"
-                        @focus="focus"
-                      >
-                        <a-select-option value="jack">Jack</a-select-option>
-                        <a-select-option value="lucy">Lucy</a-select-option>
-                      </a-select>
-                    </a-space>
+                  <div class="mt-1">
+                    <a-input
+                      v-model:value="publishingCompany.description"
+                      class="w-[450px] h-[45px]"
+                      placeholder="Nhập mã nhà xuất bản"
+                      required
+                    />
                   </div>
                 </div>
+                <div class="pb-4">
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    Logo nhà xuất bản
+                  </label>
+                  <div class="mt-1">
+                    <CommonUploadImg
+                      :value="file"
+                      @input="(event) => (file = event)"
+                    />
+                  </div>
+                </div>
+
                 <div class="flex justify-end items-end gap-4">
                   <a-button
                     @click="onCancel"
@@ -94,12 +105,16 @@
         </div>
       </div>
 
-      <a-table :columns="columns" 
-      :loading="isLoading"
-      :data-source="usePublishingCompanyStore.publishingCompaniesAdmin">
+      <a-table
+        :columns="columns"
+        :loading="isLoading"
+        :data-source="
+          publishingCompanyStore?.publishingCompaniesAdmin?.publishing_companies
+        "
+      >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
-            <span> Mã nhà xuất bản </span>
+            <span> Name </span>
           </template>
         </template>
 
@@ -108,6 +123,11 @@
             <a>
               {{ record.name }}
             </a>
+          </template>
+          <template v-if="column.key === 'logo_company'">
+            <div class="flex justify-start gap-4 items-center">
+              <a-avatar :src="record.logo_company" :size="60" />
+            </div>
           </template>
           <template v-else-if="column.key === 'status'">
             <span>
@@ -190,21 +210,16 @@
                 <span
                   class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
                 >
-                  <a-popconfirm
-                    title="Are you sure delete this task?"
-                    placement="right"
-                    ok-text="Yes"
-                    cancel-text="No"
-                    @confirm="confirm"
-                    @cancel="cancel"
+                  <button
+                    @click="showDeleteConfirm(record?.id)"
+                    class="flex items-center"
                   >
-                    <button class="flex items-center">
-                      <UIcon
-                        class="group-hover:text-[red]"
-                        name="i-material-symbols-delete-outline"
-                      />
-                    </button>
-                  </a-popconfirm>
+                    <UIcon
+                      class="group-hover:text-[red]"
+                      name="i-material-symbols-delete-outline"
+                    />
+                  </button>
+                  <contextHolder />
                 </span>
               </a-tooltip>
             </div>
@@ -215,65 +230,65 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { SelectProps } from "ant-design-vue";
+const baseStore = useBaseStore();
+const file = ref("");
+
+const [modal, contextHolder] = Modal.useModal();
+const publishingCompanyStore = usePublishingCompanyStore();
+const uploadFile = async () => {
+  console.log(file._rawValue.target.files[0]);
+  const formData = new FormData();
+  formData.append("image", file._rawValue.target.files[0]);
+  const dataUpload = await baseStore.uploadImg(formData);
+  console.log(dataUpload);
+  
+  return dataUpload.data._rawValue.data.link;
+};
+
 const publishingCompany = ref({
   name: "",
-  category: "",
-  logo_company: "",
   description: "",
-  status: "",
+  logo_company: "",
 });
-
-const publishingCompanyStore = usePublishingCompanyStore();
 const isLoading = ref(false);
+
 const getData = async () => {
   isLoading.value = true;
-  await publishingCompanyStore.getAllPublishingCompany();
+  await publishingCompanyStore.getAllPublishingCompany({});
   isLoading.value = false;
 };
+
 useAsyncData(async () => {
   await getData();
 });
 
-const value1 = ref("lucy");
-const value2 = ref("lucy");
-const options1 = ref<SelectProps["options"]>([
-  {
-    value: "jack",
-    label: "Jack",
-  },
-  {
-    value: "lucy",
-    label: "Lucy",
-  },
-]);
-const focus = () => {
-  console.log("focus");
+const onDelete = async (id: string) => {
+  await publishingCompanyStore.deletePublishingCompany(id);
+  getData();
 };
 
-const handleChange = (value: string) => {
-  console.log(`selected ${value}`);
-};
-const confirm = (e: MouseEvent) => {
-  console.log(e);
-  message.success("Xóa thành công");
-};
+const showDeleteConfirm = (id: string) => {
+  modal.confirm({
+    title: "Are you sure delete this task?",
 
-const cancel = (e: MouseEvent) => {
-  console.log(e);
-  message.error("Xóa thất bại");
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      onDelete(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
 };
 
 const columns = [
   {
     name: "Name",
-    dataIndex: "Name",
+    dataIndex: "name",
     key: "name",
-  },
-  {
-    title: "nhà xuất bản",
-    dataIndex: "category",
-    key: "category",
   },
   {
     title: "Hình ảnh",
@@ -281,7 +296,7 @@ const columns = [
     key: "logo_company",
   },
   {
-    title: "Nội dung",
+    title: "Mô tả",
     dataIndex: "description",
     key: "description",
   },
@@ -296,8 +311,6 @@ const columns = [
   },
 ];
 
-
-
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 
@@ -308,6 +321,17 @@ const showModalEdit = () => {
   openModalEdit.value = true;
 };
 const onCancel = () => {
+  openModalAdd.value = false;
+};
+const onSubmit = async () => {
+  const url = await uploadFile();
+  await publishingCompanyStore.createPublishingCompany({
+    logo_company: url,
+    name: publishingCompany.value.name,
+    description: publishingCompany.value.description,
+    
+  });
+  getData();
   openModalAdd.value = false;
 };
 </script>
