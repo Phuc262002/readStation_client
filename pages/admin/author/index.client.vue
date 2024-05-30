@@ -19,49 +19,12 @@
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
-        <div class="">
-          <a-button type="primary" @click="showModalAdd">Thêm tác giả</a-button>
-          <a-modal v-model:open="openModalAdd" title="Thêm tác giả" :footer="null" style="width: 70% ;">
-            <form @submit.prevent="onSubmit">
-              <div class="bg-white py-2">
-                <div class="grid grid-cols-2 gap-4 pb-4">
-                  <div class="flex flex-col gap-2 w-[100%]">
-                    <label class="text-sm font-semibold" for="">Tên tác giả</label>
-                    <a-input placeholder="Tên tác giả" class="border p-2 rounded-md"
-                      v-model:value="ValueAuthor.author" />
-                  </div>
-                  <div class="flex flex-col gap-2 w-[100%]">
-                    <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
-                    <a-input placeholder="Ngày, tháng, năm sinh" class="border p-2 rounded-md" type="date"
-                      v-model:value="ValueAuthor.dob" />
-                  </div>
-                </div>
-                <div class="grid grid-cols-2 gap-4 pb-4">
-                  <div class="flex flex-col gap-2 w-[100%]">
-                    <label class="text-sm font-semibold" for="">Trạng thái</label>
-                    <a-select size="large" v-model:value="ValueAuthor.statusValue" show-search placeholder="Trạng thái"
-                      :options="optionsStatus"></a-select>
-                  </div>
-                  <!-- <div class="flex flex-col gap-2 w-[100%]">
-                    <label class="text-sm font-semibold" for="">SLug</label>
-                    <a-input placeholder="slug" class="border p-2 rounded-md" v-model:value="slug" />
-                  </div> -->
-                </div>
-                <div class="flex flex-col gap-2 f-full pb-4">
-                  <label class="text-sm font-semibold" for="">Nội dung</label>
-                  <CommonCKEditor v-model:value="ValueAuthor.description" />
-                </div>
-                <div class="mt-1">
-                  <CommonUploadImg :value="file" @input="(event) => (file = event)" />
-                </div>
-                <div class="flex justify-end items-end gap-4">
-                  <a-button @click="onCancel" type="primary" danger html-type="button" class="mt-4">Hủy</a-button>
-                  <a-button type="primary" html-type="submit" class="mt-4">Lưu</a-button>
-                </div>
-              </div>
-            </form>
-          </a-modal>
-        </div>
+        <NuxtLink to="author/add-author">
+          <div class="">
+            <a-button type="primary">Thêm tác giả</a-button>
+          </div>
+        </NuxtLink>
+
       </div>
 
       <a-table :columns="columns" :data-source="AuthorStore?.AuthorAdmin?.authors">
@@ -119,35 +82,35 @@
                   <UIcon class="group-hover:text-[#faad14]" name="i-icon-park-outline-eyes" />
                 </button>
                 <a-modal v-model:open="openModalDetail" title="Xem chi tiết" style="width: 70%;">
-       
-                    <div class="bg-white py-2">
-                      <div class="grid grid-cols-2 gap-4 pb-4">
-                        <div class="flex flex-col gap-2 w-[100%]">
-                          <label class="text-sm font-semibold" for="">Tên tác giả</label>
-                          <a-input placeholder="Tên tác giả" class="border p-2 rounded-md"
-                            v-model:value="ValueAuthor.author" />
-                        </div>
-                        <div class="flex flex-col gap-2 w-[100%]">
-                          <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
-                          <a-input placeholder="Ngày, tháng, năm sinh" class="border p-2 rounded-md" type="date"
-                            v-model:value="ValueAuthor.dob" />
-                        </div>
+
+                  <div class="bg-white py-2">
+                    <div class="grid grid-cols-2 gap-4 pb-4">
+                      <div class="flex flex-col gap-2 w-[100%]">
+                        <label class="text-sm font-semibold" for="">Tên tác giả</label>
+                        <a-input placeholder="Tên tác giả" class="border p-2 rounded-md"
+                          v-model:value="ValueAuthor.author" />
                       </div>
-                      <div class="grid grid-cols-2 gap-4 pb-4">
-                        <div class="flex flex-col gap-2 w-[100%]">
-                          <label class="text-sm font-semibold" for="">Trạng thái</label>
-                          <a-select size="large" v-model:value="ValueAuthor.statusValue" show-search
-                            placeholder="Trạng thái" :options="optionsStatus"></a-select>
-                        </div>
-                      </div>
-                      <div class="flex flex-col gap-2 f-full pb-4">
-                        <label class="text-sm font-semibold" for="">Nội dung</label>
-                        <CommonCKEditor v-model:value="ValueAuthor.description" />
-                      </div>
-                      <div class="mt-1">
-                        <CommonUploadImg :value="file" @input="(event) => (file = event)" />
+                      <div class="flex flex-col gap-2 w-[100%]">
+                        <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
+                        <a-input placeholder="Ngày, tháng, năm sinh" class="border p-2 rounded-md" type="date"
+                          v-model:value="ValueAuthor.dob" />
                       </div>
                     </div>
+                    <div class="grid grid-cols-2 gap-4 pb-4">
+                      <div class="flex flex-col gap-2 w-[100%]">
+                        <label class="text-sm font-semibold" for="">Trạng thái</label>
+                        <a-select size="large" v-model:value="ValueAuthor.statusValue" show-search
+                          placeholder="Trạng thái" :options="optionsStatus"></a-select>
+                      </div>
+                    </div>
+                    <div class="flex flex-col gap-2 f-full pb-4">
+                      <label class="text-sm font-semibold" for="">Nội dung</label>
+                      <CommonCKEditor v-model:value="ValueAuthor.description" />
+                    </div>
+                    <div class="mt-1">
+                      <CommonUploadImg :value="file" @input="(event) => (file = event)" />
+                    </div>
+                  </div>
                 </a-modal>
               </a-tooltip>
               <!-- Sửa tác giả -->
@@ -282,7 +245,7 @@ const getDataAuthor = async () => {
   await AuthorStore.getAllAuthor();
   isLoading.value = false;
 };
-const getAuthorById = async (id : string) => {
+const getAuthorById = async (id: string) => {
   isLoading.value = true;
   await AuthorStore.getAuthorById(id);
   isLoading.value = false;
@@ -291,7 +254,6 @@ const showModaDetail = (id: string) => {
   getAuthorById(id)
   openModalDetail.value = true;
 };
-console.log("🚀 ~ showModaDetail ~ showModaDetail:", showModaDetail)
 
 useAsyncData(async () => {
   await getDataAuthor();
