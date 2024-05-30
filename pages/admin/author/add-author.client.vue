@@ -42,8 +42,7 @@
         </div>
         <div class="flex flex-col gap-2 f-full pb-4">
           <label class="text-sm font-semibold" for="">Nội dung</label>
-          <CommonCKEditor :value="content" @input="(event) => (content = event)"
-            v-model:value="ValueAuthor.description" />
+          <CommonCKEditor :value="content" @input="(event) => (content = event)" />
         </div>
         <div>
           <div>
@@ -105,10 +104,10 @@ const ValueAuthor = ref({
   statusValue: "",
   slug: "",
   featuredValue: "",
-  description: "",
+  valueContent : ""
 });
 const onSubmit = async () => {
-  await createAuthor.createAuthor(ValueAuthor.value)
+  alert(JSON.stringify(content.value));
 };
 
 

@@ -79,7 +79,7 @@
           </template>
           <template v-if="column.key === 'avatar'">
             <div class="flex justify-start gap-4 items-center">
-              <a-avatar :src="record.avatar" :size="60" />
+              <a-avatar :src="record.avatar" :size="80" />
               <span>
                 {{ record.author }}
               </span>
@@ -109,15 +109,48 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
+              <!-- Xem chi tiết -->
               <a-tooltip placement="top" color="gold">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
-                <button
+                <button @click="showModaDetail(record?.id)"
                   class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                   <UIcon class="group-hover:text-[#faad14]" name="i-icon-park-outline-eyes" />
                 </button>
+                <a-modal v-model:open="openModalDetail" title="Xem chi tiết" style="width: 70%;">
+       
+                    <div class="bg-white py-2">
+                      <div class="grid grid-cols-2 gap-4 pb-4">
+                        <div class="flex flex-col gap-2 w-[100%]">
+                          <label class="text-sm font-semibold" for="">Tên tác giả</label>
+                          <a-input placeholder="Tên tác giả" class="border p-2 rounded-md"
+                            v-model:value="ValueAuthor.author" />
+                        </div>
+                        <div class="flex flex-col gap-2 w-[100%]">
+                          <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
+                          <a-input placeholder="Ngày, tháng, năm sinh" class="border p-2 rounded-md" type="date"
+                            v-model:value="ValueAuthor.dob" />
+                        </div>
+                      </div>
+                      <div class="grid grid-cols-2 gap-4 pb-4">
+                        <div class="flex flex-col gap-2 w-[100%]">
+                          <label class="text-sm font-semibold" for="">Trạng thái</label>
+                          <a-select size="large" v-model:value="ValueAuthor.statusValue" show-search
+                            placeholder="Trạng thái" :options="optionsStatus"></a-select>
+                        </div>
+                      </div>
+                      <div class="flex flex-col gap-2 f-full pb-4">
+                        <label class="text-sm font-semibold" for="">Nội dung</label>
+                        <CommonCKEditor v-model:value="ValueAuthor.description" />
+                      </div>
+                      <div class="mt-1">
+                        <CommonUploadImg :value="file" @input="(event) => (file = event)" />
+                      </div>
+                    </div>
+                </a-modal>
               </a-tooltip>
+              <!-- Sửa tác giả -->
               <a-tooltip placement="top" color="green">
                 <template #title>
                   <span>Sửa</span>
@@ -128,32 +161,51 @@
                     <button class="flex items-center" @click="showModalEdit">
                       <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
                     </button>
-                    <a-modal v-model:open="openModalEdit" title="Sửa">
-                      <div class="">
+                    <a-modal style="width: 70%;" v-model:open="openModalEdit" title="Sửa">
+                      <form @submit.prevent="onSubmit">
                         <div class="bg-white py-2">
-                          <div class="pb-4">
-                            <label for="email" class="block text-sm font-medium text-gray-700">
-                              Tên danh mục
-                            </label>
-                            <div class="mt-1">
-                              <a-input class="w-[450px] h-[45px]" placeholder="Nhập tên danh mục" />
+                          <div class="grid grid-cols-2 gap-4 pb-4">
+                            <div class="flex flex-col gap-2 w-[100%]">
+                              <label class="text-sm font-semibold" for="">Tên tác giả</label>
+                              <a-input placeholder="Tên tác giả" class="border p-2 rounded-md"
+                                v-model:value="ValueAuthor.author" />
+                            </div>
+                            <div class="flex flex-col gap-2 w-[100%]">
+                              <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
+                              <a-input placeholder="Ngày, tháng, năm sinh" class="border p-2 rounded-md" type="date"
+                                v-model:value="ValueAuthor.dob" />
                             </div>
                           </div>
-
-                          <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700">
-                              Nội dụng
-                            </label>
-                            <div class="mt-1">
-                              <a-input class="w-[450px] h-[45px]" placeholder="Nhập nội dung" />
+                          <div class="grid grid-cols-2 gap-4 pb-4">
+                            <div class="flex flex-col gap-2 w-[100%]">
+                              <label class="text-sm font-semibold" for="">Trạng thái</label>
+                              <a-select size="large" v-model:value="ValueAuthor.statusValue" show-search
+                                placeholder="Trạng thái" :options="optionsStatus"></a-select>
                             </div>
+                            <!-- <div class="flex flex-col gap-2 w-[100%]">
+                    <label class="text-sm font-semibold" for="">SLug</label>
+                    <a-input placeholder="slug" class="border p-2 rounded-md" v-model:value="slug" />
+                  </div> -->
+                          </div>
+                          <div class="flex flex-col gap-2 f-full pb-4">
+                            <label class="text-sm font-semibold" for="">Nội dung</label>
+                            <CommonCKEditor v-model:value="ValueAuthor.description" />
+                          </div>
+                          <div class="mt-1">
+                            <CommonUploadImg :value="file" @input="(event) => (file = event)" />
+                          </div>
+                          <div class="flex justify-end items-end gap-4">
+                            <a-button @click="onCancel" type="primary" danger html-type="button"
+                              class="mt-4">Hủy</a-button>
+                            <a-button type="primary" html-type="submit" class="mt-4">Lưu</a-button>
                           </div>
                         </div>
-                      </div>
+                      </form>
                     </a-modal>
                   </div>
                 </span>
               </a-tooltip>
+              <!-- Xóa tác giả -->
               <a-tooltip placement="top" color="red">
                 <template #title>
                   <span>Xóa</span>
@@ -230,10 +282,20 @@ const getDataAuthor = async () => {
   await AuthorStore.getAllAuthor();
   isLoading.value = false;
 };
+const getAuthorById = async (id : string) => {
+  isLoading.value = true;
+  await AuthorStore.getAuthorById(id);
+  isLoading.value = false;
+};
+const showModaDetail = (id: string) => {
+  getAuthorById(id)
+  openModalDetail.value = true;
+};
+console.log("🚀 ~ showModaDetail ~ showModaDetail:", showModaDetail)
+
 useAsyncData(async () => {
   await getDataAuthor();
 });
-
 
 const onDelete = async (id: string) => {
   await AuthorStore.deleteAuthor(id);
@@ -292,13 +354,14 @@ const columns = [
 
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
-
+const openModalDetail = ref<boolean>(false);
 const showModalAdd = () => {
   openModalAdd.value = true;
 };
 const showModalEdit = () => {
   openModalEdit.value = true;
 };
+
 const onCancel = () => {
   openModalAdd.value = false;
 };

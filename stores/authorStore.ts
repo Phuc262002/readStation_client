@@ -27,5 +27,19 @@ export const useAuthorStore = defineStore("author-store", {
             );
             return data;
           },
+          async updateAuthor(id: string, ValueAuthor: any) {
+            const data: any = await useCustomFetch(
+              `/api/v1/authors/update/${id}`,
+              {
+                method: "PUT",
+                body: JSON.stringify(ValueAuthor),
+              }
+            );
+            return data;
+          },
+          async getAuthorById(id: string) {
+            const data: any = await useCustomFetch(`/api/v1/authors/${id}`);
+            return data;
+          }
     }
 });
