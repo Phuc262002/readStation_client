@@ -24,10 +24,10 @@ export const usePublishingCompanyStore = defineStore(
         this.isLoading = false;
         return data;
       },
-      async getOnePublishingCompany() {
+      async getOnePublishingCompany(id : number) {
         this.isLoading = true;
         const data: any = await useCustomFetch(
-          `/api/v1/publishing-companies/admin/get-one`
+          `/api/v1/publishing-companies/get-one/${id}`
         );
         this.isLoading = false;
         return data;
@@ -55,9 +55,12 @@ export const usePublishingCompanyStore = defineStore(
         );
         return data;
       },
-      async updatePublishingCompany(id: string, publishingCompany: any) {
+    
+      async updatePublishingCompany({id, publishingCompany}: any) {
+      console.log("🚀 ~ updatePublishingCompany ~ id:", id)
+
         const data: any = await useCustomFetch(
-          `/api/v1/publishing-companies/${id}`,
+          `/api/v1/publishing-companies/update/${id}`,
           {
             method: "PUT",
             body: JSON.stringify(publishingCompany),

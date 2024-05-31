@@ -5,7 +5,7 @@
     :footer="null"
     :closable="false"
   >
-    <form @submit.prevent="">
+    <form @submit.prevent="onUpdate">
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
@@ -13,8 +13,10 @@
           </label>
           <div class="mt-1">
             <a-input
+              v-model:value="publishingCompany.name"
               class="w-[450px] h-[45px]"
               placeholder="Nhập tên nhà xuất bản"
+              required
             />
           </div>
         </div>
@@ -24,7 +26,13 @@
             Mô tả
           </label>
           <div class="mt-1">
-            <a-input class="w-[450px] h-[45px]" placeholder="Nhập nội dung" />
+            <a-textarea
+              :rows="6"
+              v-model:value="publishingCompany.description"
+              class="w-[450px] h-[45px]"
+              placeholder="Nhập nội dung"
+              required
+            />
           </div>
         </div>
         <div class="pb-4">
@@ -58,17 +66,19 @@
 </template>
 <script setup>
 const publishingCompanyStore = usePublishingCompanyStore();
+const file = ref("");
 const publishingCompany = ref({
   name: "",
   description: "",
   logo_company: "",
 });
+
 const props = defineProps({
   publishingCompanyId: Number,
   openModalEdit: Boolean,
   openModal: Function,
 });
-
+const publishingCompanyId = ref(props.publishingCompanyId);
 const open = ref(props.openModalEdit);
 
 watch(
@@ -77,16 +87,37 @@ watch(
     open.value = newVal;
   }
 );
+watch(
+  () => props.publishingCompanyId,
+  (newVal) => {
+    publishingCompanyId.value = newVal;
+  }
+);
 
 const uploadFile = async () => {
-  console.log(file._rawValue.target.files[0]);
-  const formData = new FormData();
-  formData.append("image", file._rawValue.target.files[0]);
-  const dataUpload = await baseStore.uploadImg(formData);
-  console.log(dataUpload);
+  // console.log(file._rawValue.target.files[0]);
+  // const formData = new FormData();
+  // formData.append("image", file._rawValue.target.files[0]);
+  // const dataUpload = await baseStore.uploadImg(formData);
+  // console.log(dataUpload);
 
-  return dataUpload.data._rawValue.data.link;
+  // return dataUpload.data._rawValue.data.link;
+  return "";
 };
+useAsyncData(
+  async () => {
+    const data = await publishingCompanyStore.getOnePublishingCompany(
+      publishingCompanyId.value
+    );
+
+    publishingCompany.value.name = data.data._value?.data?.name;
+    publishingCompany.value.description = data.data._value?.data?.description;
+    publishingCompany.value.logo_company = data.data._value?.data?.logo_company;
+  },
+  {
+    watch: [publishingCompanyId],
+  }
+);
 
 const onUpdate = async () => {
   const data = {
@@ -94,8 +125,12 @@ const onUpdate = async () => {
     description: publishingCompany.value.description,
     logo_company: await uploadFile(),
   };
-  console.log(data);
-  await publishingCompanyStore.updatePublishingCompany(data);
+
+  await publishingCompanyStore.updatePublishingCompany({
+    id: publishingCompanyId.value,
+    publishingCompany: data,
+  });
+  await publishingCompanyStore.getAllPublishingCompany({});
   handleClose();
 };
 
