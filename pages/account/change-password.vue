@@ -147,14 +147,14 @@ const onSubmit = handleSubmit(async (values) => {
     const resData = await authStore.changePassword(values);
     if (resData?.data?._rawValue?.status == true) {
       successToast("Đổi mật khẩu thành công", "Chuyển hướng đến trang account");
-      navigateTo("/login");
+      navigateTo("/account");
     } else {
       resErrors.value = resData.error.value.data?.errors;
-      errorToast("Đổi mật khẩu thành công", "Vui lòng thử lại");
+      errorToast("Đổi mật khẩu không thành công", "Vui lòng thử lại");
     }
   } catch (error) {
     // console.log(error);
-    errorToast("Đổi mật khẩu thành công", "Vui lòng thử lại");
+    errorToast("Đổi mật khẩu không thành công", "Vui lòng thử lại");
   } finally {
     isSubmitting.value = false;
   }
