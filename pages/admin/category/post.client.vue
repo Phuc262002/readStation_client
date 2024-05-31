@@ -182,20 +182,16 @@
                 <span
                   class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <a-popconfirm
-                    title="Are you sure delete this task?"
-                    placement="right"
-                    ok-text="Yes"
-                    cancel-text="No"
-                    @confirm="confirm"
-                    @cancel="cancel"
+                  <button
+                    @click="showDeleteConfirm(record?.id)"
+                    class="flex items-center"
                   >
-                    <a href="#">
-                      <UIcon
-                        class="group-hover:text-[red]"
-                        name="i-material-symbols-delete-outline"
-                    /></a>
-                  </a-popconfirm>
+                    <UIcon
+                      class="group-hover:text-[red]"
+                      name="i-material-symbols-delete-outline"
+                    />
+                  </button>
+                  <contextHolder />
                 </span>
               </a-tooltip>
             </div>
@@ -207,8 +203,8 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-import { message } from "ant-design-vue";
 
+const [modal, contextHolder] = Modal.useModal();
 const category = ref({
   name: "",
   description: "",
@@ -229,15 +225,26 @@ const getData = async () => {
 useAsyncData(async () => {
   await getData();
 });
-
-const confirm = (e: MouseEvent) => {
-  console.log(e);
-  message.success("Xóa thành công");
+const onDelete = async (id: string) => {
+  await categoryStore.deleteCategory(id);
+  getData();
 };
 
-const cancel = (e: MouseEvent) => {
-  console.log(e);
-  message.error("Xóa thất bại");
+const showDeleteConfirm = (id: string) => {
+  modal.confirm({
+    title: "Are you sure delete this task?",
+
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      onDelete(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
 };
 
 const columns = [

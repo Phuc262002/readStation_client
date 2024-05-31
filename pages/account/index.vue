@@ -27,6 +27,23 @@
           <div
             class="flex flex-col bg-[#f9f9f9] shadow-md shadow-gray-300 rounded-md p-4"
           >
+            <div
+              class="border-b flex items-center justify-between h-[145px] py-4"
+            >
+              <span class="w-1/2 flex items-center">Hình ảnh</span>
+              <div class="w-1/2 text-left">
+                <CommonUploadImg
+                  id="avatar"
+                  type="avatar"
+                  v-bind="avatar"
+                  name="avatar"
+                  v-if="isShow"
+                />
+
+                <span v-else class="w-full">{{ data?.avatar }}</span>
+              </div>
+            </div>
+
             <div class="border-b flex items-center justify-between py-4">
               <span class="w-1/2 h-8 flex items-center">Họ tên</span>
               <div class="w-1/2 text-left">
@@ -51,8 +68,8 @@
                   v-if="isShow"
                   v-model="gender"
                 >
-                  <a-radio value="Nam">Nam</a-radio>
-                  <a-radio value="Nu">Nữ</a-radio>
+                  <a-radio value="male">Nam</a-radio>
+                  <a-radio value="female">Nữ</a-radio>
                 </a-radio-group>
 
                 <span v-else>{{ data?.gender }}</span>
@@ -84,8 +101,32 @@
                   v-bind="email"
                   name="email"
                   type="email"
+                  disabled
                 />
                 <span v-else>{{ data?.email }}</span>
+              </div>
+            </div>
+
+            <div class="border-b flex items-center justify-between py-4">
+              <span class="w-1/2 h-8 flex items-center">Ngày sinh</span>
+              <a-form-item class="w-1/2 text-left mb-0">
+                <a-date-picker
+                  v-if="isShow"
+                  v-bind="dob"
+                  name="dob"
+                  type="dob"
+                  class="w-full"
+                  placeholder="Chọn ngày, tháng, năm sinh"
+                />
+                <span v-else>{{ data?.dob }}</span>
+              </a-form-item>
+            </div>
+
+            <div class="border-b flex items-center justify-between py-4">
+              <span class="w-1/2 h-8 flex items-center">Công việc</span>
+              <div class="w-1/2 text-left">
+                <a-input v-if="isShow" v-bind="job" name="job" type="job" />
+                <span v-else>{{ data?.job }}</span>
               </div>
             </div>
 
@@ -292,6 +333,9 @@ const email = defineInputBinds("email");
 const fullname = defineInputBinds("fullname");
 const gender = defineInputBinds("gender");
 const phone = defineInputBinds("phone");
+const dob = defineInputBinds("dob");
+const avatar = defineInputBinds("avatar");
+const job = defineInputBinds("job");
 const province = defineInputBinds("province");
 const district = defineInputBinds("district");
 const ward = defineInputBinds("ward");
@@ -325,6 +369,7 @@ const onSubmit = handleSubmit(async (values) => {
       navigateTo("/account");
     } else {
       resErrors.value = resData.error.value.data.errors;
+      console.log("object", resErrors.value);
       errorToast("Chỉnh sửa không thành công", "Vui lòng thử lại sau");
     }
   } catch (error) {
@@ -349,6 +394,9 @@ useAsyncData(async () => {
     setFieldValue("fullname", data.value.fullname);
     setFieldValue("gender", data.value.gender);
     setFieldValue("phone", data.value.phone);
+    setFieldValue("avatar", data.value.avatar);
+    setFieldValue("job", data.value.job);
+    setFieldValue("dob", data.value.dob);
     setFieldValue("province", data.value.province);
     setFieldValue("district", data.value.district);
     setFieldValue("ward", data.value.ward);

@@ -23,7 +23,7 @@
             <span class="text-lg font-semibold">nguyenvana@gmail.com</span>
           </p>
         </div>
-        <form action="" class="w-full space-y-6">
+        <form @submit="onSubmit" class="w-full space-y-6">
           <div class="space-y-2">
             <a-alert
               v-if="resErrors"
@@ -129,21 +129,22 @@ const password_confirmation = defineInputBinds("password_confirmation");
 // Submit handler
 const onSubmit = handleSubmit(async (values) => {
   // Submit to API
-  try {
-    isSubmitting.value = true;
-    const resData = await authStore.register(values);
-    if (resData?.data?._rawValue?.status == true) {
-      successToast("Đăng ký thành công", "Chuyển hướng đến trang đăng nhập");
-      navigateTo("/login");
-    } else {
-      resErrors.value = resData.error.value.data?.errors;
-      errorToast("Đăng ký không thành công", "Vui lòng thử lại");
-    }
-  } catch (error) {
-    // console.log(error);
-    errorToast("Đăng ký không thành công", "Vui lòng thử lại");
-  } finally {
-    isSubmitting.value = false;
-  }
+  console.log("object", values);
+  // try {
+  //   isSubmitting.value = true;
+  //   const resData = await authStore.register(values);
+  //   if (resData?.data?._rawValue?.status == true) {
+  //     successToast("Đăng ký thành công", "Chuyển hướng đến trang đăng nhập");
+  //     navigateTo("/login");
+  //   } else {
+  //     resErrors.value = resData.error.value.data?.errors;
+  //     errorToast("Đăng ký không thành công", "Vui lòng thử lại");
+  //   }
+  // } catch (error) {
+  //   // console.log(error);
+  //   errorToast("Đăng ký không thành công", "Vui lòng thử lại");
+  // } finally {
+  //   isSubmitting.value = false;
+  // }
 });
 </script>

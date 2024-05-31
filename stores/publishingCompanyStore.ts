@@ -6,10 +6,13 @@ export const usePublishingCompanyStore = defineStore(
     state: () => {
       return {
         publishingCompaniesAdmin: [],
+        isSubmitting: false,
+        isLoading: false,
       };
     },
     actions: {
       async getAllPublishingCompany({ page, pageSize, search, status }: any) {
+        this.isLoading = true;
         const data: any = await useCustomFetch(
           `/api/v1/publishing-companies/admin/get-all?${
             page ? `&page=${page}` : ""
@@ -18,9 +21,21 @@ export const usePublishingCompanyStore = defineStore(
           }${status ? `&status=${status}` : ""}`
         );
         this.publishingCompaniesAdmin = data.data._value?.data;
+        this.isLoading = false;
         return data;
       },
+      async getOnePublishingCompany(id : number) {
+        this.isLoading = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/publishing-companies/get-one/${id}`
+        );
+        this.isLoading = false;
+        return data;
+
+      },
+      
       async createPublishingCompany(publishingCompany: any) {
+        this.isSubmitting = true;
         const data: any = await useCustomFetch(
           `/api/v1/publishing-companies/create`,
           {
@@ -28,6 +43,7 @@ export const usePublishingCompanyStore = defineStore(
             body: JSON.stringify(publishingCompany),
           }
         );
+        this.isSubmitting = false;
         return data;
       },
       async deletePublishingCompany(id: string) {
@@ -39,9 +55,12 @@ export const usePublishingCompanyStore = defineStore(
         );
         return data;
       },
-      async updatePublishingCompany(id: string, publishingCompany: any) {
+    
+      async updatePublishingCompany({id, publishingCompany}: any) {
+      console.log("🚀 ~ updatePublishingCompany ~ id:", id)
+
         const data: any = await useCustomFetch(
-          `/api/v1/publishing-companies/${id}`,
+          `/api/v1/publishing-companies/update/${id}`,
           {
             method: "PUT",
             body: JSON.stringify(publishingCompany),
