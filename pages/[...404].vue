@@ -1,4 +1,4 @@
-<template>
+<template> 
   <div class="bg-[url('/assets/images/bg-404.svg')]">
     <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
       <div class="flex flex-col items-center justify-center space-y-4">
