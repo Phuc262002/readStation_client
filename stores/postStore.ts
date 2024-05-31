@@ -14,7 +14,7 @@ export const usePostStore = defineStore("post-store", {
         }
           ${category_id ? `&category_id=${category_id}` : ""}`
       );
-      this.posts = data.data._value?.data;
+      
       return data;
     },
   },

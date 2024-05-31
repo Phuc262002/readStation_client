@@ -35,3 +35,18 @@
         </NuxtLink>
     </div>
 </template>
+<script setup>
+import { ref } from "vue";
+const getPost = usePostStore(); 
+const post = ref({});
+console.log("🚀 ~  post ",  post )
+
+useAsyncData(async () => {
+    try {
+        const response = await getPost.getPost();
+        post.value = response.data;
+    } catch (error) {
+        console.error(error);
+    }
+});
+</script>
