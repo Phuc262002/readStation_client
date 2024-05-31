@@ -32,6 +32,7 @@
             >Thêm nhà xuất bản</a-button
           >
           <a-modal
+            @close="resetForm"
             v-model:open="openModalAdd"
             title="Thêm nhà xuất bản"
             :footer="null"
@@ -236,13 +237,14 @@ const file = ref("");
 const [modal, contextHolder] = Modal.useModal();
 const publishingCompanyStore = usePublishingCompanyStore();
 const uploadFile = async () => {
-  console.log(file._rawValue.target.files[0]);
-  const formData = new FormData();
-  formData.append("image", file._rawValue.target.files[0]);
-  const dataUpload = await baseStore.uploadImg(formData);
-  console.log(dataUpload);
-  
-  return dataUpload.data._rawValue.data.link;
+  // console.log(file._rawValue.target.files[0]);
+  // const formData = new FormData();
+  // formData.append("image", file._rawValue.target.files[0]);
+  // const dataUpload = await baseStore.uploadImg(formData);
+  // console.log(dataUpload);
+
+  // return dataUpload.data._rawValue.data.link;
+  return "";
 };
 
 const publishingCompany = ref({
