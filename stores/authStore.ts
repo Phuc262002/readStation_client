@@ -59,11 +59,11 @@ export const useAuthStore = defineStore("auth-store", {
       navigateTo("/login");
     },
     async getProfile() {
-      const data: any = await useCustomFetch("/api/v1/auth/profile");
+      const data: any = await useCustomFetch("/api/v1/account/get-profile");
       return data;
     },
     async updateProfile(body: any) {
-      const data: any = await useCustomFetch("/api/v1/auth/update-profile", {
+      const data: any = await useCustomFetch("/api/v1/account/update-profile", {
         method: "PUT",
         body: JSON.stringify(body),
       });

@@ -12,7 +12,7 @@
       class="md:py-10 flex justify-center items-center container min-h-[100vh]"
     >
       <div
-        class="flex space-y-3 flex-col justify-center items-center bg-white shadow-lg shadow-gray-500 p-8 w-[400px] rounded-lg"
+        class="flex space-y-3 flex-col justify-center items-center bg-white shadow-lg shadow-gray-500 p-8 w-[450px] rounded-lg"
       >
         <div class="text-center pb-4">
           <h2 class="text-2xl text-sky-600 font-bold pb-3">Xác minh 💬</h2>
@@ -23,13 +23,20 @@
         </div>
         <form @submit="onSubmit" class="w-full space-y-6">
           <span>Nhập mã bảo mật gồm 6 chữ số của bạn</span>
-          <div class="flex gap-2 h-[50px]">
-            <a-input v-bind="code1" />
-            <a-input v-bind="code2" />
-            <a-input v-bind="code3" />
-            <a-input v-bind="code4" />
-            <a-input v-bind="code5" />
-            <a-input v-bind="code6" />
+          <div class="">
+            <v-otp-input
+              ref="otpInput"
+              input-classes="otp-input"
+              :conditionalClass="['one', 'two', 'three', 'four', 'five', 'six']"
+              inputType="letter-numeric"
+              :num-inputs="6"
+              v-model:value="bindValue"
+              :should-auto-focus="true"
+              :should-focus-order="true"
+              @on-change="handleOnChange"
+              @on-complete="handleOnComplete"
+              :placeholder="['*', '*', '*', '*', '*', '*']"
+            />
           </div>
           <a-button
             html-type="submit"
@@ -40,31 +47,66 @@
           </a-button>
           <div class="flex items-center gap-1 justify-center">
             <span>Không nhận được thư ?</span>
-            <NuxtLink
-              to="/verify-code"
-              class="text-indigo-400 hover:text-indigo-900"
-            >
-              Gửi lại</NuxtLink
-            >
+            <span class="text-indigo-400 hover:text-indigo-900"> Gửi lại</span>
           </div>
         </form>
       </div>
     </div>
   </div>
 </template>
+<style scope>
+.otp-input {
+  width: 50px;
+  height: 50px;
+  padding: 5px;
+  margin: 0 7px;
+  font-size: 20px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+/* Background colour of an input field with value */
+.otp-input.is-complete {
+  background-color: #e4e4e4;
+}
+.otp-input::-webkit-inner-spin-button,
+.otp-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input::placeholder {
+  font-size: 15px;
+  text-align: center;
+  font-weight: 600;
+}
+</style>
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 // import { NuxtLink } from "#build/components";
-
+import VOtpInput from "vue3-otp-input";
 const authStore = useAuthStore();
 const isSubmitting = ref(false);
 const resErrors = ref({});
 const route = useRoute();
 const email = ref("");
+const otpInput = ref<InstanceType<typeof VOtpInput> | null>(null);
+const bindValue = ref("");
 
+const handleOnComplete = (value: string) => {
+  console.log("OTP completed: ", value);
+};
+
+const handleOnChange = (value: string) => {
+  console.log("OTP changed: ", value);
+};
+
+const fillInput = (value: string) => {
+  console.log(value);
+  otpInput.value?.fillInput(value);
+};
 // Create the form
 const { defineInputBinds, handleSubmit, errors } = useForm({
   validationSchema: yup.object().shape({
@@ -93,26 +135,20 @@ onMounted(() => {
 });
 
 // Define fields
-const code1 = defineInputBinds("code1");
-const code2 = defineInputBinds("code2");
-const code3 = defineInputBinds("code3");
-const code4 = defineInputBinds("code4");
-const code5 = defineInputBinds("code5");
-const code6 = defineInputBinds("code6");
+const one = defineInputBinds("one");
+const two = defineInputBinds("two");
+const three = defineInputBinds("three");
+const four = defineInputBinds("four");
+const five = defineInputBinds("five");
+const six = defineInputBinds("six");
 
 // Submit handler
 const onSubmit = handleSubmit(async (values) => {
-  const otpCode =
-    String(code1.value.value) +
-    String(code2.value.value) +
-    String(code3.value.value) +
-    String(code4.value.value) +
-    String(code5.value.value) +
-    String(code6.value.value);
+  const otpCode = bindValue.value;
   console.log("otp", otpCode);
   // Submit to API
 
-  // values = { otpCode, email: email.value };
+  values = { otpCode, email: email.value };
 
   try {
     isSubmitting.value = true;
