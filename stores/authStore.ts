@@ -59,12 +59,40 @@ export const useAuthStore = defineStore("auth-store", {
       navigateTo("/login");
     },
     async getProfile() {
-      const data: any = await useCustomFetch("/api/v1/auth/profile");
+      const data: any = await useCustomFetch("/api/v1/account/get-profile");
       return data;
     },
     async updateProfile(body: any) {
-      const data: any = await useCustomFetch("/api/v1/auth/update-profile", {
+      const data: any = await useCustomFetch("/api/v1/account/update-profile", {
         method: "PUT",
+        body: JSON.stringify(body),
+      });
+      return data;
+    },
+    async resendOtp(body: any) {
+      const data: any = await useCustomFetch("/api/v1/auth/resend-otp", {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+      return data;
+    },
+    async verifyEmail(body: any) {
+      const data: any = await useCustomFetch("/api/v1/auth/verify-email", {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+      return data;
+    },
+    async resetPassword(body: any) {
+      const data: any = await useCustomFetch("/api/v1/auth/reset-password", {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+      return data;
+    },
+    async changePassword(body: any) {
+      const data: any = await useCustomFetch("/api/v1/auth/change-password", {
+        method: "POST",
         body: JSON.stringify(body),
       });
       return data;

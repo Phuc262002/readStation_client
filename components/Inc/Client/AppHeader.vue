@@ -7,10 +7,10 @@
           class="h-max bg-[white] w-full border-2 border-[#ffffffad] shadow-sm rounded-lg flex justify-between py-3 px-10"
         >
           <!-- Logo -->
-          <div class=" ">
+          <div class="flex items-center">
             <img
-              class="w-10"
-              src="https://thumbs.dreamstime.com/b/reading-book-logo-designs-164296495.jpg"
+                class=" w-24"
+              src="../../../assets/images/logo_header.svg"
               alt=""
             />
           </div>

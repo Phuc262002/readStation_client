@@ -2,7 +2,7 @@
   <div>
     <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Thêm tác giả</h5>
+        <h5 class="text-xl text-[#1e293b] font-semibold">Sửa tác giả</h5>
       </div>
       <CommonBreadcrumAdmin />
     </div>
@@ -34,7 +34,7 @@
         <div class="grid grid-cols-3 gap-4 pb-4 mt-5">
           <div class="flex flex-col gap-2 w-[100%]">
             <label class="text-sm font-semibold" for="">Tên tác giả</label>
-            <a-input placeholder="Tên tác giả" class="border p-2 rounded-md" v-model:value="ValueAuthor.author" required />
+            <a-input placeholder="Tên tác giả" class="border p-2 rounded-md" v-model:value="ValueAuthor.author" />
           </div>
           <div class="flex flex-col gap-2 w-[100%]">
             <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
@@ -59,7 +59,7 @@
         </div>
         <div class="flex items-end gap-4 pt-4">
           <a-button danger type="primary"> Hủy</a-button>
-          <a-button type="primary" html-type="submit"> Lưu</a-button>
+          <a-button type="primary" html-type="submit"> Cập nhật </a-button>
         </div>
       </form>
 
@@ -67,8 +67,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
-
+import { ref, onMounted } from "vue";
 const AuthorStore = useAuthorStore()
 const baseStore = useBaseStore();
 const file = ref("");
@@ -95,36 +94,35 @@ const optionsStatus = ref([
     label: "Deleted",
   },
 ]);
+
 const ValueAuthor = ref({
   avatar: "",
   author: "",
   dob: "",
   statusValue: "",
-  is_featured: false,
+  is_featured: "",
   description: ""
 });
-
-watchEffect(() => {
-  console.log("🚀 ~ ValueAuthor:", ValueAuthor)
-})
-const onSubmit = async () => {
-  alert(JSON.stringify(ValueAuthor.value));
-  // try {
-  //   const url = await uploadFile();
-  //   await AuthorStore.createAuthor({
-  //     avatar: url,
-  //     author: ValueAuthor.value.author,
-  //     dob: ValueAuthor.value.dob,
-  //     statusValue: ValueAuthor.value.statusValue,
-  //     description: ValueAuthor.value.description,
-  //     is_featured: ValueAuthor.value.value,
-  //   })
-  //   message.success("Thêm thành công");
-  //   navigateTo("/admin/author");
-  // } catch (error) {
-  //   message.error("Thêm thất bại");
-  // }
+const authorById = async () => {
+  const data = await AuthorStore.getAuthorById(46);
+  ValueAuthor.value = data
 };
+
+useAsyncData(async () => {
+  await authorById();
+});
+// const onSubmit = async () => {
+//   const url = await uploadFile();
+//   await AuthorStore.createAuthor({
+//     avatar: url,
+//     author: ValueAuthor.value.author,
+//     dob: ValueAuthor.value.dob,
+//     statusValue: ValueAuthor.value.statusValue,
+//     description: ValueAuthor.value.description,
+//     is_featured: ValueAuthor.value.value,
+
+//   })
+// };
 
 const handleChange = (value) => {
   console.log(`selected ${value}`);
