@@ -31,84 +31,20 @@
           <a-button type="primary" @click="showModalAdd"
             >Thêm nhà xuất bản</a-button
           >
-          <a-modal
-            @close="resetForm"
-            v-model:open="openModalAdd"
-            title="Thêm nhà xuất bản"
-            :footer="null"
-          >
-            <form @submit.prevent="onSubmit">
-              <div class="bg-white py-2">
-                <div class="pb-4">
-                  <label
-                    for="email"
-                    class="block text-sm font-medium text-gray-700"
-                  >
-                    Mã nhà xuất bản
-                  </label>
-                  <div class="mt-1">
-                    <a-input
-                      v-model:value="publishingCompany.name"
-                      class="w-[450px] h-[45px]"
-                      placeholder="Nhập mã nhà xuất bản"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div class="pb-4">
-                  <label
-                    for="email"
-                    class="block text-sm font-medium text-gray-700"
-                  >
-                    Mô tả
-                  </label>
-                  <div class="mt-1">
-                    <a-input
-                      v-model:value="publishingCompany.description"
-                      class="w-[450px] h-[45px]"
-                      placeholder="Nhập mã nhà xuất bản"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="pb-4">
-                  <label
-                    for="email"
-                    class="block text-sm font-medium text-gray-700"
-                  >
-                    Logo nhà xuất bản
-                  </label>
-                  <div class="mt-1">
-                    <CommonUploadImg
-                      :value="file"
-                      @input="(event) => (file = event)"
-                    />
-                  </div>
-                </div>
-
-                <div class="flex justify-end items-end gap-4">
-                  <a-button
-                    @click="onCancel"
-                    type="primary"
-                    danger
-                    html-type="button"
-                    class="mt-4"
-                    >Hủy</a-button
-                  >
-                  <a-button type="primary" html-type="submit" class="mt-4"
-                    >Lưu</a-button
-                  >
-                </div>
-              </div>
-            </form>
-          </a-modal>
         </div>
       </div>
-
+      <PublishingCompanyAdd
+        :openModalAdd="openModalAdd"
+        :openModal="CloseModalAdd"
+      />
+      <PublishingCompanyEdit
+        :openModalEdit="openModalEdit"
+        :openModal="CloseModalEdit"
+        :publishingCompanyId="publishingCompanyId"
+      />
       <a-table
         :columns="columns"
-        :loading="isLoading"
+        :loading="publishingCompanyStore.isLoading"
         :data-source="
           publishingCompanyStore?.publishingCompaniesAdmin?.publishing_companies
         "
@@ -160,47 +96,12 @@
                   class="group hover:bg-[green]/20 bg-[#e4e1e1] flex justify-center items-center cursor-pointer w-8 h-8 rounded-md"
                 >
                   <div>
-                    <button class="flex items-center" @click="showModalEdit">
+                    <button class="flex items-center" @click="showModalEdit(record?.id)">
                       <UIcon
                         class="group-hover:text-[green]"
                         name="i-material-symbols-edit-outline"
                       />
                     </button>
-                    <a-modal v-model:open="openModalEdit" title="Sửa">
-                      <div class="">
-                        <div class="bg-white py-2">
-                          <div class="pb-4">
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Tên nhà xuất bản
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-[450px] h-[45px]"
-                                placeholder="Nhập tên nhà xuất bản"
-                              />
-                            </div>
-                          </div>
-
-                          <div>
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Nội dụng
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-[450px] h-[45px]"
-                                placeholder="Nhập nội dung"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </a-modal>
                   </div>
                 </span>
               </a-tooltip>
@@ -220,7 +121,6 @@
                       name="i-material-symbols-delete-outline"
                     />
                   </button>
-                  <contextHolder />
                 </span>
               </a-tooltip>
             </div>
@@ -233,50 +133,28 @@
 <script lang="ts" setup>
 const baseStore = useBaseStore();
 const file = ref("");
-
-const [modal, contextHolder] = Modal.useModal();
+import { Modal } from "ant-design-vue";
+const openModalEdit = ref<boolean>(false);
+const openModalAdd = ref<boolean>(false);
+const publishingCompanyId = ref<number>();
 const publishingCompanyStore = usePublishingCompanyStore();
-const uploadFile = async () => {
-  // console.log(file._rawValue.target.files[0]);
-  // const formData = new FormData();
-  // formData.append("image", file._rawValue.target.files[0]);
-  // const dataUpload = await baseStore.uploadImg(formData);
-  // console.log(dataUpload);
-
-  // return dataUpload.data._rawValue.data.link;
-  return "";
-};
-
-const publishingCompany = ref({
-  name: "",
-  description: "",
-  logo_company: "",
-});
-const isLoading = ref(false);
-
-const getData = async () => {
-  isLoading.value = true;
-  await publishingCompanyStore.getAllPublishingCompany({});
-  isLoading.value = false;
-};
 
 useAsyncData(async () => {
-  await getData();
+  await publishingCompanyStore.getAllPublishingCompany({});
 });
 
 const onDelete = async (id: string) => {
   await publishingCompanyStore.deletePublishingCompany(id);
-  getData();
+  await publishingCompanyStore.getAllPublishingCompany({});
 };
 
 const showDeleteConfirm = (id: string) => {
-  modal.confirm({
-    title: "Are you sure delete this task?",
-
-    content: "Some descriptions",
-    okText: "Yes",
+  Modal.confirm({
+    title: "Bạn có chắc chắn muốn xóa?",
+    content: "Thao tác này không thể hoàn tác!",
+    okText: "Xóa",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onDelete(id);
     },
@@ -312,28 +190,21 @@ const columns = [
     key: "action",
   },
 ];
+watchEffect(() => {
+  console.log(openModalAdd);
+});
 
-const openModalEdit = ref<boolean>(false);
-const openModalAdd = ref<boolean>(false);
-
+const CloseModalAdd = () => {
+  openModalAdd.value = false;
+};
+const CloseModalEdit = () => {
+  openModalEdit.value = false;
+};
 const showModalAdd = () => {
   openModalAdd.value = true;
 };
-const showModalEdit = () => {
+const showModalEdit = (id: number) => {
   openModalEdit.value = true;
-};
-const onCancel = () => {
-  openModalAdd.value = false;
-};
-const onSubmit = async () => {
-  const url = await uploadFile();
-  await publishingCompanyStore.createPublishingCompany({
-    logo_company: url,
-    name: publishingCompany.value.name,
-    description: publishingCompany.value.description,
-    
-  });
-  getData();
-  openModalAdd.value = false;
+  publishingCompanyId.value = id;
 };
 </script>

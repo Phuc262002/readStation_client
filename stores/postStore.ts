@@ -8,14 +8,19 @@ export const usePostStore = defineStore("post-store", {
   },
   actions: {
     async getPost({ page, pageSize, category_id }: any) {
-      const data: any = await useCustomFetch(
-        `/api/v1/posts?${page ? `&page=${page}` : ""}${
-          pageSize ? `&pageSize=${pageSize}` : ""
-        }
-          ${category_id ? `&category_id=${category_id}` : ""}`
-      );
-      
-      return data;
+      try {
+        const data: any = await useCustomFetch(
+          `/api/v1/posts?${
+            page ? `&page=${page}` : ""
+          }${pageSize ? `&pageSize=${pageSize}` : ""}${
+            category_id ? `&category_id=${category_id}` : ""
+          }`
+        );
+        this.posts = data.data._value?.data;
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 });
