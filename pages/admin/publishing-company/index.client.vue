@@ -75,7 +75,6 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              
               <a-tooltip placement="top" color="green">
                 <template #title>
                   <span>Sửa</span>
@@ -84,7 +83,10 @@
                   class="group hover:bg-[green]/20 bg-[#e4e1e1] flex justify-center items-center cursor-pointer w-8 h-8 rounded-md"
                 >
                   <div>
-                    <button class="flex items-center" @click="showModalEdit(record?.id)">
+                    <button
+                      class="flex items-center"
+                      @click="showModalEdit(record?.id)"
+                    >
                       <UIcon
                         class="group-hover:text-[green]"
                         name="i-material-symbols-edit-outline"
@@ -138,11 +140,11 @@ const onDelete = async (id: string) => {
 
 const showDeleteConfirm = (id: string) => {
   Modal.confirm({
-    title: "Bạn có chắc chắn muốn xóa?",
-    content: "Thao tác này không thể hoàn tác!",
-    okText: "Xóa",
+    title: "Are you sure delete this task?",
+    content: "Some descriptions",
+    okText: "Yes",
     okType: "danger",
-    cancelText: "Hủy",
+    cancelText: "No",
     onOk() {
       onDelete(id);
     },
@@ -178,9 +180,6 @@ const columns = [
     key: "action",
   },
 ];
-watchEffect(() => {
-  console.log(openModalAdd);
-});
 
 const CloseModalAdd = () => {
   openModalAdd.value = false;

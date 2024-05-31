@@ -57,8 +57,6 @@ export const usePublishingCompanyStore = defineStore(
       },
     
       async updatePublishingCompany({id, publishingCompany}: any) {
-      console.log("🚀 ~ updatePublishingCompany ~ id:", id)
-
         const data: any = await useCustomFetch(
           `/api/v1/publishing-companies/update/${id}`,
           {
