@@ -109,17 +109,7 @@ const fillInput = (value: string) => {
 };
 // Create the form
 const { defineInputBinds, handleSubmit, errors } = useForm({
-  validationSchema: yup.object().shape({
-    code: yup
-      .array()
-      .of(
-        yup
-          .string()
-          .required("Mã không được bỏ trống")
-          .length(1, "Mã phải là 1 ký tự")
-      )
-      .length(6, "Mã bảo mật phải có 6 ký tự"),
-  }),
+  validationSchema: yup.object().shape({}),
 });
 
 onMounted(() => {
@@ -133,14 +123,6 @@ onMounted(() => {
     console.error("Invalid email parameter:", emailFromQuery);
   }
 });
-
-// Define fields
-const one = defineInputBinds("one");
-const two = defineInputBinds("two");
-const three = defineInputBinds("three");
-const four = defineInputBinds("four");
-const five = defineInputBinds("five");
-const six = defineInputBinds("six");
 
 // Submit handler
 const onSubmit = handleSubmit(async (values) => {

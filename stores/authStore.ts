@@ -90,5 +90,12 @@ export const useAuthStore = defineStore("auth-store", {
       });
       return data;
     },
+    async changePassword(body: any) {
+      const data: any = await useCustomFetch("/api/v1/auth/change-password", {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+      return data;
+    },
   },
 });
