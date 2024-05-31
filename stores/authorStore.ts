@@ -27,18 +27,18 @@ export const useAuthorStore = defineStore("author-store", {
             );
             return data;
           },
-          async updateAuthor(id: string, ValueAuthor: any) {
+          async updateAuthor({id, valueAuthor} : any) {
             const data: any = await useCustomFetch(
               `/api/v1/authors/update/${id}`,
               {
                 method: "PUT",
-                body: JSON.stringify(ValueAuthor),
+                body: JSON.stringify(valueAuthor),
               }
             );
             return data;
           },
           async getAuthorById(id: string) {
-            const data: any = await useCustomFetch(`/api/v1/authors/${id}`);
+            const data: any = await useCustomFetch(`/api/v1/authors/get-one/${id}`);
             return data;
           }
     }

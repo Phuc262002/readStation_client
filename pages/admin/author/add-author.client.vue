@@ -108,22 +108,21 @@ watchEffect(() => {
   console.log("🚀 ~ ValueAuthor:", ValueAuthor)
 })
 const onSubmit = async () => {
-  alert(JSON.stringify(ValueAuthor.value));
-  // try {
-  //   const url = await uploadFile();
-  //   await AuthorStore.createAuthor({
-  //     avatar: url,
-  //     author: ValueAuthor.value.author,
-  //     dob: ValueAuthor.value.dob,
-  //     statusValue: ValueAuthor.value.statusValue,
-  //     description: ValueAuthor.value.description,
-  //     is_featured: ValueAuthor.value.value,
-  //   })
-  //   message.success("Thêm thành công");
-  //   navigateTo("/admin/author");
-  // } catch (error) {
-  //   message.error("Thêm thất bại");
-  // }
+  try {
+    const url = await uploadFile();
+    await AuthorStore.createAuthor({
+      avatar: url,
+      author: ValueAuthor.value.author,
+      dob: ValueAuthor.value.dob,
+      statusValue: ValueAuthor.value.statusValue,
+      description: ValueAuthor.value.description,
+      is_featured: ValueAuthor.value.value,
+    })
+    message.success("Thêm thành công");
+    navigateTo("/admin/author");
+  } catch (error) {
+    message.error("Thêm thất bại");
+  }
 };
 
 const handleChange = (value) => {

@@ -28,8 +28,6 @@ const isLoading = ref(false);
 const bookstore = useBookStore();
 const AuthorFeatured = ref({});
 console.log("🚀 ~ AuthorFeatured:", AuthorFeatured)
-
-
 useAsyncData(async () => {
     isLoading.value = true;
     try {
