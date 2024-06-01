@@ -30,13 +30,11 @@
               :rows="6"
               v-model:value="category.description"
               class="w-[450px] h-[45px]"
-              placeholder="Nhập mô tả"
+              placeholder="Nhập  mô tả"
               required
             />
           </div>
         </div>
-
-        
         <div class="flex justify-end items-end gap-4">
           <a-button
             @click="handleClose"
@@ -60,11 +58,10 @@
 </template>
 <script setup>
 const categoryStore = useCategoryStore();
-
 const category = ref({
   name: "",
   description: "",
-  type: "post",
+  type: "book",
 });
 
 const props = defineProps({
@@ -72,7 +69,6 @@ const props = defineProps({
   openModal: Function,
 });
 const open = ref(props.openModalAdd);
-
 watch(
   () => props.openModalAdd,
   (newVal) => {
@@ -84,10 +80,10 @@ const onSubmit = async () => {
   await categoryStore.createCategory({
     name: category.value.name,
     description: category.value.description,
-    type: "post",
+    type: "book",
   });
   await categoryStore.getAllCategory({
-    type: "post",
+    type: "book",
   });
   category.value = {
     name: "",
