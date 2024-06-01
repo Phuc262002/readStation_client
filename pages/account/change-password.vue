@@ -6,7 +6,7 @@
     >
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
     </div>
-    <div class="border-b p-4">
+    <div class="border-b p-5">
       <h2 class="font-bold pb-[14px]">Đổi mật khẩu</h2>
       <p>Cập nhật lại mật khẩu của bạn</p>
     </div>
