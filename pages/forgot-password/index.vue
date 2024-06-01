@@ -108,7 +108,7 @@ const onSubmit = handleSubmit(async (values) => {
         "Gửi xác thực Email thành công ",
         "Chuyển hướng đến trang đăng nhập"
       );
-      navigateTo("/verify-email");
+      navigateTo(`/verify-email?email=${email.value.value}`);
     } else {
       resErrors.value = resData.error.value.data?.errors;
       errorToast("Đăng ký không thành công", "Vui lòng thử lại");
