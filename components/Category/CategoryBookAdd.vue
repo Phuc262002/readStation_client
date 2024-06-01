@@ -38,17 +38,15 @@
         <div class="flex justify-end items-end gap-4">
           <a-button
             @click="handleClose"
-            type="primary"
-            danger
             html-type="button"
-            class="mt-4"
+            class="text-white bg- hover:!text-white border-none hover:bg-rtsecondary mt-4 "
             >Hủy</a-button
           >
           <a-button
             :loading="categoryStore.isSubmitting"
-            type="primary"
+            class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary mt-4 "
             html-type="submit"
-            class="mt-4"
+          
             >Lưu</a-button
           >
         </div>

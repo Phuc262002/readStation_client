@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="">
-          <a-button type="primary" @click="showModalAdd"
+          <a-button class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary " @click="showModalAdd"
             >Thêm danh mục sản phẩm</a-button
           >
           <CategoryBookAdd

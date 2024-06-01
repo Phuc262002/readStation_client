@@ -43,7 +43,7 @@
           <div class="mt-1">
             <a-select
               ref="select"
-              v-model:value="category.status"
+              v-model:value="publishingCompany.status"
               style="width: 120px"
               @change="handleChange"
             >
@@ -149,7 +149,7 @@ const onUpdate = async () => {
   const data = {
     name: publishingCompany.value.name,
     description: publishingCompany.value.description,
-    status: publishingCompany.value.status,
+    status: publishingCompany?.value?.status,
     logo_company: await uploadFile(),
   };
 
