@@ -1,17 +1,28 @@
 <template>
-    <ckeditor :editor="editor" :value="value" @input="emitInput" :config="editorConfiguration" />
+    <ckeditor :editor="editor" :model-value="localValue" @update:model-value="updateValue" :config="editorConfiguration" />
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
     value: {
         type: String,
+        default: '',
     },
 });
-const emit = defineEmits(["input"]);
-const emitInput = (event) => {
-    emit("input", event);
+const emit = defineEmits(['update:value']);
+
+const localValue = ref(props.value);
+
+const updateValue = (newValue) => {
+    localValue.value = newValue;
+    emit('update:value', newValue);
 };
+
+watch(() => props.value, (newValue) => {
+    if (newValue !== localValue.value) {
+        localValue.value = newValue;
+    }
+});
 const { $ckeditor } = useNuxtApp();
 const editor = $ckeditor.classicEditor;
 

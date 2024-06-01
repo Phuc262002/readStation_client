@@ -103,6 +103,11 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import * as yup from "yup";
+import { ref, onMounted, watchEffect } from "vue";
+
+const route = useRoute();
+const email = ref("");
+const token = ref("");
 
 const authStore = useAuthStore();
 const isSubmitting = ref(false);
@@ -126,25 +131,63 @@ const { defineInputBinds, handleSubmit, errors } = useForm({
 const password = defineInputBinds("password");
 const password_confirmation = defineInputBinds("password_confirmation");
 
+onMounted(() => {
+  const emailFromQuery = route.query.email;
+
+  if (typeof emailFromQuery === "string") {
+    email.value = emailFromQuery;
+    console.log(email.value);
+  } else {
+    email.value = "";
+    console.error("Invalid email parameter:", emailFromQuery);
+  }
+});
+
+watchEffect(() => {
+  const tokenFromQuery = route.query.token;
+
+  if (typeof tokenFromQuery === "string") {
+    token.value = tokenFromQuery;
+    console.log(token.value);
+  } else {
+    token.value = "";
+    console.error("Invalid token parameter:", tokenFromQuery);
+  }
+});
+
 // Submit handler
 const onSubmit = handleSubmit(async (values) => {
+  values = {
+    password: password.value.value,
+    password_confirmation: password_confirmation.value.value,
+    email: email.value,
+    token: token.value,
+  };
   // Submit to API
   console.log("object", values);
-  // try {
-  //   isSubmitting.value = true;
-  //   const resData = await authStore.register(values);
-  //   if (resData?.data?._rawValue?.status == true) {
-  //     successToast("Đăng ký thành công", "Chuyển hướng đến trang đăng nhập");
-  //     navigateTo("/login");
-  //   } else {
-  //     resErrors.value = resData.error.value.data?.errors;
-  //     errorToast("Đăng ký không thành công", "Vui lòng thử lại");
-  //   }
-  // } catch (error) {
-  //   // console.log(error);
-  //   errorToast("Đăng ký không thành công", "Vui lòng thử lại");
-  // } finally {
-  //   isSubmitting.value = false;
-  // }
+  try {
+    isSubmitting.value = true;
+    const resData = await authStore.resetPassword({
+      password: password.value.value,
+      password_confirmation: password_confirmation.value.value,
+      email: email.value,
+      token: token.value,
+    });
+    if (resData?.data?._rawValue?.status == true) {
+      successToast(
+        "Đặt lại mật khẩu thành công",
+        "Chuyển hướng đến trang đăng nhập"
+      );
+      navigateTo("/login");
+    } else {
+      resErrors.value = resData.error.value.data?.errors;
+      errorToast("Đặt lại mật khẩu không thành công", "Vui lòng thử lại");
+    }
+  } catch (error) {
+    // console.log(error);
+    errorToast("Đặt lại mật khẩu không thành công", "Vui lòng thử lại");
+  } finally {
+    isSubmitting.value = false;
+  }
 });
 </script>

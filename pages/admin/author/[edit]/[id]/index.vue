@@ -72,6 +72,7 @@ const route = useRoute()
 const authorID = route.params.id;
 const AuthorStore = useAuthorStore()
 const baseStore = useBaseStore();
+const isLoading = ref(false);
 const file = ref("");
 const uploadFile = async () => {
   console.log(file._rawValue.target.files[0]);
@@ -97,8 +98,16 @@ const optionsStatus = ref([
 ]);
 const valueAuthor = ref({});
 const authorById = async () => {
-  const data = await AuthorStore.getAuthorById(authorID);
-  valueAuthor.value = data.data._rawValue.data;
+  try {
+    isLoading.value = true;
+    const data = await AuthorStore.getAuthorById(authorID);
+    valueAuthor.value = data.data._rawValue.data;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    isLoading.value = false;
+  }
+
 };
 const updateAuthor = async () => {
   try {
