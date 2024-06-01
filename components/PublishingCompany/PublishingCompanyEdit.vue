@@ -95,14 +95,14 @@ watch(
 );
 
 const uploadFile = async () => {
-  // console.log(file._rawValue.target.files[0]);
-  // const formData = new FormData();
-  // formData.append("image", file._rawValue.target.files[0]);
-  // const dataUpload = await baseStore.uploadImg(formData);
-  // console.log(dataUpload);
+  if (!file._rawValue.target.files[0]) {
+    return publishingCompany.value.logo_company;
+  }
+  const formData = new FormData();
+  formData.append("image", file._rawValue.target.files[0]);
+  const dataUpload = await baseStore.uploadImg(formData);
 
-  // return dataUpload.data._rawValue.data.link;
-  return "";
+  return dataUpload.data._rawValue.data.link;
 };
 useAsyncData(
   async () => {
