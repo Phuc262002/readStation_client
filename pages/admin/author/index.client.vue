@@ -153,9 +153,15 @@ import { ref } from "vue";
 const AuthorStore = useAuthorStore();
 const isLoading = ref(false);
 const getDataAuthor = async () => {
-  isLoading.value = true;
-  await AuthorStore.getAllAuthor();
-  isLoading.value = false;
+  try {
+    isLoading.value = true;
+    await AuthorStore.getAllAuthor();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
+
 };
 useAsyncData(async () => {
   await getDataAuthor();

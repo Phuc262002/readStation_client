@@ -8,7 +8,7 @@
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
-      <form :model="ValueAuthor" @submit.prevent="onSubmit">
+      <form @submit.prevent="updateAuthor">
         <div class="grid grid-cols-6 gap-4 ">
           <div class="flex flex-col gap-3 col-start-1 col-end-3 ">
             <label class="text-sm font-semibold" for="">Avatar</label>
@@ -21,7 +21,7 @@
               </template>
               <span class="group flex items-center justify-center cursor-pointer w-8 h-8 rounded-md">
                 <a-space direction="vertical">
-                  <a-switch v-model:checked="ValueAuthor.is_featured">
+                  <a-switch v-model:checked="valueAuthor.is_featured">
                     <template #checkedChildren><check-outlined /></template>
                     <template #unCheckedChildren><close-outlined /></template>
                   </a-switch>
@@ -34,16 +34,16 @@
         <div class="grid grid-cols-3 gap-4 pb-4 mt-5">
           <div class="flex flex-col gap-2 w-[100%]">
             <label class="text-sm font-semibold" for="">Tên tác giả</label>
-            <a-input placeholder="Tên tác giả" class="border p-2 rounded-md" v-model:value="ValueAuthor.author" />
+            <a-input placeholder="Tên tác giả" class="border p-2 rounded-md" v-model:value="valueAuthor.author" />
           </div>
           <div class="flex flex-col gap-2 w-[100%]">
             <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
             <a-input placeholder="Ngày, tháng, năm sinh" class="border p-2 rounded-md" type="date"
-              v-model:value="ValueAuthor.dob" />
+              v-model:value="valueAuthor.dob" />
           </div>
           <div class="flex flex-col gap-2 w-[100%]">
             <label class="text-sm font-semibold" for="">Trạng thái</label>
-            <a-select size="large" v-model:value="ValueAuthor.statusValue" show-search placeholder="Trạng thái"
+            <a-select size="large" v-model:value="valueAuthor.status" show-search placeholder="Trạng thái"
               :options="optionsStatus" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
               @change="handleChange"></a-select>
           </div>
@@ -55,7 +55,7 @@
         </div>
         <div class="flex flex-col gap-2 f-full pb-4">
           <label class="text-sm font-semibold" for="">Nội dung</label>
-          <CommonCKEditor :value="ValueAuthor.description" @input="(event) => (ValueAuthor.description = event)" />
+          <CommonCKEditor :value="valueAuthor.description" @input="(event) => (valueAuthor.description = event)" />
         </div>
         <div class="flex items-end gap-4 pt-4">
           <a-button danger type="primary"> Hủy</a-button>
@@ -67,9 +67,12 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
+const route = useRoute()
+const authorID = route.params.id;
 const AuthorStore = useAuthorStore()
 const baseStore = useBaseStore();
+const isLoading = ref(false);
 const file = ref("");
 const uploadFile = async () => {
   console.log(file._rawValue.target.files[0]);
@@ -77,7 +80,6 @@ const uploadFile = async () => {
   formData.append("image", file._rawValue.target.files[0]);
   const dataUpload = await baseStore.uploadImg(formData);
   console.log(dataUpload);
-
   return dataUpload.data._rawValue.data.link;
 };
 const optionsStatus = ref([
@@ -94,19 +96,38 @@ const optionsStatus = ref([
     label: "Deleted",
   },
 ]);
-
-const ValueAuthor = ref({
-  avatar: "",
-  author: "",
-  dob: "",
-  statusValue: "",
-  is_featured: "",
-  description: ""
-});
+const valueAuthor = ref({});
 const authorById = async () => {
-  const data = await AuthorStore.getAuthorById(46);
-  ValueAuthor.value = data
+  try {
+    isLoading.value = true;
+    const data = await AuthorStore.getAuthorById(authorID);
+    valueAuthor.value = data.data._rawValue.data;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    isLoading.value = false;
+  }
+
 };
+const updateAuthor = async () => {
+  try {
+    const updateValue = {
+      author: valueAuthor.value.author,
+      dob: valueAuthor.value.dob,
+      status: valueAuthor.value.status,
+      description: valueAuthor.value.description,
+      is_featured: valueAuthor.value.is_featured,
+    }
+    await AuthorStore.updateAuthor({ id: authorID, valueAuthor: updateValue });
+    message.success("Cập nhật tác giả thành công");
+    navigateTo("/admin/author");
+  } catch (error) {
+    // message.error("Cập nhật tác giả thất bại");
+  }
+
+}
+
+
 
 useAsyncData(async () => {
   await authorById();
@@ -120,7 +141,6 @@ useAsyncData(async () => {
 //     statusValue: ValueAuthor.value.statusValue,
 //     description: ValueAuthor.value.description,
 //     is_featured: ValueAuthor.value.value,
-
 //   })
 // };
 

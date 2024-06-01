@@ -28,11 +28,9 @@ const isLoading = ref(false);
 const bookstore = useBookStore();
 const AuthorFeatured = ref({});
 console.log("🚀 ~ AuthorFeatured:", AuthorFeatured)
-
-
 useAsyncData(async () => {
-    isLoading.value = true;
     try {
+        isLoading.value = true;
         const response = await bookstore.getAuthorFeatured(); //promise
         AuthorFeatured.value = response.data._rawValue.data[0];
     } catch (error) {
