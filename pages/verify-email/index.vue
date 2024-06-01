@@ -3,6 +3,12 @@
     class="bg-[url('assets/images/bg-404.svg')] w-full h-[100vh] bg-cover bg-no-repeat bg-center"
   >
     <div
+      v-if="isSubmitting"
+      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
+    >
+      <a-spin size="large" class="absolute top-1/2 left-1/2" />
+    </div>
+    <div
       class="md:py-10 flex justify-center items-center container min-h-[100vh]"
     >
       <div
@@ -15,11 +21,15 @@
           <p>Mã OTP đã được gửi đến Email của bạn.</p>
           <p>Vui lòng kiểm tra lại Email !</p>
         </div>
-        <form action="" class="w-full space-y-6">
+        <form @submit="onSubmit" class="w-full space-y-6">
           <div class="flex items-center gap-1 justify-center">
             <span>Không nhận được thư ?</span>
-            <NuxtLink to="/login" class="text-indigo-400 hover:text-indigo-900">
-              Gửi lại</NuxtLink
+            <a-button
+              html-type="submit"
+              class="text-indigo-400 hover:text-indigo-900 border-none"
+              :loading="isSubmitting"
+            >
+              Gửi lại</a-button
             >
           </div>
         </form>
@@ -27,3 +37,62 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useForm } from "vee-validate";
+import { ref, onMounted } from "vue";
+
+const authStore = useAuthStore();
+const isSubmitting = ref(false);
+const email = ref("");
+const route = useRoute();
+
+// Create the form
+const { handleSubmit } = useForm({});
+
+onMounted(() => {
+  const emailFromQuery = route.query.email;
+
+  if (typeof emailFromQuery === "string") {
+    email.value = emailFromQuery;
+    console.log(email.value);
+  } else {
+    email.value = "";
+    console.error("Invalid email parameter:", emailFromQuery);
+  }
+});
+
+// Submit handler
+const onSubmit = handleSubmit(async (values) => {
+  // Submit to API
+
+  values = { email: email.value };
+  console.log("object", values);
+
+  try {
+    isSubmitting.value = true;
+    const resData = await authStore.sendResetPassword({ email: email.value });
+
+    if (resData?.data?._rawValue?.status == true) {
+      successToast(
+        "Gửi thông tin đổi mật khẩu thành công",
+        "Vui lòng kiểm tra lại Email"
+      );
+      navigateTo("/verify-email");
+    } else {
+      resErrors.value = resData.error.value.data?.errors;
+      errorToast(
+        "Gửi thông tin đổi mật khẩu không thành công",
+        "Vui lòng thử lại"
+      );
+    }
+  } catch (error) {
+    errorToast(
+      "Gửi thông tin đổi mật khẩu không thành công",
+      "Vui lòng thử lại"
+    );
+  } finally {
+    isSubmitting.value = false;
+  }
+});
+</script>
