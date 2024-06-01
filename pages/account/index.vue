@@ -8,7 +8,7 @@
     </div>
     <div class="flex gap-6">
       <div class="w-1/2">
-        <div class="flex justify-between mb-4">
+        <div class="flex justify-between mb-5">
           <div class="flex items-center justify-between gap-2">
             <UIcon name="i-material-symbols-person-check-outline" />
             <h2 class="text-sm font-bold">Thông tin cơ bản</h2>
@@ -27,23 +27,6 @@
           <div
             class="flex flex-col bg-[#f9f9f9] shadow-md shadow-gray-300 rounded-md p-4"
           >
-            <div
-              class="border-b flex items-center justify-between h-[145px] py-4"
-            >
-              <span class="w-1/2 flex items-center">Hình ảnh</span>
-              <div class="w-1/2 text-left">
-                <CommonUploadImg
-                  id="avatar"
-                  type="avatar"
-                  v-bind="avatar"
-                  name="avatar"
-                  v-if="isShow"
-                />
-
-                <span v-else class="w-full">{{ data?.avatar }}</span>
-              </div>
-            </div>
-
             <div class="border-b flex items-center justify-between py-4">
               <span class="w-1/2 h-8 flex items-center">Họ tên</span>
               <div class="w-1/2 text-left">
@@ -116,6 +99,7 @@
                   name="dob"
                   type="dob"
                   class="w-full"
+                  value-format="DD-MM-YYYY"
                   placeholder="Chọn ngày, tháng, năm sinh"
                 />
                 <span v-else>{{ data?.dob }}</span>
@@ -234,7 +218,7 @@
       </div>
       <div class="w-1/2 flex flex-col space-y-6">
         <div>
-          <div class="flex items-center gap-2 mb-4">
+          <div class="flex items-center gap-2 mb-5">
             <UIcon name="i-material-symbols-person-outline" />
             <h2 class="text-sm font-bold">Tài khoản</h2>
           </div>
@@ -365,15 +349,21 @@ const onSubmit = handleSubmit(async (values) => {
     console.log("resData", resData);
 
     if (resData?.data?._rawValue?.status == true) {
-      successToast("Chỉnh sửa thành công");
+      message.successc({
+        content: "Chỉnh sửa thành công",
+      });
       navigateTo("/account");
     } else {
       resErrors.value = resData.error.value.data.errors;
       console.log("object", resErrors.value);
-      errorToast("Chỉnh sửa không thành công", "Vui lòng thử lại sau");
+      message.error({
+        content: "Chỉnh sửa không thành công",
+      });
     }
   } catch (error) {
-    errorToast("Chỉnh sửa không thành công", "Vui lòng thử lại sau");
+    message.error({
+      content: "Chỉnh sửa không thành công",
+    });
   } finally {
     isSubmitting.value = false;
   }
