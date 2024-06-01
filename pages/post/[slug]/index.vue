@@ -75,7 +75,7 @@
         </div>
 
         <div>
-          <BlogComment/>
+          <BlogComment />
         </div>
         <hr class="mb-5" />
 
@@ -88,7 +88,7 @@
       </div>
 
       <div class="w-1/4 space-y-5">
-        <div class="p-5 border bg-[#3D22CF] w-full h-fit rounded-[10px] ">
+        <div class="p-5 border bg-[#3D22CF] w-full h-fit rounded-[10px]">
           <div class="flex mb-5">
             <div class="">
               <a-avatar
@@ -136,7 +136,7 @@
             </div>
           </div>
         </div>
-        <div class="bg-white rounded-lg hover:shadow-md p-5 ">
+        <div class="bg-white rounded-lg hover:shadow-md p-5">
           <div class="border-b-2 font-semibold mb-2">Bài viết nổi bật</div>
           <div class="space-y-4">
             <div class="flex space-x-2">
@@ -181,3 +181,17 @@
     </div>
   </div>
 </template>
+<script setup>
+const route = useRoute();
+const slug = route.params.slug;
+const postStore = usePostStore();
+console.log(slug);
+
+useAsyncData(async () => {
+  try {
+    await postStore.getOnePost(slug);
+  } catch (error) {
+    console.error(error);
+  }
+});
+</script>

@@ -24,9 +24,10 @@
           </div>
         </div>
         <div class="">
-          <a-button type="primary" @click="showModalAdd"
+          <a-button class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary " @click="showModalAdd"
             >Thêm danh mục bài viết</a-button
           >
+         
           <CategoryPostAdd
             :openModalAdd="openModalAdd"
             :openModal="CloseModalAdd"
@@ -63,7 +64,7 @@
           </template>
           <template v-else-if="column.key === 'status'">
             <span>
-              <a-tag :color="record.status === 'active' ? 'green' : 'volcano'">
+              <a-tag :bordered="false" :color="record.status === 'active' ? 'green' : 'volcano'">
                 {{ record.status }}
               </a-tag>
             </span>

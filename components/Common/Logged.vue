@@ -21,7 +21,7 @@
                     {{ authStore?.authUser?.user?.fullname }}
                   </div>
                   <div class="text-slate-500 dark:text-zink-200">
-                    <a-tag :bordered="false" color="purple">{{
+                    <a-tag :bordered="false" class="font-bold" color="purple">{{
                       authStore?.authUser?.user?.role?.name
                     }}</a-tag>
                   </div>

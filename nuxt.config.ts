@@ -22,6 +22,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxtjs/color-mode',
     'nuxt-vue3-google-signin',
+    'dayjs-nuxt',
   ],
   googleSignIn: {
     clientId: process.env.GOOGLE_CLIENT_ID,

@@ -22,5 +22,14 @@ export const usePostStore = defineStore("post-store", {
         console.log(error);
       }
     },
+    async getOnePost(slug: string) { 
+      try {
+        const data: any = await useCustomFetch(`/api/v1/posts/get-one/${slug}`);
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
   },
 });
