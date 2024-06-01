@@ -122,7 +122,7 @@
 </template>
 <script lang="ts" setup>
 const baseStore = useBaseStore();
-const file = ref("");
+
 import { Modal } from "ant-design-vue";
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);

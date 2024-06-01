@@ -17,6 +17,7 @@
     "@pinia/nuxt": "^0.5.1",
     "ant-design-vue": "^4.1.2",
     "ckeditor5-custom-build": "file:ckeditor5",
+    "jwt-decode": "^4.0.0",
     "nuxt": "^3.11.2",
     "nuxt-vue3-google-signin": "^0.0.11",
     "pinia": "^2.1.7",
