@@ -97,5 +97,15 @@ export const useAuthStore = defineStore("auth-store", {
       });
       return data;
     },
+    async sendResetPassword(body: any) {
+      const data: any = await useCustomFetch(
+        "/api/v1/auth/send-reset-password",
+        {
+          method: "POST",
+          body: JSON.stringify(body),
+        }
+      );
+      return data;
+    },
   },
 });
