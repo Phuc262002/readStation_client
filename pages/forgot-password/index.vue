@@ -9,7 +9,7 @@
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
     </div>
     <div
-      class="md:py-10 flex justify-center items-center container min-h-[100vh]"
+      class="md:py-10 flex justify-center items-center mx-auto container min-h-[100vh]"
     >
       <div
         class="flex space-y-3 flex-col justify-center items-center bg-white shadow-lg shadow-gray-500 p-8 w-[400px] rounded-lg"
