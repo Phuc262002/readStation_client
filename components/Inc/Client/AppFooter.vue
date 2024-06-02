@@ -12,7 +12,7 @@
                         </div>
                     <!-- ReadStation -->
                     <div class="w-1/4 flex flex-col gap-3">
-                        <h1 class="text-xl font-medium uppercase tesxt-white">ReadStation</h1>
+                        <h1 class="text-xl font-medium uppercase text-white">ReadStation</h1>
                         <ul class="flex flex-col gap-2">
                             <Nuxt-link to="/rules">
                                 <li
