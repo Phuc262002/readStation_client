@@ -12,7 +12,7 @@
         <a-spin size="large" class="absolute top-1/2 left-1/2" />
       </div>
       <div
-        class="flex space-y-3 flex-col justify-center items-center bg-white shadow-lg shadow-gray-500 p-8 w-[400px] rounded-lg"
+        class="flex space-y-3 flex-col justify-center items-center mx-auto bg-white shadow-lg shadow-gray-500 p-8 w-[400px] rounded-lg"
       >
         <div class="text-center pb-4">
           <h2 class="text-2xl text-sky-600 font-bold pb-3">

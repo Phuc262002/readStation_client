@@ -22,9 +22,9 @@ export default defineNuxtPlugin(() => {
         },
         async onResponseError({ request, response, options }) {
             if (response.status === 401 && userAuth.isLogged) {
-                const decoded = jwtDecode(userAuth.authUser.token.accessToken);
+                const decoded = jwtDecode(userAuth.authUser.token.refreshToken);
 
-                if (decoded.exp < Date.now() / 1000) {
+                if (decoded.exp * 1000 > Date.now()) {
                     try {
                         await userAuth.refreshToken()
                         // Retry original request with new token
