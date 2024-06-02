@@ -7,8 +7,14 @@
     :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
   >
     <div class="text-center">
-      <div class="flex items-center justify-center pt-3">
-        <img class="rounded-full w-20 h-20" :src="data?.avatar" alt="" />
+      <div class="flex items-center justify-center pt-3 relative">
+        <img
+          class="rounded-full w-20 h-20"
+          :src="data?.avatar"
+          alt=""
+          @click="handleClickInput"
+        />
+        <input type="file" class="w-2 absolute hidden" ref="changeAvatarRef" />
       </div>
       <div class="mt-[17px] mb-[23px]">
         <h2 class="font-bold">{{ data?.fullname }}</h2>
@@ -130,11 +136,17 @@ const props = defineProps<{
   collapsed: boolean;
 }>();
 const selectedKeys = ref<string[]>(["sub1"]);
+const changeAvatarRef = ref(null);
 
 //Create the form
 const { defineInputBinds, setFieldValue } = useForm({
   validationSchema: {},
 });
+
+const handleClickInput = () => {
+  changeAvatarRef?.value?.click?.();
+  console.log({ changeAvatarRef });
+};
 
 //get API
 const data = ref(null);

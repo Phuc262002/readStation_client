@@ -55,7 +55,7 @@
                   <a-radio value="female">Nữ</a-radio>
                 </a-radio-group>
 
-                <span v-else>{{ data?.gender }}</span>
+                <span v-else>{{ data?.gender === "male" ? "Nam" : "Nữ" }}</span>
               </div>
             </div>
 
@@ -102,7 +102,7 @@
                   value-format="DD-MM-YYYY"
                   placeholder="Chọn ngày, tháng, năm sinh"
                 />
-                <span v-else>{{ data?.dob }}</span>
+                <span v-else>{{ dayjs(data?.dob).format("DD-MM-YYYY") }}</span>
               </a-form-item>
             </div>
 
@@ -271,6 +271,7 @@
 </template>
 
 <script setup lang="ts">
+import dayjs from "dayjs";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 // import { useBaseStore, useAuthStore } from "@/stores";
@@ -330,17 +331,22 @@ const resErrors = ref({});
 
 // Submit handler
 const onSubmit = handleSubmit(async (values) => {
+  console.log({ values });
   // Submit to API
   const newData = {
     ...values,
-    province: (provinces as any).value.filter(
-      (item) => values.province === item.value
-    )[0].label,
-    district: (districts as any).value.filter(
-      (item) => values.district === item.value
-    )[0].label,
-    ward: (wards as any).value.filter((item) => values.ward === item.value)[0]
-      .label,
+    province:
+      (provinces as any).value.filter(
+        (item) => values.province === item.value
+      )[0]?.label || values?.province,
+    district:
+      (districts as any).value.filter(
+        (item) => values.district === item.value
+      )[0]?.label || values?.district,
+    ward:
+      (wards as any).value.filter((item) => values.ward === item.value)[0]
+        ?.label || values?.ward,
+    dob: dayjs(values?.dob, "DD-MM-YYYY").format("YYYY-MM-DD"),
   };
   console.log("messges dataa", newData);
   try {
@@ -349,10 +355,12 @@ const onSubmit = handleSubmit(async (values) => {
     console.log("resData", resData);
 
     if (resData?.data?._rawValue?.status == true) {
-      message.successc({
+      message.success({
         content: "Chỉnh sửa thành công",
       });
-      navigateTo("/account");
+      // navigateTo("/account");
+      isShow.value = false;
+      data.value = resData?.data?._rawValue?.data;
     } else {
       resErrors.value = resData.error.value.data.errors;
       console.log("object", resErrors.value);
@@ -386,7 +394,7 @@ useAsyncData(async () => {
     setFieldValue("phone", data.value.phone);
     setFieldValue("avatar", data.value.avatar);
     setFieldValue("job", data.value.job);
-    setFieldValue("dob", data.value.dob);
+    setFieldValue("dob", dayjs(data.value.dob));
     setFieldValue("province", data.value.province);
     setFieldValue("district", data.value.district);
     setFieldValue("ward", data.value.ward);
