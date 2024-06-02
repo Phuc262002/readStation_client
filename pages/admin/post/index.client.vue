@@ -81,7 +81,7 @@
                         <div class="grow">
                           <h1 class="font-bold text-xl">Bài viết số 1</h1>
                         </div>
-                        <div class="flex gap-4">
+                        <!-- <div class="flex gap-4">
                           <a-tooltip placement="top" color="red">
                             <template #title>
                               <span>Hủy</span>
@@ -106,7 +106,7 @@
                                 name="i-material-symbols-edit-rounded"
                             /></span>
                           </a-tooltip>
-                        </div>
+                        </div> -->
                       </div>
                       <div
                         class="flex border border-transparent border-b-gray-300 pb-2"
