@@ -27,7 +27,7 @@
           >
           <a-button
             type="primary"
-            :loading="publishingCompanyStore.isSubmitting"
+            :loading="authStore.isSubmitting"
             html-type="submit"
             class="mt-4"
             >Lưu</a-button
@@ -40,10 +40,8 @@
 <script setup>
 const authStore = useAuthStore();
 
-const publishingCompany = ref({
-  name: "",
-  description: "",
-  logo_company: "",
+const auth = ref({
+  avatar: "",
 });
 const props = defineProps({
   openModalAdd: Boolean,
@@ -60,7 +58,7 @@ watch(
 
 const uploadFile = async () => {
   const formData = new FormData();
-  formData.append("image", file._rawValue.target.files[0]);
+  formData.append("avatar", file._rawValue.target.files[0]);
   const dataUpload = await baseStore.uploadImg(formData);
 
   return dataUpload.data._rawValue.data.link;
@@ -68,24 +66,18 @@ const uploadFile = async () => {
 
 const onSubmit = async () => {
   const url = await uploadFile();
-  await publishingCompanyStore.createPublishingCompany({
-    logo_company: url,
-    name: publishingCompany.value.name,
-    description: publishingCompany.value.description,
+  await authStore.updateProfile({
+    avatar: url,
   });
-  await publishingCompanyStore.getAllPublishingCompany({});
+  await authStore.getProfile({});
   publishingCompany.value = {
-    name: "",
-    description: "",
-    logo_company: "",
+    avatar: "",
   };
   props.openModal();
 };
 const handleClose = () => {
-  publishingCompany.value = {
-    name: "",
-    description: "",
-    logo_company: "",
+  auth.value = {
+    avatar: "",
   };
   props.openModal();
 };
