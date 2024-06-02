@@ -1,12 +1,12 @@
 <template>
-  <NuxtLink :to="`/post/${props.post.slug}`">
+  <NuxtLink :to="`/post/${props.post?.slug}`">
     <div
       class="relative h-[450px] w-full  bg-cover bg-center bg-no-repeat rounded-xl"
-      :style="`background-image: url(${props.post.image});`"
+      :style="`background-image: url(${props.post?.image});`"
     >
       <div class="absolute bottom-10 left-10 font-semibold text-4xl">
         <div
-          class="text-[#4B6BFB] bg-[#eaeaec]/5 text-sm w-fit mb-4 rounded-md px-2 h-7 flex items-center"
+          class="text-rtprimary bg-rtprimary/20 text-sm w-fit mb-4 rounded-md px-2 h-7 flex items-center"
         >
         {{ props.post?.category?.name }}
         </div>
@@ -18,11 +18,11 @@
           <div class="flex items-center text-base text-white gap-5">
             <div class="flex items-center gap-3">
               <div >
-                <a-avatar class="w-10 h-10" :src="props.post.user?.avatar" />
+                <a-avatar class="w-10 h-10" :src="props.post?.user?.avatar" />
               </div>
-              <p class="">{{ props.post.user?.fullname }}</p>
+              <p class="">{{ props.post?.user?.fullname }}</p>
             </div>
-            <p>{{ $dayjs(props.post.created_at).format("DD/MM/YYYY") }}</p>
+            <p>{{ $dayjs(props.post?.created_at).format("DD/MM/YYYY") }}</p>
           </div>
         </div>
       </div>

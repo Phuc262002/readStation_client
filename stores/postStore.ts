@@ -4,6 +4,7 @@ export const usePostStore = defineStore("post-store", {
   state: () => {
     return {
       posts: [],
+      post: {},
     };
   },
   actions: {
@@ -25,6 +26,7 @@ export const usePostStore = defineStore("post-store", {
     async getOnePost(slug: string) { 
       try {
         const data: any = await useCustomFetch(`/api/v1/posts/get-one/${slug}`);
+        this.post = data.data._value?.data;
         return data;
       } catch (error) {
         console.log(error);
