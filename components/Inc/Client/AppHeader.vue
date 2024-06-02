@@ -7,12 +7,16 @@
           class="h-max bg-[white] w-full border-2 border-[#ffffffad] shadow-sm rounded-lg flex justify-between py-3 px-10"
         >
           <!-- Logo -->
-          <div class="flex items-center">
+          <div class="flex items-center gap-1">
             <img
-                class=" w-24"
-              src="../../../assets/images/logo_header.svg"
+                class="h-10"
+              src="../../../assets/images/Read Station.svg"
               alt=""
             />
+            <!-- <div> 
+              <h1 class=" text-sm font-medium ">ReadStation</h1>
+              <h1 class="text-sm">Staion Of Knowledge</h1>
+            </div> -->
           </div>
           <!-- Menu -->
           <div class="md:block hidden">

@@ -155,13 +155,12 @@ const isLoading = ref(false);
 const getDataAuthor = async () => {
   try {
     isLoading.value = true;
-    await AuthorStore.getAllAuthor();
+    await AuthorStore.getAllAuthor({});
   } catch (error) {
     console.error(error);
   } finally {
     isLoading.value = false;
   }
-
 };
 useAsyncData(async () => {
   await getDataAuthor();

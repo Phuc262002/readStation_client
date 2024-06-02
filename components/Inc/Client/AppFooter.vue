@@ -7,8 +7,8 @@
                         <!-- <div class="w-1/2">
                             <img class="w-60" src="../../../assets/images/logo_footer.svg" alt="" />
                         </div> -->
-                        <div class="w-1/2">
-                            <img class="w-[170px]" src="../../../assets/images/logo_footer.svg" alt="" />
+                        <div class="w-1/2 flex justify-start items-center">
+                            <img class="w-[170px]" src="../../../assets/images/Readstation.svg" alt="" />
                         </div>
                     <!-- ReadStation -->
                     <div class="w-1/4 flex flex-col gap-3">
