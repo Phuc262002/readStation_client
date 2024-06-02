@@ -20,7 +20,7 @@
               <span>Trang chủ</span>
             </NuxtLink>
 
-            <h2 class="text-3xl font-extrabold text-gray-900">
+            <h2 class="text-3xl font-extrabold text-rtprimary">
               Chào mừng bạn 👋
             </h2>
             <p class="mt-2">Đăng nhập để bắt đầu trải nghiệm.</p>
