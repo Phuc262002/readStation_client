@@ -24,12 +24,18 @@
           </div>
         </div>
         <div class="">
-          <a-button type="primary" @click="showModalAdd"
+          <a-button class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary " @click="showModalAdd"
             >Thêm danh mục bài viết</a-button
           >
+         
           <CategoryPostAdd
             :openModalAdd="openModalAdd"
             :openModal="CloseModalAdd"
+          />
+          <CategoryPostEdit
+            :openModalEdit="openModalEdit"
+            :openModal="CloseModalEdit"
+            :categoryId="categoryId"
           />
         </div>
       </div>
@@ -58,7 +64,7 @@
           </template>
           <template v-else-if="column.key === 'status'">
             <span>
-              <a-tag :color="record.status === 'active' ? 'green' : 'volcano'">
+              <a-tag :bordered="false" :color="record.status === 'active' ? 'green' : 'volcano'">
                 {{ record.status }}
               </a-tag>
             </span>
@@ -80,47 +86,15 @@
                   class="group hover:bg-[green]/20 flex items-center justify-center w-8 h-8 rounded-md"
                 >
                   <div>
-                    <button @click="showModalEdit(record?.id)">
+                    <button
+                      @click="showModalEdit(record?.id)"
+                      class="flex items-center"
+                    >
                       <UIcon
                         class="group-hover:text-[green]"
                         name="i-material-symbols-edit-outline"
                       />
                     </button>
-                    <a-modal v-model:open="openModalEdit" title="Sửa">
-                      <div class="">
-                        <div class="bg-white py-2">
-                          <div class="pb-4">
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Tên danh mục
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-[450px] h-[45px]"
-                                placeholder="Nhập tên danh mục"
-                              />
-                            </div>
-                          </div>
-
-                          <div>
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Nội dụng
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-[450px] h-[45px]"
-                                placeholder="Nhập nội dung"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </a-modal>
                   </div>
                 </span>
               </a-tooltip>
@@ -154,6 +128,7 @@ import { ref } from "vue";
 import { Modal } from "ant-design-vue";
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
+const categoryId = ref<number>();
 const categoryStore = useCategoryStore();
 useAsyncData(async () => {
   await categoryStore.getAllCategory({
@@ -228,5 +203,7 @@ const showModalAdd = () => {
 };
 const showModalEdit = (id: number) => {
   openModalEdit.value = true;
+  categoryId.value = id;
 };
+
 </script>

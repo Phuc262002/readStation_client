@@ -9,7 +9,7 @@
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
     </div>
     <div
-      class="md:py-10 flex justify-center items-center container min-h-[100vh]"
+      class="md:py-10 flex justify-center items-center mx-auto container min-h-[100vh]"
     >
       <div
         class="flex space-y-3 flex-col justify-center items-center bg-white shadow-lg shadow-gray-500 p-8 w-[450px] rounded-lg"
@@ -45,11 +45,16 @@
           >
             <span>Xác nhận</span>
           </a-button>
-          <div class="flex items-center gap-1 justify-center">
-            <span>Không nhận được thư ?</span>
-            <span class="text-indigo-400 hover:text-indigo-900"> Gửi lại</span>
-          </div>
         </form>
+        <div class="flex items-center gap-1 justify-center">
+          <span>Không nhận được thư ?</span>
+          <button
+            @click="resendOtp"
+            class="text-indigo-400 hover:text-indigo-900"
+          >
+            Gửi lại
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -123,6 +128,33 @@ onMounted(() => {
     console.error("Invalid email parameter:", emailFromQuery);
   }
 });
+
+const resendOtp = async () => {
+  try {
+    isSubmitting.value = true;
+    const resData = await authStore.resendOtp({
+      email: email.value,
+    });
+
+    if (resData?.data?._rawValue?.status == true) {
+      message.success({
+        content: "Gửi mã OTP thành công",
+      });
+      navigateTo("/verify-code");
+    } else {
+      resErrors.value = resData.error.value.data?.errors;
+      message.error({
+        content: "Gửi mã OTP không thành công",
+      });
+    }
+  } catch (error) {
+    message.error({
+      content: "Gửi mã OTP không thành công",
+    });
+  } finally {
+    isSubmitting.value = false;
+  }
+};
 
 // Submit handler
 const onSubmit = handleSubmit(async (values) => {

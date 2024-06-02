@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="">
-          <a-button type="primary" @click="showModalAdd"
+          <a-button class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary " @click="showModalAdd"
             >Thêm nhà xuất bản</a-button
           >
         </div>
@@ -122,7 +122,7 @@
 </template>
 <script lang="ts" setup>
 const baseStore = useBaseStore();
-const file = ref("");
+
 import { Modal } from "ant-design-vue";
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);

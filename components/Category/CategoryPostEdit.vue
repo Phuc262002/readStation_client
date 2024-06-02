@@ -9,26 +9,26 @@
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Tên nhà xuất bản
+            Tên danh mục
           </label>
           <div class="mt-1">
             <a-input
-              v-model:value="publishingCompany.name"
+              v-model:value="category.name"
               class="w-[450px] h-[45px]"
-              placeholder="Nhập tên nhà xuất bản"
+              placeholder="Nhập tên danh mục"
               required
             />
           </div>
         </div>
 
-        <div>
+        <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Mô tả
+            Nội dụng
           </label>
           <div class="mt-1">
             <a-textarea
               :rows="6"
-              v-model:value="publishingCompany.description"
+              v-model:value="category.description"
               class="w-[450px] h-[45px]"
               placeholder="Nhập nội dung"
               required
@@ -36,29 +36,28 @@
           </div>
         </div>
 
-        <div>
+        <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
             Trạng thái
           </label>
           <div class="mt-1">
             <a-select
               ref="select"
-              v-model:value="publishingCompany.status"
+              v-model:value="category.status"
               style="width: 120px"
+
               @change="handleChange"
             >
               <a-select-option value="active">Active</a-select-option>
               <a-select-option value="inactive">Inactive</a-select-option>
+              
             </a-select>
-          </div>
-        </div>
-
-        <div class="pb-4">
-          <label for="email" class="block text-sm font-medium text-gray-700">
-            Logo nhà xuất bản
-          </label>
-          <div class="mt-1">
-            <CommonUploadImg :value="file" @input="(event) => (file = event)" />
+            <!-- <a-select
+              v-model:value="category.status"
+              class="w-[450px] h-[45px]"
+              placeholder="Nhập nội dung"
+              required
+            /> -->
           </div>
         </div>
         <div class="flex justify-end items-end gap-4">
@@ -72,7 +71,7 @@
           >
           <a-button
             type="primary"
-            :loading="publishingCompanyStore.isSubmitting"
+            :loading="category.isSubmitting"
             html-type="submit"
             class="mt-4"
             >Cập nhật</a-button
@@ -83,28 +82,26 @@
   </a-modal>
 </template>
 <script setup>
-const publishingCompanyStore = usePublishingCompanyStore();
-const file = ref("");
-
-const publishingCompany = ref({
+const categoryStore = useCategoryStore();
+const category = ref({
   name: "",
   description: "",
-  logo_company: "",
   status: "",
+  type: "post",
 });
-
 const props = defineProps({
-  publishingCompanyId: Number,
   openModalEdit: Boolean,
   openModal: Function,
+  categoryId: Number,
 });
-const publishingCompanyId = ref(props.publishingCompanyId);
+const categoryId = ref(props.categoryId);
 const open = ref(props.openModalEdit);
-const handleChange = (value) => {
-    category.value.status = value;
-    
-  };
 
+
+const handleChange = (value) => {
+  category.value.status = value;
+  
+};
 watch(
   () => props.openModalEdit,
   (newVal) => {
@@ -112,60 +109,45 @@ watch(
   }
 );
 watch(
-  () => props.publishingCompanyId,
+  () => props.categoryId,
   (newVal) => {
-    publishingCompanyId.value = newVal;
+    categoryId.value = newVal;
   }
 );
 
-const uploadFile = async () => {
-  // if (!file._rawValue.target.files[0]) {
-  //   return publishingCompany.value.logo_company;
-  // }
-  // const formData = new FormData();
-  // formData.append("image", file._rawValue.target.files[0]);
-  // const dataUpload = await baseStore.uploadImg(formData);
-
-  // return dataUpload.data._rawValue.data.link;
-  return "";
-};
 useAsyncData(
   async () => {
-    const data = await publishingCompanyStore.getOnePublishingCompany(
-      publishingCompanyId.value
-    );
-
-    publishingCompany.value.name = data.data._value?.data?.name;
-    publishingCompany.value.description = data.data._value?.data?.description;
-    publishingCompany.value.logo_company = data.data._value?.data?.logo_company;
-    publishingCompany.value.status = data.data._value?.data?.status;
+    const data = await categoryStore.getOneCategory(categoryId.value);
+    category.value.name = data.data._value?.data?.name;
+    category.value.description = data.data._value?.data?.description;
+    category.value.status = data.data._value?.data?.status;
   },
   {
-    watch: [publishingCompanyId],
+    watch: [categoryId],
   }
 );
 
 const onUpdate = async () => {
   const data = {
-    name: publishingCompany.value.name,
-    description: publishingCompany.value.description,
-    status: publishingCompany?.value?.status,
-    logo_company: await uploadFile(),
+    name: category.value.name,
+    description: category.value.description,
+    status: category.value.status,
+    type: "post",
   };
-
-  await publishingCompanyStore.updatePublishingCompany({
-    id: publishingCompanyId.value,
-    publishingCompany: data,
+  await categoryStore.updateCategory({
+    id: categoryId.value,
+    category: data,
   });
-  await publishingCompanyStore.getAllPublishingCompany({});
+  await categoryStore.getAllCategory({
+    type: "post",
+  });
   handleClose();
 };
 
 const handleClose = () => {
-  publishingCompany.value = {
+  category.value = {
     name: "",
     description: "",
-    logo_company: "",
     status: "",
   };
   props.openModal();

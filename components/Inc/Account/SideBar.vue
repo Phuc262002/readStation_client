@@ -8,15 +8,13 @@
   >
     <div class="text-center">
       <div class="flex items-center justify-center pt-3">
-        <img
-          class="rounded-full w-20 h-20"
-          src="../../../assets/images/VNE-Rainbow-2-3983-1585305448.jpg"
-          alt=""
-        />
+        <img class="rounded-full w-20 h-20" :src="data?.avatar" alt="" />
       </div>
       <div class="mt-[17px] mb-[23px]">
-        <h2 class="font-bold">Duran Clayton</h2>
-        <p>UX/UI Design</p>
+        <h2 class="font-bold">{{ data?.fullname }}</h2>
+        <a-tag :bordered="false" color="purple" class="font-bold">{{
+          data?.role?.description
+        }}</a-tag>
       </div>
     </div>
     <a-menu
@@ -107,9 +105,57 @@
   </a-layout-sider>
 </template>
 
+<style scoped>
+:deep(.ant-menu-item.ant-menu-item-active.ant-menu-item-only-child) {
+  color: #ff7d29 !important;
+  background-color: rgb(255, 191, 120, 0.4) !important;
+}
+:deep(.ant-menu-item.ant-menu-item-selected.ant-menu-item-only-child) {
+  color: #ff7d29 !important;
+  background-color: rgb(255, 191, 120, 0.4) !important;
+}
+
+:deep(
+    .ant-menu-submenu.ant-menu-submenu-inline.ant-menu-submenu-open.ant-menu-submenu-selected
+      .ant-menu-submenu-title
+  ) {
+  color: #ff7d29 !important;
+  background: initial !important;
+}
+</style>
+
 <script setup lang="ts">
+import { useForm } from "vee-validate";
 const props = defineProps<{
   collapsed: boolean;
 }>();
 const selectedKeys = ref<string[]>(["sub1"]);
+
+//Create the form
+const { defineInputBinds, setFieldValue } = useForm({
+  validationSchema: {},
+});
+
+//get API
+const data = ref(null);
+const authStore = useAuthStore();
+
+// Define fields
+const fullname = defineInputBinds("fullname");
+const role = defineInputBinds("role");
+const avatar = defineInputBinds("avatar");
+
+useAsyncData(async () => {
+  try {
+    const response = await authStore.getProfile();
+    data.value = response.data._rawValue.data;
+    setFieldValue("fullname", data.value.fullname);
+    setFieldValue("role", data.value.role);
+    setFieldValue("avatar", data.value.avatar);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
+});
 </script>

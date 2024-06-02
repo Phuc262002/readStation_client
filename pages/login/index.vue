@@ -100,9 +100,9 @@
                 </div>
 
                 <div class="float-end font-medium text-indigo-600 mt-3 mb-6">
-                  <button class="text-sm" type="button">
+                  <NuxtLink to="/forgot-password" class="text-sm" type="button">
                     Bạn quên mật khẩu?
-                  </button>
+                  </NuxtLink>
                 </div>
                 <div>
                   <a-button

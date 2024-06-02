@@ -1,21 +1,36 @@
 <template>
-  <div
-    class="relative h-[450px] w-full bg-[url('/assets/images/VNE-Rainbow-2-3983-1585305448.jpg')] bg-cover bg-center bg-no-repeat rounded-xl"
-  >
-    <div class="absolute bottom-10 left-10 font-semibold text-4xl">
-      <div  class="bg-[#4B6BFB] w-fit text-[14px] font-medium text-sm px-[10px] rounded-md text-white h-7 flex justify-center items-center mb-4">Primary Button</div>
-      <p class="text-white w-2/3 font-semibold text-4xl">
-        The Impact of Technology on the Workplace: How Technology is Changing
-      </p>
-      <div class="mt-6">
-        <div class="flex items-center text-base text-white gap-5">
-          <div class="flex items-center gap-3">
-            <a-avatar class="" src="https://cdn.pixabay.com/photo/2020/05/09/13/29/photographer-5149664_1280.jpg" />
-            <p class="">Tracey Wilson</p>
+  <NuxtLink :to="`/post/${props.post.slug}`">
+    <div
+      class="relative h-[450px] w-full  bg-cover bg-center bg-no-repeat rounded-xl"
+      :style="`background-image: url(${props.post.image});`"
+    >
+      <div class="absolute bottom-10 left-10 font-semibold text-4xl">
+        <div
+          class="text-[#4B6BFB] bg-[#eaeaec]/5 text-sm w-fit mb-4 rounded-md px-2 h-7 flex items-center"
+        >
+        {{ props.post?.category?.name }}
+        </div>
+    
+        <p class="text-white w-2/3 font-semibold text-4xl">
+          {{props.post?.title}}
+        </p>
+        <div class="mt-6">
+          <div class="flex items-center text-base text-white gap-5">
+            <div class="flex items-center gap-3">
+              <div >
+                <a-avatar class="w-10 h-10" :src="props.post.user?.avatar" />
+              </div>
+              <p class="">{{ props.post.user?.fullname }}</p>
+            </div>
+            <p>{{ $dayjs(props.post.created_at).format("DD/MM/YYYY") }}</p>
           </div>
-          <p>August 20, 2022</p>
         </div>
       </div>
     </div>
-  </div>
+  </NuxtLink>
 </template>
+<script setup>
+
+const props = defineProps(["post"]);
+
+</script>

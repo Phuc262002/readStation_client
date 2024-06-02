@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { jwtDecode } from "jwt-decode";
 
 export const useAuthStore = defineStore("auth-store", {
   state: () => {
@@ -51,9 +52,12 @@ export const useAuthStore = defineStore("auth-store", {
       return data;
     },
     async logout() {
-      const data: any = await useCustomFetch("/api/v1/auth/logout", {
-        method: "POST",
-      });
+      const decoded = jwtDecode(this.authUser.token.accessToken);
+      if (decoded.exp * 1000 > Date.now()) {
+        const data: any = await useCustomFetch("/api/v1/auth/logout", {
+          method: "POST",
+        });
+      }
       this.authUser = {};
       this.isLogged = false;
       navigateTo("/login");
@@ -95,6 +99,16 @@ export const useAuthStore = defineStore("auth-store", {
         method: "POST",
         body: JSON.stringify(body),
       });
+      return data;
+    },
+    async sendResetPassword(body: any) {
+      const data: any = await useCustomFetch(
+        "/api/v1/auth/send-reset-password",
+        {
+          method: "POST",
+          body: JSON.stringify(body),
+        }
+      );
       return data;
     },
   },

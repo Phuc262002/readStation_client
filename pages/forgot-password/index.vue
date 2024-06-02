@@ -9,7 +9,7 @@
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
     </div>
     <div
-      class="md:py-10 flex justify-center items-center container min-h-[100vh]"
+      class="md:py-10 flex justify-center items-center mx-auto container min-h-[100vh]"
     >
       <div
         class="flex space-y-3 flex-col justify-center items-center bg-white shadow-lg shadow-gray-500 p-8 w-[400px] rounded-lg"
@@ -100,21 +100,24 @@ const email = defineInputBinds("email");
 const onSubmit = handleSubmit(async (values) => {
   // Submit to API
   console.log("object1", values);
-  // try {
-  //   isSubmitting.value = true;
-  //   const resData = await authStore.register(values);
-  //   if (resData?.data?._rawValue?.status == true) {
-  //     successToast("Đăng ký thành công", "Chuyển hướng đến trang đăng nhập");
-  //     navigateTo("/login");
-  //   } else {
-  //     resErrors.value = resData.error.value.data?.errors;
-  //     errorToast("Đăng ký không thành công", "Vui lòng thử lại");
-  //   }
-  // } catch (error) {
-  //   // console.log(error);
-  //   errorToast("Đăng ký không thành công", "Vui lòng thử lại");
-  // } finally {
-  //   isSubmitting.value = false;
-  // }
+  try {
+    isSubmitting.value = true;
+    const resData = await authStore.sendResetPassword(values);
+    if (resData?.data?._rawValue?.status == true) {
+      successToast(
+        "Gửi xác thực Email thành công ",
+        "Chuyển hướng đến trang đăng nhập"
+      );
+      navigateTo(`/verify-email?email=${email.value.value}`);
+    } else {
+      resErrors.value = resData.error.value.data?.errors;
+      errorToast("Đăng ký không thành công", "Vui lòng thử lại");
+    }
+  } catch (error) {
+    // console.log(error);
+    errorToast("Đăng ký không thành công", "Vui lòng thử lại");
+  } finally {
+    isSubmitting.value = false;
+  }
 });
 </script>
