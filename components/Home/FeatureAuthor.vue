@@ -4,15 +4,15 @@
             <div class="w-1/3 text-right flex flex-col gap-6">
                 <div class="text-base text-[#f65d4e]">FEATURED AUTHOR</div>
                 <div class="flex flex-col gap-5">
-                    <h1 class="text-5xl font-bold">{{ AuthorFeatured.author }}</h1>
-                    <p class="text-[#999999]">{{ AuthorFeatured.description }} </p>
+                    <h1 class="text-5xl font-bold">{{ AuthorFeatured?.author }}</h1>
+                    <p class="text-[#999999]">{{ AuthorFeatured?.description }} </p>
                 </div>
                 <div>
                     <button class="bg-[#FF7D29] w-1/2 h-11 rounded-lg  text-white">Xem thông tin</button>
                 </div>
             </div>
             <div class="w-1/3">
-                <img :src="AuthorFeatured.avatar" alt="">
+                <img :src="AuthorFeatured?.avatar" alt="">
             </div>
             <div class="w-1/3 flex flex-col gap-2">
                 <div class="grid grid-cols-2 gap-4">

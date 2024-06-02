@@ -55,7 +55,8 @@
         </div>
         <div class="flex flex-col gap-2 f-full pb-4">
           <label class="text-sm font-semibold" for="">Nội dung</label>
-          <CommonCKEditor :value="valueAuthor.description" @input="(event) => (valueAuthor.description = event)" />
+          <CommonCKEditor v-model:value="valueAuthor.description"
+            @input="(event) => (valueAuthor.description = event)" />
         </div>
         <div class="flex items-end gap-4 pt-4">
           <a-button danger type="primary"> Hủy</a-button>
@@ -107,7 +108,6 @@ const authorById = async () => {
   } finally {
     isLoading.value = false;
   }
-
 };
 const updateAuthor = async () => {
   try {

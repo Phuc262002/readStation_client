@@ -68,7 +68,6 @@
 </template>
 <script setup>
 import { ref } from "vue";
-
 const AuthorStore = useAuthorStore()
 const baseStore = useBaseStore();
 const file = ref("");
