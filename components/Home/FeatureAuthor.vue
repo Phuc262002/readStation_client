@@ -5,7 +5,7 @@
                 <div class="text-base text-[#f65d4e]">FEATURED AUTHOR</div>
                 <div class="flex flex-col gap-5">
                     <h1 class="text-5xl font-bold">{{ AuthorFeatured?.author }}</h1>
-                    <p class="text-[#999999]">{{ AuthorFeatured?.description }} </p>
+                    <p class="text-[#999999]" v-html="AuthorFeatured?.description "></p>
                 </div>
                 <div>
                     <button class="bg-[#FF7D29] w-1/2 h-11 rounded-lg  text-white">Xem thông tin</button>
