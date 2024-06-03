@@ -11,6 +11,9 @@
         class="md:w-1/2 w-full min-h-[90vh] flex flex-col items-center justify-center"
       >
         <div>
+          <div class="py-10">
+            <img src="../../assets/images/logo_header.svg" alt="" />
+          </div>
           <div class="w-full">
             <NuxtLink
               to="/"
@@ -20,7 +23,7 @@
               <span>Trang chủ</span>
             </NuxtLink>
 
-            <h2 class="text-3xl font-extrabold text-rtprimary">
+            <h2 class="text-3xl font-extrabold text-gray-900">
               Chào mừng bạn 👋
             </h2>
             <p class="mt-2">Đăng nhập để bắt đầu trải nghiệm.</p>
@@ -107,7 +110,7 @@
                 <div>
                   <a-button
                     html-type="submit"
-                    class="w-full bg-[#162D3A] h-[45px] !text-white hover:bg-slate-600 text-base"
+                    class="w-full bg-rtprimary h-[45px] !text-white hover:bg-rtsecondary text-base border-none"
                     :loading="isSubmitting"
                   >
                     <span>Đăng nhập</span>
@@ -116,7 +119,7 @@
                     class="relative flex items-center justify-between text-center pt-5"
                   >
                     <hr class="solid w-[169px] border-t-2" />
-                    <p class="">Or</p>
+                    <p class="">hoặc</p>
                     <hr class="solid w-[169px] border-t-2" />
                   </div>
 
@@ -218,14 +221,20 @@ const onSubmit = handleSubmit(async (values) => {
     console.log("resData", resData);
 
     if (resData?.data?._rawValue?.status == true) {
-      successToast("Đăng nhập thành công", "Chào mừng bạn đến với ReadStation");
+      message.success({
+        content: "Đăng nhập thành công",
+      });
       navigateTo("/account");
     } else {
       resErrors.value = resData.error.value.data.errors;
-      errorToast("Đăng nhập không thành công", "Vui lòng thử lại sau");
+      message.error({
+        content: "Đăng nhập không thành công",
+      });
     }
   } catch (error) {
-    errorToast("Đăng nhập không thành công", "Vui lòng thử lại sau");
+    message.error({
+      content: "Đăng nhập không thành công",
+    });
   } finally {
     isSubmitting.value = false;
   }
@@ -238,20 +247,23 @@ const handleLoginSuccess = async (response: CredentialResponse) => {
     isSubmitting.value = true;
     const resData = await authStore.loginWithGoogle(credential);
     if (resData?.data?._rawValue?.status == true) {
-      successToast("Đăng nhập thành công", "Chào mừng bạn đến với ReadStation");
+      message.success({
+        content: "Đăng nhập thành công",
+      });
       navigateTo("/account");
     } else {
       resErrors.value = resData.error.value.data.errors;
-      errorToast("Đăng nhập không thành công", "Vui lòng thử lại sau");
+      message.error({
+        content: "Đăng nhập không thành công",
+      });
     }
   } catch (error) {
     message.error({
       content: "Đăng nhập không thành công",
     });
-    errorToast(
-      "Đăng nhập không thành công",
-      "Vui lòng thử lại bằng cách đăng nhập bên trang đăng nhập"
-    );
+    message.error({
+      content: "Đăng nhập không thành công",
+    });
   } finally {
     isSubmitting.value = false;
   }

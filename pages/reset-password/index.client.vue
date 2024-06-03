@@ -81,7 +81,7 @@
 
           <a-button
             html-type="submit"
-            class="w-full bg-[#162D3A] h-[45px] !text-white hover:bg-slate-600 text-base"
+            class="w-full bg-rtprimary h-[45px] !text-white hover:bg-rtsecondary border-none text-base"
             :loading="isSubmitting"
           >
             <span>Đặt lại mật khẩu mới</span>
@@ -174,18 +174,21 @@ const onSubmit = handleSubmit(async (values) => {
       token: token.value,
     });
     if (resData?.data?._rawValue?.status == true) {
-      successToast(
-        "Đặt lại mật khẩu thành công",
-        "Chuyển hướng đến trang đăng nhập"
-      );
+      message.success({
+        content: "Đặt lại mật khẩu thành công",
+      });
       navigateTo("/login");
     } else {
       resErrors.value = resData.error.value.data?.errors;
-      errorToast("Đặt lại mật khẩu không thành công", "Vui lòng thử lại");
+      message.error({
+        content: "Đặt lại mật khẩu không thành công",
+      });
     }
   } catch (error) {
     // console.log(error);
-    errorToast("Đặt lại mật khẩu không thành công", "Vui lòng thử lại");
+    message.error({
+      content: "Đặt lại mật khẩu không thành công",
+    });
   } finally {
     isSubmitting.value = false;
   }

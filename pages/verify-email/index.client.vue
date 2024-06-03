@@ -74,23 +74,20 @@ const onSubmit = handleSubmit(async (values) => {
     const resData = await authStore.sendResetPassword({ email: email.value });
 
     if (resData?.data?._rawValue?.status == true) {
-      successToast(
-        "Gửi thông tin đổi mật khẩu thành công",
-        "Vui lòng kiểm tra lại Email"
-      );
+      message.success({
+        content: "Gửi thông tin đổi mật khẩu thành công",
+      });
       navigateTo("/verify-email");
     } else {
       resErrors.value = resData.error.value.data?.errors;
-      errorToast(
-        "Gửi thông tin đổi mật khẩu không thành công",
-        "Vui lòng thử lại"
-      );
+      message.error({
+        content: "Gửi thông tin đổi mật khẩu không thành công",
+      });
     }
   } catch (error) {
-    errorToast(
-      "Gửi thông tin đổi mật khẩu không thành công",
-      "Vui lòng thử lại"
-    );
+    message.error({
+      content: "Gửi thông tin đổi mật khẩu không thành công",
+    });
   } finally {
     isSubmitting.value = false;
   }

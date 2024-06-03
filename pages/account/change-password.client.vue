@@ -89,15 +89,17 @@
         </div>
         <div class="flex flex-col space-y-7">
           <div class="flex items-center justify-between">
-            <div class="w-full flex items-center justify-center pt-5">
+            <div class="w-full flex items-center justify-end pt-5">
+              <a-button
+                type="primary"
+                class="bg-[#D9D9D9] text-black h-10 mr-6 hover:!bg-rtprimary"
+                >Hủy</a-button
+              >
               <a-button
                 html-type="submit"
-                class="mr-6 !text-white bg-[#3b8aea]"
+                class="!text-white bg-rtprimary hover:bg-rtsecondary border-none h-10"
                 :loading="isSubmitting"
                 >Lưu thay đổi</a-button
-              >
-              <a-button type="primary" class="bg-[#D9D9D9] text-black"
-                >Hủy</a-button
               >
             </div>
           </div>
@@ -146,15 +148,21 @@ const onSubmit = handleSubmit(async (values) => {
     isSubmitting.value = true;
     const resData = await authStore.changePassword(values);
     if (resData?.data?._rawValue?.status == true) {
-      successToast("Đổi mật khẩu thành công", "Chuyển hướng đến trang account");
+      message.success({
+        content: "Đổi mật khẩu thành công",
+      });
       navigateTo("/account");
     } else {
       resErrors.value = resData.error.value.data?.errors;
-      errorToast("Đổi mật khẩu không thành công", "Vui lòng thử lại");
+      message.error({
+        content: "Đổi mật khẩu không thành công",
+      });
     }
   } catch (error) {
     // console.log(error);
-    errorToast("Đổi mật khẩu không thành công", "Vui lòng thử lại");
+    message.error({
+      content: "Đổi mật khẩu không thành công",
+    });
   } finally {
     isSubmitting.value = false;
   }
