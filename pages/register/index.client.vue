@@ -133,7 +133,7 @@
                 <div>
                   <a-button
                     html-type="submit"
-                    class="w-full bg-[#162D3A] h-[45px] !text-white hover:bg-slate-600 text-base"
+                    class="w-full bg-rtprimary h-[45px] !text-white hover:bg-rtsecondary text-base border-none"
                     :loading="isSubmitting"
                   >
                     Đăng ký
@@ -249,18 +249,21 @@ const onSubmit = handleSubmit(async (values) => {
     isSubmitting.value = true;
     const resData = await authStore.register(values);
     if (resData?.data?._rawValue?.status == true) {
-      successToast(
-        "Đăng ký thành công",
-        "Chuyển hướng đến trang xác thực mã OTP"
-      );
+      message.success({
+        content: "Đăng ký thành công",
+      });
       navigateTo(`/verify-code?email=${email.value.value}`);
     } else {
       resErrors.value = resData.error.value.data?.errors;
-      errorToast("Đăng ký không thành công", "Vui lòng thử lại");
+      message.error({
+        content: "Đăng ký không thành công",
+      });
     }
   } catch (error) {
     // console.log(error);
-    errorToast("Đăng ký không thành công", "Vui lòng thử lại");
+    message.error({
+      content: "Đăng ký không thành công",
+    });
   } finally {
     isSubmitting.value = false;
   }
@@ -273,20 +276,20 @@ const handleLoginSuccess = async (response: CredentialResponse) => {
     isSubmitting.value = true;
     const resData = await authStore.loginWithGoogle(credential);
     if (resData?.data?._rawValue?.status == true) {
-      successToast("Đăng nhập thành công", "Chào mừng bạn đến với ReadStation");
+      message.success({
+        content: "Đăng nhập thành công",
+      });
       navigateTo("/");
     } else {
       resErrors.value = resData.error.value.data.errors;
-      errorToast("Đăng nhập không thành công", "Vui lòng thử lại sau");
+      message.error({
+        content: "Đăng nhập không thành công",
+      });
     }
   } catch (error) {
     message.error({
       content: "Đăng nhập không thành công",
     });
-    errorToast(
-      "Đăng nhập không thành công",
-      "Vui lòng thử lại bằng cách đăng nhập bên trang đăng nhập"
-    );
   } finally {
     isSubmitting.value = false;
   }
@@ -294,9 +297,8 @@ const handleLoginSuccess = async (response: CredentialResponse) => {
 
 // handle an error event
 const handleLoginError = () => {
-  errorToast(
-    "Đăng nhập không thành công",
-    "Vui lòng thử lại bằng cách nhấn vào nút đăng nhập bên dưới"
-  );
+  message.error({
+    content: "Đăng nhập không thành công",
+  });
 };
 </script>

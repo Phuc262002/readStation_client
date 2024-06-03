@@ -47,7 +47,8 @@
               </p>
             </div>
             <div class="">
-              <a-button type="primary" danger class="h-10"
+              <a-button
+                class="h-10 bg-rtprimary hover:bg-rtsecondary !text-white border-none"
                 >Xóa tài khoản</a-button
               >
             </div>

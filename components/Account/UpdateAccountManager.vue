@@ -17,7 +17,7 @@
     </div>
     <form @submit="onSubmit">
       <div
-        class="flex flex-col bg-[#f9f9f9] shadow-md shadow-gray-300 rounded-md p-4"
+        class="flex flex-col bg-white shadow-md shadow-gray-300 rounded-md p-4"
       >
         <div class="border-b flex items-center justify-between py-4">
           <span class="w-1/2 h-8 flex items-center">Họ tên</span>
@@ -47,7 +47,7 @@
               <a-radio value="female">Nữ</a-radio>
             </a-radio-group>
 
-            <span v-else>{{ data?.gender === "male" ? "Nam" : "Nữ" }}</span>
+            <span v-else>{{ data?.gender === "female" ? "Nữ" : "Nam" }}</span>
           </div>
         </div>
 
@@ -190,12 +190,14 @@
           </div>
         </div>
         <div class="w-full flex items-center justify-center pt-5" v-if="isShow">
-          <a-button html-type="submit" class="mr-6 !text-white bg-[#3b8aea]"
+          <a-button
+            html-type="submit"
+            class="mr-6 !text-white bg-rtprimary h-10 border-none hover:bg-rtsecondary"
             >Lưu thay đổi</a-button
           >
           <a-button
             type="primary"
-            class="bg-[#D9D9D9] text-black"
+            class="bg-[#D9D9D9] text-black h-10 hover:!bg-rtprimary"
             @click="handleCancel"
             >Hủy</a-button
           >
