@@ -12,8 +12,8 @@
             <div
               class="flex justify-start items-center bg-[#F1ECFF] border border-gray-100 w-fit p-[5px] gap-3 mt-4 text-sm rounded-[20px]"
             >
-              <div class="h-4 w-4  bg-rtprimary rounded-full"></div>
-              <div class="text-rtprimary  w-fit text-sm font-normal">
+              <div class="h-4 w-4 bg-rtprimary rounded-full"></div>
+              <div class="text-rtprimary w-fit text-sm font-normal">
                 {{ postStore.post?.category?.name }}
               </div>
             </div>
@@ -42,7 +42,7 @@
         <div v-html="postStore.post?.summary" class="my-5 font-normal"></div>
         <div v-html="postStore.post?.content" class="my-5 font-normal"></div>
         <div
-          class="flex justify-between items-center p-5 border bg-[#0A1C8F]/[100%] w-full h-[70px] rounded-[10px] mb-5"
+          class="flex justify-between items-center p-5 border bg-rtprimary/100 w-full h-[70px] rounded-[10px] mb-5"
         >
           <div class="text-white font-semibold text-base">
             <p>Like what you see? Share with a friend.</p>
@@ -65,16 +65,18 @@
         </div>
         <hr class="mb-5" />
 
-        <div class="mb-5 font-bold text-[27px]">Related Articles</div>
+        <div class="mb-5 font-bold text-[27px]">Bài viết liên quan</div>
         <div class="grid grid-cols-3 gap-4">
-          <BlogDetailItem />
-          <BlogDetailItem />
-          <BlogDetailItem />
+          <BlogDetailItem
+            v-for="(post, index) in postStore.posts.posts.slice(1)"
+            :key="post.id || index"
+            :post="post"
+          />
         </div>
       </div>
 
       <div class="w-1/4 space-y-5">
-        <div class="p-5 border bg-[#3D22CF] w-full h-fit rounded-[10px]">
+        <div class="p-5 border bg-rtprimary/90 w-full h-fit rounded-[10px]">
           <div class="flex mb-5">
             <div class="">
               <a-avatar

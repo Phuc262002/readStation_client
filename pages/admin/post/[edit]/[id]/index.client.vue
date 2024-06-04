@@ -11,6 +11,10 @@
   
       <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
         <div class="flex flex-col gap-2 w-full pb-4">
+          <label class="text-sm font-semibold" for="">Thêm hình ảnh</label>
+          <CommonUploadImg :value="file" @input="(event) => (file = event)" />
+        </div>
+        <div class="flex flex-col gap-2 w-full pb-4">
           <label class="text-sm font-semibold" for="">Tên bài viết</label>
           <a-input
             size="large"
@@ -20,8 +24,8 @@
           />
         </div>
   
-        <div class="grid grid-cols-2 gap-4 pb-4">
-          <div class="flex flex-col gap-2 w-full">
+        <div class="flex gap-5 pb-4">
+          <div class="flex flex-col gap-2 w-1/3">
             <label class="text-sm font-semibold" for="">Danh mục</label>
             <a-select
               size="large"
@@ -35,7 +39,7 @@
               @change="handleChange"
             ></a-select>
           </div>
-          <div class="flex flex-col gap-2 w-full">
+          <div class="flex flex-col gap-2 w-1/3">
             <label class="text-sm font-semibold" for="">Trạng thái</label>
             <a-select
               size="large"
@@ -51,8 +55,8 @@
           </div>
         </div>
         <div class="flex flex-col gap-2 w-full  pb-4 ">
-          <label class="text-sm font-semibold" for="">Nội dung ngắn</label>
-          <a-textarea placeholder="Nhập nội dung ngắn" allow-clear />
+          <label class="text-sm font-semibold"  for="">Nội dung ngắn</label>
+          <a-textarea placeholder="Nhập nội dung ngắn":rows="6" allow-clear />
         </div>
         <div class="flex flex-col gap-2 f-full pb-4">
           <label class="text-sm font-semibold" for="">Nội dung</label>
@@ -62,20 +66,7 @@
           />
         </div>
   
-        <div>
-          <div>
-            <a-upload
-              v-model:file-list="fileList"
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              list-type="picture"
-            >
-              <a-button class="flex justify-center gap-2 items-center text-base">
-                <upload-outlined></upload-outlined>
-                upload
-              </a-button>
-            </a-upload>
-          </div>
-        </div>
+        
         <div class="flex items-end gap-4 pt-4">
           <a-button danger type="primary"> Hủy</a-button>
           <a-button type="primary"> Cập nhật</a-button>
