@@ -82,21 +82,11 @@
             <span>Quản lý đơn hàng</span>
           </span>
         </template>
-        <a-menu-item
-          key="12"
-          @click="navigateTo('/admin/product-manager/product')"
-          >Tất cả đơn hàng</a-menu-item
-        >
-        <a-menu-item
-          key="11"
-          @click="navigateTo('/admin/product-manager/create-product')"
-          >Thêm đơn hàng</a-menu-item
-        >
-        <a-menu-item
-          key="61"
-          @click="navigateTo('/admin/product-manager/trash-product')"
-          >Thùng rác</a-menu-item
-        >
+        <a-menu-item key="11">Thêm đơn hàng</a-menu-item>
+        <NuxtLink to="/admin/product-manager/product">
+          <a-menu-item key="12">Tất cả đơn hàng</a-menu-item>
+        </NuxtLink>
+        
       </a-sub-menu>
       <a-sub-menu key="sub2">
         <template #title>
@@ -239,16 +229,8 @@
             <span>Quản lý tác giả</span>
           </span>
         </template>
-        <a-menu-item key="32" @click="navigateTo('/admin/author')"
-          >Tất cả tác giả</a-menu-item
-        >
-        <a-menu-item key="35" @click="navigateTo('/admin/author/add-author')"
-          >Thêm tác giả</a-menu-item
-        >
-
-        <a-menu-item key="34" @click="navigateTo('/admin/author/trash-author')"
-          >Thùng rác</a-menu-item
-        >
+        <a-menu-item key="22">Thêm tác giả</a-menu-item>
+        <a-menu-item key="23">Tất cả tác giả</a-menu-item>
       </a-sub-menu>
 
       <a-sub-menu key="sub10">
