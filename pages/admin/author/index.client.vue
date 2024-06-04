@@ -133,11 +133,17 @@
                   <span>Xóa</span>
                 </template>
                 <span
-                  class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md">
-                  <button @click="showDeleteConfirm(record?.id)" class="flex items-center">
-                    <UIcon class="group-hover:text-[red]" name="i-material-symbols-delete-outline" />
+                  class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                >
+                  <button
+                    @click="showDeleteConfirm(record?.id)"
+                    class="flex items-center"
+                  >
+                    <UIcon
+                      class="group-hover:text-[red]"
+                      name="i-material-symbols-delete-outline"
+                    />
                   </button>
-                  <contextHolder />
                 </span>
               </a-tooltip>
             </div>
@@ -170,9 +176,9 @@ const onDelete = async (id: string) => {
   await AuthorStore.deleteAuthor(id);
   getDataAuthor()
 };
-const [modal, contextHolder] = Modal.useModal();
+
 const showDeleteConfirm = (id: string) => {
-  modal.confirm({
+  Modal.confirm({
     title: "Are you sure delete this task?",
     content: "Some descriptions",
     okText: "Yes",

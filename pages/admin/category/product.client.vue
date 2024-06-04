@@ -89,7 +89,6 @@
                         name="i-material-symbols-edit-outline"
                       />
                     </button>
-                    
                   </div>
                 </span>
               </a-tooltip>
