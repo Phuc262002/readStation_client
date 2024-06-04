@@ -26,7 +26,6 @@ import { ref } from 'vue';
 const getCategory = useCategoryStore(); 
 const isLoading = ref(false);
 const feauturedCategory = ref([]);
-console.log("🚀 ~ feauturedCategory:", feauturedCategory)
 const getData = async () => {
     try {
         isLoading.value = true;
