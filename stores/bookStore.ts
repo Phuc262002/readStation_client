@@ -6,6 +6,8 @@ export const useBookStore = defineStore("book-store", {
     return {
       books: [],
       adminBooks: [],
+      isLoading: false,
+      isSubmitting: false,
     };
   },
   actions: {
@@ -17,8 +19,10 @@ export const useBookStore = defineStore("book-store", {
     },
     async getAllBooks() {
       const data: any = await useCustomFetch("/api/v1/books");
+      this.books = data.data._value?.data;
       return data;
     },
+
     async createBook(valuecreateBook: any) {
       const data: any = await useCustomFetch("/api/v1/books/create-full", {
         method: "POST",
