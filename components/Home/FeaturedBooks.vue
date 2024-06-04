@@ -1,11 +1,11 @@
 <template>
-    <div class="bg-[#f2f0fe]">
+    <div class="bg-orange-100">
         <div class="px-5 py-7">
             <div class="flex justify-between gap-20 w-full  h-auto mx-auto container md:px-20 px-8">
                 <!-- left -->
                 <div class="flex flex-col gap-10 w-1/2">
                     <div class="flex flex-col justify-start gap-5">
-                        <h1 class="text-3xl font-bold">Featured Books</h1>
+                        <h1 class="text-3xl font-bold">Sách đặc sắc</h1>
                         <h1 class="text-balck">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos quam
                             assumenda voluptates sunt maxime eos nam. Ducimus laborum magni dolorem adipisci quasi,
                             id
@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <h1 class="font-bold text-xl">200.000đ</h1>
-                                    <button class="bg-rtprimary hover:bg-rtsecondary w-1/2 h-11 rounded-lg  text-white">Thuê
+                                    <button class="bg-rtprimary hover:bg-orange-300 w-1/2 h-11 rounded-lg  text-white">Thuê
                                         Ngay</button>
                                 </div>
                             </div>

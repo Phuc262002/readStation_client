@@ -2,10 +2,10 @@
     <div >
         <div class="h-auto mx-auto container md:px-20 px-8">
         <div class="flex justify-center gap-5">
-            <div class="bg-[#FFE6D5] w-1/2 rounded-lg  ">
+            <div class="bg-orange-200 w-1/2 rounded-lg  ">
                 <div class="p-8 ">
                     <div class="flex flex-col gap-5">
-                        <div class="text-4xl font-bold">Recomended for you</div>
+                        <div class="text-4xl font-bold">Đề xuất cho bạn</div>
                         <div>
                             <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga quos dignissimos cumque
                             </p>
@@ -28,10 +28,10 @@
 
                 </div>
             </div>
-            <div class="bg-[#D6EBFE] w-1/2 rounded-lg ">
+            <div class="bg-orange-200 w-1/2 rounded-lg ">
                 <div class="p-8">
                     <div class="flex flex-col gap-5">
-                        <div class="text-4xl font-bold">Polular in 2025</div>
+                        <div class="text-4xl font-bold">Nổi tiếng trong 2024</div>
                         <div>
                             <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga quos dignissimos cumque
                             </p>
