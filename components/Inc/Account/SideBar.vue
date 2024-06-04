@@ -8,7 +8,11 @@
   >
     <div class="text-center">
       <div class="flex items-center justify-center pt-3 relative">
-        <img class="rounded-full w-20 h-20" :src="data?.avatar" alt="" />
+        <img
+          class="rounded-full w-20 h-20"
+          :src="authStore?.authUser?.user?.avatar"
+          alt=""
+        />
         <button
           class="border-none absolute bottom-0 left-[calc(50%+25px)] -translate-x-1/2 w-6 h-6 bg-white rounded-full flex items-center justify-center"
           @click="showModalAdd"
@@ -19,9 +23,9 @@
       <AvatarAdd :openModalAdd="openModalAdd" :openModal="CloseModalAdd" />
 
       <div class="mt-[17px] mb-[23px]">
-        <h2 class="font-bold">{{ data?.fullname }}</h2>
+        <h2 class="font-bold">{{ authStore?.authUser?.user?.fullname }}</h2>
         <a-tag :bordered="false" color="purple" class="font-bold">{{
-          data?.role?.description
+          authStore?.authUser?.user?.role?.description
         }}</a-tag>
       </div>
     </div>
@@ -122,9 +126,9 @@ const changeAvatarRef = ref(null);
 const openModalAdd = ref<boolean>(false);
 
 //Create the form
-const { defineInputBinds, setFieldValue } = useForm({
-  validationSchema: {},
-});
+// const { defineInputBinds, setFieldValue } = useForm({
+//   validationSchema: {},
+// });
 
 //get API
 const data = ref(null);
@@ -134,23 +138,23 @@ const logout = async () => {
 };
 
 // Define fields
-const fullname = defineInputBinds("fullname");
-const role = defineInputBinds("role");
-const avatar = defineInputBinds("avatar");
+// const fullname = defineInputBinds("fullname");
+// const role = defineInputBinds("role");
+// const avatar = defineInputBinds("avatar");
 
-useAsyncData(async () => {
-  try {
-    const response = await authStore.getProfile();
-    data.value = response.data._rawValue.data;
-    setFieldValue("fullname", data.value.fullname);
-    setFieldValue("role", data.value.role);
-    setFieldValue("avatar", data.value.avatar);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    isLoading.value = false;
-  }
-});
+// useAsyncData(async () => {
+//   try {
+//     const response = await authStore.getProfile();
+//     data.value = response.data._rawValue.data;
+//     setFieldValue("fullname", data.value.fullname);
+//     setFieldValue("role", data.value.role);
+//     setFieldValue("avatar", data.value.avatar);
+//   } catch (error) {
+//     console.error(error);
+//   } finally {
+//     isLoading.value = false;
+//   }
+// });
 
 const showModalAdd = () => {
   openModalAdd.value = true;
