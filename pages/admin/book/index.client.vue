@@ -113,14 +113,20 @@
   </div>
 </template>
 <script lang="ts" setup>
-
+const isLoading = ref(false);
 import { ref } from "vue";
 const allAdminBooks = useBookStore();
-console.log("🚀 ~ allAdminBooks:", allAdminBooks?.adminBooks?.books)
-
 const getAllAdminBooks = async () => {
-  const data: any = await allAdminBooks.getAdminBooks({});
-  return data;
+  try {
+    isLoading.value = true;
+    const data: any = await allAdminBooks.getAdminBooks({});
+    return data;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
+
 };
 useAsyncData(async () => {
   await getAllAdminBooks();
@@ -140,7 +146,7 @@ const showModal = () => {
   open.value = true;
 };
 const columns = [
-{
+  {
     title: "Tên sách",
     dataIndex: "title",
     key: "title",

@@ -46,7 +46,6 @@
             :loading="categoryStore.isSubmitting"
             class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary mt-4 "
             html-type="submit"
-          
             >Lưu</a-button
           >
         </div>

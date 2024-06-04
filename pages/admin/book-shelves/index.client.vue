@@ -19,46 +19,13 @@
           </div>
         </div>
         <div class="">
-          <a-button type="primary" @click="showModalAdd">Thêm tủ sách</a-button>
-          <a-modal v-model:open="openModalAdd" title="Thêm tủ sách" :footer="null">
-            <form @submit.prevent="onSubmit">
-              <div class="bg-white py-2">
-                <div class="grid grid-rows-2 gap-4 my-3">
-                  <div class="space-y-6">
-                    <div>
-                      <label for="">Mô tả</label>
-                      <a-input type="text" class="border p-2 rounded-md" placeholder="Mô tả" />
-                    </div>
-                    <div>
-                      <label for="">bookshelf_code</label>
-                      <a-input type="text" class="border p-2 rounded-md" placeholder="Bookshelf_code" />
-                    </div>
-                  </div>
-                  <div class="grid grid-cols-2 gap-5">
-                    <!-- <div>
-                      <label for="">Tủ sách</label>
-                      <<a-select v-model:value="valuecreateBook.shelve_id" show-search placeholder="Mã tủ sách"
-                        :options="optionsShelve" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
-                        @change="handleChange"></a-select>
-                    </div> -->
-                    <div class="flex flex-col gap-2">
-                      <label for="">Danh mục</label>
-                      <a-select show-search placeholder="Mã danh mục" :options="optionsCategory"></a-select>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="flex justify-end items-end gap-4">
-                  <a-button @click="onCancel" type="primary" danger html-type="button" class="mt-4">Hủy</a-button>
-                  <a-button type="primary" html-type="submit" class="mt-4">Lưu</a-button>
-                </div>
-              </div>
-            </form>
-          </a-modal>
+          <a-button type="primary" @click="showModalAdd">Thêm kệ sách</a-button>
+          <BookShelvesCreate :openModalAdd="openModalAdd" :openModal="CloseModalAdd" />
+          <BookShelvesEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit" :shelvesId="shelvesId" />
         </div>
       </div>
 
-      <a-table :columns="columns" :data-source="dataShelves">
+      <a-table :columns="columns" :data-source="dataShelves" :loading="shelvesValue.isLoading">
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
             <span> Mã tủ sách </span>
@@ -83,15 +50,6 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top" color="gold">
-                <template #title>
-                  <span>Xem chi tiết</span>
-                </template>
-                <span
-                  class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md">
-                  <UIcon class="group-hover:text-[#faad14]" name="i-icon-park-outline-eyes" />
-                </span>
-              </a-tooltip>
               <a-tooltip placement="top" color="green">
                 <template #title>
                   <span>Sửa</span>
@@ -99,10 +57,10 @@
                 <span
                   class="group hover:bg-[green]/20 bg-[#e4e1e1] flex justify-center items-center cursor-pointer w-8 h-8 rounded-md">
                   <div>
-                    <button class="flex items-center" @click="showModalEdit">
+                    <button @click="showModalEdit(record?.id)">
                       <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
                     </button>
-                    <a-modal v-model:open="openModalEdit" title="Sửa">
+                    <!-- <a-modal v-model:open="openModalEdit" title="Sửa">
                       <div class="">
                         <div class="bg-white py-2">
                           <div class="pb-4">
@@ -133,7 +91,7 @@
                           </div>
                         </div>
                       </div>
-                    </a-modal>
+                    </a-modal> -->
                   </div>
                 </span>
               </a-tooltip>
@@ -141,14 +99,10 @@
                 <template #title>
                   <span>Xóa</span>
                 </template>
-                <span
-                  class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md">
-                  <a-popconfirm title="Are you sure delete this task?" placement="right" ok-text="Yes" cancel-text="No"
-                    @confirm="confirm" @cancel="cancel">
-                    <button class="flex items-center">
-                      <UIcon class="group-hover:text-[red]" name="i-material-symbols-delete-outline" />
-                    </button>
-                  </a-popconfirm>
+                <span class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md">
+                  <button @click="showDeleteConfirm(record?.id)" class="flex items-center">
+                    <UIcon class="group-hover:text-[red]" name="i-material-symbols-delete-outline" />
+                  </button>
                 </span>
               </a-tooltip>
             </div>
@@ -160,71 +114,65 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue';
-import type { SelectProps } from "ant-design-vue";
-const optionsCategory = ref([]);
-const categoryValue = useCategoryStore();
-const getDataCategory = async () => {
-  try {
-    const data = await categoryValue.getAllCategory({ type: "book" });
-    optionsCategory.value = data.data._rawValue.data.categories.map((items) => {
-      return {
-        value: items.id,
-        label: items.id,
-      };
-    })
-  } catch (error) {
-    console.error(error);
-  } finally {
-  }
-};
+import { Modal } from "ant-design-vue";
+const isLoading = ref(false);
+const openModalEdit = ref<boolean>(false);
+const openModalAdd = ref<boolean>(false);
+const shelvesId = ref<number>();
 
 const shelvesValue = useShelvesStore();
 const dataShelves = ref([]);
 const getData = async () => {
-  const data = await shelvesValue.getAllShelves({});
-  dataShelves.value = data?.data?._rawValue?.data?.shelves;
-  return data;
+  try {
+    isLoading.value = true;
+    const data = await shelvesValue.getAllShelves({});
+    dataShelves.value = data?.data?._rawValue?.data?.shelves;
+    return data;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
 }
-const onSubmit = () => {
-  alert(1)
-}
+const onDelete = async (id: string) => {
+  await shelvesValue.deleteShelves(id);
+  await getData();
+};
+const showDeleteConfirm = (id: string) => {
+  Modal.confirm({
+    title: "Are you sure delete this task?",
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      onDelete(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+};
+
+
 
 
 useAsyncData(async () => {
   await getData();
-  await getDataCategory();
 });
 
-
-
-
-const focus = () => {
-  console.log("focus");
+const CloseModalAdd = () => {
+  openModalAdd.value = false;
 };
-
-const handleChange = (value: string) => {
-  console.log(`selected ${value}`);
+const CloseModalEdit = () => {
+  openModalEdit.value = false;
 };
-const confirm = (e: MouseEvent) => {
-  console.log(e);
-  message.success("Xóa thành công");
-};
-
-const cancel = (e: MouseEvent) => {
-  console.log(e);
-  message.error("Xóa thất bại");
-};
-const openModalEdit = ref<boolean>(false);
-const openModalAdd = ref<boolean>(false);
-
 const showModalAdd = () => {
   openModalAdd.value = true;
 };
-const showModalEdit = () => {
+const showModalEdit = (id: number) => {
   openModalEdit.value = true;
-};
-const onCancel = () => {
-  openModalAdd.value = false;
+  shelvesId.value = id;
 };
 const columns = [
   {
@@ -238,15 +186,16 @@ const columns = [
     key: "description",
   },
   {
-    title: "Mã tủ sách",
-    dataIndex: "bookcase",
-    key: "bookcase_id",
-  },
-  {
     title: "bookshelf_code",
     dataIndex: "bookshelf_code",
     key: "bookshelf_code",
   },
+  {
+    title: "Mã tủ sách",
+    dataIndex: "bookcase",
+    key: "bookcase_id",
+  },
+
   {
     title: "Mã danh mục",
     dataIndex: "category",
@@ -257,6 +206,5 @@ const columns = [
     key: "action",
   },
 ];
-
 
 </script>
