@@ -1,5 +1,5 @@
 <template>
-  <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
+  <div class="">
     <h1 class="text-xl text-[#1e293b] font-semibold pb-3">
       Danh sách đơn hàng
     </h1>

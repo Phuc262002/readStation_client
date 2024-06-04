@@ -1,0 +1,108 @@
+<template>
+    <div>
+      <div
+        class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
+      >
+        <div class="grow">
+          <h5 class="text-xl text-[#1e293b] font-semibold">Chỉnh sửa bài viết</h5>
+        </div>
+        <CommonBreadcrumAdmin />
+      </div>
+  
+      <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
+        <div class="flex flex-col gap-2 w-full pb-4">
+          <label class="text-sm font-semibold" for="">Thêm hình ảnh</label>
+          <CommonUploadImg :value="file" @input="(event) => (file = event)" />
+        </div>
+        <div class="flex flex-col gap-2 w-full pb-4">
+          <label class="text-sm font-semibold" for="">Tên bài viết</label>
+          <a-input
+            size="large"
+            type="text"
+            class="border rounded-md"
+            placeholder="Tên bài viết"
+          />
+        </div>
+  
+        <div class="flex gap-5 pb-4">
+          <div class="flex flex-col gap-2 w-1/3">
+            <label class="text-sm font-semibold" for="">Danh mục</label>
+            <a-select
+              size="large"
+              v-model:value="value"
+              show-search
+              placeholder="Danh mục"
+              :options="options"
+              :filter-option="filterOption"
+              @focus="handleFocus"
+              @blur="handleBlur"
+              @change="handleChange"
+            ></a-select>
+          </div>
+          <div class="flex flex-col gap-2 w-1/3">
+            <label class="text-sm font-semibold" for="">Trạng thái</label>
+            <a-select
+              size="large"
+              v-model:value="value"
+              show-search
+              placeholder="Trạng thái"
+              :options="options"
+              :filter-option="filterOption"
+              @focus="handleFocus"
+              @blur="handleBlur"
+              @change="handleChange"
+            ></a-select>
+          </div>
+        </div>
+        <div class="flex flex-col gap-2 w-full  pb-4 ">
+          <label class="text-sm font-semibold"  for="">Nội dung ngắn</label>
+          <a-textarea placeholder="Nhập nội dung ngắn":rows="6" allow-clear />
+        </div>
+        <div class="flex flex-col gap-2 f-full pb-4">
+          <label class="text-sm font-semibold" for="">Nội dung</label>
+          <CommonCKEditor
+            :value="content"
+            @input="(event) => (content = event)"
+          />
+        </div>
+  
+        
+        <div class="flex items-end gap-4 pt-4">
+          <a-button danger type="primary"> Hủy</a-button>
+          <a-button type="primary"> Cập nhật</a-button>
+        </div>
+      </div>
+    </div>
+  </template>
+  <script setup>
+  const content = ref("");
+  
+  const options = ref([
+    {
+      value: "CNTT",
+      label: "CNTT",
+    },
+    {
+      value: "Y dược",
+      label: "Y dược",
+    },
+  ]);
+  
+  watchEffect(() => {
+    console.log(content);
+  });
+  
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+  const handleBlur = () => {
+    console.log("blur");
+  };
+  const handleFocus = () => {
+    console.log("focus");
+  };
+  const filterOption = (input, option) => {
+    return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+  };
+  </script>
+  

@@ -36,7 +36,6 @@ export const useBaseStore = defineStore("base-store", {
       return data;
     },
     async getWards(districtsId: any) {
-      console.log(1);
       const data: any = await useFetch(
         `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward`,
         {
@@ -50,6 +49,16 @@ export const useBaseStore = defineStore("base-store", {
           }),
         }
       );
+      return data;
+    },
+    async uploadImg(file: any) {
+      const data: any = await useFetch(`https://api.imgur.com/3/image`, {
+        method: "POST",
+        headers: {
+          Authorization: "Client-ID 477a6fa90aba78e",
+        },
+        body: file,
+      });
       return data;
     },
   },

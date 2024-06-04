@@ -2,71 +2,45 @@
     <div class=" h-auto mx-auto container md:px-20 px-8">
         <div class="px-5 py-7 flex flex-col gap-20">
             <div class="text-3xl font-bold">
-                Categories
+                Thể loại
             </div>
-            <div class="flex justify-center items-center gap-16 ">
-                <div class="flex flex-col items-center gap-5">
-                    <div class="w-40 h-40 border rounded-full relative bg-[##F6F6F6] hover:bg-[#f65d4e]">
+            <div class="grid grid-cols-6 gap-10 ">
+                <div class="flex flex-col items-center gap-5" v-for="(category,index) in feauturedCategory" :key="category">
+                    <div class="w-40 h-40 border rounded-full relative bg-[##F6F6F6] hover:bg-orange-300">
                         <div
-                            class="absolute flex justify-center items-center bottom-5 hover:hover:-translate-y-4 transition-transform">
-                            <img src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/h6_cat8.png"
+                            class="absolute flex justify-center left-5  items-center bottom-9 hover:hover:-translate-y-4 transition-transform">
+                            <img class="w-32 h-38" :src="category?.image"
                                 alt="">
                         </div>
                     </div>
-                    <div class="text-xl font-semibold">Romance Books</div>
-                </div>
-                <div class="flex flex-col items-center gap-5">
-                    <div class="w-40 h-40 border rounded-full relative bg-[##F6F6F6] hover:bg-[#f65d4e]">
-                        <div
-                            class="absolute flex justify-center items-center bottom-5 hover:hover:-translate-y-4 transition-transform">
-                            <img src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/h6_cat9.png"
-                                alt="">
-                        </div>
-                    </div>
-                    <div class="text-xl font-semibold">Romance Books</div>
-                </div>
-                <div class="flex flex-col items-center gap-5">
-                    <div class="w-40 h-40 border rounded-full relative bg-[##F6F6F6] hover:bg-[#f65d4e]">
-                        <div
-                            class="absolute flex justify-center items-center bottom-5 hover:hover:-translate-y-4 transition-transform">
-                            <img src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/h6_cat1.png"
-                                alt="">
-                        </div>
-                    </div>
-                    <div class="text-xl font-semibold">Romance Books</div>
-                </div>
-                <div class="flex flex-col items-center gap-5">
-                    <div class="w-40 h-40 border rounded-full relative bg-[##F6F6F6] hover:bg-[#f65d4e]">
-                        <div
-                            class="absolute flex justify-center items-center bottom-5 hover:hover:-translate-y-4 transition-transform">
-                            <img src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/h6_cat6.png"
-                                alt="">
-                        </div>
-                    </div>
-                    <div class="text-xl font-semibold">Romance Books</div>
-                </div>
-                <div class="flex flex-col items-center gap-5">
-                    <div class="w-40 h-40 border rounded-full relative bg-[##F6F6F6] hover:bg-[#f65d4e]">
-                        <div
-                            class="absolute flex justify-center items-center bottom-5 hover:hover:-translate-y-4 transition-transform">
-                            <img src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/h6_cat5.png"
-                                alt="">
-                        </div>
-                    </div>
-                    <div class="text-xl font-semibold">Romance Books</div>
-                </div>
-                <div class="flex flex-col items-center gap-5">
-                    <div class="w-40 h-40 border rounded-full relative bg-[##F6F6F6] hover:bg-[#f65d4e]">
-                        <div
-                            class="absolute flex justify-center items-center bottom-5 hover:hover:-translate-y-4 transition-transform">
-                            <img src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/11/h6_cat7.png"
-                                alt="">
-                        </div>
-                    </div>
-                    <div class="text-xl font-semibold">Romance Books</div>
+                    <div class="text-xl font-semibold">{{category?.name}}</div>
                 </div>
             </div>
 
         </div>
     </div>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+const getCategory = useCategoryStore(); 
+const isLoading = ref(false);
+const feauturedCategory = ref([]);
+console.log("🚀 ~ feauturedCategory:", feauturedCategory)
+const getData = async () => {
+    try {
+        isLoading.value = true;
+        const data = await getCategory.getFeauturedCategory();
+        feauturedCategory.value = data?.data?._rawValue?.data;
+    } catch (error) {
+        console.error(error);
+    }finally{
+        isLoading.value = false;
+    }
+  
+} 
+useAsyncData(async () => {
+    await getData();
+});
+
+</script>

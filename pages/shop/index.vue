@@ -200,7 +200,9 @@
             <div
               class="flex gap-5 justify-between items-center px-4 h-fit border-t"
             >
-              <div class="text-base">{{ dataBooks?.totalResults }} sản phẩm</div>
+              <div class="text-base">
+                {{ dataBooks?.totalResults }} sản phẩm
+              </div>
               <div class="text-base px-4 py-3 text-right flex items-center">
                 <div class="px-4 text-[#cac9cd]">Sắp xếp</div>
                 <a-select
@@ -218,12 +220,15 @@
           </div>
 
           <div>
-            <div v-if="isLoading" class="flex items-center justify-center py-10">
+            <div
+              v-if="isLoading"
+              class="flex items-center justify-center py-10"
+            >
               <a-spin></a-spin>
             </div>
             <div class="grid grid-cols-3">
               <NuxtLink
-                v-for="(book, index) in dataBooks?.books"
+                v-for="(book, index) in bookstore?.books?.books"
                 :key="index"
                 :to="`/product/${book.slug}`"
               >
@@ -247,7 +252,6 @@
 <script setup>
 import { ref } from "vue";
 
-
 const showCategories = {
   category1: ref(false),
   category2: ref(false),
@@ -255,23 +259,23 @@ const showCategories = {
   category4: ref(false),
 };
 
-    const bookstore = useBookStore();
-    const dataBooks = ref({});
-    const isLoading = ref(false);
+const bookstore = useBookStore();
+const dataBooks = ref({});
+const isLoading = ref(false);
 
-    useAsyncData(async () => {
-      isLoading.value = true;
-      try {
-        const response = await bookstore.getAllBooks();
-        dataBooks.value = response?.data?._rawValue?.data;
-      } catch (error) {
-        console.error(error);
-      } finally {
-        isLoading.value = false;
-      }
-    });
+useAsyncData(async () => {
+  isLoading.value = true;
+  try {
+    const response = await bookstore.getAllBooks();
+    dataBooks.value = response?.data?._rawValue?.data;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
+});
 
-    const toggleCategories = (category) => {
+const toggleCategories = (category) => {
   showCategories[category].value = !showCategories[category].value;
   const bookIcon = document.getElementById(
     `bookIcon${category.charAt(category.length - 1)}`
@@ -288,8 +292,6 @@ const handleChange = (value) => {
   console.log(`selected ${value}`);
 };
 const current = ref(1);
-
-
 </script>
 <style scoped>
 :deep(.ant-select-selector) {

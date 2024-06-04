@@ -12,14 +12,13 @@
             <div
               class="flex justify-start items-center bg-[#F1ECFF] border border-gray-100 w-fit p-[5px] gap-3 mt-4 text-sm rounded-[20px]"
             >
-              <div class="h-4 w-4 bg-[#6C40FF] rounded-full"></div>
-              <div class="text-[#6C40FF] w-fit text-sm font-normal">
-                Artificial Intelligence
+              <div class="h-4 w-4 bg-rtprimary rounded-full"></div>
+              <div class="text-rtprimary w-fit text-sm font-normal">
+                {{ postStore.post?.category?.name }}
               </div>
             </div>
             <p class="text-white w-2/3 text-[27px] pt-2 font-bold">
-              The Impact of Technology on the Workplace: How Technology is
-              Changing
+              {{ postStore.post?.title }}
             </p>
             <div class="pt-4">
               <div
@@ -27,36 +26,23 @@
               >
                 <div class="flex items-center gap-3">
                   <!-- <a-avatar class="" src="https://cdn.pixabay.com/photo/2020/05/09/13/29/photographer-5149664_1280.jpg" /> -->
-                  <p>Oct 19</p>
+                  <p>
+                    {{
+                      $dayjs(postStore.post?.created_at).format("DD/MM/YYYY")
+                    }}
+                  </p>
                 </div>
                 <div class="h-1 w-1 bg-white rounded-full"></div>
-                <p>10 min read</p>
+                <p>{{ postStore.post?.view }}</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="my-5 font-normal">
-          Exploring Generative AI in Content Creation Hello there! As a
-          marketing manager in the SaaS industry, you might be looking for
-          innovative ways to engage your audience. I bet generative AI has
-          crossed your mind as an option for creating content. Well, let me
-          share from my firsthand experience. Google encourages high-quality
-          blogs regardless of whether they're written by humans or created using
-          artificial intelligence like ChatGPT. Here's what matters: producing
-          original material with expertise and trustworthiness based on Google
-          E-E-A-T principles. This means focusing more on people-first writing
-          rather than primarily employing AI tools to manipulate search
-          rankings. There comes a time when many experienced professionals want
-          to communicate their insights but get stuck due to limited writing
-          skills – that’s where Generative AI can step in. So, together, we’re
-          going explore how this technology could help us deliver valuable
-          content without sounding robotic or defaulting into mere
-          regurgitations of existing materials (spoiler alert – common
-          pitfalls!). Hang tight - it’ll be a fun learning journey!
-        </div>
+        <div v-html="postStore.post?.summary" class="my-5 font-normal"></div>
+        <div v-html="postStore.post?.content" class="my-5 font-normal"></div>
         <div
-          class="flex justify-between items-center p-5 border bg-[#0A1C8F]/[100%] w-full h-[70px] rounded-[10px] mb-5"
+          class="flex justify-between items-center p-5 border bg-rtprimary/100 w-full h-[70px] rounded-[10px] mb-5"
         >
           <div class="text-white font-semibold text-base">
             <p>Like what you see? Share with a friend.</p>
@@ -75,20 +61,22 @@
         </div>
 
         <div>
-          <BlogComment/>
+          <BlogComment />
         </div>
         <hr class="mb-5" />
 
-        <div class="mb-5 font-bold text-[27px]">Related Articles</div>
+        <div class="mb-5 font-bold text-[27px]">Bài viết liên quan</div>
         <div class="grid grid-cols-3 gap-4">
-          <BlogDetailItem />
-          <BlogDetailItem />
-          <BlogDetailItem />
+          <BlogDetailItem
+            v-for="(post, index) in postStore.posts.posts.slice(1)"
+            :key="post.id || index"
+            :post="post"
+          />
         </div>
       </div>
 
       <div class="w-1/4 space-y-5">
-        <div class="p-5 border bg-[#3D22CF] w-full h-fit rounded-[10px] ">
+        <div class="p-5 border bg-rtprimary/90 w-full h-fit rounded-[10px]">
           <div class="flex mb-5">
             <div class="">
               <a-avatar
@@ -136,7 +124,7 @@
             </div>
           </div>
         </div>
-        <div class="bg-white rounded-lg hover:shadow-md p-5 ">
+        <div class="bg-white rounded-lg hover:shadow-md p-5">
           <div class="border-b-2 font-semibold mb-2">Bài viết nổi bật</div>
           <div class="space-y-4">
             <div class="flex space-x-2">
@@ -181,3 +169,16 @@
     </div>
   </div>
 </template>
+<script setup>
+const route = useRoute();
+const slug = route.params.slug;
+const postStore = usePostStore();
+
+useAsyncData(async () => {
+  try {
+    await postStore.getOnePost(slug);
+  } catch (error) {
+    console.error(error);
+  }
+});
+</script>

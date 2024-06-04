@@ -9,89 +9,123 @@
 
         <!-- Đây là phần code mẫu body -->
         <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
-            <div class="flex flex-col gap-10">
-                <div class="flex flex-col gap-2 w-1/2">
+            <div class="flex flex-col gap-0">
+                <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold">Vai trò</label>
                     <div class="flex justify-start gap-4">
-                        <a-checkbox @click="setRole('Khách hàng')" :checked="role === 'Khách hàng'">Khách hàng</a-checkbox>
-                        <a-checkbox @click="setRole('Học sinh')" :checked="role === 'Học sinh'">Học sinh</a-checkbox>
-                        <a-checkbox @click="setRole('Quản thư')" :checked="role === 'Quản thư'">Quản thư</a-checkbox>
-                        <a-checkbox @click="setRole('Admin')" :checked="role === 'Admin'">Admin</a-checkbox>
+                        <a-checkbox @click="setRole('Customer')" :checked="role === 'Customer'">Khách hàng</a-checkbox>
+                        <a-checkbox @click="setRole('Manager')" :checked="role === 'Manager'">Quản thư</a-checkbox>
+                        <a-checkbox @click="setRole('Student')" :checked="role === 'Student'">Học sinh</a-checkbox>
+                        
+
                     </div>
                 </div>
-                <!-- Khách hàng, Admin, Quản thư -->
-                <div class="flex flex-col gap-5" v-if="role === 'Khách hàng'">
-                    <div class="flex justify-between">
-                        <div class="flex flex-col gap-2 w-1/5">
-                            <label class="text-sm font-semibold" for="">Họ và tên</label>
-                            <a-input type="text" class="border p-2 rounded-md" placeholder="Họ và tên" />
-                        </div>
-                        <div class="flex flex-col gap-2 w-1/5">
-                            <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
-                            <a-input type="date" class="border p-2 rounded-md" />
-                        </div>
 
-                        <div class="flex flex-col gap-2 w-1/5">
-                            <label class="text-sm font-semibold">Giới tính</label>
-                            <div class="flex justify-start gap-4">
-                                <a-checkbox>Nam</a-checkbox>
-                                <a-checkbox>Nữ</a-checkbox>
+                <!-- Customer, Manager -->
+                <div class="grid grid-rows-4 gap-5 my-5" v-if = "role === 'Customer' || role === 'Manager' ">
+                    <div class="grid grid-cols-4 gap-10">
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Họ và tên</label>
+                                <a-input type="text" class="border p-2 rounded-md" placeholder="Họ và tên" />
                             </div>
                         </div>
-                        <div class="flex flex-col gap-2 w-1/5">
+                        <div>
+                            <div class="flex flex-col gap-2 ">
+                                <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
+                                <a-input type="date" class="border p-2 rounded-md" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex justify-between ">
-                        <div class="flex flex-col gap-2 w-1/5">
-                            <label class="text-sm font-semibold" for="">Số điện thoại</label>
-                            <a-input type="" class="border p-2 rounded-md" placeholder="Số điện thoại" />
-                        </div>
-                        <div class="flex flex-col gap-2 w-1/5">
-                            <label class="text-sm font-semibold" for="">Email</label>
-                            <a-input type="text" class="border p-2 rounded-md" placeholder="Email" />
-                        </div>
-                        <div class="flex flex-col gap-2 w-1/5">
-                            <label class="text-sm font-semibold" for="">Công việc</label>
-                            <a-select v-model:value="value" show-search placeholder="Công việc" :options="options"
-                                :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
-                                @change="handleChange"></a-select>
-                        </div>
-                        <div class="flex flex-col gap-2 w-1/5">
-                            <label class="text-sm font-semibold" for="">CMT/ CCCD</label>
-                            <a-input type="" class="border p-2 rounded-md" placeholder="ID card" />
+                        <div>
+                            <div class="flex flex-col gap-2 ">
+                                <label class="text-sm font-semibold">Giới tính</label>
+                                <div class="flex justify-start gap-4">
+                                    <a-checkbox>Nam</a-checkbox>
+                                    <a-checkbox>Nữ</a-checkbox>
+                                </div>
+                            </div>
                         </div>
 
+                    </div>
+                    <div class="grid grid-cols-4 gap-4">
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Số điện thoại</label>
+                                <a-input type="" class="border p-2 rounded-md" placeholder="Số điện thoại" />
+                            </div>
+
+                        </div>
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Email</label>
+                                <a-input type="text" class="border p-2 rounded-md" placeholder="Email" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Công việc</label>
+                                <a-select  v-model:value="value" show-search placeholder="Chọn công việc" style="height: 40px;"
+                                    :options="options" :filter-option="filterOption" @focus="handleFocus"
+                                    @blur="handleBlur" @change="handleChange"></a-select>
+                            </div>
+                        </div>
 
                     </div>
-                    <div class="flex justify-between items-center">
-                        <div class="flex flex-col gap-2 w-1/5">
+                    <div class="grid grid-cols-4 gap-4">
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">CMT/ CCCD</label>
+                                <a-input type="text" class="border p-2 rounded-md" placeholder="Mã số CMT/ CCCD" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Họ tên</label>
+                                <a-input type="text" class="border p-2 rounded-md" placeholder="Họ tên" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Ngày cấp</label>
+                                <a-input type="date" class="border p-2 rounded-md" placeholder="Ngày cấp" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Nơi cấp</label>
+                                <a-input type="text" class="border p-2 rounded-md" placeholder="Nơi cấp" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-4">
+                        <div class="flex flex-col gap-2 ">
                             <label class="text-sm font-semibold" for="">Tỉnh/ Thành phố</label>
                             <a-select v-model:value="valuePronvines" show-search placeholder="Tỉnh/Thành phố"
                                 :options="provinces" :filter-option="filterOption" @focus="handleFocus"
                                 @blur="handleBlur" @change="handleChangeProvince">
                             </a-select>
                         </div>
-                        <div class="flex flex-col gap-2 w-1/5">
+                        <div class="flex flex-col gap-2 ">
                             <label class="text-sm font-semibold" for="">Quận/ Huyện</label>
                             <a-select v-model:value="valueDistricts" show-search placeholder="Quận/Huyện"
                                 :options="districts" :filter-option="filterOption" @focus="handleFocus"
                                 @blur="handleBlur" @change="handleChangeDistrict">
                             </a-select>
                         </div>
-                        <div class="flex flex-col gap-2 w-1/5">
+                        <div class="flex flex-col gap-2 ">
                             <label class="text-sm font-semibold" for="">Phường/ Xã</label>
                             <a-select v-model:value="valueWards" show-search placeholder="Phường/Xã" :options="wards"
                                 :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
                                 @change="handleChangeWard">
                             </a-select>
                         </div>
-                        <div class="flex flex-col gap-2 w-1/5">
+                        <div class="flex flex-col gap-2 ">
                             <label class="text-sm font-semibold" for="">Đường</label>
                             <a-input v-model:value="address.street" class="border p-2 rounded-md "
                                 placeholder="Đường" />
                         </div>
                     </div>
-                    <div class="flex">
+                    <div class="grid gird-cols-1">
                         <div class="flex flex-col gap-2 w-full">
                             <label for="">Địa chỉ cụ thể</label>
                             <a-input class="h-11"
@@ -111,93 +145,137 @@
                         </div>
                     </div>
                 </div>
-                <!-- Học Sinh -->
-                <div class="flex flex-col gap-5" v-else>
-                    <div class="flex justify-between">
-                        <div class="flex flex-col gap-2 w-1/5">
-                            <label class="text-sm font-semibold" for="">Họ và tên</label>
-                            <a-input type="text" class="border p-2 rounded-md" placeholder="Họ và tên" />
-                        </div>
-                        <div class="flex flex-col gap-2 w-1/5">
-                            <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
-                            <a-input type="date" class="border p-2 rounded-md" />
-                        </div>
-
-                        <div class="flex flex-col gap-2 w-1/5">
-                            <label class="text-sm font-semibold">Giới tính</label>
-                            <div class="flex justify-start gap-4">
-                                <a-checkbox>Nam</a-checkbox>
-                                <a-checkbox>Nữ</a-checkbox>
+                <!-- Student-->
+                <div class="grid grid-rows-4 gap-5 my-5" v-else>
+                    <div class="grid grid-cols-4 gap-10">
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Họ và tên</label>
+                                <a-input type="text" class="border p-2 rounded-md" placeholder="Họ và tên" />
                             </div>
                         </div>
-                        <div class="flex flex-col gap-2 w-1/5">
+                        <div>
+                            <div class="flex flex-col gap-2 ">
+                                <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
+                                <a-input type="date" class="border p-2 rounded-md" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex justify-between ">
-                        <div class="flex flex-col gap-2 w-1/5">
-                            <label class="text-sm font-semibold" for="">Số điện thoại</label>
-                            <a-input type="" class="border p-2 rounded-md" placeholder="Số điện thoại" />
-                        </div>
-                        <div class="flex flex-col gap-2 w-1/5">
-                            <label class="text-sm font-semibold" for="">Email</label>
-                            <a-input type="text" class="border p-2 rounded-md" placeholder="Email" />
-                        </div>
-                        <div class="flex flex-col gap-2 w-1/5">
-                            <label class="text-sm font-semibold" for="">Công việc</label>
-                            <a-input type="" class="border p-2 rounded-md" value="Học sinh, siên viên" readonly />
-                        </div>
-                        <div class="flex flex-col gap-2 w-1/5">
-
-                        </div>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <div class="flex flex-col gap-2 w-1/5">
-                            <label class="text-sm font-semibold" for="">CMT/ CCCD</label>
-                            <a-input type="" class="border p-2 rounded-md" placeholder="ID card" />
-                        </div>
-                        <div class="flex flex-col gap-2 w-1/5">
-                            <label class="text-sm font-semibold" for="">Mã số sinh viên</label>
-                            <a-input type="" class="border p-2 rounded-md" placeholder="ID sinh viên" />
-                        </div>
-                        <div class="flex flex-col gap-2 w-1/5">
-                            <label class="text-sm font-semibold" for="">Trường học /Cao đẳng /Đại học</label>
-                            <a-input type="" class="border p-2 rounded-md" placeholder="Trường học" />
-                        </div>
-                        <div class="flex flex-col gap-2 w-1/5">
-                            <label class="text-sm font-semibold" for="">Ngày kết thúc năm học</label>
-                            <a-input type="date" class="border p-2 rounded-md" />
+                        <div>
+                            <div class="flex flex-col gap-2 ">
+                                <label class="text-sm font-semibold">Giới tính</label>
+                                <div class="flex justify-start gap-4">
+                                    <a-checkbox>Nam</a-checkbox>
+                                    <a-checkbox>Nữ</a-checkbox>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
-                    <div class="flex justify-between items-center">
-                        <div class="flex flex-col gap-2 w-1/5">
+                    <div class="grid grid-cols-4 gap-4">
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Số điện thoại</label>
+                                <a-input type="" class="border p-2 rounded-md" placeholder="Số điện thoại" />
+                            </div>
+
+                        </div>
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Email</label>
+                                <a-input type="text" class="border p-2 rounded-md" placeholder="Email" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Công việc</label>
+                                <a-select  v-model:value="value" show-search placeholder="Chọn công việc" style="height: 40px;"
+                                    :options="options" :filter-option="filterOption" @focus="handleFocus"
+                                    @blur="handleBlur" @change="handleChange"></a-select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="grid grid-cols-4 gap-4">
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">CMT/ CCCD</label>
+                                <a-input type="text" class="border p-2 rounded-md" placeholder="Mã số CMT/ CCCD" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Họ tên</label>
+                                <a-input type="text" class="border p-2 rounded-md" placeholder="Họ tên" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Ngày cấp</label>
+                                <a-input type="date" class="border p-2 rounded-md" placeholder="Ngày cấp" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Nơi cấp</label>
+                                <a-input type="text" class="border p-2 rounded-md" placeholder="Nơi cấp" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-4">
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">ID sinh viên</label>
+                                <a-input type="text" class="border p-2 rounded-md" placeholder="ID sinh viên" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Họ tên</label>
+                                <a-input type="text" class="border p-2 rounded-md" placeholder="Họ tên" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Ngày kết thúc năm học</label>
+                                <a-input type="date" class="border p-2 rounded-md" placeholder="Ngày hết hạn" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Trường học/ Cao đẳng/ Đại học</label>
+                                <a-input type="text" class="border p-2 rounded-md" placeholder="Trường" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-4">
+                        <div class="flex flex-col gap-2 ">
                             <label class="text-sm font-semibold" for="">Tỉnh/ Thành phố</label>
                             <a-select v-model:value="valuePronvines" show-search placeholder="Tỉnh/Thành phố"
                                 :options="provinces" :filter-option="filterOption" @focus="handleFocus"
                                 @blur="handleBlur" @change="handleChangeProvince">
                             </a-select>
                         </div>
-                        <div class="flex flex-col gap-2 w-1/5">
+                        <div class="flex flex-col gap-2 ">
                             <label class="text-sm font-semibold" for="">Quận/ Huyện</label>
                             <a-select v-model:value="valueDistricts" show-search placeholder="Quận/Huyện"
                                 :options="districts" :filter-option="filterOption" @focus="handleFocus"
                                 @blur="handleBlur" @change="handleChangeDistrict">
                             </a-select>
                         </div>
-                        <div class="flex flex-col gap-2 w-1/5">
+                        <div class="flex flex-col gap-2 ">
                             <label class="text-sm font-semibold" for="">Phường/ Xã</label>
                             <a-select v-model:value="valueWards" show-search placeholder="Phường/Xã" :options="wards"
                                 :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
                                 @change="handleChangeWard">
                             </a-select>
                         </div>
-                        <div class="flex flex-col gap-2 w-1/5">
+                        <div class="flex flex-col gap-2 ">
                             <label class="text-sm font-semibold" for="">Đường</label>
                             <a-input v-model:value="address.street" class="border p-2 rounded-md "
                                 placeholder="Đường" />
                         </div>
                     </div>
-                    <div class="flex">
+                    <div class="grid gird-cols-1">
                         <div class="flex flex-col gap-2 w-full">
                             <label for="">Địa chỉ cụ thể</label>
                             <a-input class="h-11"
@@ -344,4 +422,6 @@ const filterOption = (input, option) => {
 .upload-list-inline [class*='-upload-list-rtl'] :deep(.ant-upload-list-item) {
     float: right;
 }
+
+
 </style>

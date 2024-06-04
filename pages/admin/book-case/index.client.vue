@@ -25,9 +25,69 @@
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
-        <NuxtLink to="/admin/book-case/add-bookcase" class="">
-          <a-button type="primary">Thêm tủ sách</a-button>
-        </NuxtLink>
+        <div class="">
+          <a-button type="primary" @click="showModalAdd">Thêm tủ sách</a-button>
+          <a-modal
+            v-model:open="openModalAdd"
+            title="Thêm tủ sách"
+            :footer="null"
+          >
+            <form @submit.prevent="">
+              <div class="bg-white py-2">
+                <div class="pb-4">
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    Mã tủ sách
+                  </label>
+                  <div class="mt-1">
+                    <a-input
+                      class="w-[450px] h-[45px]"
+                      placeholder="Nhập mã tủ sách"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700"
+                  >
+                    Nội dụng
+                  </label>
+                  <div class="mt-2">
+                    <a-space>
+                      <a-select
+                        class="w-[450px] h-[45px] flex justify-center items-center"
+                        ref="select"
+                        v-model:value="value1"
+                        @focus="focus"
+                      >
+                        <a-select-option value="jack">Jack</a-select-option>
+                        <a-select-option value="lucy">Lucy</a-select-option>
+                      </a-select>
+                    </a-space>
+                  </div>
+                </div>
+                <div class="flex justify-end items-end gap-4">
+                  <a-button
+                    @click="onCancel"
+                    type="primary"
+                    danger
+                    html-type="button"
+                    class="mt-4"
+                    >Hủy</a-button
+                  >
+                  <a-button type="primary" html-type="submit" class="mt-4"
+                    >Lưu</a-button
+                  >
+                </div>
+              </div>
+            </form>
+          </a-modal>
+        </div>
       </div>
 
       <a-table :columns="columns" :data-source="data">
@@ -49,28 +109,28 @@
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
-                <span
-                  class="hover:bg-[#faad14]/20 flex items-center justify-center w-6 h-6 rounded-md"
+                <button
+                  class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                   ><UIcon
-                    class="hover:text-[#faad14]"
+                    class="group-hover:text-[#faad14]"
                     name="i-icon-park-outline-eyes"
-                /></span>
+                /></button>
               </a-tooltip>
               <a-tooltip placement="top" color="green">
                 <template #title>
                   <span>Sửa</span>
                 </template>
                 <span
-                  class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md"
+                  class="group hover:bg-[green]/20 bg-[#e4e1e1] flex justify-center items-center cursor-pointer w-8 h-8 rounded-md"
                 >
                   <div>
-                    <button @click="showModal">
+                    <button class="flex items-center" @click="showModalEdit">
                       <UIcon
-                        class="hover:text-[green]"
+                        class="group-hover:text-[green]"
                         name="i-material-symbols-edit-outline"
                       />
                     </button>
-                    <a-modal v-model:open="open" title="Sửa" @ok="handleOk">
+                    <a-modal v-model:open="openModalEdit" title="Sửa">
                       <div class="">
                         <div class="bg-white py-2">
                           <div class="pb-4">
@@ -113,7 +173,7 @@
                   <span>Xóa</span>
                 </template>
                 <span
-                  class="hover:bg-[red]/20 flex items-center justify-center w-6 h-6 rounded-md"
+                  class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
                 >
                   <a-popconfirm
                     title="Are you sure delete this task?"
@@ -123,11 +183,11 @@
                     @confirm="confirm"
                     @cancel="cancel"
                   >
-                    <a href="#">
+                    <button class="flex items-center">
                       <UIcon
-                        class="hover:text-[red]"
+                        class="group-hover:text-[red]"
                         name="i-material-symbols-delete-outline"
-                    /></a>
+                    /></button>
                   </a-popconfirm>
                 </span>
               </a-tooltip>
@@ -139,6 +199,15 @@
   </div>
 </template>
 <script lang="ts" setup>
+import type { SelectProps } from "ant-design-vue";
+const value1 = ref("lucy");
+const focus = () => {
+  console.log("focus");
+};
+
+const handleChange = (value: string) => {
+  console.log(`selected ${value}`);
+};
 const confirm = (e: MouseEvent) => {
   console.log(e);
   message.success("Xóa thành công");
@@ -148,10 +217,7 @@ const cancel = (e: MouseEvent) => {
   console.log(e);
   message.error("Xóa thất bại");
 };
-const open = ref<boolean>(false);
-const showModal = () => {
-  open.value = true;
-};
+
 const columns = [
   {
     name: "Name",
@@ -176,4 +242,17 @@ const data = [
     category: "New York No. 1 Lake Park",
   },
 ];
+
+const openModalEdit = ref<boolean>(false);
+const openModalAdd = ref<boolean>(false);
+
+const showModalAdd = () => {
+  openModalAdd.value = true;
+};
+const showModalEdit = () => {
+  openModalEdit.value = true;
+};
+const onCancel = () => {
+  openModalAdd.value = false;
+};
 </script>

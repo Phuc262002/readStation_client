@@ -4,7 +4,7 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả tủ sách</h5>
+        <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả bình luận</h5>
       </div>
       <CommonBreadcrumAdmin />
     </div>
@@ -22,12 +22,12 @@
           <div
             class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
           >
-          <UIcon class="text-gray-500" name="i-material-symbols-search" />
+            <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
-        <NuxtLink to="/admin/book-case/add-bookcase" class="">
-          <a-button type="primary">Thêm tủ sách</a-button>
-        </NuxtLink>
+        <!-- <NuxtLink to="/admin/book-case/add-bookcase" class="">
+          <a-button type="primary">Thêm bình luận</a-button>
+        </NuxtLink> -->
       </div>
 
       <a-table :columns="columns" :data-source="data">
@@ -62,13 +62,18 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top"  color="gold">
+              <a-tooltip placement="top" color="gold">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
-                <span class="hover:bg-[#faad14]/20 flex items-center justify-center w-6 h-6 rounded-md"><UIcon class="hover:text-[#faad14]" name="i-icon-park-outline-eyes" /></span>
+                <span
+                  class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md"
+                  ><UIcon
+                    class="group-hover:text-[#faad14]"
+                    name="i-icon-park-outline-eyes"
+                /></span>
               </a-tooltip>
-              <a-tooltip placement="top" color="green">
+              <!-- <a-tooltip placement="top" color="green">
                 <template #title>
                   <span>Sửa</span>
                 </template>
@@ -119,13 +124,13 @@
                     </a-modal>
                   </div>
                 </span>
-              </a-tooltip>
+              </a-tooltip> -->
               <a-tooltip placement="top" color="red">
                 <template #title>
                   <span>Xóa</span>
                 </template>
                 <span
-                  class="hover:bg-[red]/20 flex items-center justify-center w-6 h-6 rounded-md"
+                  class="group hover:bg-[red]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md"
                 >
                   <a-popconfirm
                     title="Are you sure delete this task?"
@@ -135,11 +140,11 @@
                     @confirm="confirm"
                     @cancel="cancel"
                   >
-                    <a href="#">
+                    <button class="flex items-center">
                       <UIcon
-                        class="hover:text-[red]"
+                        class="group-hover:text-[red]"
                         name="i-material-symbols-delete-outline"
-                    /></a>
+                    /></button>
                   </a-popconfirm>
                 </span>
               </a-tooltip>

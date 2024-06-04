@@ -1,10 +1,11 @@
 <template>
-  <swiper :spaceBetween="30" :pagination="{
+  <div class="mt-8">
+    <swiper :spaceBetween="30" :pagination="{
     clickable: true,
   }" :modules="modules" class="mySwiper">
     <swiper-slide>
       <div class="bg-[#fcedec] w-full h-[556px]  relative ">
-        <div class="absolute flex justify-center items-center gap-10 w-full px-16 py-6">
+        <div class="absolute flex justify-center items-center gap-10 w-full px-16 ">
           <div class="">
             <img class=""
               src="https://demo2.pavothemes.com/bookory/wp-content/uploads/2022/02/revslider_book-2.png"
@@ -12,12 +13,12 @@
           </div>
           <div class="w-1/2 flex flex-col gap-7 text-left pl-20">
               <div class="flex flex-col gap-2"> 
-                  <h1 class=" text-6xl font-bold">Top 10 Books</h1>
-                  <h1 class=" text-6xl font-bold">To Make It A</h1>
-                  <h1 class=" text-6xl font-bold">Great Year</h1>
+                  <h1 class=" text-6xl font-bold">Top 10 cuốn sách</h1>
+                  <h1 class=" text-6xl font-bold">hay nhất</h1>
+                  <h1 class=" text-6xl font-bold">trong năm</h1>
               </div>
               <div>
-                <button class=" w-40 h-12 bg-[white] p-2 rounded-full text-black text-base font-semibold hover:bg-black hover:text-white">Shop now</button>
+                <button class=" w-40 h-12 bg-[#FF7D29] p-2 rounded-lg text-white text-base font-semibold hover:bg-orange-300 hover:text-white">Thuê Ngay</button>
               </div>
           </div>
         </div>
@@ -41,7 +42,7 @@
                   <p class="text-[#f65d4e] text-2xl font-bold">$24.55</p>
               </div>
               <div>
-                <button class=" w-40 h-12 bg-[white] p-2 rounded-full text-black text-base font-semibold hover:bg-black hover:text-white">Shop now</button>
+                <button class=" w-40 h-12 bg-[#FF7D29] p-2 rounded-lg text-white text-base font-semibold hover:bg-orange-300 hover:text-white">Thuê Ngay</button>
               </div>
           </div>
         </div>
@@ -65,13 +66,15 @@
                   <p class="text-[#f65d4e] text-2xl font-bold">$24.55</p>
               </div>
               <div>
-                <button class=" w-40 h-12 bg-[white] p-2 rounded-full text-black text-base font-semibold hover:bg-black hover:text-white">Shop now</button>
+                <button class=" w-40 h-12 bg-[#FF7D29] p-2 rounded-lg text-white text-base font-semibold hover:bg-orange-300 hover:text-white">Thuê Ngay</button>
               </div>
           </div>
         </div>
       </div>
     </swiper-slide>
   </swiper>
+  </div>
+
 </template>
 <script>
 
@@ -104,9 +107,7 @@ export default {
   background: #fff;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding-top: 20px;
-  
+  align-items: center; 
 }
 
 :deep(.swiper-slide img) {
