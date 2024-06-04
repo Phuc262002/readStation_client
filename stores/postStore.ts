@@ -31,6 +31,27 @@ export const usePostStore = defineStore("post-store", {
       } catch (error) {
         console.log(error);
       }
+    },
+    async createPost(post: any) {
+      try {
+        const data: any = await useCustomFetch("/api/v1/posts/create", {
+          method: "POST",
+          body: JSON.stringify(post),
+        });
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async deletePost(id: string) {
+      try {
+        const data: any = await useCustomFetch(`/api/v1/posts/delete/${id}`, {
+          method: "DELETE",
+        });
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
     }
     
   },
