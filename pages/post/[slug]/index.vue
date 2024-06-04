@@ -12,8 +12,8 @@
             <div
               class="flex justify-start items-center bg-[#F1ECFF] border border-gray-100 w-fit p-[5px] gap-3 mt-4 text-sm rounded-[20px]"
             >
-              <div class="h-4 w-4  bg-rtprimary rounded-full"></div>
-              <div class="text-rtprimary  w-fit text-sm font-normal">
+              <div class="h-4 w-4 bg-rtprimary rounded-full"></div>
+              <div class="text-rtprimary w-fit text-sm font-normal">
                 {{ postStore.post?.category?.name }}
               </div>
             </div>
@@ -65,11 +65,9 @@
         </div>
         <hr class="mb-5" />
 
-        <div class="mb-5 font-bold text-[27px]">Related Articles</div>
+        <div class="mb-5 font-bold text-[27px]">Bài viết liên quan</div>
         <div class="grid grid-cols-3 gap-4">
-          <BlogDetailItem />
-          <BlogDetailItem />
-          <BlogDetailItem />
+          <BlogDetailItem/>
         </div>
       </div>
 

@@ -151,6 +151,7 @@
 import { ref } from "vue";
 const AuthorStore = useAuthorStore();
 const isLoading = ref(false);
+
 const getDataAuthor = async () => {
   try {
     isLoading.value = true;

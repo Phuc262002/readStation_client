@@ -30,23 +30,34 @@
         </NuxtLink>
       </div>
 
-      <a-table :columns="columns" :data-source="postStore?.posts.posts">
+      <a-table
+        :columns="columns"
+        :loading="postStore.isLoading"
+        :data-source="postStore?.postsAdmin.posts"
+      >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
-            <span> Tên người viết </span>
+            <span> Tên bài viết </span>
           </template>
         </template>
 
         <template #bodyCell="{ column, record }">
-          
           <template v-if="column.key === 'name'">
             <a>
-              {{ record.name }}
+              {{ record.title }}
             </a>
+          </template>
+          <template v-if="column.key === 'category_id'">
+            <span>
+              {{ record.category.id }}
+            </span>
           </template>
           <template v-else-if="column.key === 'status'">
             <span>
-              <a-tag :color="record.status === 'active' ? 'green' : 'volcano'">
+              <a-tag
+                :bordered="false"
+                :color="record.status === 'active' ? 'green' : 'volcano'"
+              >
                 {{ record.status }}
               </a-tag>
             </span>
@@ -152,29 +163,6 @@
                   </a-menu>
                 </template>
               </a-dropdown>
-
-              <!-- <a-tooltip placement="top" color="red">
-                <template #title>
-                  <span>Xóa</span>
-                </template>
-                <span
-                  class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
-                >
-                  <a-popconfirm
-                    title="Are you sure delete this task?"
-                    placement="right"
-                    ok-text="Yes"
-                    cancel-text="No"
-                    @confirm="confirm"
-                    @cancel="cancel"
-                  >
-                    <UIcon
-                      class="group-hover:text-[red] text-lg"
-                      name="i-material-symbols-delete-outline"
-                    />
-                  </a-popconfirm>
-                </span>
-              </a-tooltip> -->
             </div>
           </template>
         </template>
@@ -187,12 +175,12 @@ import { Modal } from "ant-design-vue";
 const postStore = usePostStore();
 
 useAsyncData(async () => {
-  await postStore.getPost({});
+  await postStore.getAllPost({});
 });
 
 const onDelete = async (id: string) => {
   await postStore.deletePost(id);
-  await postStore.getPost({});
+  await postStore.getAllPost({});
 };
 const showDeleteConfirm = (id: string) => {
   Modal.confirm({
@@ -211,29 +199,24 @@ const showDeleteConfirm = (id: string) => {
 };
 const columns = [
   {
-    name: "Name",
-    dataIndex: "Name",
+    name: "title",
+    dataIndex: "name",
     key: "name",
   },
   {
     title: "Danh mục",
-    dataIndex: "category",
-    key: "category",
+    dataIndex: "category_id",
+    key: "category_id",
   },
-  {
-    title: "Tên bài viết",
-    dataIndex: "title",
-    key: "title",
-  },
+  // {
+  //   title: "Tên bài viết",
+  //   dataIndex: "title",
+  //   key: "title",
+  // },
   {
     title: "Nội dung ngắn",
     dataIndex: "summary",
     key: "summary",
-  },
-  {
-    title: "Hình ảnh",
-    dataIndex: "image",
-    key: "image",
   },
   {
     title: "Slug",
@@ -250,7 +233,6 @@ const columns = [
     key: "action",
   },
 ];
-
 
 const open = ref<boolean>(false);
 const showModal = () => {
