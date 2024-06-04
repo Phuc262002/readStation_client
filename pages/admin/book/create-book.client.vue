@@ -15,13 +15,7 @@
                     <div class="flex flex-col gap-5">
                         <div class="text-xl font-bold">Sách</div>
                         <div class="flex flex-col gap-2">
-                            <div>
-                                <div class="flex flex-col gap-2">
-                                    <label class="text-sm font-semibold" for="">Sku</label>
-                                    <a-input type="text" class="border p-2 rounded-md" placeholder="Tên sách"
-                                        v-model:value="valuecreateBook.sku" />
-                                </div>
-                            </div>
+
                             <div class="grid grid-rows-2 gap-5 ">
                                 <div class="grid grid-cols-3 gap-10">
                                     <div class="flex flex-col gap-2">
@@ -72,7 +66,7 @@
                             <div class="flex w-full">
                                 <div class="flex flex-col gap-4 w-full">
                                     <label class="text-sm font-semibold" for="">Mô tả</label>
-                                    <a-textarea class="h-28" v-model:value="valuecreateBook.description_sumamry"
+                                    <a-textarea class="h-28" v-model:value="valuecreateBook.description_summary"
                                         placeholder="Mô tả ngắn" allow-clear />
                                 </div>
                             </div>
@@ -94,7 +88,7 @@
                                 <div class="grid grid-cols-2 gap-10">
                                     <div class="flex flex-col gap-2"><label class="text-sm font-semibold"
                                             for="">Poster</label>
-                                        <a-upload  v-model:value="valuecreateBook.book_detail.poster" list-type="picture" :max-count="1"
+                                        <a-upload list-type="picture" :max-count="1"
                                             action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
                                             <a-button class="flex justify-between gap-3 items-center">
                                                 <upload-outlined></upload-outlined>
@@ -105,7 +99,7 @@
                                     <div class="flex flex-col gap-2"><label class="text-sm font-semibold" for="">Hình
                                             ảnh
                                             chi tiết</label>
-                                        <a-upload v-model:value="valuecreateBook.book_detail.iamge" list-type="picture" :max-count="3"
+                                        <a-upload list-type="picture" :max-count="3"
                                             action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
                                             <a-button class="flex justify-between gap-3 items-center">
                                                 <upload-outlined></upload-outlined>
@@ -115,7 +109,15 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="grid grid-rows-4 gap-5 my-5">
+                                <div>
+                                    <div class="flex flex-col gap-2">
+                                        <label class="text-sm font-semibold" for="">Sku</label>
+                                        <a-input type="text" class="border p-2 rounded-md" placeholder="Mã sách"
+                                            v-model:value="valuecreateBook.book_detail.sku_origin" />
+                                    </div>
+                                </div>
                                 <div class="grid grid-cols-4 gap-10">
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Phiên bản sách</label>
@@ -204,19 +206,28 @@
 </template>
 <script setup>
 import { ref } from "vue";
+
 const isLoading = ref(false);
 const fileList = ref([]);
 const fileList2 = ref([]);
-const optionsShelve = ref([
-    {
-        value: 1,
-        label: "Kệ 1",
-    },
-    {
-        value: 2,
-        label: "Kệ 2",
-    },
-]);
+const optionsShelve = ref([]);
+const shelvesValue = useShelvesStore();
+const getDataShelvesValue = async () => {
+    try {
+        isLoading.value = true;
+        const data = await shelvesValue.getAllShelves({});
+        optionsShelve.value = data.data._rawValue.data.shelves.map((shelve) => {
+            return {
+                value: shelve.id,
+                label: shelve.description,
+            };
+        })
+    } catch (error) {
+        console.error(error);
+    } finally {
+        isLoading.value = false;
+    }
+};
 const optionsCardboard = ref([
     {
         value: "soft",
@@ -283,20 +294,20 @@ const getDataAuthor = async () => {
 };
 const createBook = useBookStore();
 const valuecreateBook = ref({
-    sku: "",
     author_id: "",
     title: "",
     original_title: "",
-    description_sumamry: "",
+    description_summary: "",
     description: "",
     is_featured: false,
     category_id: "",
-    shelve_id: null,
+    shelve_id: "",
     book_detail: [{
-        poster: "",
-        image: [
-            ""
+        poster: "https://cdn0.fahasa.com/media/catalog/product/t/o/to_huu_tho_va_doi_1_2018_07_25_12_01_30.JPG",
+        images: [
+            "https://i0.wp.com/sachcugiadinh.wordpress.com/wp-content/uploads/2016/12/img_10661.jpg?ssl=1",
         ],
+        sku_origin: "valuecreateBook.book_detail.sku_origin",
         book_version: "",
         price: "",
         hire_percent: "",
@@ -322,15 +333,18 @@ const onSubmit = async () => {
             author_id: valuecreateBook.value.author_id,
             title: valuecreateBook.value.title,
             original_title: valuecreateBook.value.original_title,
-            description_sumamry: valuecreateBook.value.description_sumamry,
+            description_summary: valuecreateBook.value.description_summary,
             description: valuecreateBook.value.description,
             is_featured: valuecreateBook.value.is_featured,
             category_id: valuecreateBook.value.category_id,
             shelve_id: valuecreateBook.value.shelve_id,
             book_detail: [{
-                poster: valuecreateBook.value.book_detail.poster,
-                iamge:[
-                     valuecreateBook.value.book_detail.image
+                sku_origin: "123",
+                poster: "https://cdn0.fahasa.com/media/catalog/product/t/o/to_huu_tho_va_doi_1_2018_07_25_12_01_30.JPG",
+                images: [
+                    "https://i0.wp.com/sachcugiadinh.wordpress.com/wp-content/uploads/2016/12/img_10661.jpg?ssl=1",
+                    "https://i0.wp.com/sachcugiadinh.wordpress.com/wp-content/uploads/2016/12/img_10661.jpg?ssl=1",
+                    "https://i0.wp.com/sachcugiadinh.wordpress.com/wp-content/uploads/2016/12/img_10661.jpg?ssl=1",
                 ],
                 book_version: valuecreateBook.value.book_detail.book_version,
                 price: valuecreateBook.value.book_detail.price,
@@ -362,6 +376,7 @@ useAsyncData(async () => {
     await getDataAuthor();
     await getDataCategory();
     await getDataPublishingcompanyValue();
+    await getDataShelvesValue();
 });
 
 

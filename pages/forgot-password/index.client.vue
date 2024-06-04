@@ -56,7 +56,7 @@
           <a-button
             :loading="isSubmitting"
             html-type="submit"
-            class="w-full bg-[#162D3A] h-[45px] !text-white hover:bg-slate-600 text-base"
+            class="w-full bg-rtprimary h-[45px] !text-white hover:bg-rtsecondary border-none text-base"
           >
             <span>Gửi</span>
           </a-button>
@@ -104,18 +104,22 @@ const onSubmit = handleSubmit(async (values) => {
     isSubmitting.value = true;
     const resData = await authStore.sendResetPassword(values);
     if (resData?.data?._rawValue?.status == true) {
-      successToast(
-        "Gửi xác thực Email thành công ",
-        "Chuyển hướng đến trang đăng nhập"
-      );
+      message.success({
+        content: "Gửi xác thực Email thành công",
+      });
+
       navigateTo(`/verify-email?email=${email.value.value}`);
     } else {
       resErrors.value = resData.error.value.data?.errors;
-      errorToast("Đăng ký không thành công", "Vui lòng thử lại");
+      message.error({
+        content: "Gửi xác thực Email không thành công",
+      });
     }
   } catch (error) {
     // console.log(error);
-    errorToast("Đăng ký không thành công", "Vui lòng thử lại");
+    message.error({
+      content: "Gửi xác thực Email không thành công",
+    });
   } finally {
     isSubmitting.value = false;
   }

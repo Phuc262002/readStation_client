@@ -8,14 +8,16 @@
   >
     <div class="text-center">
       <div class="flex items-center justify-center pt-3 relative">
-        <img
-          class="rounded-full w-20 h-20"
-          :src="data?.avatar"
-          alt=""
-          @click="handleClickInput"
-        />
-        <input type="file" class="w-2 absolute hidden" ref="changeAvatarRef" />
+        <img class="rounded-full w-20 h-20" :src="data?.avatar" alt="" />
+        <button
+          class="border-none absolute bottom-0 left-[calc(50%+25px)] -translate-x-1/2 w-6 h-6 bg-white rounded-full flex items-center justify-center"
+          @click="showModalAdd"
+        >
+          <CommonAddImg />
+        </button>
       </div>
+      <AvatarAdd :openModalAdd="openModalAdd" :openModal="CloseModalAdd" />
+
       <div class="mt-[17px] mb-[23px]">
         <h2 class="font-bold">{{ data?.fullname }}</h2>
         <a-tag :bordered="false" color="purple" class="font-bold">{{
@@ -137,16 +139,12 @@ const props = defineProps<{
 }>();
 const selectedKeys = ref<string[]>(["sub1"]);
 const changeAvatarRef = ref(null);
+const openModalAdd = ref<boolean>(false);
 
 //Create the form
 const { defineInputBinds, setFieldValue } = useForm({
   validationSchema: {},
 });
-
-const handleClickInput = () => {
-  changeAvatarRef?.value?.click?.();
-  console.log({ changeAvatarRef });
-};
 
 //get API
 const data = ref(null);
@@ -170,4 +168,11 @@ useAsyncData(async () => {
     isLoading.value = false;
   }
 });
+
+const showModalAdd = () => {
+  openModalAdd.value = true;
+};
+const CloseModalAdd = () => {
+  openModalAdd.value = false;
+};
 </script>
