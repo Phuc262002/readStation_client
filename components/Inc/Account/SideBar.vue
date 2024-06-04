@@ -103,7 +103,7 @@
         </NuxtLink>
       </a-menu-item>
 
-      <a-menu-item key="10">
+      <a-menu-item key="10" @click="logout">
         <NuxtLink to="/" class="flex items-center gap-2">
           <UIcon name="i-tabler-logout-2" class="text-base" />
           <span>Đăng xuất</span>
@@ -149,6 +149,9 @@ const { defineInputBinds, setFieldValue } = useForm({
 //get API
 const data = ref(null);
 const authStore = useAuthStore();
+const logout = async () => {
+  await authStore.logout();
+};
 
 // Define fields
 const fullname = defineInputBinds("fullname");
