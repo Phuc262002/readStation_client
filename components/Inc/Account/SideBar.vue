@@ -103,7 +103,7 @@
         </NuxtLink>
       </a-menu-item>
 
-      <a-menu-item key="10">
+      <a-menu-item key="10" @click="logout">
         <NuxtLink to="/" class="flex items-center gap-2">
           <UIcon name="i-tabler-logout-2" class="text-base" />
           <span>Đăng xuất</span>
@@ -112,26 +112,6 @@
     </a-menu>
   </a-layout-sider>
 </template>
-
-<style scoped>
-:deep(.ant-menu-item.ant-menu-item-active.ant-menu-item-only-child) {
-  color: #ff7d29 !important;
-  background-color: rgb(255, 191, 120, 0.4) !important;
-}
-:deep(.ant-menu-item.ant-menu-item-selected.ant-menu-item-only-child) {
-  color: #ff7d29 !important;
-  background-color: rgb(255, 191, 120, 0.4) !important;
-}
-
-:deep(
-    .ant-menu-submenu.ant-menu-submenu-inline.ant-menu-submenu-open.ant-menu-submenu-selected
-      .ant-menu-submenu-title
-  ) {
-  color: #ff7d29 !important;
-  background: initial !important;
-}
-</style>
-
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 const props = defineProps<{
@@ -149,6 +129,9 @@ const { defineInputBinds, setFieldValue } = useForm({
 //get API
 const data = ref(null);
 const authStore = useAuthStore();
+const logout = async () => {
+  await authStore.logout();
+};
 
 // Define fields
 const fullname = defineInputBinds("fullname");

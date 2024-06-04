@@ -298,30 +298,6 @@
     </a-menu>
   </a-layout-sider>
 </template>
-
-<style scoped>
-:deep(.ant-menu-item.ant-menu-item-selected) {
-  color: #ff7d29 !important;
-  background-color: rgb(255, 191, 120, 0.4) !important;
-}
-:deep(.ant-menu-item.ant-menu-item-active.ant-menu-item-only-child) {
-  color: #ff7d29 !important;
-  background-color: rgb(255, 191, 120, 0.4) !important;
-}
-:deep(.ant-menu-item.ant-menu-item-selected.ant-menu-item-only-child) {
-  color: #ff7d29 !important;
-  background-color: rgb(255, 191, 120, 0.4) !important;
-}
-
-:deep(
-    .ant-menu-submenu.ant-menu-submenu-inline.ant-menu-submenu-open.ant-menu-submenu-selected
-      .ant-menu-submenu-title
-  ) {
-  color: #ff7d29 !important;
-  background: initial !important;
-}
-</style>
-
 <script setup lang="ts">
 import { ref } from "vue";
 const props = defineProps<{
