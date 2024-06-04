@@ -6,7 +6,7 @@
         <h2 class="text-sm font-bold">Tài khoản</h2>
       </div>
       <div
-        class="flex-col space-y-2 p-4 bg-[#f9f9f9] shadow-md shadow-gray-300 rounded-md"
+        class="flex-col space-y-2 p-4 bg-white shadow-md shadow-gray-300 rounded-md"
       >
         <div class="flex items-center justify-between border-b pb-2">
           <span>Loại tài khoản</span>
@@ -27,7 +27,7 @@
         <UIcon name="i-ph-users-bold" class="text-base" />
         <h2 class="text-sm font-bold">Kết nối tài khoản</h2>
       </div>
-      <div class="bg-[#f9f9f9] rounded-md shadow-md shadow-gray-300 p-4">
+      <div class="bg-white rounded-md shadow-md shadow-gray-300 p-4">
         <div class="flex items-center justify-between">
           <img
             src="../../assets/images/meta-logo.png"

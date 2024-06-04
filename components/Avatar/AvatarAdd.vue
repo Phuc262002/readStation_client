@@ -39,7 +39,6 @@
 </template>
 <script setup>
 const authStore = useAuthStore();
-
 const auth = ref({
   avatar: "",
 });
@@ -58,7 +57,7 @@ watch(
 
 const uploadFile = async () => {
   const formData = new FormData();
-  formData.append("avatar", file._rawValue.target.files[0]);
+  formData.append("image", file._rawValue.target.files[0]);
   const dataUpload = await baseStore.uploadImg(formData);
 
   return dataUpload.data._rawValue.data.link;
@@ -70,7 +69,7 @@ const onSubmit = async () => {
     avatar: url,
   });
   await authStore.getProfile({});
-  publishingCompany.value = {
+  auth.value = {
     avatar: "",
   };
   props.openModal();

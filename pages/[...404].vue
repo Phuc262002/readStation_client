@@ -18,7 +18,7 @@
         <NuxtLink to="/" class="pt-10">
           <a-button
             type="primary"
-            class="h-10 bg-[#E66070] hover:!bg-[#ed7381] flex items-center gap-1"
+            class="h-10 bg-rtprimary hover:!bg-rtsecondary border-none flex items-center gap-1"
             >Trở về trang chủ
             <UIcon name="i-ic-twotone-refresh" class="text-base" />
           </a-button>
