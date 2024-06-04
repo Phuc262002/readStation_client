@@ -51,7 +51,7 @@
                             <div class=" text-base font-bold text-center flex justify-center">
                                 225.000đ
                             </div>
-                            <div class="text-center text-2xl text-red-400 flex justify-center ">
+                            <div class="text-center text-2xl text-rtprimary flex justify-center ">
                                 <UIcon class="text-2xl" name="i-material-symbols-delete-outline-rounded" />
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                             <div class="border-solid border border-gray-100 w-full"></div>
                             <div class="flex justify-between items-center">
                                 <h1 class=" text-base text-gray-400">Tổng tiền</h1>
-                                <h1 class="text-xl font-bold text-[red]">220.000đ</h1>
+                                <h1 class="text-xl font-bold text-rtprimary">220.000đ</h1>
                             </div>
                             <div class="border-solid border border-gray-100 w-full"></div>
                             <div class="flex flex-col gap-2 ">
@@ -78,7 +78,7 @@
                             </div>
                             <div class="w-full">
                                 <nuxt-link to="/account/checkout">
-                                    <button class="bg-[red] text-white uppercase text-sm w-full h-8 rounded-lg ">Thanh
+                                    <button class="bg-rtprimary text-white uppercase text-sm w-full h-8 rounded-lg ">Thanh
                                         toán
                                     </button>
                                 </nuxt-link>
@@ -87,7 +87,7 @@
                             <div class="flex justify-center">
                                 <Nuxt-link to="/shop">
                                     <button
-                                        class="flex justify-center text-sm items-center gap-2 hover:text-yellow-500 ">
+                                        class="flex justify-center text-sm items-center gap-2 hover:text-rtsecondary ">
                                         <UIcon class="text-xl" name="i-material-symbols-turn-left-rounded" />
                                         <h1>Tiếp tục thuê sách </h1>
                                     </button>

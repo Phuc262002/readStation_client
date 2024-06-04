@@ -8,7 +8,7 @@
                     <p class="text-[#999999]" v-html="AuthorFeatured?.description "></p>
                 </div>
                 <div>
-                    <button class="bg-[#FF7D29] w-1/2 h-11 rounded-lg  text-white">Xem thông tin</button>
+                    <button class="bg-rtprimary hover:bg-rtsecondary w-1/2 h-11 rounded-lg  text-white">Xem thông tin</button>
                 </div>
             </div>
             <div class="w-1/3">
