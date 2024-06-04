@@ -13,7 +13,6 @@ export const usePostStore = defineStore("post-store", {
   actions: {
     async getPost({ page, pageSize, category_id }: any) {
       try {
-        this.isLoading = true;
         const data: any = await useCustomFetch(
           `/api/v1/posts?${
             page ? `&page=${page}` : ""
@@ -22,7 +21,6 @@ export const usePostStore = defineStore("post-store", {
           }`
         );
         this.posts = data.data._value?.data;
-        this.isLoading = false;
         return data;
       } catch (error) {
         console.log(error);

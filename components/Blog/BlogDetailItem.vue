@@ -1,34 +1,32 @@
 <template>
   <div class="w-full">
-    <div class="p-4 bg-white rounded-lg shadow-lg">
-      <div class="flex justify-center items-center ">
-        <img
-          class="rounded-md"
-          src="/assets/images/VNE-Rainbow-2-3983-1585305448.jpg"
-          alt=""
-        />
-      </div>
-      <div
-        class="text-[#4B6BFB] text-sm  rounded-md w-[77px] mb-4 ml-2"
-      ></div>
+    <NuxtLink :to="`/post`">
+      <div class="p-4 border border-gray-100 rounded-lg bg-white shadow-md">
+        <div class="flex justify-center items-center mb-4">
+          <img class="rounded-md w-[100%] h-[180px] object-cover"  :src="props.post?.image" alt="" />
+        </div>
 
-      <div class="flex justify-start items-center  w-fit rounded-md">
-        <div class="h-4 w-4 bg-[#6C40FF] rounded-full"></div>
-        <div class="text-[#6C40FF] w-2/3 text-sm ml-2 font-normal">Technology</div>
-      </div>
-      <p class="text-[#1B1B1F] text-[18px] mt-[10px] font-semibold">
-        The Impact of Technology on the Workplace: How Technology is Changing
-      </p>
-      <div class="mt-[10px]">
-        <div class="flex items-center text-base text-black gap-5 text-[14px] font-normal">
-          <div class="flex items-center gap-3">
-            <!-- <a-avatar class="" src="https://cdn.pixabay.com/photo/2020/05/09/13/29/photographer-5149664_1280.jpg" /> -->
-            <p class="mr-[-10px]">Oct 19</p>
+        <div
+          class="text-rtprimary bg-rtprimary/20 text-sm w-fit h-7 mb-4 rounded-md px-2  flex items-center"
+        >
+          {{ props.post?.category?.name }}
+        </div>
+        <div class="text-black font-semibold text-lg line-clamp-2">
+          {{ props.post?.title }}
+        </div>
+        <div class="flex items-center text-base text-[#97989F] gap-5 mt-6">
+          <div class="flex items-center gap-5 text-sm font-medium">
+            <div >
+              <a-avatar class="w-10 h-10" :src="props.post?.user?.avatar" />
+            </div>
+            <p class="">{{ props.post?.user?.fullname }}</p>
+            <p>{{ $dayjs(props.post?.created_at).format("DD/MM/YYYY") }}</p>
           </div>
-          <div class="h-1 w-1 bg-black rounded-full"></div>
-          <p class="ml-[-10px]">10 min read</p>
         </div>
       </div>
-    </div>
+    </NuxtLink>
   </div>
 </template>
+<script setup>
+const props = defineProps(["post"]);
+</script>
