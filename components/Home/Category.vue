@@ -5,7 +5,7 @@
                 Thể loại
             </div>
             <div class="grid grid-cols-6 gap-10 ">
-                <div class="flex flex-col items-center gap-5" v-for="(category,index) in feauturedCategory" :key="category">
+                <div class="flex flex-col items-center gap-5 cursor-pointer" v-for="(category,index) in feauturedCategory" :key="category">
                     <div class="w-40 h-40 border rounded-full relative bg-[##F6F6F6] hover:bg-orange-300">
                         <div
                             class="absolute flex justify-center left-5  items-center bottom-9 hover:hover:-translate-y-4 transition-transform">

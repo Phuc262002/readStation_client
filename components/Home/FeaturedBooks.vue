@@ -6,10 +6,7 @@
                 <div class="flex flex-col gap-10 w-1/2">
                     <div class="flex flex-col justify-start gap-5">
                         <h1 class="text-3xl font-bold">Sách đặc sắc</h1>
-                        <h1 class="text-balck">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos quam
-                            assumenda voluptates sunt maxime eos nam. Ducimus laborum magni dolorem adipisci quasi,
-                            id
-                            inventore assumenda reiciendis expedita nobis dicta ratione!</h1>
+                        <h1 class="text-balck">Sách này là một tác phẩm đặc sắc, kết hợp văn học và triết học một cách tinh tế. Tác giả đã tạo nên một thế giới đầy màu sắc và nhân vật sâu sắc, đưa độc giả vào cuộc phiêu lưu đầy ý nghĩa và suy tư. Đây không chỉ là một cuốn sách giải trí mà còn là một nguồn cảm hứng vô tận.</h1>
                     </div>
                     <div class="bg-white rounded-lg h-auto">
                         <div class=" p-5 w-full flex justify-center gap-10">

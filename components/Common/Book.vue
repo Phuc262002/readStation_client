@@ -12,7 +12,7 @@
                 {{data?.author}}
             </div> -->
             <div class="text-[#f65d4e] font-extrabold text-xl">
-                200.000đ
+                {{data?.book_detail[0]?.price}} đ
             </div>
         </div>
     </div>
