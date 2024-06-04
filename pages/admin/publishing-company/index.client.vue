@@ -51,7 +51,7 @@
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
-            <span> Name </span>
+            <span> Tên nhà xuất bản </span>
           </template>
         </template>
 

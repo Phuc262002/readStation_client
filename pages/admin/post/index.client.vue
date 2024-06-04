@@ -30,7 +30,7 @@
         </NuxtLink>
       </div>
 
-      <a-table :columns="columns" :data-source="data">
+      <a-table :columns="columns" :data-source="postStore?.posts.posts">
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
             <span> Tên người viết </span>
@@ -38,25 +38,16 @@
         </template>
 
         <template #bodyCell="{ column, record }">
+          
           <template v-if="column.key === 'name'">
             <a>
               {{ record.name }}
             </a>
           </template>
-          <template v-else-if="column.key === 'tags'">
+          <template v-else-if="column.key === 'status'">
             <span>
-              <a-tag
-                v-for="tag in record.tags"
-                :key="tag"
-                :color="
-                  tag === 'loser'
-                    ? 'volcano'
-                    : tag.length > 5
-                    ? 'geekblue'
-                    : 'green'
-                "
-              >
-                {{ tag.toUpperCase() }}
+              <a-tag :color="record.status === 'active' ? 'green' : 'volcano'">
+                {{ record.status }}
               </a-tag>
             </span>
           </template>
@@ -146,22 +137,16 @@
 
                     <a-menu-item key="3" class="p-4">
                       <span>
-                        <a-popconfirm
-                          title="Are you sure delete this task?"
-                          placement="right"
-                          ok-text="Yes"
-                          cancel-text="No"
-                          @confirm="confirm"
-                          @cancel="cancel"
+                        <button
+                          @click="showDeleteConfirm(record?.id)"
+                          class="flex items-center gap-1 text-blue-400"
                         >
-                          <div class="flex items-center gap-1 text-blue-400">
-                            <UIcon
-                              class="group-hover:text-[red] text-lg"
-                              name="i-material-symbols-delete-outline"
-                            />
-                            <span>Xóa</span>
-                          </div>
-                        </a-popconfirm>
+                          <UIcon
+                            class="group-hover:text-[red] text-lg"
+                            name="i-material-symbols-delete-outline"
+                          />
+                          <span>Xóa</span>
+                        </button>
                       </span>
                     </a-menu-item>
                   </a-menu>
@@ -198,14 +183,31 @@
   </div>
 </template>
 <script lang="ts" setup>
-const confirm = (e: MouseEvent) => {
-  console.log(e);
-  message.success("Xóa thành công");
-};
+import { Modal } from "ant-design-vue";
+const postStore = usePostStore();
 
-const cancel = (e: MouseEvent) => {
-  console.log(e);
-  message.error("Xóa thất bại");
+useAsyncData(async () => {
+  await postStore.getPost({});
+});
+
+const onDelete = async (id: string) => {
+  await postStore.deletePost(id);
+  await postStore.getPost({});
+};
+const showDeleteConfirm = (id: string) => {
+  Modal.confirm({
+    title: "Are you sure delete this task?",
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      onDelete(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
 };
 const columns = [
   {
@@ -239,9 +241,9 @@ const columns = [
     key: "slug",
   },
   {
-    title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
+    title: "Trạng thái",
+    key: "status",
+    dataIndex: "status",
   },
   {
     title: "Action",
@@ -249,18 +251,7 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    category: "New York No. 1 Lake Park",
-    title: 32,
-    summary: "New York No. 1 Lake Park",
-    image: 32,
-    Slug: "asdasd",
-    tags: ["nice", "developer"],
-  },
-];
+
 const open = ref<boolean>(false);
 const showModal = () => {
   open.value = true;
