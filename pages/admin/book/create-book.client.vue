@@ -50,9 +50,9 @@
 
                                     </div>
                                     <div class="flex flex-col gap-2">
-                                        <label class="text-sm font-semibold" for="">Tủ sách </label>
+                                        <label class="text-sm font-semibold" for="">Kệ sách </label>
                                         <a-select v-model:value="valuecreateBook.shelve_id" show-search
-                                            placeholder="Mã tủ sách" :options="optionsShelve"
+                                            placeholder="Mã kệ sách" :options="optionsShelve"
                                             :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
                                             @change="handleChange"></a-select>
 
@@ -206,7 +206,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
-import { useShelvesStore } from "~/stores/bookshelveStore";
+
 const isLoading = ref(false);
 const fileList = ref([]);
 const fileList2 = ref([]);
@@ -216,7 +216,6 @@ const getDataShelvesValue = async () => {
     try {
         isLoading.value = true;
         const data = await shelvesValue.getAllShelves({});
-        console.log("🚀 ~ getDataShelvesValue ~ data:", data.data._rawValue.data.shelves)
         optionsShelve.value = data.data._rawValue.data.shelves.map((shelve) => {
             return {
                 value: shelve.id,
