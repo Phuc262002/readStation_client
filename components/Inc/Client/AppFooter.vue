@@ -16,13 +16,13 @@
                         <ul class="flex flex-col gap-2">
                             <Nuxt-link to="/rules">
                                 <li
-                                    class="text-white text-base hover:-translate-y-1 transition-transform hover:text-blue-500">
+                                    class="text-white text-base hover:-translate-y-1 transition-transform hover:text-rtprimary">
                                     Điều khoản và dịch vụ
                                 </li>
                             </Nuxt-link>
                             <Nuxt-link to="/privacy-policy">
                                 <li
-                                    class="text-white text-base hover:-translate-y-1 transition-transform hover:text-blue-500">
+                                    class="text-white text-base hover:-translate-y-1 transition-transform hover:text-rtprimary">
                                     Chính sách bảo mật
                                 </li>
                             </Nuxt-link>

@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <h1 class="font-bold text-xl">200.000đ</h1>
-                                    <button class="bg-[#FF7D29] w-1/2 h-11 rounded-lg  text-white">Thuê
+                                    <button class="bg-rtprimary hover:bg-rtsecondary w-1/2 h-11 rounded-lg  text-white">Thuê
                                         Ngay</button>
                                 </div>
                             </div>

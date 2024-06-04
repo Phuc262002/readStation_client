@@ -79,7 +79,7 @@
             <div class="flex">
               <input
                 type="text"
-                class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
+                class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-rtprimary"
                 placeholder="Tìm kiếm..."
               />
               <div
@@ -87,7 +87,7 @@
               ></div>
               <button
                 type="button"
-                class="absolute right-0 h-full px-4 text-blue-600 rounded-r-md hover:bg-blue-300 transition-colors focus:outline-none"
+                class="absolute right-0 h-full px-4 text-gray-400 rounded-r-md hover:bg-[#FF7D29] transition-colors focus:outline-none"
               >
                 Tìm kiếm
               </button>
@@ -120,7 +120,7 @@
             <div class="ml-3">
               <NuxtLink to="/cart">
                 <button
-                  class="relative w-10 hover:bg-blue-100 hover:rounded-xl h-10"
+                  class="relative w-10 hover:bg-rtsecondary hover:rounded-xl h-10"
                 >
                   <div class="text-2xl flex justify-center items-center">
                     <UIcon class="text-2xl" name="i-material-symbols-shopping-bag-outline"/>
