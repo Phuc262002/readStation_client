@@ -66,7 +66,8 @@
 </template>
 <script setup>
 const publishingCompanyStore = usePublishingCompanyStore();
-
+const file = ref(null);
+const baseStore = useBaseStore();
 const publishingCompany = ref({
   name: "",
   description: "",
@@ -86,11 +87,13 @@ watch(
 );
 
 const uploadFile = async () => {
+  if (!file._rawValue.target.files[0]) {
+    return "";
+  }
   const formData = new FormData();
   formData.append("image", file._rawValue.target.files[0]);
   const dataUpload = await baseStore.uploadImg(formData);
-
-  return dataUpload.data._rawValue.data.link;
+  return dataUpload.data._rawValue.data.url;
 };
 
 const onSubmit = async () => {
