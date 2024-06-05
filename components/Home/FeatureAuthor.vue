@@ -5,7 +5,7 @@
                 <div class="text-xl text-orange-500">Tác giả nổi bật</div>
                 <div class="flex flex-col gap-5">
                     <h1 class="text-4xl font-bold">{{ AuthorFeatured?.author }}</h1>
-                    <p class="text-[#999999]" v-html="AuthorFeatured?.description"></p>
+                    <p class="text-[#999999]"><span v-html="AuthorFeatured?.description"></span></p>
                 </div>
                 <div>
                     <button class="bg-rtprimary hover:bg-orange-300 w-1/2 h-11 rounded-lg  text-white">Xem thông tin</button>
@@ -25,7 +25,7 @@
 
 <script setup>
 const featureAuthor = useHomeStore();
-const AuthorFeatured = ref({});
+const AuthorFeatured = ref([]);
 useAsyncData(async () => {
     try {
         const response = await featureAuthor.getAuthorFeatured(); //promise
