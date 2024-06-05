@@ -58,11 +58,6 @@ export const useCategoryStore = defineStore("category-store", {
       );
       return data;
     },
-    async getFeauturedCategory() {
-      const data: any = await useCustomFetch(
-        `/api/v1/home/get-feautured-category`
-      );
-      return data;
-    },
+   
   },
 });

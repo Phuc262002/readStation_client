@@ -11,12 +11,7 @@ export const useBookStore = defineStore("book-store", {
     };
   },
   actions: {
-    async getBookFeatured() {
-      const data: any = await useCustomFetch(
-        "/api/v1/home/get-feautured-book"
-      );
-      return data;
-    },
+ 
     async getAllBooks() {
       const data: any = await useCustomFetch("/api/v1/books");
       this.books = data.data._value?.data;

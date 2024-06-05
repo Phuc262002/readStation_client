@@ -62,9 +62,9 @@
 
 <script setup>
 import { ref } from 'vue';
-const getFeauturedBooks = useBookStore();
+import { useHomeStore } from '~/stores/homeStore';
+const getFeauturedBooks = useHomeStore();
 const feauturedBooks = ref([]);
-console.log("🚀 ~ feauturedBooks:", feauturedBooks)
 const getData = async () => {
     const data = await getFeauturedBooks.getBookFeatured();
     feauturedBooks.value = data?.data?._rawValue?.data;

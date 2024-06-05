@@ -6,12 +6,7 @@ export const useAuthorStore = defineStore("author-store", {
     };
   },
   actions: {
-    async getAuthorFeatured() {
-      const data: any = await useCustomFetch(
-        "/api/v1/home/get-feautured-author"
-      );
-      return data;
-    },
+  
     async getAllAuthor({ page, pageSize, search, status }: any) {
       const data: any = await useCustomFetch(`/api/v1/authors/admin/get-all`);
       this.AuthorAdmin = data.data._value?.data;
