@@ -10,8 +10,8 @@
 
                     <div class="w-1/2">
                         <div class="flex flex-col gap-2 uppercase">
-                            <div class="font-bold text-xl">{{ feauturedSatistic?.total_books}}</div>
-                            <div class="text-[#7d7d7d99]">Quyển sách</div>
+                            <div class="font-bold text-xl w-1/2">{{ feauturedSatistic?.total_books}}</div>
+                            <div class="text-orange-600 w-1/2">Quyển sách</div>
                         </div>
                     </div>
 
@@ -28,8 +28,8 @@
 
                     <div class="w-1/2">
                         <div class="flex flex-col gap-2 uppercase">
-                            <div class="font-bold text-xl">{{ feauturedSatistic?.total_authors}}</div>
-                            <div class="text-[#7d7d7d99]">Tác giả</div>
+                            <div class="font-bold text-xl w-1/2">{{ feauturedSatistic?.total_authors}}</div>
+                            <div class="text-orange-600  w-1/2">Tác giả</div>
                         </div>
                     </div>
 
@@ -48,8 +48,8 @@
 
                     <div class="w-1/2">
                         <div class="flex flex-col gap-2 uppercase">
-                            <div class="font-bold text-xl">{{ feauturedSatistic?.total_book_orders}}</div>
-                            <div class="text-[#7d7d7d99]">Đơn hàng</div>
+                            <div class="font-bold text-xl w-1/2">{{ feauturedSatistic?.total_book_orders}}</div>
+                            <div class="text-orange-600 w-1/2">Đơn hàng</div>
                         </div>
                     </div>
 
@@ -65,8 +65,8 @@
                     </div>
                     <div class="w-1/2">
                         <div class="flex flex-col gap-2 uppercase">
-                            <div class="font-bold text-xl">{{ feauturedSatistic?.total_users }}</div>
-                            <div class="text-[#7d7d7d99]">Khách hàng</div>
+                            <div class="font-bold text-xl w-1/2">{{ feauturedSatistic?.total_users }}</div>
+                            <div class="text-orange-600 w-1/2">Khách hàng</div>
                         </div>
                     </div>
 
