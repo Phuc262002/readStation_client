@@ -1,7 +1,7 @@
 <template>
     <div  class="flex flex-col gap-5 p-5">
         <div>
-            <img class="rounded-lg w-full" :src="data?.book_detail[0]?.poster" alt="">
+            <img class="rounded-lg w-full h-60" :src="data?.book_detail[0]?.poster" alt="">
         </div>
         <div class="flex flex-col gap-3">
             <div class="text-xl font-bold hover:text-[#f65d4e]">{{data?.title}}</div>
@@ -12,13 +12,13 @@
                 {{data?.author}}
             </div> -->
             <div class="text-[#f65d4e] font-extrabold text-xl">
-                200.000đ
+                {{data?.book_detail[0]?.price}} đ
             </div>
         </div>
     </div>
 </template>
 <script>
-export default  {
-    props: ['data']
-}
+export default {
+  props: ["data"],
+};
 </script>
