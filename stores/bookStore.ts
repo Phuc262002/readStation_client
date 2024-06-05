@@ -6,19 +6,23 @@ export const useBookStore = defineStore("book-store", {
     return {
       books: [],
       adminBooks: [],
+      isLoading: false,
+      isSubmitting: false,
     };
   },
   actions: {
-    async getAuthorFeatured() {
+    async getBookFeatured() {
       const data: any = await useCustomFetch(
-        "/api/v1/home/get-feautured-author"
+        "/api/v1/home/get-feautured-book"
       );
       return data;
     },
     async getAllBooks() {
       const data: any = await useCustomFetch("/api/v1/books");
+      this.books = data.data._value?.data;
       return data;
     },
+
     async createBook(valuecreateBook: any) {
       const data: any = await useCustomFetch("/api/v1/books/create-full", {
         method: "POST",
@@ -37,6 +41,6 @@ export const useBookStore = defineStore("book-store", {
       const data: any = await useCustomFetch("/api/v1/books/admin/get-all");
       this.adminBooks = data.data._value?.data;
       return data;
-    },
+    }
   },
 });

@@ -13,12 +13,12 @@
           </div>
           <div class="w-1/2 flex flex-col gap-7 text-left pl-20">
               <div class="flex flex-col gap-2"> 
-                  <h1 class=" text-6xl font-bold">Top 10 Books</h1>
-                  <h1 class=" text-6xl font-bold">To Make It A</h1>
-                  <h1 class=" text-6xl font-bold">Great Year</h1>
+                  <h1 class=" text-6xl font-bold">Top 10 cuốn sách</h1>
+                  <h1 class=" text-6xl font-bold">hay nhất</h1>
+                  <h1 class=" text-6xl font-bold">trong năm</h1>
               </div>
               <div>
-                <button class=" w-40 h-12 bg-[#FF7D29] p-2 rounded-lg text-white text-base font-semibold hover:bg-rtsecondary hover:text-white">Thuê Ngay</button>
+                <button class=" w-40 h-12 bg-[#FF7D29] p-2 rounded-lg text-white text-base font-semibold hover:bg-orange-300 hover:text-white">Thuê Ngay</button>
               </div>
           </div>
         </div>
@@ -42,7 +42,7 @@
                   <p class="text-[#f65d4e] text-2xl font-bold">$24.55</p>
               </div>
               <div>
-                <button class=" w-40 h-12 bg-[#FF7D29] p-2 rounded-lg text-white text-base font-semibold hover:bg-rtsecondary hover:text-white">Thuê Ngay</button>
+                <button class=" w-40 h-12 bg-[#FF7D29] p-2 rounded-lg text-white text-base font-semibold hover:bg-orange-300 hover:text-white">Thuê Ngay</button>
               </div>
           </div>
         </div>
@@ -66,7 +66,7 @@
                   <p class="text-[#f65d4e] text-2xl font-bold">$24.55</p>
               </div>
               <div>
-                <button class=" w-40 h-12 bg-[#FF7D29] p-2 rounded-lg text-white text-base font-semibold hover:bg-rtsecondary hover:text-white">Thuê Ngay</button>
+                <button class=" w-40 h-12 bg-[#FF7D29] p-2 rounded-lg text-white text-base font-semibold hover:bg-orange-300 hover:text-white">Thuê Ngay</button>
               </div>
           </div>
         </div>
