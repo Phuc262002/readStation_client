@@ -33,12 +33,12 @@
               <ul class="px-4 space-y-1">
                 <li
                   class="flex items-center"
-                  v-for="(company, index) in publishingCompanyStore
-                    ?.publishingCompany?.publishing_companies"
+                  v-for="(category, index) in categoryStore?.categories
+                    ?.categories"
                   :key="index"
                 >
                   <input type="checkbox" class="mr-2" />
-                  <span>{{ company?.name }}</span>
+                  <span>{{ category?.name }}</span>
                 </li>
               </ul>
             </div>
@@ -74,12 +74,11 @@
               <ul class="px-4 space-y-1">
                 <li
                   class="flex items-center"
-                  v-for="(company, index) in publishingCompanyStore
-                    ?.publishingCompany?.publishing_companies"
+                  v-for="(author, index) in authorStore?.authorClient?.authors"
                   :key="index"
                 >
                   <input type="checkbox" class="mr-2" />
-                  <span>{{ company?.name }}</span>
+                  <span>{{ author?.author }}</span>
                 </li>
               </ul>
             </div>
@@ -251,10 +250,41 @@ const showCategories = {
 };
 const publishingCompanyStore = usePublishingCompanyStore();
 const bookstore = useBookStore();
+const categoryStore = useCategoryStore();
+const authorStore = useAuthorStore();
 
+const dataAuthor = ref({});
+const dataCategory = ref({});
 const dataBooks = ref({});
 const dataCompanies = ref({});
+
 const isLoading = ref(false);
+
+useAsyncData(async () => {
+  isLoading.value = true;
+  try {
+    await authorStore.getAllAuthorClient({});
+    console.log("object111", dataAuthor.value);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
+});
+
+useAsyncData(async () => {
+  isLoading.value = true;
+  try {
+    await categoryStore.getAllCategoryClient({
+      type: "book",
+    });
+    console.log("object111", dataCategory.value);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
+});
 
 useAsyncData(async () => {
   isLoading.value = true;
