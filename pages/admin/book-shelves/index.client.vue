@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+    <div
+      class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
+    >
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả kệ sách</h5>
       </div>
@@ -10,22 +12,40 @@
       <div class="flex justify-between pb-4">
         <div class="relative w-1/4 md:block hidden">
           <div class="flex">
-            <input type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..." />
+            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
+              <template #prefix>
+                <SearchOutlined />
+              </template>
+              <template #suffix>
+                <a-spin  :indicator="indicator" />
+              </template>
+            </a-input>
           </div>
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <div
+            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          >
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
         <div class="">
           <a-button type="primary" @click="showModalAdd">Thêm kệ sách</a-button>
-          <BookShelvesCreate :openModalAdd="openModalAdd" :openModal="CloseModalAdd" />
-          <BookShelvesEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit" :shelvesId="shelvesId" />
+          <BookShelvesCreate
+            :openModalAdd="openModalAdd"
+            :openModal="CloseModalAdd"
+          />
+          <BookShelvesEdit
+            :openModalEdit="openModalEdit"
+            :openModal="CloseModalEdit"
+            :shelvesId="shelvesId"
+          />
         </div>
       </div>
 
-      <a-table :columns="columns" :data-source="dataShelves" :loading="shelvesValue.isLoading">
+      <a-table
+        :columns="columns"
+        :data-source="dataShelves"
+        :loading="shelvesValue.isLoading"
+      >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
             <span> Mã tủ sách </span>
@@ -55,10 +75,14 @@
                   <span>Sửa</span>
                 </template>
                 <span
-                  class="group hover:bg-[green]/20 bg-[#e4e1e1] flex justify-center items-center cursor-pointer w-8 h-8 rounded-md">
+                  class="group hover:bg-[green]/20 bg-[#e4e1e1] flex justify-center items-center cursor-pointer w-8 h-8 rounded-md"
+                >
                   <div>
                     <button @click="showModalEdit(record?.id)">
-                      <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
+                      <UIcon
+                        class="group-hover:text-[green]"
+                        name="i-material-symbols-edit-outline"
+                      />
                     </button>
                     <!-- <a-modal v-model:open="openModalEdit" title="Sửa">
                       <div class="">
@@ -99,9 +123,17 @@
                 <template #title>
                   <span>Xóa</span>
                 </template>
-                <span class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md">
-                  <button @click="showDeleteConfirm(record?.id)" class="flex items-center">
-                    <UIcon class="group-hover:text-[red]" name="i-material-symbols-delete-outline" />
+                <span
+                  class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                >
+                  <button
+                    @click="showDeleteConfirm(record?.id)"
+                    class="flex items-center"
+                  >
+                    <UIcon
+                      class="group-hover:text-[red]"
+                      name="i-material-symbols-delete-outline"
+                    />
                   </button>
                 </span>
               </a-tooltip>
@@ -113,13 +145,20 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 import { Modal } from "ant-design-vue";
 const isLoading = ref(false);
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const shelvesId = ref<number>();
-
+import { LoadingOutlined } from "@ant-design/icons-vue";
+import { h } from "vue";
+const indicator = h(LoadingOutlined, {
+  style: {
+    fontSize: "16px",
+  },
+  spin: true,
+});
 const shelvesValue = useShelvesStore();
 const dataShelves = ref([]);
 const getData = async () => {
@@ -133,7 +172,7 @@ const getData = async () => {
   } finally {
     isLoading.value = false;
   }
-}
+};
 const onDelete = async (id: string) => {
   await shelvesValue.deleteShelves(id);
   await getData();
@@ -153,9 +192,6 @@ const showDeleteConfirm = (id: string) => {
     },
   });
 };
-
-
-
 
 useAsyncData(async () => {
   await getData();
@@ -206,5 +242,4 @@ const columns = [
     key: "action",
   },
 ];
-
 </script>

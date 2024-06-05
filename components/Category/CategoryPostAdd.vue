@@ -35,8 +35,15 @@
             />
           </div>
         </div>
+        <div class="pt-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">
+           Hình danh mục sản phẩm
+          </label>
+          <div class="mt-1">
+            <CommonUploadImg :value="file" @input="(event) => (file = event)" />
+          </div>
+        </div>
 
-        
         <div class="flex justify-end items-end gap-4">
           <a-button
             @click="handleClose"
@@ -60,10 +67,13 @@
 </template>
 <script setup>
 const categoryStore = useCategoryStore();
-
+const file = ref(null);
+const baseStore = useBaseStore();
 const category = ref({
+  image: "",
   name: "",
   description: "",
+  is_featured: false,
   type: "post",
 });
 
@@ -79,11 +89,22 @@ watch(
     open.value = newVal;
   }
 );
-
+const uploadFile = async () => {
+  if (!file._rawValue.target.files[0]) {
+    return "";
+  }
+  const formData = new FormData();
+  formData.append("image", file._rawValue.target.files[0]);
+  const dataUpload = await baseStore.uploadImg(formData);
+  return dataUpload.data._rawValue.data.url;
+};
 const onSubmit = async () => {
+  const url = await uploadFile();
   await categoryStore.createCategory({
+    image: url,
     name: category.value.name,
     description: category.value.description,
+    is_featured: category.value.is_featured,
     type: "post",
   });
   await categoryStore.getAllCategory({
@@ -92,6 +113,8 @@ const onSubmit = async () => {
   category.value = {
     name: "",
     description: "",
+    image: "",
+    is_featured: false,
   };
   props.openModal();
 };

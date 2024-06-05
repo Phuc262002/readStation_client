@@ -24,10 +24,12 @@
           </div>
         </div>
         <div class="">
-          <a-button class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary " @click="showModalAdd"
+          <a-button
+            class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary"
+            @click="showModalAdd"
             >Thêm danh mục bài viết</a-button
           >
-         
+
           <CategoryPostAdd
             :openModalAdd="openModalAdd"
             :openModal="CloseModalAdd"
@@ -44,6 +46,7 @@
         :columns="columns"
         :data-source="categoryStore.categoriesAdmin?.categories"
         :loading="categoryStore.isLoading"
+        :pagination="pagination"
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
@@ -51,20 +54,30 @@
           </template>
         </template>
 
-        <template #bodyCell="{ column, record, index }">
-          <template v-if="column.key === '#'">
+        <template #bodyCell="{ column, record }">
+          <!-- <template v-if="column.key === '#'">
             <a>
               {{ index + 1 }}
             </a>
-          </template>
+          </template> -->
           <template v-if="column.key === 'name'">
             <a>
               {{ record.name }}
             </a>
           </template>
+          <template v-else-if="column.key === 'image'">
+            <a-image class="rounded-md" :width="100" :src="record.image" />
+          </template>
+          <template v-else-if="column.key === 'is_featured'">
+            <IconTick v-if="record.is_featured" />
+            <IconMul v-else />
+          </template>
           <template v-else-if="column.key === 'status'">
             <span>
-              <a-tag :bordered="false" :color="record.status === 'active' ? 'green' : 'volcano'">
+              <a-tag
+                :bordered="false"
+                :color="record.status === 'active' ? 'green' : 'volcano'"
+              >
                 {{ record.status }}
               </a-tag>
             </span>
@@ -82,39 +95,29 @@
                 <template #title>
                   <span>Sửa</span>
                 </template>
-                <span
+                <button
+                  @click="showModalEdit(record?.id)"
                   class="group hover:bg-[green]/20 flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <div>
-                    <button
-                      @click="showModalEdit(record?.id)"
-                      class="flex items-center"
-                    >
-                      <UIcon
-                        class="group-hover:text-[green]"
-                        name="i-material-symbols-edit-outline"
-                      />
-                    </button>
-                  </div>
-                </span>
+                  <UIcon
+                    class="group-hover:text-[green]"
+                    name="i-material-symbols-edit-outline"
+                  />
+                </button>
               </a-tooltip>
               <a-tooltip placement="top" color="red">
                 <template #title>
                   <span>Xóa</span>
                 </template>
-                <span
+                <button
+                  @click="showDeleteConfirm(record?.id)"
                   class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <button
-                    @click="showDeleteConfirm(record?.id)"
-                    class="flex items-center"
-                  >
-                    <UIcon
-                      class="group-hover:text-[red]"
-                      name="i-material-symbols-delete-outline"
-                    />
-                  </button>
-                </span>
+                  <UIcon
+                    class="group-hover:text-[red]"
+                    name="i-material-symbols-delete-outline"
+                  />
+                </button>
               </a-tooltip>
             </div>
           </template>
@@ -160,11 +163,11 @@ const showDeleteConfirm = (id: string) => {
 };
 
 const columns = [
-  {
-    title: "#",
-    dataIndex: "#",
-    key: "#",
-  },
+  // {
+  //   title: "#",
+  //   dataIndex: "#",
+  //   key: "#",
+  // },
   {
     title: "Tên",
     dataIndex: "name",
@@ -174,6 +177,16 @@ const columns = [
     title: "Nội dung",
     dataIndex: "description",
     key: "description",
+  },
+  {
+    title: "Hình ảnh",
+    dataIndex: "image",
+    key: "image",
+  },
+  {
+    title: "Nổi bật",
+    dataIndex: "is_featured",
+    key: "is_featured",
   },
   {
     title: "Slug",
@@ -191,7 +204,11 @@ const columns = [
     key: "action",
   },
 ];
-
+const pagination = computed(() => ({
+  total: categoryStore.categoriesAdmin?.totalPages,
+  current: categoryStore.categoriesAdmin?.page,
+  pageSize: categoryStore.categoriesAdmin?.pageSize,
+}));
 const CloseModalAdd = () => {
   openModalAdd.value = false;
 };
@@ -205,5 +222,4 @@ const showModalEdit = (id: number) => {
   openModalEdit.value = true;
   categoryId.value = id;
 };
-
 </script>

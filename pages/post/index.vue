@@ -13,7 +13,7 @@
     <div class="flex justify-center items-center mt-8">
       <div>
         <a-button
-          class="text-white bg-orange-500 hover:!text-white border-none hover:bg-rtsecondary"
+         type="primary"
           >Xem thêm</a-button
         >
       </div>
