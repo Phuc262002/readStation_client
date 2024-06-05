@@ -29,19 +29,9 @@
                 <li class="flex items-center">
                   <label for="history" class="flex items-center">
                     <input type="checkbox" id="history" class="mr-2" />
-                    <span>Kim Đồng</span>
-                  </label>
-                </li>
-                <li class="flex items-center">
-                  <label for="culture" class="flex items-center">
-                    <input type="checkbox" id="culture" class="mr-2" />
-                    <span>Văn hóa và Truyền Thông</span>
-                  </label>
-                </li>
-                <li class="flex items-center">
-                  <label for="science" class="flex items-center">
-                    <input type="checkbox" id="science" class="mr-2" />
-                    <span>Em yêu khoa học</span>
+                    <!-- <span>{{
+                      bookstore?.books?.books?.publishing_company?.name
+                    }}</span> -->
                   </label>
                 </li>
               </ul>
@@ -226,7 +216,7 @@
             >
               <a-spin></a-spin>
             </div>
-            <div class="grid grid-cols-3">
+            <div class="grid grid-cols-4">
               <NuxtLink
                 v-for="(book, index) in bookstore?.books?.books"
                 :key="index"
@@ -258,7 +248,7 @@ const showCategories = {
   category3: ref(false),
   category4: ref(false),
 };
-
+const publishingCompanyStore = usePublishingCompanyStore();
 const bookstore = useBookStore();
 const dataBooks = ref({});
 const isLoading = ref(false);

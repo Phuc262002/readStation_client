@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
 
-export const usePostStore = defineStore("post-store", {
+export const useCommentStore = defineStore("comment-store", {
   state: () => {
     return {
-      comment: {},
+      comment: [],
       isLoading: false,
       isSubmitting: false,
     };
@@ -26,10 +26,12 @@ export const usePostStore = defineStore("post-store", {
     },
     async createComment(comment: any) {
       try {
+        this.isSubmitting = true;
         const data: any = await useCustomFetch("/api/v1/comments/create", {
           method: "POST",
           body: JSON.stringify(comment),
         });
+        this.isSubmitting = false;
         return data;
       } catch (error) {
         console.log(error);

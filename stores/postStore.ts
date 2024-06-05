@@ -4,6 +4,7 @@ export const usePostStore = defineStore("post-store", {
   state: () => {
     return {
       posts: [],
+      postsPopular: [],
       postsAdmin: [],
       post: {},
       isLoading: false,
@@ -13,6 +14,7 @@ export const usePostStore = defineStore("post-store", {
   actions: {
     async getPost({ page, pageSize, category_id, sort }: any) {
       try {
+        this.isLoading = true;
         const data: any = await useCustomFetch(
           `/api/v1/posts?${
             page ? `&page=${page}` : ""
@@ -21,7 +23,8 @@ export const usePostStore = defineStore("post-store", {
           }${sort ? `&sort=${sort}` : ""
           }`
         );
-        this.posts = data.data._value?.data;
+        // this.posts = data.data._value?.data;
+        this.posts = data.data._value;
         return data;
       } catch (error) {
         console.log(error);
