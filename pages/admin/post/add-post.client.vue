@@ -73,12 +73,12 @@ const categoryStore = useCategoryStore();
 const postStore = usePostStore();
 const options = ref([]);
 const upLoadFile = async () => {
-  // if (!file._rawValue.target.files[0]) return;
-  // const formData = new FormData();
-  // formData.append("image", file._rawValue.target.files[0]);
-  // const dataUpload = await baseStore.uploadImg(formData);
-  // return dataUpload.data._rawValue.data.link;
-  return "https://d1hjkbq40fs2x4.cloudfront.net/2016-01-31/files/1045-2.jpg";
+  if (!file._rawValue.target.files[0]) return;
+  const formData = new FormData();
+  formData.append("image", file._rawValue.target.files[0]);
+  const dataUpload = await baseStore.uploadImg(formData);
+  return dataUpload.data._rawValue.data.url;
+  // return "https://d1hjkbq40fs2x4.cloudfront.net/2016-01-31/files/1045-2.jpg";
 };
 const posts = ref({
   title: "",

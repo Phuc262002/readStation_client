@@ -65,6 +65,7 @@ export const usePublishingCompanyStore = defineStore(
       },
 
       async updatePublishingCompany({ id, publishingCompany }: any) {
+        this.isSubmitting = true;
         const data: any = await useCustomFetch(
           `/api/v1/publishing-companies/update/${id}`,
           {
@@ -72,6 +73,7 @@ export const usePublishingCompanyStore = defineStore(
             body: JSON.stringify(publishingCompany),
           }
         );
+        this.isSubmitting = false;
         return data;
       },
     },

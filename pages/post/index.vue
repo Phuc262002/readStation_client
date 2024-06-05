@@ -13,7 +13,7 @@
     <div class="flex justify-center items-center mt-8">
       <div>
         <a-button
-          class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary"
+          class="text-white bg-orange-500 hover:!text-white border-none hover:bg-rtsecondary"
           >Xem thêm</a-button
         >
       </div>
@@ -28,7 +28,9 @@ const postStore = usePostStore();
 
 useAsyncData(async () => {
   try {
-    await postStore.getPost({});
+    await postStore.getPost({
+
+    });
   } catch (error) {
     console.error(error);
   }

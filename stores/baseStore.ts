@@ -52,11 +52,8 @@ export const useBaseStore = defineStore("base-store", {
       return data;
     },
     async uploadImg(file: any) {
-      const data: any = await useFetch(`https://api.imgur.com/3/image`, {
+      const data: any = await useCustomFetch(`/api/v1/upload/image`, {
         method: "POST",
-        headers: {
-          Authorization: "Client-ID 477a6fa90aba78e",
-        },
         body: file,
       });
       return data;

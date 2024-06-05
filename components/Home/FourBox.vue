@@ -10,8 +10,8 @@
 
                     <div class="w-1/2">
                         <div class="flex flex-col gap-2 uppercase">
-                            <div class="font-bold text-xl">10,000</div>
-                            <div class="text-[#7d7d7d99]">Books</div>
+                            <div class="font-bold text-xl">{{ feauturedSatistic?.total_books}}</div>
+                            <div class="text-[#7d7d7d99]">Quyển sách</div>
                         </div>
                     </div>
 
@@ -28,8 +28,8 @@
 
                     <div class="w-1/2">
                         <div class="flex flex-col gap-2 uppercase">
-                            <div class="font-bold text-xl">10,000</div>
-                            <div class="text-[#7d7d7d99]">Authors</div>
+                            <div class="font-bold text-xl">{{ feauturedSatistic?.total_authors}}</div>
+                            <div class="text-[#7d7d7d99]">Tác giả</div>
                         </div>
                     </div>
 
@@ -48,8 +48,8 @@
 
                     <div class="w-1/2">
                         <div class="flex flex-col gap-2 uppercase">
-                            <div class="font-bold text-xl">10,000</div>
-                            <div class="text-[#7d7d7d99]">Books Sold</div>
+                            <div class="font-bold text-xl">{{ feauturedSatistic?.total_book_orders}}</div>
+                            <div class="text-[#7d7d7d99]">Đơn hàng</div>
                         </div>
                     </div>
 
@@ -65,8 +65,8 @@
                     </div>
                     <div class="w-1/2">
                         <div class="flex flex-col gap-2 uppercase">
-                            <div class="font-bold text-xl">10,000</div>
-                            <div class="text-[#7d7d7d99]">Happy Customer</div>
+                            <div class="font-bold text-xl">{{ feauturedSatistic?.total_users }}</div>
+                            <div class="text-[#7d7d7d99]">Khách hàng</div>
                         </div>
                     </div>
 
@@ -75,3 +75,21 @@
         </div>
     </div>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+
+const getStatistic = useHomeStore()
+const feauturedSatistic = ref({})
+const getData = async () => {
+    try {
+        const data = await getStatistic.getStatistic();
+        feauturedSatistic.value = data?.data?._rawValue?.data
+    } catch (error) {
+        console.error(error)
+    }
+}
+useAsyncData(async () => {
+    await getData()
+})
+</script>
