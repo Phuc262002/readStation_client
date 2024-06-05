@@ -69,3 +69,34 @@
     </div>
 
 </template>
+
+<script setup>
+import { ref } from 'vue';
+
+const recomendedBooks = useHomeStore();
+const feauturedRecommended = ref({})
+console.log("🚀 ~ feauturedRecommended:", feauturedRecommended)
+const getDataRecomended = async () => {
+    const response = await recomendedBooks.getRecomendedBooks();
+    feauturedRecommended.value = response.data;
+}
+
+const feauturedLastest = ref({})
+console.log("🚀 ~ feauturedLastest:", feauturedLastest)
+const getDataLastest = async () => {
+    try {
+        const data = await recomendedBooks.getLastestBook();
+        feauturedLastest.value = data?.data?._rawValue?.data
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+
+
+
+useAsyncData(async () => {
+    await getDataRecomended();
+    await getDataLastest();
+})
+</script>

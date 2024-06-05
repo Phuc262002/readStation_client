@@ -11,20 +11,20 @@
             </div>
         </div>
 
-        <a-modal v-model:open="open" title="Xem chi tiết" :footer="null">
+        <!-- <a-modal v-model:open="open" title="Xem chi tiết" :footer="null">
             <p>Some contents...</p>
             <p>Some contents...</p>
             <p>Some contents...</p>
-        </a-modal>
+        </a-modal> -->
     </button>
 
 </template>
 <script>
-import { ref } from 'vue';
-const open = ref(false);
-const showModal = () => {
-    open.value = true;
-};
+// import { ref } from 'vue';
+// const open = ref(false);
+// const showModal = () => {
+//     open.value = true;
+// };
 export default {
   props: ["data"],
 };
