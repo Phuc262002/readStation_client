@@ -100,6 +100,9 @@
                 {{ record.name }}
               </a>
             </template>
+            <template v-else-if="column.key === 'image'">
+            <a-image class="rounded-md" :width="100" :src="record.image" />
+          </template>
             <template v-else-if="column.key === 'action'">
               <div class="flex text-[16px] gap-4">
                 <a-tooltip placement="top" color="gold">
@@ -161,6 +164,7 @@
       dataIndex: "Name",
       key: "name",
     },
+    
     {
       title: "Danh mục",
       dataIndex: "category",

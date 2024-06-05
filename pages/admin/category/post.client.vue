@@ -65,6 +65,13 @@
               {{ record.name }}
             </a>
           </template>
+          <template v-else-if="column.key === 'image'">
+            <a-image class="rounded-md" :width="100" :src="record.image" />
+          </template>
+          <template v-else-if="column.key === 'is_featured'">
+            <IconTick v-if="record.is_featured" />
+            <IconMul v-else />
+          </template>
           <template v-else-if="column.key === 'status'">
             <span>
               <a-tag
@@ -170,6 +177,16 @@ const columns = [
     title: "Nội dung",
     dataIndex: "description",
     key: "description",
+  },
+  {
+    title: "Hình ảnh",
+    dataIndex: "image",
+    key: "image",
+  },
+  {
+    title: "Nổi bật",
+    dataIndex: "is_featured",
+    key: "is_featured",
   },
   {
     title: "Slug",

@@ -58,6 +58,10 @@
             Logo nhà xuất bản
           </label>
           <div class="mt-1">
+            <a-image
+              :width="200"
+              :src="publishingCompany.logo_company"
+            />
             <CommonUploadImg :value="file" @input="(event) => (file = event)" />
           </div>
         </div>
@@ -85,7 +89,7 @@
 <script setup>
 const publishingCompanyStore = usePublishingCompanyStore();
 const file = ref("");
-
+const baseStore = useBaseStore();
 const publishingCompany = ref({
   name: "",
   description: "",
@@ -101,9 +105,8 @@ const props = defineProps({
 const publishingCompanyId = ref(props.publishingCompanyId);
 const open = ref(props.openModalEdit);
 const handleChange = (value) => {
-    category.value.status = value;
-    
-  };
+  category.value.status = value;
+};
 
 watch(
   () => props.openModalEdit,
@@ -119,15 +122,14 @@ watch(
 );
 
 const uploadFile = async () => {
-  // if (!file._rawValue.target.files[0]) {
-  //   return publishingCompany.value.logo_company;
-  // }
-  // const formData = new FormData();
-  // formData.append("image", file._rawValue.target.files[0]);
-  // const dataUpload = await baseStore.uploadImg(formData);
+  if (!file._rawValue.target.files[0]) {
+    return publishingCompany.value.logo_company;
+  }
+  const formData = new FormData();
+  formData.append("image", file._rawValue.target.files[0]);
+  const dataUpload = await baseStore.uploadImg(formData);
 
-  // return dataUpload.data._rawValue.data.link;
-  return "";
+  return dataUpload.data._rawValue.data.url;
 };
 useAsyncData(
   async () => {

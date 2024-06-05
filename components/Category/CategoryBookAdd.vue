@@ -35,9 +35,9 @@
             />
           </div>
         </div>
-        <div class="pb-4">
+        <div class="pt-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Logo nhà xuất bản
+           Hình danh mục sản phẩm
           </label>
           <div class="mt-1">
             <CommonUploadImg :value="file" @input="(event) => (file = event)" />
@@ -106,6 +106,8 @@ const onSubmit = async () => {
   category.value = {
     name: "",
     description: "",
+    image: "",
+    is_featured: false,
   };
   props.openModal();
 };
