@@ -17,7 +17,7 @@
                   />
                 </div>
                 <div>
-                  <div class="block font-semibold text-15 ">
+                  <div class="block font-semibold text-15">
                     {{ authStore?.authUser?.user?.fullname }}
                   </div>
                   <div class="text-slate-500 dark:text-zink-200">
@@ -33,7 +33,7 @@
           <nuxt-link to="/account">
             <a-menu-item key="1">
               <span class="flex items-center gap-2">
-                <UIcon name="i-ant-design-user-outlined"  />
+                <UIcon name="i-ant-design-user-outlined" />
                 <span>Quản lí tài khoản </span>
               </span>
             </a-menu-item>
@@ -41,11 +41,22 @@
           <nuxt-link to="/account/account-setting">
             <a-menu-item key="2">
               <span class="flex items-center gap-2">
-                <UIcon
-                  name="i-material-symbols-light-settings"
-                
-                />
-                <span >Cài đặt</span>
+                <UIcon name="i-material-symbols-light-settings" />
+                <span>Cài đặt</span>
+              </span></a-menu-item
+            >
+          </nuxt-link>
+          <nuxt-link
+            to="/admin"
+            v-if="
+              authStore.authUser?.user?.role?.name === 'admin' ||
+              authStore.authUser?.user?.role?.name === 'manager'
+            "
+          >
+            <a-menu-item key="11">
+              <span class="flex items-center gap-2">
+                <UIcon name="i-material-symbols-light-webhook-rounded" />
+                <span>Quản trị Website</span>
               </span></a-menu-item
             >
           </nuxt-link>
@@ -55,7 +66,6 @@
               ><span class="flex items-center gap-2">
                 <UIcon
                   name="i-material-symbols-light-shopping-bag-outline-sharp"
-                 
                 />
                 <span>Quản lí đơn hàng</span>
               </span>
@@ -63,14 +73,14 @@
           </nuxt-link>
           <nuxt-link to="/">
             <a-menu-item key="4"
-              ><span class="flex items-center gap-2 ">
+              ><span class="flex items-center gap-2">
                 <UIcon name="i-ph-wallet-light" />
                 <span>Quản lí ví</span>
               </span></a-menu-item
             >
           </nuxt-link>
           <div class="border-solid border border-gray-200 w-full my-2"></div>
-          <a-menu-item key="5" @click="logout" >
+          <a-menu-item key="5" @click="logout">
             <span class="flex items-center gap-2">
               <UIcon name="i-iconoir-log-out" />
               <span>Đăng xuất</span>

@@ -28,9 +28,8 @@ const postStore = usePostStore();
 
 useAsyncData(async () => {
   try {
-    await postStore.getPost({
-
-    });
+    const data = await postStore.getPost({});
+    postStore.posts = data.data._value?.data;
   } catch (error) {
     console.error(error);
   }

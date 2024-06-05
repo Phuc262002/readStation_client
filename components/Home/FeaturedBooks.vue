@@ -31,7 +31,7 @@
                                         <h1 class="text-xl font-bold">Mô tả</h1>
                                     </div>
                                     <div>
-                                        <p v-html="feauturedBooks[0].description_summary"></p>
+                                        <p><span v-html="feauturedBooks[0]?.description_summary"></span></p>
                                     </div>
                                     <div class="grid grid-cols-2 gap-1">
                                         <h1 class="text-[gray]">Tác giả</h1>
@@ -51,7 +51,7 @@
                 </div>
                 <!-- Right -->
                 <div class="w-1/2 grid grid-cols-3 gap-4">
-                    <CommonHomeFeaturedBooks v-for="(data, index) in feauturedBooks" :data="data" :key="data"/>
+                    <CommonHomeFeaturedBooks v-for="(data, index) in feauturedBooks" :data="data" :key="data.id"/>
                 </div>
             </div>
         </div>
@@ -62,9 +62,8 @@
 
 <script setup>
 import { ref } from 'vue';
-
 const getFeauturedBooks = useHomeStore();
-const feauturedBooks = ref([]);
+const feauturedBooks = ref({});
 const getData = async () => {
     const data = await getFeauturedBooks.getBookFeatured();
     feauturedBooks.value = data?.data?._rawValue?.data;
