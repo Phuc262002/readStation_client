@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 export const useCategoryStore = defineStore("category-store", {
   state: () => {
     return {
+      categories: [],
       categoriesAdmin: [],
       isSubmitting: false,
       isLoading: false,
@@ -48,7 +49,7 @@ export const useCategoryStore = defineStore("category-store", {
       );
       return data;
     },
-    async updateCategory({id , category}: any) {
+    async updateCategory({ id, category }: any) {
       const data: any = await useCustomFetch(
         `/api/v1/categories/update/${id}`,
         {
