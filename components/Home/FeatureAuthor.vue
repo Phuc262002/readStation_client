@@ -25,13 +25,13 @@
 
 <script setup>
 const isLoading = ref(false);
-const bookstore = useBookStore();
+const featureAuthor = useAuthorStore();
 const AuthorFeatured = ref({});
-console.log("🚀 ~ AuthorFeatured:", AuthorFeatured)
+
 useAsyncData(async () => {
     try {
         isLoading.value = true;
-        const response = await bookstore.getAuthorFeatured(); //promise
+        const response = await featureAuthor.getAuthorFeatured(); //promise
         AuthorFeatured.value = response.data._rawValue.data[0];
     } catch (error) {
         console.error(error);
