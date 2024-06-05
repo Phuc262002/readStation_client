@@ -24,7 +24,9 @@
           </div>
         </div>
         <div class="">
-          <a-button class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary " @click="showModalAdd"
+          <a-button
+            class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary"
+            @click="showModalAdd"
             >Thêm danh mục sản phẩm</a-button
           >
           <CategoryBookAdd
@@ -34,7 +36,8 @@
           <CategoryBookEdit
             :openModalEdit="openModalEdit"
             :openModal="CloseModalEdit"
-            :categoryId="categoryId"/>
+            :categoryId="categoryId"
+          />
         </div>
       </div>
 
@@ -42,6 +45,7 @@
         :columns="columns"
         :data-source="categoryStore.categoriesAdmin?.categories"
         :loading="categoryStore.isLoading"
+        :pagination="false"
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
@@ -49,12 +53,12 @@
           </template>
         </template>
 
-        <template #bodyCell="{ column, record, index }">
-          <template v-if="column.key === '#'">
+        <template #bodyCell="{ column, record }">
+          <!-- <template v-if="column.key === '#'">
             <a>
               {{ index + 1 }}
             </a>
-          </template>
+          </template> -->
           <template v-if="column.key === 'name'">
             <a>
               {{ record.name }}
@@ -114,6 +118,14 @@
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="categoryStore.categoriesAdmin?.totalResults"
+          :pageSize="categoryStore.categoriesAdmin?.pageSize"
+          show-less-items
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -123,12 +135,20 @@ import { Modal } from "ant-design-vue";
 const categoryStore = useCategoryStore();
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
-  const categoryId = ref<number>();
-useAsyncData(async () => {
-  await categoryStore.getAllCategory({
-    type: "book",
-  });
-});
+const categoryId = ref<number>();
+const current = ref(1);
+useAsyncData(
+  async () => {
+    await categoryStore.getAllCategory({
+      page: current.value,
+      type: "book",
+    });
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
 
 const onDelete = async (id: string) => {
   await categoryStore.deleteCategory(id);
@@ -153,11 +173,11 @@ const showDeleteConfirm = (id: string) => {
 };
 
 const columns = [
-  {
-    title: "#",
-    dataIndex: "#",
-    key: "#",
-  },
+  // {
+  //   title: "#",
+  //   dataIndex: "#",
+  //   key: "#",
+  // },
   {
     title: "Tên",
     dataIndex: "name",
