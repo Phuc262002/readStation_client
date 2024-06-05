@@ -1,5 +1,5 @@
 <template>
-  <a-comment>
+  <a-comment v-if="authStore.isLogged">
     <template #avatar>
       <a-avatar
         :src="authStore.authUser?.user?.avatar"
@@ -22,14 +22,29 @@
       </a-form-item>
     </template>
   </a-comment>
+  <p class="flex justify-center items-center font-semibold mb-5" v-else>
+    Bạn hãy
+    <NuxtLink
+      to="/login"
+      class="m-1 hover:text-orange-600 cursor-pointer text-rtprimary"
+    >
+      đăng nhập</NuxtLink
+    >
+    trước khi bình luận nhé!
+  </p>
   <a-comment
     v-if="commentStore.comment?.comments?.length > 0"
     v-for="comment in commentStore.comment?.comments"
     :key="comment.id"
   >
-    <template #actions>
+    <template #actions v-if="authStore.isLogged">
       <span
-        @click="handleReply(`${comment.id + comment.created_at.toString()}`, comment.id)"
+        @click="
+          handleReply(
+            `${comment.id + comment.created_at.toString()}`,
+            comment.id
+          )
+        "
         >Trả lời</span
       >
     </template>
@@ -72,8 +87,11 @@
       </p>
     </template>
     <a-comment v-for="reply in comment?.replies" :key="reply.id">
-      <template #actions>
-        <span @click="handleReply(`${reply.id + reply.created_at.toString()}`, reply.id)"
+      <template #actions v-if="authStore.isLogged">
+        <span
+          @click="
+            handleReply(`${reply.id + reply.created_at.toString()}`, reply.id)
+          "
           >Trả lời</span
         >
       </template>
@@ -156,6 +174,7 @@
       </a-tooltip>
     </template>
   </a-comment>
+
   <p class="text-center mb-5 font-semibold" v-else>
     Bài viết này hiện chưa có bình luận nào. Hãy là người đầu tiên bình luận.
   </p>
