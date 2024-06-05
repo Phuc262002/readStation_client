@@ -62,7 +62,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useHomeStore } from '~/stores/homeStore';
+
 const getFeauturedBooks = useHomeStore();
 const feauturedBooks = ref([]);
 const getData = async () => {

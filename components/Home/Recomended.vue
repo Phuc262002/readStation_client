@@ -72,7 +72,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useHomeStore } from '~/stores/homeStore';
+
 const recomendedBooks = useHomeStore();
 const feauturedRecommended = ref({})
 console.log("🚀 ~ feauturedRecommended:", feauturedRecommended)

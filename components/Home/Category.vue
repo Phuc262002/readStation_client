@@ -23,7 +23,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useHomeStore } from '~/stores/homeStore';
+
 const getCategory = useHomeStore(); 
 const feauturedCategory = ref([]);
 const getData = async () => {

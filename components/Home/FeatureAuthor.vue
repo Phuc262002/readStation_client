@@ -24,7 +24,6 @@
 </template>
 
 <script setup>
-import { useHomeStore } from '~/stores/homeStore';
 const featureAuthor = useHomeStore();
 const AuthorFeatured = ref({});
 useAsyncData(async () => {
