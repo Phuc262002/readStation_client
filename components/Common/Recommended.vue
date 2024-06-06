@@ -6,7 +6,7 @@
                 <div>
                     <p>{{ title?.description }}</p>
                 </div>
-                <swiper :slidesPerView="4" :spaceBetween="15" :pagination="{
+                <swiper :slidesPerView="4" :spaceBetween="1" :pagination="{
                     clickable: true,
                 }" :breakpoints="{
                     '640': {
@@ -15,15 +15,15 @@
                     },
                     '768': {
                         slidesPerView: 4,
-                        spaceBetween: 30,
+                        spaceBetween: 10,
                     },
                     '1924': {
                         slidesPerView: 4,
-                        spaceBetween: 30,
+                        spaceBetween: 5,
                     },
                 }" :modules="modules" class="mySwiper">
                     <swiper-slide v-for="(items,index) in data" :key="items.id">
-                        <img class="rounded-lg w-32 h-48"
+                        <img class="rounded-lg h-52"
                             :src="items.poster"
                             alt="">
                     </swiper-slide>
