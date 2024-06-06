@@ -61,10 +61,8 @@
               {{ record.name }}
             </a>
           </template>
-          <template v-if="column.key === 'logo_company'">
-            <div class="flex justify-start gap-4 items-center">
-              <a-avatar :src="record.logo_company" :size="60" />
-            </div>
+          <template v-else-if="column.key === 'logo_company'">
+            <a-image class="rounded-md" :width="100" :src="record.logo_company" />
           </template>
           <template v-else-if="column.key === 'status'">
             <span>

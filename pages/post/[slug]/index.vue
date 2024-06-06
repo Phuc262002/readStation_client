@@ -62,17 +62,8 @@
 
         <div>
           <h2 class="font-bold text-[20px]">Bình luận</h2>
-          <BlogComment v-if="authStore.isLogged" />
-          <p class="flex justify-center items-center font-semibold mb-5" v-else>
-            Bạn hãy
-            <NuxtLink
-              to="/login"
-              class="m-1 hover:text-orange-600 cursor-pointer text-rtprimary"
-            >
-              đăng nhập</NuxtLink
-            >
-            trước khi bình luận nhé!
-          </p>
+          <BlogComment  />
+          
         </div>
         <hr class="mb-5" />
 

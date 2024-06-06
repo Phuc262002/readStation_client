@@ -10,6 +10,16 @@ export const useCategoryStore = defineStore("category-store", {
     };
   },
   actions: {
+    async getAllCategoryClient({ page, pageSize, type }: any) {
+      const data: any = await useCustomFetch(
+        `/api/v1/categories?type=${type}${page ? `&page=${page}` : ""}${
+          pageSize ? `&pageSize=${pageSize}` : ""
+        }`
+      );
+      this.categories = data.data._value?.data;
+      return data;
+    },
+
     async getAllCategory({ page, pageSize, search, status, type }: any) {
       this.isLoading = true;
       const data: any = await useCustomFetch(
@@ -59,6 +69,5 @@ export const useCategoryStore = defineStore("category-store", {
       );
       return data;
     },
-   
   },
 });

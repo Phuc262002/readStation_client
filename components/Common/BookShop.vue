@@ -1,8 +1,12 @@
 <template>
   <div class="py-5 border-b">
     <div class="flex flex-col gap-5 px-5 border-x">
-      <div>
-        <img class="rounded-lg" :src="props?.book?.poster" alt="" />
+      <div class="mx-auto">
+        <img
+          class="rounded-lg w-[180px] h-[284px]"
+          :src="props?.book?.poster"
+          alt=""
+        />
       </div>
       <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
         {{ props?.book?.book_version }}

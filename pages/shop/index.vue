@@ -2,13 +2,93 @@
   <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
     <div class="flex gap-6">
       <div class="w-1/5 rounded-lg h-fit flex flex-col space-y-4">
-        <div class="px-3 pb-2 text-xl font-semibold">
-          Khám phá theo danh mục
-        </div>
+        <div class="px-3 pb-2 text-xl font-semibold">Khám phá theo:</div>
+
         <div class="bg-white">
           <div
             class="text-base cursor-pointer rounded-xl border"
             @click="toggleCategories('category1')"
+          >
+            <div class="flex justify-between items-center px-4 py-2">
+              <span>Danh mục</span>
+              <img
+                ref="bookIcon2"
+                class="rotate-180"
+                width="20"
+                height="20"
+                src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
+                alt=""
+              />
+            </div>
+            <div
+              class="border-t px-4 py-2"
+              v-if="showCategories.category1.value"
+            >
+              <div
+                v-if="isLoading"
+                class="flex items-center justify-center py-10"
+              >
+                <a-spin></a-spin>
+              </div>
+              <ul class="px-4 space-y-1">
+                <li
+                  class="flex items-center"
+                  v-for="(category, index) in categoryStore?.categories
+                    ?.categories"
+                  :key="index"
+                >
+                  <input type="checkbox" class="mr-2" />
+                  <span>{{ category?.name }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white">
+          <div
+            class="text-base cursor-pointer rounded-xl border"
+            @click="toggleCategories('category2')"
+          >
+            <div class="flex justify-between items-center px-4 py-2">
+              <span>Tác giả</span>
+              <img
+                ref="bookIcon2"
+                class="rotate-180"
+                width="20"
+                height="20"
+                src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
+                alt=""
+              />
+            </div>
+            <div
+              class="border-t px-4 py-2"
+              v-if="showCategories.category2.value"
+            >
+              <div
+                v-if="isLoading"
+                class="flex items-center justify-center py-10"
+              >
+                <a-spin></a-spin>
+              </div>
+              <ul class="px-4 space-y-1">
+                <li
+                  class="flex items-center"
+                  v-for="(author, index) in authorStore?.authorClient?.authors"
+                  :key="index"
+                >
+                  <input type="checkbox" class="mr-2" />
+                  <span>{{ author?.author }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white">
+          <div
+            class="text-base cursor-pointer rounded-xl border"
+            @click="toggleCategories('category3')"
           >
             <div class="flex justify-between items-center px-4 py-2">
               <span>Nhà xuất bản</span>
@@ -22,104 +102,24 @@
               />
             </div>
             <div
-              v-if="showCategories.category1.value"
               class="border-t px-4 py-2"
-            >
-              <ul class="px-4 space-y-1">
-                <li class="flex items-center">
-                  <label for="history" class="flex items-center">
-                    <input type="checkbox" id="history" class="mr-2" />
-                    <!-- <span>{{
-                      bookstore?.books?.books?.publishing_company?.name
-                    }}</span> -->
-                  </label>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white">
-          <div
-            class="text-base cursor-pointer rounded-xl border"
-            @click="toggleCategories('category2')"
-          >
-            <div class="flex justify-between items-center px-4 py-2">
-              <span>Sách giáo khoa</span>
-              <img
-                ref="bookIcon2"
-                class="rotate-180"
-                width="20"
-                height="20"
-                src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
-                alt=""
-              />
-            </div>
-            <div
-              v-if="showCategories.category2.value"
-              class="border-t px-4 py-2"
-            >
-              <ul class="px-4 space-y-1">
-                <li class="flex items-center">
-                  <label for="history" class="flex items-center">
-                    <input type="checkbox" id="history" class="mr-2" />
-                    <span>Toán</span>
-                  </label>
-                </li>
-                <li class="flex items-center">
-                  <label for="culture" class="flex items-center">
-                    <input type="checkbox" id="culture" class="mr-2" />
-                    <span>Lý</span>
-                  </label>
-                </li>
-                <li class="flex items-center">
-                  <label for="science" class="flex items-center">
-                    <input type="checkbox" id="science" class="mr-2" />
-                    <span>Hóa</span>
-                  </label>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="bg-white">
-          <div
-            class="text-base cursor-pointer rounded-xl border"
-            @click="toggleCategories('category3')"
-          >
-            <div class="flex justify-between items-center px-4 py-2">
-              <span>Sách khác</span>
-              <img
-                ref="bookIcon2"
-                class="rotate-180"
-                width="20"
-                height="20"
-                src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
-                alt=""
-              />
-            </div>
-            <div
               v-if="showCategories.category3.value"
-              class="border-t px-4 py-2"
             >
+              <div
+                v-if="isLoading"
+                class="flex items-center justify-center py-10"
+              >
+                <a-spin></a-spin>
+              </div>
               <ul class="px-4 space-y-1">
-                <li class="flex items-center">
-                  <label for="history" class="flex items-center">
-                    <input type="checkbox" id="history" class="mr-2" />
-                    <span>Văn</span>
-                  </label>
-                </li>
-                <li class="flex items-center">
-                  <label for="culture" class="flex items-center">
-                    <input type="checkbox" id="culture" class="mr-2" />
-                    <span>Sử</span>
-                  </label>
-                </li>
-                <li class="flex items-center">
-                  <label for="science" class="flex items-center">
-                    <input type="checkbox" id="science" class="mr-2" />
-                    <span>Địa</span>
-                  </label>
+                <li
+                  class="flex items-center"
+                  v-for="(company, index) in publishingCompanyStore
+                    ?.publishingCompany?.publishing_companies"
+                  :key="index"
+                >
+                  <input type="checkbox" class="mr-2" />
+                  <span>{{ company?.name }}</span>
                 </li>
               </ul>
             </div>
@@ -250,14 +250,61 @@ const showCategories = {
 };
 const publishingCompanyStore = usePublishingCompanyStore();
 const bookstore = useBookStore();
+const categoryStore = useCategoryStore();
+const authorStore = useAuthorStore();
+
+const dataAuthor = ref({});
+const dataCategory = ref({});
 const dataBooks = ref({});
+const dataCompanies = ref({});
+
 const isLoading = ref(false);
+
+useAsyncData(async () => {
+  isLoading.value = true;
+  try {
+    await authorStore.getAllAuthorClient({});
+    console.log("object111", dataAuthor.value);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
+});
+
+useAsyncData(async () => {
+  isLoading.value = true;
+  try {
+    await categoryStore.getAllCategoryClient({
+      type: "book",
+    });
+    console.log("object111", dataCategory.value);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
+});
 
 useAsyncData(async () => {
   isLoading.value = true;
   try {
     const response = await bookstore.getAllBooks();
     dataBooks.value = response?.data?._rawValue?.data;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
+});
+
+useAsyncData(async () => {
+  isLoading.value = true;
+  try {
+    const response =
+      await publishingCompanyStore.getAllPublishingCompanyClient();
+    dataCompanies.value = response?.data?._rawValue?.data;
+    console.log("aaabb", dataCompanies);
   } catch (error) {
     console.error(error);
   } finally {

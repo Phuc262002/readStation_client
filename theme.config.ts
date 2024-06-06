@@ -2,12 +2,12 @@ const themeAntdConfig = Object.freeze({
     // apply ant design theme
     token: {
         // primary color
-        colorPrimary: "#FF7D29",
-        colorLink: "blue",
+        colorPrimary: "#fe6411",
+        colorLink: "#fe6411",
         // hover color
-        colorPrimaryHover: "#fe6411",
-        colorLinkActive: "#c63408",
-        colorLinkHover: "#fe6411",
+        colorPrimaryHover: "#ef4a07",
+        colorLinkActive: "#fe6411",
+        colorLinkHover: "#ef4a07",
         // wireframe: false,
         // fontSize: 14,
         // borderRadius: 4,
