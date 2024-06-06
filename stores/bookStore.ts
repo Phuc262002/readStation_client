@@ -11,7 +11,6 @@ export const useBookStore = defineStore("book-store", {
     };
   },
   actions: {
- 
     async getAllBooks() {
       const data: any = await useCustomFetch("/api/v1/books");
       this.books = data.data._value?.data;
@@ -33,9 +32,17 @@ export const useBookStore = defineStore("book-store", {
       author_id,
       status,
     }: any) {
-      const data: any = await useCustomFetch("/api/v1/books/admin/get-all");
+      const data: any = await useCustomFetch(
+        `/api/v1/books/admin/get-all?${page ? `&page=${page}` : ""}${
+          pageSize ? `&pageSize=${pageSize}` : ""
+        }${search ? `&search=${search}` : ""}${
+          category_id ? `&category_id=${category_id}` : ""
+        }${author_id ? `&author_id=${author_id}` : ""}${
+          status ? `&status=${status}` : ""
+        }`
+      );
       this.adminBooks = data.data._value?.data;
       return data;
-    }
+    },
   },
 });
