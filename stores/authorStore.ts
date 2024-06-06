@@ -3,6 +3,8 @@ export const useAuthorStore = defineStore("author-store", {
   state: () => {
     return {
       AuthorAdmin: [],
+      isSubmitting: false,
+      isLoading: false,
     };
   },
   actions: {
