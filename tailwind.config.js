@@ -21,6 +21,7 @@ export default {
           900: "#7e2610",
           950: "#440f06",
         },
+        rtgray: " #E5E7EB",
       },
     },
   },

@@ -8,12 +8,13 @@
           alt=""
         />
       </div>
-      <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
-        {{ props?.book?.book_version }}
-      </div>
+
       <div class="flex flex-col gap-3">
         <div class="text-xl font-bold hover:text-[#f65d4e]">
           {{ props?.book?.book?.original_title }}
+        </div>
+        <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
+          {{ props?.book?.book_version }}
         </div>
         <div class="flex justify-start">
           <CommonStar rating="5" />
@@ -21,8 +22,8 @@
         <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
           {{ props?.book?.book?.author?.author }}
         </div>
-        <div class="text-[#f65d4e] font-extrabold text-xl">
-          {{ props?.book?.price }}
+        <div class="text-orange-600 font-extrabold text-xl">
+          {{ props?.book?.price }} đ
         </div>
       </div>
     </div>

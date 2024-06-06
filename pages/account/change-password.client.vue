@@ -92,7 +92,7 @@
             <div class="w-full flex items-center justify-end pt-5">
               <a-button
                 type="primary"
-                class="bg-[#D9D9D9] text-black h-10 mr-6 hover:!bg-rtprimary"
+                class="bg-white border border-rtgray !text-black h-10 mr-6 hover:!bg-rtgray"
                 >Hủy</a-button
               >
               <a-button

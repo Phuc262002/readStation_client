@@ -5,11 +5,11 @@
         <div class="px-3 pb-2 text-xl font-semibold">Khám phá theo:</div>
 
         <div class="bg-white">
-          <div
-            class="text-base cursor-pointer rounded-xl border"
-            @click="toggleCategories('category1')"
-          >
-            <div class="flex justify-between items-center px-4 py-2">
+          <div class="text-base cursor-pointer rounded-xl border">
+            <div
+              class="flex justify-between items-center px-4 py-2"
+              @click="() => handleIsShow('category')"
+            >
               <span>Danh mục</span>
               <img
                 ref="bookIcon2"
@@ -20,10 +20,7 @@
                 alt=""
               />
             </div>
-            <div
-              class="border-t px-4 py-2"
-              v-if="showCategories.category1.value"
-            >
+            <div class="border-t px-4 py-2" v-if="isShow.category">
               <div
                 v-if="isLoading"
                 class="flex items-center justify-center py-10"
@@ -37,8 +34,7 @@
                     ?.categories"
                   :key="index"
                 >
-                  <input type="checkbox" class="mr-2" />
-                  <span>{{ category?.name }}</span>
+                  <a-checkbox> {{ category?.name }}</a-checkbox>
                 </li>
               </ul>
             </div>
@@ -46,11 +42,11 @@
         </div>
 
         <div class="bg-white">
-          <div
-            class="text-base cursor-pointer rounded-xl border"
-            @click="toggleCategories('category2')"
-          >
-            <div class="flex justify-between items-center px-4 py-2">
+          <div class="text-base cursor-pointer rounded-xl border">
+            <div
+              class="flex justify-between items-center px-4 py-2"
+              @click="() => handleIsShow('author')"
+            >
               <span>Tác giả</span>
               <img
                 ref="bookIcon2"
@@ -61,10 +57,7 @@
                 alt=""
               />
             </div>
-            <div
-              class="border-t px-4 py-2"
-              v-if="showCategories.category2.value"
-            >
+            <div class="border-t px-4 py-2" v-if="isShow.author">
               <div
                 v-if="isLoading"
                 class="flex items-center justify-center py-10"
@@ -77,8 +70,7 @@
                   v-for="(author, index) in authorStore?.authorClient?.authors"
                   :key="index"
                 >
-                  <input type="checkbox" class="mr-2" />
-                  <span>{{ author?.author }}</span>
+                  <a-checkbox> {{ author?.author }}</a-checkbox>
                 </li>
               </ul>
             </div>
@@ -86,11 +78,11 @@
         </div>
 
         <div class="bg-white">
-          <div
-            class="text-base cursor-pointer rounded-xl border"
-            @click="toggleCategories('category3')"
-          >
-            <div class="flex justify-between items-center px-4 py-2">
+          <div class="text-base cursor-pointer rounded-xl border">
+            <div
+              class="flex justify-between items-center px-4 py-2"
+              @click="() => handleIsShow('publishing')"
+            >
               <span>Nhà xuất bản</span>
               <img
                 ref="bookIcon2"
@@ -101,10 +93,7 @@
                 alt=""
               />
             </div>
-            <div
-              class="border-t px-4 py-2"
-              v-if="showCategories.category3.value"
-            >
+            <div class="border-t px-4 py-2" v-if="isShow.publishing">
               <div
                 v-if="isLoading"
                 class="flex items-center justify-center py-10"
@@ -118,8 +107,7 @@
                     ?.publishingCompany?.publishing_companies"
                   :key="index"
                 >
-                  <input type="checkbox" class="mr-2" />
-                  <span>{{ company?.name }}</span>
+                  <a-checkbox> {{ company?.name }}</a-checkbox>
                 </li>
               </ul>
             </div>
@@ -129,7 +117,7 @@
         <div class="bg-white">
           <div
             class="text-base cursor-pointer rounded-xl border"
-            @click="toggleCategories('category4')"
+            @click="() => handleIsShow('review')"
           >
             <div class="flex justify-between items-center px-4 py-2">
               <span>Đánh giá</span>
@@ -142,10 +130,7 @@
                 alt=""
               />
             </div>
-            <div
-              v-if="showCategories.category4.value"
-              class="border-t px-4 py-2"
-            >
+            <div v-if="isShow.review" class="border-t px-4 py-2">
               <ul class="px-4 space-y-1">
                 <li class="flex items-center justify-between">
                   <label for="star5" class="flex items-center justify-between">
@@ -239,15 +224,20 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+const checked = ref(false);
 
-const showCategories = {
-  category1: ref(false),
-  category2: ref(false),
-  category3: ref(false),
-  category4: ref(false),
+const isShow = {
+  category: ref(false),
+  author: ref(false),
+  publishing: ref(false),
+  review: ref(false),
 };
+
+const handleIsShow = (section) => {
+  isShow[section].value = !isShow[section].value;
+};
+
 const publishingCompanyStore = usePublishingCompanyStore();
 const bookstore = useBookStore();
 const categoryStore = useCategoryStore();
@@ -311,18 +301,6 @@ useAsyncData(async () => {
     isLoading.value = false;
   }
 });
-
-const toggleCategories = (category) => {
-  showCategories[category].value = !showCategories[category].value;
-  const bookIcon = document.getElementById(
-    `bookIcon${category.charAt(category.length - 1)}`
-  );
-  if (showCategories[category].value) {
-    bookIcon.style.transform = "rotate(180deg)";
-  } else {
-    bookIcon.style.transform = "rotate(0deg)";
-  }
-};
 
 const value1 = ref("lucy");
 const handleChange = (value) => {
