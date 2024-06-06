@@ -16,7 +16,13 @@ export const useAuthorStore = defineStore("author-store", {
     },
 
     async getAllAuthor({ page, pageSize, search, status }: any) {
-      const data: any = await useCustomFetch(`/api/v1/authors/admin/get-all`);
+      const data: any = await useCustomFetch(
+        `/api/v1/authors/admin/get-all?${page ? `&page=${page}` : ""}${
+          pageSize ? `&pageSize=${pageSize}` : ""
+        }${search ? `&search=${search}` : ""}${
+          status ? `&status=${status}` : ""
+        }`
+      );
       this.AuthorAdmin = data.data._value?.data;
       return data;
     },

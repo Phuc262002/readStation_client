@@ -215,7 +215,8 @@ const shelvesValue = useShelvesStore();
 const getDataShelvesValue = async () => {
     try {
         isLoading.value = true;
-        const data = await shelvesValue.getAllShelves({});
+        const data = await shelvesValue.getAllShelves({
+        });
         optionsShelve.value = data.data._rawValue.data.shelves.map((shelve) => {
             return {
                 value: shelve.id,
@@ -323,7 +324,6 @@ const valuecreateBook = ref({
     }]
 }
 );
-
 const onSubmit = async () => {
     // alert(JSON.stringify(valuecreateBook.value))
     try {
