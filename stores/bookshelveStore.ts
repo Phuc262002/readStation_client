@@ -15,6 +15,7 @@ export const useShelvesStore = defineStore("shelves-store", {
       category_id,
       bookcase_id,
     }: any) {
+      this.isLoading = true;
       const data: any = await useCustomFetch(
         `/api/v1/shelves?${page ? `&page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
@@ -28,6 +29,7 @@ export const useShelvesStore = defineStore("shelves-store", {
       return data;
     },
     async createShelves(valueCreateShelves: any) {
+      this.isSubmitting = true;
       const data: any = await useCustomFetch(`/api/v1/shelves/create`, {
         method: "POST",
         body: JSON.stringify(valueCreateShelves),

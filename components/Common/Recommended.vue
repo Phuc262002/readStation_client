@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-orange-200 w-1/2 rounded-lg ">
+    <div class="bg-orange-200 w-1/2 rounded-lg h-auto ">
         <div class="p-8">
             <div class="flex flex-col gap-5">
                 <div class="text-4xl font-bold">{{ title?.title }}</div>
@@ -22,10 +22,8 @@
                         spaceBetween: 5,
                     },
                 }" :modules="modules" class="mySwiper">
-                    <swiper-slide v-for="(items,index) in data" :key="items.id">
-                        <img class="rounded-lg h-52"
-                            :src="items.poster"
-                            alt="">
+                    <swiper-slide v-for="(items, index) in data" :key="items.id">   
+                            <img class="rounded-lg" :src="items.poster" alt="">
                     </swiper-slide>
                 </swiper>
             </div>
@@ -67,7 +65,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 180px;
+    height: 250px;
 }
 
 :deep(.swiper-slide img) {
