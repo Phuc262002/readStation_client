@@ -206,10 +206,10 @@ useAsyncData(
 
 const onUpdate = async () => {
   const data = {
-    name: publishingCompany.value.name,
-    description: publishingCompany.value.description,
+    name: publishingCompany.value?.name,
+    description: publishingCompany.value?.description,
     status: publishingCompany?.value?.status,
-    logo_company: imageInfo.value?.url || publishingCompany.value.logo_company,
+    logo_company: imageInfo.value?.url || publishingCompany.value?.logo_company,
   };
 
   await publishingCompanyStore.updatePublishingCompany({
