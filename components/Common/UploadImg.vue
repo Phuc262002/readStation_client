@@ -1,89 +1,70 @@
 <template>
-  <div class="clearfix">
-    <a-upload
-      :value="value"
-      @input="emitInput"
-      v-model:file-list="fileList"
-      :customRequest="(file) => uploadImg(file)"
-      list-type="picture-card"
-      @preview="handlePreview"
-    >
-      <div v-if="fileList.length < 8">
-        <plus-outlined />
-        <div style="margin-top: 8px">Upload</div>
-      </div>
-    </a-upload>
-    <a-modal
-      :open="previewVisible"
-      :title="previewTitle"
-      :footer="null"
-      @cancel="handleCancel"
-    >
-      <img alt="example" style="width: 100%" :src="previewImage" />
-    </a-modal>
-  </div>
+  <ClientOnly>
+    <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
+      <a-upload-dragger
+        v-model:fileList="fileList"
+        list-type="picture"
+        name="image"
+        :multiple="false"
+        :action="(file) => uploadFile(file)"
+        @change="handleChangeUploadImg"
+        @drop="handleDrop"
+        :before-upload="beforeUpload"
+        :remove="(file) => deleteFile(file)"
+      >
+        <p class="ant-upload-drag-icon">
+          <inbox-outlined></inbox-outlined>
+        </p>
+        <p class="ant-upload-text">Click hoặc kéo thả file vào đây</p>
+        <p class="ant-upload-hint">Hoặc nhấn vào đây để chọn file</p>
+      </a-upload-dragger>
+    </a-spin>
+  </ClientOnly>
 </template>
-<script lang="ts" setup>
-defineProps({
-  value: {
-    type: String,
-  },
-});
-import { PlusOutlined } from "@ant-design/icons-vue";
+<script setup>
 import { ref } from "vue";
-import type { UploadProps } from "ant-design-vue";
-const emit = defineEmits(["input"]);
-const emitInput = (event) => {
-  emit("input", event);
+import { message, Upload } from "ant-design-vue";
+const fileList = ref([]);
+const baseStore = useBaseStore();
+const imageInfo = ref("");
+const uploadFile = async (file) => {
+  if (fileList.value.length > 0) {
+    fileList.value = [];
+    await baseStore.deleteImg(imageInfo.value?.publicId);
+  }
+  const formData = new FormData();
+  formData.append("image", file);
+  try {
+    const dataUpload = await baseStore.uploadImg(formData);
+    imageInfo.value = dataUpload.data._rawValue.data;
+  } catch (error) {
+    message.error("Upload ảnh thất bại");
+    console.log("🚀 ~ uploadFile ~ error:", error);
+  }
 };
-const uploadImg = (file: any) => {
-  handlePreview(file);
-  console.log(file);
+const handleChangeUploadImg = (info) => {
+  const status = info.file.status;
+  if (status !== "uploading") {
+    console.log(info.file, info.fileList);
+  }
+  if (status === "done") {
+    message.success(`${info.file.name} file uploaded successfully.`);
+  } else if (status === "error") {
+    message.error(`${info.file.name} file upload failed.`);
+  }
+};
+const deleteFile = async (file) => {
+  await baseStore.deleteImg(imageInfo.value?.publicId);
 };
 
-function getBase64(file: File) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
+function handleDrop(e) {
+  console.log(e);
 }
-
-const previewVisible = ref(false);
-const previewImage = ref("");
-const previewTitle = ref("");
-
-const fileList = ref<UploadProps["fileList"]>([]);
-
-const handleCancel = () => {
-  previewVisible.value = false;
-  previewTitle.value = "";
-};
-const handlePreview = async (file: any) => {
-  const url = (await getBase64(file.file)) as string;
-  previewImage.value = url;
-  previewVisible.value = true;
-  previewTitle.value = file.file.name;
-  fileList.value = [
-    {
-      uid: "1",
-      name: file.file.name,
-      status: "done",
-      url: url,
-    },
-  ];
+const beforeUpload = (file) => {
+  const isImage = file.type.startsWith("image/");
+  if (!isImage) {
+    message.error("Bạn chỉ có thể tải lên file ảnh!");
+  }
+  return isImage || Upload.LIST_IGNORE;
 };
 </script>
-<style scoped>
-/* you can make up upload button and sample style by using stylesheets */
-.ant-upload-select-picture-card i {
-  font-size: 32px;
-  color: #999;
-}
-
-.ant-upload-select-picture-card .ant-upload-text {
-  margin-top: 8px;
-  color: #666;
-}
-</style>

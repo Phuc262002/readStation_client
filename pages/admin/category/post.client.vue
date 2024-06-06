@@ -46,7 +46,7 @@
         :columns="columns"
         :data-source="categoryStore.categoriesAdmin?.categories"
         :loading="categoryStore.isLoading"
-        :pagination="pagination"
+        :pagination="false"
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
@@ -123,6 +123,14 @@
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="categoryStore.categoriesAdmin?.totalResults"
+          :pageSize="categoryStore.categoriesAdmin?.pageSize"
+          show-less-items
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -133,11 +141,19 @@ const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const categoryId = ref<number>();
 const categoryStore = useCategoryStore();
-useAsyncData(async () => {
-  await categoryStore.getAllCategory({
-    type: "post",
-  });
-});
+const current = ref(1);
+useAsyncData(
+  async () => {
+    await categoryStore.getAllCategory({
+      page: current.value,
+      type: "post",
+    });
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
 
 const onDelete = async (id: string) => {
   await categoryStore.deleteCategory(id);
