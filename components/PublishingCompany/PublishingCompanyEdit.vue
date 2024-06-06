@@ -58,11 +58,27 @@
             Logo nhà xuất bản
           </label>
           <div class="mt-1">
-            <a-image
-              :width="200"
-              :src="publishingCompany.logo_company"
-            />
-            <CommonUploadImg :value="file" @input="(event) => (file = event)" />
+            <ClientOnly>
+              <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
+                <a-upload-dragger
+                  v-model:fileList="fileList"
+                  list-type="picture"
+                  name="image"
+                  :multiple="false"
+                  :action="(file) => uploadFile(file)"
+                  @change="handleChangeUploadImg"
+                  @drop="handleDrop"
+                  :before-upload="beforeUpload"
+                  :remove="(file) => deleteFile(file)"
+                >
+                  <p class="ant-upload-drag-icon">
+                    <inbox-outlined></inbox-outlined>
+                  </p>
+                  <p class="ant-upload-text">Click hoặc kéo thả file vào đây</p>
+                  <p class="ant-upload-hint">Hoặc nhấn vào đây để chọn file</p>
+                </a-upload-dragger>
+              </a-spin>
+            </ClientOnly>
           </div>
         </div>
         <div class="flex justify-end items-end gap-4">
@@ -87,9 +103,11 @@
   </a-modal>
 </template>
 <script setup>
+import { message, Upload } from "ant-design-vue";
 const publishingCompanyStore = usePublishingCompanyStore();
-const file = ref("");
 const baseStore = useBaseStore();
+const fileList = ref([]);
+const imageInfo = ref("");
 const publishingCompany = ref({
   name: "",
   description: "",
@@ -121,15 +139,45 @@ watch(
   }
 );
 
-const uploadFile = async () => {
-  if (!file._rawValue.target.files[0]) {
-    return publishingCompany.value.logo_company;
+const uploadFile = async (file) => {
+  if (fileList.value.length > 0) {
+    fileList.value = [];
+    await baseStore.deleteImg(imageInfo.value?.publicId);
   }
   const formData = new FormData();
-  formData.append("image", file._rawValue.target.files[0]);
-  const dataUpload = await baseStore.uploadImg(formData);
+  formData.append("image", file);
+  try {
+    const dataUpload = await baseStore.uploadImg(formData);
+    imageInfo.value = dataUpload.data._rawValue.data;
+  } catch (error) {
+    message.error("Upload ảnh thất bại");
+    console.log("🚀 ~ uploadFile ~ error:", error);
+  }
+};
+const handleChangeUploadImg = (info) => {
+  const status = info.file.status;
+  if (status !== "uploading") {
+    console.log(info.file, info.fileList);
+  }
+  if (status === "done") {
+    message.success(`${info.file.name} file uploaded successfully.`);
+  } else if (status === "error") {
+    message.error(`${info.file.name} file upload failed.`);
+  }
+};
+const deleteFile = async (file) => {
+  await baseStore.deleteImg(file.url.split("/").pop().split(".")[0]);
+};
 
-  return dataUpload.data._rawValue.data.url;
+function handleDrop(e) {
+  console.log(e);
+}
+const beforeUpload = (file) => {
+  const isImage = file.type.startsWith("image/");
+  if (!isImage) {
+    message.error("Bạn chỉ có thể tải lên file ảnh!");
+  }
+  return isImage || Upload.LIST_IGNORE;
 };
 useAsyncData(
   async () => {
@@ -141,9 +189,18 @@ useAsyncData(
     publishingCompany.value.description = data.data._value?.data?.description;
     publishingCompany.value.logo_company = data.data._value?.data?.logo_company;
     publishingCompany.value.status = data.data._value?.data?.status;
+    fileList.value = [
+      {
+        uid: "-1",
+        name: "image.png",
+        status: "done",
+        url: data.data._value?.data?.logo_company,
+      },
+    ];
   },
   {
     watch: [publishingCompanyId],
+    initialCache: false,
   }
 );
 
@@ -152,7 +209,7 @@ const onUpdate = async () => {
     name: publishingCompany.value.name,
     description: publishingCompany.value.description,
     status: publishingCompany?.value?.status,
-    logo_company: await uploadFile(),
+    logo_company: imageInfo.value?.url || publishingCompany.value.logo_company,
   };
 
   await publishingCompanyStore.updatePublishingCompany({
@@ -164,12 +221,15 @@ const onUpdate = async () => {
 };
 
 const handleClose = () => {
-  publishingCompany.value = {
-    name: "",
-    description: "",
-    logo_company: "",
-    status: "",
-  };
+  // if (fileList.value.length > 0) {
+  //   fileList.value = [];
+  // }
+  // publishingCompany.value = {
+  //   name: "",
+  //   description: "",
+  //   logo_company: "",
+  //   status: "",
+  // };
   props.openModal();
 };
 </script>

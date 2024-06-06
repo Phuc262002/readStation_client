@@ -2,7 +2,10 @@ import { defineStore } from "pinia";
 
 export const useBaseStore = defineStore("base-store", {
   state: () => {
-    return {};
+    return {
+      isSubmitting: false,
+      isLoading: false,
+    };
   },
 
   actions: {
@@ -52,10 +55,30 @@ export const useBaseStore = defineStore("base-store", {
       return data;
     },
     async uploadImg(file: any) {
-      const data: any = await useCustomFetch(`/api/v1/upload/image`, {
+      this.isSubmitting = true;
+      const data: any = await useCustomFetch(`/api/v1/upload/images`, {
         method: "POST",
         body: file,
       });
+      this.isSubmitting = false;
+      return data;
+    },
+    async getImgs(file: any) {
+      const data: any = await useCustomFetch(`/api/v1/upload/images`, {
+        method: "GET",
+        body: file,
+      });
+      return data;
+    },
+    async deleteImg(publicId: any) {
+      this.isSubmitting = true;
+      const data: any = await useCustomFetch(
+        `/api/v1/upload/images/delete/${publicId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      this.isSubmitting = false;
       return data;
     },
   },
