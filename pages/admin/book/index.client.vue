@@ -24,7 +24,8 @@
         </NuxtLink>
       </div>
 
-      <a-table :columns="columns" :data-source="allAdminBooks?.adminBooks?.books">
+      <a-table :columns="columns" :data-source="allAdminBooks?.adminBooks?.books" :loading="allAdminBooks.isLoading"
+        :pagination="false">
         <template #headerCell="{ column }">
           <template v-if="column.key === 'author'">
             <span> Tác giả</span>
@@ -45,18 +46,9 @@
               </span>
             </div>
           </template>
-          <template v-if="column.key === 'is_featured'">
-            <span>
-              <span>
-                <template v-if="record.is_featured">
-                  <UIcon class="flex items-center w-5 h-5" name="i-material-symbols-check-box-outline" />
-                </template>
-                <template v-else>
-                  <UIcon class="flex items-center w-5 h-5" name="i-material-symbols-cancel-presentation-outline" />
-                </template>
-              </span>
-
-            </span>
+          <template v-else-if="column.key === 'is_featured'">
+            <IconTick v-if="record.is_featured" />
+            <IconMul v-else />
           </template>
           <template v-if="column.key === 'status'">
             <span>
@@ -96,41 +88,66 @@
                 <template #title>
                   <span>Xóa</span>
                 </template>
-                <span class="hover:bg-[red]/20 flex items-center justify-center w-6 h-6 rounded-md">
-                  <a-popconfirm title="Are you sure delete this task?" placement="right" ok-text="Yes" cancel-text="No"
-                    @confirm="confirm" @cancel="cancel">
-                    <a href="#">
-                      <UIcon class="hover:text-[red]" name="i-material-symbols-delete-outline" />
-                    </a>
-                  </a-popconfirm>
+                <span class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md">
+                  <button @click="showDeleteConfirm(record?.id)" class="flex items-center">
+                    <UIcon class="group-hover:text-[red]" name="i-material-symbols-delete-outline" />
+                  </button>
                 </span>
               </a-tooltip>
             </div>
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination v-model:current="current" :total="allAdminBooks?.adminBooks?.totalResults"
+          :pageSize="allAdminBooks?.adminBooks?.pageSize" show-less-items />
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-const isLoading = ref(false);
 import { ref } from "vue";
 const allAdminBooks = useBookStore();
+const current = ref(1);
 const getAllAdminBooks = async () => {
   try {
-    isLoading.value = true;
-    const data: any = await allAdminBooks.getAdminBooks({});
+    const data: any = await allAdminBooks.getAdminBooks({
+      page: current.value,
+    });
     return data;
   } catch (error) {
     console.error(error);
-  } finally {
-    isLoading.value = false;
   }
 
 };
 useAsyncData(async () => {
   await getAllAdminBooks();
-});
+},
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
+const onDelete = async (id: string) => {
+  await allAdminBooks.deleteBook(id);
+  getAllAdminBooks()
+};
+
+const showDeleteConfirm = (id: string) => {
+  Modal.confirm({
+    title: "Are you sure delete this task?",
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      onDelete(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+}
 
 const confirm = (e: MouseEvent) => {
   console.log(e);

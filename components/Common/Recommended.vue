@@ -1,12 +1,12 @@
 <template>
-    <div class="bg-orange-200 w-1/2 rounded-lg ">
+    <div class="bg-orange-200 w-1/2 rounded-lg h-auto ">
         <div class="p-8">
             <div class="flex flex-col gap-5">
                 <div class="text-4xl font-bold">{{ title?.title }}</div>
                 <div>
                     <p>{{ title?.description }}</p>
                 </div>
-                <swiper :slidesPerView="4" :spaceBetween="15" :pagination="{
+                <swiper :slidesPerView="4" :spaceBetween="1" :pagination="{
                     clickable: true,
                 }" :breakpoints="{
                     '640': {
@@ -15,17 +15,15 @@
                     },
                     '768': {
                         slidesPerView: 4,
-                        spaceBetween: 30,
+                        spaceBetween: 10,
                     },
                     '1924': {
                         slidesPerView: 4,
-                        spaceBetween: 30,
+                        spaceBetween: 5,
                     },
                 }" :modules="modules" class="mySwiper">
-                    <swiper-slide v-for="(items,index) in data" :key="items.id">
-                        <img class="rounded-lg w-32 h-48"
-                            :src="items.poster"
-                            alt="">
+                    <swiper-slide v-for="(items, index) in data" :key="items.id">   
+                            <img class="rounded-lg" :src="items.poster" alt="">
                     </swiper-slide>
                 </swiper>
             </div>
@@ -67,7 +65,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 180px;
+    height: 250px;
 }
 
 :deep(.swiper-slide img) {
