@@ -4,7 +4,7 @@
       <div
         class="flex flex-col md:flex-row overflow-hidden space-x-8 md:space-x-8"
       >
-        <div class="w-full md:w-1/2 bg-[#f4ebdc] md:p-20 rounded-3xl">
+        <div class="w-full md:w-1/2 bg-orange-50 md:p-20 rounded-3xl">
           <div class="pb-5 border-b-2 border-white">
             <div class="text-5xl font-bold">Read Station</div>
             <div class="text-2xl font-semibold pt-4">ReadStation.com</div>
@@ -57,7 +57,7 @@
                 type="text"
                 v-model="name"
                 placeholder="Tên của bạn"
-                class="w-full px-4 py-2 border border-[#e6e6e6] rounded-3xl focus:outline-none focus:ring-2 focus:ring-[#f65d4e]"
+                class="w-full px-4 py-2 border border-[#e6e6e6] rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
               />
               <p v-if="errors.name" class="text-[#f4402f] text-sm">
                 {{ errors.name }}
@@ -68,7 +68,7 @@
                 type="email"
                 v-model="email"
                 placeholder="E-mail của bạn"
-                class="w-full px-4 py-2 border border-[#e6e6e6] rounded-3xl focus:outline-none focus:ring-2 focus:ring-[#f65d4e]"
+                class="w-full px-4 py-2 border border-[#e6e6e6] rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
               />
               <p v-if="errors.email" class="text-[#f4402f] text-sm">
                 {{ errors.email }}
@@ -78,7 +78,7 @@
               <textarea
                 v-model="message"
                 placeholder="Phản hồi của bạn"
-                class="w-full px-4 py-2 border border-[#e6e6e6] rounded-3xl focus:outline-none focus:ring-2 focus:ring-[#f65d4e] h-40 resize-none"
+                class="w-full px-4 py-2 border border-[#e6e6e6] rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 h-40 resize-none"
               ></textarea>
               <p v-if="errors.message" class="text-[#f4402f] text-sm">
                 {{ errors.message }}
@@ -86,7 +86,7 @@
             </div>
             <div class="flex items-center justify-between">
               <button
-                class="bg-[#f65d4e] hover:bg-[#f4402f] text-white font-bold py-2 px-4 rounded-3xl focus:outline-none focus:shadow-outline"
+                class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
                 type="submit"
               >
                 Gửi phản hồi
