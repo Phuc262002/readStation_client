@@ -90,7 +90,7 @@
         </div>
       </div>
 
-      <a-table :columns="columns" :data-source="data">
+      <a-table :columns="columns" :data-source="data" :loading="bookCase.isLoading">
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
             <span> Mã tủ sách </span>
@@ -199,7 +199,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { SelectProps } from "ant-design-vue";
+const bookCase = useBookcaseStore();
 const value1 = ref("lucy");
 const focus = () => {
   console.log("focus");

@@ -12,10 +12,12 @@ export const useAuthorStore = defineStore("author-store", {
     async getAllAuthorClient({ page, pageSize }: any) {
       const data: any = await useCustomFetch(`/api/v1/authors`);
       this.authorClient = data.data._value?.data;
+      
       return data;
     },
 
     async getAllAuthor({ page, pageSize, search, status }: any) {
+      this.isLoading = true;
       const data: any = await useCustomFetch(
         `/api/v1/authors/admin/get-all?${page ? `&page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
@@ -24,13 +26,16 @@ export const useAuthorStore = defineStore("author-store", {
         }`
       );
       this.AuthorAdmin = data.data._value?.data;
+      this.isLoading = false;
       return data;
     },
     async createAuthor(ValueAuthor: any) {
+      this.isSubmitting = true;
       const data: any = await useCustomFetch(`/api/v1/authors/create`, {
         method: "POST",
         body: JSON.stringify(ValueAuthor),
       });
+      this.isSubmitting = false;
       return data;
     },
     async deleteAuthor(id: string) {
@@ -47,7 +52,9 @@ export const useAuthorStore = defineStore("author-store", {
       return data;
     },
     async getAuthorById(id: string) {
+      this.isLoading = true;
       const data: any = await useCustomFetch(`/api/v1/authors/get-one/${id}`);
+      this.isLoading = false;
       return data;
     },
   },

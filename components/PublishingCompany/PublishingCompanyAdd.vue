@@ -87,7 +87,6 @@
 <script setup>
 import { message, Upload } from "ant-design-vue";
 const publishingCompanyStore = usePublishingCompanyStore();
-
 const baseStore = useBaseStore();
 const fileList = ref([]);
 const imageInfo = ref("");
@@ -121,7 +120,7 @@ const uploadFile = async (file) => {
     imageInfo.value = dataUpload.data._rawValue.data;
   } catch (error) {
     message.error("Upload ảnh thất bại");
-    console.log("🚀 ~ uploadFile ~ error:", error);
+    
   }
 };
 const handleChange = (info) => {

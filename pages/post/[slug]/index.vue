@@ -33,7 +33,7 @@
                   </p>
                 </div>
                 <div class="h-1 w-1 bg-white rounded-full"></div>
-                <p>{{ postStore.post?.view }}</p>
+                <p>{{ postStore.post?.view }} lượt xem</p>
               </div>
             </div>
           </div>
@@ -45,7 +45,7 @@
           class="flex justify-between items-center p-5 bg-orange-100 w-full h-[70px] rounded-[10px] mb-5"
         >
           <div class="text-black font-semibold text-base">
-            <p>Like what you see? Share with a friend.</p>
+            <p>Chia sẻ với mọi người!</p>
           </div>
           <div class="flex justify-items-end text-white gap-5 mt-[10px]">
             <div>
@@ -62,8 +62,7 @@
 
         <div>
           <h2 class="font-bold text-[20px]">Bình luận</h2>
-          <BlogComment  />
-          
+          <BlogComment />
         </div>
         <hr class="mb-5" />
 
@@ -80,7 +79,7 @@
       </div>
 
       <div class="w-1/4 space-y-5">
-        <div class="p-5 bg-orange-100 w-full h-fit rounded-[10px]">
+        <div class="p-5 shadow-md w-full h-fit rounded-[10px]">
           <div class="flex mb-5">
             <div class="">
               <a-avatar
@@ -103,9 +102,9 @@
             </p>
           </div>
         </div>
-        <div class="p-5 bg-orange-100 w-full h-70 rounded-[10px]">
+        <div class="p-5 shadow-md w-full h-70 rounded-[10px]">
           <div class="text-black text-sm font-semibold">
-            <p>Share with your community!</p>
+            <p>Chia sẻ với mọi người!</p>
           </div>
           <div class="flex text-black gap-5 mt-[10px]">
             <div>
@@ -119,7 +118,7 @@
             </div>
           </div>
         </div>
-        <div class="rounded-lg hover:shadow-md p-5">
+        <div class="rounded-lg shadow-md p-5">
           <div class="border-b-2 font-semibold mb-2">Bài viết nổi bật</div>
           <div class="space-y-4">
             <NuxtLink
@@ -204,4 +203,13 @@ useAsyncData(async () => {
     console.error(error);
   }
 });
+useSeoMeta({
+  title: `ReadStation | ${postStore.post?.title}`,
+  ogTitle: `ReadStation | ${postStore.post?.title}`,
+  description: `${postStore.post?.summary}`,
+  ogDescription: `${postStore.post?.summary}`,
+  ogImage: `${postStore.post?.image}`,
+  twitterCard: `${postStore.post?.image}`,
+});
+
 </script>

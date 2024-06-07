@@ -147,7 +147,6 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { Modal } from "ant-design-vue";
-const isLoading = ref(false);
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const shelvesId = ref<number>();
@@ -163,14 +162,11 @@ const shelvesValue = useShelvesStore();
 const dataShelves = ref([]);
 const getData = async () => {
   try {
-    isLoading.value = true;
     const data = await shelvesValue.getAllShelves({});
     dataShelves.value = data?.data?._rawValue?.data?.shelves;
     return data;
   } catch (error) {
     console.error(error);
-  } finally {
-    isLoading.value = false;
   }
 };
 const onDelete = async (id: string) => {
