@@ -90,36 +90,29 @@
                 <template #title>
                   <span>Sửa</span>
                 </template>
-                <span
+                <button
+                  @click="showModalEdit(record?.id)"
                   class="group hover:bg-[green]/20 flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <div>
-                    <button @click="showModalEdit(record?.id)">
-                      <UIcon
-                        class="group-hover:text-[green]"
-                        name="i-material-symbols-edit-outline"
-                      />
-                    </button>
-                  </div>
-                </span>
+                  <UIcon
+                    class="group-hover:text-[green]"
+                    name="i-material-symbols-edit-outline"
+                  />
+                </button>
               </a-tooltip>
               <a-tooltip placement="top" color="red">
                 <template #title>
                   <span>Xóa</span>
                 </template>
-                <span
+                <button
+                  @click="showDeleteConfirm(record?.id)"
                   class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <button
-                    @click="showDeleteConfirm(record?.id)"
-                    class="flex items-center"
-                  >
-                    <UIcon
-                      class="group-hover:text-[red]"
-                      name="i-material-symbols-delete-outline"
-                    />
-                  </button>
-                </span>
+                  <UIcon
+                    class="group-hover:text-[red]"
+                    name="i-material-symbols-delete-outline"
+                  />
+                </button>
               </a-tooltip>
             </div>
           </template>

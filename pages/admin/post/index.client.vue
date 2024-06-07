@@ -52,6 +52,9 @@
               {{ record.category.id }}
             </span>
           </template>
+          <template v-else-if="column.key === 'image'">
+            <a-image class="rounded-md" :width="100" :height="100" :src="record.image" />
+          </template>
           <template v-else-if="column.key === 'status'">
             <span>
               <a-tag
@@ -68,16 +71,17 @@
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
-                <span
+                <button
+                 @click="showModal"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
                   <div>
-                    <button class="flex items-center" @click="showModal">
+                    
                       <UIcon
                         class="group-hover:text-[green]"
                         name="i-icon-park-outline-eyes"
                       />
-                    </button>
+                    
                     <a-modal v-model:open="open" title="Sửa" width="70%">
                       <div class="flex justify-between gap-4">
                         <div class="grow">
@@ -119,7 +123,7 @@
                         <div class="w-4/5">Huỳnh Tuấn Kiệt</div>
                       </div>
                     </a-modal>
-                  </div></span
+                  </div></button
                 >
               </a-tooltip>
 
@@ -208,11 +212,11 @@ const columns = [
     dataIndex: "category_id",
     key: "category_id",
   },
-  // {
-  //   title: "Tên bài viết",
-  //   dataIndex: "title",
-  //   key: "title",
-  // },
+  {
+    title: "Hình ảnh",
+    dataIndex: "image",
+    key: "image",
+  },
   {
     title: "Nội dung ngắn",
     dataIndex: "summary",

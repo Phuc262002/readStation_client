@@ -19,7 +19,7 @@
       class="!border-0 dark:!bg-[#6c819b] dark:!text-white overflow-auto h-5/6"
       :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
     >
-      <a-menu-item key="1" @click="navigateTo('/admin/dashboards')">
+      <a-menu-item key="1" @click="navigateTo('/admin')">
         <UIcon
           name="i-streamline-dashboard-3"
           :class="props.collapsed && 'anticon anticon-desktop'"
