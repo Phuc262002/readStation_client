@@ -11,6 +11,7 @@
         <ProductDetailPayment />
       </div>
     </div>
+
     <div>
       <div v-if="isLoading" class="flex items-center justify-center py-10">
         <a-spin></a-spin>

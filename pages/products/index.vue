@@ -1,7 +1,7 @@
 <template>
   <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
     <div
-      v-if="!isSubmitting"
+      v-if="isSubmitting"
       class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
     >
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
@@ -26,7 +26,7 @@
                 alt=""
               />
             </div>
-            <div class="border-t px-4 py-2" v-if="isShow.category">
+            <div class="border-t px-4 py-2" v-if="isShow.includes('category')">
               <div
                 v-if="isLoading"
                 class="flex items-center justify-center py-10"
@@ -63,7 +63,7 @@
                 alt=""
               />
             </div>
-            <div class="border-t px-4 py-2" v-if="isShow.author">
+            <div class="border-t px-4 py-2" v-if="isShow.includes('author')">
               <div
                 v-if="isLoading"
                 class="flex items-center justify-center py-10"
@@ -99,7 +99,10 @@
                 alt=""
               />
             </div>
-            <div class="border-t px-4 py-2" v-if="isShow.publishing">
+            <div
+              class="border-t px-4 py-2"
+              v-if="isShow.includes('publishing')"
+            >
               <div
                 v-if="isLoading"
                 class="flex items-center justify-center py-10"
@@ -136,7 +139,7 @@
                 alt=""
               />
             </div>
-            <div v-if="isShow.review" class="border-t px-4 py-2">
+            <div v-if="isShow.includes('review')" class="border-t px-4 py-2">
               <ul class="px-4 space-y-1">
                 <li class="flex items-center justify-between">
                   <label for="star5" class="flex items-center justify-between">
@@ -230,15 +233,16 @@
 
 <script setup lang="ts">
 const checked = ref(false);
-const isShow = {
-  category: ref(false),
-  author: ref(false),
-  publishing: ref(false),
-  review: ref(false),
-};
+const isShow = ref([]);
 
 const handleIsShow = (section) => {
-  isShow[section].value = !isShow[section].value;
+  if (isShow.value.includes(section)) {
+    isShow.value = [...isShow.value].filter((item) => item !== section);
+  } else {
+    isShow.value = [...isShow.value, section];
+  }
+
+  console.log("ishow", isShow.value);
 };
 
 const publishingCompanyStore = usePublishingCompanyStore();

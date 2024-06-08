@@ -19,10 +19,16 @@
             :loop="true"
             ref="swiperRef"
           >
-            <swiper-slide v-for="(image, index) in images" :key="index">
+            <swiper-slide
+              v-for="(image, index) in [
+                bookStore.book?.poster,
+                ...bookStore.book?.images,
+              ]"
+              :key="index"
+            >
               <div
                 class="h-[54px] w-[54px] p-[6px] cursor-pointer border-2 border-gray-200 rounded-lg"
-                @click="selectImage(index)"
+                @click="selectImage(image)"
               >
                 <img
                   :src="image"
@@ -44,13 +50,10 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/pagination";
 import { ref } from "vue";
-
-const props = defineProps(["book"]);
-const images = [props.book?.poster, ...(props.book?.images ?? [])];
-
-const selectedImage = ref(images?.[0]);
+const bookStore = useBookStore();
 
 const visible = ref(false);
+const selectedImage = ref(bookStore.book?.poster);
 const swiperInstance = ref();
 
 function onSwiper(swiper) {
@@ -63,8 +66,8 @@ const swiperPrevSlide = () => {
   swiperInstance.value.slidePrev();
 };
 
-const selectImage = (index) => {
-  selectedImage.value = images?.[index];
+const selectImage = (image) => {
+  selectedImage.value = image;
 };
 </script>
 
