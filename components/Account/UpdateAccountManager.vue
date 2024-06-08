@@ -195,7 +195,7 @@
         >
           <a-button
             type="primary"
-            class="bg-white border border-rtgray !text-black h-10 hover:!bg-rtgray"
+            class="bg-white border border-rtgray-50 !text-black h-10 hover:!bg-rtgray-50"
             @click="handleCancel"
             >Hủy</a-button
           >
