@@ -92,10 +92,10 @@
                 </template>
                 <button
                   @click="showModalEdit(record?.id)"
-                  class="group hover:bg-[green]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
                   <UIcon
-                    class="group-hover:text-[green]"
+                    class="group-hover:text-[#212122]"
                     name="i-material-symbols-edit-outline"
                   />
                 </button>
@@ -106,10 +106,10 @@
                 </template>
                 <button
                   @click="showDeleteConfirm(record?.id)"
-                  class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
                   <UIcon
-                    class="group-hover:text-[red]"
+                    class="group-hover:text-[#212122]"
                     name="i-material-symbols-delete-outline"
                   />
                 </button>

@@ -78,7 +78,7 @@
                   <div>
                     
                       <UIcon
-                        class="group-hover:text-[green]"
+                        class="group-hover:text-[#212122]"
                         name="i-icon-park-outline-eyes"
                       />
                     
@@ -87,32 +87,7 @@
                         <div class="grow">
                           <h1 class="font-bold text-xl">Bài viết số 1</h1>
                         </div>
-                        <!-- <div class="flex gap-4">
-                          <a-tooltip placement="top" color="red">
-                            <template #title>
-                              <span>Hủy</span>
-                            </template>
-                            <span
-                              class="group hover:bg-[red]/20 flex items-center justify-center w-10 h-10 rounded-md"
-                            >
-                              <UIcon
-                                class="group-hover:text-[red] text-2xl"
-                                name="i-material-symbols-close-small-outline"
-                              />
-                            </span>
-                          </a-tooltip>
-                          <a-tooltip placement="top" color="gold">
-                            <template #title>
-                              <span>Sửa</span>
-                            </template>
-                            <span
-                              class="group hover:bg-[#faad14]/20 flex items-center justify-center w-10 h-10 rounded-md"
-                              ><UIcon
-                                class="group-hover:text-[#faad14]"
-                                name="i-material-symbols-edit-rounded"
-                            /></span>
-                          </a-tooltip>
-                        </div> -->
+                        
                       </div>
                       <div
                         class="flex border border-transparent border-b-gray-300 pb-2"
