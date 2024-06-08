@@ -19,11 +19,11 @@
         </div>
         <div class="flex gap-2 text-sm font-normal">
           <p>Tác giả:</p>
-          <p class="text-[#0D5CB6]">Robert T. Kiyosaki</p>
+          <p class="text-[#0D5CB6]">{{ props?.book?.book?.author?.author }}</p>
         </div>
       </div>
       <div class="font-medium text-xl pb-1">
-        <p>Đánh Thức Tiềm Năng Tài Chính</p>
+        {{ props?.book?.book?.title }}
       </div>
       <div class="flex gap-3">
         <p class="text-sm font-medium">4.8</p>
@@ -33,7 +33,7 @@
         <p class="text-[#787878] text-sm">Đã thuê 1614</p>
       </div>
       <div class="flex items-center gap-3">
-        <p class="font-semibold text-2xl">84.000</p>
+        <p class="font-semibold text-2xl">{{ props?.book?.price }}</p>
         <p
           class="flex justify-center items-center bg-[#F5F5FA] h-[18px] rounded-md text-xs font-normal px-1"
         >
@@ -222,7 +222,9 @@
           định nghĩa một quốc gia là gì, hoặc có thể là gì, và là một nhà tù mà
           các nhà lãnh đạo thế giới thường phải nỗ lực để thoát ra”.
         </p>
-        <button class="flex justify-center items-center gap-2 text-[#189EFF] mx-auto text-sm font-normal pt-4">
+        <button
+          class="flex justify-center items-center gap-2 text-[#189EFF] mx-auto text-sm font-normal pt-4"
+        >
           <span> Xem thêm</span>
           <UIcon name="i-material-symbols-keyboard-arrow-down-rounded" />
         </button>
@@ -230,3 +232,7 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+const props = defineProps(["book"]);
+</script>
