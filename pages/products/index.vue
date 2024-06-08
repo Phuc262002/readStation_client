@@ -8,7 +8,7 @@
     </div>
     <div class="flex gap-6">
       <div class="w-1/5 rounded-lg h-fit flex flex-col space-y-4">
-        <div class="px-3 pb-2 text-xl font-semibold">Khám phá theosss:</div>
+        <div class="px-3 pb-2 text-xl font-semibold">Khám phá theo:</div>
 
         <div class="bg-white">
           <div class="text-base cursor-pointer rounded-xl border">
