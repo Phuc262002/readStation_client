@@ -20,17 +20,30 @@
             />
           </div>
         </div>
+        <div class="pb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">
+            Nổi bật
+          </label>
+          <div class="mt-1">
+            <a-space direction="vertical">
+              <a-switch v-model:checked="category.is_featured">
+                <template #checkedChildren><check-outlined /></template>
+                <template #unCheckedChildren><close-outlined /></template>
+              </a-switch>
+            </a-space>
+          </div>
+        </div>
 
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Nội dụng
+            Mô tả
           </label>
           <div class="mt-1">
             <a-textarea
               :rows="6"
               v-model:value="category.description"
               class="w-[450px] h-[45px]"
-              placeholder="Nhập nội dung"
+              placeholder="Nhập mô tả"
               required
             />
           </div>
@@ -44,7 +57,7 @@
             <a-select
               ref="select"
               v-model:value="category.status"
-              style="width: 120px"
+              style="width: 450px"
               @change="handleChange"
             >
               <a-select-option value="active">Active</a-select-option>
@@ -52,7 +65,35 @@
             </a-select>
           </div>
         </div>
-        
+        <div class="pb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">
+            Hình danh mục sản phẩm
+          </label>
+          <div class="mt-1">
+            <ClientOnly>
+              <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
+                <a-upload-dragger
+                  v-model:fileList="fileList"
+                  list-type="picture"
+                  name="image"
+                  :multiple="false"
+                  :action="(file) => uploadFile(file)"
+                  @change="handleChangeUploadImg"
+                  @drop="handleDrop"
+                  :before-upload="beforeUpload"
+                  :remove="(file) => deleteFile(file)"
+                >
+                  <p class="ant-upload-drag-icon">
+                    <inbox-outlined></inbox-outlined>
+                  </p>
+                  <p class="ant-upload-text">Click hoặc kéo thả file vào đây</p>
+                  <p class="ant-upload-hint">Hoặc nhấn vào đây để chọn file</p>
+                </a-upload-dragger>
+              </a-spin>
+            </ClientOnly>
+          </div>
+        </div>
+
         <div class="flex justify-end items-end gap-4">
           <a-button
             @click="handleClose"
@@ -75,12 +116,17 @@
   </a-modal>
 </template>
 <script setup>
+import { message, Upload } from "ant-design-vue";
 const categoryStore = useCategoryStore();
+const baseStore = useBaseStore();
+const fileList = ref([]);
+const imageInfo = ref("");
 const category = ref({
+  image: "",
   name: "",
   description: "",
-  status: "",
-  type: "post",
+  is_featured: false,
+  type: "book",
 });
 const props = defineProps({
   openModalEdit: Boolean,
@@ -105,6 +151,46 @@ watch(
     categoryId.value = newVal;
   }
 );
+const uploadFile = async (file) => {
+  if (fileList.value.length > 0) {
+    fileList.value = [];
+    await baseStore.deleteImg(imageInfo.value?.publicId);
+  }
+  const formData = new FormData();
+  formData.append("image", file);
+  try {
+    const dataUpload = await baseStore.uploadImg(formData);
+    imageInfo.value = dataUpload.data._rawValue.data;
+  } catch (error) {
+    message.error("Upload ảnh thất bại");
+    console.log("🚀 ~ uploadFile ~ error:", error);
+  }
+};
+const handleChangeUploadImg = (info) => {
+  const status = info.file.status;
+  if (status !== "uploading") {
+    console.log(info.file, info.fileList);
+  }
+  if (status === "done") {
+    message.success(`${info.file.name} file uploaded successfully.`);
+  } else if (status === "error") {
+    message.error(`${info.file.name} file upload failed.`);
+  }
+};
+const deleteFile = async (file) => {
+  await baseStore.deleteImg(file.url.split("/").pop().split(".")[0]);
+};
+
+function handleDrop(e) {
+  console.log(e);
+}
+const beforeUpload = (file) => {
+  const isImage = file.type.startsWith("image/");
+  if (!isImage) {
+    message.error("Bạn chỉ có thể tải lên file ảnh!");
+  }
+  return isImage || Upload.LIST_IGNORE;
+};
 
 useAsyncData(
   async () => {
@@ -112,17 +198,30 @@ useAsyncData(
     category.value.name = data.data._value?.data?.name;
     category.value.description = data.data._value?.data?.description;
     category.value.status = data.data._value?.data?.status;
+    category.value.image = data.data._value?.data?.image;
+    category.value.is_featured = data.data._value?.data?.is_featured;
+    fileList.value = [
+      {
+        uid: "-1",
+        name: "image.png",
+        status: "done",
+        url: data.data._value?.data?.image,
+      },
+    ];
   },
   {
     watch: [categoryId],
+    initialCache: false,
   }
 );
 
 const onUpdate = async () => {
   const data = {
-    name: category.value.name,
-    description: category.value.description,
-    status: category.value.status,
+    name: category.value?.name,
+    description: category.value?.description,
+    status: category.value?.status,
+    is_featured: category.value?.is_featured,
+    image: imageInfo.value?.url || category.value?.image,
     type: "book",
   };
   await categoryStore.updateCategory({
@@ -136,11 +235,16 @@ const onUpdate = async () => {
 };
 
 const handleClose = () => {
-  category.value = {
-    name: "",
-    description: "",
-    status: "",
-  };
+  // if (fileList.value.length > 0) {
+  //   fileList.value = [];
+  // }
+  // category.value = {
+  //   name: "",
+  //   description: "",
+  //   status: "",
+  //   image: "",
+  //   is_featured: false,
+  // };
   props.openModal();
 };
 </script>

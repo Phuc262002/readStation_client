@@ -4,7 +4,7 @@
     :data-source="data"
     :pagination="pagination"
     bordered
-    :scroll="{ x: 1200, y: 300 }"
+    :scroll="{ x: 1063, y: 300 }"
   >
     <!-- <a-table :columns="columns" :data-source="data" :pagination="pagination" bordered > -->
     <template #headerCell="{ column }">
@@ -147,7 +147,7 @@ const columns = [
     title: "Gia hạn",
     key: "extension_dates",
     dataIndex: "extension_dates",
-    width: 120,
+    width: 130,
   },
   {
     title: "Số lần gia hạn",
@@ -156,16 +156,10 @@ const columns = [
     width: 130,
   },
   {
-    title: "Tổng tiền",
-    key: "total_fee",
-    dataIndex: "total_fee",
-    width: 100,
-  },
-  {
-    title: "Action",
+    title: "Thao tác",
     key: "action",
     fixed: "right",
-    width: 120,
+    width: 100,
   },
 ];
 
@@ -173,12 +167,12 @@ const data = [
   {
     key: "1",
     order_code: "2683242197997",
-    created_at: "20/5/2024",
+    created_at: "20/05/2024",
     receipt_date: "22/5/2024",
     payment_method: "Thanh Toán Ví ",
-    current_extensions: "123",
+    current_extensions: "1/3",
     total_fee: "200k",
-    extension_dates: "thêm 3 ngày",
+    extension_dates: "Lần 1 (3 ngày)",
     status: ["Hoàn thành"],
   },
 ];

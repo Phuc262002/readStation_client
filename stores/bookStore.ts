@@ -5,6 +5,7 @@ export const useBookStore = defineStore("book-store", {
   state: () => {
     return {
       books: [],
+      book: {},
       adminBooks: [],
       isLoading: false,
       isSubmitting: false,
@@ -14,6 +15,12 @@ export const useBookStore = defineStore("book-store", {
     async getAllBooks() {
       const data: any = await useCustomFetch("/api/v1/books");
       this.books = data.data._value?.data;
+      return data;
+    },
+
+    async getOneBook(slug: string) {
+      const data: any = await useCustomFetch(`/api/v1/books/get-one/${slug}`);
+      this.book = data.data._value?.data;
       return data;
     },
 
@@ -53,6 +60,6 @@ export const useBookStore = defineStore("book-store", {
         method: "DELETE",
       });
       return data;
-    }
+    },
   },
 });

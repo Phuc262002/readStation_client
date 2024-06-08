@@ -37,5 +37,37 @@ export const useCommentStore = defineStore("comment-store", {
         console.log(error);
       }
     },
+    async deleteComment({comment_id}: any) {
+      try {
+        const data: any = await useCustomFetch(
+          `/api/v1/comments/delete/${comment_id}`,
+          {
+            method: "DELETE",
+          }
+        );
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async updateComment({ comment_id, content, status }: any) {
+      try {
+        this.isSubmitting = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/comments/update/${comment_id}`,
+          {
+            method: "PUT",
+            body: {
+              content: content,
+              status: status ?? "published",
+            },
+          }
+        );
+        this.isSubmitting = false;
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 });

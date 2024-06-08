@@ -52,6 +52,9 @@
               {{ record.category.id }}
             </span>
           </template>
+          <template v-else-if="column.key === 'image'">
+            <a-image class="rounded-md" :width="100" :height="100" :src="record.image" />
+          </template>
           <template v-else-if="column.key === 'status'">
             <span>
               <a-tag
@@ -68,47 +71,23 @@
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
-                <span
+                <button
+                 @click="showModal"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
                   <div>
-                    <button class="flex items-center" @click="showModal">
+                    
                       <UIcon
-                        class="group-hover:text-[green]"
+                        class="group-hover:text-[#212122]"
                         name="i-icon-park-outline-eyes"
                       />
-                    </button>
+                    
                     <a-modal v-model:open="open" title="Sửa" width="70%">
                       <div class="flex justify-between gap-4">
                         <div class="grow">
                           <h1 class="font-bold text-xl">Bài viết số 1</h1>
                         </div>
-                        <!-- <div class="flex gap-4">
-                          <a-tooltip placement="top" color="red">
-                            <template #title>
-                              <span>Hủy</span>
-                            </template>
-                            <span
-                              class="group hover:bg-[red]/20 flex items-center justify-center w-10 h-10 rounded-md"
-                            >
-                              <UIcon
-                                class="group-hover:text-[red] text-2xl"
-                                name="i-material-symbols-close-small-outline"
-                              />
-                            </span>
-                          </a-tooltip>
-                          <a-tooltip placement="top" color="gold">
-                            <template #title>
-                              <span>Sửa</span>
-                            </template>
-                            <span
-                              class="group hover:bg-[#faad14]/20 flex items-center justify-center w-10 h-10 rounded-md"
-                              ><UIcon
-                                class="group-hover:text-[#faad14]"
-                                name="i-material-symbols-edit-rounded"
-                            /></span>
-                          </a-tooltip>
-                        </div> -->
+                        
                       </div>
                       <div
                         class="flex border border-transparent border-b-gray-300 pb-2"
@@ -119,7 +98,7 @@
                         <div class="w-4/5">Huỳnh Tuấn Kiệt</div>
                       </div>
                     </a-modal>
-                  </div></span
+                  </div></button
                 >
               </a-tooltip>
 
@@ -208,11 +187,11 @@ const columns = [
     dataIndex: "category_id",
     key: "category_id",
   },
-  // {
-  //   title: "Tên bài viết",
-  //   dataIndex: "title",
-  //   key: "title",
-  // },
+  {
+    title: "Hình ảnh",
+    dataIndex: "image",
+    key: "image",
+  },
   {
     title: "Nội dung ngắn",
     dataIndex: "summary",
