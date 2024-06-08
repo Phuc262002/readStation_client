@@ -86,15 +86,22 @@
                         <div class="flex flex-col gap-2">
                             <div class="grid grid-rows-1">
                                 <div class="grid grid-cols-2 gap-10">
-                                    <div class="flex flex-col gap-2"><label class="text-sm font-semibold"
-                                            for="">Poster</label>
-                                        <a-upload list-type="picture" :max-count="1"
-                                            action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
-                                            <a-button class="flex justify-between gap-3 items-center">
-                                                <upload-outlined></upload-outlined>
-                                                <h1>Upload Poster</h1>
-                                            </a-button>
-                                        </a-upload>
+                                    <div class="flex flex-col gap-2">
+                                        <label class="text-sm font-semibold" for="">Poster</label>
+                                        <ClientOnly>
+                                            <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
+                                                <a-upload-dragger v-model:fileList="fileList" list-type="picture"
+                                                    name="image" :multiple="false" :action="(file) => uploadFile(file)"
+                                                    @change="handleChangeImage" @drop="handleDrop"
+                                                    :before-upload="beforeUpload" :remove="(file) => deleteFile(file)">
+                                                    <p class="ant-upload-drag-icon">
+                                                        <inbox-outlined></inbox-outlined>
+                                                    </p>
+                                                    <p class="ant-upload-text">Click hoặc kéo thả file vào đây</p>
+                                                    <p class="ant-upload-hint">Hoặc nhấn vào đây để chọn file</p>
+                                                </a-upload-dragger>
+                                            </a-spin>
+                                        </ClientOnly>
                                     </div>
                                     <div class="flex flex-col gap-2"><label class="text-sm font-semibold" for="">Hình
                                             ảnh
@@ -206,10 +213,10 @@
 </template>
 <script setup>
 import { ref } from "vue";
-
-const isLoading = ref(false);
+const baseStore = useBaseStore();
 const fileList = ref([]);
-const fileList2 = ref([]);
+const imageInfo = ref("");
+const isLoading = ref(false);
 const optionsShelve = ref([]);
 const shelvesValue = useShelvesStore();
 const getDataShelvesValue = async () => {
@@ -304,7 +311,7 @@ const valuecreateBook = ref({
     category_id: "",
     shelve_id: "",
     book_detail: [{
-        poster: "https://cdn0.fahasa.com/media/catalog/product/t/o/to_huu_tho_va_doi_1_2018_07_25_12_01_30.JPG",
+        poster: "",
         images: [
             "https://i0.wp.com/sachcugiadinh.wordpress.com/wp-content/uploads/2016/12/img_10661.jpg?ssl=1",
         ],
@@ -324,6 +331,46 @@ const valuecreateBook = ref({
     }]
 }
 );
+
+
+const uploadFile = async (file) => {
+    if (fileList.value.length > 0) {
+        fileList.value = [];
+        await baseStore.deleteImg(imageInfo.value?.publicId);
+    }
+    const formData = new FormData();
+    formData.append("image", file);
+    try {
+        const dataUpload = await baseStore.uploadImg(formData);
+        imageInfo.value = dataUpload.data._rawValue.data;
+    } catch (error) {
+        message.error("Upload ảnh thất bại");
+
+    }
+};
+const handleChangeImage = (info) => {
+    const status = info.file.status;
+    if (status !== "uploading") {
+        console.log(info.file, info.fileList);
+    }
+    if (status === "done") {
+        message.success(`${info.file.name} file uploaded successfully.`);
+    } else if (status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+    }
+};
+const deleteFile = async (file) => {
+    await baseStore.deleteImg(imageInfo.value?.publicId);
+};
+const beforeUpload = (file) => {
+    const isImage = file.type.startsWith("image/");
+    if (!isImage) {
+        message.error("Bạn chỉ có thể tải lên file ảnh!");
+    }
+    return isImage || Upload.LIST_IGNORE;
+};
+
+
 const onSubmit = async () => {
     // alert(JSON.stringify(valuecreateBook.value))
     try {
@@ -340,7 +387,7 @@ const onSubmit = async () => {
             shelve_id: valuecreateBook.value.shelve_id,
             book_detail: [{
                 sku_origin: "123",
-                poster: "https://cdn0.fahasa.com/media/catalog/product/t/o/to_huu_tho_va_doi_1_2018_07_25_12_01_30.JPG",
+                poster: imageInfo.value?.url,
                 images: [
                     "https://i0.wp.com/sachcugiadinh.wordpress.com/wp-content/uploads/2016/12/img_10661.jpg?ssl=1",
                     "https://i0.wp.com/sachcugiadinh.wordpress.com/wp-content/uploads/2016/12/img_10661.jpg?ssl=1",
