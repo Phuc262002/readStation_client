@@ -12,14 +12,7 @@
       >
         <div>
           <div class="w-full">
-            <NuxtLink
-              to="/"
-              class="flex mb-4 w-fit items-center text-gray-400 hover:text-gray-900 gap-2"
-            >
-              <UIcon name="i-ion-return-down-back-outline" />
-              <span>Trang chủ</span>
-            </NuxtLink>
-            <h2 class="text-3xl font-extrabold text-gray-900">
+            <h2 class="text-2xl font-extrabold text-gray-900">
               Đăng ký tài khoản
             </h2>
             <p class="mt-2">Đăng ký để bắt đầu thuê sách.</p>
@@ -142,7 +135,7 @@
                     class="relative flex items-center justify-between text-center pt-5"
                   >
                     <hr class="solid w-[169px] border-t-2" />
-                    <p class="">Or</p>
+                    <p class="">hoặc</p>
                     <hr class="solid w-[169px] border-t-2" />
                   </div>
 

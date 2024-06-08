@@ -1,5 +1,11 @@
 <template>
   <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
+    <div
+      v-if="isSubmitting"
+      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
+    >
+      <a-spin size="large" class="absolute top-1/2 left-1/2" />
+    </div>
     <div class="flex gap-6">
       <div class="w-1/5 rounded-lg h-fit flex flex-col space-y-4">
         <div class="px-3 pb-2 text-xl font-semibold">Khám phá theosss:</div>
@@ -224,7 +230,6 @@
 
 <script setup lang="ts">
 const checked = ref(false);
-
 const isShow = {
   category: ref(false),
   author: ref(false),
