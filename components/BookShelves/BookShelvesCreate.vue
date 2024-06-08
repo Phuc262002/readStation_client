@@ -1,5 +1,5 @@
 <template>
-          <a-modal v-model:open="props.openModalAdd" title="Thêm tủ sách" :footer="null" :closable="false">
+          <a-modal v-model:open="props.openModalAdd" title="Thêm kệ sách" :footer="null" :closable="false">
             <form @submit.prevent="onSubmit" v-mode:valueCreateShelves>
               <div class="bg-white py-2">
                 <div class="grid grid-rows-2 gap-4 my-3">
@@ -46,19 +46,16 @@ const bookcaseValue = useBookcaseStore();
 const optionsCase = ref({});
 const getDataCase = async () => {
   try {
-    isLoading.value = true;
     const data = await bookcaseValue.getAllBookcases({});
     optionsCase.value = data?.data?._rawValue?.data?.bookcases.map((items) => {
       return {
         value: items.id,
-        label: items.id,
+        label: items.description,
       };
     });
     return data;
   } catch (error) {
     console.error(error);
-  } finally {
-    isLoading.value = false;
   }
   return data;
 }
@@ -71,7 +68,7 @@ const getDataCategory = async () => {
     optionsCategory.value = data.data._rawValue.data.categories.map((items) => {
       return {
         value: items.id,
-        label: items.id,
+        label: items.name,
       };
     })
   } catch (error) {
@@ -104,13 +101,9 @@ const valueCreateShelves = ref({
 });
 const onSubmit = () => {
   try {
-    isLoading.value = true;
      shelvesValue.createShelves(valueCreateShelves.value);
-     window.location.reload();
   } catch (error) {
     console.error(error);
-  } finally {
-    isLoading.value = false;
   }
   props.openModal();
 }
