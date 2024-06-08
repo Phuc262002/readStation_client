@@ -28,7 +28,9 @@
           </div>
         </div>
         <div class="">
-          <a-button class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary " @click="showModalAdd"
+          <a-button
+            class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary"
+            @click="showModalAdd"
             >Thêm nhà xuất bản</a-button
           >
         </div>
@@ -62,7 +64,11 @@
             </a>
           </template>
           <template v-else-if="column.key === 'logo_company'">
-            <a-image class="rounded-md" :width="100" :src="record.logo_company" />
+            <a-image
+              class="rounded-md"
+              :width="100"
+              :src="record.logo_company"
+            />
           </template>
           <template v-else-if="column.key === 'status'">
             <span>
@@ -77,21 +83,15 @@
                 <template #title>
                   <span>Sửa</span>
                 </template>
-                <span
+                <button
+                  @click="showModalEdit(record?.id)"
                   class="group hover:bg-[green]/20 bg-[#e4e1e1] flex justify-center items-center cursor-pointer w-8 h-8 rounded-md"
                 >
-                  <div>
-                    <button
-                      class="flex items-center"
-                      @click="showModalEdit(record?.id)"
-                    >
-                      <UIcon
-                        class="group-hover:text-[green]"
-                        name="i-material-symbols-edit-outline"
-                      />
-                    </button>
-                  </div>
-                </span>
+                  <UIcon
+                    class="group-hover:text-[green]"
+                    name="i-material-symbols-edit-outline"
+                  />
+                </button>
               </a-tooltip>
               <a-tooltip placement="top" color="red">
                 <template #title>
