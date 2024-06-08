@@ -11,6 +11,19 @@
         <ProductDetailPayment />
       </div>
     </div>
+
+    <div>
+      <div v-if="isLoading" class="flex items-center justify-center py-10">
+        <a-spin></a-spin>
+      </div>
+      <div class="grid grid-cols-4">
+        <CommonBookShop
+          v-for="(book, index) in bookstore?.books?.books.slice(1)"
+          :key="book.id || index"
+          :book="book"
+        />
+      </div>
+    </div>
   </div>
 </template>
 

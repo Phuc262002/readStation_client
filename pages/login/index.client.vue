@@ -11,19 +11,15 @@
         class="md:w-1/2 w-full min-h-[90vh] flex flex-col items-center justify-center"
       >
         <div>
-          <div class="py-10">
-            <img src="../../assets/images/logo_header.svg" alt="" />
+          <div class="py-10 w-fit mx-auto">
+            <img
+              src="../../assets/images/logo_header.svg"
+              class="max-w-[280px] max-h-[40px] justify-center"
+              alt=""
+            />
           </div>
           <div class="w-full">
-            <NuxtLink
-              to="/"
-              class="flex mb-4 items-center w-fit text-gray-400 hover:text-gray-900 gap-2"
-            >
-              <UIcon name="i-ion-return-down-back-outline" />
-              <span>Trang chủ</span>
-            </NuxtLink>
-
-            <h2 class="text-3xl font-extrabold text-gray-900">
+            <h2 class="text-2xl font-extrabold text-gray-900">
               Chào mừng bạn 👋
             </h2>
             <p class="mt-2">Đăng nhập để bắt đầu trải nghiệm.</p>
