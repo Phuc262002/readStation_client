@@ -14,17 +14,9 @@
             <label class="text-sm font-semibold" for="">Avatar</label>
             <ClientOnly>
               <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
-                <a-upload-dragger
-                  v-model:fileList="fileList"
-                  list-type="picture"
-                  name="image"
-                  :multiple="false"
-                  :action="(file) => uploadFile(file)"
-                  @change="handleChangeUploadImg"
-                  @drop="handleDrop"
-                  :before-upload="beforeUpload"
-                  :remove="(file) => deleteFile(file)"
-                >
+                <a-upload-dragger v-model:fileList="fileList" list-type="picture" name="image" :multiple="false"
+                  :action="(file) => uploadFile(file)" @change="handleChangeUploadImg" @drop="handleDrop"
+                  :before-upload="beforeUpload" :remove="(file) => deleteFile(file)">
                   <p class="ant-upload-drag-icon">
                     <inbox-outlined></inbox-outlined>
                   </p>
@@ -98,8 +90,6 @@ const isLoading = ref(false);
 
 
 
-
-
 const fileList = ref([]);
 const imageInfo = ref("");
 const uploadFile = async (file) => {
@@ -131,6 +121,7 @@ const handleChangeUploadImg = (info) => {
 const deleteFile = async (file) => {
   await baseStore.deleteImg(file.url.split("/").pop().split(".")[0]);
 };
+
 const beforeUpload = (file) => {
   const isImage = file.type.startsWith("image/");
   if (!isImage) {
@@ -138,8 +129,6 @@ const beforeUpload = (file) => {
   }
   return isImage || Upload.LIST_IGNORE;
 };
-
-
 
 
 
@@ -161,13 +150,21 @@ const optionsStatus = ref([
   },
 ]);
 const valueAuthor = ref({
-  avatar : "",
+  avatar: "",
 });
 const authorById = async () => {
   try {
     isLoading.value = true;
     const data = await AuthorStore.getAuthorById(authorID);
     valueAuthor.value = data.data._rawValue.data;
+    fileList.value = [
+      {
+        uid: "-1",
+        name: "image.png",
+        status: "done",
+        url: data.data._value?.data?.image,
+      },
+    ];
   } catch (error) {
     console.log(error);
   } finally {
@@ -182,7 +179,7 @@ const updateAuthor = async () => {
       status: valueAuthor.value.status,
       description: valueAuthor.value.description,
       is_featured: valueAuthor.value.is_featured,
-      valueAuthor.value.avatar: imageInfo.value?.url || valueAuthor.value.avatar,
+      image: imageInfo.value?.url || valueAuthor.value.image,
     }
     await AuthorStore.updateAuthor({ id: authorID, valueAuthor: updateValue });
     message.success("Cập nhật tác giả thành công");
