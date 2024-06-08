@@ -1,7 +1,7 @@
 <template>
   <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
     <div
-      v-if="isSubmitting"
+      v-if="!isSubmitting"
       class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
     >
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
