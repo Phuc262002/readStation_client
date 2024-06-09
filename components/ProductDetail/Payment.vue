@@ -6,49 +6,64 @@
           <div class="flex items-center gap-4">
             <a-avatar
               class="h-[40px] w-[40px]"
-              src="https://cdn.pixabay.com/photo/2020/05/09/13/29/photographer-5149664_1280.jpg"
+              :src="bookStore?.book?.publishing_company?.logo_company"
             />
-            <span>NXB Kim Đồng</span>
+            <span>{{ bookStore?.book?.publishing_company?.name }}</span>
           </div>
         </div>
         <div>
           <div class="p-4 bg-orange-50 rounded-lg space-y-1">
             <div>
               <span class="text-sm">Giá sách : </span>
-              <span class="text-orange-400 text-sm">200</span>
+              <span class="text-orange-400 text-sm">{{
+                bookStore?.book?.price
+              }}</span>
             </div>
             <div>
               <span class="text-base font-bold">Phí thuê sách : </span>
-              <span class="text-orange-600 font-bold text-xl">200</span>
+              <span class="text-orange-600 font-bold text-xl">{{
+                bookStore?.book?.price * (bookStore?.book?.hire_percent / 100)
+              }}</span>
             </div>
             <p class="text-xs">
-              <span class="text-red-600 text-base">* </span>Phí thuê sẽ bằng 20%
-              giá học sinh
+              <span class="text-red-600 text-base">* </span>Phí thuê sẽ bằng
+              <span> {{ bookStore?.book?.hire_percent }} %</span>
+              giá sách
             </p>
           </div>
 
           <div class="py-4">
             <span>Phân loại:</span>
+            <a-button class="w-fit h-10 flex items-center gap-2 text-xs">
+              <img :src="bookStore?.book?.poster" class="w-4 h-6" alt="" />
+              <span>{{ bookStore?.book?.book_version }}</span>
+            </a-button>
             <div></div>
           </div>
 
           <div class="grid gap-2">
-            <button
-              class="bg-rtprimary border border-lg rounded-lg text-center text-white text-sm h-10"
-            >
-              Thuê ngay
-            </button>
-            <button
+            <NuxtLink to="/cart">
+              <a-button
+                class="bg-rtprimary border-none border border-lg rounded-lg text-center !text-white text-sm h-10 w-full"
+              >
+                Thuê ngay
+              </a-button>
+            </NuxtLink>
+
+            <a-button
               class="border border-lg border-x-rtgray-50 rounded-lg text-center text-rtprimary text-sm h-10"
             >
               Thêm vào giỏ
-            </button>
+            </a-button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+<script setup lang="ts">
+const bookStore = useBookStore();
+</script>
 
 <style scoped>
 :deep(.ant-rate-star):not(:first-child) {

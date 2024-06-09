@@ -33,16 +33,27 @@
               >
                 <a-spin></a-spin>
               </div>
-              <ul class="px-4 space-y-1">
+              <!-- <ul class="px-4 space-y-1">
                 <li
                   class="flex items-center"
                   v-for="(category, index) in categoryStore?.categories
                     ?.categories"
                   :key="index"
                 >
-                  <a-checkbox> {{ category?.name }}</a-checkbox>
+                  <a-checkbox-group > {{ category?.name }}</a-checkbox-group>
                 </li>
-              </ul>
+              </ul> -->
+              <a-checkbox-group v-model:value="state.category1">
+                <a-checkbox
+                  class="flex items-center"
+                  v-for="(category, index) in categoryStore?.categories
+                    ?.categories"
+                  :key="index"
+                  :value="category.id"
+                >
+                  {{ category?.name }}
+                </a-checkbox>
+              </a-checkbox-group>
             </div>
           </div>
         </div>
@@ -140,36 +151,25 @@
               />
             </div>
             <div v-if="isShow.includes('review')" class="border-t px-4 py-2">
+              <div
+                v-if="isLoading"
+                class="flex items-center justify-center py-10"
+              >
+                <a-spin></a-spin>
+              </div>
               <ul class="px-4 space-y-1">
-                <li class="flex items-center justify-between">
-                  <label for="star5" class="flex items-center justify-between">
-                    <input type="checkbox" id="star5" />
-                    <CommonStar rating="5" />
-                  </label>
-                </li>
-                <li class="flex items-center justify-between">
-                  <label for="star4" class="flex items-center justify-between">
-                    <input type="checkbox" id="star4" />
-                    <CommonStar rating="4" />
-                  </label>
-                </li>
-                <li class="flex items-center justify-between">
-                  <label for="star3" class="flex items-center justify-between">
-                    <input type="checkbox" id="star3" />
-                    <CommonStar rating="3" />
-                  </label>
-                </li>
-                <li class="flex items-center justify-between">
-                  <label for="star2" class="flex items-center justify-between">
-                    <input type="checkbox" id="star2" />
-                    <CommonStar rating="2" />
-                  </label>
-                </li>
-                <li class="flex items-center justify-between">
-                  <label for="star1" class="flex items-center justify-between">
-                    <input type="checkbox" id="star1" />
-                    <CommonStar rating="1" />
-                  </label>
+                <li
+                  class="flex items-center"
+                  v-for="(review, index) in bookstore?.books"
+                  :key="index"
+                >
+                  <a-checkbox>
+                    {{
+                      review?.average_rate !== undefined
+                        ? review?.average_rate
+                        : "null"
+                    }}
+                  </a-checkbox>
                 </li>
               </ul>
             </div>
@@ -190,14 +190,12 @@
               <div class="text-base px-4 py-3 text-right flex items-center">
                 <div class="px-4 text-[#cac9cd]">Sắp xếp</div>
                 <a-select
+                  :options="sortOptions"
                   ref="select"
-                  v-model:value="value1"
+                  v-model:value="sort"
                   @change="handleChange"
+                  style="width: 120px"
                 >
-                  <a-select-option value="jack">Jack</a-select-option>
-                  <a-select-option value="lucy">Lucy</a-select-option>
-
-                  <a-select-option value="Yiminghe">yiminghe</a-select-option>
                 </a-select>
               </div>
             </div>
@@ -212,7 +210,7 @@
             </div>
             <div class="grid grid-cols-4">
               <CommonBookShop
-                v-for="(book, index) in bookstore?.books?.books.slice(1)"
+                v-for="(book, index) in bookstore?.books?.books"
                 :key="book.id || index"
                 :book="book"
               />
@@ -221,7 +219,8 @@
           <div class="flex justify-center">
             <a-pagination
               v-model:current="current"
-              :total="50"
+              :total="bookstore?.books?.totalResults"
+              :pageSize="bookstore?.books?.pageSize"
               show-less-items
             />
           </div>
@@ -234,7 +233,21 @@
 <script setup lang="ts">
 const checked = ref(false);
 const isShow = ref([]);
-
+const sort = ref("asc");
+const sortOptions = [
+  {
+    label: "Mới nhất",
+    value: "asc",
+  },
+  {
+    label: "Cũ nhất",
+    value: "desc",
+  },
+  {
+    label: "Phổ biến",
+    value: "popular",
+  },
+];
 const handleIsShow = (section) => {
   if (isShow.value.includes(section)) {
     isShow.value = [...isShow.value].filter((item) => item !== section);
@@ -253,9 +266,44 @@ const authorStore = useAuthorStore();
 const dataAuthor = ref({});
 const dataCategory = ref({});
 const dataBooks = ref({});
+
+const state = reactive({
+  category1: [],
+  category2: [],
+  category3: [],
+  category4: [],
+});
+
+console.log("a", dataBooks);
 const dataCompanies = ref({});
+const current = ref(1);
 
 const isLoading = ref(false);
+
+const getAllBooksClient = async () => {
+  console.log({ category1: state.category1 });
+  try {
+    const data: any = await bookstore.getAllBooks({
+      page: current.value,
+      pageSize: 12,
+      sort: sort.value,
+      category_id: state.category1,
+    });
+    console.log({ data });
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+useAsyncData(
+  async () => {
+    await getAllBooksClient();
+  },
+  {
+    immediate: true,
+    watch: [current, sort, state],
+  }
+);
 
 useAsyncData(async () => {
   isLoading.value = true;
@@ -269,6 +317,16 @@ useAsyncData(async () => {
   }
 });
 
+const categoryOption = categoryStore?.categories?.categories?.map((c) => {
+  console.log({ c });
+
+  return {
+    lable: c.name,
+    value: c.id,
+  };
+});
+
+console.log({ categoryOption });
 useAsyncData(async () => {
   isLoading.value = true;
   try {
@@ -276,18 +334,6 @@ useAsyncData(async () => {
       type: "book",
     });
     console.log("object111", dataCategory.value);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    isLoading.value = false;
-  }
-});
-
-useAsyncData(async () => {
-  isLoading.value = true;
-  try {
-    const response = await bookstore.getAllBooks();
-    dataBooks.value = response?.data?._rawValue?.data;
   } catch (error) {
     console.error(error);
   } finally {
@@ -313,7 +359,6 @@ const value1 = ref("lucy");
 const handleChange = (value) => {
   console.log(`selected ${value}`);
 };
-const current = ref(1);
 </script>
 <style scoped>
 :deep(.ant-select-selector) {

@@ -19,23 +19,27 @@
         </div>
         <div class="flex gap-2 text-sm font-normal">
           <p>Tác giả:</p>
-          <p class="text-rtprimary">{{ props?.book?.book?.author?.author }}</p>
+          <p class="text-rtprimary">
+            {{ bookStore?.book?.book?.author?.author }}
+          </p>
         </div>
       </div>
       <div class="font-bold text-2xl pb-1">
-        {{ props?.book?.book?.title }}
+        {{ bookStore?.book?.book?.title }}
       </div>
       <div class="flex gap-3">
         <p class="text-sm font-medium">4.8</p>
         <CommonRating rating="3.5" />
-        <p class="text-[#787878] text-sm">Đã thuê 1614</p>
+        <p class="text-[#787878] text-sm">
+          ( {{ bookStore?.book?.rating_total }} đánh giá)
+        </p>
       </div>
       <div class="flex items-center gap-3 pt-1">
-        <p class="font-bold text-2xl">{{ props?.book?.price }}</p>
+        <p class="font-bold text-2xl">{{ bookStore?.book?.price }}</p>
         <p
           class="flex justify-center items-center bg-[#F5F5FA] h-[18px] rounded-md text-xs font-normal px-1"
         >
-          -42%
+          - {{ bookStore?.book?.hire_percent }} %
         </p>
       </div>
     </div>
@@ -48,19 +52,19 @@
       <div class="text-sm">
         <div class="flex border-b border-rtgray-50 pb-1">
           <p class="w-1/2 text-rtgray-100">Công ty phát hành</p>
-          <p class="w-1/2">{{ props?.book?.issuing_company }}</p>
+          <p class="w-1/2">{{ bookStore?.book?.issuing_company }}</p>
         </div>
         <div class="flex border-b border-rtgray-50 p-1">
           <p class="w-1/2 text-rtgray-100">Loại bìa</p>
-          <p class="w-1/2">{{ props?.book?.cardboard }}</p>
+          <p class="w-1/2">{{ bookStore?.book?.cardboard }}</p>
         </div>
         <div class="flex border-b border-rtgray-50 p-1">
           <p class="w-1/2 text-rtgray-100">Số trang</p>
-          <p class="w-1/2">{{ props?.book?.total_page }}</p>
+          <p class="w-1/2">{{ bookStore?.book?.total_page }}</p>
         </div>
         <div class="flex border-b border-rtgray-50 p-1">
           <p class="w-1/2 text-rtgray-100">Nhà xuất bản</p>
-          <p class="w-1/2">{{ props?.book?.publishing_company?.name }}</p>
+          <p class="w-1/2">{{ bookStore?.book?.publishing_company?.name }}</p>
         </div>
       </div>
     </div>
@@ -96,5 +100,5 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps(["book"]);
+const bookStore = useBookStore();
 </script>
