@@ -10,6 +10,7 @@
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <form @submit.prevent="updateAuthor">
         <div class="grid grid-cols-6 gap-4 ">
+          
           <div class="flex flex-col gap-3 col-start-1 col-end-3 ">
             <label class="text-sm font-semibold" for="">Avatar</label>
             <ClientOnly>
@@ -162,7 +163,7 @@ const authorById = async () => {
         uid: "-1",
         name: "image.png",
         status: "done",
-        url: data.data._value?.data?.image,
+        url: data.data._rawValue.data.avatar,
       },
     ];
   } catch (error) {
@@ -179,7 +180,7 @@ const updateAuthor = async () => {
       status: valueAuthor.value.status,
       description: valueAuthor.value.description,
       is_featured: valueAuthor.value.is_featured,
-      image: imageInfo.value?.url || valueAuthor.value.image,
+      avatar: imageInfo.value?.url || valueAuthor.value.avatar,
     }
     await AuthorStore.updateAuthor({ id: authorID, valueAuthor: updateValue });
     message.success("Cập nhật tác giả thành công");
