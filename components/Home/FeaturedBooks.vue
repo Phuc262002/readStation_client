@@ -53,7 +53,7 @@
                 </div>
                 <!-- Right -->
                 <div class="w-1/2 grid grid-cols-3 gap-4">
-                    <div v-for="(data, index) in feauturedBooks.slice(1)" >
+                    <div v-for="(data, index) in feauturedBooks" >
                         <CommonHomeFeaturedBooks :data="data" :key="data.id"/>
                     </div>
                 </div>

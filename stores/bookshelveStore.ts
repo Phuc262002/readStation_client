@@ -43,11 +43,19 @@ export const useShelvesStore = defineStore("shelves-store", {
       });
       return data;
     },
+    async getOneShelves(id: number) {
+      this.isLoading = true;
+      const data: any = await useCustomFetch(`/api/v1/shelves/get-one/${id}`);
+      this.isLoading = false;
+      return data;
+    },
     async updateShelves({ id, valueUpdateShelves }: any) {
+      this.isSubmitting = true;
       const data: any = await useCustomFetch(`/api/v1/shelves/update/${id}`, {
         method: "PUT",
         body: JSON.stringify(valueUpdateShelves),
       });
+      this.isSubmitting = false;
       return data;
     },
   },
