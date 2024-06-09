@@ -3,7 +3,7 @@
     v-model:open="props.openModalAdd"
     title="Thêm danh mục sản phẩm"
     :footer="null"
-    :closable="false"
+    :onCancel="handleClose"
   >
     <form @submit.prevent="onSubmit">
       <div class="bg-white py-2">
