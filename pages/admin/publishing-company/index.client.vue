@@ -50,6 +50,7 @@
         :data-source="
           publishingCompanyStore?.publishingCompaniesAdmin?.publishing_companies
         "
+        :pagination="false"
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
@@ -97,24 +98,30 @@
                 <template #title>
                   <span>Xóa</span>
                 </template>
-                <span
+                <button
+                  @click="showDeleteConfirm(record?.id)"
                   class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
                 >
-                  <button
-                    @click="showDeleteConfirm(record?.id)"
-                    class="flex items-center"
-                  >
-                    <UIcon
-                      class="group-hover:text-[red]"
-                      name="i-material-symbols-delete-outline"
-                    />
-                  </button>
-                </span>
+                  <UIcon
+                    class="group-hover:text-[red]"
+                    name="i-material-symbols-delete-outline"
+                  />
+                </button>
               </a-tooltip>
             </div>
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="
+            publishingCompanyStore?.publishingCompaniesAdmin?.totalResults
+          "
+          :pageSize="publishingCompanyStore?.publishingCompaniesAdmin?.pageSize"
+          show-less-items
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -126,10 +133,18 @@ const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const publishingCompanyId = ref<number>();
 const publishingCompanyStore = usePublishingCompanyStore();
-
-useAsyncData(async () => {
-  await publishingCompanyStore.getAllPublishingCompany({});
-});
+const current = ref(1);
+useAsyncData(
+  async () => {
+    await publishingCompanyStore.getAllPublishingCompany({
+      page: current.value,
+    });
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
 
 const onDelete = async (id: string) => {
   await publishingCompanyStore.deletePublishingCompany(id);

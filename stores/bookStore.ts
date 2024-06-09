@@ -12,8 +12,21 @@ export const useBookStore = defineStore("book-store", {
     };
   },
   actions: {
-    async getAllBooks() {
-      const data: any = await useCustomFetch("/api/v1/books");
+    async getAllBooks({
+      page,
+      pageSize,
+      search,
+      category_id,
+      author_id,
+      publishing_company_id,
+      sort,
+      rating,
+    }: any) {
+      const data: any = await useCustomFetch(
+        `/api/v1/books?${page ? `&page=${page}` : ""}${
+          pageSize ? `&pageSize=${pageSize}` : ""
+        }`
+      );
       this.books = data.data._value?.data;
       return data;
     },

@@ -60,6 +60,18 @@ export const usePostStore = defineStore("post-store", {
         console.log(error);
       }
     },
+    async getOnePostAdmin(id: string) { 
+      try {
+        this.isLoading = true;
+        const data: any = await useCustomFetch(`/api/v1/posts/get/${id}`);
+        this.post = data.data._value?.data;
+        this.isLoading = false;
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    
     async createPost(post: any) {
       try {
         this.isSubmitting = true;
