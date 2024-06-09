@@ -220,11 +220,7 @@ const columns = [
     key: "action",
   },
 ];
-const pagination = computed(() => ({
-  total: categoryStore.categoriesAdmin?.totalPages,
-  current: categoryStore.categoriesAdmin?.page,
-  pageSize: categoryStore.categoriesAdmin?.pageSize,
-}));
+
 const CloseModalAdd = () => {
   openModalAdd.value = false;
 };
