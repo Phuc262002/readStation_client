@@ -3,7 +3,7 @@
     v-model:open="props.openModalEdit"
     title="Sửa"
     :footer="null"
-    :closable="false"
+    :onCancel="handleClose"
   >
     <form @submit.prevent="onUpdate">
       <div class="bg-white py-2">

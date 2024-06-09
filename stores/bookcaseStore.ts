@@ -19,5 +19,6 @@ export const useBookcaseStore = defineStore("bookcase-store", {
       this.isLoading = false;
       return data;
     },
+    
   },
 });

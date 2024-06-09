@@ -60,12 +60,17 @@
           </template>
           <template v-if="column.key === 'bookcase_id'">
             <span>
-              {{ record.bookcase.id }}
+              {{ record.bookcase.description }}
             </span>
           </template>
           <template v-if="column.key === 'category_id'">
             <span>
-              {{ record.category.id }}
+              {{ record.category.name }}
+            </span>
+          </template>
+          <template v-if="column.key === 'books'">
+            <span>
+              {{ record.books.length }}
             </span>
           </template>
           <template v-else-if="column.key === 'action'">
@@ -84,38 +89,6 @@
                         name="i-material-symbols-edit-outline"
                       />
                     </button>
-                    <!-- <a-modal v-model:open="openModalEdit" title="Sửa">
-                      <div class="">
-                        <div class="bg-white py-2">
-                          <div class="pb-4">
-                            <label for="email" class="block text-sm font-medium text-gray-700">
-                              Mã tủ sách
-                            </label>
-                            <div class="mt-1">
-                              <a-input class="w-[450px] h-[45px]" placeholder="Nhập tên kệ sách" />
-                            </div>
-                          </div>
-
-                          <div class="pb-4">
-                            <label for="email" class="block text-sm font-medium text-gray-700">
-                              Mã kệ sách
-                            </label>
-                            <div class="mt-1">
-                              <a-input class="w-[450px] h-[45px]" placeholder="Nhập tên kệ sách" />
-                            </div>
-                          </div>
-
-                          <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700">
-                              Nội dụng
-                            </label>
-                            <div class="mt-1">
-                              <a-input class="w-[450px] h-[45px]" placeholder="Nhập nội dung" />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </a-modal> -->
                   </div>
                 </span>
               </a-tooltip>
@@ -227,11 +200,15 @@ const columns = [
     dataIndex: "bookcase",
     key: "bookcase_id",
   },
-
   {
     title: "Mã danh mục",
     dataIndex: "category",
     key: "category_id",
+  },
+  {
+    title: "Số lượng sách",
+    dataIndex: "books",
+    key: "books",
   },
   {
     title: "Action",
