@@ -60,12 +60,17 @@
           </template>
           <template v-if="column.key === 'bookcase_id'">
             <span>
-              {{ record.bookcase.id }}
+              {{ record.bookcase.description }}
             </span>
           </template>
           <template v-if="column.key === 'category_id'">
             <span>
-              {{ record.category.id }}
+              {{ record.category.name }}
+            </span>
+          </template>
+          <template v-if="column.key === 'books'">
+            <span>
+              {{ record.books.length }}
             </span>
           </template>
           <template v-else-if="column.key === 'action'">
@@ -74,68 +79,29 @@
                 <template #title>
                   <span>Sửa</span>
                 </template>
-                <span
-                  class="group hover:bg-[green]/20 bg-[#e4e1e1] flex justify-center items-center cursor-pointer w-8 h-8 rounded-md"
+                <button
+                  @click="showModalEdit(record?.id)"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <div>
-                    <button @click="showModalEdit(record?.id)">
-                      <UIcon
-                        class="group-hover:text-[green]"
-                        name="i-material-symbols-edit-outline"
-                      />
-                    </button>
-                    <!-- <a-modal v-model:open="openModalEdit" title="Sửa">
-                      <div class="">
-                        <div class="bg-white py-2">
-                          <div class="pb-4">
-                            <label for="email" class="block text-sm font-medium text-gray-700">
-                              Mã tủ sách
-                            </label>
-                            <div class="mt-1">
-                              <a-input class="w-[450px] h-[45px]" placeholder="Nhập tên kệ sách" />
-                            </div>
-                          </div>
-
-                          <div class="pb-4">
-                            <label for="email" class="block text-sm font-medium text-gray-700">
-                              Mã kệ sách
-                            </label>
-                            <div class="mt-1">
-                              <a-input class="w-[450px] h-[45px]" placeholder="Nhập tên kệ sách" />
-                            </div>
-                          </div>
-
-                          <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700">
-                              Nội dụng
-                            </label>
-                            <div class="mt-1">
-                              <a-input class="w-[450px] h-[45px]" placeholder="Nhập nội dung" />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </a-modal> -->
-                  </div>
-                </span>
+                  <UIcon
+                    class="group-hover:text-[#212122]"
+                    name="i-material-symbols-edit-outline"
+                  />
+                </button>
               </a-tooltip>
               <a-tooltip placement="top" color="red">
                 <template #title>
                   <span>Xóa</span>
                 </template>
-                <span
-                  class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                <button
+                  @click="showDeleteConfirm(record?.id)"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <button
-                    @click="showDeleteConfirm(record?.id)"
-                    class="flex items-center"
-                  >
-                    <UIcon
-                      class="group-hover:text-[red]"
-                      name="i-material-symbols-delete-outline"
-                    />
-                  </button>
-                </span>
+                  <UIcon
+                    class="group-hover:text-[#212122]"
+                    name="i-material-symbols-delete-outline"
+                  />
+                </button>
               </a-tooltip>
             </div>
           </template>
@@ -218,7 +184,7 @@ const columns = [
     key: "description",
   },
   {
-    title: "bookshelf_code",
+    title: "Mã kệ sách",
     dataIndex: "bookshelf_code",
     key: "bookshelf_code",
   },
@@ -227,11 +193,15 @@ const columns = [
     dataIndex: "bookcase",
     key: "bookcase_id",
   },
-
   {
     title: "Mã danh mục",
     dataIndex: "category",
     key: "category_id",
+  },
+  {
+    title: "Số lượng sách",
+    dataIndex: "books",
+    key: "books",
   },
   {
     title: "Action",

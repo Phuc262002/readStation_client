@@ -1,9 +1,9 @@
 <template>
   <a-modal
-    v-model:open="props.openModalEdit"
+    v-model:open="open"
     title="Sửa"
     :footer="null"
-    :closable="false"
+    :onCancel="handleClose"
   >
     <form @submit.prevent="onUpdate">
       <div class="bg-white py-2">
@@ -94,10 +94,9 @@
           </div>
         </div>
 
-        <div class="flex justify-end items-end gap-4">
+        <div class="flex justify-end items-end gap-2">
           <a-button
             @click="handleClose"
-            type="primary"
             danger
             html-type="button"
             class="mt-4"
@@ -210,7 +209,7 @@ useAsyncData(
     ];
   },
   {
-    watch: [categoryId],
+    watch: [categoryId, open],
     initialCache: false,
   }
 );

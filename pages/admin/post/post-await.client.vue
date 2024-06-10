@@ -4,7 +4,7 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Bài viết chờ duyệt</h5>
+        <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả bài viết</h5>
       </div>
       <CommonBreadcrumAdmin />
     </div>
@@ -25,123 +25,188 @@
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
-        <!-- <NuxtLink to="/admin/post/add-post" class="">
-            <a-button type="primary">Thêm bài viết</a-button>
-          </NuxtLink> -->
+        <NuxtLink to="/admin/post/add-post" class="">
+          <a-button type="primary">Thêm bài viết</a-button>
+        </NuxtLink>
       </div>
 
-      <a-table :columns="columns" :data-source="data">
+      <a-table
+        :columns="columns"
+        :loading="postStore.isLoading"
+        :data-source="postStore?.postsAdmin.posts"
+        :pagination="false"
+      >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
-            <span> Tên người viết </span>
+            <span> Tên bài viết </span>
           </template>
         </template>
 
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
             <a>
-              {{ record.name }}
+              {{ record.title }}
             </a>
           </template>
-          <template v-else-if="column.key === 'tags'">
+          <template v-if="column.key === 'category_id'">
+            <span>
+              {{ record.category.id }}
+            </span>
+          </template>
+          <template v-else-if="column.key === 'image'">
+            <a-image
+              class="rounded-md"
+              :width="100"
+              :height="100"
+              :src="record.image"
+            />
+          </template>
+          <template v-else-if="column.key === 'status'">
             <span>
               <a-tag
-                v-for="tag in record.tags"
-                :key="tag"
-                :color="
-                  tag === 'loser'
-                    ? 'volcano'
-                    : tag.length > 5
-                    ? 'geekblue'
-                    : 'green'
-                "
+                :bordered="false"
+                :color="record.status === 'active' ? 'green' : 'volcano'"
               >
-                {{ tag.toUpperCase() }}
+                {{ record.status }}
               </a-tag>
             </span>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top" color="gold">
+              <a-tooltip placement="top">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
-                <span
-                  class="group hover:bg-[#faad14]/20 flex items-center justify-center w-8 h-8 rounded-md"
-                  ><UIcon
-                    class="group-hover:text-[#faad14]"
-                    name="i-icon-park-outline-eyes"
-                /></span>
-              </a-tooltip>
-              <a-tooltip placement="top" color="green">
-                <template #title>
-                  <span>Duyệt</span>
-                </template>
-                <span
-                  class="group hover:bg-[green]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                <button
+                  @click="showModal"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <a-popconfirm
-                    title="Are you sure delete this task?"
-                    placement="right"
-                    ok-text="Yes"
-                    cancel-text="No"
-                    @confirm="confirm"
-                    @cancel="cancel"
-                  >
-                    <a href="#">
-                      <UIcon
-                        class="group-hover:text-[green]"
-                        name="i-material-symbols-360-rounded"
-                    /></a>
-                  </a-popconfirm>
-                </span>
+                  <div>
+                    <UIcon
+                      class="group-hover:text-[#212122]"
+                      name="i-icon-park-outline-eyes"
+                    />
+
+                    <a-modal v-model:open="open" title="Sửa" width="70%">
+                      <div class="flex justify-between gap-4">
+                        <div class="grow">
+                          <h1 class="font-bold text-xl">Bài viết số 1</h1>
+                        </div>
+                      </div>
+                      <div
+                        class="flex border border-transparent border-b-gray-300 pb-2"
+                      >
+                        <div class="w-1/5">
+                          <h4 class="font-bold">Tên người viết</h4>
+                        </div>
+                        <div class="w-4/5">Huỳnh Tuấn Kiệt</div>
+                      </div>
+                    </a-modal>
+                  </div>
+                </button>
               </a-tooltip>
-              <!-- <a-tooltip placement="top" color="red">
-                <template #title>
-                  <span>Xóa</span>
-                </template>
-                <span
-                  class="group hover:bg-[red]/20 flex items-center justify-center w-6 h-6 rounded-md"
+
+              <a-dropdown :trigger="['click']" placement="bottom">
+                <button
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                </span>
-              </a-tooltip> -->
+                  <UIcon
+                    class="group-hover:text-[#131313]"
+                    name="i-solar-menu-dots-bold"
+                  />
+                </button>
+                <template #overlay>
+                  <a-menu>
+                    <NuxtLink :to="`/admin/post/edit/${record.id}`">
+                      <a-menu-item key="2" class="p-4">
+                        <span class="flex items-center gap-2 text-blue-400">
+                          <UIcon
+                            class="group-hover:text-[green]"
+                            name="i-material-symbols-edit-outline"
+                          />
+                          <span>Sửa</span>
+                        </span>
+                      </a-menu-item>
+                    </NuxtLink>
+
+                    <a-menu-item key="3" class="p-4">
+                      <span>
+                        <button
+                          @click="showDeleteConfirm(record?.id)"
+                          class="flex items-center gap-1 text-blue-400"
+                        >
+                          <UIcon
+                            class="group-hover:text-[red] text-lg"
+                            name="i-material-symbols-delete-outline"
+                          />
+                          <span>Xóa</span>
+                        </button>
+                      </span>
+                    </a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown>
             </div>
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="postStore?.postsAdmin?.totalResults"
+          :pageSize="postStore?.postsAdmin?.pageSize"
+          show-less-items
+        />
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-const confirm = (e: MouseEvent) => {
-  console.log(e);
-  message.success("Xóa thành công");
-};
+import { Modal } from "ant-design-vue";
+const postStore = usePostStore();
+const current = ref(1);
+useAsyncData(
+  async () => {
+    await postStore.getAllPost({
+      page: current.value,
+      status: "await",
+    });
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
 
-const cancel = (e: MouseEvent) => {
-  console.log(e);
-  message.error("Xóa thất bại");
+const onDelete = async (id: string) => {
+  await postStore.deletePost(id);
+  await postStore.getAllPost({});
+};
+const showDeleteConfirm = (id: string) => {
+  Modal.confirm({
+    title: "Are you sure delete this task?",
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      onDelete(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
 };
 const columns = [
   {
-    name: "Name",
-    dataIndex: "Name",
+    name: "title",
+    dataIndex: "name",
     key: "name",
   },
   {
     title: "Danh mục",
-    dataIndex: "category",
-    key: "category",
-  },
-  {
-    title: "Tên bài viết",
-    dataIndex: "title",
-    key: "title",
-  },
-  {
-    title: "Nội dung ngắn",
-    dataIndex: "summary",
-    key: "summary",
+    dataIndex: "category_id",
+    key: "category_id",
   },
   {
     title: "Hình ảnh",
@@ -149,14 +214,19 @@ const columns = [
     key: "image",
   },
   {
+    title: "Nội dung ngắn",
+    dataIndex: "summary",
+    key: "summary",
+  },
+  {
     title: "Slug",
     dataIndex: "slug",
     key: "slug",
   },
   {
-    title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
+    title: "Trạng thái",
+    key: "status",
+    dataIndex: "status",
   },
   {
     title: "Action",
@@ -164,18 +234,6 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    category: "New York No. 1 Lake Park",
-    title: 32,
-    summary: "New York No. 1 Lake Park",
-    image: 32,
-    Slug: "asdasd",
-    tags: ["nice", "developer"],
-  },
-];
 const open = ref<boolean>(false);
 const showModal = () => {
   open.value = true;

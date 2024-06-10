@@ -28,7 +28,9 @@
           </div>
         </div>
         <div class="">
-          <a-button class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary " @click="showModalAdd"
+          <a-button
+            class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary"
+            @click="showModalAdd"
             >Thêm nhà xuất bản</a-button
           >
         </div>
@@ -48,6 +50,7 @@
         :data-source="
           publishingCompanyStore?.publishingCompaniesAdmin?.publishing_companies
         "
+        :pagination="false"
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
@@ -62,7 +65,11 @@
             </a>
           </template>
           <template v-else-if="column.key === 'logo_company'">
-            <a-image class="rounded-md" :width="100" :src="record.logo_company" />
+            <a-image
+              class="rounded-md"
+              :width="100"
+              :src="record.logo_company"
+            />
           </template>
           <template v-else-if="column.key === 'status'">
             <span>
@@ -77,44 +84,44 @@
                 <template #title>
                   <span>Sửa</span>
                 </template>
-                <span
+                <button
+                  @click="showModalEdit(record?.id)"
                   class="group hover:bg-[green]/20 bg-[#e4e1e1] flex justify-center items-center cursor-pointer w-8 h-8 rounded-md"
                 >
-                  <div>
-                    <button
-                      class="flex items-center"
-                      @click="showModalEdit(record?.id)"
-                    >
-                      <UIcon
-                        class="group-hover:text-[green]"
-                        name="i-material-symbols-edit-outline"
-                      />
-                    </button>
-                  </div>
-                </span>
+                  <UIcon
+                    class="group-hover:text-[green]"
+                    name="i-material-symbols-edit-outline"
+                  />
+                </button>
               </a-tooltip>
               <a-tooltip placement="top" color="red">
                 <template #title>
                   <span>Xóa</span>
                 </template>
-                <span
+                <button
+                  @click="showDeleteConfirm(record?.id)"
                   class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
                 >
-                  <button
-                    @click="showDeleteConfirm(record?.id)"
-                    class="flex items-center"
-                  >
-                    <UIcon
-                      class="group-hover:text-[red]"
-                      name="i-material-symbols-delete-outline"
-                    />
-                  </button>
-                </span>
+                  <UIcon
+                    class="group-hover:text-[red]"
+                    name="i-material-symbols-delete-outline"
+                  />
+                </button>
               </a-tooltip>
             </div>
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="
+            publishingCompanyStore?.publishingCompaniesAdmin?.totalResults
+          "
+          :pageSize="publishingCompanyStore?.publishingCompaniesAdmin?.pageSize"
+          show-less-items
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -126,10 +133,18 @@ const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const publishingCompanyId = ref<number>();
 const publishingCompanyStore = usePublishingCompanyStore();
-
-useAsyncData(async () => {
-  await publishingCompanyStore.getAllPublishingCompany({});
-});
+const current = ref(1);
+useAsyncData(
+  async () => {
+    await publishingCompanyStore.getAllPublishingCompany({
+      page: current.value,
+    });
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
 
 const onDelete = async (id: string) => {
   await publishingCompanyStore.deletePublishingCompany(id);
