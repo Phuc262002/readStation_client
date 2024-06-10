@@ -4,6 +4,7 @@ export const useAuthorStore = defineStore("author-store", {
     return {
       authorClient: [],
       AuthorAdmin: [],
+      getOneAuthorAdmin: [],
       isSubmitting: false,
       isLoading: false,
     };
@@ -54,6 +55,7 @@ export const useAuthorStore = defineStore("author-store", {
     async getAuthorById(id: string) {
       this.isLoading = true;
       const data: any = await useCustomFetch(`/api/v1/authors/get-one/${id}`);
+      this.getOneAuthorAdmin = data.data._value?.data;
       this.isLoading = false;
       return data;
     },

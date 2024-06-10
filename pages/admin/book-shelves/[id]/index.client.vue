@@ -2,17 +2,19 @@
   <div>
     <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-bold uppercase">Chi tiết {{ detailShelves.name }}</h5>
+        <h5 class="text-xl text-[#1e293b] font-bold uppercase">Chi tiết {{ bookShelves?.adminGetOneBookShelve.name }}
+        </h5>
       </div>
     </div>
     <div class="bg-[white] h-24 rounded-lg">
       <div class="p-5 flex justify-between">
         <div class="flex flex-col gap-2">
           <h1 class="text-xl font-bold">
-            {{ detailShelves.name }}
+            {{ bookShelves?.adminGetOneBookShelve.name }}
           </h1>
-          <p class="text-orange-400">{{ detailShelves?.bookcase?.description }} - {{ detailShelves.name }} -
-            {{ detailShelves?.book_details.length }} cuốn sách</p>
+          <p class="text-orange-400">{{ bookShelves?.adminGetOneBookShelve.bookcase?.description }} - {{
+            bookShelves?.adminGetOneBookShelve.name }} -
+            {{ bookShelves?.adminGetOneBookShelve?.book_details.length }} cuốn sách</p>
         </div>
         <div>
           <a-button type="primary">Đổi tên kệ</a-button>
@@ -23,7 +25,7 @@
       <div class="flex justify-between pb-4">
         <div class="relative w-1/4 md:block hidden">
           <div class="flex">
-            <a-input v-model:value="filter.search" @pressEnter="handleSearch" placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
+            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
               <template #prefix>
                 <SearchOutlined />
               </template>
@@ -34,10 +36,28 @@
           </div>
         </div>
         <div class="">
-          <a-button type="primary">Thêm sách</a-button>
+          <a-button type="primary" @click="showModal">Thêm sách</a-button>
+          <a-modal v-model:open="open" @ok="handleOk" :footer="null">
+            <div class="p-5">
+              <div class="flex flex-col gap-3">
+                <label class="font-semibold " for="">Nhập tên sách</label>
+                <a-input placeholder="Nhập tên sách để thêm" class="h-10">
+                  <template #prefix>
+                    <SearchOutlined />
+                  </template>
+                </a-input>
+              </div>
+              <!-- <div class="flex justify-end items-end gap-4">
+                <a-button @click="handleClose" type="primary" danger html-type="button" class="mt-4">Hủy</a-button>
+                <a-button type="primary" html-type="submit" class="mt-4">Thêm</a-button>
+              </div> -->
+            </div>
+
+          </a-modal>
         </div>
       </div>
-      <a-table :columns="columns" :data-source="detailShelves?.book_details">
+      <a-table :columns="columns" :data-source="bookShelves?.adminGetOneBookShelve?.book_details"
+        :loading="bookShelves.isLoading">
         <template #bodyCell="{ column, record }">
           <template v-if="column.dataIndex === 'name'">
             <a>{{ record }}</a>
@@ -79,53 +99,39 @@
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
-                <button
-                  @click="showModal"
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                >
+                <button @click="showModal"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                   <div>
-                    <UIcon
-                      class="group-hover:text-[#212122]"
-                      name="i-icon-park-outline-eyes"
-                    />
-
+                    <UIcon class="group-hover:text-[#212122]" name="i-icon-park-outline-eyes" />
+                    <!-- 
                     <a-modal v-model:open="open" title="Sửa" width="70%">
                       <div class="flex justify-between gap-4">
                         <div class="grow">
                           <h1 class="font-bold text-xl">Bài viết số 1</h1>
                         </div>
                       </div>
-                      <div
-                        class="flex border border-transparent border-b-gray-300 pb-2"
-                      >
+                      <div class="flex border border-transparent border-b-gray-300 pb-2">
                         <div class="w-1/5">
                           <h4 class="font-bold">Tên người viết</h4>
                         </div>
                         <div class="w-4/5">Huỳnh Tuấn Kiệt</div>
                       </div>
-                    </a-modal>
+                    </a-modal> -->
                   </div>
                 </button>
               </a-tooltip>
 
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                >
-                  <UIcon
-                    class="group-hover:text-[#131313]"
-                    name="i-solar-menu-dots-bold"
-                  />
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                  <UIcon class="group-hover:text-[#131313]" name="i-solar-menu-dots-bold" />
                 </button>
                 <template #overlay>
                   <a-menu>
                     <NuxtLink>
                       <a-menu-item key="2" class="p-4">
                         <span class="flex items-center gap-2 text-blue-400">
-                          <UIcon
-                            class="group-hover:text-[green]"
-                            name="i-material-symbols-edit-outline"
-                          />
+                          <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
                           <span>Sửa</span>
                         </span>
                       </a-menu-item>
@@ -133,13 +139,8 @@
 
                     <a-menu-item key="3" class="p-4">
                       <span>
-                        <button
-                          class="flex items-center gap-1 text-blue-400"
-                        >
-                          <UIcon
-                            class="group-hover:text-[red] text-lg"
-                            name="i-material-symbols-delete-outline"
-                          />
+                        <button class="flex items-center gap-1 text-blue-400">
+                          <UIcon class="group-hover:text-[red] text-lg" name="i-material-symbols-delete-outline" />
                           <span>Xóa</span>
                         </button>
                       </span>
@@ -149,45 +150,29 @@
               </a-dropdown>
             </div>
           </template>
-          
+
         </template>
       </a-table>
     </div>
   </div>
 </template>
 
-<script setup>
-import {ref} from "vue";
-const bookStore = useBookStore();
-const filter = ref({
-  search: "",
-});
-const handleSearch = () => {
-  console.log("🚀 ~ handleSearch ~", filter.value.search)
-};
-const getDatabook = async () => {
-  const data = await bookStore.getAdminBooks({
-    search: filter.value.search,
-  });
-  console.log("🚀 ~ getDatabook ~ data", data)
-};
-
+<script setup lang="ts">
+import { ref } from "vue";
 const route = useRoute()
-const detailShelvesId = route.params.id;
-const BookShelves = useShelvesStore();
-const detailShelves = ref({});
-console.log("🚀 ~ detailShelves:", detailShelves)
-const getData = async () => {
-  const data = await BookShelves.getOneShelves(detailShelvesId);
-  detailShelves.value = data?.data?._rawValue?.data;
+const open = ref(false);
+const showModal = () => {
+  open.value = true;
 };
+const handleOk = e => {
+  console.log(e);
+  open.value = false;
+};
+const detailShelvesId = route.params.id;
+const bookShelves = useShelvesStore();
 useAsyncData(async () => {
-  await getData();
-  await getDatabook();
+  await bookShelves.getOneShelves(detailShelvesId);
 });
-
-
-
 const columns = [
   {
     title: 'Ảnh bìa',
@@ -235,17 +220,4 @@ const columns = [
     key: "action",
   },
 ];
-
-// const data = [
-//   {
-//     image: "hình ảnh",
-//     book: "Sách thiếu nhi",
-//     author : "Nguyễn Nhật Ánh",
-//     price: "100.000",
-//     book_version: "tái bản 2",
-//     category: "Danh mục",
-//     is_feature: "Nổi bật",
-//     status: "Trạng thái",
-//   },
-// ];
 </script>
