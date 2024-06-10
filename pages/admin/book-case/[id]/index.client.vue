@@ -4,20 +4,45 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả tủ sách</h5>
+        <h5 class="text-xl text-[#1e293b] font-semibold">
+          <h5 class="text-xl text-[#1e293b] font-bold uppercase">
+            Chi tiết tủ sách {{ bookCaseStore.bookCase?.name }}
+          </h5>
+        </h5>
       </div>
-      <CommonBreadcrumAdmin />
+    </div>
+    <div class="bg-[white] h-24 rounded-lg">
+      <div class="p-5 flex justify-between">
+        <div class="flex flex-col gap-2">
+          <h1 class="text-xl font-bold">
+            {{ bookCaseStore.bookCase?.name }}
+          </h1>
+          <p class="text-orange-400">
+            {{ bookCaseStore.bookCase?.name }} -
+            {{ bookCaseStore.bookCase?.shelves.length }} kệ sách -
+            {{ bookCaseStore.bookCase?.books.length }} cuốn sách
+          </p>
+        </div>
+        <div>
+          <a-button type="primary">Đổi tên tủ</a-button>
+        </div>
+      </div>
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
         <div class="relative w-1/4 md:block hidden">
           <div class="flex">
-            <input
-              type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..."
-            />
+            <a-input
+              v-model:value="filter.search"
+              @pressEnter="handleSearch"
+              placeholder="Nhập mã kệ để tìm kiếm"
+              class="h-10"
+            >
+              <template #prefix>
+                <SearchOutlined />
+              </template>
+            </a-input>
           </div>
           <div
             class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
@@ -26,26 +51,17 @@
           </div>
         </div>
         <div class="">
-          <a-button type="primary" @click="showModalAdd">Thêm tủ sách</a-button>
-          <BookCaseCreate
-            :openModalAdd="openModalAdd"
-            :openModal="CloseModalAdd"
-          />
-          <BookCaseEdit
-            :openModalEdit="openModalEdit"
-            :openModal="CloseModalEdit"
-            :bookCaseId="bookCaseId"
-          />
+          <a-button type="primary">Thêm sách</a-button>
         </div>
       </div>
 
       <a-table
         :columns="columns"
-        :data-source="bookCaseStore?.bookCaseAdmin?.bookcases"
+        :data-source="bookCaseStore.bookCase?.shelves"
         :loading="bookCaseStore.isLoading"
       >
         <template #headerCell="{ column }">
-          <template v-if="column.key === 'bookcase_code'">
+          <template v-if="column.key === 'bookshelf_code'">
             <span> Mã tủ sách </span>
           </template>
         </template>
@@ -55,12 +71,6 @@
             <a>
               {{ record.name }}
             </a>
-          </template>
-          <template v-if="column.key === 'shelves'">
-            <span class="flex justify-start gap-2">
-              {{ record.shelves.length }}
-              <p>kệ</p>
-            </span>
           </template>
           <template v-if="column.key === 'books'">
             <span class="flex justify-start gap-2">
@@ -77,7 +87,7 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <NuxtLink :to="`book-case/${record.id}`">
+              <NuxtLink :to="`book-case/detail-case/${record.id}`">
                 <a-tooltip placement="top" color="yellow">
                   <template #title>
                     <span>Xem chi tiết</span>
@@ -97,7 +107,6 @@
                   <span>Sửa</span>
                 </template>
                 <button
-                  @click="showModalEdit(record?.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
                   <UIcon
@@ -111,7 +120,6 @@
                   <span>Xóa</span>
                 </template>
                 <button
-                  @click="showDeleteConfirm(record?.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
                   <UIcon
@@ -128,78 +136,31 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {ref} from "vue";
 import { Modal } from "ant-design-vue";
-const openModalEdit = ref<boolean>(false);
-const openModalAdd = ref<boolean>(false);
+import { ref } from "vue";
+const route = useRoute();
+const detailBookCaseId = route.params.id;
 const bookCaseStore = useBookcaseStore();
-const bookCaseId = ref<number>();
-import { LoadingOutlined } from "@ant-design/icons-vue";
-import { h } from "vue";
-const indicator = h(LoadingOutlined, {
-  style: {
-    fontSize: "16px",
-  },
-  spin: true,
-});
 
 useAsyncData(async () => {
-  await bookCaseStore.getAllBookcases({});
-});
-
-
-const onDelete = async (id: string) => {
-  try {
-    await bookCaseStore.deleteBookcase(id);
-    await bookCaseStore.getAllBookcases({});
-  } catch (error) {
-    console.error(error);
+  if (detailBookCaseId !== undefined) {
+    await bookCaseStore.getOneBookcase(detailBookCaseId);
   }
-};
-
-const showDeleteConfirm = (id: string) => {
-  Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
-    okType: "danger",
-    cancelText: "No",
-    onOk() {
-      onDelete(id);
-    },
-    onCancel() {
-      console.log("Cancel");
-    },
-  });
-};
-const CloseModalAdd = () => {
-  openModalAdd.value = false;
-};
-const CloseModalEdit = () => {
-  openModalEdit.value = false;
-};
-const showModalAdd = () => {
-  openModalAdd.value = true;
-};
-const showModalEdit = (id: number) => {
-  openModalEdit.value = true;
-  bookCaseId.value = id;
-};
+});
+const filter = ref({
+  search: "",
+});
+const handleSearch = () => {};
 const columns = [
   {
-    name: "Mã tủ",
-    dataIndex: "bookcase_code",
-    key: "bookcase_code",
+    name: "Mã kệ",
+    dataIndex: "bookshelf_code",
+    key: "bookshelf_code",
   },
   {
     title: "Tên tủ sách",
     dataIndex: "name",
     key: "name",
-  },
-  {
-    title: "Số lượng kệ",
-    dataIndex: "shelves",
-    key: "shelves",
   },
   {
     title: "Số lượng sách",
@@ -222,15 +183,5 @@ const columns = [
   },
 ];
 
-// const data = [
-//   {
-//     key: "1",
-//     bookcase_code: "#343",
-//     name: "123",
-//     bookCase: 32,
-//     books: 32,
-//     description: "New York No. 1 Lake Park",
-//     status: "active",
-//   },
-// ];
+
 </script>
