@@ -14,7 +14,7 @@
             type="text"
             class="border p-2 rounded-md"
             placeholder="Bookshelf_code"
-            required
+          
           />
         </div>
         <div class="pb-4">
