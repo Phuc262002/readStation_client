@@ -250,6 +250,70 @@
                             </div>
                           </div>
                         </div>
+                        <div class="flex gap-2">
+                          <div class="w-1/2 pb-4">
+                            <label
+                              for="email"
+                              class="block text-sm font-medium text-gray-700"
+                            >
+                              Họ tên
+                            </label>
+                            <div class="mt-1">
+                              <a-input
+                                class="w-full h-10"
+                                placeholder="Nhập họ tên"
+                                required
+                              />
+                            </div>
+                          </div>
+                          <div class="w-1/2 pb-4">
+                            <label
+                              for="email"
+                              class="block text-sm font-medium text-gray-700"
+                            >
+                              Số điện thoại
+                            </label>
+                            <div class="mt-1">
+                              <a-input
+                                class="w-full h-10"
+                                placeholder="Nhập số điện thoại"
+                                required
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="flex gap-2">
+                          <div class="w-1/2 pb-4">
+                            <label
+                              for="email"
+                              class="block text-sm font-medium text-gray-700"
+                            >
+                              Họ tên
+                            </label>
+                            <div class="mt-1">
+                              <a-input
+                                class="w-full h-10"
+                                placeholder="Nhập họ tên"
+                                required
+                              />
+                            </div>
+                          </div>
+                          <div class="w-1/2 pb-4">
+                            <label
+                              for="email"
+                              class="block text-sm font-medium text-gray-700"
+                            >
+                              Số điện thoại
+                            </label>
+                            <div class="mt-1">
+                              <a-input
+                                class="w-full h-10"
+                                placeholder="Nhập số điện thoại"
+                                required
+                              />
+                            </div>
+                          </div>
+                        </div>
                       </form>
                     </a-modal>
                   </div>
