@@ -6,5 +6,19 @@ export const useCartStore = defineStore("cart-store", {
       carts: [],
     };
   },
-  persist: true,
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: "cart-store",
+        storage: localStorage,
+      },
+    ],
+  },
+  // persist: true,
+  // actions: {
+  //   addToCart(product: any) {
+  //     this.carts.push(product);
+  //   },
+  // },
 });

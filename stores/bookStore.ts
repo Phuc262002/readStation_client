@@ -25,7 +25,13 @@ export const useBookStore = defineStore("book-store", {
       const data: any = await useCustomFetch(
         `/api/v1/books?${page ? `&page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
-        }`
+        }${search ? `&search=${search}` : ""}${
+          category_id ? `&category_id=${category_id}` : ""
+        }${author_id ? `&author_id=${author_id}` : ""}${
+          publishing_company_id
+            ? `&publishing_company_id=${publishing_company_id}`
+            : ""
+        }${sort ? `&sort=${sort}` : ""}${rating ? `&rating=${rating}` : ""}`
       );
       this.books = data.data._value?.data;
       return data;

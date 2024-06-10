@@ -125,11 +125,6 @@ const selectedKeys = ref<string[]>(["sub1"]);
 const changeAvatarRef = ref(null);
 const openModalAdd = ref<boolean>(false);
 
-//Create the form
-// const { defineInputBinds, setFieldValue } = useForm({
-//   validationSchema: {},
-// });
-
 //get API
 const data = ref(null);
 const authStore = useAuthStore();
