@@ -19,50 +19,48 @@
               </div>
             </div>
             <!--  -->
-            <div class="flex justify-between items-center">
+            <div
+              class="flex justify-between items-center"
+              v-for="(cart, index) in cartStore?.carts"
+              :key="index"
+            >
               <div class="flex justify-start w-2/6">
                 <div class="min-w-[100px] min-h-[100px]">
-                  <img
-                    class="w-24 rounded-md"
-                    :src="cartStore?.carts?.poster"
-                    alt=""
-                  />
+                  <img class="w-24 rounded-md" :src="cart?.poster" alt="" />
                 </div>
                 <div class="flex flex-col gap-2">
                   <div class="text-base font-bold">
-                    {{ cartStore?.carts?.book?.title }}
+                    {{ cart?.book?.title }}
                   </div>
                   <div class="text-[14px]">
                     <div>
                       <span class="font-bold">Tác giả : </span
-                      ><span>{{ bookStore?.book?.book?.author?.author }}</span>
+                      ><span>{{ cart?.book?.author?.author }}</span>
                     </div>
                     <div>
                       <span class="font-bold">Phiên bản : </span
-                      ><span> {{ bookStore?.book?.cardboard }}</span>
+                      ><span> {{ cart?.cardboard }}</span>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="text-base font-bold flex justify-center">
-                {{ cartStore?.carts?.price }}
+                {{ cart?.price }}
               </div>
               <div class="text-base font-bold flex items-center pl-3">
-                {{ bookStore?.book?.hire_percent }}%
+                {{ cart?.hire_percent }}%
               </div>
               <div class="w-1/6 text-base font-bold flex justify-center">
-                {{
-                  bookStore?.book?.price * (bookStore?.book?.hire_percent / 100)
-                }}
+                {{ cart?.price * (cart?.hire_percent / 100) }}
               </div>
               <div class="text-base font-bold flex justify-center pr-6">
                 {{ bookStore?.book?.cardboard }}đ
               </div>
               <div class="text-base font-bold text-center flex justify-center">
-                {{ bookStore?.book?.cardboard }}đ
+                {{ cart?.price + cart?.price * (cart?.hire_percent / 100) }}đ
               </div>
               <div
-                class="text-center text-2xl text-rtprimary flex justify-center"
+                class="text-center text-2xl text-rtprimary flex justify-center cursor-pointer"
               >
                 <UIcon
                   class="text-2xl"

@@ -4,7 +4,9 @@ export const useCartStore = defineStore("cart-store", {
   state: () => ({
     carts: [],
   }),
-  persist: true,
+  persist: {
+    storage: localStorage,
+  },
   actions: {
     addToCart(product) {
       this.carts.push(product);
