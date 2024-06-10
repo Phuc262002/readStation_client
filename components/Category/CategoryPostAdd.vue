@@ -78,13 +78,8 @@
           </div>
         </div>
 
-        <div class="flex justify-end items-end gap-4">
-          <a-button
-            @click="handleClose"
-            type="primary"
-            danger
-            html-type="button"
-            class="mt-4"
+        <div class="flex justify-end items-end gap-2">
+          <a-button @click="handleClose" danger html-type="button" class="mt-4"
             >Hủy</a-button
           >
           <a-button

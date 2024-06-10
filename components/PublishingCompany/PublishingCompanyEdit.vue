@@ -1,9 +1,9 @@
 <template>
   <a-modal
-    v-model:open="props.openModalEdit"
+    v-model:open="open"
     title="Sửa"
     :footer="null"
-    :closable="false"
+    :onCancel="handleClose"
   >
     <form @submit.prevent="onUpdate">
       <div class="bg-white py-2">
@@ -21,7 +21,7 @@
           </div>
         </div>
 
-        <div>
+        <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
             Mô tả
           </label>
@@ -36,7 +36,7 @@
           </div>
         </div>
 
-        <div>
+        <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
             Trạng thái
           </label>
@@ -81,10 +81,10 @@
             </ClientOnly>
           </div>
         </div>
-        <div class="flex justify-end items-end gap-4">
+        <div class="flex justify-end items-end gap-2">
           <a-button
             @click="handleClose"
-            type="primary"
+          
             danger
             html-type="button"
             class="mt-4"
@@ -199,7 +199,7 @@ useAsyncData(
     ];
   },
   {
-    watch: [publishingCompanyId],
+    watch: [publishingCompanyId, open],
     initialCache: false,
   }
 );

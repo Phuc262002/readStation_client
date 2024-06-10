@@ -46,6 +46,17 @@
               </span>
             </div>
           </template>
+          <template v-if="column.key === 'category'">
+            <span>
+              {{ record.category?.name }}
+            </span>
+          </template>
+          <template v-if="column.key === 'shelve'">
+            <span>
+              {{ record.shelve?.description }}
+            </span>
+          </template>
+
           <template v-else-if="column.key === 'is_featured'">
             <IconTick v-if="record.is_featured" />
             <IconMul v-else />
@@ -173,7 +184,16 @@ const columns = [
     dataIndex: "author",
     key: "author",
   },
-
+  {
+    title: "Danh mục",
+    dataIndex: "category",
+    key: "category",
+  },
+  {
+    title: "Kệ sách",
+    dataIndex: "shelve",
+    key: "shelve",
+  },
   {
     title: "Nổi bật",
     dataIndex: "is_featured",

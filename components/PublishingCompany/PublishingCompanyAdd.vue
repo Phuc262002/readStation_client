@@ -3,7 +3,7 @@
     v-model:open="props.openModalAdd"
     title="Thêm nhà xuất bản"
     :footer="null"
-    :closable="false"
+   :onCancel="handleClose"
   >
     <form @submit.prevent="onSubmit">
       <div class="bg-white py-2">
@@ -63,10 +63,10 @@
           </div>
         </div>
 
-        <div class="flex justify-end items-end gap-4">
+        <div class="flex justify-end items-end gap-2">
           <a-button
             @click="handleClose"
-            type="primary"
+
             danger
             html-type="button"
             class="mt-4"
