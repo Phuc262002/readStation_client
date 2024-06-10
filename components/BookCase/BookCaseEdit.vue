@@ -29,7 +29,7 @@
               v-model:value="bookCase.name"
               class="w-[450px] h-[45px]"
               placeholder="Nhập tên tủ sách"
-            
+              required
             />
           </div>
         </div>
@@ -44,7 +44,6 @@
               :rows="6"
               class="w-[450px] h-[45px]"
               placeholder="Nhập nội dung"
-           
             />
           </div>
         </div>
@@ -129,7 +128,7 @@ const onUpdate = async () => {
   };
   await bookCaseStore.updateBookcase({
     id: bookCaseId.value,
-    bookCase: data,
+    bookcase: data,
   });
   await bookCaseStore.getAllBookcases({});
   props.openModal();
