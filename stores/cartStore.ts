@@ -1,23 +1,12 @@
 import { defineStore } from "pinia";
 
 export const useCartStore = defineStore("cart-store", {
-  state: () => {
-    return {
-      carts: [],
-    };
-  },
-  // persist: {
-  //   enabled: true,
-  //   strategies: [
-  //     {
-  //       key: "cart-store",
-  //       storage: localStorage,
-  //     },
-  //   ],
-  // },
+  state: () => ({
+    carts: [],
+  }),
   persist: true,
   actions: {
-    addToCart(product: any) {
+    addToCart(product) {
       this.carts.push(product);
     },
   },
