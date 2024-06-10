@@ -51,6 +51,7 @@
             </NuxtLink>
 
             <a-button
+              @click="addToCart"
               class="border border-lg border-x-rtgray-50 rounded-lg text-center text-rtprimary text-sm h-10"
             >
               Thêm vào giỏ
@@ -63,6 +64,10 @@
 </template>
 <script setup lang="ts">
 const bookStore = useBookStore();
+const cartStore = useCartStore();
+const addToCart = () => {
+  cartStore.addToCart(bookStore?.book);
+};
 </script>
 
 <style scoped>

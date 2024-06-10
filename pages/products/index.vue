@@ -33,27 +33,26 @@
               >
                 <a-spin></a-spin>
               </div>
-              <!-- <ul class="px-4 space-y-1">
+              <ul class="px-4 space-y-1">
                 <li
                   class="flex items-center"
                   v-for="(category, index) in categoryStore?.categories
                     ?.categories"
                   :key="index"
                 >
-                  <a-checkbox-group > {{ category?.name }}</a-checkbox-group>
+                  <a-checkbox
+                    :checked="category.id === filter.category_id ? true : false"
+                    @click="
+                      handleCheckbox({
+                        type: 'category_id',
+                        id: category.id,
+                      })
+                    "
+                  >
+                    {{ category?.name }}</a-checkbox
+                  >
                 </li>
-              </ul> -->
-              <a-checkbox-group v-model:value="state.category1">
-                <a-checkbox
-                  class="flex items-center"
-                  v-for="(category, index) in categoryStore?.categories
-                    ?.categories"
-                  :key="index"
-                  :value="category.id"
-                >
-                  {{ category?.name }}
-                </a-checkbox>
-              </a-checkbox-group>
+              </ul>
             </div>
           </div>
         </div>
@@ -87,7 +86,17 @@
                   v-for="(author, index) in authorStore?.authorClient?.authors"
                   :key="index"
                 >
-                  <a-checkbox> {{ author?.author }}</a-checkbox>
+                  <a-checkbox
+                    :checked="author.id === filter.author_id ? true : false"
+                    @click="
+                      handleCheckbox({
+                        type: 'author_id',
+                        id: author.id,
+                      })
+                    "
+                  >
+                    {{ author?.author }}</a-checkbox
+                  >
                 </li>
               </ul>
             </div>
@@ -127,7 +136,19 @@
                     ?.publishingCompany?.publishing_companies"
                   :key="index"
                 >
-                  <a-checkbox> {{ company?.name }}</a-checkbox>
+                  <a-checkbox
+                    :checked="
+                      company.id === filter.publishing_company_id ? true : false
+                    "
+                    @click="
+                      handleCheckbox({
+                        type: 'publishing_company_id',
+                        id: company.id,
+                      })
+                    "
+                  >
+                    {{ company?.name }}</a-checkbox
+                  >
                 </li>
               </ul>
             </div>
@@ -137,7 +158,7 @@
         <div class="bg-white">
           <div
             class="text-base cursor-pointer rounded-xl border"
-            @click="() => handleIsShow('review')"
+            @click="() => handleIsShow('rating')"
           >
             <div class="flex justify-between items-center px-4 py-2">
               <span>Đánh giá</span>
@@ -150,7 +171,7 @@
                 alt=""
               />
             </div>
-            <div v-if="isShow.includes('review')" class="border-t px-4 py-2">
+            <div v-if="isShow.includes('rating')" class="border-t px-4 py-2">
               <div
                 v-if="isLoading"
                 class="flex items-center justify-center py-10"
@@ -160,15 +181,20 @@
               <ul class="px-4 space-y-1">
                 <li
                   class="flex items-center"
-                  v-for="(review, index) in bookstore?.books"
+                  v-for="(rating, index) in bookstore?.books"
                   :key="index"
                 >
-                  <a-checkbox>
-                    {{
-                      review?.average_rate !== undefined
-                        ? review?.average_rate
-                        : "null"
-                    }}
+                  <a-checkbox
+                    :checked="rating.id === filter.rating ? true : false"
+                    @click="
+                      handleCheckbox({
+                        type: 'rating',
+                        id: rating.id,
+                      })
+                    "
+                  >
+                    <CommonRating :rating="0" />
+                    <!-- {{ rating?.average_rate }} -->
                   </a-checkbox>
                 </li>
               </ul>
@@ -191,9 +217,7 @@
                 <div class="px-4 text-[#cac9cd]">Sắp xếp</div>
                 <a-select
                   :options="sortOptions"
-                  ref="select"
-                  v-model:value="sort"
-                  @change="handleChange"
+                  v-model:value="filter.sort"
                   style="width: 120px"
                 >
                 </a-select>
@@ -231,9 +255,14 @@
 </template>
 
 <script setup lang="ts">
-const checked = ref(false);
 const isShow = ref([]);
-const sort = ref("asc");
+const filter = ref({
+  sort: "desc",
+  category_id: null,
+  author_id: null,
+  publishing_company_id: null,
+  rating: null,
+});
 const sortOptions = [
   {
     label: "Mới nhất",
@@ -267,43 +296,51 @@ const dataAuthor = ref({});
 const dataCategory = ref({});
 const dataBooks = ref({});
 
-const state = reactive({
-  category1: [],
-  category2: [],
-  category3: [],
-  category4: [],
-});
-
 console.log("a", dataBooks);
 const dataCompanies = ref({});
 const current = ref(1);
 
 const isLoading = ref(false);
 
-const getAllBooksClient = async () => {
-  console.log({ category1: state.category1 });
-  try {
-    const data: any = await bookstore.getAllBooks({
-      page: current.value,
-      pageSize: 12,
-      sort: sort.value,
-      category_id: state.category1,
-    });
-    console.log({ data });
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
-};
 useAsyncData(
   async () => {
-    await getAllBooksClient();
+    try {
+      const data: any = await bookstore.getAllBooks({
+        page: current.value,
+        pageSize: 12,
+        sort: filter.value.sort,
+        category_id: filter.value.category_id,
+        author_id: filter.value.author_id,
+        publishing_company_id: filter.value.publishing_company_id,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   },
   {
     immediate: true,
-    watch: [current, sort, state],
+    watch: [current, filter.value],
   }
 );
+
+const handleCheckbox = ({ type, id }: any) => {
+  switch (type) {
+    case "category_id":
+      filter.value.category_id = id;
+      break;
+    case "author_id":
+      filter.value.author_id = id;
+      break;
+    case "publishing_company_id":
+      filter.value.publishing_company_id = id;
+      break;
+    case "rating":
+      filter.value.rating = id;
+      break;
+    default:
+      break;
+  }
+};
 
 useAsyncData(async () => {
   isLoading.value = true;
@@ -317,16 +354,6 @@ useAsyncData(async () => {
   }
 });
 
-const categoryOption = categoryStore?.categories?.categories?.map((c) => {
-  console.log({ c });
-
-  return {
-    lable: c.name,
-    value: c.id,
-  };
-});
-
-console.log({ categoryOption });
 useAsyncData(async () => {
   isLoading.value = true;
   try {
@@ -354,11 +381,6 @@ useAsyncData(async () => {
     isLoading.value = false;
   }
 });
-
-const value1 = ref("lucy");
-const handleChange = (value) => {
-  console.log(`selected ${value}`);
-};
 </script>
 <style scoped>
 :deep(.ant-select-selector) {

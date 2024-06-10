@@ -242,16 +242,14 @@ const isShow = ref(false);
 //Create the form
 const { defineInputBinds, handleSubmit, errors, setFieldValue } = useForm({
   validationSchema: {
-    // email: yup
-    //   .string()
-    //   .required("Trường này không được để trống")
-    //   .email("Email không hợp lệ"),
-    // fullname: yup.string().required("Trường này không được để trống"),
-    // gender: yup.string().required("Trường này không được để trống"),
-    // phone: yup.string().required("Trường này không được để trống"),
-    // province: yup.string().required("Trường này không được để trống"),
-    // district: yup.string().required("Trường này không được để trống"),
-    // address_detail: yup.string().required("Trường này không được để trống"),
+    fullname: yup.string().required("Trường này không được để trống"),
+    gender: yup.string().required("Trường này không được để trống"),
+    phone: yup.string().required("Trường này không được để trống"),
+    province: yup.string().required("Trường này không được để trống"),
+    district: yup.string().required("Trường này không được để trống"),
+    address_detail: yup.string().required("Trường này không được để trống"),
+    dob: yup.string().required("Trường này không được để trống"),
+    job: yup.string().required("Trường này không được để trống"),
   },
 });
 // Define fields

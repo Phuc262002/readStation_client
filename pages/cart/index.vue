@@ -24,13 +24,13 @@
                 <div class="min-w-[100px] min-h-[100px]">
                   <img
                     class="w-24 rounded-md"
-                    :src="bookStore?.book?.poster"
+                    :src="cartStore?.carts?.poster"
                     alt=""
                   />
                 </div>
                 <div class="flex flex-col gap-2">
                   <div class="text-base font-bold">
-                    {{ bookStore?.book?.book?.title }}
+                    {{ cartStore?.carts?.book?.title }}
                   </div>
                   <div class="text-[14px]">
                     <div>
@@ -45,14 +45,15 @@
                 </div>
               </div>
               <div class="text-base font-bold flex justify-center">
-                {{ bookStore?.book?.price }}
+                {{ cartStore?.carts?.price }}
               </div>
               <div class="text-base font-bold flex items-center pl-3">
                 {{ bookStore?.book?.hire_percent }}%
               </div>
               <div class="w-1/6 text-base font-bold flex justify-center">
-                <!-- {{ bookStore?.book?.price }} *
-                {{ bookStore?.book?.hire_percent }} / 100  -->
+                {{
+                  bookStore?.book?.price * (bookStore?.book?.hire_percent / 100)
+                }}
               </div>
               <div class="text-base font-bold flex justify-center pr-6">
                 {{ bookStore?.book?.cardboard }}đ
@@ -80,18 +81,26 @@
             <div class="flex flex-col gap-5">
               <div class="text-xl font-semibold">Thông tin đơn hàng</div>
               <div class="border-solid border border-gray-100 w-full"></div>
-              <div class="flex justify-between items-center">
-                <h1 class="text-base text-gray-400">Tổng tiền</h1>
-                <h1 class="text-xl font-bold text-rtprimary">220.000đ</h1>
+              <div class="">
+                <div class="flex justify-between items-center">
+                  <span class="text-sm text-gray-400">Phí cọc</span>
+                  <span class="text-base font-bold">220.000đ</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-sm text-gray-400">Phí dịch vụ</span>
+                  <span class="text-base font-bold">220.000đ</span>
+                </div>
+                <div class="flex justify-between items-center pt-4">
+                  <span class="text-base font-bold">Tổng tiền</span>
+                  <span class="text-xl font-bold text-rtprimary">220.000đ</span>
+                </div>
               </div>
               <div class="border-solid border border-gray-100 w-full"></div>
-              <div class="flex flex-col gap-2">
-                <p class="text-xs">
-                  Phí vận chuyển sẽ được tính ở trang thanh toán.
-                </p>
-                <p class="text-xs">
-                  Bạn cũng có thể nhập mã giảm giá ở trang thanh toán.
-                </p>
+              <div class="flex gap-1">
+                <span class="text-red-600 text-base">* </span>
+                <span class="text-xs"
+                  >Phí vận chuyển sẽ được tính ở trang thanh toán.</span
+                >
               </div>
               <div class="w-full">
                 <nuxt-link to="/account/checkout">
@@ -124,5 +133,5 @@
 </template>
 <script setup>
 import { ref } from "vue";
-const bookStore = useBookStore();
+const cartStore = useCartStore();
 </script>
