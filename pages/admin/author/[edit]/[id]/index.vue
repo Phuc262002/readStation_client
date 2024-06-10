@@ -87,10 +87,6 @@ const authorID = route.params.id;
 const AuthorStore = useAuthorStore()
 const baseStore = useBaseStore();
 const isLoading = ref(false);
-
-
-
-
 const fileList = ref([]);
 const imageInfo = ref("");
 const uploadFile = async (file) => {

@@ -81,7 +81,7 @@
                     class="group hover:bg-[green]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md">
                     <div>
                       <button class="flex items-center" @click="showModalEdit">
-                        <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
+                        <UIcon class="group-hover:text-[#212122]" name="i-material-symbols-edit-outline" />
                       </button>
                     </div>
                   </span>
@@ -92,9 +92,9 @@
                 <template #title>
                   <span>Xóa</span>
                 </template>
-                <span class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md">
+                <span class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                   <button @click="showDeleteConfirm(record?.id)" class="flex items-center">
-                    <UIcon class="group-hover:text-[red]" name="i-material-symbols-delete-outline" />
+                    <UIcon class="group-hover:text-[#212122]" name="i-material-symbols-delete-outline" />
                   </button>
                 </span>
               </a-tooltip>
