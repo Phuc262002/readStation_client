@@ -2,7 +2,7 @@
   <div>
     <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-bold uppercase">Chi tiết {{ bookShelves?.adminGetOneBookShelve.name }}
+        <h5 class="text-xl text-[#1e293b] font-bold ">Chi tiết {{ bookShelves?.adminGetOneBookShelve.name }}
         </h5>
       </div>
     </div>
@@ -36,24 +36,8 @@
           </div>
         </div>
         <div class="">
-          <a-button type="primary" @click="showModal">Thêm sách</a-button>
-          <a-modal v-model:open="open" @ok="handleOk" :footer="null">
-            <div class="p-5">
-              <div class="flex flex-col gap-3">
-                <label class="font-semibold " for="">Nhập tên sách</label>
-                <a-input placeholder="Nhập tên sách để thêm" class="h-10">
-                  <template #prefix>
-                    <SearchOutlined />
-                  </template>
-                </a-input>
-              </div>
-              <!-- <div class="flex justify-end items-end gap-4">
-                <a-button @click="handleClose" type="primary" danger html-type="button" class="mt-4">Hủy</a-button>
-                <a-button type="primary" html-type="submit" class="mt-4">Thêm</a-button>
-              </div> -->
-            </div>
-
-          </a-modal>
+          <a-button type="primary" @click="showModalAdd">Thêm sách</a-button>
+          <CommonSearch :openModalAdd="openModalAdd" :openModal="CloseModalAdd" />
         </div>
       </div>
       <a-table :columns="columns" :data-source="bookShelves?.adminGetOneBookShelve?.book_details"
@@ -160,6 +144,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 const route = useRoute()
+const openModalAdd = ref<boolean>(false);
 const open = ref(false);
 const showModal = () => {
   open.value = true;
@@ -220,4 +205,10 @@ const columns = [
     key: "action",
   },
 ];
+const showModalAdd = () => {
+  openModalAdd.value = true;
+};
+const CloseModalAdd = () => {
+  openModalAdd.value = false;
+};
 </script>
