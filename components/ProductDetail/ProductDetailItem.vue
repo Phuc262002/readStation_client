@@ -74,19 +74,8 @@
         <div>Thông tin chi tiết</div>
       </div>
       <div class="">
-        <p class="text-sm pb-2 text-[#242424]">Đánh Thức Tiềm Năng Tài Chính</p>
-
         <p class="line-clamp-6 relative">
-          Khi chúng ta đang vươn tới những vì sao, chính bởi những thách thức
-          đặt ra phía trước mà chúng ta có lẽ sẽ phải chung tay để ứng phó: du
-          hành vào vũ trụ không phải với tư cách người Nga, người Trung Quốc hay
-          người Mỹ, mà là những đại diện của nhân loại. Nhưng cho đến nay, mặc
-          dù đã thoát khỏi sự kìm hãm của trọng lực, chúng ta vẫn đang bị giam
-          giữ trong tâm trí của chính mình, bị giới hạn bởi sự nghi ngờ của mình
-          về ‘kẻ khác’, và do đó bởi cuộc cạnh tranh chính yếu về tài nguyên.
-          Phía trước chúng ta còn cả một chặng đường dài.” Người Nga vẫn sẽ lo
-          âu dõi mắt về phía tây, nơi có dải đất vẫn còn là bình nguyên, dễ bị
-          xâm nhập; ”.
+          {{ bookStore?.book?.book?.description }}
         </p>
         <button
           class="flex justify-center items-center gap-2 text-[#189EFF] mx-auto text-sm font-normal pt-4"

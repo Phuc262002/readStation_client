@@ -34,6 +34,9 @@
                 <a-spin></a-spin>
               </div>
               <ul class="px-4 space-y-1">
+                <li>
+                  <a-checkbox>Tất cả</a-checkbox>
+                </li>
                 <li
                   class="flex items-center"
                   v-for="(category, index) in categoryStore?.categories
@@ -156,11 +159,11 @@
         </div>
 
         <div class="bg-white">
-          <div
-            class="text-base cursor-pointer rounded-xl border"
-            @click="() => handleIsShow('rating')"
-          >
-            <div class="flex justify-between items-center px-4 py-2">
+          <div class="text-base cursor-pointer rounded-xl border">
+            <div
+              class="flex justify-between items-center px-4 py-2"
+              @click="() => handleIsShow('rating')"
+            >
               <span>Đánh giá</span>
               <img
                 ref="bookIcon2"
@@ -179,22 +182,74 @@
                 <a-spin></a-spin>
               </div>
               <ul class="px-4 space-y-1">
-                <li
-                  class="flex items-center"
-                  v-for="(rating, index) in bookstore?.books"
-                  :key="index"
-                >
+                <li>
                   <a-checkbox
-                    :checked="rating.id === filter.rating ? true : false"
+                    class="flex items-center"
+                    :checked="filter.rating === 1 ? true : false"
                     @click="
                       handleCheckbox({
                         type: 'rating',
-                        id: rating.id,
+                        id: 1,
                       })
                     "
                   >
-                    <CommonRating :rating="0" />
-                    <!-- {{ rating?.average_rate }} -->
+                    <CommonRating :rating="1" />
+                  </a-checkbox>
+                </li>
+                <li>
+                  <a-checkbox
+                    class="flex items-center"
+                    :checked="filter.rating === 2 ? true : false"
+                    @click="
+                      handleCheckbox({
+                        type: 'rating',
+                        id: 2,
+                      })
+                    "
+                  >
+                    <CommonRating :rating="2" />
+                  </a-checkbox>
+                </li>
+                <li>
+                  <a-checkbox
+                    class="flex items-center"
+                    :checked="filter.rating === 3 ? true : false"
+                    @click="
+                      handleCheckbox({
+                        type: 'rating',
+                        id: 3,
+                      })
+                    "
+                  >
+                    <CommonRating :rating="3" />
+                  </a-checkbox>
+                </li>
+                <li>
+                  <a-checkbox
+                    class="flex items-center"
+                    :checked="filter.rating === 4 ? true : false"
+                    @click="
+                      handleCheckbox({
+                        type: 'rating',
+                        id: 4,
+                      })
+                    "
+                  >
+                    <CommonRating :rating="4" />
+                  </a-checkbox>
+                </li>
+                <li>
+                  <a-checkbox
+                    class="flex items-center"
+                    :checked="filter.rating === 5 ? true : false"
+                    @click="
+                      handleCheckbox({
+                        type: 'rating',
+                        id: 5,
+                      })
+                    "
+                  >
+                    <CommonRating :rating="5" />
                   </a-checkbox>
                 </li>
               </ul>
@@ -217,7 +272,7 @@
                 <div class="px-4 text-[#cac9cd]">Sắp xếp</div>
                 <a-select
                   :options="sortOptions"
-                  v-model:value="filter.sort"
+                  @change="handleSortChange"
                   style="width: 120px"
                 >
                 </a-select>
@@ -257,7 +312,7 @@
 <script setup lang="ts">
 const isShow = ref([]);
 const filter = ref({
-  sort: "desc",
+  sort: "asc",
   category_id: null,
   author_id: null,
   publishing_company_id: null,
@@ -305,13 +360,14 @@ const isLoading = ref(false);
 useAsyncData(
   async () => {
     try {
-      const data: any = await bookstore.getAllBooks({
+      await bookstore.getAllBooks({
         page: current.value,
         pageSize: 12,
         sort: filter.value.sort,
         category_id: filter.value.category_id,
         author_id: filter.value.author_id,
         publishing_company_id: filter.value.publishing_company_id,
+        rating: filter.value.rating,
       });
     } catch (error) {
       console.error(error);
@@ -319,7 +375,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current, filter.value],
+    watch: [current, filter.value, filter.value.sort],
   }
 );
 
@@ -340,6 +396,10 @@ const handleCheckbox = ({ type, id }: any) => {
     default:
       break;
   }
+};
+const handleSortChange = (value: string) => {
+  filter.value.sort = value;
+  // console.log("aaa", filter.value);
 };
 
 useAsyncData(async () => {

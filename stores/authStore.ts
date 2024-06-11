@@ -111,5 +111,12 @@ export const useAuthStore = defineStore("auth-store", {
       );
       return data;
     },
+    async createOrder(body: any) {
+      const data: any = await useCustomFetch("/api/v1/account/order/create", {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+      return data;
+    },
   },
 });
