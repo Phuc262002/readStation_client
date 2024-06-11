@@ -30,7 +30,7 @@
         </div>
       </div>
 
-      <a-table :columns="columns" :data-source="dataShelves" :loading="shelvesValue.isLoading">
+      <a-table :columns="columns" :data-source="shelvesValue?.adminBookSheleves?.shelves" :loading="shelvesValue.isLoading">
         <template #bodyCell="{ column, record, index }">
           <template v-if="column.key === 'bookshelf_code'">
             <a class="text-[#3B82F6]">
@@ -47,11 +47,6 @@
               {{ record.category.name }}
             </span>
           </template>
-          <template v-if="column.key === 'shelves'">
-            <span class="flex justify-start gap-2">
-              <p>kệ sách</p>
-            </span>
-          </template>
           <template v-if="column.key === 'books'">
             <span class="flex justify-start gap-2">
               {{ record.books.length }} <p>cuốn sách</p>
@@ -66,7 +61,7 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <NuxtLink :to="`book-shelves/detail-shelves/${record.id}`">
+              <NuxtLink :to="`book-shelves/${record.id}`">
                 <a-tooltip placement="top" color="yellow">
                   <template #title>
                     <span>Xem chi tiết</span>
@@ -117,11 +112,9 @@ const indicator = h(LoadingOutlined, {
   spin: true,
 });
 const shelvesValue = useShelvesStore();
-const dataShelves = ref([]);
 const getData = async () => {
   try {
     const data = await shelvesValue.getAllShelves({});
-    dataShelves.value = data?.data?._rawValue?.data?.shelves;
     return data;
   } catch (error) {
     console.error(error);
@@ -171,7 +164,7 @@ const columns = [
     key: "bookshelf_code",
   },
   {
-    title: "Tên tủ",
+    title: "Tên kệ",
     dataIndex: "name",
     key: "name",
   },
@@ -179,11 +172,6 @@ const columns = [
     title: "Thuộc tủ",
     dataIndex: "bookcase",
     key: "bookcase_id",
-  },
-  {
-    title: "Số lượng kệ",
-    dataIndex: "shelves",
-    key: "shelves",
   },
   {
     title: "Số lượng sách",

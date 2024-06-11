@@ -10,7 +10,7 @@
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <form @submit.prevent="updateAuthor">
         <div class="grid grid-cols-6 gap-4 ">
-          
+
           <div class="flex flex-col gap-3 col-start-1 col-end-3 ">
             <label class="text-sm font-semibold" for="">Avatar</label>
             <ClientOnly>
@@ -127,11 +127,6 @@ const beforeUpload = (file) => {
   return isImage || Upload.LIST_IGNORE;
 };
 
-
-
-
-
-
 const optionsStatus = ref([
   {
     value: "active",
@@ -149,25 +144,6 @@ const optionsStatus = ref([
 const valueAuthor = ref({
   avatar: "",
 });
-const authorById = async () => {
-  try {
-    isLoading.value = true;
-    const data = await AuthorStore.getAuthorById(authorID);
-    valueAuthor.value = data.data._rawValue.data;
-    fileList.value = [
-      {
-        uid: "-1",
-        name: "image.png",
-        status: "done",
-        url: data.data._rawValue.data.avatar,
-      },
-    ];
-  } catch (error) {
-    console.log(error);
-  } finally {
-    isLoading.value = false;
-  }
-};
 const updateAuthor = async () => {
   try {
     const updateValue = {
@@ -190,19 +166,21 @@ const updateAuthor = async () => {
 
 
 useAsyncData(async () => {
-  await authorById();
+  try {
+    const data = await AuthorStore.getAuthorById(authorID);
+    valueAuthor.value = data.data._rawValue.data;
+    fileList.value = [
+      {
+        uid: "-1",
+        name: "image.png",
+        status: "done",
+        url: data.data._rawValue.data.avatar,
+      },
+    ];
+  } catch (error) {
+    console.log(error);
+  }
 });
-// const onSubmit = async () => {
-//   const url = await uploadFile();
-//   await AuthorStore.createAuthor({
-//     avatar: url,
-//     author: ValueAuthor.value.author,
-//     dob: ValueAuthor.value.dob,
-//     statusValue: ValueAuthor.value.statusValue,
-//     description: ValueAuthor.value.description,
-//     is_featured: ValueAuthor.value.value,
-//   })
-// };
 
 const handleChange = (value) => {
   console.log(`selected ${value}`);

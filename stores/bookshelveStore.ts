@@ -4,6 +4,8 @@ export const useShelvesStore = defineStore("shelves-store", {
     return {
       isSubmitting: false,
       isLoading: false,
+      adminBookSheleves: [],
+      adminGetOneBookShelve:[] ,
     };
   },
   actions: {
@@ -25,6 +27,7 @@ export const useShelvesStore = defineStore("shelves-store", {
           bookcase_id ? `&bookcase_id=${bookcase_id}` : ""
         }`
       );
+      this.adminBookSheleves = data?.data?._value?.data;
       this.isLoading = false;
       return data;
     },
@@ -46,6 +49,7 @@ export const useShelvesStore = defineStore("shelves-store", {
     async getOneShelves(id: number) {
       this.isLoading = true;
       const data: any = await useCustomFetch(`/api/v1/shelves/get-one/${id}`);
+      this.adminGetOneBookShelve = data?.data?._value?.data;
       this.isLoading = false;
       return data;
     },

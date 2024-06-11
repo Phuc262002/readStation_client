@@ -372,9 +372,7 @@ const beforeUpload = (file) => {
 
 
 const onSubmit = async () => {
-    // alert(JSON.stringify(valuecreateBook.value))
     try {
-        isLoading.value = true;
         await createBook.createBook({
             sku: valuecreateBook.value.sku,
             author_id: valuecreateBook.value.author_id,
