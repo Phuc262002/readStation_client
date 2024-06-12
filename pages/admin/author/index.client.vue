@@ -11,9 +11,11 @@
       <div class="flex justify-between pb-4">
         <div class="relative w-1/4 md:block hidden">
           <div class="flex">
-            <input type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..." />
+            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
+              <template #prefix>
+                <SearchOutlined />
+              </template>
+            </a-input>
           </div>
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
@@ -92,7 +94,8 @@
                 <template #title>
                   <span>Xóa</span>
                 </template>
-                <span class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                <span
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                   <button @click="showDeleteConfirm(record?.id)" class="flex items-center">
                     <UIcon class="group-hover:text-[#212122]" name="i-material-symbols-delete-outline" />
                   </button>

@@ -19,8 +19,8 @@
                             </div>
                         </a-menu-item>
                         <a-menu-item v-else v-for="(items, index) in bookStore?.adminBooks?.books" :key="index">
-                            <div class="flex justify-start gap-5 items-center" v-if="bookStore?.adminBooks?.books"
-                                @click="showConfirm">
+                            <div class="flex justify-start gap-5 items-center"  v-if="bookStore?.adminBooks?.books"
+                                @click="showConfirm(items.id)">
                                 <div>
                                     <img class="rounded-lg w-20 h-28" :src="items?.book_detail[0]?.poster" alt="">
                                 </div>
@@ -55,11 +55,12 @@ watch(
         open.value = newVal;
     }
 );
-const showConfirm = () => {
+const showConfirm = (id) => {
     Modal.confirm({
         title: 'Bạn có muốn thêm sách này vào kệ không?',
         onOk() {
-            updateDetailShelves();
+            updateDetailShelves(id);
+            handleClose();
         },
         onCancel() {
             console.log('Cancel');
@@ -71,7 +72,6 @@ const showConfirm = () => {
 const valueSearch = ref('');
 const categoryId = ref(shelvesStore?.adminGetOneBookShelve?.category?.id);
 const bookStore = useBookStore();
-console.log("🚀 ~ bookStore:", bookStore?.adminBooks)
 useAsyncData(async () => {
     await bookStore.getAdminBooks({
         search: valueSearch.value,
@@ -80,13 +80,12 @@ useAsyncData(async () => {
 }, {
     watch: [valueSearch, categoryId],
 })
-const updateDetailShelves = async () => {
+const updateDetailShelves = async (id) => {
     try {
         const idShelves = {
             shelve_id: shelvesStore?.adminGetOneBookShelve?.id,
         }
-        const idBook = bookStore?.adminBooks?.books?.id;
-        await bookStore.updateBook({ id: idBook, value: idShelves})
+        await bookStore.updateBook({ id: id, value: idShelves})
     } catch (error) {
         console.log("🚀 ~ updateDetailShelves ~ error", error)
     }

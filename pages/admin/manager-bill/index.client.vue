@@ -16,16 +16,22 @@
                         </div>
                         <div class="flex items-center gap-2">
                             <div class="relative grow">
-                                <input type="text"
-                                    class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-                                    placeholder="Tìm kiếm..." />
-                                <div class="text-gray-500 absolute left-2 top-2 text-lg">
-                                    <UIcon class="text-xl" name="i-material-symbols-search" />
+                                <div class="relative  md:block hidden">
+                                    <div class="flex">
+                                        <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
+                                            <template #prefix>
+                                                <SearchOutlined />
+                                            </template>
+                                        </a-input>
+                                    </div>
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <UIcon class="text-gray-500" name="i-material-symbols-search" />
+                                    </div>
                                 </div>
 
                             </div>
                             <button type="button"
-                                class=" rounded-lg flex items-center justify-center size-[37.5px] p-0 text-sky-500 btn bg-sky-100 hover:text-white hover:bg-sky-600 focus:text-white focus:bg-sky-600 focus:ring focus:ring-sky-100 active:text-white active:bg-sky-600 active:ring active:ring-sky-100 dark:bg-sky-500/20 dark:text-sky-400 dark:hover:bg-sky-500 dark:hover:text-white dark:focus:bg-sky-500 dark:focus:text-white dark:active:bg-sky-500 dark:active:text-white dark:ring-sky-400/20">
+                                class=" rounded-lg flex items-center justify-center size-[37.5px] p-0 text-orange-500 btn bg-orange-100 hover:text-white hover:bg-orange-600 focus:text-white focus:bg-orange-600 focus:ring focus:ring-orange-100 active:text-white active:bg-orange-600 active:ring active:ring-orange-100 dark:bg-orange-500/20 dark:text-orange-400 dark:hover:bg-orange-500 dark:hover:text-white dark:focus:bg-sky-500 dark:focus:text-white dark:active:bg-sky-500 dark:active:text-white dark:ring-sky-400/20">
 
                                 <div class="text-lg font-semibold flex items-center">
                                     <UIcon name="i-material-symbols-format-list-bulleted-rounded" class="text-2xl" />
@@ -164,7 +170,7 @@
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <button type="button"
-                                        class=" flex  gap-2 items-center w-full bg-blue-500 p-2 rounded-lg text-white">
+                                        class=" flex  gap-2 items-center w-full bg-orange-500 p-2 rounded-lg text-white">
                                         <UIcon name="i-material-symbols-edit-document-outline" class="text-xl" /><span
                                             class="align-middle">Lưu và tải</span>
                                     </button>

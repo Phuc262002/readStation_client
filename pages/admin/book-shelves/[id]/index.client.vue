@@ -149,10 +149,6 @@ const open = ref(false);
 const showModal = () => {
   open.value = true;
 };
-const handleOk = e => {
-  console.log(e);
-  open.value = false;
-};
 const detailShelvesId = route.params.id;
 const bookShelves = useShelvesStore();
 useAsyncData(async () => {

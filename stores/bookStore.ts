@@ -7,6 +7,7 @@ export const useBookStore = defineStore("book-store", {
       books: [],
       book: {},
       adminBooks: [],
+      OneBookAdmin: [],
       isLoading: false,
       isSubmitting: false,
     };
@@ -87,6 +88,13 @@ export const useBookStore = defineStore("book-store", {
         body: JSON.stringify(value),
       });
       this.isSubmitting = false;
+      return data;
+    },
+    async getOneBookAdmin(id: string) {
+      this.isLoading = true;
+      const data: any = await useCustomFetch(`/api/v1/books/admin/get-one/${id}`);
+      this.OneBookAdmin = data.data._value?.data;
+      this.isLoading = false;
       return data;
     }
   },
