@@ -54,7 +54,7 @@
               @click="addToCart"
               class="border border-lg border-x-rtgray-50 rounded-lg text-center text-rtprimary text-sm h-10"
             >
-              Thêm vào giỏ
+              Thêm vào danh sách thuê
             </a-button>
           </div>
         </div>
@@ -66,7 +66,38 @@
 const bookStore = useBookStore();
 const cartStore = useCartStore();
 const addToCart = () => {
-  cartStore.addToCart(bookStore?.book);
+  try {
+    if (cartStore && cartStore?.carts) {
+      const bookToAdd = bookStore?.book;
+      const isCheck = cartStore?.carts.some((item) => item.id === bookToAdd.id);
+      if (isCheck) {
+        message.error({
+          content: "Thêm sản phẩm thất bại. Sản phẩm đã có trong giỏ hàng",
+        });
+        return;
+      }
+      if (cartStore?.carts.length < 2) {
+        if (bookToAdd) {
+          cartStore.addToCart(bookStore?.book);
+          message.success({
+            content: "Thêm sản phẩm thành công",
+          });
+        } else {
+          message.error({
+            content: "Thêm sản phẩm thất bại.",
+          });
+        }
+      } else {
+        message.error({
+          content: "Thêm sản phẩm thất bại. Đơn hàng tối đa 2 quyển!",
+        });
+      }
+    }
+  } catch (error) {
+    message.error({
+      content: "Thêm sản phẩm thất bại. Vui lòng thử lại!",
+    });
+  }
 };
 </script>
 

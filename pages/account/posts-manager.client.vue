@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="text-sm font-bold pb-5">Danh sách đơn hàng</h2>
+    <h2 class="text-sm font-bold pb-5">Bài viết của bạn</h2>
     <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">
       <div class="relative w-1/4 md:block hidden pb-2">
         <div class="flex">
@@ -20,23 +20,19 @@
       <div class="flex gap-3 text-white pb-5">
         <a-button class="flex items-center gap-1 h-8 bg-orange-500 !text-white">
           <img src="../../assets/images/icon-blog.svg" alt="" />
-          <span>Tất cả đơn hàng</span>
+          <span>Tất cả bài viết</span>
         </a-button>
         <a-button class="flex items-center gap-1 h-8">
-          <img src="../../assets/images/icon-shipping.svg" alt="" />
-          <span>Đang giao</span>
+          <img src="../../assets/images/icon-public.svg" alt="" />
+          <span>Công khai</span>
         </a-button>
         <a-button class="flex items-center gap-1 h-8">
-          <img src="../../assets/images/icon-rent.svg" alt="" />
-          <span>Đang thuê</span>
+          <img src="../../assets/images/icon-wait-accept.svg" alt="" />
+          <span>Chờ duyệt</span>
         </a-button>
         <a-button class="flex items-center gap-1 h-8">
-          <img src="../../assets/images/icon-return.svg" alt="" />
-          <span>Đã hoàn trả</span>
-        </a-button>
-        <a-button class="flex items-center gap-1 h-8">
-          <img src="../../assets/images/icon-cancel.svg" alt="" />
-          <span>Đã hủy</span>
+          <img src="../../assets/images/icon-draft.svg" alt="" />
+          <span>Nháp</span>
         </a-button>
       </div>
       <!--  -->
@@ -93,37 +89,22 @@
 <script setup lang="ts">
 const columns = [
   {
-    title: "Mã đơn hàng",
-    dataIndex: "name",
-    key: "name",
+    title: "Bài viết",
+    dataIndex: "title",
+    key: "title",
   },
   {
-    title: "Ngày đặt",
+    title: "Thời gian",
     dataIndex: "age",
     key: "age",
   },
   {
-    title: "Ngày nhận",
+    title: "Lượt bình luận",
     dataIndex: "address",
     key: "address",
   },
   {
-    title: "Phương thức thanh toán",
-    key: "tags",
-    dataIndex: "tags",
-  },
-  {
-    title: "Trạng thái đơn",
-    dataIndex: "age",
-    key: "age",
-  },
-  {
-    title: "Gia hạn",
-    dataIndex: "address",
-    key: "address",
-  },
-  {
-    title: "Số lần gia hạn",
+    title: "Trạng thái",
     key: "tags",
     dataIndex: "tags",
   },

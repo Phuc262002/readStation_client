@@ -33,14 +33,18 @@
               >
                 <a-spin></a-spin>
               </div>
+              <!--  -->
               <ul class="px-4 space-y-1">
+                <li>
+                  <a-radio>Tất cả</a-radio>
+                </li>
                 <li
                   class="flex items-center"
                   v-for="(category, index) in categoryStore?.categories
                     ?.categories"
                   :key="index"
                 >
-                  <a-checkbox
+                  <a-radio
                     :checked="category.id === filter.category_id ? true : false"
                     @click="
                       handleCheckbox({
@@ -49,10 +53,11 @@
                       })
                     "
                   >
-                    {{ category?.name }}</a-checkbox
+                    {{ category?.name }}</a-radio
                   >
                 </li>
               </ul>
+              <!--  -->
             </div>
           </div>
         </div>
@@ -81,12 +86,15 @@
                 <a-spin></a-spin>
               </div>
               <ul class="px-4 space-y-1">
+                <li>
+                  <a-radio>Tất cả</a-radio>
+                </li>
                 <li
                   class="flex items-center"
                   v-for="(author, index) in authorStore?.authorClient?.authors"
                   :key="index"
                 >
-                  <a-checkbox
+                  <a-radio
                     :checked="author.id === filter.author_id ? true : false"
                     @click="
                       handleCheckbox({
@@ -95,7 +103,7 @@
                       })
                     "
                   >
-                    {{ author?.author }}</a-checkbox
+                    {{ author?.author }}</a-radio
                   >
                 </li>
               </ul>
@@ -130,13 +138,16 @@
                 <a-spin></a-spin>
               </div>
               <ul class="px-4 space-y-1">
+                <li>
+                  <a-radio>Tất cả</a-radio>
+                </li>
                 <li
                   class="flex items-center"
                   v-for="(company, index) in publishingCompanyStore
                     ?.publishingCompany?.publishing_companies"
                   :key="index"
                 >
-                  <a-checkbox
+                  <a-radio
                     :checked="
                       company.id === filter.publishing_company_id ? true : false
                     "
@@ -147,7 +158,7 @@
                       })
                     "
                   >
-                    {{ company?.name }}</a-checkbox
+                    {{ company?.name }}</a-radio
                   >
                 </li>
               </ul>
@@ -156,11 +167,11 @@
         </div>
 
         <div class="bg-white">
-          <div
-            class="text-base cursor-pointer rounded-xl border"
-            @click="() => handleIsShow('rating')"
-          >
-            <div class="flex justify-between items-center px-4 py-2">
+          <div class="text-base cursor-pointer rounded-xl border">
+            <div
+              class="flex justify-between items-center px-4 py-2"
+              @click="() => handleIsShow('rating')"
+            >
               <span>Đánh giá</span>
               <img
                 ref="bookIcon2"
@@ -179,23 +190,78 @@
                 <a-spin></a-spin>
               </div>
               <ul class="px-4 space-y-1">
-                <li
-                  class="flex items-center"
-                  v-for="(rating, index) in bookstore?.books"
-                  :key="index"
-                >
-                  <a-checkbox
-                    :checked="rating.id === filter.rating ? true : false"
+                <li>
+                  <a-radio>Tất cả</a-radio>
+                </li>
+                <li>
+                  <a-radio
+                    class="flex items-center"
+                    :checked="filter.rating === 1 ? true : false"
                     @click="
                       handleCheckbox({
                         type: 'rating',
-                        id: rating.id,
+                        id: 1,
                       })
                     "
                   >
-                    <CommonRating :rating="0" />
-                    <!-- {{ rating?.average_rate }} -->
-                  </a-checkbox>
+                    <CommonRating :rating="1" />
+                  </a-radio>
+                </li>
+                <li>
+                  <a-radio
+                    class="flex items-center"
+                    :checked="filter.rating === 2 ? true : false"
+                    @click="
+                      handleCheckbox({
+                        type: 'rating',
+                        id: 2,
+                      })
+                    "
+                  >
+                    <CommonRating :rating="2" />
+                  </a-radio>
+                </li>
+                <li>
+                  <a-radio
+                    class="flex items-center"
+                    :checked="filter.rating === 3 ? true : false"
+                    @click="
+                      handleCheckbox({
+                        type: 'rating',
+                        id: 3,
+                      })
+                    "
+                  >
+                    <CommonRating :rating="3" />
+                  </a-radio>
+                </li>
+                <li>
+                  <a-radio
+                    class="flex items-center"
+                    :checked="filter.rating === 4 ? true : false"
+                    @click="
+                      handleCheckbox({
+                        type: 'rating',
+                        id: 4,
+                      })
+                    "
+                  >
+                    <CommonRating :rating="4" />
+                  </a-radio>
+                </li>
+                <li>
+                  <a-radio
+                    class="flex items-center"
+                    :checked="filter.rating === 5 ? true : false"
+                    @click="
+                      handleCheckbox({
+                        type: 'rating',
+                        id: 5,
+                      })
+                    "
+                  >
+                    <CommonRating :rating="5" />
+                  </a-radio>
                 </li>
               </ul>
             </div>
@@ -218,7 +284,8 @@
                 <a-select
                   :options="sortOptions"
                   v-model:value="filter.sort"
-                  style="width: 120px"
+                  @change="handleSortChange"
+                  style="width: 100px"
                 >
                 </a-select>
               </div>
@@ -257,7 +324,7 @@
 <script setup lang="ts">
 const isShow = ref([]);
 const filter = ref({
-  sort: "desc",
+  sort: "asc",
   category_id: null,
   author_id: null,
   publishing_company_id: null,
@@ -305,13 +372,14 @@ const isLoading = ref(false);
 useAsyncData(
   async () => {
     try {
-      const data: any = await bookstore.getAllBooks({
+      await bookstore.getAllBooks({
         page: current.value,
         pageSize: 12,
         sort: filter.value.sort,
         category_id: filter.value.category_id,
         author_id: filter.value.author_id,
         publishing_company_id: filter.value.publishing_company_id,
+        rating: filter.value.rating,
       });
     } catch (error) {
       console.error(error);
@@ -319,7 +387,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current, filter.value],
+    watch: [current, filter.value, filter.value.sort],
   }
 );
 
@@ -340,6 +408,10 @@ const handleCheckbox = ({ type, id }: any) => {
     default:
       break;
   }
+};
+const handleSortChange = (value: string) => {
+  filter.value.sort = value;
+  // console.log("aaa", filter.value);
 };
 
 useAsyncData(async () => {

@@ -11,5 +11,8 @@ export const useCartStore = defineStore("cart-store", {
     addToCart(product) {
       this.carts.push(product);
     },
+    deleteItemCart(id) {
+      this.carts = this.carts.filter((item) => item.id !== id);
+    },
   },
 });

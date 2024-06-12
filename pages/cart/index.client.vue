@@ -54,19 +54,20 @@
                 {{ cart?.price * (cart?.hire_percent / 100) }}
               </div>
               <div class="text-base font-bold flex justify-center pr-6">
-                {{ bookStore?.book?.cardboard }}đ
+                0 đ
               </div>
               <div class="text-base font-bold text-center flex justify-center">
                 {{ cart?.price + cart?.price * (cart?.hire_percent / 100) }}đ
               </div>
-              <div
-                class="text-center text-2xl text-rtprimary flex justify-center cursor-pointer"
+              <a-button
+                @click="cartStore.deleteItemCart(cart?.id)"
+                class="text-center text-2xl text-rtprimary flex justify-center cursor-pointer border-none"
               >
                 <UIcon
                   class="text-2xl"
                   name="i-material-symbols-delete-outline-rounded"
                 />
-              </div>
+              </a-button>
             </div>
             <div class="border-solid border border-gray-100 w-full"></div>
           </div>
@@ -132,4 +133,6 @@
 <script setup>
 import { ref } from "vue";
 const cartStore = useCartStore();
+
+const deleteItem = (id) => {};
 </script>

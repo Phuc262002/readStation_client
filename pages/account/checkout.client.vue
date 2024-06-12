@@ -137,7 +137,12 @@
         <div class="">
           <div class="bg-white h-auto p-5 shadow-md rounded-lg">
             <div class="w-full flex flex-col pb-4 font-medium">
-              <h1>Delivery</h1>
+              <a-radio-group v-model:value="value" name="radioGroup">
+                <a-radio value="payment_method">Nhận sách tại nhà</a-radio>
+                <a-radio value="payment_shipping"
+                  >Nhận sách tại thư viện</a-radio
+                >
+              </a-radio-group>
             </div>
             <div class="grid grid-cols-2 gap-4">
               <div>
@@ -189,6 +194,9 @@
                 </div>
               </div>
             </div>
+            <div>
+              <span></span>
+            </div>
           </div>
         </div>
       </div>
@@ -212,110 +220,11 @@
                       class="cursor-pointer text-sm text-orange-600"
                       >Thay đổi địa chỉ?</span
                     >
-                    <a-modal
-                      v-model:open="open"
-                      title="Địa chỉ mới"
-                      @ok="handleOk"
-                    >
-                      <form>
-                        <div class="flex gap-2">
-                          <div class="w-1/2 pb-4">
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Họ tên
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-full h-10"
-                                placeholder="Nhập họ tên"
-                                required
-                              />
-                            </div>
-                          </div>
-                          <div class="w-1/2 pb-4">
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Số điện thoại
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-full h-10"
-                                placeholder="Nhập số điện thoại"
-                                required
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="flex gap-2">
-                          <div class="w-1/2 pb-4">
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Họ tên
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-full h-10"
-                                placeholder="Nhập họ tên"
-                                required
-                              />
-                            </div>
-                          </div>
-                          <div class="w-1/2 pb-4">
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Số điện thoại
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-full h-10"
-                                placeholder="Nhập số điện thoại"
-                                required
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="flex gap-2">
-                          <div class="w-1/2 pb-4">
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Họ tên
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-full h-10"
-                                placeholder="Nhập họ tên"
-                                required
-                              />
-                            </div>
-                          </div>
-                          <div class="w-1/2 pb-4">
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Số điện thoại
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-full h-10"
-                                placeholder="Nhập số điện thoại"
-                                required
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </a-modal>
+
+                    <AccountFormPayAddress
+                      :openModalForm="openModalForm"
+                      :openModal="closeModal"
+                    />
                   </div>
                 </div>
 
@@ -385,13 +294,14 @@
 </template>
 <script setup lang="ts">
 const authStore = useAuthStore();
-const open = ref<boolean>(false);
+const openModalForm = ref<boolean>(false);
+const value = ref<string>("payment_method");
+
 const showModal = () => {
-  open.value = true;
+  openModalForm.value = true;
 };
 
-const handleOk = (e: MouseEvent) => {
-  console.log(e);
-  open.value = false;
+const closeModal = () => {
+  openModalForm.value = false;
 };
 </script>

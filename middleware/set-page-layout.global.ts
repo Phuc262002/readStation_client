@@ -11,7 +11,8 @@ export default defineNuxtRouteMiddleware((to, from) => {
     to.fullPath.startsWith("/forgot-password") ||
     to.fullPath.startsWith("/verify-email") ||
     to.fullPath.startsWith("/verify-code") ||
-    to.fullPath.startsWith("/send-email")
+    to.fullPath.startsWith("/send-email") ||
+    to.fullPath.startsWith("/account/order-success")
   ) {
     layout = "none-default";
   } else if (to.fullPath.startsWith("/account/checkout")) {

@@ -62,32 +62,41 @@
           </span>
         </template>
         <a-menu-item key="4">
-          <NuxtLink to="/account" class="flex items-center gap-2">
+          <NuxtLink to="/account/posts-manager" class="flex items-center gap-2">
             Bài viết của bạn
           </NuxtLink>
         </a-menu-item>
 
         <a-menu-item key="5">
-          <NuxtLink
-            to="/account/account-setting"
-            class="flex items-center gap-2"
-          >
-            Bài viết đã bình luận
+          <NuxtLink to="/account/rep-comment" class="flex items-center gap-2">
+            Trả lời bình luận
           </NuxtLink>
         </a-menu-item>
 
         <a-menu-item key="6">
-          <NuxtLink
-            to="/account/account-setting"
-            class="flex items-center gap-2"
-          >
-            Bài viết đang chờ duyệt
+          <NuxtLink to="/account/your-comment" class="flex items-center gap-2">
+            Bài viết đã bình luận
           </NuxtLink>
         </a-menu-item>
       </a-sub-menu>
+      <!--  -->
+      <NuxtLink
+        to="/admin"
+        v-if="
+          authStore.authUser?.user?.role?.name === 'admin' ||
+          authStore.authUser?.user?.role?.name === 'manager'
+        "
+      >
+        <a-menu-item key="11">
+          <span class="flex items-center gap-2">
+            <UIcon name="i-material-symbols-light-webhook-rounded" />
+            <span>Quản trị Website</span>
+          </span></a-menu-item
+        >
+      </NuxtLink>
 
       <a-menu-item key="7">
-        <NuxtLink to="/account/order-manager" class="flex items-center gap-2">
+        <NuxtLink to="/account/credit-manager" class="flex items-center gap-2">
           <UIcon name="i-tabler-credit-card-pay" class="text-base" />
           <span>Quản lý ví</span>
         </NuxtLink>
@@ -131,25 +140,6 @@ const authStore = useAuthStore();
 const logout = async () => {
   await authStore.logout();
 };
-
-// Define fields
-// const fullname = defineInputBinds("fullname");
-// const role = defineInputBinds("role");
-// const avatar = defineInputBinds("avatar");
-
-// useAsyncData(async () => {
-//   try {
-//     const response = await authStore.getProfile();
-//     data.value = response.data._rawValue.data;
-//     setFieldValue("fullname", data.value.fullname);
-//     setFieldValue("role", data.value.role);
-//     setFieldValue("avatar", data.value.avatar);
-//   } catch (error) {
-//     console.error(error);
-//   } finally {
-//     isLoading.value = false;
-//   }
-// });
 
 const showModalAdd = () => {
   openModalAdd.value = true;
