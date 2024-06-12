@@ -70,38 +70,42 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top" color="gold">
-                <template #title>
-                  <span>Xem chi tiết</span>
-                </template>
-                <span class="hover:bg-[#faad14]/20 flex items-center justify-center w-6 h-6 rounded-md">
-                  <UIcon class="hover:text-[#faad14]" name="i-icon-park-outline-eyes" />
-                </span>
-              </a-tooltip>
-              <a-tooltip placement="top" color="green">
-                <template #title>
-                  <span>Sửa</span>
-                </template>
-                <span class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md">
-                  <div>
-                    <button @click="showModal">
-                      <UIcon class="hover:text-[green]" name="i-material-symbols-edit-outline" />
-                    </button>
-                    <a-modal v-model:open="open" title="Sửa sách" @ok="handleOk">
-                      <div class="">
+              <!-- Xem chi tiết -->
+              <NuxtLink :to="`book/${record.id}`">
+                <a-tooltip placement="top" color="gold">
+                  <template #title>
+                    <span>Xem chi tiết</span>
+                  </template>
+                  <button
+                    class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                    <UIcon class="group-hover:text-[#faad14]" name="i-icon-park-outline-eyes" />
+                  </button>
+                </a-tooltip>
+              </NuxtLink>
+              <!-- Sửa sách-->
+              <NuxtLink> <a-tooltip placement="top" color="green">
+                  <template #title>
+                    <span>Sửa</span>
+                  </template>
+                  <span
+                    class="group hover:bg-[green]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md">
+                    <div>
+                      <button class="flex items-center">
+                        <UIcon class="group-hover:text-[#212122]" name="i-material-symbols-edit-outline" />
+                      </button>
+                    </div>
+                  </span>
+                </a-tooltip></NuxtLink>
 
-                      </div>
-                    </a-modal>
-                  </div>
-                </span>
-              </a-tooltip>
+              <!-- Xóa sách -->
               <a-tooltip placement="top" color="red">
                 <template #title>
                   <span>Xóa</span>
                 </template>
-                <span class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md">
+                <span
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                   <button @click="showDeleteConfirm(record?.id)" class="flex items-center">
-                    <UIcon class="group-hover:text-[red]" name="i-material-symbols-delete-outline" />
+                    <UIcon class="group-hover:text-[#212122]" name="i-material-symbols-delete-outline" />
                   </button>
                 </span>
               </a-tooltip>
