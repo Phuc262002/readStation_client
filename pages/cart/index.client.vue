@@ -61,7 +61,7 @@
               </div>
               <a-button
                 @click="cartStore.deleteItemCart(cart?.id)"
-                class="text-center text-2xl text-rtprimary flex justify-center cursor-pointer"
+                class="text-center text-2xl text-rtprimary flex justify-center cursor-pointer border-none"
               >
                 <UIcon
                   class="text-2xl"

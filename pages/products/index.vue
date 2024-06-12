@@ -33,9 +33,10 @@
               >
                 <a-spin></a-spin>
               </div>
+              <!--  -->
               <ul class="px-4 space-y-1">
                 <li>
-                  <a-checkbox>Tất cả</a-checkbox>
+                  <a-radio>Tất cả</a-radio>
                 </li>
                 <li
                   class="flex items-center"
@@ -43,7 +44,7 @@
                     ?.categories"
                   :key="index"
                 >
-                  <a-checkbox
+                  <a-radio
                     :checked="category.id === filter.category_id ? true : false"
                     @click="
                       handleCheckbox({
@@ -52,10 +53,11 @@
                       })
                     "
                   >
-                    {{ category?.name }}</a-checkbox
+                    {{ category?.name }}</a-radio
                   >
                 </li>
               </ul>
+              <!--  -->
             </div>
           </div>
         </div>
@@ -84,12 +86,15 @@
                 <a-spin></a-spin>
               </div>
               <ul class="px-4 space-y-1">
+                <li>
+                  <a-radio>Tất cả</a-radio>
+                </li>
                 <li
                   class="flex items-center"
                   v-for="(author, index) in authorStore?.authorClient?.authors"
                   :key="index"
                 >
-                  <a-checkbox
+                  <a-radio
                     :checked="author.id === filter.author_id ? true : false"
                     @click="
                       handleCheckbox({
@@ -98,7 +103,7 @@
                       })
                     "
                   >
-                    {{ author?.author }}</a-checkbox
+                    {{ author?.author }}</a-radio
                   >
                 </li>
               </ul>
@@ -133,13 +138,16 @@
                 <a-spin></a-spin>
               </div>
               <ul class="px-4 space-y-1">
+                <li>
+                  <a-radio>Tất cả</a-radio>
+                </li>
                 <li
                   class="flex items-center"
                   v-for="(company, index) in publishingCompanyStore
                     ?.publishingCompany?.publishing_companies"
                   :key="index"
                 >
-                  <a-checkbox
+                  <a-radio
                     :checked="
                       company.id === filter.publishing_company_id ? true : false
                     "
@@ -150,7 +158,7 @@
                       })
                     "
                   >
-                    {{ company?.name }}</a-checkbox
+                    {{ company?.name }}</a-radio
                   >
                 </li>
               </ul>
@@ -183,7 +191,10 @@
               </div>
               <ul class="px-4 space-y-1">
                 <li>
-                  <a-checkbox
+                  <a-radio>Tất cả</a-radio>
+                </li>
+                <li>
+                  <a-radio
                     class="flex items-center"
                     :checked="filter.rating === 1 ? true : false"
                     @click="
@@ -194,10 +205,10 @@
                     "
                   >
                     <CommonRating :rating="1" />
-                  </a-checkbox>
+                  </a-radio>
                 </li>
                 <li>
-                  <a-checkbox
+                  <a-radio
                     class="flex items-center"
                     :checked="filter.rating === 2 ? true : false"
                     @click="
@@ -208,10 +219,10 @@
                     "
                   >
                     <CommonRating :rating="2" />
-                  </a-checkbox>
+                  </a-radio>
                 </li>
                 <li>
-                  <a-checkbox
+                  <a-radio
                     class="flex items-center"
                     :checked="filter.rating === 3 ? true : false"
                     @click="
@@ -222,10 +233,10 @@
                     "
                   >
                     <CommonRating :rating="3" />
-                  </a-checkbox>
+                  </a-radio>
                 </li>
                 <li>
-                  <a-checkbox
+                  <a-radio
                     class="flex items-center"
                     :checked="filter.rating === 4 ? true : false"
                     @click="
@@ -236,10 +247,10 @@
                     "
                   >
                     <CommonRating :rating="4" />
-                  </a-checkbox>
+                  </a-radio>
                 </li>
                 <li>
-                  <a-checkbox
+                  <a-radio
                     class="flex items-center"
                     :checked="filter.rating === 5 ? true : false"
                     @click="
@@ -250,7 +261,7 @@
                     "
                   >
                     <CommonRating :rating="5" />
-                  </a-checkbox>
+                  </a-radio>
                 </li>
               </ul>
             </div>
@@ -272,8 +283,9 @@
                 <div class="px-4 text-[#cac9cd]">Sắp xếp</div>
                 <a-select
                   :options="sortOptions"
+                  v-model:value="filter.sort"
                   @change="handleSortChange"
-                  style="width: 120px"
+                  style="width: 100px"
                 >
                 </a-select>
               </div>

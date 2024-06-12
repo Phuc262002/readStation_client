@@ -25,6 +25,9 @@ export default {
           50: " #E5E7EB",
           100: "#808089",
         },
+        rtyellow: {
+          50: "#FEFFD2",
+        },
       },
     },
   },

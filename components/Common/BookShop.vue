@@ -18,7 +18,7 @@
             {{ props?.book?.book_version }}
           </div>
           <div class="flex justify-start">
-            <CommonStar :rating="5" />
+            <CommonRating :rating="2" />
           </div>
           <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
             {{ props?.book?.book?.author?.author }}

@@ -16,7 +16,7 @@
           </div>
         </div>
 
-        <div class="flex justify-end items-end gap-4">
+        <a class="flex justify-end items-end gap-4">
           <a-button
             @click="handleClose"
             type="primary"
@@ -25,14 +25,14 @@
             class="mt-4"
             >Hủy</a-button
           >
-          <a-button
-            type="primary"
-            :loading="authStore.isSubmitting"
-            html-type="submit"
-            class="mt-4"
-            >Lưu</a-button
-          >
-        </div>
+        </a>
+        <a-button
+          type="primary"
+          :loading="authStore.isSubmitting"
+          html-type="submit"
+          class="mt-4"
+          >Lưu</a-button
+        >
       </div>
     </form>
   </a-modal>

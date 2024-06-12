@@ -74,8 +74,11 @@
         <div>Thông tin chi tiết</div>
       </div>
       <div class="">
-        <p class="line-clamp-6 relative">
-          {{ bookStore?.book?.book?.description }}
+        <p
+          class="line-clamp-6 relative"
+          :v-html="bookStore?.book?.book?.description"
+        >
+          <!-- {{ bookStore?.book?.book?.description }} -->
         </p>
         <button
           class="flex justify-center items-center gap-2 text-[#189EFF] mx-auto text-sm font-normal pt-4"

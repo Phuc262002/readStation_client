@@ -54,7 +54,7 @@
               @click="addToCart"
               class="border border-lg border-x-rtgray-50 rounded-lg text-center text-rtprimary text-sm h-10"
             >
-              Thêm vào giỏ
+              Thêm vào danh sách thuê
             </a-button>
           </div>
         </div>
