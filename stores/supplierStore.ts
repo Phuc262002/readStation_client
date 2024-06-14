@@ -3,6 +3,7 @@ export const useSupplierStore = defineStore("supplier-store", {
   state: () => {
     return {
       SupplierAdmin: [],
+      GetSupperById: {},
       isLoading: false,
       isSubmitting: false,
     };
@@ -46,6 +47,7 @@ export const useSupplierStore = defineStore("supplier-store", {
     async getSupplierById(id: string) {
         this.isLoading = true;
         const data: any = await useCustomFetch(`/api/v1/suppliers/get-one/${id}`);
+        this.GetSupperById = data.data._value;
         this.isLoading = false;
         return data;
     }

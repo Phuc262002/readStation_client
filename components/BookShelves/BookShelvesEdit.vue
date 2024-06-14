@@ -31,7 +31,7 @@
             </div>
             <div class="flex flex-col gap-2">
               <label>Trạng thái</label>
-              <a-select v-model:value="valueShelves.status" show-search placeholder="Select a person" style="width: 200px"
+              <a-select v-model:value="valueShelves.status" show-search placeholder="Trạng thái" style="width: 200px"
                 :options="options" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
                 @change="handleChange"></a-select>
             </div>
@@ -74,15 +74,15 @@ const handleClose = () => {
 const options = ref([
   {
     value: 'active',
-    label: 'active',
+    label: 'Hoạt động',
   },
   {
     value: 'inactive',
-    label: 'inactive',
+    label: 'Không hoạt động',
   },
   {
     value: 'deteled',
-    label: 'deteled',
+    label: 'Đã xóa',
   },
 ]);
 const shelvesStore = useShelvesStore();
