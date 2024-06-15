@@ -9,6 +9,7 @@ export const useUserStore = defineStore("user-store", {
       isSubmitting: false,
     };
   },
+  persist: true,
   actions: {
     async getUser({ page, pageSize, search, status }: any) {
       try {
