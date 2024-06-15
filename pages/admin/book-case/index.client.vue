@@ -78,48 +78,44 @@
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
               <NuxtLink :to="`book-case/${record.id}`">
-                <a-tooltip placement="top" color="yellow">
+                <a-tooltip placement="top">
                   <template #title>
                     <span>Xem chi tiết</span>
                   </template>
                   <button
-                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                  >
-                    <UIcon
-                      class="group-hover:text-[#212122]"
-                      name="i-icon-park-outline-eyes"
-                    />
+                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                    <div>
+                      <UIcon class="group-hover:text-[#212122]" name="i-icon-park-outline-eyes" />
+                    </div>
                   </button>
                 </a-tooltip>
               </NuxtLink>
-              <a-tooltip placement="top" color="green">
-                <template #title>
-                  <span>Sửa</span>
-                </template>
+              <a-dropdown :trigger="['click']" placement="bottom">
                 <button
-                  @click="showModalEdit(record?.id)"
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                >
-                  <UIcon
-                    class="group-hover:text-[#212122]"
-                    name="i-material-symbols-edit-outline"
-                  />
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                  <UIcon class="group-hover:text-[#131313]" name="i-solar-menu-dots-bold" />
                 </button>
-              </a-tooltip>
-              <a-tooltip placement="top" color="red">
-                <template #title>
-                  <span>Xóa</span>
+                <template #overlay>
+                  <a-menu>
+                    <NuxtLink>
+                      <a-menu-item key="2" class="p-4">
+                        <button class="flex items-center gap-1 text-blue-400" @click="showModalEdit(record?.id)">
+                          <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
+                          <span>Sửa</span>
+                        </button>
+                      </a-menu-item>
+                    </NuxtLink>
+                    <a-menu-item key="3" class="p-4">
+                      <span>
+                        <button class="flex items-center gap-1 text-blue-400" @click="showDeleteConfirm(record?.id)">
+                          <UIcon class="group-hover:text-[red] text-lg" name="i-material-symbols-delete-outline" />
+                          <span>Xóa</span>
+                        </button>
+                      </span>
+                    </a-menu-item>
+                  </a-menu>
                 </template>
-                <button
-                  @click="showDeleteConfirm(record?.id)"
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                >
-                  <UIcon
-                    class="group-hover:text-[#212122]"
-                    name="i-material-symbols-delete-outline"
-                  />
-                </button>
-              </a-tooltip>
+              </a-dropdown>
             </div>
           </template>
         </template>

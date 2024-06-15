@@ -39,19 +39,24 @@
               </template>
             </a-input>
           </div>
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <div
+            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          >
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
         <div class="">
           <a-button type="primary" @click="showModalAdd">Thêm Kệ</a-button>
-          <CommonSearch :openModalAdd="openModalAdd" :openModal="CloseModalAdd" />
+          <BookCaseSearch
+            :openModalAdd="openModalAdd"
+            :openModal="CloseModalAdd"
+          />
         </div>
       </div>
 
       <a-table
         :columns="columns"
-        :data-source="bookCaseStore.bookCase?.shelves"
+        :data-source="bookCaseStore?.bookCase?.shelves"
         :loading="bookCaseStore.isLoading"
       >
         <template #headerCell="{ column }">
@@ -74,50 +79,43 @@
           </template>
           <template v-if="column.key === 'status'">
             <span>
-              <a-tag :color="record.status === 'active' ? 'green' : 'volcano'">
+              <a-tag
+                style="border: none"
+                :color="record.status === 'active' ? 'green' : 'volcano'"
+              >
                 {{ record.status }}
               </a-tag>
             </span>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <NuxtLink :to="`book-case/detail-case/${record.id}`">
-                <a-tooltip placement="top" color="yellow">
-                  <template #title>
-                    <span>Xem chi tiết</span>
-                  </template>
-                  <button
-                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                  >
+              <a-tooltip placement="top">
+                <template #title>
+                  <span>Xem chi tiết</span>
+                </template>
+                <button
+                  @click="showModal"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                >
+                  <div>
                     <UIcon
                       class="group-hover:text-[#212122]"
                       name="i-icon-park-outline-eyes"
                     />
-                  </button>
-                </a-tooltip>
-              </NuxtLink>
-              <a-tooltip placement="top" color="green">
-                <template #title>
-                  <span>Sửa</span>
-                </template>
-                <button
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                >
-                  <UIcon
-                    class="group-hover:text-[#212122]"
-                    name="i-material-symbols-edit-outline"
-                  />
+                  </div>
                 </button>
               </a-tooltip>
+
               <a-tooltip placement="top" color="red">
                 <template #title>
                   <span>Xóa</span>
                 </template>
                 <button
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                  @click.prevent="showConfirm(record.id)"
+                  class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
                 >
                   <UIcon
-                    class="group-hover:text-[#212122]"
+                    class="group-hover:text-[red]"
                     name="i-material-symbols-delete-outline"
                   />
                 </button>
@@ -133,19 +131,42 @@
 import { Modal } from "ant-design-vue";
 import { ref } from "vue";
 const route = useRoute();
+const open = ref(false);
 const openModalAdd = ref<boolean>(false);
 const detailBookCaseId = route.params.id;
 const bookCaseStore = useBookcaseStore();
-
+const bookShelves = useShelvesStore();
 useAsyncData(async () => {
   if (detailBookCaseId !== undefined) {
     await bookCaseStore.getOneBookcase(detailBookCaseId);
   }
 });
-const filter = ref({
-  search: "",
-});
-const handleSearch = () => {};
+
+const updateDetailCase = async (id) => {
+  try {
+    const idCase = {
+      bookcase_id: null,
+    };
+    await bookShelves.updateShelves({ id: id, valueUpdateShelves: idCase });
+  } catch (error) {}
+};
+const showConfirm = (id) => {
+  Modal.confirm({
+    title: "Bạn có chắc xóa sách này ra khỏi kệ không?",
+
+    async onOk() {
+      updateDetailCase(id);
+      await bookCaseStore.getOneBookcase(detailBookCaseId);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+};
+
+const showModal = () => {
+  open.value = true;
+};
 const showModalAdd = () => {
   openModalAdd.value = true;
 };
@@ -183,6 +204,4 @@ const columns = [
     key: "action",
   },
 ];
-
-
 </script>
