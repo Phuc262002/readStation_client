@@ -20,11 +20,11 @@
             </div>
             <!--  -->
             <div
-              class="flex justify-between items-center"
+              class="flex justify-between items-center border-b border-rtgray-50 pb-5"
               v-for="(cart, index) in cartStore?.carts"
               :key="index"
             >
-              <div class="flex justify-start w-2/6">
+              <div class="flex justify-start gap-5 w-2/6">
                 <div class="min-w-[100px] min-h-[100px]">
                   <img class="w-24 rounded-md" :src="cart?.poster" alt="" />
                 </div>
@@ -45,19 +45,43 @@
                 </div>
               </div>
               <div class="text-base font-bold flex justify-center">
-                {{ cart?.price }}
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(cart?.price)
+                }}
               </div>
               <div class="text-base font-bold flex items-center pl-3">
                 {{ cart?.hire_percent }}%
               </div>
               <div class="w-1/6 text-base font-bold flex justify-center">
-                {{ cart?.price * (cart?.hire_percent / 100) }}
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(cart?.price * (cart?.hire_percent / 100))
+                }}
               </div>
               <div class="text-base font-bold flex justify-center pr-6">
-                0 đ
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(cart?.price * 0.1)
+                }}
               </div>
               <div class="text-base font-bold text-center flex justify-center">
-                {{ cart?.price + cart?.price * (cart?.hire_percent / 100) }}đ
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(
+                    parseFloat(cart?.price) * 0.1 +
+                      parseFloat(cart?.price) *
+                        (parseFloat(cart?.hire_percent) / 100)
+                  )
+                }}
               </div>
               <a-button
                 @click="cartStore.deleteItemCart(cart?.id)"
@@ -69,7 +93,6 @@
                 />
               </a-button>
             </div>
-            <div class="border-solid border border-gray-100 w-full"></div>
           </div>
         </div>
       </div>
@@ -80,14 +103,38 @@
             <div class="flex flex-col gap-5">
               <div class="text-xl font-semibold">Thông tin đơn hàng</div>
               <div class="border-solid border border-gray-100 w-full"></div>
-              <div class="">
+              <div class="" :key="index">
                 <div class="flex justify-between items-center">
                   <span class="text-sm text-gray-400">Phí cọc</span>
-                  <span class="text-base font-bold">220.000đ</span>
+                  <span class="text-base font-bold"
+                    >{{
+                      cartStore.carts.reduce(
+                        (acc, curr) =>
+                          acc +
+                          (parseFloat(curr.price) *
+                            parseFloat(curr.hire_percent)) /
+                            100,
+                        0
+                      )
+                    }}
+                    đ</span
+                  >
                 </div>
                 <div class="flex justify-between items-center">
                   <span class="text-sm text-gray-400">Phí dịch vụ</span>
-                  <span class="text-base font-bold">220.000đ</span>
+                  <span class="text-base font-bold">
+                    {{
+                      cartStore.carts.reduce(
+                        (acc, curr) =>
+                          acc +
+                          (parseFloat(curr.price) *
+                            parseFloat(curr.hire_percent + 10.0)) /
+                            100,
+                        0
+                      )
+                    }}
+                    đ
+                  </span>
                 </div>
                 <div class="flex justify-between items-center pt-4">
                   <span class="text-base font-bold">Tổng tiền</span>
@@ -135,4 +182,7 @@ import { ref } from "vue";
 const cartStore = useCartStore();
 
 const deleteItem = (id) => {};
+const totalDeposit = computed(() => {
+  return cartStore.carts.reduce((acc, item) => acc + parseFloat(item.price), 0);
+});
 </script>

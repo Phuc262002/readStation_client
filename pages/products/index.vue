@@ -36,7 +36,16 @@
               <!--  -->
               <ul class="px-4 space-y-1">
                 <li>
-                  <a-radio>Tất cả</a-radio>
+                  <a-radio
+                    :checked="filter.category_id === null ? true : false"
+                    @click="
+                      handleCheckbox({
+                        type: 'category_id',
+                        id: null,
+                      })
+                    "
+                    >Tất cả</a-radio
+                  >
                 </li>
                 <li
                   class="flex items-center"
@@ -87,7 +96,16 @@
               </div>
               <ul class="px-4 space-y-1">
                 <li>
-                  <a-radio>Tất cả</a-radio>
+                  <a-radio
+                    :checked="filter.author_id === null ? true : false"
+                    @click="
+                      handleCheckbox({
+                        type: 'author_id',
+                        id: null,
+                      })
+                    "
+                    >Tất cả</a-radio
+                  >
                 </li>
                 <li
                   class="flex items-center"
@@ -139,7 +157,18 @@
               </div>
               <ul class="px-4 space-y-1">
                 <li>
-                  <a-radio>Tất cả</a-radio>
+                  <a-radio
+                    :checked="
+                      filter.publishing_company_id === null ? true : false
+                    "
+                    @click="
+                      handleCheckbox({
+                        type: 'publishing_company_id',
+                        id: null,
+                      })
+                    "
+                    >Tất cả</a-radio
+                  >
                 </li>
                 <li
                   class="flex items-center"
@@ -191,7 +220,16 @@
               </div>
               <ul class="px-4 space-y-1">
                 <li>
-                  <a-radio>Tất cả</a-radio>
+                  <a-radio
+                    :checked="filter.rating === null ? true : false"
+                    @click="
+                      handleCheckbox({
+                        type: 'rating',
+                        id: null,
+                      })
+                    "
+                    >Tất cả</a-radio
+                  >
                 </li>
                 <li>
                   <a-radio

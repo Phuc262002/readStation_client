@@ -148,6 +148,7 @@ useAsyncData(async () => {
   await bookShelves.getOneShelves(detailShelvesId);
 });
 const bookStore = useBookStore();
+
 const updateDetailShelves = async (id) => {
   try {
     const idShelves = {
