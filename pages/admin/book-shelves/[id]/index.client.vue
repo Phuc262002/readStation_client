@@ -21,7 +21,6 @@
             <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
             <span class="text-white text-base">Chỉnh sửa</span>
           </a-button>
-          <BookShelvesEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit" :shelvesId="shelvesId" />
         </div>
       </div>
     </div>
@@ -149,6 +148,7 @@ useAsyncData(async () => {
   await bookShelves.getOneShelves(detailShelvesId);
 });
 const bookStore = useBookStore();
+
 const updateDetailShelves = async (id) => {
   try {
     const idShelves = {

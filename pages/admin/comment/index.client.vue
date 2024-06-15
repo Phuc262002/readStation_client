@@ -30,33 +30,33 @@
         </NuxtLink> -->
       </div>
 
-      <a-table :columns="columns" :data-source="data">
-        <template #headerCell="{ column }">
-          <template v-if="column.key === 'name'">
-            <span> parent_id</span>
-          </template>
-        </template>
-
+      <a-table
+        :columns="columns"
+        :data-source="commentStore?.commentAdmin?.comments"
+      >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'name'">
+          <template v-if="column.key === 'post_id'">
             <a>
-              {{ record.name }}
+              {{ record.post?.title }}
             </a>
           </template>
-          <template v-else-if="column.key === 'tags'">
+          <template v-if="column.key === 'user_id'">
+            <a>
+              {{ record.user?.fullname }}
+            </a>
+          </template>
+          <template v-if="column.key === 'content'">
+            <a>
+              {{ record.content }}
+            </a>
+          </template>
+          <template v-else-if="column.key === 'status'">
             <span>
               <a-tag
-                v-for="tag in record.tags"
-                :key="tag"
-                :color="
-                  tag === 'loser'
-                    ? 'volcano'
-                    : tag.length > 5
-                    ? 'geekblue'
-                    : 'green'
-                "
+                :bordered="false"
+                :color="record.status === 'active' ? 'green' : 'volcano'"
               >
-                {{ tag.toUpperCase() }}
+                {{ record.status }}
               </a-tag>
             </span>
           </template>
@@ -129,24 +129,15 @@
                 <template #title>
                   <span>Xóa</span>
                 </template>
-                <span
-                  class="group hover:bg-[red]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md"
+                <button
+                  @click="showDeleteConfirm(record?.id)"
+                  class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
                 >
-                  <a-popconfirm
-                    title="Are you sure delete this task?"
-                    placement="right"
-                    ok-text="Yes"
-                    cancel-text="No"
-                    @confirm="confirm"
-                    @cancel="cancel"
-                  >
-                    <button class="flex items-center">
-                      <UIcon
-                        class="group-hover:text-[red]"
-                        name="i-material-symbols-delete-outline"
-                    /></button>
-                  </a-popconfirm>
-                </span>
+                  <UIcon
+                    class="group-hover:text-[red]"
+                    name="i-material-symbols-delete-outline"
+                  />
+                </button>
               </a-tooltip>
             </div>
           </template>
@@ -156,7 +147,31 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { Modal } from "ant-design-vue";
 const open = ref<boolean>(false);
+const commentStore = useCommentStore();
+useAsyncData(async () => {
+  await commentStore.getAllComment({});
+});
+const showDeleteConfirm = (id: string) => {
+  Modal.confirm({
+    title: "Are you sure delete this task?",
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      onDelete(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+};
+const onDelete = async (id: string) => {
+  await commentStore.deleteComment(id);
+  await commentStore.getAllComment({});
+};
 const showModal = () => {
   open.value = true;
 };
@@ -171,9 +186,9 @@ const cancel = (e: MouseEvent) => {
 };
 const columns = [
   {
-    name: "Name",
-    dataIndex: "Name",
-    key: "name",
+    title: "Tên bài viết",
+    dataIndex: "post_id",
+    key: "post_id",
   },
   {
     title: "Tên người viết",
@@ -181,9 +196,14 @@ const columns = [
     key: "user_id",
   },
   {
-    title: "Tên bài viết",
-    dataIndex: "post_id",
-    key: "post_id",
+    title: "Nội dung",
+    dataIndex: "content",
+    key: "content",
+  },
+  {
+    title: "Trạng thái",
+    key: "status",
+    dataIndex: "status",
   },
   {
     title: "Action",
@@ -193,10 +213,11 @@ const columns = [
 
 const data = [
   {
-    key: "1",
-    name: "123",
+    post_id: "Bài viết 1",
     user_id: "New York No. 1 Lake Park",
-    post_id: "New York No. 1 Lake Park",
+    content:
+      "My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.",
+    status: "active",
   },
 ];
 </script>

@@ -123,6 +123,9 @@ const post = ref({
   summary: "",
 });
 const options = ref([]);
+const optionsStatus = ref([
+
+])
 const fileList = ref([]);
 const imageInfo = ref("");
 const uploadFile = async (file) => {
@@ -171,6 +174,7 @@ useAsyncData(async () => {
     };
   });
 });
+
 useAsyncData(async () => {
   const data = await postStore.getOnePostAdmin(postID);
   post.value.title = data.data._value?.data?.title;

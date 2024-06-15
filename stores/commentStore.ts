@@ -4,6 +4,7 @@ export const useCommentStore = defineStore("comment-store", {
   state: () => {
     return {
       comment: [],
+      commentAdmin: [],
       isLoading: false,
       isSubmitting: false,
     };
@@ -24,6 +25,21 @@ export const useCommentStore = defineStore("comment-store", {
         console.log(error);
       }
     },
+    async getAllComment({ page, pageSize, status }: any) {
+      try {
+        this.isLoading = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/comments/admin/get-all?${page ? `&page=${page}` : ""}${
+            pageSize ? `&pageSize=${pageSize}` : ""
+          }${status ? `&status=${status}` : ""}`
+        );
+        this.commentAdmin = data.data._value?.data;
+        this.isLoading = false;
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async createComment(comment: any) {
       try {
         this.isSubmitting = true;
@@ -37,7 +53,7 @@ export const useCommentStore = defineStore("comment-store", {
         console.log(error);
       }
     },
-    async deleteComment({comment_id}: any) {
+    async deleteComment({ comment_id }: any) {
       try {
         const data: any = await useCustomFetch(
           `/api/v1/comments/delete/${comment_id}`,

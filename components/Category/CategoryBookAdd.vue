@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    v-model:open="props.openModalAdd"
+    v-model:open="open"
     title="Thêm danh mục sản phẩm"
     :footer="null"
     :onCancel="handleClose"
