@@ -17,10 +17,12 @@
             {{ bookShelves?.adminGetOneBookShelve?.book_details.length }} cuốn sách</p>
         </div>
         <div>
-          <a-button class="flex justify-center items-center gap-1" type="primary" @click="showModalEdit(bookShelves?.adminGetOneBookShelve?.id)">
+          <a-button class="flex justify-center items-center gap-1" type="primary"
+            @click="showModalEdit">
             <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
             <span class="text-white text-base">Chỉnh sửa</span>
           </a-button>
+          <BookShelvesEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit" :shelvesId="bookShelves?.adminGetOneBookShelve?.id" />
         </div>
       </div>
     </div>
@@ -136,8 +138,6 @@ import { ref } from "vue";
 const route = useRoute()
 const openModalAdd = ref<boolean>(false);
 const openModalEdit = ref<boolean>(false);
-const shelvesId = ref<number>();
-
 const open = ref(false);
 const showModal = () => {
   open.value = true;
@@ -226,9 +226,8 @@ const showModalAdd = () => {
 const CloseModalAdd = () => {
   openModalAdd.value = false;
 };
-const showModalEdit = (id: number) => {
+const showModalEdit = () => {
   openModalEdit.value = true;
-  shelvesId.value = id;
 };
 const CloseModalEdit = () => {
   openModalEdit.value = false;
