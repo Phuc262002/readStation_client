@@ -168,7 +168,7 @@
                                         <li class="text-slate-500 dark:text-zink-200 text-sm">Ngày nhận: 22/06/2024</li>
                                     </ul>
                                 </div>
-                                <div class="flex items-center gap-2">
+                                <!-- <div class="flex items-center gap-2">
                                     <button type="button"
                                         class=" flex  gap-2 items-center w-full bg-orange-500 p-2 rounded-lg text-white">
                                         <UIcon name="i-material-symbols-edit-document-outline" class="text-xl" /><span
@@ -198,7 +198,7 @@
                                             </a-menu>
                                         </template>
                                     </a-dropdown>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="bg-gray-100 h-auto rounded-lg p-8 flex flex-col gap-3">
