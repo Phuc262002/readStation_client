@@ -48,19 +48,16 @@
         :loading="categoryStore.isLoading"
         :pagination="false"
       >
-        <template #headerCell="{ column }">
-          <template v-if="column.key === 'name'">
-            <span> Name </span>
-          </template>
-        </template>
+        
 
         <template #bodyCell="{ column, record }">
-          <!-- <template v-if="column.key === '#'">
-            <a>
-              {{ index + 1 }}
-            </a>
-          </template> -->
+          
           <template v-if="column.key === 'name'">
+            <a>
+              {{ record.name }}
+            </a>
+          </template>
+          <template v-if="column.key === 'category'">
             <a>
               {{ record.name }}
             </a>
@@ -179,36 +176,28 @@ const showDeleteConfirm = (id: string) => {
 };
 
 const columns = [
-  // {
-  //   title: "#",
-  //   dataIndex: "#",
-  //   key: "#",
-  // },
-  {
-    title: "Tên",
-    dataIndex: "name",
-    key: "name",
-  },
-  {
-    title: "Nội dung",
-    dataIndex: "description",
-    key: "description",
-  },
   {
     title: "Hình ảnh",
     dataIndex: "image",
     key: "image",
   },
   {
+    title: "Tên danh mục",
+    dataIndex: "category",
+    key: "category",
+  },
+  {
+    title: "Nội dung",
+    dataIndex: "description",
+    key: "description",
+  },
+
+  {
     title: "Nổi bật",
     dataIndex: "is_featured",
     key: "is_featured",
   },
-  {
-    title: "Slug",
-    dataIndex: "slug",
-    key: "slug",
-  },
+ 
   {
     title: "Trạng thái",
     key: "status",

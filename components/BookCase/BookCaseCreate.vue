@@ -13,17 +13,17 @@
             v-model:value="bookCase.bookcase_code"
             type="text"
             class="border p-2 rounded-md"
-            placeholder="Bookshelf_code"
+            placeholder="Nhập mã tủ sách"
           
           />
         </div>
         <div class="pb-4">
-          <label for="">Tên</label>
+          <label for="">Tên tủ</label>
           <a-input
             v-model:value="bookCase.name"
             type="text"
             class="border p-2 rounded-md"
-            placeholder="Mô tả"
+            placeholder="Nhập tên tủ sách"
             required
           />
         </div>
@@ -34,7 +34,7 @@
             v-model:value="bookCase.description"
             type="text"
             class="border p-2 rounded-md"
-            placeholder="Mô tả"
+            placeholder="Nhập mô tả tủ sách"
             required
           />
         </div>

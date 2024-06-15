@@ -178,7 +178,7 @@ useAsyncData(async () => {
 useAsyncData(async () => {
   const data = await postStore.getOnePostAdmin(postID);
   post.value.title = data.data._value?.data?.title;
-  post.value.category_id = data.data._value?.data?.category.id;
+  post.value.category_id = data.data._value?.data?.category.name;
   post.value.status = data.data._value?.data?.status;
   post.value.image = data.data._value?.data?.image;
   post.value.content = data.data._value?.data?.content;
@@ -196,7 +196,7 @@ const updatePost = async () => {
   try {
     const data = {
       title: post.value.title,
-      category_id: post.value.category?.id,
+      category_id: post.value.category?.name,
       status: post.value.status,
       image: imageInfo.value?.url || post.value.image,
       content: post.value.content,

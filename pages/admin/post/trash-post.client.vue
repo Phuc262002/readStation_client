@@ -27,181 +27,230 @@
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
-        <!-- <NuxtLink to="/admin/post/add-post" class="">
-            <a-button type="primary">Thêm bài viết</a-button>
-          </NuxtLink> -->
       </div>
 
-      <a-table :columns="columns" :data-source="data">
-        <template #headerCell="{ column }">
-          <template v-if="column.key === 'name'">
-            <span> Tên người viết </span>
-          </template>
-        </template>
-
+      <a-table
+        :columns="columns"
+        :loading="postStore.isLoading"
+        :data-source="postStore?.postsAdmin.posts"
+        :pagination="false"
+      >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
             <a>
-              {{ record.name }}
+              {{ record.title }}
             </a>
           </template>
-          <template v-else-if="column.key === 'tags'">
+          <template v-if="column.key === 'name'">
+            <a>
+              {{ record.title }}
+            </a>
+          </template>
+          <template v-if="column.key === 'category_id'">
             <span>
-              <a-tag
-                v-for="tag in record.tags"
-                :key="tag"
-                :color="
-                  tag === 'loser'
-                    ? 'volcano'
-                    : tag.length > 5
-                    ? 'geekblue'
-                    : 'green'
-                "
-              >
-                {{ tag.toUpperCase() }}
-              </a-tag>
+              {{ record.category.name }}
             </span>
           </template>
+          <template v-if="column.key === 'user_id'">
+            <span>
+              {{ record.user.fullname }}
+            </span>
+          </template>
+          <template v-if="column.key === 'view'">
+            <span> {{ record.view }} lượt xem </span>
+          </template>
+          <template v-else-if="column.key === 'image'">
+            <a-image
+              class="rounded-md"
+              :width="70"
+              :height="70"
+              :src="record.image"
+            />
+          </template>
+          <template v-else-if="column.key === 'status'">
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'wating_approve'"
+              color="yellow"
+            >
+              Đang chờ duyệt
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-else-if="record.status === 'draft'"
+              color="black"
+            >
+              Bản nháp
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-else-if="record.status === 'published'"
+              color="green"
+            >
+              Công khai
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-else-if="record.status === 'hidden'"
+              color="#B2B6BB"
+            >
+              Đã ẩn
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-else-if="record.status === 'deleted'"
+              color="red"
+            >
+              Đã xóa
+            </a-tag>
+          </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top" color="gold">
+            <div class="flex text-[16px] gap-2">
+              <a-tooltip placement="top">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
-                <span
-                  class="group hover:bg-[#faad14]/20 flex items-center justify-center w-8 h-8 rounded-md"
-                  ><UIcon
-                    class="group-hover:text-[#faad14]"
-                    name="i-icon-park-outline-eyes"
-                /></span>
-              </a-tooltip>
-              <!-- <a-tooltip placement="top" color="green">
-                  <template #title>
-                    <span>Sửa</span>
-                  </template>
-                  <span
-                    class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md"
-                  >
-                    <div>
-                      <button @click="showModal">
-                        <UIcon
-                          class="hover:text-[green]"
-                          name="i-material-symbols-edit-outline"
-                        />
-                      </button>
-                      <a-modal v-model:open="open" title="Sửa" >
-                        <div class="">
-                          <div class="bg-white py-2">
-                            <div class="pb-4">
-                              <label
-                                for="email"
-                                class="block text-sm font-medium text-gray-700"
-                              >
-                                Tên danh mục
-                              </label>
-                              <div class="mt-1">
-                                <a-input
-                                  class="w-[450px] h-[45px]"
-                                  placeholder="Nhập tên danh mục"
-                                />
-                              </div>
-                            </div>
-  
-                            <div>
-                              <label
-                                for="email"
-                                class="block text-sm font-medium text-gray-700"
-                              >
-                                Nội dụng
-                              </label>
-                              <div class="mt-1">
-                                <a-input
-                                  class="w-[450px] h-[45px]"
-                                  placeholder="Nhập nội dung"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </a-modal>
-                    </div>
-                  </span>
-                </a-tooltip> -->
-              <a-tooltip placement="top" color="red">
-                <template #title>
-                  <span>Xóa</span>
-                </template>
-                <span
-                  class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                <button
+                  @click="showModal"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <a-popconfirm
-                    title="Are you sure delete this task?"
-                    placement="right"
-                    ok-text="Yes"
-                    cancel-text="No"
-                    @confirm="confirm"
-                    @cancel="cancel"
-                  >
-                    <a href="#">
-                      <UIcon
-                        class="group-hover:text-[red]"
-                        name="i-material-symbols-delete-outline"
-                    /></a>
-                  </a-popconfirm>
-                </span>
+                  <div class="flex">
+                    <UIcon
+                      class="group-hover:text-[#212122]"
+                      name="i-icon-park-outline-eyes"
+                    />
+
+                    <a-modal v-model:open="open" title="Sửa" width="70%">
+                      <div class="flex justify-between gap-4">
+                        <div class="grow">
+                          <h1 class="font-bold text-xl">Bài viết số 1</h1>
+                        </div>
+                      </div>
+                      <div
+                        class="flex border border-transparent border-b-gray-300 pb-2"
+                      >
+                        <div class="w-1/5">
+                          <h4 class="font-bold">Tên người viết</h4>
+                        </div>
+                        <div class="w-4/5">Huỳnh Tuấn Kiệt</div>
+                      </div>
+                    </a-modal>
+                  </div>
+                </button>
+              </a-tooltip>
+
+              <a-tooltip placement="top" color="black ">
+                <template #title>
+                  <span>Khôi phục</span>
+                </template>
+                <button
+                  @click="showRecoverConfirm(record.id)"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                >
+                  <UIcon
+                    class="text-lg"
+                    name="i-material-symbols-autorenew-rounded"
+                  />
+                </button>
               </a-tooltip>
             </div>
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="postStore?.postsAdmin?.totalResults"
+          :pageSize="postStore?.postsAdmin?.pageSize"
+          show-less-items
+        />
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-const confirm = (e: MouseEvent) => {
-  console.log(e);
-  message.success("Xóa thành công");
+import { Modal } from "ant-design-vue";
+const postStore = usePostStore();
+const current = ref(1);
+useAsyncData(
+  async () => {
+    await postStore.getAllPost({
+      page: current.value,
+      status: "deleted",
+    });
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
+
+const onRecover = async (id: string) => {
+  await postStore.updatePost({ id: id, post: { status: "published" } });
+  await postStore.getAllPost({
+    page: current.value,
+    status: "deleted",
+  });
+};
+const showRecoverConfirm = (id: string) => {
+  Modal.confirm({
+    title: "Are you sure delete this task?",
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      onRecover(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
 };
 
-const cancel = (e: MouseEvent) => {
-  console.log(e);
-  message.error("Xóa thất bại");
-};
 const columns = [
-  {
-    name: "Name",
-    dataIndex: "Name",
-    key: "name",
-  },
-  {
-    title: "Danh mục",
-    dataIndex: "category",
-    key: "category",
-  },
-  {
-    title: "Tên bài viết",
-    dataIndex: "title",
-    key: "title",
-  },
-  {
-    title: "Nội dung ngắn",
-    dataIndex: "summary",
-    key: "summary",
-  },
   {
     title: "Hình ảnh",
     dataIndex: "image",
     key: "image",
   },
   {
-    title: "Slug",
-    dataIndex: "slug",
-    key: "slug",
+    title: "Tên bài viết",
+    dataIndex: "title",
+    key: "title",
+    width: "300px",
   },
   {
-    title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
+    title: "Tiêu đề",
+    dataIndex: "summary",
+    key: "summary",
+    width: "200px",
+  },
+  {
+    title: "Người đăng",
+    dataIndex: "user_id",
+    key: "user_id",
+    width: "200px",
+  },
+
+  {
+    title: "Danh mục",
+    dataIndex: "category_id",
+    key: "category_id",
+  },
+  {
+    title: "Lượt xem",
+    dataIndex: "view",
+    key: "view",
+  },
+
+  {
+    title: "Trạng thái",
+    key: "status",
+    dataIndex: "status",
   },
   {
     title: "Action",
@@ -209,18 +258,6 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    category: "New York No. 1 Lake Park",
-    title: 32,
-    summary: "New York No. 1 Lake Park",
-    image: 32,
-    Slug: "asdasd",
-    tags: ["nice", "developer"],
-  },
-];
 const open = ref<boolean>(false);
 const showModal = () => {
   open.value = true;

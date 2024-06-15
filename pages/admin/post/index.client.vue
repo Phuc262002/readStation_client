@@ -36,13 +36,12 @@
         :data-source="postStore?.postsAdmin.posts"
         :pagination="false"
       >
-        <template #headerCell="{ column }">
-          <template v-if="column.key === 'name'">
-            <span> Tên bài viết </span>
-          </template>
-        </template>
-
         <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'name'">
+            <a>
+              {{ record.title }}
+            </a>
+          </template>
           <template v-if="column.key === 'name'">
             <a>
               {{ record.title }}
@@ -50,26 +49,73 @@
           </template>
           <template v-if="column.key === 'category_id'">
             <span>
-              {{ record.category.id }}
+              {{ record.category.name }}
             </span>
+          </template>
+          <template v-if="column.key === 'user_id'">
+            <span>
+              {{ record.user.fullname }}
+            </span>
+          </template>
+          <template v-if="column.key === 'view'">
+            <span> {{ record.view }} lượt xem </span>
           </template>
           <template v-else-if="column.key === 'image'">
             <a-image
               class="rounded-md"
-              :width="100"
-              :height="100"
+              :width="70"
+              :height="70"
               :src="record.image"
             />
           </template>
           <template v-else-if="column.key === 'status'">
-            <span>
-              <a-tag
-                :bordered="false"
-                :color="record.status === 'active' ? 'green' : 'volcano'"
-              >
-                {{ record.status }}
-              </a-tag>
-            </span>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'wating_approve'"
+              color="yellow"
+            >
+              Đang chờ duyệt
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-else-if="record.status === 'draft'"
+              color="black"
+            >
+              Bản nháp
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-else-if="record.status === 'published'"
+              color="green"
+            >
+              Công khai
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-else-if="record.status === 'hidden'"
+              color="#B2B6BB"
+            >
+              Đã ẩn
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-else-if="record.status === 'deleted'"
+              color="red"
+            >
+              Đã xóa
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-else-if="record.status === 'approve_canceled'"
+              color="cyan">
+              Không duyệt
+            </a-tag>
+
+           
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
@@ -78,7 +124,7 @@
                   <span>Xem chi tiết</span>
                 </template>
                 <button
-                  @click="showModal"
+                  @click="showModalDetail(record.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
                   <div>
@@ -86,22 +132,6 @@
                       class="group-hover:text-[#212122]"
                       name="i-icon-park-outline-eyes"
                     />
-
-                    <a-modal v-model:open="open" title="Sửa" width="70%">
-                      <div class="flex justify-between gap-4">
-                        <div class="grow">
-                          <h1 class="font-bold text-xl">Bài viết số 1</h1>
-                        </div>
-                      </div>
-                      <div
-                        class="flex border border-transparent border-b-gray-300 pb-2"
-                      >
-                        <div class="w-1/5">
-                          <h4 class="font-bold">Tên người viết</h4>
-                        </div>
-                        <div class="w-4/5">Huỳnh Tuấn Kiệt</div>
-                      </div>
-                    </a-modal>
                   </div>
                 </button>
               </a-tooltip>
@@ -159,11 +189,18 @@
         />
       </div>
     </div>
+    <PostAdminDetail
+      :openModalDetail="openModalDetail"
+      :openModal="CloseModalDetail"
+      :postDetailId="postDetailId"
+    />
   </div>
 </template>
 <script lang="ts" setup>
 import { Modal } from "ant-design-vue";
 const postStore = usePostStore();
+const postDetailId = ref<number>();
+const openModalDetail = ref<boolean>(false);
 const current = ref(1);
 useAsyncData(
   async () => {
@@ -198,30 +235,40 @@ const showDeleteConfirm = (id: string) => {
 };
 const columns = [
   {
-    name: "title",
-    dataIndex: "name",
-    key: "name",
+    title: "Hình ảnh",
+    dataIndex: "image",
+    key: "image",
   },
+  {
+    title: "Tên bài viết",
+    dataIndex: "title",
+    key: "title",
+    width: "300px",
+  },
+  {
+    title: "Tiêu đề",
+    dataIndex: "summary",
+    key: "summary",
+    width: "200px",
+  },
+  {
+    title: "Người đăng",
+    dataIndex: "user_id",
+    key: "user_id",
+    width: "200px",
+  },
+
   {
     title: "Danh mục",
     dataIndex: "category_id",
     key: "category_id",
   },
   {
-    title: "Hình ảnh",
-    dataIndex: "image",
-    key: "image",
+    title: "Lượt xem",
+    dataIndex: "view",
+    key: "view",
   },
-  {
-    title: "Nội dung ngắn",
-    dataIndex: "summary",
-    key: "summary",
-  },
-  {
-    title: "Slug",
-    dataIndex: "slug",
-    key: "slug",
-  },
+
   {
     title: "Trạng thái",
     key: "status",
@@ -232,7 +279,14 @@ const columns = [
     key: "action",
   },
 ];
-
+const CloseModalDetail = () => {
+  openModalDetail.value = false;
+};
+const showModalDetail = (id) => {
+  openModalDetail.value = true;
+  postDetailId.value = id;
+  console.log(id);
+};
 const open = ref<boolean>(false);
 const showModal = () => {
   open.value = true;

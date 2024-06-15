@@ -64,7 +64,7 @@
                 :bordered="false"
                 :color="record.status === 'active' ? 'green' : 'volcano'"
               >
-                {{ record.status }}
+                Đang chờ duyệt
               </a-tag>
             </span>
           </template>
@@ -78,7 +78,7 @@
                   @click="showModalDetail(record.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <div>
+                  <div class="flex">
                     <UIcon
                       class="group-hover:text-[#212122]"
                       name="i-icon-park-outline-eyes"
@@ -99,25 +99,29 @@
                 <template #overlay>
                   <a-menu>
                     <a-menu-item key="2" class="p-4">
-                      <span class="flex items-center gap-2 text-blue-400">
-                        <!-- <UIcon
-                            class="group-hover:text-[green]"
-                            name="i-material-symbols-edit-outline"
-                          /> -->
+                      <button
+                        @click="showRecoverConfirm(record.id)"
+                        class="flex items-center gap-2"
+                      >
+                        <UIcon
+                          class="group-hover:text-[green]"
+                          name="i-teenyicons-tick-outline"
+                        />
                         <span>Chấp nhận</span>
-                      </span>
+                      </button>
                     </a-menu-item>
 
                     <a-menu-item key="3" class="p-4">
-                      <span>
-                        <button class="flex items-center gap-1 text-blue-400">
-                          <!-- <UIcon
-                            class="group-hover:text-[red] text-lg"
-                            name="i-material-symbols-delete-outline"
-                          /> -->
-                          <span>Từ chối</span>
-                        </button>
-                      </span>
+                      <button
+                        @click="showCancelConfirm(record.id)"
+                        class="flex items-center gap-1"
+                      >
+                        <UIcon
+                          class="group-hover:text-[red] text-lg"
+                          name="i-material-symbols-close"
+                        />
+                        <span>Từ chối</span>
+                      </button>
                     </a-menu-item>
                   </a-menu>
                 </template>
@@ -154,11 +158,14 @@ useAsyncData(async () => {
   });
 });
 
-const onDelete = async (id: string) => {
-  await postStore.deletePost(id);
-  await postStore.getAllPost({});
+const onRecover = async (id: string) => {
+  await postStore.updatePost({ id: id, post: { status: "published" } });
+  await postStore.getAllPost({
+    page: current.value,
+    status: "wating_approve",
+  });
 };
-const showDeleteConfirm = (id: string) => {
+const showRecoverConfirm = (id: string) => {
   Modal.confirm({
     title: "Are you sure delete this task?",
     content: "Some descriptions",
@@ -166,7 +173,29 @@ const showDeleteConfirm = (id: string) => {
     okType: "danger",
     cancelText: "No",
     onOk() {
-      onDelete(id);
+      onRecover(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+};
+const onCancel = async (id: string) => {
+  await postStore.updatePost({ id: id, post: { status: "approve_canceled" } });
+  await postStore.getAllPost({
+    page: current.value,
+    status: "wating_approve",
+  });
+};
+const showCancelConfirm = (id: string) => {
+  Modal.confirm({
+    title: "Are you sure delete this task?",
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      onCancel(id);
     },
     onCancel() {
       console.log("Cancel");
@@ -178,6 +207,7 @@ const columns = [
     name: "title",
     dataIndex: "name",
     key: "name",
+    width: "250px",
   },
   {
     title: "Danh mục",
@@ -194,11 +224,7 @@ const columns = [
     dataIndex: "summary",
     key: "summary",
   },
-  {
-    title: "Slug",
-    dataIndex: "slug",
-    key: "slug",
-  },
+
   {
     title: "Trạng thái",
     key: "status",
