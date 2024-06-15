@@ -4,7 +4,6 @@ import { jwtDecode } from "jwt-decode";
 export const useAuthStore = defineStore("auth-store", {
   state: () => {
     return {
-      orders: [],
       authUser: {} as any,
       isLogged: false,
     };
@@ -110,24 +109,6 @@ export const useAuthStore = defineStore("auth-store", {
           body: JSON.stringify(body),
         }
       );
-      return data;
-    },
-    async createOrder(body: any) {
-      const data: any = await useCustomFetch("/api/v1/account/order/create", {
-        method: "POST",
-        body: JSON.stringify(body),
-      });
-      return data;
-    },
-    async getAllOrder({ page, pageSize, status, search }: any) {
-      const data: any = await useCustomFetch(
-        `/api/v1/account/order/get-all?${page ? `&page=${page}` : ""}${
-          pageSize ? `&pageSize=${pageSize}` : ""
-        }${status ? `&status=${status}` : ""}${
-          search ? `$search=${search}` : ""
-        }`
-      );
-      this.orders = data.data._value?.data;
       return data;
     },
   },

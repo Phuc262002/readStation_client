@@ -45,16 +45,31 @@
                 </div>
               </div>
               <div class="text-base font-bold flex justify-center">
-                {{ cart?.price }}
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(cart?.price)
+                }}
               </div>
               <div class="text-base font-bold flex items-center pl-3">
                 {{ cart?.hire_percent }}%
               </div>
               <div class="w-1/6 text-base font-bold flex justify-center">
-                {{ cart?.price * (cart?.hire_percent / 100) }}
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(cart?.price * (cart?.hire_percent / 100))
+                }}
               </div>
               <div class="text-base font-bold flex justify-center pr-6">
-                {{ cart?.price * 0.1 }}
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(cart?.price * 0.1)
+                }}
               </div>
               <div class="text-base font-bold text-center flex justify-center">
                 {{
@@ -93,37 +108,34 @@
                   <span class="text-sm text-gray-400">Phí cọc</span>
                   <span class="text-base font-bold"
                     >{{
-                      cartStore.carts.reduce(
-                        (acc, curr) =>
-                          acc +
-                          (parseFloat(curr.price) *
-                            parseFloat(curr.hire_percent)) /
-                            100,
-                        0
-                      )
+                      new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(depositFee)
                     }}
-                    đ</span
-                  >
+                  </span>
                 </div>
                 <div class="flex justify-between items-center">
                   <span class="text-sm text-gray-400">Phí dịch vụ</span>
                   <span class="text-base font-bold">
                     {{
-                      cartStore.carts.reduce(
-                        (acc, curr) =>
-                          acc +
-                          (parseFloat(curr.price) *
-                            parseFloat(curr.hire_percent + 10.0)) /
-                            100,
-                        0
-                      )
+                      new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(serviceFee)
                     }}
-                    đ
                   </span>
                 </div>
                 <div class="flex justify-between items-center pt-4">
                   <span class="text-base font-bold">Tổng tiền</span>
-                  <span class="text-xl font-bold text-rtprimary">220.000đ</span>
+                  <span class="text-xl font-bold text-rtprimary">
+                    {{
+                      new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(totalFee)
+                    }}
+                  </span>
                 </div>
               </div>
               <div class="border-solid border border-gray-100 w-full"></div>
@@ -165,9 +177,18 @@
 <script setup>
 import { ref } from "vue";
 const cartStore = useCartStore();
-
-const deleteItem = (id) => {};
-const totalDeposit = computed(() => {
-  return cartStore.carts.reduce((acc, item) => acc + parseFloat(item.price), 0);
-});
+// phí cọc
+const depositFee = ref(
+  cartStore?.carts.reduce(
+    (acc, curr) =>
+      acc + (parseFloat(curr.price) * parseFloat(curr.hire_percent)) / 100,
+    0
+  )
+);
+// phí dịch vụ
+const serviceFee = ref(
+  cartStore.carts.reduce((acc, curr) => acc + parseFloat(curr.price) * 0.1, 0)
+);
+// Tổng tiền
+const totalFee = ref(depositFee.value + serviceFee.value);
 </script>

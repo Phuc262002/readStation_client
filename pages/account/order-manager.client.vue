@@ -42,7 +42,11 @@
         </a-button>
       </div>
       <!--  -->
-      <a-table :columns="columns" :data-source="data">
+      <a-table
+        :columns="columns"
+        :data-source="userStore?.orders?.orders"
+        :pagination="false"
+      >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
             <span> Mã đơn hàng </span>
@@ -63,55 +67,115 @@
 
           <template v-if="column.key === 'created_at'">
             <span>
-              {{ record?.created_at }}
+              {{ $dayjs(record?.created_at).format("DD/MM/YYYY") }}
+            </span>
+          </template>
+          <template v-if="column.key === 'expired_date'">
+            <span>
+              {{ $dayjs(record?.expired_date).format("DD/MM/YYYY") }}
             </span>
           </template>
 
           <template v-if="column.key === 'payment_method'">
-            <span>
+            <span class="flex justify-center">
               {{ record?.payment_method }}
             </span>
           </template>
 
           <template v-if="column.key === 'status'">
-            <span>
-              {{ record?.status }}
+            <span class="flex justify-center">
+              <a-tag v-if="record.status === 'pending'" color="blue"
+                >Đang thuê</a-tag
+              >
+              <a-tag v-else-if="record.status === 'hiring'" color="green"
+                >Hiring</a-tag
+              >
+              <a-tag v-else-if="record.status === 'completed'" color="gold"
+                >Hoàn thành</a-tag
+              >
+              <a-tag v-else-if="record.status === 'canceled'" color="red"
+                >Đã hủy</a-tag
+              >
+              <a-tag v-else-if="record.status === 'out_of_date'" color="grey"
+                >Hết hạn</a-tag
+              >
             </span>
           </template>
           <template v-if="column.key === 'extension_dates'">
-            <span>
+            <span class="flex justify-center">
               {{ record?.extension_dates }}
             </span>
           </template>
           <template v-if="column.key === 'max_extensions'">
-            <span>
+            <span class="flex justify-center">
               {{ record?.max_extensions }}
             </span>
           </template>
+          <template v-if="column.key === 'action'">
+            <div class="flex gap-2">
+              <NuxtLink to="">
+                <a-tooltip placement="top">
+                  <template #title>
+                    <span>Xem chi tiết</span>
+                  </template>
+                  <button
+                    class="bg-rtgray-50 p-2 rounded-lg flex items-center justify-center"
+                  >
+                    <UIcon
+                      class="group-hover:text-black"
+                      name="i-icon-park-outline-eyes"
+                    />
+                  </button>
+                </a-tooltip>
+              </NuxtLink>
+              <NuxtLink to="">
+                <a-tooltip placement="top">
+                  <template #title>
+                    <span>Hủy</span>
+                  </template>
+                  <button
+                    class="bg-rtgray-50 p-2 rounded-lg flex items-center justify-center"
+                  >
+                    <UIcon
+                      class="group-hover:text-black"
+                      name="i-material-symbols-close-rounded"
+                    />
+                  </button>
+                </a-tooltip>
+              </NuxtLink>
+            </div>
+          </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="userStore?.orders?.totalResults"
+          :pageSize="userStore?.orders?.pageSize"
+          show-less-items
+        />
+      </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-const authStore = useAuthStore();
+const userStore = useUserStore();
 const dataOrder = ref({});
 const current = ref(1);
 useAsyncData(
   async () => {
     try {
-      await authStore.getAllOrder({
+      await userStore.getAllOrder({
         page: current.value,
-        pageSize: 10,
       });
     } catch (error) {
       console.log(error);
     }
+  },
+  {
+    immediate: true,
+    watch: [current],
   }
-  // {
-  //   immediate: true,
-  //   watch: [page],
-  // }
 );
 const columns = [
   {

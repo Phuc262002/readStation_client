@@ -28,7 +28,7 @@
         </a>
         <a-button
           type="primary"
-          :loading="authStore.isSubmitting"
+          :loading="userStore.isSubmitting"
           html-type="submit"
           class="mt-4"
           >Lưu</a-button
@@ -38,7 +38,7 @@
   </a-modal>
 </template>
 <script setup>
-const authStore = useAuthStore();
+const userStore = useUserStore();
 const auth = ref({
   avatar: "",
 });
@@ -65,10 +65,10 @@ const uploadFile = async () => {
 
 const onSubmit = async () => {
   const url = await uploadFile();
-  await authStore.updateProfile({
+  await userStore.updateProfile({
     avatar: url,
   });
-  await authStore.getProfile({});
+  await userStore.getProfile({});
   auth.value = {
     avatar: "",
   };
