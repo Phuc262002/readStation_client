@@ -2,7 +2,7 @@
   <div>
     <h2 class="text-sm font-bold pb-5">Danh sách đơn hàng</h2>
     <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">
-      <div class="relative w-1/4 md:block hidden pb-2">
+      <div class="relative w-1/4 md:block hidden">
         <div class="flex">
           <input
             type="text"
@@ -17,24 +17,26 @@
         </div>
       </div>
       <!--  -->
-      <div class="flex gap-3 text-white pb-5">
-        <a-button class="flex items-center gap-1 h-8 bg-orange-500 !text-white">
+      <div class="flex gap-3 text-white py-5">
+        <a-button
+          class="flex items-center gap-2 h-10 bg-orange-500 !text-white"
+        >
           <img src="../../assets/images/icon-blog.svg" alt="" />
           <span>Tất cả đơn hàng</span>
         </a-button>
-        <a-button class="flex items-center gap-1 h-8">
+        <a-button class="flex items-center gap-2 h-10 border-none">
           <img src="../../assets/images/icon-shipping.svg" alt="" />
           <span>Đang giao</span>
         </a-button>
-        <a-button class="flex items-center gap-1 h-8">
+        <a-button class="flex items-center gap-2 h-10 border-none">
           <img src="../../assets/images/icon-rent.svg" alt="" />
           <span>Đang thuê</span>
         </a-button>
-        <a-button class="flex items-center gap-1 h-8">
+        <a-button class="flex items-center gap-2 h-10 border-none">
           <img src="../../assets/images/icon-return.svg" alt="" />
           <span>Đã hoàn trả</span>
         </a-button>
-        <a-button class="flex items-center gap-1 h-8">
+        <a-button class="flex items-center gap-2 h-10 border-none">
           <img src="../../assets/images/icon-cancel.svg" alt="" />
           <span>Đã hủy</span>
         </a-button>
@@ -43,10 +45,7 @@
       <a-table :columns="columns" :data-source="data">
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
-            <span>
-              <smile-outlined />
-              Name
-            </span>
+            <span> Mã đơn hàng </span>
           </template>
         </template>
 
@@ -56,33 +55,37 @@
               {{ record.name }}
             </a>
           </template>
-          <template v-else-if="column.key === 'tags'">
+          <template v-if="column.key === 'order_code'">
             <span>
-              <a-tag
-                v-for="tag in record.tags"
-                :key="tag"
-                :color="
-                  tag === 'loser'
-                    ? 'volcano'
-                    : tag.length > 5
-                    ? 'geekblue'
-                    : 'green'
-                "
-              >
-                {{ tag.toUpperCase() }}
-              </a-tag>
+              {{ record?.order_code }}
             </span>
           </template>
-          <template v-else-if="column.key === 'action'">
+
+          <template v-if="column.key === 'created_at'">
             <span>
-              <a>Invite 一 {{ record.name }}</a>
-              <a-divider type="vertical" />
-              <a>Delete</a>
-              <a-divider type="vertical" />
-              <a class="ant-dropdown-link">
-                More actions
-                <down-outlined />
-              </a>
+              {{ record?.created_at }}
+            </span>
+          </template>
+
+          <template v-if="column.key === 'payment_method'">
+            <span>
+              {{ record?.payment_method }}
+            </span>
+          </template>
+
+          <template v-if="column.key === 'status'">
+            <span>
+              {{ record?.status }}
+            </span>
+          </template>
+          <template v-if="column.key === 'extension_dates'">
+            <span>
+              {{ record?.extension_dates }}
+            </span>
+          </template>
+          <template v-if="column.key === 'max_extensions'">
+            <span>
+              {{ record?.max_extensions }}
             </span>
           </template>
         </template>
@@ -91,69 +94,64 @@
   </div>
 </template>
 <script setup lang="ts">
+const authStore = useAuthStore();
+const dataOrder = ref({});
+const current = ref(1);
+useAsyncData(
+  async () => {
+    try {
+      await authStore.getAllOrder({
+        page: current.value,
+        pageSize: 10,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  // {
+  //   immediate: true,
+  //   watch: [page],
+  // }
+);
 const columns = [
   {
     title: "Mã đơn hàng",
-    dataIndex: "name",
-    key: "name",
+    dataIndex: "order_code",
+    key: "order_code",
   },
   {
     title: "Ngày đặt",
-    dataIndex: "age",
-    key: "age",
+    dataIndex: "created_at",
+    key: "created_at",
   },
   {
     title: "Ngày nhận",
-    dataIndex: "address",
-    key: "address",
+    dataIndex: "expired_date",
+    key: "expired_date",
   },
   {
     title: "Phương thức thanh toán",
-    key: "tags",
-    dataIndex: "tags",
+    key: "payment_method",
+    dataIndex: "payment_method",
   },
   {
     title: "Trạng thái đơn",
-    dataIndex: "age",
-    key: "age",
+    dataIndex: "status",
+    key: "status",
   },
   {
     title: "Gia hạn",
-    dataIndex: "address",
-    key: "address",
+    dataIndex: "extension_dates",
+    key: "extension_dates",
   },
   {
     title: "Số lần gia hạn",
-    key: "tags",
-    dataIndex: "tags",
+    key: "max_extensions",
+    dataIndex: "max_extensions",
   },
   {
     title: "Thao tác",
     key: "action",
-  },
-];
-
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
   },
 ];
 </script>
