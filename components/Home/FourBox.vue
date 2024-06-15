@@ -10,7 +10,7 @@
 
                     <div class="">
                         <div class="flex flex-col gap-2 uppercase">
-                            <div class="font-bold text-xl">{{ feauturedSatistic?.total_books }}</div>
+                            <div class="font-bold text-xl">{{ getStatistic?.getStatisticc?.total_books }}</div>
                             <div class="text-black">Quyển sách</div>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
 
                     <div class="">
                         <div class="flex flex-col gap-2 uppercase">
-                            <div class="font-bold text-xl">{{ feauturedSatistic?.total_authors }}</div>
+                            <div class="font-bold text-xl">{{ getStatistic?.getStatisticc?.total_authors }}</div>
                             <div class="text-black">Tác giả</div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
 
                     <div class="">
                         <div class="flex flex-col gap-2 uppercase">
-                            <div class="font-bold text-xl">{{ feauturedSatistic?.total_book_orders }}</div>
+                            <div class="font-bold text-xl">{{ getStatistic?.getStatisticc?.total_book_orders }}</div>
                             <div class="text-black">Đơn hàng</div>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                     </div>
                     <div class="">
                         <div class="flex flex-col gap-2 uppercase">
-                            <div class="font-bold text-xl">{{ feauturedSatistic?.total_users }}</div>
+                            <div class="font-bold text-xl">{{ getStatistic?.getStatisticc?.total_users }}</div>
                             <div class="text-black">Khách hàng</div>
                         </div>
                     </div>
@@ -77,19 +77,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-
 const getStatistic = useHomeStore()
-const feauturedSatistic = ref({})
-const getData = async () => {
+useAsyncData(async () => {
     try {
-        const data = await getStatistic.getStatistic();
-        feauturedSatistic.value = data?.data?._rawValue?.data
+        await getStatistic.getStatistic();
     } catch (error) {
         console.error(error)
     }
-}
-useAsyncData(async () => {
-    await getData()
 })
 </script>

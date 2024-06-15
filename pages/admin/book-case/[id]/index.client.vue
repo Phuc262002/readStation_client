@@ -33,25 +33,19 @@
       <div class="flex justify-between pb-4">
         <div class="relative w-1/4 md:block hidden">
           <div class="flex">
-            <a-input
-              v-model:value="filter.search"
-              @pressEnter="handleSearch"
-              placeholder="Nhập mã kệ để tìm kiếm"
-              class="h-10"
-            >
+            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
               <template #prefix>
                 <SearchOutlined />
               </template>
             </a-input>
           </div>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
         <div class="">
-          <a-button type="primary">Thêm sách</a-button>
+          <a-button type="primary" @click="showModalAdd">Thêm Kệ</a-button>
+          <CommonSearch :openModalAdd="openModalAdd" :openModal="CloseModalAdd" />
         </div>
       </div>
 
@@ -139,6 +133,7 @@
 import { Modal } from "ant-design-vue";
 import { ref } from "vue";
 const route = useRoute();
+const openModalAdd = ref<boolean>(false);
 const detailBookCaseId = route.params.id;
 const bookCaseStore = useBookcaseStore();
 
@@ -151,6 +146,12 @@ const filter = ref({
   search: "",
 });
 const handleSearch = () => {};
+const showModalAdd = () => {
+  openModalAdd.value = true;
+};
+const CloseModalAdd = () => {
+  openModalAdd.value = false;
+};
 const columns = [
   {
     name: "Mã kệ",

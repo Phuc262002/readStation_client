@@ -17,7 +17,11 @@
             {{ bookShelves?.adminGetOneBookShelve?.book_details.length }} cuốn sách</p>
         </div>
         <div>
-          <a-button type="primary">Đổi tên kệ</a-button>
+          <a-button class="flex justify-center items-center gap-1" type="primary" @click="showModalEdit(bookShelves?.adminGetOneBookShelve?.id)">
+            <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
+            <span class="text-white text-base">Chỉnh sửa</span>
+          </a-button>
+          <BookShelvesEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit" :shelvesId="shelvesId" />
         </div>
       </div>
     </div>
@@ -72,8 +76,8 @@
           </template>
           <template v-if="column.key === 'status'">
             <span>
-              <a-tag :color="record.status === 'active' ? 'green' : 'volcano'">
-                {{ record?.status }}
+              <a-tag :color="record.status === 'active' ? 'green' : 'volcano'" style="border: none">
+                {{ record.status === 'active' ? 'hoạt động' : 'Không hoạt động' }}
               </a-tag>
             </span>
           </template>
@@ -87,20 +91,6 @@
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                   <div>
                     <UIcon class="group-hover:text-[#212122]" name="i-icon-park-outline-eyes" />
-                    <!-- 
-                    <a-modal v-model:open="open" title="Sửa" width="70%">
-                      <div class="flex justify-between gap-4">
-                        <div class="grow">
-                          <h1 class="font-bold text-xl">Bài viết số 1</h1>
-                        </div>
-                      </div>
-                      <div class="flex border border-transparent border-b-gray-300 pb-2">
-                        <div class="w-1/5">
-                          <h4 class="font-bold">Tên người viết</h4>
-                        </div>
-                        <div class="w-4/5">Huỳnh Tuấn Kiệt</div>
-                      </div>
-                    </a-modal> -->
                   </div>
                 </button>
               </a-tooltip>
@@ -123,7 +113,8 @@
 
                     <a-menu-item key="3" class="p-4">
                       <span>
-                        <button class="flex items-center gap-1 text-blue-400">
+                        <button class="flex items-center gap-1 text-blue-400"
+                          @click.prevent="showConfirm(record?.book?.id)">
                           <UIcon class="group-hover:text-[red] text-lg" name="i-material-symbols-delete-outline" />
                           <span>Xóa</span>
                         </button>
@@ -145,19 +136,43 @@
 import { ref } from "vue";
 const route = useRoute()
 const openModalAdd = ref<boolean>(false);
+const openModalEdit = ref<boolean>(false);
+const shelvesId = ref<number>();
+
 const open = ref(false);
 const showModal = () => {
   open.value = true;
-};
-const handleOk = e => {
-  console.log(e);
-  open.value = false;
 };
 const detailShelvesId = route.params.id;
 const bookShelves = useShelvesStore();
 useAsyncData(async () => {
   await bookShelves.getOneShelves(detailShelvesId);
 });
+const bookStore = useBookStore();
+const updateDetailShelves = async (id) => {
+  try {
+    const idShelves = {
+      shelve_id: null
+    }
+    await bookStore.updateBook({ id: id, value: idShelves })
+  } catch (error) {
+    console.log("🚀 ~ updateDetailShelves ~ error", error)
+  }
+}
+
+const showConfirm = (id) => {
+  Modal.confirm({
+    title: 'Bạn có chắc xóa sách này ra khỏi kệ không?',
+    onOk() {
+      updateDetailShelves(id)
+
+    },
+    onCancel() {
+      console.log('Cancel');
+    },
+
+  });
+};
 const columns = [
   {
     title: 'Ảnh bìa',
@@ -210,5 +225,12 @@ const showModalAdd = () => {
 };
 const CloseModalAdd = () => {
   openModalAdd.value = false;
+};
+const showModalEdit = (id: number) => {
+  openModalEdit.value = true;
+  shelvesId.value = id;
+};
+const CloseModalEdit = () => {
+  openModalEdit.value = false;
 };
 </script>

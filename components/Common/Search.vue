@@ -1,6 +1,5 @@
 <template>
 
-
     <a-modal v-model:open="open" @ok="handleOk" :footer="null" :onCancel="handleClose">
         <div class="p-5">
             <div class="text-base font-semibold mb-5">Thêm Sách</div>
@@ -12,20 +11,21 @@
                     </template>
                 </a-input>
                 <template #overlay>
-                    <a-menu>
+                    <a-menu class="overflow-auto max-h-[400px]">
                         <a-menu-item v-if="bookStore.isLoading">
                             <div class="p-10 flex justify-center">
                                 <a-spin />
                             </div>
                         </a-menu-item>
-                        <a-menu-item v-else v-for="(items, index) in bookStore?.adminBooks?.books" :key="index" >
-                                <div class="flex justify-start gap-5 items-center" v-if="bookStore?.adminBooks?.books"@click="showConfirm">
-                                    <div>
-                                        <img class="rounded-lg w-20 h-28" :src="items?.book_detail[0]?.poster" alt="">
-                                    </div>
-                                    <div class="text-base font-medium">{{ items?.title }}</div>
-                                    <div class="text-base font-medium">{{ items?.author?.author }}</div>
+                        <a-menu-item v-else v-for="(items, index) in bookStore?.adminBooks?.books" :key="index">
+                            <div class="flex justify-start gap-5 items-center"  v-if="bookStore?.adminBooks?.books"
+                                @click="showConfirm(items.id)">
+                                <div>
+                                    <img class="rounded-lg w-20 h-28" :src="items?.book_detail[0]?.poster" alt="">
                                 </div>
+                                <div class="text-base font-medium">{{ items?.title }}</div>
+                                <div class="text-base font-medium">{{ items?.author?.author }}</div>
+                            </div>
                         </a-menu-item>
                     </a-menu>
                 </template>
@@ -38,7 +38,9 @@
 <script setup>
 import { ref } from 'vue';
 import { Modal } from 'ant-design-vue';
+const shelvesStore = useShelvesStore();
 const handleClose = () => {
+    valueSearch.value = '';
     props.openModal();
 };
 const props = defineProps({
@@ -52,11 +54,12 @@ watch(
         open.value = newVal;
     }
 );
-const showConfirm = () => {
+const showConfirm = (id) => {
     Modal.confirm({
         title: 'Bạn có muốn thêm sách này vào kệ không?',
         onOk() {
-            updateDetailShelves();
+            updateDetailShelves(id);
+            handleClose();
         },
         onCancel() {
             console.log('Cancel');
@@ -64,19 +67,28 @@ const showConfirm = () => {
         class: 'test',
     });
 };
-const updateDetailShelves = () =>{
-    alert('Thêm thành công')
-}
+
 const valueSearch = ref('');
+const categoryId = ref(shelvesStore?.adminGetOneBookShelve?.category?.id);
 const bookStore = useBookStore();
-console.log("🚀 ~ bookStore:", bookStore?.adminBooks)
 useAsyncData(async () => {
     await bookStore.getAdminBooks({
         search: valueSearch.value,
+        category_id: categoryId.value
     });
 }, {
-    watch: [valueSearch],
+    watch: [valueSearch, categoryId],
 })
+const updateDetailShelves = async (id) => {
+    try {
+        const idShelves = {
+            shelve_id: shelvesStore?.adminGetOneBookShelve?.id,
+        }
+        await bookStore.updateBook({ id: id, value: idShelves})
+    } catch (error) {
+        console.log("🚀 ~ updateDetailShelves ~ error", error)
+    }
+}
 
 </script>
 <style scoped>
