@@ -45,16 +45,31 @@
                 </div>
               </div>
               <div class="text-base font-bold flex justify-center">
-                {{ cart?.price }}
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(cart?.price)
+                }}
               </div>
               <div class="text-base font-bold flex items-center pl-3">
                 {{ cart?.hire_percent }}%
               </div>
               <div class="w-1/6 text-base font-bold flex justify-center">
-                {{ cart?.price * (cart?.hire_percent / 100) }}
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(cart?.price * (cart?.hire_percent / 100))
+                }}
               </div>
               <div class="text-base font-bold flex justify-center pr-6">
-                {{ cart?.price * 0.1 }}
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(cart?.price * 0.1)
+                }}
               </div>
               <div class="text-base font-bold text-center flex justify-center">
                 {{
