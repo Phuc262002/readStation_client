@@ -132,8 +132,7 @@
                   <div
                     class="absolute top-0 right-0 bg-red-500 text-white w-4 h-4 rounded-full flex justify-center items-center text-xs"
                   >
-                    <!-- {{ cartStore?.carts?.length }} -->
-                    0
+                    {{ cartStore?.carts ? cartStore?.carts?.length : 0 }}
                   </div>
                 </button>
               </NuxtLink>
@@ -150,7 +149,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const authStore = useAuthStore();
-// const cartStore = useCartStore();
+const cartStore = useCartStore();
 </script>

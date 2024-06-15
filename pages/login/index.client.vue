@@ -257,9 +257,6 @@ const handleLoginSuccess = async (response: CredentialResponse) => {
     message.error({
       content: "Đăng nhập không thành công",
     });
-    message.error({
-      content: "Đăng nhập không thành công",
-    });
   } finally {
     isSubmitting.value = false;
   }

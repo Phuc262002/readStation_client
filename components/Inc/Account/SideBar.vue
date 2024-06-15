@@ -25,7 +25,7 @@
       <div class="mt-[17px] mb-[23px]">
         <h2 class="font-bold">{{ authStore?.authUser?.user?.fullname }}</h2>
         <a-tag :bordered="false" color="purple" class="font-bold">{{
-          authStore?.authUser?.user?.role?.description
+          authStore?.authUser?.user?.role?.name
         }}</a-tag>
       </div>
     </div>
