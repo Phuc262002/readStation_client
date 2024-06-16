@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 export const useUserStore = defineStore("user-store", {
   state: () => {
     return {
+      posts: [],
       orders: [],
       userAdmin: [],
       isLoading: false,
@@ -57,6 +58,17 @@ export const useUserStore = defineStore("user-store", {
         }`
       );
       this.orders = data.data._value?.data;
+      return data;
+    },
+    async getAllPost({ page, pageSize, search, status, category_id }: any) {
+      const data: any = await useCustomFetch(
+        `/api/v1/account/get-posts?${page ? `&page=${page}` : ""}${
+          pageSize ? `&pageSize=${pageSize}` : ""
+        }${search ? `&search=${search}` : ""}${
+          status ? `&status=${status}` : ""
+        }${category_id ? `&category_id=${category_id}` : ""}`
+      );
+      this.posts = data.data._value?.data;
       return data;
     },
   },
