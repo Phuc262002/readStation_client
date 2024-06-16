@@ -24,7 +24,8 @@
         </NuxtLink>
       </div>
 
-      <a-table :columns="columns" :data-source="allAdminBooks?.adminBooks?.books">
+      <a-table :columns="columns" :data-source="allAdminBooks?.adminBooks?.books" :loading="allAdminBooks.isLoading"
+        :pagination="false">
         <template #headerCell="{ column }">
           <template v-if="column.key === 'author'">
             <span> Tác giả</span>
@@ -45,92 +46,124 @@
               </span>
             </div>
           </template>
-          <template v-if="column.key === 'is_featured'">
+          <template v-if="column.key === 'category'">
             <span>
-              <span>
-                <template v-if="record.is_featured">
-                  <UIcon class="flex items-center w-5 h-5" name="i-material-symbols-check-box-outline" />
-                </template>
-                <template v-else>
-                  <UIcon class="flex items-center w-5 h-5" name="i-material-symbols-cancel-presentation-outline" />
-                </template>
-              </span>
-
+              {{ record.category?.name }}
             </span>
+          </template>
+          <template v-if="column.key === 'shelve'">
+            <span>
+              {{ record.shelve?.description }}
+            </span>
+          </template>
+
+          <template v-else-if="column.key === 'is_featured'">
+            <IconTick v-if="record.is_featured" />
+            <IconMul v-else />
           </template>
           <template v-if="column.key === 'status'">
             <span>
-              <a-tag :color="record.status === 'active' ? 'green' : 'volcano'">
-                {{ record.status }}
+              <a-tag :color="record.status === 'active' ? 'green' : 'volcano'" style="border: none">
+                {{ record.status === 'active' ? 'hoạt động' : 'Không hoạt động' }}
               </a-tag>
             </span>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top" color="gold">
-                <template #title>
-                  <span>Xem chi tiết</span>
-                </template>
-                <span class="hover:bg-[#faad14]/20 flex items-center justify-center w-6 h-6 rounded-md">
-                  <UIcon class="hover:text-[#faad14]" name="i-icon-park-outline-eyes" />
-                </span>
-              </a-tooltip>
-              <a-tooltip placement="top" color="green">
-                <template #title>
-                  <span>Sửa</span>
-                </template>
-                <span class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md">
-                  <div>
-                    <button @click="showModal">
-                      <UIcon class="hover:text-[green]" name="i-material-symbols-edit-outline" />
-                    </button>
-                    <a-modal v-model:open="open" title="Sửa sách" @ok="handleOk">
-                      <div class="">
+              <NuxtLink :to="`book/${record.id}`">
+                <a-tooltip placement="top">
+                  <template #title>
+                    <span>Xem chi tiết</span>
+                  </template>
+                  <button @click="showModal"
+                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                    <div>
+                      <UIcon class="group-hover:text-[#212122]" name="i-icon-park-outline-eyes" />
+                    </div>
+                  </button>
+                </a-tooltip>
+              </NuxtLink>
+              <a-dropdown :trigger="['click']" placement="bottom">
+                <button
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                  <UIcon class="group-hover:text-[#131313]" name="i-solar-menu-dots-bold" />
+                </button>
+                <template #overlay>
+                  <a-menu>
+                    <NuxtLink>
+                      <a-menu-item key="2" class="p-4">
+                        <span class="flex items-center gap-2 text-blue-400">
+                          <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
+                          <span>Sửa</span>
+                        </span>
+                      </a-menu-item>
+                    </NuxtLink>
 
-                      </div>
-                    </a-modal>
-                  </div>
-                </span>
-              </a-tooltip>
-              <a-tooltip placement="top" color="red">
-                <template #title>
-                  <span>Xóa</span>
+                    <a-menu-item key="3" class="p-4">
+                      <span>
+                        <button class="flex items-center gap-1 text-blue-400" @click="showDeleteConfirm(record?.id)">
+                          <UIcon class="group-hover:text-[red] text-lg" name="i-material-symbols-delete-outline" />
+                          <span>Xóa</span>
+                        </button>
+                      </span>
+                    </a-menu-item>
+                  </a-menu>
                 </template>
-                <span class="hover:bg-[red]/20 flex items-center justify-center w-6 h-6 rounded-md">
-                  <a-popconfirm title="Are you sure delete this task?" placement="right" ok-text="Yes" cancel-text="No"
-                    @confirm="confirm" @cancel="cancel">
-                    <a href="#">
-                      <UIcon class="hover:text-[red]" name="i-material-symbols-delete-outline" />
-                    </a>
-                  </a-popconfirm>
-                </span>
-              </a-tooltip>
+              </a-dropdown>
             </div>
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination v-model:current="current" :total="allAdminBooks?.adminBooks?.totalResults"
+          :pageSize="allAdminBooks?.adminBooks?.pageSize" show-less-items />
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-const isLoading = ref(false);
 import { ref } from "vue";
 const allAdminBooks = useBookStore();
+const current = ref(1);
 const getAllAdminBooks = async () => {
   try {
-    isLoading.value = true;
-    const data: any = await allAdminBooks.getAdminBooks({});
+    const data: any = await allAdminBooks.getAdminBooks({
+      page: current.value,
+    });
     return data;
   } catch (error) {
     console.error(error);
-  } finally {
-    isLoading.value = false;
   }
 
 };
 useAsyncData(async () => {
   await getAllAdminBooks();
-});
+},
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
+const onDelete = async (id: string) => {
+  await allAdminBooks.deleteBook(id);
+  getAllAdminBooks()
+};
+
+const showDeleteConfirm = (id: string) => {
+  Modal.confirm({
+    title: "Are you sure delete this task?",
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      onDelete(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+}
 
 const confirm = (e: MouseEvent) => {
   console.log(e);
@@ -156,7 +189,16 @@ const columns = [
     dataIndex: "author",
     key: "author",
   },
-
+  {
+    title: "Danh mục",
+    dataIndex: "category",
+    key: "category",
+  },
+  {
+    title: "Kệ sách",
+    dataIndex: "shelve",
+    key: "shelve",
+  },
   {
     title: "Nổi bật",
     dataIndex: "is_featured",

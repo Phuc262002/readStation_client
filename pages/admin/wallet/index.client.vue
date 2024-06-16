@@ -1,18 +1,219 @@
 <template>
-    <div>
-        <div
-            class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
-        >
-            <div class="grow">
-                <h5 class="text-xl text-[#1e293b] font-semibold">Ví</h5>
-            </div>
-            <CommonBreadcrumAdmin />
-        </div>
-  
-        <!-- Đây là phần code mẫu body -->
-        <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
-          Nội dung
-        </div>
+  <div>
+    <div
+      class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
+    >
+      <div class="grow">
+        <h5 class="text-xl text-[#1e293b] font-semibold">Ví</h5>
+      </div>
+      <CommonBreadcrumAdmin />
     </div>
-  </template>
-  
+
+    <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
+      <div class="flex justify-between pb-4">
+        <div class="relative w-1/4 md:block hidden">
+          <div class="flex">
+            <input
+              type="text"
+              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
+              placeholder="Tìm kiếm..."
+            />
+          </div>
+          <div
+            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          >
+            <UIcon class="text-gray-500" name="i-material-symbols-search" />
+          </div>
+        </div>
+        <!-- <NuxtLink to="/admin/book-case/add-bookcase" class="">
+          <a-button type="primary">Thêm bình luận</a-button>
+        </NuxtLink> -->
+      </div>
+
+      <a-table
+        :columns="columns"
+        :data-source="data"
+      >
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'user_id'">
+            <a>
+              {{ record.user_id }}
+            </a>
+          </template>
+          <template v-if="column.key === 'email'">
+            <a>
+              {{ record.email }}
+            </a>
+          </template>
+          <template v-if="column.key === 'phone'">
+            <a>
+              {{ record.phone }}
+            </a>
+          </template>
+          <template v-if="column.key === 'wallet'">
+            <a>
+              {{ record.wallet }}
+            </a>
+          </template>
+          <template v-else-if="column.key === 'role'">
+            <span>
+              <a-tag
+                :bordered="false"
+                :color="record.role === 'active' ? 'green' : 'volcano'"
+              >
+                {{ record.role }}
+              </a-tag>
+            </span>
+          </template>
+          <template v-else-if="column.key === 'status'">
+            <span>
+              <a-tag
+                :bordered="false"
+                :color="record.status === 'active' ? 'green' : 'volcano'"
+              >
+                {{ record.status }}
+              </a-tag>
+            </span>
+          </template>
+          <template v-else-if="column.key === 'action'">
+            <div class="flex text-[16px] gap-4">
+              <a-tooltip placement="top" color="gold">
+                <template #title>
+                  <span>Xem chi tiết</span>
+                </template>
+                <span
+                  class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md"
+                  ><UIcon
+                    class="group-hover:text-[#faad14]"
+                    name="i-icon-park-outline-eyes"
+                /></span>
+              </a-tooltip>
+              <!-- <a-tooltip placement="top" color="green">
+                <template #title>
+                  <span>Sửa</span>
+                </template>
+                <span
+                  class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md"
+                >
+                  <div>
+                    <button @click="showModal">
+                      <UIcon
+                        class="hover:text-[green]"
+                        name="i-material-symbols-edit-outline"
+                      />
+                    </button>
+                    <a-modal v-model:open="open" title="Sửa" >
+                      <div class="">
+                        <div class="bg-white py-2">
+                          <div class="pb-4">
+                            <label
+                              for="email"
+                              class="block text-sm font-medium text-gray-700"
+                            >
+                              Tên danh mục
+                            </label>
+                            <div class="mt-1">
+                              <a-input
+                                class="w-[450px] h-[45px]"
+                                placeholder="Nhập tên danh mục"
+                              />
+                            </div>
+                          </div>
+
+                          <div>
+                            <label
+                              for="email"
+                              class="block text-sm font-medium text-gray-700"
+                            >
+                              Nội dụng
+                            </label>
+                            <div class="mt-1">
+                              <a-input
+                                class="w-[450px] h-[45px]"
+                                placeholder="Nhập nội dung"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a-modal>
+                  </div>
+                </span>
+              </a-tooltip> -->
+              <a-tooltip placement="top" color="red">
+                <template #title>
+                  <span>Xóa</span>
+                </template>
+                <button
+         
+                  class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
+                >
+                  <UIcon
+                    class="group-hover:text-[red]"
+                    name="i-material-symbols-delete-outline"
+                  />
+                </button>
+              </a-tooltip>
+            </div>
+          </template>
+        </template>
+      </a-table>
+    </div>
+  </div>
+</template>
+<script lang="ts" setup>
+import { Modal } from "ant-design-vue";
+
+
+
+
+
+const columns = [
+  {
+    title: "Họ tên người dùng",
+    dataIndex: "user_id",
+    key: "user_id",
+  },
+  {
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
+  },
+  {
+    title: "Số điện thoại",
+    dataIndex: "phone",
+    key: "phone",
+  },
+  {
+    title: "Ví tài khoản",
+    dataIndex: "wallet",
+    key: "wallet",
+  },
+  {
+    title: "Vai trò",
+    dataIndex: "role",
+    key: "role",
+  },
+  {
+    title: "Trạng thái",
+    key: "status",
+    dataIndex: "status",
+  },
+  {
+    title: "Action",
+    key: "action",
+  },
+];
+const data = [
+  {
+    user_id: "1",
+    Email: " kietngu@adsa",
+    phone: "0123456789",
+    wallet: "100000",
+    role: "admin",
+    status: "active",
+  },
+];
+
+
+</script>

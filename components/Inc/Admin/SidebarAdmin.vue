@@ -19,7 +19,7 @@
       class="!border-0 dark:!bg-[#6c819b] dark:!text-white overflow-auto h-5/6"
       :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
     >
-      <a-menu-item key="1" @click="navigateTo('/admin/dashboards')">
+      <a-menu-item key="1" @click="navigateTo('/admin')">
         <UIcon
           name="i-streamline-dashboard-3"
           :class="props.collapsed && 'anticon anticon-desktop'"
@@ -254,6 +254,19 @@
           "
           >Thùng rác</a-menu-item
         >
+      </a-sub-menu>
+      <a-sub-menu key="sub13">
+        <template #title>
+          <span class="flex items-center gap-2">
+            <UIcon
+              name="i-ant-design-user-outlined"
+              :class="props.collapsed && 'anticon anticon-desktop'"
+            />
+            <span>Quản lý nhà cung cấp</span>
+          </span>
+        </template>
+        <a-menu-item key="37" @click="navigateTo('/admin/supplier')">Tất cả nhà cung cấp</a-menu-item>
+        <a-menu-item key="38">Thùng rác</a-menu-item>
       </a-sub-menu>
       <a-sub-menu key="sub11">
         <template #title>

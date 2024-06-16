@@ -1,0 +1,143 @@
+<template>
+    <div>
+        <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+            <div class="flex flex-col gap-5 w-full">
+                <div class="bg-[white] rounded-lg h-20 w-full">
+                    <div class="flex justify-between p-3">
+                        <div class="flex justify-start gap-5">
+                            <div>
+                                <button class="w-14 h-14 rounded-full bg-orange-200">
+                                    <UIcon class="text-3xl text-orange-400 items-center"
+                                        name="i-material-symbols-book-4" />
+                                </button>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-gray-500">Sách {{bookStore?.OneBookAdmin?.category?.name }}</span>
+                                <span class="text-lg font-bold">{{ bookStore?.OneBookAdmin?.title }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-[white] rounded-lg h-auto w-full">
+                    <div class="flex flex-col gap-3 p-5">
+                        <div class="flex justify-between">
+                            <div class="flex justify-start gap-3 items-center">
+                                <span class="text-base font-bold">Thông tin chung</span>
+                                <UIcon class="text-lg text-gray-500"
+                                    name="i-material-symbols-draft-orders-outline-rounded" />
+                            </div>
+                            <div>
+                                <a-button class="flex justify-center gap-2" type="primary">
+                                    <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
+                                    <span class="text-white">Chỉnh sửa</span>
+                                </a-button>
+                            </div>
+                        </div>
+                        <div class="border border-gray-100"></div>
+                        <div class="flex h-auto">
+                            <div class="w-1/3">
+                                <div class="flex gap-10">
+                                    <div class="grid grid-rows-5 gap-4">
+                                        <span class="font-bold text-base">Tên sách: </span>
+                                        <span class="font-bold text-base">Tác giả: </span>
+                                        <span class="font-bold text-base">Danh mục: </span>
+                                        <span class="font-bold text-base">Tủ sách: </span>
+                                        <span class="font-bold text-base">Kệ sách: </span>
+                                    </div>
+                                    <div class="grid grid-rows-5 gap-4">
+                                        <span class="text-base">{{ bookStore?.OneBookAdmin?.title}}</span>
+                                        <span class="text-base">{{ bookStore?.OneBookAdmin?.author?.author }}</span>
+                                        <span class="text-base">{{bookStore?.OneBookAdmin?.category?.name}}</span>
+                                        <span class="text-base">{{bookStore?.OneBookAdmin?.shelve?.bookcase?.name}}</span>
+                                        <span class="text-base">{{bookStore?.OneBookAdmin?.shelve?.name}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border border-gray-200"></div>
+                            <div class="w-2/3 pl-8">
+                                <div class="flex flex-col gap-4">
+                                    <div class="flex justify-start gap-10">
+                                        <span class="text-base font-bold">Mô tả:</span>
+                                        <span class="text-base">{{bookStore?.OneBookAdmin?.description_summary }}</span>
+                                    </div>
+                                    <div class="flex justify-start gap-10">
+                                        <span class="text-base font-bold">Mô tả chi tiết:</span>
+                                        <span class="text-base" v-html="bookStore?.OneBookAdmin?.description"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <!-- Phiên bản 2024 -->
+                    <div>
+                        <div class="bg-[white] rounded-lg h-auto flex flex-col gap-3 p-5" v-for="(items,index) in bookStore?.OneBookAdmin?.book_detail" :key="index">
+                            <div class="flex justify-between">
+                                <h1 class="text-base font-bold">Phiên bản {{ items.book_version }} </h1>
+                                <a-button class="flex justify-center items-center gap-1 bg-[#344054]" type="primary">
+                                    <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
+                                    <span class="text-white text-base">Chỉnh sửa</span>
+                                </a-button>
+                            </div>
+                            <div class="border border-gray-200"></div>
+                            <div class="flex justify-start gap-5">
+                                <div class="py-10 px-5">
+                                    <div class="flex justify-center items-center gap-4">
+                                        <img class="w-28 h-44"
+                                            :src="items.poster" alt="">
+                                        <div class="flex-flex-col items-start">
+                                            <div class="p-2" v-for="(image,index) in items?.images" :key="index">
+                                                <img class="w-12 h-20"
+                                                    :src="image"
+                                                    alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="border border-r-1 border-gray-200"></div>
+                                <div class="grid grid-row-2">
+                                    <div class="flex gap-10">
+                                        <div class="grid grid-rows-10 gap-3">
+                                            <span class="font-bold text-base">Số lượng: </span>
+                                            <span class="font-bold text-base">Giá: </span>
+                                            <span class="font-bold text-base">Tiền cọc: </span>
+                                            <span class="font-bold text-base">Loại bìa: </span>
+                                            <span class="font-bold text-base">Số trang: </span>
+                                            <span class="font-bold text-base">Kích thước: </span>
+                                            <span class="font-bold text-base">Ngôn ngữ: </span>
+                                            <span class="font-bold text-base">Người dịch: </span>
+                                            <span class="font-bold text-base">Ngày phát hành: </span>
+                                            <span class="font-bold text-base">Công ty phát hành:</span>
+                                        </div>
+                                        <div class="grid grid-rows-9 gap-3">
+                                            <span class="text-base">{{items?.stock}}</span>
+                                            <span class="text-base">{{items?.price}}</span>
+                                            <span class="text-base">20%</span>
+                                            <span class="text-base">{{items?.cardboard}}</span>
+                                            <span class="text-base">{{items?.total_page}}</span>
+                                            <span class="text-base">{{items?.book_size }} cm</span>
+                                            <span class="text-base">{{ items?.language }}</span>
+                                            <span class="text-base">{{ items?.translator }}</span>
+                                            <span class="text-base">{{items?.publish_date }}</span>
+                                            <span class="text-base">{{ items?.publishing_company?.name }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script setup>
+const route = useRoute()
+const bookID = route.params.id
+const bookStore = useBookStore(); 
+useAsyncData(async () => {
+    await bookStore.getOneBookAdmin(bookID);
+});
+</script>

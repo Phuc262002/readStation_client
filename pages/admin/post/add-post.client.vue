@@ -13,7 +13,27 @@
       <form :model="posts" @submit.prevent="onSubmit">
         <div class="flex flex-col gap-2 w-full pb-4">
           <label class="text-sm font-semibold" for="">Thêm hình ảnh</label>
-          <CommonUploadImg :value="file" @input="(event) => (file = event)" />
+          <ClientOnly>
+              <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
+                <a-upload-dragger
+                  v-model:fileList="fileList"
+                  list-type="picture"
+                  name="image"
+                  :multiple="false"
+                  :action="(file) => uploadFile(file)"
+                  @change="handleChange"
+                  @drop="handleDrop"
+                  :before-upload="beforeUpload"
+                  :remove="(file) => deleteFile(file)"
+                >
+                  <p class="ant-upload-drag-icon">
+                    <inbox-outlined></inbox-outlined>
+                  </p>
+                  <p class="ant-upload-text">Click hoặc kéo thả file vào đây</p>
+                  <p class="ant-upload-hint">Hoặc nhấn vào đây để chọn file</p>
+                </a-upload-dragger>
+              </a-spin>
+            </ClientOnly>
         </div>
         <div class="flex flex-col gap-2 w-full pb-4">
           <label class="text-sm font-semibold" for="">Tên bài viết</label>
@@ -38,7 +58,7 @@
               :filter-option="filterOption"
               @focus="handleFocus"
               @blur="handleBlur"
-              @change="handleChange"
+              @change="handleChangeSelect"
             ></a-select>
           </div>
         </div>
@@ -71,14 +91,49 @@
 <script setup>
 const categoryStore = useCategoryStore();
 const postStore = usePostStore();
+const baseStore = useBaseStore();
+const fileList = ref([]);
+const imageInfo = ref("");
 const options = ref([]);
-const upLoadFile = async () => {
-  // if (!file._rawValue.target.files[0]) return;
-  // const formData = new FormData();
-  // formData.append("image", file._rawValue.target.files[0]);
-  // const dataUpload = await baseStore.uploadImg(formData);
-  // return dataUpload.data._rawValue.data.link;
-  return "https://d1hjkbq40fs2x4.cloudfront.net/2016-01-31/files/1045-2.jpg";
+const uploadFile = async (file) => {
+  if (fileList.value.length > 0) {
+    fileList.value = [];
+    await baseStore.deleteImg(imageInfo.value?.publicId);
+  }
+  const formData = new FormData();
+  formData.append("image", file);
+  try {
+    const dataUpload = await baseStore.uploadImg(formData);
+    imageInfo.value = dataUpload.data._rawValue.data;
+  } catch (error) {
+    message.error("Upload ảnh thất bại");
+    
+  }
+};
+const handleChange = (info) => {
+  const status = info.file.status;
+  if (status !== "uploading") {
+    console.log(info.file, info.fileList);
+  }
+  if (status === "done") {
+    message.success(`${info.file.name} file uploaded successfully.`);
+  } else if (status === "error") {
+    message.error(`${info.file.name} file upload failed.`);
+  }
+};
+const deleteFile = async (file) => {
+  await baseStore.deleteImg(imageInfo.value?.publicId);
+};
+
+function handleDrop(e) {
+  console.log(e);
+}
+const beforeUpload = (file) => {
+  const isImage = file.type.startsWith("image/");
+  if (!isImage) {
+    message.error("Bạn chỉ có thể tải lên file ảnh!");
+  }
+  return isImage || Upload.LIST_IGNORE;
 };
 const posts = ref({
   title: "",
@@ -101,9 +156,8 @@ useAsyncData(async () => {
 
 const onSubmit = async () => {
   try {
-    const url = await upLoadFile();
     await postStore.createPost({
-      image: url,
+      image: imageInfo.value?.url,
       title: posts.value.title,
       content: posts.value.content,
       summary: posts.value.summary,
@@ -116,7 +170,7 @@ const onSubmit = async () => {
   }
 };
 
-const handleChange = (value) => {
+const handleChangeSelect = (value) => {
   console.log(`selected ${value}`);
 };
 const handleBlur = () => {

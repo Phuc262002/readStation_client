@@ -5,12 +5,21 @@ export const usePublishingCompanyStore = defineStore(
   {
     state: () => {
       return {
+        publishingCompany: [],
         publishingCompaniesAdmin: [],
         isSubmitting: false,
         isLoading: false,
       };
     },
     actions: {
+      // client
+      async getAllPublishingCompanyClient() {
+        const data: any = await useCustomFetch("/api/v1/publishing-companies");
+        this.publishingCompany = data.data._value?.data;
+        return data;
+      },
+
+      // admin
       async getAllPublishingCompany({ page, pageSize, search, status }: any) {
         this.isLoading = true;
         const data: any = await useCustomFetch(
@@ -24,16 +33,15 @@ export const usePublishingCompanyStore = defineStore(
         this.isLoading = false;
         return data;
       },
-      async getOnePublishingCompany(id : number) {
+      async getOnePublishingCompany(id: number) {
         this.isLoading = true;
         const data: any = await useCustomFetch(
           `/api/v1/publishing-companies/get-one/${id}`
         );
         this.isLoading = false;
         return data;
-
       },
-      
+
       async createPublishingCompany(publishingCompany: any) {
         this.isSubmitting = true;
         const data: any = await useCustomFetch(
@@ -55,8 +63,9 @@ export const usePublishingCompanyStore = defineStore(
         );
         return data;
       },
-    
-      async updatePublishingCompany({id, publishingCompany}: any) {
+
+      async updatePublishingCompany({ id, publishingCompany }: any) {
+        this.isSubmitting = true;
         const data: any = await useCustomFetch(
           `/api/v1/publishing-companies/update/${id}`,
           {
@@ -64,6 +73,7 @@ export const usePublishingCompanyStore = defineStore(
             body: JSON.stringify(publishingCompany),
           }
         );
+        this.isSubmitting = false;
         return data;
       },
     },

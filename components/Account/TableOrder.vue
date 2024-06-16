@@ -4,7 +4,7 @@
     :data-source="data"
     :pagination="pagination"
     bordered
-    :scroll="{ x: 1200, y: 300 }"
+    :scroll="{ x: 1063, y: 300 }"
   >
     <!-- <a-table :columns="columns" :data-source="data" :pagination="pagination" bordered > -->
     <template #headerCell="{ column }">
@@ -68,43 +68,32 @@
       </template>
       <template v-else-if="column.key === 'action'">
         <span class="flex space-x-2">
-          <a
-            ><svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-4 h-4"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M6 18 18 6M6 6l12 12"
-              />
-            </svg>
-          </a>
-          <a
-            ><svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-4 h-4"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-              />
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-              />
-            </svg>
-          </a>
+          
+          <a-tooltip placement="top" color="gold">
+            <template #title>
+              <span>Xem chi tiết</span>
+            </template>
+            <button
+              class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+              ><UIcon
+                class="group-hover:text-[#faad14]"
+                name="i-icon-park-outline-eyes"
+            /></button>
+          </a-tooltip>
+          <a-tooltip placement="top" color="gold">
+            <template #title>
+              <span>Xem chi tiết</span>
+            </template>
+            <button
+              class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+              ><UIcon
+                class="group-hover:text-[#faad14]"
+                
+            />
+            <DashOutlined />
+          </button>
+          </a-tooltip>
+          
         </span>
       </template>
     </template>
@@ -147,7 +136,7 @@ const columns = [
     title: "Gia hạn",
     key: "extension_dates",
     dataIndex: "extension_dates",
-    width: 120,
+    width: 130,
   },
   {
     title: "Số lần gia hạn",
@@ -156,16 +145,10 @@ const columns = [
     width: 130,
   },
   {
-    title: "Tổng tiền",
-    key: "total_fee",
-    dataIndex: "total_fee",
-    width: 100,
-  },
-  {
-    title: "Action",
+    title: "Thao tác",
     key: "action",
     fixed: "right",
-    width: 120,
+    width: 100,
   },
 ];
 
@@ -173,12 +156,12 @@ const data = [
   {
     key: "1",
     order_code: "2683242197997",
-    created_at: "20/5/2024",
+    created_at: "20/05/2024",
     receipt_date: "22/5/2024",
     payment_method: "Thanh Toán Ví ",
-    current_extensions: "123",
+    current_extensions: "1/3",
     total_fee: "200k",
-    extension_dates: "thêm 3 ngày",
+    extension_dates: "Lần 1 (3 ngày)",
     status: ["Hoàn thành"],
   },
 ];

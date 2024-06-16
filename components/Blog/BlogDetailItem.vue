@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <NuxtLink :to="`/post`">
+    <NuxtLink :to="`/post/${props.post?.slug}`">
       <div class="p-4 border border-gray-100 rounded-lg bg-white shadow-md">
         <div class="flex justify-center items-center mb-4">
           <img class="rounded-md w-[100%] h-[180px] object-cover"  :src="props.post?.image" alt="" />

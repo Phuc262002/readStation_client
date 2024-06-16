@@ -11,9 +11,11 @@
       <div class="flex justify-between pb-4">
         <div class="relative w-1/4 md:block hidden">
           <div class="flex">
-            <input type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..." />
+            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
+              <template #prefix>
+                <SearchOutlined />
+              </template>
+            </a-input>
           </div>
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
@@ -27,7 +29,8 @@
 
       </div>
 
-      <a-table :columns="columns" :data-source="AuthorStore?.AuthorAdmin?.authors">
+      <a-table :columns="columns" :data-source="AuthorStore?.AuthorAdmin?.authors" :loading="AuthorStore.isLoading"
+        :pagination="false">
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
             <span> Mã tác giả </span>
@@ -48,128 +51,93 @@
               </span>
             </div>
           </template>
+          <template v-if="column.key === 'dob'">
+            <span>
+              {{ $dayjs(record.dob).format("DD/MM/YYYY") }}
+            </span>
+           </template> 
           <template v-if="column.key === 'status'">
             <span>
-              <a-tag :color="record.status === 'active' ? 'green' : 'volcano'">
-                {{ record.status }}
+              <a-tag :color="record.status === 'active' ? 'green' : 'volcano'" style="border: none">
+                {{ record.status === 'active' ? 'hoạt động' : 'Không hoạt động' }}
               </a-tag>
             </span>
           </template>
-          <template v-if="column.key === 'is_featured'">
-            <span>
-              <a-tag :color="record.is_featured ? 'green' : 'gray'">
-                <span>
-                  <template v-if="record.is_featured">
-                    <UIcon class="flex items-center w-5 h-5" name="i-material-symbols-check-box-outline" />
-                  </template>
-                  <template v-else>
-                    <UIcon class="flex items-center w-5 h-5" name="i-material-symbols-cancel-presentation-outline" />
-                  </template>
-                </span>
-              </a-tag>
-            </span>
+          <template v-else-if="column.key === 'is_featured'">
+            <IconTick v-if="record.is_featured" />
+            <IconMul v-else />
           </template>
+
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <!-- Xem chi tiết -->
-              <a-tooltip placement="top" color="gold">
+              <a-tooltip placement="top">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
                 <button
-                  class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
-                  <UIcon class="group-hover:text-[#faad14]" name="i-icon-park-outline-eyes" />
-                </button>
-                <!-- <a-modal v-model:open="openModalDetail" title="Xem chi tiết" style="width: 70%;">
-
-                  <div class="bg-white py-2">
-                    <div class="grid grid-cols-2 gap-4 pb-4">
-                      <div class="flex flex-col gap-2 w-[100%]">
-                        <label class="text-sm font-semibold" for="">Tên tác giả</label>
-                        <a-input placeholder="Tên tác giả" class="border p-2 rounded-md"
-                          v-model:value="ValueAuthor.author" />
-                      </div>
-                      <div class="flex flex-col gap-2 w-[100%]">
-                        <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
-                        <a-input placeholder="Ngày, tháng, năm sinh" class="border p-2 rounded-md" type="date"
-                          v-model:value="ValueAuthor.dob" />
-                      </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 pb-4">
-                      <div class="flex flex-col gap-2 w-[100%]">
-                        <label class="text-sm font-semibold" for="">Trạng thái</label>
-                        <a-select size="large" v-model:value="ValueAuthor.statusValue" show-search
-                          placeholder="Trạng thái" :options="optionsStatus"></a-select>
-                      </div>
-                    </div>
-                    <div class="flex flex-col gap-2 f-full pb-4">
-                      <label class="text-sm font-semibold" for="">Nội dung</label>
-                      <CommonCKEditor v-model:value="ValueAuthor.description" />
-                    </div>
-                    <div class="mt-1">
-                      <CommonUploadImg :value="file" @input="(event) => (file = event)" />
-                    </div>
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                  <div>
+                    <UIcon class="group-hover:text-[#212122]" name="i-icon-park-outline-eyes" />
                   </div>
-                </a-modal> -->
+                </button>
               </a-tooltip>
-              <!-- Sửa tác giả -->
-              <NuxtLink :to="`author/edit/${record.id}`"> <a-tooltip placement="top" color="green">
-                  <template #title>
-                    <span>Sửa</span>
-                  </template>
-                  <span
-                    class="group hover:bg-[green]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md">
-                    <div>
-                      <button class="flex items-center" @click="showModalEdit">
-                        <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
-                      </button>
-                    </div>
-                  </span>
-                </a-tooltip></NuxtLink>
 
-              <!-- Xóa tác giả -->
-              <a-tooltip placement="top" color="red">
-                <template #title>
-                  <span>Xóa</span>
+              <a-dropdown :trigger="['click']" placement="bottom">
+                <button
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                  <UIcon class="group-hover:text-[#131313]" name="i-solar-menu-dots-bold" />
+                </button>
+                <template #overlay>
+                  <a-menu>
+                    <NuxtLink :to="`author/edit/${record.id}`">
+                      <a-menu-item key="2" class="p-4">
+                        <span class="flex items-center gap-2 text-blue-400">
+                          <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
+                          <span>Sửa</span>
+                        </span>
+                      </a-menu-item>
+                    </NuxtLink>
+
+                    <a-menu-item key="3" class="p-4">
+                      <span>
+                        <button class="flex items-center gap-1 text-blue-400" @click="showDeleteConfirm(record?.id)">
+                          <UIcon class="group-hover:text-[red] text-lg" name="i-material-symbols-delete-outline" />
+                          <span>Xóa</span>
+                        </button>
+                      </span>
+                    </a-menu-item>
+                  </a-menu>
                 </template>
-                <span
-                  class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
-                >
-                  <button
-                    @click="showDeleteConfirm(record?.id)"
-                    class="flex items-center"
-                  >
-                    <UIcon
-                      class="group-hover:text-[red]"
-                      name="i-material-symbols-delete-outline"
-                    />
-                  </button>
-                </span>
-              </a-tooltip>
+              </a-dropdown>
             </div>
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination v-model:current="current" :total="AuthorStore?.AuthorAdmin?.totalResults"
+          :pageSize="AuthorStore?.AuthorAdmin?.pageSize" show-less-items />
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
 const AuthorStore = useAuthorStore();
-const isLoading = ref(false);
-
+const current = ref(1);
 const getDataAuthor = async () => {
   try {
-    isLoading.value = true;
-    await AuthorStore.getAllAuthor({});
+    await AuthorStore.getAllAuthor({
+      page: current.value,
+    });
   } catch (error) {
     console.error(error);
-  } finally {
-    isLoading.value = false;
   }
 };
 useAsyncData(async () => {
   await getDataAuthor();
+}, {
+  immediate: true,
+  watch: [current],
 });
 
 const onDelete = async (id: string) => {

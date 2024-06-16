@@ -24,10 +24,12 @@
           </div>
         </div>
         <div class="">
-          <a-button class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary " @click="showModalAdd"
+          <a-button
+            class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary"
+            @click="showModalAdd"
             >Thêm danh mục bài viết</a-button
           >
-         
+
           <CategoryPostAdd
             :openModalAdd="openModalAdd"
             :openModal="CloseModalAdd"
@@ -44,27 +46,35 @@
         :columns="columns"
         :data-source="categoryStore.categoriesAdmin?.categories"
         :loading="categoryStore.isLoading"
+        :pagination="false"
       >
-        <template #headerCell="{ column }">
-          <template v-if="column.key === 'name'">
-            <span> Name </span>
-          </template>
-        </template>
+        
 
-        <template #bodyCell="{ column, record, index }">
-          <template v-if="column.key === '#'">
-            <a>
-              {{ index + 1 }}
-            </a>
-          </template>
+        <template #bodyCell="{ column, record }">
+          
           <template v-if="column.key === 'name'">
             <a>
               {{ record.name }}
             </a>
           </template>
+          <template v-if="column.key === 'category'">
+            <a>
+              {{ record.name }}
+            </a>
+          </template>
+          <template v-else-if="column.key === 'image'">
+            <a-image class="rounded-md" :width="100" :src="record.image" />
+          </template>
+          <template v-else-if="column.key === 'is_featured'">
+            <IconTick v-if="record.is_featured" />
+            <IconMul v-else />
+          </template>
           <template v-else-if="column.key === 'status'">
             <span>
-              <a-tag :bordered="false" :color="record.status === 'active' ? 'green' : 'volcano'">
+              <a-tag
+                :bordered="false"
+                :color="record.status === 'active' ? 'green' : 'volcano'"
+              >
                 {{ record.status }}
               </a-tag>
             </span>
@@ -82,44 +92,42 @@
                 <template #title>
                   <span>Sửa</span>
                 </template>
-                <span
-                  class="group hover:bg-[green]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                <button
+                  @click="showModalEdit(record?.id)"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <div>
-                    <button
-                      @click="showModalEdit(record?.id)"
-                      class="flex items-center"
-                    >
-                      <UIcon
-                        class="group-hover:text-[green]"
-                        name="i-material-symbols-edit-outline"
-                      />
-                    </button>
-                  </div>
-                </span>
+                  <UIcon
+                    class="group-hover:text-[#212122]"
+                    name="i-material-symbols-edit-outline"
+                  />
+                </button>
               </a-tooltip>
               <a-tooltip placement="top" color="red">
                 <template #title>
                   <span>Xóa</span>
                 </template>
-                <span
-                  class="group hover:bg-[red]/20 flex items-center justify-center w-8 h-8 rounded-md"
+                <button
+                  @click="showDeleteConfirm(record?.id)"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <button
-                    @click="showDeleteConfirm(record?.id)"
-                    class="flex items-center"
-                  >
-                    <UIcon
-                      class="group-hover:text-[red]"
-                      name="i-material-symbols-delete-outline"
-                    />
-                  </button>
-                </span>
+                  <UIcon
+                    class="group-hover:text-[#212122]"
+                    name="i-material-symbols-delete-outline"
+                  />
+                </button>
               </a-tooltip>
             </div>
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="categoryStore.categoriesAdmin?.totalResults"
+          :pageSize="categoryStore.categoriesAdmin?.pageSize"
+          show-less-items
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -130,11 +138,19 @@ const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const categoryId = ref<number>();
 const categoryStore = useCategoryStore();
-useAsyncData(async () => {
-  await categoryStore.getAllCategory({
-    type: "post",
-  });
-});
+const current = ref(1);
+useAsyncData(
+  async () => {
+    await categoryStore.getAllCategory({
+      page: current.value,
+      type: "post",
+    });
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
 
 const onDelete = async (id: string) => {
   await categoryStore.deleteCategory(id);
@@ -161,25 +177,27 @@ const showDeleteConfirm = (id: string) => {
 
 const columns = [
   {
-    title: "#",
-    dataIndex: "#",
-    key: "#",
+    title: "Hình ảnh",
+    dataIndex: "image",
+    key: "image",
   },
   {
-    title: "Tên",
-    dataIndex: "name",
-    key: "name",
+    title: "Tên danh mục",
+    dataIndex: "category",
+    key: "category",
   },
   {
     title: "Nội dung",
     dataIndex: "description",
     key: "description",
   },
+
   {
-    title: "Slug",
-    dataIndex: "slug",
-    key: "slug",
+    title: "Nổi bật",
+    dataIndex: "is_featured",
+    key: "is_featured",
   },
+ 
   {
     title: "Trạng thái",
     key: "status",
@@ -205,5 +223,4 @@ const showModalEdit = (id: number) => {
   openModalEdit.value = true;
   categoryId.value = id;
 };
-
 </script>

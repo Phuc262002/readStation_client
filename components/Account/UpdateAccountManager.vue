@@ -189,17 +189,21 @@
             <span v-else>{{ data?.address_detail }}</span>
           </div>
         </div>
-        <div class="w-full flex items-center justify-center pt-5" v-if="isShow">
-          <a-button
-            html-type="submit"
-            class="mr-6 !text-white bg-rtprimary h-10 border-none hover:bg-rtsecondary"
-            >Lưu thay đổi</a-button
-          >
+        <div
+          class="w-full flex items-center justify-end gap-4 pt-5"
+          v-if="isShow"
+        >
           <a-button
             type="primary"
-            class="bg-[#D9D9D9] text-black h-10 hover:!bg-rtprimary"
+            class="bg-white border border-rtgray-50 !text-black h-10 hover:!bg-rtgray-50"
             @click="handleCancel"
             >Hủy</a-button
+          >
+
+          <a-button
+            html-type="submit"
+            class="!text-white bg-rtprimary h-10 border-none hover:bg-rtsecondary"
+            >Lưu thay đổi</a-button
           >
         </div>
       </div>
@@ -238,16 +242,14 @@ const isShow = ref(false);
 //Create the form
 const { defineInputBinds, handleSubmit, errors, setFieldValue } = useForm({
   validationSchema: {
-    // email: yup
-    //   .string()
-    //   .required("Trường này không được để trống")
-    //   .email("Email không hợp lệ"),
-    // fullname: yup.string().required("Trường này không được để trống"),
-    // gender: yup.string().required("Trường này không được để trống"),
-    // phone: yup.string().required("Trường này không được để trống"),
-    // province: yup.string().required("Trường này không được để trống"),
-    // district: yup.string().required("Trường này không được để trống"),
-    // address_detail: yup.string().required("Trường này không được để trống"),
+    fullname: yup.string().required("Trường này không được để trống"),
+    gender: yup.string().required("Trường này không được để trống"),
+    phone: yup.string().required("Trường này không được để trống"),
+    province: yup.string().required("Trường này không được để trống"),
+    district: yup.string().required("Trường này không được để trống"),
+    address_detail: yup.string().required("Trường này không được để trống"),
+    dob: yup.string().required("Trường này không được để trống"),
+    job: yup.string().required("Trường này không được để trống"),
   },
 });
 // Define fields

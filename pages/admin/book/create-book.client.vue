@@ -20,7 +20,7 @@
                                 <div class="grid grid-cols-3 gap-10">
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Tác giả</label>
-                                        <a-select v-model:value="valuecreateBook.author_id" show-search
+                                        <a-select v-model:value="valuecreateBook.author_id" show-search size="large"
                                             placeholder="Mã tác giả" :options="optionsAuthor"
                                             :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
                                             @change="handleChange"></a-select>
@@ -28,22 +28,22 @@
                                     <div>
                                         <div class="flex flex-col gap-2">
                                             <label class="text-sm font-semibold" for="">Tên sách</label>
-                                            <a-input type="text" class="border p-2 rounded-md" placeholder="Tên sách"
-                                                v-model:value="valuecreateBook.title" />
+                                            <a-input type="text" class="border p-2 rounded-md h-10"
+                                                placeholder="Tên sách" v-model:value="valuecreateBook.title" />
                                         </div>
                                     </div>
                                     <div>
                                         <div class="flex flex-col gap-2">
                                             <label class="text-sm font-semibold" for="">Tên góc</label>
-                                            <a-input type="text" class="border p-2 rounded-md" placeholder="Tên góc"
-                                                v-model:value="valuecreateBook.original_title" />
+                                            <a-input type="text" class="border p-2 rounded-md h-10"
+                                                placeholder="Tên góc" v-model:value="valuecreateBook.original_title" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-3 gap-10">
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Danh mục</label>
-                                        <a-select v-model:value="valuecreateBook.category_id" show-search
+                                        <a-select v-model:value="valuecreateBook.category_id" show-search size="large"
                                             placeholder="Mã danh mục" :options="optionsCategory"
                                             :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
                                             @change="handleChange"></a-select>
@@ -51,7 +51,7 @@
                                     </div>
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Kệ sách </label>
-                                        <a-select v-model:value="valuecreateBook.shelve_id" show-search
+                                        <a-select v-model:value="valuecreateBook.shelve_id" show-search size="large"
                                             placeholder="Mã kệ sách" :options="optionsShelve"
                                             :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
                                             @change="handleChange"></a-select>
@@ -86,15 +86,22 @@
                         <div class="flex flex-col gap-2">
                             <div class="grid grid-rows-1">
                                 <div class="grid grid-cols-2 gap-10">
-                                    <div class="flex flex-col gap-2"><label class="text-sm font-semibold"
-                                            for="">Poster</label>
-                                        <a-upload list-type="picture" :max-count="1"
-                                            action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
-                                            <a-button class="flex justify-between gap-3 items-center">
-                                                <upload-outlined></upload-outlined>
-                                                <h1>Upload Poster</h1>
-                                            </a-button>
-                                        </a-upload>
+                                    <div class="flex flex-col gap-2">
+                                        <label class="text-sm font-semibold" for="">Poster</label>
+                                        <ClientOnly>
+                                            <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
+                                                <a-upload-dragger v-model:fileList="fileList" list-type="picture"
+                                                    name="image" :multiple="false" :action="(file) => uploadFile(file)"
+                                                    @change="handleChangeImage" @drop="handleDrop"
+                                                    :before-upload="beforeUpload" :remove="(file) => deleteFile(file)">
+                                                    <p class="ant-upload-drag-icon">
+                                                        <inbox-outlined></inbox-outlined>
+                                                    </p>
+                                                    <p class="ant-upload-text">Click hoặc kéo thả file vào đây</p>
+                                                    <p class="ant-upload-hint">Hoặc nhấn vào đây để chọn file</p>
+                                                </a-upload-dragger>
+                                            </a-spin>
+                                        </ClientOnly>
                                     </div>
                                     <div class="flex flex-col gap-2"><label class="text-sm font-semibold" for="">Hình
                                             ảnh
@@ -114,77 +121,81 @@
                                 <div>
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Sku</label>
-                                        <a-input type="text" class="border p-2 rounded-md" placeholder="Mã sách"
+                                        <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Mã sách"
                                             v-model:value="valuecreateBook.book_detail.sku_origin" />
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-4 gap-10">
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Phiên bản sách</label>
-                                        <a-input type="text" class="border p-2 rounded-md" placeholder="Phiên bản sách"
+                                        <a-input type="text" class="border p-2 rounded-md h-10"
+                                            placeholder="Phiên bản sách"
                                             v-model:value="valuecreateBook.book_detail.book_version" />
                                     </div>
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Giá</label>
-                                        <a-input type="number" class="border p-2 rounded-md" placeholder="Giá"
+                                        <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Giá"
                                             v-model:value="valuecreateBook.book_detail.price" />
                                     </div>
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Thuế</label>
-                                        <a-input type="number" class="border p-2 rounded-md" placeholder="Thuế"
+                                        <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Thuế"
                                             v-model:value="valuecreateBook.book_detail.hire_percent" />
                                     </div>
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Số lượng</label>
-                                        <a-input type="number" class="border p-2 rounded-md" placeholder="Số lượng"
+                                        <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Số lượng"
                                             v-model:value="valuecreateBook.book_detail.stock" />
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-4 gap-10">
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Ngày xuất bản</label>
-                                        <a-input type="date" class="border p-2 rounded-md" placeholder="Ngày xuất bản"
+                                        <a-input type="date" class="border p-2 rounded-md h-10"
+                                            placeholder="Ngày xuất bản"
                                             v-model:value="valuecreateBook.book_detail.publish_date" />
                                     </div>
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Công ty phát hành</label>
-                                        <a-input type="text" class="border p-2 rounded-md"
+                                        <a-input type="text" class="border p-2 rounded-md h-10"
                                             placeholder="Công ty phát hành"
                                             v-model:value="valuecreateBook.book_detail.issuing_company" />
                                     </div>
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Người biên dịch</label>
-                                        <a-input type="text" class="border p-2 rounded-md" placeholder="Người biên dịch"
+                                        <a-input type="text" class="border p-2 rounded-md h-10"
+                                            placeholder="Người biên dịch"
                                             v-model:value="valuecreateBook.book_detail.translator" />
                                     </div>
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Nhà xuất bản</label>
                                         <a-select v-model:value="valuecreateBook.book_detail.publishing_company_id"
-                                            show-search placeholder="Nhà xuất bản" :options="optionsPublishingcompany"
-                                            :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
-                                            @change="handleChange"></a-select>
+                                            size="large" show-search placeholder="Nhà xuất bản"
+                                            :options="optionsPublishingcompany" :filter-option="filterOption"
+                                            @focus="handleFocus" @blur="handleBlur" @change="handleChange"></a-select>
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-4 gap-10">
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Số trang</label>
-                                        <a-input type="number" class="border p-2 rounded-md" placeholder="Số trang"
+                                        <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Số trang"
                                             v-model:value="valuecreateBook.book_detail.total_page" />
                                     </div>
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Ngôn ngữ</label>
-                                        <a-input type="text" class="border p-2 rounded-md" placeholder="Ngôn ngữ"
+                                        <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Ngôn ngữ"
                                             v-model:value="valuecreateBook.book_detail.language" />
                                     </div>
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Kích thước sách</label>
-                                        <a-input type="text" class="border p-2 rounded-md" placeholder="Kích thước sách"
+                                        <a-input type="text" class="border p-2 rounded-md h-10"
+                                            placeholder="Kích thước sách"
                                             v-model:value="valuecreateBook.book_detail.book_size" />
                                     </div>
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Loại bìa</label>
                                         <a-select v-model:value="valuecreateBook.book_detail.cardboard" show-search
-                                            placeholder="Loại bìa" :options="optionsCardboard"
+                                            size="large" placeholder="Loại bìa" :options="optionsCardboard"
                                             :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
                                             @change="handleChange"></a-select>
                                     </div>
@@ -192,13 +203,12 @@
                             </div>
 
                         </div>
+                        <div class="flex justify-start gap-5">
+                            <a-button type="default">Hủy</a-button>
+                            <a-button type="primary" html-type="submit" :loading="isLoading">Thêm</a-button>
+                        </div>
+                    </div>
 
-                    </div>
-                    <div class="flex justify-end">
-                        <button class="bg-[#54cc54] w-1/6 p-1 text-white text-xl rounded-lg">
-                            Thêm
-                        </button>
-                    </div>
                 </div>
             </form>
         </div>
@@ -206,16 +216,17 @@
 </template>
 <script setup>
 import { ref } from "vue";
-
-const isLoading = ref(false);
+const baseStore = useBaseStore();
 const fileList = ref([]);
-const fileList2 = ref([]);
+const imageInfo = ref("");
+const isLoading = ref(false);
 const optionsShelve = ref([]);
 const shelvesValue = useShelvesStore();
 const getDataShelvesValue = async () => {
     try {
         isLoading.value = true;
-        const data = await shelvesValue.getAllShelves({});
+        const data = await shelvesValue.getAllShelves({
+        });
         optionsShelve.value = data.data._rawValue.data.shelves.map((shelve) => {
             return {
                 value: shelve.id,
@@ -303,7 +314,7 @@ const valuecreateBook = ref({
     category_id: "",
     shelve_id: "",
     book_detail: [{
-        poster: "https://cdn0.fahasa.com/media/catalog/product/t/o/to_huu_tho_va_doi_1_2018_07_25_12_01_30.JPG",
+        poster: "",
         images: [
             "https://i0.wp.com/sachcugiadinh.wordpress.com/wp-content/uploads/2016/12/img_10661.jpg?ssl=1",
         ],
@@ -324,10 +335,47 @@ const valuecreateBook = ref({
 }
 );
 
-const onSubmit = async () => {
-    // alert(JSON.stringify(valuecreateBook.value))
+
+const uploadFile = async (file) => {
+    if (fileList.value.length > 0) {
+        fileList.value = [];
+        await baseStore.deleteImg(imageInfo.value?.publicId);
+    }
+    const formData = new FormData();
+    formData.append("image", file);
     try {
-        isLoading.value = true;
+        const dataUpload = await baseStore.uploadImg(formData);
+        imageInfo.value = dataUpload.data._rawValue.data;
+    } catch (error) {
+        message.error("Upload ảnh thất bại");
+
+    }
+};
+const handleChangeImage = (info) => {
+    const status = info.file.status;
+    if (status !== "uploading") {
+        console.log(info.file, info.fileList);
+    }
+    if (status === "done") {
+        message.success(`${info.file.name} file uploaded successfully.`);
+    } else if (status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+    }
+};
+const deleteFile = async (file) => {
+    await baseStore.deleteImg(imageInfo.value?.publicId);
+};
+const beforeUpload = (file) => {
+    const isImage = file.type.startsWith("image/");
+    if (!isImage) {
+        message.error("Bạn chỉ có thể tải lên file ảnh!");
+    }
+    return isImage || Upload.LIST_IGNORE;
+};
+
+
+const onSubmit = async () => {
+    try {
         await createBook.createBook({
             sku: valuecreateBook.value.sku,
             author_id: valuecreateBook.value.author_id,
@@ -340,7 +388,7 @@ const onSubmit = async () => {
             shelve_id: valuecreateBook.value.shelve_id,
             book_detail: [{
                 sku_origin: "123",
-                poster: "https://cdn0.fahasa.com/media/catalog/product/t/o/to_huu_tho_va_doi_1_2018_07_25_12_01_30.JPG",
+                poster: imageInfo.value?.url,
                 images: [
                     "https://i0.wp.com/sachcugiadinh.wordpress.com/wp-content/uploads/2016/12/img_10661.jpg?ssl=1",
                     "https://i0.wp.com/sachcugiadinh.wordpress.com/wp-content/uploads/2016/12/img_10661.jpg?ssl=1",

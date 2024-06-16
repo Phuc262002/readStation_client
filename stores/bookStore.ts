@@ -5,29 +5,52 @@ export const useBookStore = defineStore("book-store", {
   state: () => {
     return {
       books: [],
+      book: {},
       adminBooks: [],
+      OneBookAdmin: [],
       isLoading: false,
       isSubmitting: false,
     };
   },
   actions: {
-    async getBookFeatured() {
+    async getAllBooks({
+      page,
+      pageSize,
+      search,
+      category_id,
+      author_id,
+      publishing_company_id,
+      sort,
+      rating,
+    }: any) {
       const data: any = await useCustomFetch(
-        "/api/v1/home/get-feautured-book"
+        `/api/v1/books?${page ? `&page=${page}` : ""}${
+          pageSize ? `&pageSize=${pageSize}` : ""
+        }${search ? `&search=${search}` : ""}${
+          category_id ? `&category_id=${category_id}` : ""
+        }${author_id ? `&author_id=${author_id}` : ""}${
+          publishing_company_id
+            ? `&publishing_company_id=${publishing_company_id}`
+            : ""
+        }${sort ? `&sort=${sort}` : ""}${rating ? `&rating=${rating}` : ""}`
       );
-      return data;
-    },
-    async getAllBooks() {
-      const data: any = await useCustomFetch("/api/v1/books");
       this.books = data.data._value?.data;
       return data;
     },
 
+    async getOneBook(slug: string) {
+      const data: any = await useCustomFetch(`/api/v1/books/get-one/${slug}`);
+      this.book = data.data._value?.data;
+      return data;
+    },
+
     async createBook(valuecreateBook: any) {
+      this.isSubmitting = true;
       const data: any = await useCustomFetch("/api/v1/books/create-full", {
         method: "POST",
         body: JSON.stringify(valuecreateBook),
       });
+      this.isSubmitting = false;
       return data;
     },
     async getAdminBooks({
@@ -38,8 +61,40 @@ export const useBookStore = defineStore("book-store", {
       author_id,
       status,
     }: any) {
-      const data: any = await useCustomFetch("/api/v1/books/admin/get-all");
+      this.isLoading = true;
+      const data: any = await useCustomFetch(
+        `/api/v1/books/admin/get-all?${page ? `&page=${page}` : ""}${
+          pageSize ? `&pageSize=${pageSize}` : ""
+        }${search ? `&search=${search}` : ""}${
+          category_id ? `&category_id=${category_id}` : ""
+        }${author_id ? `&author_id=${author_id}` : ""}${
+          status ? `&status=${status}` : ""
+        }`
+      );
       this.adminBooks = data.data._value?.data;
+      this.isLoading = false;
+      return data;
+    },
+    async deleteBook(id: string) {
+      const data: any = await useCustomFetch(`/api/v1/books/delete/${id}`, {
+        method: "DELETE",
+      });
+      return data;
+    },
+    async updateBook({id, value}: any) {
+      this.isSubmitting = true;
+      const data: any = await useCustomFetch(`/api/v1/books/update/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(value),
+      });
+      this.isSubmitting = false;
+      return data;
+    },
+    async getOneBookAdmin(id: string) {
+      this.isLoading = true;
+      const data: any = await useCustomFetch(`/api/v1/books/admin/get-one/${id}`);
+      this.OneBookAdmin = data.data._value?.data;
+      this.isLoading = false;
       return data;
     }
   },

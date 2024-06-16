@@ -13,7 +13,7 @@
             <li>Không phát sinh phụ phí</li>
           </ul>
           <button
-            class="text-lg px-6 py-3 rounded-lg shadow-md bg-[#f65d4e] hover:bg-[#f4402f] text-white"
+            class="text-lg px-6 py-3 rounded-lg shadow-md bg-orange-500 hover:bg-orange-600 text-white"
           >
             Tham gia ngay
           </button>
@@ -45,17 +45,17 @@
           <div class="space-x-4 py-4">
             <a
               href="#"
-              class="bg-[#f3f3f3] text-black text-base px-8 py-3 rounded-lg hover:bg-[#f65d4e] hover:text-white hover:shadow-lg"
+              class="bg-[#f3f3f3] text-black text-base px-8 py-3 rounded-lg hover:bg-orange-600 hover:text-white hover:shadow-lg"
               >Sản phẩm</a
             >
             <a
               href="#"
-              class="bg-[#f3f3f3] text-black text-base px-8 py-3 rounded-lg hover:bg-[#f65d4e] hover:text-white hover:shadow-lg"
+              class="bg-[#f3f3f3] text-black text-base px-8 py-3 rounded-lg hover:bg-orange-600 hover:text-white hover:shadow-lg"
               >Sản phẩm</a
             >
             <a
               href="#"
-              class="bg-[#f3f3f3] text-black text-base px-8 py-3 rounded-lg hover:bg-[#f65d4e] hover:text-white hover:shadow-lg"
+              class="bg-[#f3f3f3] text-black text-base px-8 py-3 rounded-lg hover:bg-orange-600 hover:text-white hover:shadow-lg"
               >Sản phẩm</a
             >
           </div>
@@ -70,7 +70,7 @@
           <div class="text-lg py-4">
             <a
               href="#"
-              class="text-base px-8 py-3 rounded-lg bg-[#f65d4e] hover:bg-[#f4402f] text-white hover:shadow-lg "
+              class="text-base px-8 py-3 rounded-lg bg-orange-500 hover:bg-orange-600 text-white hover:shadow-lg "
               >Tìm hiểu thêm</a
             >
           </div>

@@ -1,0 +1,88 @@
+<template>
+  <a-modal v-model:open="props.openModalAdd" title="Thêm nhà cung cấp"  :footer="null"
+    :closable="false">
+    <form @submit.prevent="onSubmit">
+      <div class="bg-white py-2">
+        <div class="grid gap-4 my-3">
+          <div class="space-y-4">
+            <div class="flex flex-col gap-2">
+              <label for="">Nhập tên nhà cung cấp</label>
+              <a-input v-model:value="valueSupplier.name" size="large" type="text" class="border p-2 rounded-md"
+                placeholder="Nhập tên nhà cung cấp" />
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="">Số điện thoại</label>
+              <a-input v-model:value="valueSupplier.phone"  size="large" type="text" class="border p-2 rounded-md" placeholder="Số điện thoại" />
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="">Email</label>
+              <a-input v-model:value="valueSupplier.email" size="large" type="text" class="border p-2 rounded-md" placeholder="Email" />
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="">Địa chỉ nhà cung cấp</label>
+              <a-input size="large" v-model:value="valueSupplier.address" type="text" class="border p-2 rounded-md" placeholder="Địa chỉ cụ thể"/>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-end items-end gap-4">
+          <a-button @click="handleClose" type="primary" danger html-type="button" class="mt-4">Hủy</a-button>
+          <a-button html-type="submit"
+            class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary mt-4 ">Lưu</a-button>
+        </div>
+      </div>
+    </form>
+  </a-modal>
+</template>
+
+
+<script setup>
+import { ref } from 'vue';
+const supplierStore = useSupplierStore();
+const props = defineProps({
+  openModalAdd: Boolean,
+  openModal: Function,
+});
+const open = ref(props.openModalAdd);
+watch(
+  () => props.openModalAdd,
+  (newVal) => {
+    open.value = newVal;
+  }
+);
+const handleClose = () => {
+  props.openModal();
+};
+const valueSupplier = ref({
+  name: "",
+  phone: "",
+  email: "",
+  address: "",
+});
+
+const onSubmit = () => {
+  try {
+    supplierStore.createSupplier(valueSupplier.value);
+    open.value = false;
+    props.openModal();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+
+
+const handleChangeWard = (ward) => {
+  const selectedWard = wards.value.find((item) => item.value === ward);
+  address.value.ward = selectedWard ? selectedWard.label : "";
+};
+const handleBlur = () => {
+  console.log("blur");
+};
+const handleFocus = () => {
+  console.log("focus");
+};
+const filterOption = (input, option) => {
+  return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 4;
+};
+</script>

@@ -30,124 +30,91 @@
         </NuxtLink> -->
       </div>
 
-      <a-table :columns="columns" :data-source="data">
-        <template #headerCell="{ column }">
-          <template v-if="column.key === 'name'">
-            <span> parent_id</span>
-          </template>
-        </template>
-
+      <a-table
+        :columns="columns"
+        :data-source="commentStore?.commentAdmin?.comments"
+      >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'name'">
-            <a>
-              {{ record.name }}
-            </a>
+          <template v-if="column.key === 'post_id'">
+            <span>
+              {{ record.post?.title }}
+            </span>
           </template>
-          <template v-else-if="column.key === 'tags'">
+          <template v-if="column.key === 'user_id'">
+            <span>
+              {{ record.user?.fullname }}
+            </span>
+          </template>
+          <template v-if="column.key === 'content'">
+            <span>
+              {{ record.content }}
+            </span>
+          </template>
+          <template v-if="column.key === 'created_at'">
+            <span>
+              {{ dayjs(record.created_at).format("DD/MM/YYYY HH:mm:ss") }}
+            </span>
+          </template>
+          <template v-else-if="column.key === 'status'">
             <span>
               <a-tag
-                v-for="tag in record.tags"
-                :key="tag"
-                :color="
-                  tag === 'loser'
-                    ? 'volcano'
-                    : tag.length > 5
-                    ? 'geekblue'
-                    : 'green'
-                "
+                :bordered="false"
+                :color="record.status === 'active' ? 'green' : 'volcano'"
               >
-                {{ tag.toUpperCase() }}
+                {{ record.status }}
               </a-tag>
             </span>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top" color="gold">
+              <a-tooltip placement="top" color="black">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
-                <span
-                  class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md"
-                  ><UIcon
-                    class="group-hover:text-[#faad14]"
-                    name="i-icon-park-outline-eyes"
-                /></span>
-              </a-tooltip>
-              <!-- <a-tooltip placement="top" color="green">
-                <template #title>
-                  <span>Sửa</span>
-                </template>
-                <span
-                  class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md"
+                <button
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
                 >
-                  <div>
-                    <button @click="showModal">
-                      <UIcon
-                        class="hover:text-[green]"
-                        name="i-material-symbols-edit-outline"
-                      />
-                    </button>
-                    <a-modal v-model:open="open" title="Sửa" >
-                      <div class="">
-                        <div class="bg-white py-2">
-                          <div class="pb-4">
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Tên danh mục
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-[450px] h-[45px]"
-                                placeholder="Nhập tên danh mục"
-                              />
-                            </div>
-                          </div>
+                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
+                </button>
+              </a-tooltip>
+              <a-dropdown :trigger="['click']" placement="bottom">
+                <button
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                >
+                  <UIcon
+                    class="group-hover:text-[#131313]"
+                    name="i-solar-menu-dots-bold"
+                  />
+                </button>
+                <template #overlay>
+                  <a-menu>
+                    <a-menu-item key="2" class="p-4">
+                      <button
+                        @click="showRecoverConfirm(record?.id)"
+                        class="flex items-center gap-2"
+                      >
+                        <UIcon class="text-lg" name="i-mdi-eye-off-outline" />
+                        <span>Ẩn</span>
+                      </button>
+                    </a-menu-item>
 
-                          <div>
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Nội dụng
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-[450px] h-[45px]"
-                                placeholder="Nhập nội dung"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </a-modal>
-                  </div>
-                </span>
-              </a-tooltip> -->
-              <a-tooltip placement="top" color="red">
-                <template #title>
-                  <span>Xóa</span>
+                    <a-menu-item key="3" class="p-4">
+                      <span>
+                        <button
+                          @click="showDeleteConfirm(record?.id)"
+                          class="flex items-center gap-1"
+                        >
+                          <UIcon
+                            class="text-lg"
+                            name="i-material-symbols-close-rounded"
+                          />
+                          <span>Hủy</span>
+                        </button>
+                      </span>
+                    </a-menu-item>
+                  </a-menu>
                 </template>
-                <span
-                  class="group hover:bg-[red]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md"
-                >
-                  <a-popconfirm
-                    title="Are you sure delete this task?"
-                    placement="right"
-                    ok-text="Yes"
-                    cancel-text="No"
-                    @confirm="confirm"
-                    @cancel="cancel"
-                  >
-                    <button class="flex items-center">
-                      <UIcon
-                        class="group-hover:text-[red]"
-                        name="i-material-symbols-delete-outline"
-                    /></button>
-                  </a-popconfirm>
-                </span>
-              </a-tooltip>
+              </a-dropdown>
             </div>
           </template>
         </template>
@@ -156,24 +123,63 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { Modal } from "ant-design-vue";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 const open = ref<boolean>(false);
-const showModal = () => {
-  open.value = true;
+const commentStore = useCommentStore();
+useAsyncData(async () => {
+  await commentStore.getAllComment({});
+});
+const showDeleteConfirm = (comment_id: string) => {
+  Modal.confirm({
+    title: "Are you sure delete this task?",
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      onDelete(comment_id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
 };
-const confirm = (e: MouseEvent) => {
-  console.log(e);
-  message.success("Xóa thành công");
+const onDelete = async (comment_id: string) => {
+  await commentStore.deleteComment({ comment_id: comment_id });
+  await commentStore.getAllComment({});
 };
 
-const cancel = (e: MouseEvent) => {
-  console.log(e);
-  message.error("Xóa thất bại");
+const onRecover = async (comment_id: string) => {
+  await commentStore.updateComment({
+    comment_id: comment_id,
+    status: "hidden",
+  });
+  await commentStore.getAllComment({});
+};
+const showRecoverConfirm = (id: string) => {
+  Modal.confirm({
+    title: "Are you sure delete this task?",
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      onRecover(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
 };
 const columns = [
   {
-    name: "Name",
-    dataIndex: "Name",
-    key: "name",
+    title: "Tên bài viết",
+    dataIndex: "post_id",
+    key: "post_id",
+    width: "300px",
   },
   {
     title: "Tên người viết",
@@ -181,22 +187,23 @@ const columns = [
     key: "user_id",
   },
   {
-    title: "Tên bài viết",
-    dataIndex: "post_id",
-    key: "post_id",
+    title: "Nội dung",
+    dataIndex: "content",
+    key: "content",
+  },
+  {
+    title: "Thời gian bình luận",
+    dataIndex: "created_at",
+    key: "created_at",
+  },
+  {
+    title: "Trạng thái",
+    key: "status",
+    dataIndex: "status",
   },
   {
     title: "Action",
     key: "action",
-  },
-];
-
-const data = [
-  {
-    key: "1",
-    name: "123",
-    user_id: "New York No. 1 Lake Park",
-    post_id: "New York No. 1 Lake Park",
   },
 ];
 </script>

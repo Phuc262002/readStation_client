@@ -3,7 +3,8 @@
     <div class="flex gap-[30px]">
       <div class="w-3/4">
         <div
-          class="relative overflow-hidden h-[462px] w-full bg-[url('https://images.unsplash.com/photo-1510777554755-dd3dad5980ab?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center bg-no-repeat rounded-xl"
+          class="relative overflow-hidden h-[462px] w-full bg-cover bg-center bg-no-repeat rounded-xl"
+          :style="`background-image: url(${postStore.post?.image});`"
         >
           <div
             class="absolute h-[188px] w-full bottom-0 left-0 backdrop-opacity-90 backdrop-blur-sm bg-black/60"
@@ -25,7 +26,6 @@
                 class="flex items-center text-base text-white gap-5 text-[14px] font-normal"
               >
                 <div class="flex items-center gap-3">
-                  <!-- <a-avatar class="" src="https://cdn.pixabay.com/photo/2020/05/09/13/29/photographer-5149664_1280.jpg" /> -->
                   <p>
                     {{
                       $dayjs(postStore.post?.created_at).format("DD/MM/YYYY")
@@ -33,7 +33,7 @@
                   </p>
                 </div>
                 <div class="h-1 w-1 bg-white rounded-full"></div>
-                <p>{{ postStore.post?.view }}</p>
+                <p>{{ postStore.post?.view }} lượt xem</p>
               </div>
             </div>
           </div>
@@ -42,10 +42,10 @@
         <div v-html="postStore.post?.summary" class="my-5 font-normal"></div>
         <div v-html="postStore.post?.content" class="my-5 font-normal"></div>
         <div
-          class="flex justify-between items-center p-5 border bg-rtprimary/100 w-full h-[70px] rounded-[10px] mb-5"
+          class="flex justify-between items-center p-5 bg-orange-100 w-full h-[70px] rounded-[10px] mb-5"
         >
-          <div class="text-white font-semibold text-base">
-            <p>Like what you see? Share with a friend.</p>
+          <div class="text-black font-semibold text-base">
+            <p>Chia sẻ với mọi người!</p>
           </div>
           <div class="flex justify-items-end text-white gap-5 mt-[10px]">
             <div>
@@ -61,6 +61,7 @@
         </div>
 
         <div>
+          <h2 class="font-bold text-[20px]">Bình luận</h2>
           <BlogComment />
         </div>
         <hr class="mb-5" />
@@ -68,51 +69,44 @@
         <div class="mb-5 font-bold text-[27px]">Bài viết liên quan</div>
         <div class="grid grid-cols-3 gap-4">
           <BlogDetailItem
-            v-for="(post, index) in postStore.posts.posts.slice(1)"
-            :key="post.id || index"
+            v-for="post in postStore.posts?.posts?.filter(
+              (item) => item.id !== postStore.post?.id
+            )"
+            :key="post.id"
             :post="post"
           />
         </div>
       </div>
 
       <div class="w-1/4 space-y-5">
-        <div class="p-5 border bg-rtprimary/90 w-full h-fit rounded-[10px]">
+        <div class="p-5 shadow-md w-full h-fit rounded-[10px]">
           <div class="flex mb-5">
             <div class="">
               <a-avatar
                 class="h-[100px] w-full"
-                src="https://moc247.com/wp-content/uploads/2023/12/loa-mat-voi-101-hinh-anh-avatar-meo-cute-dang-yeu-dep-mat_2.jpg"
+                :src="postStore.post?.user?.avatar"
                 shape="square"
-              ></a-avatar>
-            </div>
-            <div class="pt-[70px] ml-5">
-              <a-avatar
-                src="https://moc247.com/wp-content/uploads/2023/12/loa-mat-voi-101-hinh-anh-avatar-meo-cute-dang-yeu-dep-mat_2.jpg"
-                shape="square"
-                :size="32"
               ></a-avatar>
             </div>
           </div>
-          <div class="text-white font-normal">
-            <div class="text-xl">Technology</div>
+          <div class="text-black font-normal">
+            <div class="text-xl">{{ postStore.post?.user?.fullname }}</div>
             <div class="text-sm w-2/3 pt-[10px]">
-              The Impact of Technology on the Workplace: How Technology is
-              Changing
+              {{ postStore.post?.user?.job }}
             </div>
             <hr class="my-[10px]" />
           </div>
-          <div class="text-white text-sm font-normal">
+          <div class="text-black text-sm font-normal">
             <p>
-              Founder of SAAS First - the Best AI and Data-Driven Customer
-              Engagement Tool
+              {{ postStore.post?.user?.story }}
             </p>
           </div>
         </div>
-        <div class="p-5 border bg-[#0A1C8F]/[100%] w-full h-70 rounded-[10px]">
-          <div class="text-white text-sm font-semibold">
-            <p>Share with your community!</p>
+        <div class="p-5 shadow-md w-full h-70 rounded-[10px]">
+          <div class="text-black text-sm font-semibold">
+            <p>Chia sẻ với mọi người!</p>
           </div>
-          <div class="flex text-white gap-5 mt-[10px]">
+          <div class="flex text-black gap-5 mt-[10px]">
             <div>
               <IconFacebook />
             </div>
@@ -124,45 +118,38 @@
             </div>
           </div>
         </div>
-        <div class="bg-white rounded-lg hover:shadow-md p-5">
+        <div class="rounded-lg shadow-md p-5">
           <div class="border-b-2 font-semibold mb-2">Bài viết nổi bật</div>
           <div class="space-y-4">
-            <div class="flex space-x-2">
-              <img
-                src="https://via.placeholder.com/50"
-                alt=""
-                class="w-12 h-12 rounded object-cover"
-              />
-              <div>
-                <div class="font-semibold">
-                  Tiểu thuyết Việt Nam qua công trình nghiên cứu...
-                </div>
-                <div class="text-sm text-gray-500">
-                  <div>[Thời báo Văn học nghệ thuật - 08-05-2024 08:28]</div>
-                  <div>
-                    Cuốn sách "Tiểu thuyết Việt Nam qua công trình nghiên cứu...
+            <NuxtLink
+              v-for="post in postStore.postsPopular?.posts?.filter(
+                (item) => item.id !== postStore.post?.id
+              )"
+              :key="post?.id"
+              :to="`/post/${post?.slug}`"
+              class="block hover:bg-orange-50 p-2 rounded-lg"
+            >
+              <div class="flex space-x-2">
+                <img
+                  :src="post?.image"
+                  alt=""
+                  class="w-12 h-12 rounded object-cover"
+                />
+                <div>
+                  <div class="font-semibold">
+                    {{ post?.title }}
+                  </div>
+                  <div class="text-sm text-gray-500">
+                    <div>
+                      {{ $dayjs(post?.created_at).format("DD/MM/YYYY") }}
+                    </div>
+                    <div class="line-clamp-2">
+                      {{ post?.summary }}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="flex space-x-2">
-              <img
-                src="https://via.placeholder.com/50"
-                alt=""
-                class="w-12 h-12 rounded object-cover"
-              />
-              <div>
-                <div class="font-semibold">
-                  Thị trường "sách số": Thách thức và cơ hội -...
-                </div>
-                <div class="text-sm text-gray-500">
-                  <div>[Thời báo Văn học nghệ thuật - 08-05-2024 08:28]</div>
-                  <div>
-                    Cuốn sách "Tiểu thuyết Việt Nam qua công trình nghiên cứu...
-                  </div>
-                </div>
-              </div>
-            </div>
+            </NuxtLink>
           </div>
         </div>
       </div>
@@ -170,9 +157,17 @@
   </div>
 </template>
 <script setup>
+const authStore = useAuthStore();
 const route = useRoute();
 const slug = route.params.slug;
 const postStore = usePostStore();
+const commentStore = useCommentStore();
+const post = ref({
+  page: 1,
+  pageSize: 10,
+  category_id: null,
+  sort: null,
+});
 
 useAsyncData(async () => {
   try {
@@ -180,5 +175,41 @@ useAsyncData(async () => {
   } catch (error) {
     console.error(error);
   }
+  try {
+    await commentStore.getComment({ post_id: postStore.post?.id });
+  } catch (error) {
+    console.error(error);
+  }
+  try {
+    const data = await postStore.getPost({
+      page: post.value.page,
+      pageSize: post.value.pageSize,
+      category_id: postStore.post.category.id,
+    });
+    postStore.posts = data.data._value?.data;
+  } catch (error) {
+    console.error(error);
+  }
 });
+useAsyncData(async () => {
+  try {
+    const data = await postStore.getPost({
+      page: post.value.page,
+      pageSize: post.value.pageSize,
+      sort: "popular",
+    });
+    postStore.postsPopular = data.data._value?.data;
+  } catch (error) {
+    console.error(error);
+  }
+});
+useSeoMeta({
+  title: `ReadStation | ${postStore.post?.title}`,
+  ogTitle: `ReadStation | ${postStore.post?.title}`,
+  description: `${postStore.post?.summary}`,
+  ogDescription: `${postStore.post?.summary}`,
+  ogImage: `${postStore.post?.image}`,
+  twitterCard: `${postStore.post?.image}`,
+});
+
 </script>

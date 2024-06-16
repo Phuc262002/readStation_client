@@ -4,6 +4,7 @@ export const usePostStore = defineStore("post-store", {
   state: () => {
     return {
       posts: [],
+      postsPopular: [],
       postsAdmin: [],
       post: {},
       isLoading: false,
@@ -11,16 +12,19 @@ export const usePostStore = defineStore("post-store", {
     };
   },
   actions: {
-    async getPost({ page, pageSize, category_id }: any) {
+    async getPost({ page, pageSize, category_id, sort }: any) {
       try {
+        this.isLoading = true;
         const data: any = await useCustomFetch(
           `/api/v1/posts?${
             page ? `&page=${page}` : ""
           }${pageSize ? `&pageSize=${pageSize}` : ""}${
             category_id ? `&category_id=${category_id}` : ""
+          }${sort ? `&sort=${sort}` : ""
           }`
         );
-        this.posts = data.data._value?.data;
+        // this.posts = data.data._value?.data;
+        this.posts = data.data._value;
         return data;
       } catch (error) {
         console.log(error);
@@ -56,6 +60,18 @@ export const usePostStore = defineStore("post-store", {
         console.log(error);
       }
     },
+    async getOnePostAdmin(id: string) { 
+      try {
+        this.isLoading = true;
+        const data: any = await useCustomFetch(`/api/v1/posts/get/${id}`);
+        this.post = data.data._value?.data;
+        this.isLoading = false;
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    
     async createPost(post: any) {
       try {
         this.isSubmitting = true;
