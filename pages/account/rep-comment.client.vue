@@ -49,47 +49,44 @@ const columns = [
     key: "name",
   },
   {
-    title: "Nội dung",
-    dataIndex: "age",
-    key: "age",
-  },
-  {
-    title: "Trả lời cho",
+    title: "Người bình luận",
     dataIndex: "address",
     key: "address",
   },
   {
-    title: "Thời gian bình luận",
+    title: "Nội dung",
+    dataIndex: "age",
+    key: "age",
+  },
+
+  {
+    title: "Trả lời bình luận",
     key: "tags",
     dataIndex: "tags",
   },
-  {
-    title: "Action",
-    key: "action",
-  },
 ];
 
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
-  },
-];
+// const data = [
+//   {
+//     key: "1",
+//     name: "John Brown",
+//     age: 33,
+//     address: "New York No. 1 Lake Park",
+//     tags: ["nice", "developer"],
+//   },
+//   {
+//     key: "2",
+//     name: "Jim Green",
+//     age: 42,
+//     address: "London No. 1 Lake Park",
+//     tags: ["loser"],
+//   },
+//   {
+//     key: "3",
+//     name: "Joe Black",
+//     age: 32,
+//     address: "Sidney No. 1 Lake Park",
+//     tags: ["cool", "teacher"],
+//   },
+// ];
 </script>

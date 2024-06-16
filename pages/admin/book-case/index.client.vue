@@ -69,11 +69,29 @@
             </span>
           </template>
           <template v-if="column.key === 'status'">
-            <span>
-              <a-tag :color="record.status === 'active' ? 'green' : 'volcano'">
-                {{ record.status }}
-              </a-tag>
-            </span>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'active'"
+              color="green"
+            >
+              Công khai
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-else="record.status === 'inactive'"
+              color="red"
+            >
+              Đang ẩn
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-else="record.status === 'deleted'"
+              color="red"
+            >
+              Đã xóa
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
@@ -83,32 +101,52 @@
                     <span>Xem chi tiết</span>
                   </template>
                   <button
-                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                  >
                     <div>
-                      <UIcon class="group-hover:text-[#212122]" name="i-icon-park-outline-eyes" />
+                      <UIcon
+                        class="group-hover:text-[#212122]"
+                        name="i-icon-park-outline-eyes"
+                      />
                     </div>
                   </button>
                 </a-tooltip>
               </NuxtLink>
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
-                  <UIcon class="group-hover:text-[#131313]" name="i-solar-menu-dots-bold" />
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                >
+                  <UIcon
+                    class="group-hover:text-[#131313]"
+                    name="i-solar-menu-dots-bold"
+                  />
                 </button>
                 <template #overlay>
                   <a-menu>
                     <NuxtLink>
                       <a-menu-item key="2" class="p-4">
-                        <button class="flex items-center gap-1 text-blue-400" @click="showModalEdit(record?.id)">
-                          <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
+                        <button
+                          class="flex items-center gap-1 text-blue-400"
+                          @click="showModalEdit(record?.id)"
+                        >
+                          <UIcon
+                            class="group-hover:text-[green]"
+                            name="i-material-symbols-edit-outline"
+                          />
                           <span>Sửa</span>
                         </button>
                       </a-menu-item>
                     </NuxtLink>
                     <a-menu-item key="3" class="p-4">
                       <span>
-                        <button class="flex items-center gap-1 text-blue-400" @click="showDeleteConfirm(record?.id)">
-                          <UIcon class="group-hover:text-[red] text-lg" name="i-material-symbols-delete-outline" />
+                        <button
+                          class="flex items-center gap-1 text-blue-400"
+                          @click="showDeleteConfirm(record?.id)"
+                        >
+                          <UIcon
+                            class="group-hover:text-[red] text-lg"
+                            name="i-material-symbols-delete-outline"
+                          />
                           <span>Xóa</span>
                         </button>
                       </span>
@@ -124,7 +162,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {ref} from "vue";
+import { ref } from "vue";
 import { Modal } from "ant-design-vue";
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
@@ -142,7 +180,6 @@ const indicator = h(LoadingOutlined, {
 useAsyncData(async () => {
   await bookCaseStore.getAllBookcases({});
 });
-
 
 const onDelete = async (id: string) => {
   try {

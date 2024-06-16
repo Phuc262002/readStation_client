@@ -17,23 +17,36 @@
         </div>
       </div>
       <!--  -->
-      <div class="flex gap-3 text-white pb-5">
-        <a-button class="flex items-center gap-1 h-8 bg-orange-500 !text-white">
-          <img src="../../assets/images/icon-blog.svg" alt="" />
-          <span>Tất cả bài viết</span>
-        </a-button>
-        <a-button class="flex items-center gap-1 h-8">
-          <img src="../../assets/images/icon-public.svg" alt="" />
-          <span>Công khai</span>
-        </a-button>
-        <a-button class="flex items-center gap-1 h-8">
-          <img src="../../assets/images/icon-wait-accept.svg" alt="" />
-          <span>Chờ duyệt</span>
-        </a-button>
-        <a-button class="flex items-center gap-1 h-8">
-          <img src="../../assets/images/icon-draft.svg" alt="" />
-          <span>Nháp</span>
-        </a-button>
+      <div class="flex items-center justify-between py-5">
+        <div class="flex gap-3">
+          <a-button
+            class="flex items-center gap-2 h-10 bg-orange-500 !text-white border-none"
+          >
+            <img src="../../assets/images/icon-blog.svg" alt="" />
+            <span>Tất cả bài viết</span>
+          </a-button>
+          <a-button class="flex items-center gap-2 h-10 border-none">
+            <img src="../../assets/images/icon-public.svg" alt="" />
+            <span>Công khai</span>
+          </a-button>
+          <a-button class="flex items-center gap-2 h-10 border-none">
+            <img src="../../assets/images/icon-wait-accept.svg" alt="" />
+            <span>Chờ duyệt</span>
+          </a-button>
+          <a-button class="flex items-center gap-2 h-10 border-none">
+            <img src="../../assets/images/icon-draft.svg" alt="" />
+            <span>Nháp</span>
+          </a-button>
+          <a-button class="flex items-center gap-2 h-10 border-none">
+            <img src="../../assets/images/icon-hidden.svg" alt="" />
+            <span>Đang ẩn</span>
+          </a-button>
+        </div>
+        <NuxtLink to="/"
+          ><a-button class="bg-orange-500 border-none !text-white h-10"
+            >Bài viết mới</a-button
+          ></NuxtLink
+        >
       </div>
       <!--  -->
       <a-table :columns="columns" :data-source="data">
@@ -94,7 +107,7 @@ const columns = [
     key: "title",
   },
   {
-    title: "Thời gian",
+    title: "Thời gian đăng",
     dataIndex: "age",
     key: "age",
   },

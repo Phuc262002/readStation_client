@@ -25,29 +25,36 @@
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
-        <!-- <NuxtLink to="/admin/book-case/add-bookcase" class="">
-          <a-button type="primary">Thêm bình luận</a-button>
-        </NuxtLink> -->
+        <div class="flex gap-2">
+          <a-button @click="showModalAccept" type="primary">Xác thực</a-button>
+        </div>
       </div>
+      <WalletAccept
+        :openModalAccept="openModalAccept"
+        :openModal="CloseModalAccept"
+      />
 
       <a-table
         :columns="columns"
-        :data-source="data"
+        :data-source="walletAdminStore.adminWallet?.wallets"
       >
         <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'image'">
+            <a-image class="w-10 h-10 rounded-full" :src="record.image" />
+          </template>
           <template v-if="column.key === 'user_id'">
-            <a>
-              {{ record.user_id }}
-            </a>
+            <p class="p-0">{{ record.user?.fullname }}</p>
+
+            <p class="p-0">{{ record.user?.email }}</p>
+
+            <p class="p-0">{{ record.user?.phone }}</p>
           </template>
-          <template v-if="column.key === 'email'">
-            <a>
-              {{ record.email }}
-            </a>
+          <template v-if="column.key === 'avatar'">
+            <a-vatar :src="record.user?.avatar" />
           </template>
-          <template v-if="column.key === 'phone'">
+          <template v-if="column.key === 'district'">
             <a>
-              {{ record.phone }}
+              {{ record.user?.district }}
             </a>
           </template>
           <template v-if="column.key === 'wallet'">
@@ -81,108 +88,69 @@
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
-                <span
-                  class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md"
-                  ><UIcon
+                <button
+                  @click="showModalRecharge"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                >
+                  <UIcon
                     class="group-hover:text-[#faad14]"
                     name="i-icon-park-outline-eyes"
-                /></span>
+                  />
+                </button>
               </a-tooltip>
-              <!-- <a-tooltip placement="top" color="green">
-                <template #title>
-                  <span>Sửa</span>
-                </template>
-                <span
-                  class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md"
-                >
-                  <div>
-                    <button @click="showModal">
-                      <UIcon
-                        class="hover:text-[green]"
-                        name="i-material-symbols-edit-outline"
-                      />
-                    </button>
-                    <a-modal v-model:open="open" title="Sửa" >
-                      <div class="">
-                        <div class="bg-white py-2">
-                          <div class="pb-4">
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Tên danh mục
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-[450px] h-[45px]"
-                                placeholder="Nhập tên danh mục"
-                              />
-                            </div>
-                          </div>
 
-                          <div>
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Nội dụng
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-[450px] h-[45px]"
-                                placeholder="Nhập nội dung"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </a-modal>
-                  </div>
-                </span>
-              </a-tooltip> -->
               <a-tooltip placement="top" color="red">
                 <template #title>
                   <span>Xóa</span>
                 </template>
                 <button
-         
-                  class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
+                  @click="showModalWithdraw"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
-                    class="group-hover:text-[red]"
-                    name="i-material-symbols-delete-outline"
-                  />
+                  <UIcon class="" name="i-material-symbols-delete-outline" />
                 </button>
               </a-tooltip>
             </div>
           </template>
         </template>
       </a-table>
+      <WalletRecharge
+        :openModalRecharge="openModalRecharge"
+        :openModal="CloseModalRecharge"
+      />
+      <WalletWithdraw
+        :openModalWithdraw="openModalWithdraw"
+        :openModal="CloseModalWithdraw"
+      />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { Modal } from "ant-design-vue";
-
-
-
-
+const openModalRecharge = ref<boolean>(false);
+const openModalWithdraw = ref<boolean>(false);
+const openModalAccept = ref<boolean>(false);
+const walletAdminStore = useWalletAdminStore();
+useAsyncData(async () => {
+  await walletAdminStore.getAdminWallet({});
+});
 
 const columns = [
   {
-    title: "Họ tên người dùng",
+    title: "Ảnh đại diện",
+    dataIndex: "avatar",
+    key: "avatar",
+    width: "100px",
+  },
+  {
+    title: "Thông tin liên hệ",
     dataIndex: "user_id",
     key: "user_id",
   },
+  
   {
-    title: "Email",
-    dataIndex: "email",
-    key: "email",
-  },
-  {
-    title: "Số điện thoại",
-    dataIndex: "phone",
-    key: "phone",
+    title: "Địa chỉ",
+    dataIndex: "district",
+    key: "district",
   },
   {
     title: "Ví tài khoản",
@@ -204,16 +172,33 @@ const columns = [
     key: "action",
   },
 ];
+const CloseModalRecharge = () => {
+  openModalRecharge.value = false;
+};
+const showModalRecharge = () => {
+  openModalRecharge.value = true;
+};
+const CloseModalAccept = () => {
+  openModalAccept.value = false;
+};
+const showModalAccept = () => {
+  openModalAccept.value = true;
+};
+const CloseModalWithdraw = () => {
+  openModalWithdraw.value = false;
+};
+const showModalWithdraw = () => {
+  openModalWithdraw.value = true;
+};
 const data = [
   {
+    image:
+      "https://img.lovepik.com/free-png/20211130/lovepik-cartoon-avatar-png-image_401205251_wh1200.png",
     user_id: "1",
-    Email: " kietngu@adsa",
-    phone: "0123456789",
+
     wallet: "100000",
     role: "admin",
     status: "active",
   },
 ];
-
-
 </script>
