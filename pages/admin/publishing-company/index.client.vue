@@ -72,14 +72,27 @@
             />
           </template>
           <template v-else-if="column.key === 'status'">
-            <span>
+            <a-tag
+                :bordered="false"
+                v-if="record.status === 'active'"
+                color="green"
+              >
+               Công khai
+              </a-tag>
+
               <a-tag
                 :bordered="false"
-                :color="record.status === 'active' ? 'green' : 'volcano'"
-              >
-                {{ record.status }}
+                v-else="record.status === 'inactive'"
+                color="red">
+                Đang ẩn
               </a-tag>
-            </span>
+
+              <a-tag
+                :bordered="false"
+                v-else="record.status === 'deleted'"
+                color="red">
+                Đã xóa
+              </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">

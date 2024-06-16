@@ -36,19 +36,24 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'post_id'">
-            <a>
+            <span>
               {{ record.post?.title }}
-            </a>
+            </span>
           </template>
           <template v-if="column.key === 'user_id'">
-            <a>
+            <span>
               {{ record.user?.fullname }}
-            </a>
+            </span>
           </template>
           <template v-if="column.key === 'content'">
-            <a>
+            <span>
               {{ record.content }}
-            </a>
+            </span>
+          </template>
+          <template v-if="column.key === 'created_at'">
+            <span>
+              {{ dayjs(record.created_at).format("DD/MM/YYYY HH:mm:ss") }}
+            </span>
           </template>
           <template v-else-if="column.key === 'status'">
             <span>
@@ -62,83 +67,54 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top" color="gold">
+              <a-tooltip placement="top" color="black">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
-                <span
-                  class="group hover:bg-[#faad14]/20 bg-[#e4e1e1] cursor-pointer flex items-center justify-center w-8 h-8 rounded-md"
-                  ><UIcon
-                    class="group-hover:text-[#faad14]"
-                    name="i-icon-park-outline-eyes"
-                /></span>
-              </a-tooltip>
-              <!-- <a-tooltip placement="top" color="green">
-                <template #title>
-                  <span>Sửa</span>
-                </template>
-                <span
-                  class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md"
-                >
-                  <div>
-                    <button @click="showModal">
-                      <UIcon
-                        class="hover:text-[green]"
-                        name="i-material-symbols-edit-outline"
-                      />
-                    </button>
-                    <a-modal v-model:open="open" title="Sửa" >
-                      <div class="">
-                        <div class="bg-white py-2">
-                          <div class="pb-4">
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Tên danh mục
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-[450px] h-[45px]"
-                                placeholder="Nhập tên danh mục"
-                              />
-                            </div>
-                          </div>
-
-                          <div>
-                            <label
-                              for="email"
-                              class="block text-sm font-medium text-gray-700"
-                            >
-                              Nội dụng
-                            </label>
-                            <div class="mt-1">
-                              <a-input
-                                class="w-[450px] h-[45px]"
-                                placeholder="Nhập nội dung"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </a-modal>
-                  </div>
-                </span>
-              </a-tooltip> -->
-              <a-tooltip placement="top" color="red">
-                <template #title>
-                  <span>Xóa</span>
-                </template>
                 <button
-                  @click="showDeleteConfirm(record?.id)"
-                  class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
                 >
-                  <UIcon
-                    class="group-hover:text-[red]"
-                    name="i-material-symbols-delete-outline"
-                  />
+                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
                 </button>
               </a-tooltip>
+              <a-dropdown :trigger="['click']" placement="bottom">
+                <button
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                >
+                  <UIcon
+                    class="group-hover:text-[#131313]"
+                    name="i-solar-menu-dots-bold"
+                  />
+                </button>
+                <template #overlay>
+                  <a-menu>
+                    <a-menu-item key="2" class="p-4">
+                      <button
+                        @click="showRecoverConfirm(record?.id)"
+                        class="flex items-center gap-2"
+                      >
+                        <UIcon class="text-lg" name="i-mdi-eye-off-outline" />
+                        <span>Ẩn</span>
+                      </button>
+                    </a-menu-item>
+
+                    <a-menu-item key="3" class="p-4">
+                      <span>
+                        <button
+                          @click="showDeleteConfirm(record?.id)"
+                          class="flex items-center gap-1"
+                        >
+                          <UIcon
+                            class="text-lg"
+                            name="i-material-symbols-close-rounded"
+                          />
+                          <span>Hủy</span>
+                        </button>
+                      </span>
+                    </a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown>
             </div>
           </template>
         </template>
@@ -148,12 +124,15 @@
 </template>
 <script lang="ts" setup>
 import { Modal } from "ant-design-vue";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 const open = ref<boolean>(false);
 const commentStore = useCommentStore();
 useAsyncData(async () => {
   await commentStore.getAllComment({});
 });
-const showDeleteConfirm = (id: string) => {
+const showDeleteConfirm = (comment_id: string) => {
   Modal.confirm({
     title: "Are you sure delete this task?",
     content: "Some descriptions",
@@ -161,34 +140,46 @@ const showDeleteConfirm = (id: string) => {
     okType: "danger",
     cancelText: "No",
     onOk() {
-      onDelete(id);
+      onDelete(comment_id);
     },
     onCancel() {
       console.log("Cancel");
     },
   });
 };
-const onDelete = async (id: string) => {
-  await commentStore.deleteComment(id);
+const onDelete = async (comment_id: string) => {
+  await commentStore.deleteComment({ comment_id: comment_id });
   await commentStore.getAllComment({});
 };
-const showModal = () => {
-  open.value = true;
-};
-const confirm = (e: MouseEvent) => {
-  console.log(e);
-  message.success("Xóa thành công");
-};
 
-const cancel = (e: MouseEvent) => {
-  console.log(e);
-  message.error("Xóa thất bại");
+const onRecover = async (comment_id: string) => {
+  await commentStore.updateComment({
+    comment_id: comment_id,
+    status: "hidden",
+  });
+  await commentStore.getAllComment({});
+};
+const showRecoverConfirm = (id: string) => {
+  Modal.confirm({
+    title: "Are you sure delete this task?",
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      onRecover(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
 };
 const columns = [
   {
     title: "Tên bài viết",
     dataIndex: "post_id",
     key: "post_id",
+    width: "300px",
   },
   {
     title: "Tên người viết",
@@ -201,6 +192,11 @@ const columns = [
     key: "content",
   },
   {
+    title: "Thời gian bình luận",
+    dataIndex: "created_at",
+    key: "created_at",
+  },
+  {
     title: "Trạng thái",
     key: "status",
     dataIndex: "status",
@@ -208,16 +204,6 @@ const columns = [
   {
     title: "Action",
     key: "action",
-  },
-];
-
-const data = [
-  {
-    post_id: "Bài viết 1",
-    user_id: "New York No. 1 Lake Park",
-    content:
-      "My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.",
-    status: "active",
   },
 ];
 </script>
