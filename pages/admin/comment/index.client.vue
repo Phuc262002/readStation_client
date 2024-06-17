@@ -50,6 +50,11 @@
               {{ record.content }}
             </span>
           </template>
+          <template v-if="column.key === 'get_parent_comment'">
+            <span>
+              {{ record.get_parent_comment?.content }}
+            </span>
+          </template>
           <template v-if="column.key === 'created_at'">
             <span>
               {{ dayjs(record.created_at).format("DD/MM/YYYY HH:mm:ss") }}
@@ -186,8 +191,14 @@ const columns = [
     dataIndex: "user_id",
     key: "user_id",
   },
+
   {
-    title: "Nội dung",
+    title: "Nội dung ",
+    dataIndex: "get_parent_comment",
+    key: "get_parent_comment",
+  },
+  {
+    title: "Nội dung bình luận",
     dataIndex: "content",
     key: "content",
   },

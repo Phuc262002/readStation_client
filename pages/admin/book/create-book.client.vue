@@ -205,7 +205,7 @@
                         </div>
                         <div class="flex justify-start gap-5">
                             <a-button type="default">Hủy</a-button>
-                            <a-button type="primary" html-type="submit" :loading="isLoading">Thêm</a-button>
+                            <a-button type="primary" html-type="submit" :loading="createBook.isSubmitting">Thêm</a-button>
                         </div>
                     </div>
 

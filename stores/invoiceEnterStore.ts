@@ -4,18 +4,21 @@ export const useInvoiceEnterStore = defineStore("invoice-enter-store", {
     return {
       isLoading: false,
       isSubmitting: false,
+      getAllInvoiceEnterAdmin: [],
+      getOneInvoiceEnterAdmin: {},
     };
   },
   actions: {
     async getAllInvoiceEnter({ page, pageSize, search, status }: any) {
       this.isLoading = true;
       const data: any = await useCustomFetch(
-        `api/v1/invoice-enters?${page ? `&page=${page}` : ""}${
+        `/api/v1/invoice-enters?${page ? `&page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
         }${search ? `&search=${search}` : ""}${
           status ? `&status=${status}` : ""
         }`
       );
+      this.getAllInvoiceEnterAdmin = data.data._value?.data;;
       this.isLoading = false;
       return data;
     },
@@ -23,6 +26,7 @@ export const useInvoiceEnterStore = defineStore("invoice-enter-store", {
       this.isLoading = true;
       const data: any = await useCustomFetch(`/api/v1/invoice-enters/${id}`);
       this.isLoading = false;
+      this.getOneInvoiceEnterAdmin = data.data._value?.data;;
       return data;
     },
     async createInvoiceEnter(dataPost: any) {

@@ -66,11 +66,9 @@
           >Tất cả ví</a-menu-item
         >
         <a-menu-item key="24" @click="navigateTo('/admin/wallet/create-wallet')"
-          >Thêm ví</a-menu-item
+          >Đóng băng ví</a-menu-item
         >
-        <a-menu-item key="62" @click="navigateTo('/admin/wallet/trash-wallet')"
-          >Thùng rác</a-menu-item
-        >
+        
       </a-sub-menu>
       <a-sub-menu key="sub3">
         <template #title>
@@ -82,8 +80,16 @@
             <span>Quản lý đơn hàng</span>
           </span>
         </template>
-        <a-menu-item key="11" @click="navigateTo('/admin/product-manager/create-product')" >Thêm đơn hàng</a-menu-item>
-          <a-menu-item key="12"  @click="navigateTo('/admin/product-manager/product')">Tất cả đơn hàng</a-menu-item> 
+        <a-menu-item
+          key="11"
+          @click="navigateTo('/admin/product-manager/create-product')"
+          >Thêm đơn hàng</a-menu-item
+        >
+        <a-menu-item
+          key="12"
+          @click="navigateTo('/admin/product-manager/product')"
+          >Tất cả đơn hàng</a-menu-item
+        >
       </a-sub-menu>
       <a-sub-menu key="sub2">
         <template #title>
@@ -146,16 +152,7 @@
         <a-menu-item key="42" @click="navigateTo('/admin/comment')"
           >Tất cả bình luận</a-menu-item
         >
-        <a-menu-item
-          key="43"
-          @click="navigateTo('/admin/comment/recent-comment')"
-          >Bình luận gần đây</a-menu-item
-        >
-        <a-menu-item
-          key="112"
-          @click="navigateTo('/admin/comment/trash-comment')"
-          >Thùng rác</a-menu-item
-        >
+        
       </a-sub-menu>
       <a-sub-menu key="sub6">
         <template #title>
@@ -202,17 +199,35 @@
               name="i-iconamoon-category-thin"
               :class="props.collapsed && 'anticon anticon-desktop'"
             />
-            <span>Quản lý danh mục</span>
+            <span>Danh mục sản phẩm</span>
           </span>
         </template>
-        <a-menu-item key="20" @click="navigateTo('/admin/category/product')"
-          >Danh mục sản phẩm</a-menu-item
+        <a-menu-item key="20" @click="navigateTo('/admin/categoryBook')"
+          >Tất cả danh mục sản phẩm</a-menu-item
         >
-        <a-menu-item key="21" @click="navigateTo('/admin/category/post')"
-          >Danh mục bài viết</a-menu-item
+        <a-menu-item
+          key="58"
+          @click="navigateTo('/admin/categoryBook/trash-categoryProduct')"
+          >Thùng rác</a-menu-item
+        >
+      </a-sub-menu>
+      <a-sub-menu key="sub55">
+        <template #title>
+          <span class="flex items-center gap-2">
+            <UIcon
+              name="i-iconamoon-category-thin"
+              :class="props.collapsed && 'anticon anticon-desktop'"
+            />
+            <span>Danh mục bài viết</span>
+          </span>
+        </template>
+        <a-menu-item key="77" @click="navigateTo('/admin/categoryPost')">
+          Tất cả danh mục bài viết</a-menu-item
         >
 
-        <a-menu-item key="58" @click="navigateTo('/admin/category/trash')"
+        <a-menu-item
+          key="78"
+          @click="navigateTo('/admin/categoryPost/trash-categoryPost')"
           >Thùng rác</a-menu-item
         >
       </a-sub-menu>
@@ -226,8 +241,12 @@
             <span>Quản lý tác giả</span>
           </span>
         </template>
-        <a-menu-item key="22" @click="navigateTo('/admin/author/add-author')">Thêm tác giả</a-menu-item>
-        <a-menu-item key="23" @click="navigateTo('/admin/author')">Tất cả tác giả</a-menu-item>
+        <a-menu-item key="22" @click="navigateTo('/admin/author/add-author')"
+          >Thêm tác giả</a-menu-item
+        >
+        <a-menu-item key="23" @click="navigateTo('/admin/author')"
+          >Tất cả tác giả</a-menu-item
+        >
       </a-sub-menu>
 
       <a-sub-menu key="sub10">
@@ -265,7 +284,9 @@
             <span>Quản lý nhà cung cấp</span>
           </span>
         </template>
-        <a-menu-item key="37" @click="navigateTo('/admin/supplier')">Tất cả nhà cung cấp</a-menu-item>
+        <a-menu-item key="37" @click="navigateTo('/admin/supplier')"
+          >Tất cả nhà cung cấp</a-menu-item
+        >
         <a-menu-item key="38">Thùng rác</a-menu-item>
       </a-sub-menu>
       <a-sub-menu key="sub11">

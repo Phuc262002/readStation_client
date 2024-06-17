@@ -228,16 +228,7 @@ const onUpdate = async () => {
 };
 
 const handleClose = () => {
-  // if (fileList.value.length > 0) {
-  //   fileList.value = [];
-  // }
-  // category.value = {
-  //   name: "",
-  //   description: "",
-  //   status: "",
-  //   image: "",
-  //   is_featured: false,
-  // };
+
   props.openModal();
 };
 </script>

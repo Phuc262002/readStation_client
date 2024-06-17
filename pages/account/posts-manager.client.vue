@@ -49,50 +49,104 @@
         >
       </div>
       <!--  -->
-      <a-table :columns="columns" :data-source="data">
-        <template #headerCell="{ column }">
-          <template v-if="column.key === 'name'">
-            <span>
-              <smile-outlined />
-              Name
-            </span>
-          </template>
-        </template>
-
+      <a-table :columns="columns" :data-source="userStore?.posts?.posts">
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'name'">
-            <a>
-              {{ record.name }}
-            </a>
-          </template>
-          <template v-else-if="column.key === 'tags'">
+          <!--  -->
+          <template v-if="column.key === 'status'">
             <span>
               <a-tag
-                v-for="tag in record.tags"
-                :key="tag"
-                :color="
-                  tag === 'loser'
-                    ? 'volcano'
-                    : tag.length > 5
-                    ? 'geekblue'
-                    : 'green'
-                "
+                v-if="record.status === 'published'"
+                class="text-tag-text-published bg-tag-bg-published border-none px-3 py-1"
+                >Công khai</a-tag
               >
-                {{ tag.toUpperCase() }}
-              </a-tag>
+              <a-tag
+                v-else-if="record.status === 'wating_approve'"
+                class="text-tag-text-pending bg-tag-bg-pending border-none px-3 py-1"
+                >Chờ phê duyệt</a-tag
+              >
+              <a-tag
+                v-else-if="record.status === 'draft'"
+                class="text-tag-text-draft bg-tag-bg-draft border-none px-3 py-1"
+                >Nháp</a-tag
+              >
+              <a-tag
+                v-else-if="record.status === 'hidden'"
+                class="text-tag-text-draft bg-tag-bg-canceled border-none px-3 py-1"
+                >Ẩn</a-tag
+              >
+              <a-tag
+                v-else-if="record.status === 'deleted'"
+                class="text-tag-text bg-tag-bg border-none"
+                >Đã xóa</a-tag
+              >
             </span>
           </template>
           <template v-else-if="column.key === 'action'">
-            <span>
-              <a>Invite 一 {{ record.name }}</a>
-              <a-divider type="vertical" />
-              <a>Delete</a>
-              <a-divider type="vertical" />
-              <a class="ant-dropdown-link">
-                More actions
-                <down-outlined />
-              </a>
-            </span>
+            <div class="flex text-[16px] gap-4">
+              <span>
+                <a-tooltip placement="top">
+                  <template #title>
+                    <span>Xem chi tiết</span>
+                  </template>
+                  <button
+                    @click="showModal"
+                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                  >
+                    <div class="flex items-center">
+                      <UIcon
+                        class="group-hover:text-[#212122]"
+                        name="i-icon-park-outline-eyes"
+                      />
+                    </div>
+                  </button>
+                </a-tooltip>
+              </span>
+              <AccountFormPostDetail
+                :openModal="openModal"
+                :closeModal="closeModal"
+              />
+
+              <a-dropdown :trigger="['click']" placement="bottom">
+                <button
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                >
+                  <UIcon
+                    class="group-hover:text-[#131313]"
+                    name="i-solar-menu-dots-bold"
+                  />
+                </button>
+                <template #overlay>
+                  <a-menu>
+                    <NuxtLink>
+                      <a-menu-item key="2" class="p-4">
+                        <span class="flex items-center gap-2 text-blue-400">
+                          <UIcon
+                            class="group-hover:text-[green]"
+                            name="i-material-symbols-edit-outline"
+                          />
+                          <span>Sửa</span>
+                        </span>
+                      </a-menu-item>
+                    </NuxtLink>
+
+                    <a-menu-item key="3" class="p-4">
+                      <span>
+                        <button
+                          class="flex items-center gap-1 text-blue-400"
+                          @click="showDeleteConfirm(record?.id)"
+                        >
+                          <UIcon
+                            class="group-hover:text-[red] text-lg"
+                            name="i-material-symbols-delete-outline"
+                          />
+                          <span>Xóa</span>
+                        </button>
+                      </span>
+                    </a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown>
+            </div>
           </template>
         </template>
       </a-table>
@@ -100,6 +154,32 @@
   </div>
 </template>
 <script setup lang="ts">
+const userStore = useUserStore();
+const current = ref(1);
+const openModal = ref(false);
+// Modal
+const showModal = () => {
+  openModal.value = true;
+};
+
+const closeModal = () => {
+  openModal.value = false;
+};
+useAsyncData(
+  async () => {
+    try {
+      await userStore.getAllPost({
+        page: current.value,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
 const columns = [
   {
     title: "Bài viết",
@@ -108,46 +188,22 @@ const columns = [
   },
   {
     title: "Thời gian đăng",
-    dataIndex: "age",
-    key: "age",
+    dataIndex: "created_at",
+    key: "created_at",
   },
   {
     title: "Lượt bình luận",
-    dataIndex: "address",
-    key: "address",
+    dataIndex: "view",
+    key: "view",
   },
   {
     title: "Trạng thái",
-    key: "tags",
-    dataIndex: "tags",
+    key: "status",
+    dataIndex: "status",
   },
   {
     title: "Thao tác",
     key: "action",
-  },
-];
-
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
   },
 ];
 </script>
