@@ -10,7 +10,7 @@
             <li>Thuê sách không giới hạn ngày trả</li>
             <li>Tặng 60 ngày thuê cho thành viên mới</li>
             <li>Bảo lưu vĩnh viễn khi không thuê sách</li>
-            <li>Không phát sinh phụ phí</li>
+            <li>Không phát sinh phụ phí </li>
           </ul>
           <button
             class="text-lg px-6 py-3 rounded-lg shadow-md bg-orange-500 hover:bg-orange-600 text-white"

@@ -45,8 +45,6 @@ export default {
           "text-canceled": "#9E9E9E",
           "bg-draft": "#E5E5E5",
           "text-draft": "#000000",
-          "bg-published": "#F6FFED",
-          "text-published": "#389E0D",
         },
       },
     },
