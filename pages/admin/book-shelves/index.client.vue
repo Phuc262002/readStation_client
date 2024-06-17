@@ -34,12 +34,12 @@
         :loading="shelvesValue.isLoading">
         <template #bodyCell="{ column, record, index }">
           <template v-if="column.key === 'bookshelf_code'">
-            <a class="text-[#3B82F6]">
+            <a>
               {{ record.bookshelf_code }}
             </a>
           </template>
           <template v-if="column.key === 'bookcase_id'">
-            <a class="text-[#3B82F6]">
+            <a>
               {{ record.bookcase.description }}
             </a>
           </template>

@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model:open="props.openModalEdit" title="Sửa kệ sách" :footer="null" :closable="false">
+  <a-modal v-model:open="props.openModalEdit" title="Sửa kệ sách" :footer="null" :onCancel="handleClose">
     <div class="bg-white py-2">
       <form @submit.prevent="updateShelves">
         <div class="grid grid-row-3 gap-5">
