@@ -66,11 +66,9 @@
           >Tất cả ví</a-menu-item
         >
         <a-menu-item key="24" @click="navigateTo('/admin/wallet/create-wallet')"
-          >Thêm ví</a-menu-item
+          >Đóng băng ví</a-menu-item
         >
-        <a-menu-item key="62" @click="navigateTo('/admin/wallet/trash-wallet')"
-          >Thùng rác</a-menu-item
-        >
+        
       </a-sub-menu>
       <a-sub-menu key="sub3">
         <template #title>
@@ -154,16 +152,7 @@
         <a-menu-item key="42" @click="navigateTo('/admin/comment')"
           >Tất cả bình luận</a-menu-item
         >
-        <a-menu-item
-          key="43"
-          @click="navigateTo('/admin/comment/recent-comment')"
-          >Bình luận gần đây</a-menu-item
-        >
-        <a-menu-item
-          key="112"
-          @click="navigateTo('/admin/comment/trash-comment')"
-          >Thùng rác</a-menu-item
-        >
+        
       </a-sub-menu>
       <a-sub-menu key="sub6">
         <template #title>

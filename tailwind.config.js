@@ -28,6 +28,28 @@ export default {
         rtyellow: {
           50: "#FEFFD2",
         },
+        tag: {
+          "bg-01" : "#FFFBE5",
+          "bg-02" : "#E9F4FE",
+          "bg-03" : "#FFF8ED",
+          "bg-04" : "#F5E9F7",
+          "bg-05" : "#E5F4F3",
+          "bg-06" : "#FEECEB",
+          "bg-07" : "#F5F5F5",
+          "bg-08" : "#F8EDE5",
+          "bg-09" : "#F6FFED",
+          "text-01" : "#FFD700",
+          "text-02" : "#2196F3",
+          "text-03" : "#FFB74D",
+          "text-04" : "#9C27B0",
+          "text-05" : "#009688",
+          "text-06" : "#F44336",
+          "text-07" : "#9E9E9E",
+          "text-08" : "#389E0D",
+          "text-09" : "#AE9F9B",
+
+
+        },
       },
     },
   },
