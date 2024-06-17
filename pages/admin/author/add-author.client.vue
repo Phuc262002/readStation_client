@@ -10,7 +10,7 @@
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
-      <form :model="ValueAuthor" @submit.prevent="onSubmit">
+      <form :model="ValueAuthor" @submit.prevent="onSubmit" >
         <div class="grid grid-cols-6 gap-4">
           <div class="flex flex-col gap-3 col-start-1 col-end-3">
             <label class="text-sm font-semibold" for="">Avatar</label>
@@ -103,7 +103,7 @@
         </div>
         <div class="flex items-end gap-4 pt-4">
           <a-button danger type="primary"> Hủy</a-button>
-          <a-button type="primary" html-type="submit"> Lưu</a-button>
+          <a-button type="primary" html-type="submit" :loading="AuthorStore.isSubmitting"> Lưu</a-button>
         </div>
       </form>
     </div>
