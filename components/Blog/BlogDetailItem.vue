@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div class="w-full h-full">
     <NuxtLink :to="`/post/${props.post?.slug}`">
       <div class="p-4 border border-gray-100 rounded-lg bg-white shadow-md">
         <div class="flex justify-center items-center mb-4">
