@@ -38,6 +38,7 @@ export default {
           "bg-07" : "#F5F5F5",
           "bg-08" : "#F8EDE5",
           "bg-09" : "#F6FFED",
+          "bg-10" : "#E5F2FF",
           "text-01" : "#FFD700",
           "text-02" : "#2196F3",
           "text-03" : "#FFB74D",
@@ -45,10 +46,9 @@ export default {
           "text-05" : "#009688",
           "text-06" : "#F44336",
           "text-07" : "#9E9E9E",
-          "text-08" : "#389E0D",
-          "text-09" : "#AE9F9B",
-
-
+          "text-08" : "#AE9F9B",
+          "text-09" : "#389E0D",
+          "text-10" : "#007FFF",
         },
       },
     },
