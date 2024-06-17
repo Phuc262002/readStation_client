@@ -8,30 +8,35 @@
         </div>
 
         <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
-            <form @submit.prevent="createInvoiceEnter" :model="valueInvoiceEnter">
+            <form @submit.prevent="createInvoiceEnter">
                 <div class="flex flex-col gap-5">
                     <div class="grid grid-cols-4 gap-5">
                         <div class="flex flex-col gap-3">
                             <label class="text-base font-semibold" for="">Mã hóa đơn</label>
-                            <a-input v-model:value="valueInvoiceEnter.invoice_code" type="text" placeholder="Mã hóa đơn" style="height: 40px;"/>
+                            <a-input v-model:value="valueInvoiceEnter.invoice_code" type="text" placeholder="Mã hóa đơn"
+                                style="height: 40px;" />
                         </div>
                         <div class="flex flex-col gap-3">
                             <label class="text-base font-semibold" for="">Ngày tạo hóa đơn</label>
-                            <a-input  v-model:value="valueInvoiceEnter.invoice_date" type="date" placeholder="Ngày tạo hóa đơn" style="height: 40px;"/>
+                            <a-input v-model:value="valueInvoiceEnter.invoice_date" type="date"
+                                placeholder="Ngày tạo hóa đơn" style="height: 40px;" />
                         </div>
                         <div class="flex flex-col gap-3">
                             <label class="text-base font-semibold" for="">Tên hóa đơn</label>
-                            <a-input  v-model:value="valueInvoiceEnter.invoice_name" type="text" placeholder="Tên hóa đơn" style="height: 40px;" />
+                            <a-input v-model:value="valueInvoiceEnter.invoice_name" type="text"
+                                placeholder="Tên hóa đơn" style="height: 40px;" />
                         </div>
                         <div class="flex flex-col gap-3">
                             <label class="text-base font-semibold" for="">Nhà cung cấp</label>
-                            <a-select  v-model:value="valueInvoiceEnter.supplier_id" :options="options" size="large" placeholder="Công ty ABC"></a-select>
+                            <a-select v-model:value="valueInvoiceEnter.supplier_id" :options="options" size="large"
+                                placeholder="Công ty ABC"></a-select>
                         </div>
                     </div>
                     <div class="grid mt-5">
                         <div class="flex flex-col gap-3">
                             <label class="text-base font-semibold" for="">Mô tả hóa đơn</label>
-                            <a-textarea v-model:value="valueInvoiceEnter.invoice_description" rows="4" placeholder="Nhập mô tả hóa đơn" />
+                            <a-textarea v-model:value="valueInvoiceEnter.invoice_description" rows="4"
+                                placeholder="Nhập mô tả hóa đơn" />
                         </div>
                     </div>
                     <div>
@@ -78,7 +83,8 @@
                     <div class="mt-5">
                         <div class="flex flex-col gap-3">
                             <label class="text-base font-semibold">Sản phẩm đã nhập</label>
-                            <a-table :columns="columns" v-model:value="valueInvoiceEnter.invoice_enter_detail" :data-source="data" :pagination="false">
+                            <a-table :columns="columns" v-model:value="valueInvoiceEnter.invoice_enter_detail"
+                                :data-source="data" :pagination="false">
                                 <template #bodyCell="{ column, text }">
                                     <template v-if="column.dataIndex === 'title'">
                                         <a>{{ text }}</a>
@@ -111,8 +117,10 @@
                             </a-table>
                             <div class="mt-5 flex justify-end gap-3">
                                 <a-button class="border">Hủy</a-button>
-                                <a-button class="border border-orange-400 text-orange-500" html-type="submit"  @click="saveDraft">Lưu nháp</a-button>
-                                <a-button type="primary" html-type="submit"  @click="saveInvoice">Lưu hóa đơn</a-button>
+                                <a-button class="border border-orange-400 text-orange-500" html-type="submit" :submitting="invoiceEnter.isSubmitting"
+                                    @click="saveDraft">Lưu
+                                    nháp</a-button>
+                                <a-button type="primary" html-type="submit" :submitting="invoiceEnter.isSubmitting" @click="saveInvoice">Lưu hóa đơn</a-button>
                             </div>
                         </div>
                     </div>
@@ -125,7 +133,6 @@
 import { ref } from 'vue';
 import { LoadingOutlined } from '@ant-design/icons-vue';
 import { h } from 'vue';
-import create from '@ant-design/icons-vue/lib/components/IconFont';
 const invoiceEnter = useInvoiceEnterStore();
 const data = ref([]);
 const indicator = h(LoadingOutlined, {
@@ -164,16 +171,16 @@ const showConfirm = (id) => {
                     id: selectedBook.book.id,
                     title: selectedBook.book.title,
                     sku: selectedBook.sku_origin,
-                    quantity: 2,
+                    quantity: 1,
                     price: selectedBook.price,
                     total: selectedBook.price,
                 });
                 valueInvoiceEnter.value.invoice_enter_detail.push({
                     book_detail_id: selectedBook.book.id,
                     book_price: selectedBook.price,
-                    book_quantity:2 // Initial quantity, adjust as needed
+                    book_quantity: 1
                 });
-                calculateTotal(); // Recalculate total after adding item
+                calculateTotal();
                 data.value = newData;
             }
         },
@@ -208,7 +215,7 @@ const columns = [
     },
     {
         title: 'Tổng tiền',
-        dataIndex: 'total',
+        dataIndex: 'price',
         key: 'total',
 
     },
@@ -234,37 +241,44 @@ const calculateTotal = () => {
     valueInvoiceEnter.value.total = total.toString();
 };
 const valueInvoiceEnter = ref({
-  invoice_code: "" || null,
-  invoice_name: "",
-  total: "0",
-  invoice_description: "",
-  supplier_id: "",
-  invoice_date: "",
-  status: "",
-  invoice_enter_detail: [
-    {
-      book_detail_id: "",
-      book_price: "",
-      book_quantity: ""
-    }
-  ]
+    invoice_code: "" || null,
+    invoice_name: "",
+    total: "0",
+    invoice_description: "",
+    supplier_id: "",
+    invoice_date: "",
+    status: "",
+    invoice_enter_detail: [
+        {
+            book_detail_id: "",
+            book_price: "",
+            book_quantity: ""
+        }
+    ]
 });
-const createInvoiceEnter = async() => {
-  const dataPost = {
-    invoice_code: valueInvoiceEnter.value.invoice_code || null,
-    invoice_name: valueInvoiceEnter.value.invoice_name,
-    total: valueInvoiceEnter.value.total,
-    invoice_description: valueInvoiceEnter.value.invoice_description,
-    supplier_id: valueInvoiceEnter.value.supplier_id,
-    invoice_date: valueInvoiceEnter.value.invoice_date,
-    status: valueInvoiceEnter.value.status,
-    invoice_enter_detail: data.value.map((item) => ({   
-      book_detail_id: item.id,
-      book_price: item.price,
-      book_quantity: item.quantity
-    }))
-  };
-//   alert(JSON.stringify(dataPost));
-  await invoiceEnter.createInvoiceEnter(dataPost);
+const createInvoiceEnter = async () => {
+    try {
+        const dataPost = {
+            invoice_code: valueInvoiceEnter.value.invoice_code || null,
+            invoice_name: valueInvoiceEnter.value.invoice_name,
+            total: valueInvoiceEnter.value.total,
+            invoice_description: valueInvoiceEnter.value.invoice_description,
+            supplier_id: valueInvoiceEnter.value.supplier_id,
+            invoice_date: valueInvoiceEnter.value.invoice_date,
+            status: valueInvoiceEnter.value.status,
+            invoice_enter_detail: data.value.map((item) => ({
+                book_detail_id: item.id,
+                book_price: item.price,
+                book_quantity: item.quantity
+            }))
+        };
+        await invoiceEnter.createInvoiceEnter(dataPost);
+        message.success('Tạo hóa đơn thành công');
+        navigateTo('/admin/manager-bill')
+        // alert(JSON.stringify(valueInvoiceEnter.value));
+    } catch (error) {
+        message.error('Tạo hóa đơn thất bại');
+    }
+
 };
 </script>
