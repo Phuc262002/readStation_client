@@ -46,15 +46,15 @@
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'bookcase_code'">
-            <span> Mã tủ sách </span>
+            <a> Mã tủ sách </a>
           </template>
         </template>
 
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
-            <a>
+            <span>
               {{ record.name }}
-            </a>
+            </span>
           </template>
           <template v-if="column.key === 'shelves'">
             <span class="flex justify-start gap-2">
