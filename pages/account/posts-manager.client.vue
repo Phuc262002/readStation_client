@@ -84,14 +84,11 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <span>
-              <a>Invite 一 {{ record.name }}</a>
-              <a-divider type="vertical" />
-              <a>Delete</a>
-              <a-divider type="vertical" />
-              <a class="ant-dropdown-link">
-                More actions
-                <down-outlined />
-              </a>
+              <a @click="showModal">Invite 一 {{ record.name }}</a>
+              <AccountFormPostDetail
+                :openModal="openModal"
+                :closeModal="closeModal"
+              />
             </span>
           </template>
         </template>
@@ -100,6 +97,32 @@
   </div>
 </template>
 <script setup lang="ts">
+const userStore = useUserStore();
+const current = ref(1);
+const openModal = ref(false);
+// Modal
+const showModal = () => {
+  openModal.value = true;
+};
+
+const closeModal = () => {
+  openModal.value = false;
+};
+useAsyncData(
+  async () => {
+    try {
+      await userStore.getAllPost({
+        page: current.value,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
 const columns = [
   {
     title: "Bài viết",

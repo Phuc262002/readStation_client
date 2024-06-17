@@ -84,13 +84,15 @@
 
           <template v-if="column.key === 'status'">
             <span class="flex justify-center">
-              <a-tag v-if="record.status === 'pending'" color="blue"
+              <a-tag v-if="record.status === 'pending'" color="yellow"
+                >Đang xử lý</a-tag
+              >
+              <a-tag
+                v-else-if="record.status === 'hiring'"
+                class="text-tag-text-yellow bg-tag-bg-yellow"
                 >Đang thuê</a-tag
               >
-              <a-tag v-else-if="record.status === 'hiring'" color="green"
-                >Hiring</a-tag
-              >
-              <a-tag v-else-if="record.status === 'completed'" color="gold"
+              <a-tag v-else-if="record.status === 'completed'" color="green"
                 >Hoàn thành</a-tag
               >
               <a-tag v-else-if="record.status === 'canceled'" color="red"
@@ -108,12 +110,12 @@
           </template>
           <template v-if="column.key === 'max_extensions'">
             <span class="flex justify-center">
-              {{ record?.max_extensions }}
+              {{ record?.current_extensions }} / {{ record?.max_extensions }}
             </span>
           </template>
           <template v-if="column.key === 'action'">
             <div class="flex gap-2">
-              <NuxtLink to="">
+              <NuxtLink to="/account/order-status">
                 <a-tooltip placement="top">
                   <template #title>
                     <span>Xem chi tiết</span>
@@ -162,6 +164,8 @@
 const userStore = useUserStore();
 const dataOrder = ref({});
 const current = ref(1);
+
+// Get All Order
 useAsyncData(
   async () => {
     try {
@@ -177,6 +181,7 @@ useAsyncData(
     watch: [current],
   }
 );
+
 const columns = [
   {
     title: "Mã đơn hàng",
