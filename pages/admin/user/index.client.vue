@@ -13,20 +13,29 @@
 
     <!-- Đây là phần code mẫu body -->
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
-      <a-table
-        :columns="columns"
-        :data-source="userStore.userAdmin?.users"
-      >
+      <a-table :columns="columns" :data-source="userStore.userAdmin?.users">
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'avatar'">
-            <img
-              :src="record.avatar"
-              alt="Avatar"
-              style="width: 50px; height: 50px"
+            <a-image
+              class="w-5 h-5 rounded-full"
+              :src="record.avatar.replace('=s96-c', '')"
             />
           </template>
-          <template v-if="column.dataIndex === 'name'">
-            <a>{{ text }}</a>
+          <template v-if="column.dataIndex === 'user_info'">
+            <p class="p-0">
+              {{ record.fullname }}
+            </p>
+            <p class="p-0">
+              {{ record.email }}
+            </p>
+            <p class="p-0">
+              {{ record.phone }}
+            </p>
+          </template>
+          <template v-if="column.key === 'address'">
+            <span>
+              {{ record.address_detail }}
+            </span>
           </template>
           <template v-else-if="column.key === 'role'">
             <span>
@@ -42,6 +51,38 @@
             <IconTick v-if="record.google_id" />
             <IconMul v-else />
           </template>
+          <template v-else-if="column.key === 'has_wallet'">
+            <IconTick v-if="record.has_wallet" />
+            <IconMul v-else />
+          </template>
+          <template v-else-if="column.key === 'citizen_identity_card'">
+            <IconTick v-if="record.citizen_identity_card" />
+            <IconMul v-else />
+          </template>
+
+          <template v-else-if="column.key === 'status'">
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'active'"
+              color="green"
+            >
+              Công khai
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-else="record.status === 'inactive'"
+              color="red"
+            >
+              Đang ẩn
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-else="record.status === 'deleted'"
+              color="red"
+            >
+              Đã xóa
+            </a-tag>
+          </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
               <a-tooltip placement="top">
@@ -49,14 +90,11 @@
                   <span>Xem chi tiết</span>
                 </template>
                 <button
-                  @click="showModal"
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+               
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                 >
-                  <div>
-                    <UIcon
-                      class="group-hover:text-[#212122]"
-                      name="i-icon-park-outline-eyes"
-                    />
+                  <div class="flex">
+                    <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
 
                     <a-modal v-model:open="open" title="Sửa" width="70%">
                       <div class="flex justify-between gap-4">
@@ -88,9 +126,9 @@
                 </button>
                 <template #overlay>
                   <a-menu>
-                    <NuxtLink to="">
+                    <NuxtLink to="/admin/user/edit/1">
                       <a-menu-item key="2" class="p-4">
-                        <span class="flex items-center gap-2 text-blue-400">
+                        <span class="flex items-center gap-2 ">
                           <UIcon
                             class="group-hover:text-[green]"
                             name="i-material-symbols-edit-outline"
@@ -104,7 +142,7 @@
                       <span>
                         <button
                           @click="showDeleteConfirm(record?.id)"
-                          class="flex items-center gap-1 text-blue-400"
+                          class="flex items-center gap-1 "
                         >
                           <UIcon
                             class="group-hover:text-[red] text-lg"
@@ -148,25 +186,37 @@ const showDeleteConfirm = (id: string) => {
 };
 const columns = [
   {
-    title: "Hình ảnh",
+    title: "Ảnh đại diện",
     dataIndex: "avatar",
     key: "avatar",
+    width: "120px",
   },
   {
-    title: "Họ tên",
-    dataIndex: "fullname",
-    key: "fullname",
-  },
-
-  {
-    title: "Email",
-    dataIndex: "email",
-    key: "email",
+    title: "Thông tin liên hệ",
+    dataIndex: "user_info",
+    key: "user_info",
+    width: "200px",
   },
   {
-    title: "Số điện thoại",
-    dataIndex: "phone",
-    key: "phone",
+    title: "Địa chỉ",
+    dataIndex: "address",
+    key: "address",
+    width: "200px",
+  },
+  {
+    title: "Ví tài khoản",
+    dataIndex: "has_wallet",
+    key: "has_wallet",
+  },
+  {
+    title: "Vai trò",
+    dataIndex: "role",
+    key: "role",
+  },
+  {
+    title: "Xác thực tài khoản",
+    dataIndex: "citizen_identity_card",
+    key: "citizen_identity_card",
   },
   {
     title: "Google",
@@ -174,9 +224,9 @@ const columns = [
     key: "google_id",
   },
   {
-    title: "Vai trò",
-    dataIndex: "role",
-    key: "role",
+    title: "Trạng thái",
+    dataIndex: "status",
+    key: "status",
   },
   {
     title: "Hành động",
@@ -185,18 +235,6 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    key: "1",
-    avatar:
-      "https://thanhnien.mediacdn.vn/Uploaded/nhutnq/2022_10_02/220928180903-03-dall-e-ai-2189.jpg",
-    fullname: "John Brown",
-    gender: "Nam",
-    email: "nguyenvana@gmail.com",
-    phone: "0123456789",
-    role: "Admin",
-  },
-];
 const open = ref<boolean>(false);
 const showModal = () => {
   open.value = true;
