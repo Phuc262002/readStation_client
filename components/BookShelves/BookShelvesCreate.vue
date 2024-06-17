@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model:open="props.openModalAdd" title="Thêm kệ sách" :footer="null" :closable="false">
+  <a-modal v-model:open="props.openModalAdd" title="Thêm kệ sách" :footer="null" :onCancel="handleClose">
     <form @submit.prevent="onSubmit" v-mode:valueCreateShelves>
       <div class="bg-white py-2">
         <div class="grid gap-4 my-3">
