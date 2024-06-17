@@ -29,6 +29,7 @@ export default {
           50: "#FEFFD2",
         },
         tag: {
+<<<<<<< HEAD
           "bg-pending":"#FFFBE5",
           "text-pending":"#FFD700",
           "bg-confirm":"#E9F4FE",
@@ -45,6 +46,24 @@ export default {
           "text-canceled":"#9E9E9E",
           "bg-draft":"#E5E5E5",
           "text-draft":"#000000",
+=======
+          "text-pending":"#FFFBE5",
+          "bg-pending":"#FFD700",
+          "text-confirm":"#E9F4FE",
+          "bg-confirm":"#2196F3",
+          "text-shipping":"#FFF8ED",
+          "bg-shipping":"#FFB74D",
+          "text-hiring":"#F5E9F7",
+          "bg-hiring":"#9C27B0",
+          "text-completed":"#E5F4F3",
+          "bg-completed":"#009688",
+          "text-uod":"#FEECEB",
+          "bg-uod":"#F44336",
+          "text-canceled":"#F5F5F5",
+          "bg-canceled":"#9E9E9E",
+          "text-draft":"#E5E5E5",
+          "bg-draft":"#000000",
+>>>>>>> c653c87 (dismethgngtrung)
         },
       },
     },
