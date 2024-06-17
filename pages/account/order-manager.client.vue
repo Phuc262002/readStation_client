@@ -84,21 +84,29 @@
 
           <template v-if="column.key === 'status'">
             <span class="flex justify-center">
-              <a-tag v-if="record.status === 'pending'" color="yellow"
+              <a-tag
+                v-if="record.status === 'pending'"
+                class="text-tag-text-pending bg-tag-bg-pending border-none"
                 >Đang xử lý</a-tag
               >
               <a-tag
                 v-else-if="record.status === 'hiring'"
-                class="text-tag-text-yellow bg-tag-bg-yellow"
+                class="text-tag-text-hiring bg-tag-bg-hiring border-none"
                 >Đang thuê</a-tag
               >
-              <a-tag v-else-if="record.status === 'completed'" color="green"
+              <a-tag
+                v-else-if="record.status === 'completed'"
+                class="text-tag-text-completed bg-tag-bg-completed border-none"
                 >Hoàn thành</a-tag
               >
-              <a-tag v-else-if="record.status === 'canceled'" color="red"
+              <a-tag
+                v-else-if="record.status === 'canceled'"
+                class="text-tag-text-canceled bg-tag-bg-canceled border-none"
                 >Đã hủy</a-tag
               >
-              <a-tag v-else-if="record.status === 'out_of_date'" color="grey"
+              <a-tag
+                v-else-if="record.status === 'out_of_date'"
+                class="text-tag-text-uod bg-tag-bg-uod border-none"
                 >Hết hạn</a-tag
               >
             </span>
