@@ -77,7 +77,7 @@
         </p>
       </div>
       <div class="flex justify-end gap-2">
-        <a-button class="h-10 rounded-lg">Đóng</a-button>
+        <a-button @click="handleClose" class="h-10 rounded-lg">Đóng</a-button>
         <a-button class="h-10 border-none rounded-lg bg-orange-500 !text-white"
           >Ẩn bài viết</a-button
         >
