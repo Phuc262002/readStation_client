@@ -65,10 +65,9 @@
         <a-menu-item key="25" @click="navigateTo('/admin/wallet')"
           >Tất cả ví</a-menu-item
         >
-        <a-menu-item key="24" @click="navigateTo('/admin/wallet/create-wallet')"
+        <a-menu-item key="24" @click="navigateTo('/admin/wallet/frozen-wallet')"
           >Đóng băng ví</a-menu-item
         >
-        
       </a-sub-menu>
       <a-sub-menu key="sub3">
         <template #title>
@@ -152,7 +151,6 @@
         <a-menu-item key="42" @click="navigateTo('/admin/comment')"
           >Tất cả bình luận</a-menu-item
         >
-        
       </a-sub-menu>
       <a-sub-menu key="sub6">
         <template #title>
