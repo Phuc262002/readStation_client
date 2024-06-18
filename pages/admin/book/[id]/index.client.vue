@@ -18,59 +18,61 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-[white] rounded-lg h-auto w-full">
-                    <div class="flex flex-col gap-3 p-5">
-                        <div class="flex justify-between">
-                            <div class="flex justify-start gap-3 items-center">
-                                <span class="text-base font-bold">Thông tin chung</span>
-                                <UIcon class="text-lg text-gray-500"
-                                    name="i-material-symbols-draft-orders-outline-rounded" />
-                            </div>
-                            <div>
-                                <a-button class="flex justify-center gap-2" type="primary">
-                                    <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
-                                    <span class="text-white">Chỉnh sửa</span>
-                                </a-button>
+                <div class="bg-[white] rounded-lg h-auto w-full flex flex-col gap-3 p-5">
+                    <div class="flex justify-between">
+                        <div class="flex justify-start gap-3 items-center">
+                            <span class="text-base font-bold">Thông tin chung</span>
+                            <UIcon class="text-lg text-gray-500"
+                                name="i-material-symbols-draft-orders-outline-rounded" />
+                        </div>
+                        <div>
+                            <a-button class="flex justify-center gap-2" type="primary" size="large">
+                                <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
+                                <span class="text-white">Chỉnh sửa</span>
+                            </a-button>
+                        </div>
+                    </div>
+                    <div class="border border-gray-100"></div>
+                    <div class="flex justify-start gap-10">
+                        <div class="flex">
+                            <div class="flex gap-10">
+                                <div class="grid gap-3">
+                                    <span class="font-bold text-base">Tên sách: </span>
+                                    <span class="font-bold text-base">Tác giả: </span>
+                                    <span class="font-bold text-base">Danh mục: </span>
+                                    <span class="font-bold text-base">Tủ sách: </span>
+                                    <span class="font-bold text-base">Kệ sách: </span>
+                                </div>
+                                <div class="grid gap-3">
+                                    <span class="text-base">{{ bookStore?.OneBookAdmin?.title }}</span>
+                                    <span class="text-base">{{ bookStore?.OneBookAdmin?.author?.author }}</span>
+                                    <span class="text-base">{{ bookStore?.OneBookAdmin?.category?.name }}</span>
+                                    <span class="text-base">{{ bookStore?.OneBookAdmin?.shelve?.bookcase?.name }}</span>
+                                    <span class="text-base">{{ bookStore?.OneBookAdmin?.shelve?.name }}</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="border border-gray-100"></div>
-                        <div class="flex h-auto">
-                            <div class="w-1/3">
-                                <div class="flex gap-10">
-                                    <div class="grid grid-rows-5 gap-4">
-                                        <span class="font-bold text-base">Tên sách: </span>
-                                        <span class="font-bold text-base">Tác giả: </span>
-                                        <span class="font-bold text-base">Danh mục: </span>
-                                        <span class="font-bold text-base">Tủ sách: </span>
-                                        <span class="font-bold text-base">Kệ sách: </span>
-                                    </div>
-                                    <div class="grid grid-rows-5 gap-4">
-                                        <span class="text-base">{{ bookStore?.OneBookAdmin?.title }}</span>
-                                        <span class="text-base">{{ bookStore?.OneBookAdmin?.author?.author }}</span>
-                                        <span class="text-base">{{ bookStore?.OneBookAdmin?.category?.name }}</span>
-                                        <span class="text-base">{{ bookStore?.OneBookAdmin?.shelve?.bookcase?.name
-                                            }}</span>
-                                        <span class="text-base">{{ bookStore?.OneBookAdmin?.shelve?.name }}</span>
-                                    </div>
-                                </div>
+                        <div class="border border-gray-200"></div>
+                        <div class="flex w-2/3">
+                            <div class="grid grid-rows-2 gap-2 w-1/4">
+                                <h1 class="font-bold text-base">Mô tả :</h1>
+                                <h1 class="font-bold text-base">Mô tả chi tiết :</h1>
                             </div>
-                            <div class="border border-gray-200"></div>
-                            <div class="w-2/3 pl-8">
-                                <div class="flex flex-col gap-4">
-                                    <div class="flex justify-start gap-10">
-                                        <span class="text-base font-bold">Mô tả:</span>
-                                        <span class="text-base">{{ bookStore?.OneBookAdmin?.description_summary
-                                            }}</span>
-                                    </div>
-                                    <div class="flex justify-start gap-10">
-                                        <span class="text-base font-bold">Mô tả chi tiết:</span>
-                                        <span class="text-base" v-html="bookStore?.OneBookAdmin?.description"></span>
-                                    </div>
-                                </div>
+                            <div class="grid grid-rows-2 gap-2 w-full">
+                                <span class="text-base">{{ bookStore?.OneBookAdmin?.description_summary}}</span>
+                                <div class="text-base" v-html="bookStore?.OneBookAdmin?.description"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div>
+                    <a-button class="flex justify-center items-center gap-2" type="primary" size="large"
+                        @click="showModalAdd">
+                        <UIcon class="text-lg text-white" name="i-material-symbols-add" />
+                        <span class="text-white">Thêm phiên bản</span>
+                    </a-button>
+                </div>
+                <BookDetailCreate :openModalAdd="openModalAdd" :openModal="CloseModalAdd" />
                 <div class="grid grid-cols-2 gap-5">
                     <!-- Phiên bản 2024 -->
                     <div>
@@ -78,11 +80,13 @@
                             v-for="(items, index) in bookStore?.OneBookAdmin?.book_detail" :key="index">
                             <div class="flex justify-between">
                                 <h1 class="text-base font-bold">Phiên bản {{ items.book_version }} </h1>
-                                <a-button @click="showModalEdit(items?.id)" class="flex justify-center items-center gap-1 bg-[#344054]" type="primary">
+                                <a-button @click="showModalEdit(items?.id)"
+                                    class="flex justify-center items-center gap-1 bg-[#344054]" type="primary"
+                                    size="large">
                                     <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
                                     <span class="text-white text-base">Chỉnh sửa</span>
                                 </a-button>
-                                
+
                             </div>
                             <div class="border border-gray-200"></div>
                             <div class="flex justify-start gap-5">
@@ -100,7 +104,7 @@
                                 <div class="border border-r-1 border-gray-200"></div>
                                 <div class="grid grid-row-2">
                                     <div class="flex gap-10">
-                                        <div class="grid grid-rows-10">
+                                        <div class="grid gap-2">
                                             <span class="font-bold text-base">Số lượng: </span>
                                             <span class="font-bold text-base">Giá: </span>
                                             <span class="font-bold text-base">Tiền cọc: </span>
@@ -111,11 +115,13 @@
                                             <span class="font-bold text-base">Người dịch: </span>
                                             <span class="font-bold text-base">Ngày phát hành: </span>
                                             <span class="font-bold text-base">Công ty phát hành:</span>
+                                            <span class="font-bold text-base">Đánh giá:</span>
+
                                         </div>
-                                        <div class="grid grid-rows-10">
+                                        <div class="grid gap-2">
                                             <span class="text-base">{{ items?.stock }}</span>
                                             <span class="text-base">{{ items?.price }}</span>
-                                            <span class="text-base">20%</span>
+                                            <span class="text-base">{{ items.hire_percent }}%</span>
                                             <span class="text-base">{{ items?.cardboard }}</span>
                                             <span class="text-base">{{ items?.total_page }}</span>
                                             <span class="text-base">{{ items?.book_size }} cm</span>
@@ -123,12 +129,15 @@
                                             <span class="text-base">{{ items?.translator }}</span>
                                             <span class="text-base">{{ items?.publish_date }}</span>
                                             <span class="text-base">{{ items?.publishing_company?.name }}</span>
+                                            <span class="text-base">4.8</span>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <EditDetailBook :openModalEdit="openModalEdit" :openModal="CloseModalEdit" :bookDetailId="bookDetailId"  />
+                        <BookDetailEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit"
+                            :bookDetailId="bookDetailId" />
                     </div>
                 </div>
             </div>
@@ -136,9 +145,15 @@
     </div>
 </template>
 <script setup lang="ts">
-import EditDetailBook from '~/components/Book/EditDetailBook.vue';
+const openModalAdd = ref<boolean>(false);
 const openModalEdit = ref<boolean>(false);
 const bookDetailId = ref<number>();
+const showModalAdd = () => {
+    openModalAdd.value = true;
+};
+const CloseModalAdd = () => {
+    openModalAdd.value = false;
+};
 const showModalEdit = (id: number) => {
     openModalEdit.value = true;
     bookDetailId.value = id;

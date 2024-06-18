@@ -39,5 +39,14 @@ export const useBookDetailStore = defineStore("bookdetail-store", {
       this.isLoading = false;
       return data;
     },
+    async createBookDetail(valueBookDetail: any) {
+      this.isSubmitting = true;
+      const data = await useCustomFetch(`/api/v1/book-details/create`, {
+        method: "POST",
+        body: JSON.stringify(valueBookDetail),
+      });
+      this.isSubmitting = false;
+      return data;
+    },
   },
 });
