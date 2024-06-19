@@ -10,10 +10,10 @@
       <div class="p-5">
         <img
           v-if="props.collapsed"
-          src="../../../assets/images/logo.svg"
-          alt=""
+          src="/assets/images/logo_small.svg"
+          alt="logo"
         />
-        <img v-else src="../../../assets/images/logo_header.svg" alt="" />
+        <img src="/assets/images/logo_header.svg" alt="logo" />
       </div>
     </NuxtLink>
 
