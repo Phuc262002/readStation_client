@@ -1,6 +1,9 @@
 <template>
   <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
-    <div class="flex gap-[30px]">
+    <div v-if="postStore.isLoading" class="flex justify-center my-10">
+      <a-spin size="large" />
+    </div>
+    <div v-else class="flex gap-[30px]">
       <div class="w-3/4">
         <div
           class="relative overflow-hidden h-[462px] w-full bg-cover bg-center bg-no-repeat rounded-xl"
@@ -62,20 +65,52 @@
 
         <div>
           <h2 class="font-bold text-[20px]">Bình luận</h2>
+
           <BlogComment />
         </div>
         <hr class="mb-5" />
 
         <div class="mb-5 font-bold text-[27px]">Bài viết liên quan</div>
-        <div class="grid grid-cols-3 gap-4">
-          <BlogDetailItem
-            v-for="post in postStore.posts?.posts?.filter(
-              (item) => item.id !== postStore.post?.id
-            )"
-            :key="post.id"
-            :post="post"
-          />
+        <div v-if="postStore.isLoading" class="flex justify-center my-10">
+          <a-spin size="large" />
         </div>
+
+        <div v-else class="relative">
+          <swiper
+            :slidesPerView="3"
+            :spaceBetween="16"
+            :pagination="{
+              clickable: true,
+            }"
+            :modules="Pagination"
+            class="mySwiper"
+            @swiper="onSwiper"
+            :loop="true"
+            ref="swiperRef"
+          >
+            <swiper-slide
+              v-for="post in postStore.posts?.posts?.filter(
+                (item) => item.id !== postStore.post?.id
+              )"
+              :key="post.id"
+            >
+              <BlogDetailItem :post="post" />
+            </swiper-slide>
+          </swiper>
+          <button
+            @click="swiperPrevSlide"
+            class="border absolute top-1/2 left-0 z-10 bg-white -translate-x-5 -translate-y-1/2 border-gray-300 rounded-full w-10 h-10 flex justify-center items-center"
+          >
+            <ArrowLeftOutlined />
+          </button>
+          <button
+            @click="swiperNextSlide"
+            class="border absolute top-1/2 right-0 z-10 bg-white border-gray-300 translate-x-5 -translate-y-1/2 rounded-full w-10 h-10 flex justify-center items-center"
+          >
+            <ArrowRightOutlined />
+          </button>
+        </div>
+        <div class="grid grid-cols-3 gap-4"></div>
       </div>
 
       <div class="w-1/4 space-y-5">
@@ -120,7 +155,10 @@
         </div>
         <div class="rounded-lg shadow-md p-5">
           <div class="border-b-2 font-semibold mb-2">Bài viết nổi bật</div>
-          <div class="space-y-4">
+          <div v-if="postStore.isLoading" class="flex justify-center my-10">
+            <a-spin size="large" />
+          </div>
+          <div v-else class="space-y-4 h-[400px] overflow-auto">
             <NuxtLink
               v-for="post in postStore.postsPopular?.posts?.filter(
                 (item) => item.id !== postStore.post?.id
@@ -157,11 +195,26 @@
   </div>
 </template>
 <script setup>
+import { Swiper, SwiperSlide } from "swiper/vue";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
 const authStore = useAuthStore();
 const route = useRoute();
 const slug = route.params.slug;
 const postStore = usePostStore();
 const commentStore = useCommentStore();
+const swiperInstance = ref();
+
+function onSwiper(swiper) {
+  swiperInstance.value = swiper;
+}
+const swiperNextSlide = () => {
+  swiperInstance.value.slideNext();
+};
+const swiperPrevSlide = () => {
+  swiperInstance.value.slidePrev();
+};
 const post = ref({
   page: 1,
   pageSize: 10,
@@ -182,8 +235,8 @@ useAsyncData(async () => {
   }
   try {
     const data = await postStore.getPost({
-      page: post.value.page,
-      pageSize: post.value.pageSize,
+      page: 1,
+      pageSize: 9,
       category_id: postStore.post.category.id,
     });
     postStore.posts = data.data._value?.data;
@@ -211,5 +264,10 @@ useSeoMeta({
   ogImage: `${postStore.post?.image}`,
   twitterCard: `${postStore.post?.image}`,
 });
-
 </script>
+<style scoped>
+:deep(.swiper) {
+  width: 100%;
+  padding: 2px;
+}
+</style>

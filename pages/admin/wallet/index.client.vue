@@ -98,16 +98,18 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top" color="black">
-                <template #title>
-                  <span>Xem chi tiết</span>
-                </template>
-                <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
-                >
-                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
-                </button>
-              </a-tooltip>
+              <NuxtLink to="/admin/wallet/1">
+                <a-tooltip placement="top" color="black">
+                  <template #title>
+                    <span>Xem chi tiết</span>
+                  </template>
+                  <button
+                    class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
+                  >
+                    <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
+                  </button>
+                </a-tooltip>
+              </NuxtLink>
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"

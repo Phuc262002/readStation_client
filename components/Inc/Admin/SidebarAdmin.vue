@@ -8,7 +8,12 @@
   >
     <NuxtLink to="/">
       <div class="p-5">
-        <img src="../../../assets/images/Logo.svg" alt="" />
+        <img
+          v-if="props.collapsed"
+          src="../../../assets/images/logo.svg"
+          alt=""
+        />
+        <img v-else src="../../../assets/images/logo_header.svg" alt="" />
       </div>
     </NuxtLink>
 

@@ -212,7 +212,7 @@
         </div>
       </div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="bg-white w-full shadow-md rounded-md space-y-2 p-5">
         <div class="text-xl font-semibold">Sách được thuê nhiều</div>
         <div class="flex justify-between">
@@ -232,29 +232,13 @@
       </div>
 
       <div class="bg-white w-full shadow-md rounded-md space-y-2 p-5">
-        <div class="text-xl font-semibold">Bài viết nổi bật</div>
-        <div class="flex justify-between">
-          <div class="flex justify-center">
-            <img
-              class="w-20 h-20 object-cover rounded-md"
-              src="https://cdn0.fahasa.com/media/catalog/product/8/9/8935244875805.jpg"
-              alt=""
-            />
-            <p class="flex items-start">
-              Hành Trình Đầy Nước Mắt: 'Một Lít Nước Mắt
-            </p>
-          </div>
-          <p class="flex items-start">200 lượt thuê</p>
-        </div>
-      </div>
-      <div class="bg-white w-full shadow-md rounded-md space-y-2 p-5">
         <div class="text-xl font-semibold">Hóa đơn nhập hàng</div>
         <div class="space-y-2">
           <div class="flex justify-between shadow-sm">
             <p>#TW15090251</p>
-            <p>Đã thanh toán</p>
+            <a-tag>Đã thanh toán</a-tag>
           </div>
-          <div class="flex justify-center items-center gap-1 text-sm">
+          <div class="flex justify-center  items-center gap-1 text-sm">
             <p>Người nhận: An Khương</p>
             <p>Tổng tiền: 1.500.000đ</p>
             <p>10/05/2034</p>
