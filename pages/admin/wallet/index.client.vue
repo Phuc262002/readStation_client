@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="flex gap-2">
-          <a-button @click="showModalAccept" type="primary">Xác thực</a-button>
+          <!-- <a-button @click="showModalAccept" type="primary">Xác thực</a-button> -->
         </div>
       </div>
       <WalletAccept

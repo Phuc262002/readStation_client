@@ -12,7 +12,7 @@ export const useWalletAdminStore = defineStore("walletAdmin-store", {
     async getAdminWallet({ page, pageSize, search, status }: any) {
       this.isLoading = true;
       const data: any = await useCustomFetch(
-        `/api/v1/wallet/admin/get-all?${page ? `&page=${page}` : ""}${
+        `/api/v1/admin/wallet/get-all?${page ? `&page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
         }${search ? `&search=${search}` : ""}${
           status ? `&status=${status}` : ""
@@ -25,7 +25,7 @@ export const useWalletAdminStore = defineStore("walletAdmin-store", {
     async updateWalletStatus({ id, status }: any) {
       this.isSubmitting = true;
       const data: any = await useCustomFetch(
-        `/api/v1/wallet/admin/update-transaction-status/${id}`,
+        `/api/v1/admin/wallet/update-status/${id}`,
         {
           method: "PUT",
           body: JSON.stringify(status),
