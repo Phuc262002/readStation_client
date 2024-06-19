@@ -21,18 +21,26 @@
                         slidesPerView: 4,
                         spaceBetween: 5,
                     },
-                }" :modules="modules" class="mySwiper">
-                    <swiper-slide v-for="(items, index) in data" :key="items.id">   
-                            <img class="rounded-lg" :src="items.poster" alt="">
+                }" :modules="modules" class="mySwiper" @swiper="onSwiper" :loop="true" ref="swiperRef">
+                    <swiper-slide v-for="(items, index) in data" :key="items.id">
+                        <img class="rounded-lg" :src="items.poster" alt="">
                     </swiper-slide>
                 </swiper>
+                <button @click="swiperPrevSlide"
+                    class="border left-0 z-10 bg-white -translate-x-5 -translate-y-1/2 border-gray-300 rounded-full w-10 h-10 flex justify-center items-center">
+                    <ArrowLeftOutlined />
+                </button>
+                <button @click="swiperNextSlide"
+                    class="border right-0 z-10 bg-white border-gray-300 translate-x-5 -translate-y-1/2 rounded-full w-10 h-10 flex justify-center items-center">
+                    <ArrowRightOutlined />
+                </button>
             </div>
         </div>
     </div>
 </template>
 <script>
+import { ref } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 
@@ -42,7 +50,21 @@ export default {
         SwiperSlide,
     },
     setup() {
+        const swiperInstance = ref();
+
+        function onSwiper(swiper) {
+            swiperInstance.value = swiper;
+        }
+        const swiperNextSlide = () => {
+            swiperInstance.value.slideNext();
+        };
+        const swiperPrevSlide = () => {
+            swiperInstance.value.slidePrev();
+        };
         return {
+            swiperPrevSlide,
+            swiperNextSlide,
+            onSwiper,
             modules: [Pagination],
         };
     },
@@ -86,7 +108,6 @@ const getDataRecomended = async () => {
     feauturedRecommended.value = response?.data?._rawValue?.data;
 }
 const feauturedLastest = ref({})    
-console.log("🚀 ~ feauturedLastest:", feauturedLastest)
 const getDataLastest = async () => {
     try {
         const data = await recomendedBooks.getLastestBook();
