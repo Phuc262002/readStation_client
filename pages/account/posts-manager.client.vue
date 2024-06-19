@@ -99,7 +99,7 @@
                     <span>Xem chi tiết</span>
                   </template>
                   <button
-                    @click="showModal"
+                    @click="showModal(record.id)"
                     class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                   >
                     <div class="flex items-center">
@@ -114,6 +114,7 @@
               <AccountFormPostDetail
                 :openModal="openModal"
                 :closeModal="closeModal"
+                :postDetailId="postDetailId"
               />
 
               <a-dropdown :trigger="['click']" placement="bottom">
@@ -127,7 +128,7 @@
                 </button>
                 <template #overlay>
                   <a-menu>
-                    <NuxtLink to="/account/edit-post">
+                    <NuxtLink to="">
                       <a-menu-item key="2" class="p-4">
                         <span class="flex items-center gap-2 text-blue-400">
                           <UIcon
@@ -141,10 +142,7 @@
 
                     <a-menu-item key="3" class="p-4">
                       <span>
-                        <button
-                          class="flex items-center gap-1 text-blue-400"
-                          @click="showDeleteConfirm(record?.id)"
-                        >
+                        <button class="flex items-center gap-1 text-blue-400">
                           <UIcon
                             class="group-hover:text-[red] text-lg"
                             name="i-material-symbols-delete-outline"
@@ -167,9 +165,12 @@
 const userStore = useUserStore();
 const current = ref(1);
 const openModal = ref(false);
+const postDetailId = ref<number>();
 // Modal
-const showModal = () => {
+const showModal = (id) => {
   openModal.value = true;
+  postDetailId.value = id;
+  console.log(id);
 };
 
 const closeModal = () => {

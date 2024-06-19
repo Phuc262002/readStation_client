@@ -389,7 +389,7 @@ const handleIsShow = (section) => {
     isShow.value = [...isShow.value, section];
   }
 
-  console.log("ishow", isShow.value);
+  // console.log("ishow", isShow.value);
 };
 
 const publishingCompanyStore = usePublishingCompanyStore();
