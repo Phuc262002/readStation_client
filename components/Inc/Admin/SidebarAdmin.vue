@@ -11,9 +11,9 @@
         <img
           v-if="props.collapsed"
           src="../../../assets/images/logo.svg"
-          alt=""
+          alt="logo"
         />
-        <img v-else src="../../../assets/images/logo_header.svg" alt="" />
+        <img v-else src="../../../assets/images/logo_header.svg" alt="logo" />
       </div>
     </NuxtLink>
 
