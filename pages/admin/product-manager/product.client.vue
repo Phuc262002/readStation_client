@@ -180,6 +180,8 @@
   </div>
 </template>
 <script setup>
+const orderStore = useOrderStore();
+
 const columns = [
   {
     title: 'Mã đơn hàng',
@@ -225,76 +227,77 @@ const columns = [
     key: 'action',
   }
 ];
-const data = [
-  {
-    id: 1,
-    order_code: '33BSA2f8',
-    user: 'John Brown',
-    address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
-    receipt_date: '2021-09-01',
-    quantity: 2,
-    payment_method: 'Thanh toán khi nhận hàng',
-    status: 'Đang xử lý',
-  },
-  {
-    id: 2,
-    order_code: '33BSA2f8',
-    user: 'John Brown',
-    address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
-    receipt_date: '2021-09-01',
-    quantity: 2,
-    payment_method: 'Thanh toán khi nhận hàng',
-    status: 'Đang thuê',
-  },
-  {
-    id: 3,
-    order_code: '33BSA2f8',
-    user: 'John Brown',
-    address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
-    receipt_date: '2021-09-01',
-    quantity: 2,
-    payment_method: 'Thanh toán khi nhận hàng',
-    status: 'Đã hủy',
-  },
-  {
-    id: 4,
-    order_code: '33BSA2f8',
-    user: 'John Brown',
-    address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
-    receipt_date: '2021-09-01',
-    quantity: 2,
-    payment_method: 'Thanh toán khi nhận hàng',
-    status: 'Hoàn thành',
-  },
-  {
-    id: 5,
-    order_code: '33BSA2f8',
-    user: 'John Brown',
-    address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
-    receipt_date: '2021-09-01',
-    quantity: 2,
-    payment_method: 'Thanh toán khi nhận hàng',
-    status: 'Đã xác nhận',
-  },
-  {
-    id: 6,
-    order_code: '33BSA2f8',
-    user: 'John Brown',
-    address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
-    receipt_date: '2021-09-01',
-    quantity: 2,
-    payment_method: 'Thanh toán khi nhận hàng',
-    status: 'Đang giao',
-  },
-  {
-    id: 7,
-    order_code: '33BSA2f8',
-    user: 'John Brown',
-    address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
-    receipt_date: '2021-09-01',
-    quantity: 2,
-    payment_method: 'Thanh toán khi nhận hàng',
-    status: 'Quá hạn',
-  },
-];
+
+// const data = [
+//   {
+//     id: 1,
+//     order_code: '33BSA2f8',
+//     user: 'John Brown',
+//     address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
+//     receipt_date: '2021-09-01',
+//     quantity: 2,
+//     payment_method: 'Thanh toán khi nhận hàng',
+//     status: 'Đang xử lý',
+//   },
+//   {
+//     id: 2,
+//     order_code: '33BSA2f8',
+//     user: 'John Brown',
+//     address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
+//     receipt_date: '2021-09-01',
+//     quantity: 2,
+//     payment_method: 'Thanh toán khi nhận hàng',
+//     status: 'Đang thuê',
+//   },
+//   {
+//     id: 3,
+//     order_code: '33BSA2f8',
+//     user: 'John Brown',
+//     address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
+//     receipt_date: '2021-09-01',
+//     quantity: 2,
+//     payment_method: 'Thanh toán khi nhận hàng',
+//     status: 'Đã hủy',
+//   },
+//   {
+//     id: 4,
+//     order_code: '33BSA2f8',
+//     user: 'John Brown',
+//     address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
+//     receipt_date: '2021-09-01',
+//     quantity: 2,
+//     payment_method: 'Thanh toán khi nhận hàng',
+//     status: 'Hoàn thành',
+//   },
+//   {
+//     id: 5,
+//     order_code: '33BSA2f8',
+//     user: 'John Brown',
+//     address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
+//     receipt_date: '2021-09-01',
+//     quantity: 2,
+//     payment_method: 'Thanh toán khi nhận hàng',
+//     status: 'Đã xác nhận',
+//   },
+//   {
+//     id: 6,
+//     order_code: '33BSA2f8',
+//     user: 'John Brown',
+//     address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
+//     receipt_date: '2021-09-01',
+//     quantity: 2,
+//     payment_method: 'Thanh toán khi nhận hàng',
+//     status: 'Đang giao',
+//   },
+//   {
+//     id: 7,
+//     order_code: '33BSA2f8',
+//     user: 'John Brown',
+//     address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
+//     receipt_date: '2021-09-01',
+//     quantity: 2,
+//     payment_method: 'Thanh toán khi nhận hàng',
+//     status: 'Quá hạn',
+//   },
+// ];
 </script>
