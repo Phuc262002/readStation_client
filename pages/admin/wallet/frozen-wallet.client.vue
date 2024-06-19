@@ -108,67 +108,20 @@
                   <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
                 </button>
               </a-tooltip>
-              <a-dropdown :trigger="['click']" placement="bottom">
+              <a-tooltip placement="top" color="black ">
+                <template #title>
+                  <span>Khôi phục</span>
+                </template>
                 <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                  @click="showRecoverConfirm(record.id)"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
                   <UIcon
-                    class="group-hover:text-[#131313]"
-                    name="i-solar-menu-dots-bold"
+                    class="text-lg"
+                    name="i-material-symbols-autorenew-rounded"
                   />
                 </button>
-                <template #overlay>
-                  <a-menu>
-                    <a-menu-item key="2" class="p-4">
-                      <button
-                        @click="showModalRecharge"
-                        class="flex items-center gap-2"
-                      >
-                        <UIcon
-                          class="group-hover:text-[green]"
-                          name="i-material-symbols-edit-outline"
-                        />
-                        <span>Nạp tiền</span>
-                      </button>
-                    </a-menu-item>
-
-                    <a-menu-item key="4" class="p-4">
-                      <span>
-                        <button class="flex items-center gap-1">
-                          <UIcon
-                            class="group-hover:text-[red] text-lg"
-                            name="i-material-symbols-delete-outline"
-                          />
-                          <span>Hoạt động</span>
-                        </button>
-                      </span>
-                    </a-menu-item>
-
-                    <a-menu-item key="6" class="p-4">
-                      <span>
-                        <button class="flex items-center gap-1">
-                          <UIcon
-                            class="text-lg"
-                            name="i-material-symbols-delete-outline"
-                          />
-                          <span>Cấm</span>
-                        </button>
-                      </span>
-                    </a-menu-item>
-                    <a-menu-item key="7" class="p-4">
-                      <span>
-                        <button class="flex items-center gap-1">
-                          <UIcon
-                            class="text-lg"
-                            name="i-material-symbols-delete-outline"
-                          />
-                          <span>Đóng băng</span>
-                        </button>
-                      </span>
-                    </a-menu-item>
-                  </a-menu>
-                </template>
-              </a-dropdown>
+              </a-tooltip>
             </div>
           </template>
         </template>
@@ -190,9 +143,38 @@ const openModalWithdraw = ref<boolean>(false);
 const openModalAccept = ref<boolean>(false);
 const walletAdminStore = useWalletAdminStore();
 useAsyncData(async () => {
-  await walletAdminStore.getAdminWallet({});
+  await walletAdminStore.getAdminWallet({
+    status: "frozen",
+  });
 });
 
+const onRecover = async (id: string) => {
+  await walletAdminStore.updateWalletStatus({
+    id: id,
+    status: "active",
+  
+  });
+  await walletAdminStore.getAdminWallet({
+    status: "frozen",
+  });
+  
+};
+
+const showRecoverConfirm = (id: string) => {
+  Modal.confirm({
+    title: "Are you sure delete this task?",
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      onRecover(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+};
 const columns = [
   {
     title: "Ảnh đại diện",

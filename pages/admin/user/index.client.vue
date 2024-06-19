@@ -71,7 +71,7 @@
             <a-tag
               :bordered="false"
               v-else="record.status === 'inactive'"
-              color="red"
+              color="yellow"
             >
               Đang ẩn
             </a-tag>
