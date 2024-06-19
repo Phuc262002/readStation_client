@@ -72,11 +72,29 @@
             <IconMul v-else />
           </template>
           <template v-else-if="column.key === 'status'">
-            <span>
-              <a-tag :bordered="false" :color="record.status === 'active' ? 'green' : 'volcano'">
-                {{ record.status }}
-              </a-tag>
-            </span>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'active'"
+              class="bg-tag-bg-09 text-tag-text-09"
+            >
+              Công khai
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-else="record.status === 'inactive'"
+              class="bg-tag-bg-07 text-tag-text-07"
+            >
+              Đang ẩn
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-else="record.status === 'deleted'"
+              class="bg-tag-bg-06 text-tag-text-06"
+            >
+              Đã xóa
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
@@ -86,31 +104,31 @@
                 </template>
                 <span class="group hover:bg-[#faad14]/20 flex items-center justify-center w-6 h-6 rounded-md"><UIcon class="group-hover:text-[#faad14]" name="i-icon-park-outline-eyes" /></span>
               </a-tooltip> -->
-              <a-tooltip placement="top" color="green">
+              <a-tooltip placement="top">
                 <template #title>
                   <span>Sửa</span>
                 </template>
                 <button
                   @click="showModalEdit(record?.id)"
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                 class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
                   <UIcon
-                    class="group-hover:text-[#212122]"
+                    class="text-lg"
                     name="i-material-symbols-edit-outline"
                   />
                 </button>
               </a-tooltip>
-              <a-tooltip placement="top" color="red">
+              <a-tooltip placement="top" color="black ">
                 <template #title>
-                  <span>Xóa</span>
+                  <span>Khôi phục</span>
                 </template>
                 <button
-                  @click="showDeleteConfirm(record?.id)"
+                  @click="showRecoverConfirm(record.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
                   <UIcon
-                    class="group-hover:text-[#212122]"
-                    name="i-material-symbols-delete-outline"
+                    class="text-lg"
+                    name="i-material-symbols-autorenew-rounded"
                   />
                 </button>
               </a-tooltip>
@@ -142,6 +160,7 @@ useAsyncData(
     await categoryStore.getAllCategory({
       page: current.value,
       type: "book",
+      status: "deleted",
     });
   },
   {
@@ -150,13 +169,21 @@ useAsyncData(
   }
 );
 
-const onDelete = async (id: string) => {
-  await categoryStore.deleteCategory(id);
+const onRecover = async (id: string) => {
+  await categoryStore.updateCategory({
+    id: id,
+    category: {
+      status: "active",
+    },
+  });
   await categoryStore.getAllCategory({
+    page: current.value,
     type: "book",
+    status: "deleted",
   });
 };
-const showDeleteConfirm = (id: string) => {
+
+const showRecoverConfirm = (id: string) => {
   Modal.confirm({
     title: "Are you sure delete this task?",
     content: "Some descriptions",
@@ -164,7 +191,7 @@ const showDeleteConfirm = (id: string) => {
     okType: "danger",
     cancelText: "No",
     onOk() {
-      onDelete(id);
+      onRecover(id);
     },
     onCancel() {
       console.log("Cancel");

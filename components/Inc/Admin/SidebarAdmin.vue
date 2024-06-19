@@ -65,6 +65,11 @@
         <a-menu-item key="25" @click="navigateTo('/admin/wallet')"
           >Tất cả ví</a-menu-item
         >
+        <a-menu-item
+          key="82"
+          @click="navigateTo('/admin/wallet/authentication-wallet')"
+          >Xác thực ví</a-menu-item
+        >
         <a-menu-item key="24" @click="navigateTo('/admin/wallet/frozen-wallet')"
           >Đóng băng ví</a-menu-item
         >

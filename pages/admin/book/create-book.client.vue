@@ -138,8 +138,8 @@
                                             v-model:value="valuecreateBook.book_detail.price" />
                                     </div>
                                     <div class="flex flex-col gap-2">
-                                        <label class="text-sm font-semibold" for="">Thuế</label>
-                                        <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Thuế"
+                                        <label class="text-sm font-semibold" for="">Tiền cọc</label>
+                                        <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Tiền cọc"
                                             v-model:value="valuecreateBook.book_detail.hire_percent" />
                                     </div>
                                     <div class="flex flex-col gap-2">

@@ -111,11 +111,10 @@
             <a-tag
               :bordered="false"
               v-else-if="record.status === 'approve_canceled'"
-              color="cyan">
-              Không duyệt
+              class="bg-tag-bg-07 text-tag-text-07"
+            >
+              Từ chối
             </a-tag>
-
-           
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
@@ -243,7 +242,7 @@ const columns = [
     title: "Tên bài viết",
     dataIndex: "title",
     key: "title",
-    width: "300px",
+    width: "250px",
   },
   {
     title: "Tiêu đề",
@@ -255,7 +254,6 @@ const columns = [
     title: "Người đăng",
     dataIndex: "user_id",
     key: "user_id",
-    width: "200px",
   },
 
   {

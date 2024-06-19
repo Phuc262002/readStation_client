@@ -16,7 +16,7 @@ export const useUserStore = defineStore("user-store", {
       try {
         this.isLoading = true;
         const data: any = await useCustomFetch(
-          `/api/v1/users?${page ? `&page=${page}` : ""}${
+          `/api/v1/admin/users?${page ? `&page=${page}` : ""}${
             pageSize ? `&pageSize=${pageSize}` : ""
           }${search ? `&search=${search}` : ""}${
             status ? `&status=${status}` : ""
@@ -32,7 +32,7 @@ export const useUserStore = defineStore("user-store", {
     async createUser(user: any) {
       try {
         this.isSubmitting = true;
-        const data: any = await useCustomFetch(`/api/v1/users/create`, {
+        const data: any = await useCustomFetch(`/api/v1/admin/users/create`, {
           method: "POST",
           body: JSON.stringify(user),
         });
