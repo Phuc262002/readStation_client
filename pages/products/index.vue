@@ -401,7 +401,7 @@ const dataAuthor = ref({});
 const dataCategory = ref({});
 const dataBooks = ref({});
 
-console.log("a", dataBooks);
+// console.log("a", dataBooks);
 const dataCompanies = ref({});
 const current = ref(1);
 
@@ -484,7 +484,7 @@ useAsyncData(async () => {
     const response =
       await publishingCompanyStore.getAllPublishingCompanyClient();
     dataCompanies.value = response?.data?._rawValue?.data;
-    console.log("aaabb", dataCompanies);
+    // console.log("aaabb", dataCompanies);
   } catch (error) {
     console.error(error);
   } finally {
