@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="flex gap-2">
-          <a-button @click="showModalAccept" type="primary">Xác thực</a-button>
+          <!-- <a-button @click="showModalAccept" type="primary">Xác thực</a-button> -->
         </div>
       </div>
       <WalletAccept
@@ -143,7 +143,7 @@
                         </button>
                       </span>
                     </a-menu-item>
-                    
+
                     <a-menu-item key="6" class="p-4">
                       <span>
                         <button class="flex items-center gap-1">
@@ -157,7 +157,10 @@
                     </a-menu-item>
                     <a-menu-item key="7" class="p-4">
                       <span>
-                        <button class="flex items-center gap-1">
+                        <button
+                          @click="showModalFrozen"
+                          class="flex items-center gap-1"
+                        >
                           <UIcon
                             class="text-lg"
                             name="i-material-symbols-delete-outline"
@@ -181,6 +184,10 @@
         :openModalWithdraw="openModalWithdraw"
         :openModal="CloseModalWithdraw"
       />
+      <WalletFrozen
+        :openModalFrozen="openModalFrozen"
+        :openModal="CloseModalFrozen"
+      />
     </div>
   </div>
 </template>
@@ -188,6 +195,7 @@
 const openModalRecharge = ref<boolean>(false);
 const openModalWithdraw = ref<boolean>(false);
 const openModalAccept = ref<boolean>(false);
+const openModalFrozen = ref<boolean>(false);
 const walletAdminStore = useWalletAdminStore();
 useAsyncData(async () => {
   await walletAdminStore.getAdminWallet({});
@@ -231,6 +239,12 @@ const columns = [
     key: "action",
   },
 ];
+const CloseModalFrozen = () => {
+  openModalFrozen.value = false;
+};
+const showModalFrozen = () => {
+  openModalFrozen.value = true;
+};
 const CloseModalRecharge = () => {
   openModalRecharge.value = false;
 };

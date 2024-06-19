@@ -86,28 +86,28 @@
             <span class="flex justify-center">
               <a-tag
                 v-if="record.status === 'pending'"
-                class="text-tag-text-pending bg-tag-bg-pending border-none py-1 px-3 rounded-lg"
+                class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg"
                 >Đang xử lý</a-tag
               >
               <a-tag
                 v-else-if="record.status === 'hiring'"
-                class="text-tag-text-hiring bg-tag-bg-hiring border-none py-1 px-3 rounded-lg"
+                class="text-tag-text-04 bg-tag-bg-04 border-none py-1 px-3 rounded-lg"
                 >Đang thuê</a-tag
               >
               <a-tag
                 v-else-if="record.status === 'completed'"
-                class="text-tag-text-completed bg-tag-bg-completed border-none py-1 px-3 rounded-lg"
+                class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg"
                 >Hoàn thành</a-tag
               >
               <a-tag
                 v-else-if="record.status === 'canceled'"
-                class="text-tag-text-canceled bg-tag-bg-canceled border-none py-1 px-3 rounded-lg"
+                class="text-tag-text-07 bg-tag-bg-07 border-none py-1 px-3 rounded-lg"
                 >Đã hủy</a-tag
               >
               <a-tag
                 v-else-if="record.status === 'out_of_date'"
-                class="text-tag-text-uod bg-tag-bg-uod border-none py-1 px-3 rounded-lg"
-                >Hết hạn</a-tag
+                class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
+                >Quá hạn</a-tag
               >
             </span>
           </template>
