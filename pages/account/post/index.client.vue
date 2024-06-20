@@ -42,7 +42,7 @@
             <span>Đang ẩn</span>
           </a-button>
         </div>
-        <NuxtLink to="/account/create-post"
+        <NuxtLink to="/account/post/create-post"
           ><a-button class="bg-orange-500 border-none !text-white h-10"
             >Bài viết mới</a-button
           ></NuxtLink
