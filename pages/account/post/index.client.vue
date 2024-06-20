@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="text-sm font-bold pb-5">Bài viết của bạn</h2>
-    <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">
+    <h2 class="text-sm font-bold pb-5">Bài viết của bạnnn</h2>
+    <div class="w-full bg-white rounded-lg shadow-md shadow-gray-300 p-5">
       <div class="relative w-1/4 md:block hidden pb-2">
         <div class="flex">
           <input
@@ -115,11 +115,6 @@
                   </button>
                 </a-tooltip>
               </span>
-              <AccountFormPostDetail
-                :openModal="openModal"
-                :closeModal="closeModal"
-                :postDetailId="postDetailId"
-              />
 
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
@@ -171,6 +166,11 @@
         />
       </div>
     </div>
+    <AccountPostFormDetail
+      :openModal="openModal"
+      :closeModal="closeModal"
+      :postDetailId="postDetailId"
+    />
   </div>
 </template>
 <script setup lang="ts">

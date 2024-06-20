@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="text-sm font-bold pb-5">Danh sách đơn hàng</h2>
+    <h2 class="text-sm font-bold pb-5">Danh sách đơn hànggg</h2>
     <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">
       <div class="relative w-1/4 md:block hidden">
         <div class="flex">
@@ -21,23 +21,23 @@
         <a-button
           class="flex items-center gap-2 h-10 bg-orange-500 !text-white border-none"
         >
-          <img src="../../assets/images/icon-blog.svg" alt="" />
+          <img src="../../../assets/images/icon-blog.svg" alt="" />
           <span>Tất cả đơn hàng</span>
         </a-button>
         <a-button class="flex items-center gap-2 h-10 border-none">
-          <img src="../../assets/images/icon-shipping.svg" alt="" />
+          <img src="../../../assets/images/icon-shipping.svg" alt="" />
           <span>Đang giao</span>
         </a-button>
         <a-button class="flex items-center gap-2 h-10 border-none">
-          <img src="../../assets/images/icon-rent.svg" alt="" />
+          <img src="../../../assets/images/icon-rent.svg" alt="" />
           <span>Đang thuê</span>
         </a-button>
         <a-button class="flex items-center gap-2 h-10 border-none">
-          <img src="../../assets/images/icon-return.svg" alt="" />
+          <img src="../../../assets/images/icon-return.svg" alt="" />
           <span>Đã hoàn trả</span>
         </a-button>
         <a-button class="flex items-center gap-2 h-10 border-none">
-          <img src="../../assets/images/icon-cancel.svg" alt="" />
+          <img src="../../../assets/images/icon-cancel.svg" alt="" />
           <span>Đã hủy</span>
         </a-button>
       </div>
@@ -179,7 +179,6 @@ useAsyncData(
     try {
       await userStore.getAllOrder({
         page: current.value,
-        // pageSize: 2,
       });
     } catch (error) {
       console.log(error);

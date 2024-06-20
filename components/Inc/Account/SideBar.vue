@@ -50,7 +50,9 @@
         </a-menu-item>
 
         <a-menu-item key="3">
-          <NuxtLink to="/account/account-setting"> Cài đặt tài khoản </NuxtLink>
+          <NuxtLink to="/account/manager/account-setting">
+            Cài đặt tài khoản
+          </NuxtLink>
         </a-menu-item>
       </a-sub-menu>
 
@@ -62,19 +64,25 @@
           </span>
         </template>
         <a-menu-item key="4">
-          <NuxtLink to="/account/posts-manager" class="flex items-center gap-2">
+          <NuxtLink to="/account/post" class="flex items-center gap-2">
             Bài viết của bạn
           </NuxtLink>
         </a-menu-item>
 
         <a-menu-item key="5">
-          <NuxtLink to="/account/rep-comment" class="flex items-center gap-2">
+          <NuxtLink
+            to="/account/post/rep-comment"
+            class="flex items-center gap-2"
+          >
             Trả lời bình luận
           </NuxtLink>
         </a-menu-item>
 
         <a-menu-item key="6">
-          <NuxtLink to="/account/your-comment" class="flex items-center gap-2">
+          <NuxtLink
+            to="/account/post/your-comment"
+            class="flex items-center gap-2"
+          >
             Bài viết đã bình luận
           </NuxtLink>
         </a-menu-item>
@@ -96,21 +104,24 @@
       </NuxtLink>
 
       <a-menu-item key="7">
-        <NuxtLink to="/account/credit-manager" class="flex items-center gap-2">
+        <NuxtLink to="/account/wallet" class="flex items-center gap-2">
           <UIcon name="i-tabler-credit-card-pay" class="text-base" />
           <span>Quản lý ví</span>
         </NuxtLink>
       </a-menu-item>
 
       <a-menu-item key="8">
-        <NuxtLink to="/account/order-manager" class="flex items-center gap-2">
+        <NuxtLink to="/account/order" class="flex items-center gap-2">
           <UIcon name="i-bi-basket" class="text-base" />
           <span>Quản lý đơn hàng</span>
         </NuxtLink>
       </a-menu-item>
 
       <a-menu-item key="9">
-        <NuxtLink to="/account/change-password" class="flex items-center gap-2">
+        <NuxtLink
+          to="/account/manager/change-password"
+          class="flex items-center gap-2"
+        >
           <UIcon name="i-carbon-password" class="text-base" />
           <span>Đổi mật khẩu</span>
         </NuxtLink>

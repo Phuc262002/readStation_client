@@ -25,7 +25,7 @@
           <p class="font-bold text-xl">Nhập số tiền muốn nạp</p>
           <div class="flex-1 flex flex-col justify-end relative">
             <img
-              src="../../assets/images/icon-money.svg"
+              src="../../../assets/images/icon-money.svg"
               class="w-10 h-10 absolute bottom-16"
               alt=""
             />
@@ -116,7 +116,7 @@
     <div class="p-5 bg-white mt-5 shadow-lg rounded-xl">
       <div class="flex justify-between">
         <p>Lịch sử giao dịch (30 ngày gần nhất)</p>
-        <NuxtLink to="/account/transaction-history">
+        <NuxtLink to="/account/wallet/transaction-history">
           <button class="text-blue-600 text-[14px]">Xem chi tiết</button>
         </NuxtLink>
       </div>

@@ -2,7 +2,7 @@
   <div>
     <h3 class="font-bold pb-5">Lịch sử giao dịch</h3>
     <NuxtLink
-      to="/account/credit-manager"
+      to="/account/wallet"
       class="flex justify-end text-blue-600 text-sm"
       >Trở về</NuxtLink
     >
