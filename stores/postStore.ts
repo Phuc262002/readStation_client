@@ -23,8 +23,6 @@ export const usePostStore = defineStore("post-store", {
           }`
         );
         // this.posts = data.data._value?.data;
-        this.posts = data.data._value;
-
         return data;
       } catch (error) {
         console.log(error);
