@@ -23,7 +23,17 @@ export const useUserStore = defineStore("user-store", {
           }`
         );
         this.userAdmin = data.data._value?.data;
+      
+        return data;
+      } catch (error) {
+        console.log(error);
+      }finally{
         this.isLoading = false;
+      }
+    },
+    async getOneuser(id: any) {
+      try {
+        const data: any = await useCustomFetch(`/api/v1/admin/users/${id}`);
         return data;
       } catch (error) {
         console.log(error);
@@ -42,6 +52,24 @@ export const useUserStore = defineStore("user-store", {
         console.log(error);
       }
     },
+
+    async updateUser({ user, id }: any) {
+      try {
+        this.isSubmitting = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/admin/users/update/${id}`,
+          {
+            method: "PUT",
+            body: JSON.stringify(user),
+          }
+        );
+        return data;
+      } catch (error) {
+        console.log(error);
+      }finally{
+        this.isSubmitting = false;
+      }
+    },
     async createOrder(body: any) {
       const data: any = await useCustomFetch("/api/v1/account/order/create", {
         method: "POST",
@@ -49,6 +77,7 @@ export const useUserStore = defineStore("user-store", {
       });
       return data;
     },
+
     async getAllOrder({ page, pageSize, status, search }: any) {
       const data: any = await useCustomFetch(
         `/api/v1/account/order/get-all?${page ? `&page=${page}` : ""}${

@@ -13,7 +13,11 @@
 
     <!-- Đây là phần code mẫu body -->
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
-      <a-table :columns="columns" :data-source="userStore.userAdmin?.users">
+      <a-table
+        :columns="columns"
+        :data-source="userStore.userAdmin?.users"
+        :loading="userStore.isLoading"
+      >
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'avatar'">
             <a-image
@@ -90,7 +94,6 @@
                   <span>Xem chi tiết</span>
                 </template>
                 <button
-               
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                 >
                   <div class="flex">
@@ -128,7 +131,7 @@
                   <a-menu>
                     <NuxtLink to="/admin/user/edit/1">
                       <a-menu-item key="2" class="p-4">
-                        <span class="flex items-center gap-2 ">
+                        <span class="flex items-center gap-2">
                           <UIcon
                             class="group-hover:text-[green]"
                             name="i-material-symbols-edit-outline"
@@ -142,7 +145,7 @@
                       <span>
                         <button
                           @click="showDeleteConfirm(record?.id)"
-                          class="flex items-center gap-1 "
+                          class="flex items-center gap-1"
                         >
                           <UIcon
                             class="group-hover:text-[red] text-lg"

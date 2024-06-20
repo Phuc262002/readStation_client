@@ -23,7 +23,7 @@ export const useCategoryStore = defineStore("category-store", {
     async getAllCategory({ page, pageSize, search, status, type }: any) {
       this.isLoading = true;
       const data: any = await useCustomFetch(
-        `/api/v1/categories/admin/get-all?type=${type}${
+        `/api/v1/admin/categories?type=${type}${
           page ? `&page=${page}` : ""
         }${pageSize ? `&pageSize=${pageSize}` : ""}${
           search ? `&search=${search}` : ""
@@ -36,14 +36,14 @@ export const useCategoryStore = defineStore("category-store", {
     async getOneCategory(id: number) {
       this.isLoading = true;
       const data: any = await useCustomFetch(
-        `/api/v1/categories/get-one/${id}`
+        `/api/v1/admin/categories/${id}`
       );
       this.isLoading = false;
       return data;
     },
     async createCategory(category: any) {
       this.isSubmitting = true;
-      const data: any = await useCustomFetch(`/api/v1/categories/create`, {
+      const data: any = await useCustomFetch(`/api/v1/admin/categories/create`, {
         method: "POST",
         body: JSON.stringify(category),
       });
@@ -52,7 +52,7 @@ export const useCategoryStore = defineStore("category-store", {
     },
     async deleteCategory(id: string) {
       const data: any = await useCustomFetch(
-        `/api/v1/categories/delete/${id}`,
+        `/api/v1/admin/categories/delete/${id}`,
         {
           method: "DELETE",
         }
@@ -61,7 +61,7 @@ export const useCategoryStore = defineStore("category-store", {
     },
     async updateCategory({ id, category }: any) {
       const data: any = await useCustomFetch(
-        `/api/v1/categories/update/${id}`,
+        `/api/v1/admin/categories/update/${id}`,
         {
           method: "PUT",
           body: JSON.stringify(category),
