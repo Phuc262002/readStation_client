@@ -127,20 +127,23 @@
                 </template>
                 <template v-if="column.dataIndex === 'status'">
                   <span>
-                    <a-tag :bordered="false" v-if="record.status === 'wating_approve'" color="yellow">
+                    <a-tag :bordered="false" v-if="record.status === 'wating_approve'"class="bg-[#F5F5F5] text-[#9E9E9E]">
                       Đang chờ duyệt
                     </a-tag>
-                    <a-tag :bordered="false" v-else-if="record.status === 'pending'" color="yellow">
+                    <a-tag :bordered="false" v-else-if="record.status === 'pending'"class="bg-[#FFFBE5] text-[#FFD700]">
                       Đang xử lý
                     </a-tag>
-                    <a-tag :bordered="false" v-else-if="record.status === 'hiring'" color="yellow">
+                    <a-tag :bordered="false" v-else-if="record.status === 'hiring'" class="bg-[#FFFBE5] text-[#FFD700]">
                       Đang chờ duyệt
                     </a-tag>
-                    <a-tag :bordered="false" v-else-if="record.status === 'completed'" color="yellow">
+                    <a-tag :bordered="false" v-else-if="record.status === 'completed'" class="bg-[#E5F4F3] text-[#009688]">
                       Đã hoàn thành
                     </a-tag>
-                    <a-tag :bordered="false" v-else-if="record.status === 'out_of_date'" color="yellow">
+                    <a-tag :bordered="false" v-else-if="record.status === 'out_of_date'" class="bg-[#F44336] text-[#FEECEB]">
                       Đã hết hạn
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'canceled'" class="bg-[#F5F5F5] text-[#9E9E9E]" >
+                      Đã hủy
                     </a-tag>
                   </span>
                 </template>
