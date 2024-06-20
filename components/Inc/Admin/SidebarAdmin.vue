@@ -48,14 +48,9 @@
           >Thêm người dùng</a-menu-item
         >
         <a-menu-item key="5" @click="navigateTo('/admin/user/await-user')"
-          >Tài khoản chờ duyệt</a-menu-item
+          >Tài khoản chờ xác thực</a-menu-item
         >
-        <a-menu-item key="7" @click="navigateTo('/admin/user/invite-user')"
-          >Thống kê người giới thiệu</a-menu-item
-        >
-        <a-menu-item key="6" @click="navigateTo('/admin/user/trash-user')"
-          >Thùng rác</a-menu-item
-        >
+        
       </a-sub-menu>
       <a-sub-menu key="sub12">
         <template #title>

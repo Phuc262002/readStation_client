@@ -69,7 +69,7 @@
 
             <div class="text-tag-text-03">
               <p class="font-normal text-base">Khách hàng đã kích hoạt</p>
-              <p class="font-bold text-xl">500 khách hàng đã kích hoạt</p>
+              <p class="font-bold text-xl">500 khách hàng </p>
             </div>
           </div>
         </div>
