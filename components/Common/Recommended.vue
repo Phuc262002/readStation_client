@@ -6,6 +6,16 @@
                 <div>
                     <p>{{ title?.description }}</p>
                 </div>
+                <div class="flex justify-end gap-5">
+                    <button @click="swiperPrevSlide"
+                        class="bg-white border border-gray-300 rounded-full w-10 h-10 flex justify-center items-center -top-10">
+                        <ArrowLeftOutlined />
+                    </button>
+                    <button @click="swiperNextSlide"
+                        class="bg-white border border-gray-300 rounded-full w-10 h-10 flex justify-center items-center -top-10">
+                        <ArrowRightOutlined />
+                    </button>
+                </div>
                 <swiper :slidesPerView="4" :spaceBetween="1" :pagination="{
                     clickable: true,
                 }" :breakpoints="{
@@ -21,19 +31,13 @@
                         slidesPerView: 4,
                         spaceBetween: 5,
                     },
-                }" :modules="modules" class="mySwiper" @swiper="onSwiper" :loop="true" ref="swiperRef">
+                }" class="mySwiper" @swiper="onSwiper" :loop="true" ref="swiperRef">
                     <swiper-slide v-for="(items, index) in data" :key="items.id">
                         <img class="rounded-lg" :src="items.poster" alt="">
                     </swiper-slide>
                 </swiper>
-                <button @click="swiperPrevSlide"
-                    class="border left-0 z-10 bg-white -translate-x-5 -translate-y-1/2 border-gray-300 rounded-full w-10 h-10 flex justify-center items-center">
-                    <ArrowLeftOutlined />
-                </button>
-                <button @click="swiperNextSlide"
-                    class="border right-0 z-10 bg-white border-gray-300 translate-x-5 -translate-y-1/2 rounded-full w-10 h-10 flex justify-center items-center">
-                    <ArrowRightOutlined />
-                </button>
+
+
             </div>
         </div>
     </div>
@@ -65,19 +69,15 @@ export default {
             swiperPrevSlide,
             swiperNextSlide,
             onSwiper,
-            modules: [Pagination],
         };
     },
     props: ["title", "data"],
-    setup() {
-        return {}
-    }
 };
 </script>
 <style scoped>
 :deep(.swiper) {
     width: 100%;
-    height: 100%;
+    padding: 2px;
     cursor: pointer;
 }
 

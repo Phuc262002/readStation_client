@@ -13,14 +13,13 @@ export const useAuthorStore = defineStore("author-store", {
     async getAllAuthorClient({ page, pageSize }: any) {
       const data: any = await useCustomFetch(`/api/v1/authors`);
       this.authorClient = data.data._value?.data;
-      
       return data;
     },
 
     async getAllAuthor({ page, pageSize, search, status }: any) {
       this.isLoading = true;
       const data: any = await useCustomFetch(
-        `/api/v1/authors/admin/get-all?${page ? `&page=${page}` : ""}${
+        `/api/v1/admin/authors?${page ? `&page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
         }${search ? `&search=${search}` : ""}${
           status ? `&status=${status}` : ""
@@ -32,7 +31,7 @@ export const useAuthorStore = defineStore("author-store", {
     },
     async createAuthor(ValueAuthor: any) {
       this.isSubmitting = true;
-      const data: any = await useCustomFetch(`/api/v1/authors/create`, {
+      const data: any = await useCustomFetch(`/api/v1/admin/authors/create`, {
         method: "POST",
         body: JSON.stringify(ValueAuthor),
       });
@@ -40,13 +39,13 @@ export const useAuthorStore = defineStore("author-store", {
       return data;
     },
     async deleteAuthor(id: string) {
-      const data: any = await useCustomFetch(`/api/v1/authors/delete/${id}`, {
+      const data: any = await useCustomFetch(`/api/v1/admin/authors/delete/${id}`, {
         method: "DELETE",
       });
       return data;
     },
     async updateAuthor({ id, valueAuthor }: any) {
-      const data: any = await useCustomFetch(`/api/v1/authors/update/${id}`, {
+      const data: any = await useCustomFetch(`/api/v1/admin/authors/update/${id}`, {
         method: "PUT",
         body: JSON.stringify(valueAuthor),
       });
@@ -54,7 +53,7 @@ export const useAuthorStore = defineStore("author-store", {
     },
     async getAuthorById(id: string) {
       this.isLoading = true;
-      const data: any = await useCustomFetch(`/api/v1/authors/get-one/${id}`);
+      const data: any = await useCustomFetch(`/api/v1/admin/authors/${id}`);
       this.getOneAuthorAdmin = data.data._value?.data;
       this.isLoading = false;
       return data;

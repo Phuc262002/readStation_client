@@ -63,7 +63,7 @@ export const useBookStore = defineStore("book-store", {
     }: any) {
       this.isLoading = true;
       const data: any = await useCustomFetch(
-        `/api/v1/books/admin/get-all?${page ? `&page=${page}` : ""}${
+        `/api/v1/admin/books/admin/get-all?${page ? `&page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
         }${search ? `&search=${search}` : ""}${
           category_id ? `&category_id=${category_id}` : ""
@@ -76,14 +76,14 @@ export const useBookStore = defineStore("book-store", {
       return data;
     },
     async deleteBook(id: string) {
-      const data: any = await useCustomFetch(`/api/v1/books/delete/${id}`, {
+      const data: any = await useCustomFetch(`/api/v1/admin/books/delete/${id}`, {
         method: "DELETE",
       });
       return data;
     },
     async updateBook({id, value}: any) {
       this.isSubmitting = true;
-      const data: any = await useCustomFetch(`/api/v1/books/update/${id}`, {
+      const data: any = await useCustomFetch(`/api/v1/admin/books/update/${id}`, {
         method: "PUT",
         body: JSON.stringify(value),
       });
@@ -92,7 +92,7 @@ export const useBookStore = defineStore("book-store", {
     },
     async getOneBookAdmin(id: string) {
       this.isLoading = true;
-      const data: any = await useCustomFetch(`/api/v1/books/admin/get-one/${id}`);
+      const data: any = await useCustomFetch(`/api/v1/admin/books/admin/get-one/${id}`);
       this.OneBookAdmin = data.data._value?.data;
       this.isLoading = false;
       return data;

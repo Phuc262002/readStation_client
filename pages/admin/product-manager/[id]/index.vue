@@ -2,31 +2,33 @@
     <div class="flex flex-col gap-2">
         <h1 class="text-xl text-[#1e293b] font-bold pb-3">Chi tiết đơn hàng #0488D7D3C7</h1>
         <div class="flex flex-col gap-5">
-            <div class="w-full p-5 flex flex-col gap-3 bg-[white] rounded-lg">
+            <div class="w-full p-5 flex flex-col gap-4 bg-[white] rounded-lg">
                 <h1 class="text-base font-bold">Thông tin khách hàng</h1>
                 <div class="border border-gray-100"></div>
-                <div class="flex gap-10">
-                    <div class="flex gap-10">
-                        <div class="flex flex-col gap-2">
-                            <h1 class="font-bold text-base">Tên khách hàng: </h1>
-                            <h1 class="font-bold text-base">Email: </h1>
-                            <h1 class="font-bold text-base">Số điện thoại:</h1>
+                <div class="flex">
+                    <div class="flex flex-col gap-3 ">
+                        <div class="grid grid-cols-2">
+                            <h1 class="w-36 text-base font-bold">Tên khách hàng:</h1>
+                            <h1 class="text-base text-black">Tôn Thất An Khương</h1>
                         </div>
-                        <div class="flex flex-col gap-2">
-                            <h1 class="text-base">Tôn Thất An Khương</h1>
-                            <h1 class="text-base">trung.tranquanggg@gmail.com</h1>
-                            <h1 class="text-base">0563783914</h1>
+                        <div class="grid grid-cols-2 ">
+                            <h1 class="w-36  text-base font-bold">Email:</h1>
+                            <h1 class="text-base text-black">trung.tranquanggg@gmail.com</h1>
+                        </div>
+                        <div class="grid grid-cols-2">
+                            <h1 class="w-36  text-base font-bold">Số điện thoại:</h1>
+                            <h1 class="text-base text-black">0563783914</h1>
                         </div>
                     </div>
-                    <div class="border-gray-200 border"></div>
-                    <div class="flex gap-10">
-                        <div class="flex flex-col gap-2">
-                            <h1 class="font-bold text-base">Địa chỉ nhận sách:</h1>
-                            <h1 class="font-bold text-base">Phương thức thanh toán:</h1>
+                    <div class="border border-gray-200 ml-10"></div>
+                    <div class="flex flex-col gap-3 ml-5">
+                        <div class="grid grid-cols-2">
+                            <h1 class="w-36 text-base font-bold">Địa chỉ nhận sách:</h1>
+                            <h1 class="text-base text-black">161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM</h1>
                         </div>
-                        <div class="flex flex-col gap-2">
-                            <h1 class=" text-base">161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM</h1>
-                            <h1 class=" text-base">Thanh toán ví</h1>
+                        <div class="grid grid-cols-2">
+                            <h1 class="w-44 text-base font-bold">Phương thức thanh toán:</h1>
+                            <h1 class="text-base text-black">Thanh toán ví</h1>
                         </div>
                     </div>
                 </div>
