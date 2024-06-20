@@ -49,7 +49,11 @@
         >
       </div>
       <!--  -->
-      <a-table :columns="columns" :data-source="userStore?.posts?.posts">
+      <a-table
+        :columns="columns"
+        :data-source="userStore?.posts?.posts"
+        :pagination="false"
+      >
         <template #bodyCell="{ column, record }">
           <!--  -->
           <template v-if="column.key === 'created_at'">
@@ -158,6 +162,14 @@
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="userStore?.posts?.totalResults"
+          :pageSize="userStore?.posts?.pageSize"
+          show-less-items
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -181,6 +193,7 @@ useAsyncData(
     try {
       await userStore.getAllPost({
         page: current.value,
+        // pageSize: 2,
       });
     } catch (error) {
       console.log(error);

@@ -38,7 +38,7 @@
     >
       <a-sub-menu key="sub1">
         <template #title>
-          <span class="flex items-center gap-1">
+          <span class="flex items-center gap-2">
             <UIcon name="i-ant-design-user-outlined" class="text-base" />
             <span>Thông tin cá nhân</span>
           </span>
@@ -56,8 +56,8 @@
 
       <a-sub-menu key="sub2">
         <template #title>
-          <span class="flex items-center gap-1">
-            <UIcon name="i-material-symbols-post-add" class="text-base" />
+          <span class="flex items-center gap-2">
+            <UIcon name="i-material-symbols-light-post-add" class="text-base" />
             <span>Đóng góp bài viết</span>
           </span>
         </template>
