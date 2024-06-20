@@ -20,7 +20,7 @@ export const useBookDetailStore = defineStore("bookdetail-store", {
     }: any) {
       this.isLoading = true;
       const data = await useCustomFetch(
-        `/api/v1/book-details?${page ? `&page=${page}` : ""}${
+        `/api/v1/admin/book-details?${page ? `&page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
         }${search ? `&search=${search}` : ""}${
           category_id ? `&category_id=${category_id}` : ""
@@ -34,14 +34,14 @@ export const useBookDetailStore = defineStore("bookdetail-store", {
     },
     async getOneBookDetail(id: string) {
       this.isLoading = true;
-      const data = await useCustomFetch(`/api/v1/book-details/get-one/${id}`);
+      const data = await useCustomFetch(`/api/v1/admin/book-details/${id}`);
       this.getOneBookDetailAdmin = data.data._value?.data;
       this.isLoading = false;
       return data;
     },
     async createBookDetail(valueBookDetail: any) {
       this.isSubmitting = true;
-      const data = await useCustomFetch(`/api/v1/book-details/create`, {
+      const data = await useCustomFetch(`/api/v1/admin/book-details/create`, {
         method: "POST",
         body: JSON.stringify(valueBookDetail),
       });
