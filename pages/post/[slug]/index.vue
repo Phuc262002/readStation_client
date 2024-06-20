@@ -18,7 +18,7 @@
                 {{ postStore.post?.category?.name }}
               </div>
             </div>
-            <p class="text-white w-2/3 text-[27px] pt-2 font-bold">
+            <p class="text-white  text-[27px] pt-2 font-bold">
               {{ postStore.post?.title }}
             </p>
             <div class="pt-4">
