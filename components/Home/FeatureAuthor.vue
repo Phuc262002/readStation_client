@@ -8,10 +8,6 @@
                     <div class="text-[#999999]" v-html="featureAuthor?.getauthorFeatured[0]?.description "></div>
                     <!-- <p class="text-[#999999]"><span v-html="featureAuthor?.getauthorFeatured[0]?.description"></span></p> -->
                 </div>
-                <div>
-                    <button class="bg-rtprimary hover:bg-orange-300 w-1/2 h-11 rounded-lg  text-white">Xem thông
-                        tin</button>
-                </div>
             </div>
             <div class="">
                 <img class="h-96" :src="featureAuthor?.getauthorFeatured[0]?.avatar" alt="">

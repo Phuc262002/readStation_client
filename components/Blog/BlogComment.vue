@@ -32,6 +32,7 @@
     >
     trước khi bình luận nhé!
   </p>
+  
   <a-comment
     v-if="commentStore.comment?.comments?.length > 0"
     v-for="comment in commentStore.comment?.comments"
@@ -400,6 +401,7 @@
   <p class="text-center mb-5 font-semibold" v-else>
     Bài viết này hiện chưa có bình luận nào. Hãy là người đầu tiên bình luận.
   </p>
+  
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";

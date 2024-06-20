@@ -1,0 +1,150 @@
+<template>
+  <div>
+    <h2 class="font-bold pb-5">Bài viết mới</h2>
+    <div
+      class="w-2/3 w-full bg-white rounded-lg shadow-md shadow-gray-300 p-5 text-sm"
+    >
+      <form :model="post" @submit.prevent="onSubmit" class="space-y-5">
+        <div>
+          <p class="pb-2">Ảnh bìa</p>
+          <a-upload-dragger
+            v-model:fileList="fileList"
+            name="image"
+            :multiple="true"
+            :action="(file) => uploadFile(file)"
+            @change="handleChange"
+            @drop="handleDrop"
+          >
+            <p class="ant-upload-drag-icon">
+              <inbox-outlined></inbox-outlined>
+            </p>
+            <p class="ant-upload-text">Click hoặc kéo thả file vào đây</p>
+            <p class="ant-upload-hint">Hoặc nhấn vào đây để chọn file</p>
+          </a-upload-dragger>
+        </div>
+        <!--  -->
+        <div>
+          <p class="pb-2">Tên bài viết</p>
+          <a-input
+            type="text"
+            v-model:value="post.title"
+            placeholder="Tên bài viết"
+            class="h-10"
+          />
+        </div>
+        <div>
+          <p class="pb-2">Tiêu đề bài viết</p>
+          <a-input
+            v-model:value="post.summary"
+            placeholder="Tiêu đề"
+            class="h-10"
+          />
+        </div>
+        <div class="w-1/3 w-full">
+          <p class="pb-2" for="">Danh mục</p>
+          <a-select
+            v-model:value="post.category"
+            placeholder="Danh mục"
+            class="w-1/3"
+            size="large"
+            :options="options"
+          >
+          </a-select>
+        </div>
+        <div>
+          <p class="pb-2" for="">Mô tả chi tiết</p>
+          <CommonCKEditor
+            :value="post.content"
+            @input="(event) => (post.content = event)"
+          />
+        </div>
+        <div class="flex justify-end gap-2">
+          <a-button class="h-10 text-base">Hủy</a-button>
+          <a-button class="h-10 text-base !text-orange-500 border-orange-500"
+            >Lưu nháp</a-button
+          >
+          <a-button
+            html-type="submit"
+            class="h-10 text-base bg-orange-500 border-none !text-white"
+            >Lưu</a-button
+          >
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+<script lang="ts" setup>
+const fileList = ref([]);
+const categoryStore = useCategoryStore();
+const postStore = usePostStore();
+const current = ref(1);
+const options = ref([]);
+const baseStore = useBaseStore();
+const imageInfo = ref("");
+const post = ref({
+  category_id: "",
+  title: "",
+  content: "",
+  summary: "",
+  image: "",
+});
+// Get Category
+useAsyncData(async () => {
+  try {
+    await categoryStore.getAllCategoryClient({
+      type: "post",
+    });
+    options.value = categoryStore?.categories?.categories.map((item) => ({
+      value: item.id,
+      label: item.name,
+    }));
+  } catch (error) {
+    console.log(error);
+  }
+});
+// Create post
+const onSubmit = async () => {
+  try {
+    await postStore.createPost({
+      category_id: post.value?.category,
+      title: post.value?.title,
+      content: post.value?.content,
+      summary: post.value?.summary,
+      image: imageInfo.value?.url,
+    });
+    message.success("Thêm bài viết thành công");
+    navigateTo("/account/posts-manager");
+  } catch (error) {
+    message.error("Thêm thất bại");
+  }
+};
+// Upload Image
+const uploadFile = async (file) => {
+  if (fileList.value.length > 0) {
+    fileList.value = [];
+    await baseStore.deleteImg(imageInfo.value?.publicId);
+  }
+  const formData = new FormData();
+  formData.append("image", file);
+  try {
+    const dataUpload = await baseStore.uploadImg(formData);
+    imageInfo.value = dataUpload.data._rawValue.data;
+  } catch (error) {
+    message.error("Upload ảnh thất bại");
+  }
+};
+const handleChange = (info: UploadChangeParam) => {
+  const status = info.file.status;
+  if (status !== "uploading") {
+    console.log(info.file, info.fileList);
+  }
+  if (status === "done") {
+    message.success(`${info.file.name} file uploaded successfully.`);
+  } else if (status === "error") {
+    message.error(`${info.file.name} file upload failed.`);
+  }
+};
+function handleDrop(e: DragEvent) {
+  console.log(e);
+}
+</script>

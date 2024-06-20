@@ -97,7 +97,7 @@
       <div class="w-full min-h-[360px] bg-[white] rounded-lg p-5">
         <div class="flex flex-col gap-5">
           <div class="flex justify-between items-center">
-            <div class="relative w-1/4 md:block hidden">
+            <div class="w-1/4 md:block hidden">
               <div class="flex">
                 <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
                   <template #prefix>
@@ -105,24 +105,42 @@
                   </template>
                 </a-input>
               </div>
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <UIcon class="text-gray-500" name="i-material-symbols-search" />
-              </div>
             </div>
             <div>
               <a-button type="primary" size="large">Thêm đơn hàng</a-button>
             </div>
           </div>
           <div>
-            <a-table :columns="columns" :data-source="data">
+            <a-table :columns="columns" :data-source="orderStore?.getAllOrderAdmin?.orders"
+              :isLoading="orderStore.isLoading">
               <template #bodyCell="{ column, record }">
                 <template v-if="column.dataIndex === 'user'">
-                  <a>{{ record.user }}</a>
+                  <div class="flex justify-start gap-2">
+                    <div>
+                      <a-avatar :src="record.user.avatar" />
+                    </div>
+                    <div class="flex flex-col gap-1">
+                      <span>{{ record.user.fullname }}</span>
+                      <span>{{ record.user.phone }}</span>
+                    </div>
+                  </div>
                 </template>
                 <template v-if="column.dataIndex === 'status'">
                   <span>
-                    <a-tag>
-                      {{ record.status }}
+                    <a-tag :bordered="false" v-if="record.status === 'wating_approve'" color="yellow">
+                      Đang chờ duyệt
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'pending'" color="yellow">
+                      Đang xử lý
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'hiring'" color="yellow">
+                      Đang chờ duyệt
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'completed'" color="yellow">
+                      Đã hoàn thành
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'out_of_date'" color="yellow">
+                      Đã hết hạn
                     </a-tag>
                   </span>
                 </template>
@@ -180,6 +198,10 @@
   </div>
 </template>
 <script setup>
+const orderStore = useOrderStore();
+useAsyncData(async () => {
+  await orderStore.getAllOrder({});
+});
 const columns = [
   {
     title: 'Mã đơn hàng',
@@ -191,6 +213,7 @@ const columns = [
     title: 'Thông tin cá nhân',
     dataIndex: 'user',
     key: 'user',
+    width: 270
   },
   {
     title: 'Nơi nhận hàng',
@@ -225,76 +248,77 @@ const columns = [
     key: 'action',
   }
 ];
-const data = [
-  {
-    id: 1,
-    order_code: '33BSA2f8',
-    user: 'John Brown',
-    address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
-    receipt_date: '2021-09-01',
-    quantity: 2,
-    payment_method: 'Thanh toán khi nhận hàng',
-    status: 'Đang xử lý',
-  },
-  {
-    id: 2,
-    order_code: '33BSA2f8',
-    user: 'John Brown',
-    address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
-    receipt_date: '2021-09-01',
-    quantity: 2,
-    payment_method: 'Thanh toán khi nhận hàng',
-    status: 'Đang thuê',
-  },
-  {
-    id: 3,
-    order_code: '33BSA2f8',
-    user: 'John Brown',
-    address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
-    receipt_date: '2021-09-01',
-    quantity: 2,
-    payment_method: 'Thanh toán khi nhận hàng',
-    status: 'Đã hủy',
-  },
-  {
-    id: 4,
-    order_code: '33BSA2f8',
-    user: 'John Brown',
-    address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
-    receipt_date: '2021-09-01',
-    quantity: 2,
-    payment_method: 'Thanh toán khi nhận hàng',
-    status: 'Hoàn thành',
-  },
-  {
-    id: 5,
-    order_code: '33BSA2f8',
-    user: 'John Brown',
-    address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
-    receipt_date: '2021-09-01',
-    quantity: 2,
-    payment_method: 'Thanh toán khi nhận hàng',
-    status: 'Đã xác nhận',
-  },
-  {
-    id: 6,
-    order_code: '33BSA2f8',
-    user: 'John Brown',
-    address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
-    receipt_date: '2021-09-01',
-    quantity: 2,
-    payment_method: 'Thanh toán khi nhận hàng',
-    status: 'Đang giao',
-  },
-  {
-    id: 7,
-    order_code: '33BSA2f8',
-    user: 'John Brown',
-    address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
-    receipt_date: '2021-09-01',
-    quantity: 2,
-    payment_method: 'Thanh toán khi nhận hàng',
-    status: 'Quá hạn',
-  },
-];
+
+// const data = [
+//   {
+//     id: 1,
+//     order_code: '33BSA2f8',
+//     user: 'John Brown',
+//     address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
+//     receipt_date: '2021-09-01',
+//     quantity: 2,
+//     payment_method: 'Thanh toán khi nhận hàng',
+//     status: 'Đang xử lý',
+//   },
+//   {
+//     id: 2,
+//     order_code: '33BSA2f8',
+//     user: 'John Brown',
+//     address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
+//     receipt_date: '2021-09-01',
+//     quantity: 2,
+//     payment_method: 'Thanh toán khi nhận hàng',
+//     status: 'Đang thuê',
+//   },
+//   {
+//     id: 3,
+//     order_code: '33BSA2f8',
+//     user: 'John Brown',
+//     address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
+//     receipt_date: '2021-09-01',
+//     quantity: 2,
+//     payment_method: 'Thanh toán khi nhận hàng',
+//     status: 'Đã hủy',
+//   },
+//   {
+//     id: 4,
+//     order_code: '33BSA2f8',
+//     user: 'John Brown',
+//     address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
+//     receipt_date: '2021-09-01',
+//     quantity: 2,
+//     payment_method: 'Thanh toán khi nhận hàng',
+//     status: 'Hoàn thành',
+//   },
+//   {
+//     id: 5,
+//     order_code: '33BSA2f8',
+//     user: 'John Brown',
+//     address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
+//     receipt_date: '2021-09-01',
+//     quantity: 2,
+//     payment_method: 'Thanh toán khi nhận hàng',
+//     status: 'Đã xác nhận',
+//   },
+//   {
+//     id: 6,
+//     order_code: '33BSA2f8',
+//     user: 'John Brown',
+//     address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
+//     receipt_date: '2021-09-01',
+//     quantity: 2,
+//     payment_method: 'Thanh toán khi nhận hàng',
+//     status: 'Đang giao',
+//   },
+//   {
+//     id: 7,
+//     order_code: '33BSA2f8',
+//     user: 'John Brown',
+//     address: '161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM',
+//     receipt_date: '2021-09-01',
+//     quantity: 2,
+//     payment_method: 'Thanh toán khi nhận hàng',
+//     status: 'Quá hạn',
+//   },
+// ];
 </script>

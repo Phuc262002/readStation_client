@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="flex gap-2">
-          <a-button @click="showModalAccept" type="primary">Xác thực</a-button>
+          <!-- <a-button @click="showModalAccept" type="primary">Xác thực</a-button> -->
         </div>
       </div>
       <WalletAccept
@@ -98,16 +98,18 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top" color="black">
-                <template #title>
-                  <span>Xem chi tiết</span>
-                </template>
-                <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
-                >
-                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
-                </button>
-              </a-tooltip>
+              <NuxtLink to="/admin/wallet/1">
+                <a-tooltip placement="top" color="black">
+                  <template #title>
+                    <span>Xem chi tiết</span>
+                  </template>
+                  <button
+                    class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
+                  >
+                    <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
+                  </button>
+                </a-tooltip>
+              </NuxtLink>
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
@@ -143,7 +145,7 @@
                         </button>
                       </span>
                     </a-menu-item>
-                    
+
                     <a-menu-item key="6" class="p-4">
                       <span>
                         <button class="flex items-center gap-1">
@@ -157,7 +159,10 @@
                     </a-menu-item>
                     <a-menu-item key="7" class="p-4">
                       <span>
-                        <button class="flex items-center gap-1">
+                        <button
+                          @click="showModalFrozen"
+                          class="flex items-center gap-1"
+                        >
                           <UIcon
                             class="text-lg"
                             name="i-material-symbols-delete-outline"
@@ -181,6 +186,10 @@
         :openModalWithdraw="openModalWithdraw"
         :openModal="CloseModalWithdraw"
       />
+      <WalletFrozen
+        :openModalFrozen="openModalFrozen"
+        :openModal="CloseModalFrozen"
+      />
     </div>
   </div>
 </template>
@@ -188,6 +197,7 @@
 const openModalRecharge = ref<boolean>(false);
 const openModalWithdraw = ref<boolean>(false);
 const openModalAccept = ref<boolean>(false);
+const openModalFrozen = ref<boolean>(false);
 const walletAdminStore = useWalletAdminStore();
 useAsyncData(async () => {
   await walletAdminStore.getAdminWallet({});
@@ -231,6 +241,12 @@ const columns = [
     key: "action",
   },
 ];
+const CloseModalFrozen = () => {
+  openModalFrozen.value = false;
+};
+const showModalFrozen = () => {
+  openModalFrozen.value = true;
+};
 const CloseModalRecharge = () => {
   openModalRecharge.value = false;
 };

@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 export const useUserStore = defineStore("user-store", {
   state: () => {
     return {
+      comments: [],
       posts: [],
       orders: [],
       userAdmin: [],
@@ -16,7 +17,7 @@ export const useUserStore = defineStore("user-store", {
       try {
         this.isLoading = true;
         const data: any = await useCustomFetch(
-          `/api/v1/users?${page ? `&page=${page}` : ""}${
+          `/api/v1/admin/users?${page ? `&page=${page}` : ""}${
             pageSize ? `&pageSize=${pageSize}` : ""
           }${search ? `&search=${search}` : ""}${
             status ? `&status=${status}` : ""
@@ -32,7 +33,7 @@ export const useUserStore = defineStore("user-store", {
     async createUser(user: any) {
       try {
         this.isSubmitting = true;
-        const data: any = await useCustomFetch(`/api/v1/users/create`, {
+        const data: any = await useCustomFetch(`/api/v1/admin/users/create`, {
           method: "POST",
           body: JSON.stringify(user),
         });
@@ -69,6 +70,15 @@ export const useUserStore = defineStore("user-store", {
         }${category_id ? `&category_id=${category_id}` : ""}`
       );
       this.posts = data.data._value?.data;
+      return data;
+    },
+    async getAllComment({ page, pageSize, sort }: any) {
+      const data: any = await useCustomFetch(
+        `/api/v1/account/get-comments?${page ? `&page=${page}` : ""}${
+          pageSize ? `&pageSize=${pageSize}` : ""
+        }${sort ? `&sort=${sort}` : ""}`
+      );
+      this.comments = data.data._value?.data;
       return data;
     },
   },

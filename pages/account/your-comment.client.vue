@@ -42,6 +42,22 @@
   </div>
 </template>
 <script setup lang="ts">
+const userStore = useUserStore();
+const current = ref(1);
+useAsyncData(
+  async () => {
+    try {
+      await userStore.getAllComment({
+        page: current.value,
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+  },
+  {
+    watch: [current],
+  }
+);
 const columns = [
   {
     title: "Bài viết",

@@ -42,7 +42,7 @@
             <span>Đang ẩn</span>
           </a-button>
         </div>
-        <NuxtLink to="/"
+        <NuxtLink to="/account/create-post"
           ><a-button class="bg-orange-500 border-none !text-white h-10"
             >Bài viết mới</a-button
           ></NuxtLink
@@ -52,11 +52,21 @@
       <a-table :columns="columns" :data-source="userStore?.posts?.posts">
         <template #bodyCell="{ column, record }">
           <!--  -->
+          <template v-if="column.key === 'created_at'">
+            <span>{{
+              $dayjs(record.created_at).format("DD/MM/YYYY - HH:MM")
+            }}</span>
+          </template>
+          <!--  -->
+          <template v-if="column.key === 'view'">
+            <span>{{ record.view }} lượt xem</span>
+          </template>
+          <!--  -->
           <template v-if="column.key === 'status'">
             <span>
               <a-tag
                 v-if="record.status === 'published'"
-                class="text-tag-text-published bg-tag-bg-published border-none px-3 py-1"
+                class="text-tag-text-09 bg-tag-bg-09 border-none px-3 py-1"
                 >Công khai</a-tag
               >
               <a-tag
@@ -89,7 +99,7 @@
                     <span>Xem chi tiết</span>
                   </template>
                   <button
-                    @click="showModal"
+                    @click="showModal(record.id)"
                     class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                   >
                     <div class="flex items-center">
@@ -104,6 +114,7 @@
               <AccountFormPostDetail
                 :openModal="openModal"
                 :closeModal="closeModal"
+                :postDetailId="postDetailId"
               />
 
               <a-dropdown :trigger="['click']" placement="bottom">
@@ -117,7 +128,7 @@
                 </button>
                 <template #overlay>
                   <a-menu>
-                    <NuxtLink>
+                    <NuxtLink to="">
                       <a-menu-item key="2" class="p-4">
                         <span class="flex items-center gap-2 text-blue-400">
                           <UIcon
@@ -131,10 +142,7 @@
 
                     <a-menu-item key="3" class="p-4">
                       <span>
-                        <button
-                          class="flex items-center gap-1 text-blue-400"
-                          @click="showDeleteConfirm(record?.id)"
-                        >
+                        <button class="flex items-center gap-1 text-blue-400">
                           <UIcon
                             class="group-hover:text-[red] text-lg"
                             name="i-material-symbols-delete-outline"
@@ -157,9 +165,12 @@
 const userStore = useUserStore();
 const current = ref(1);
 const openModal = ref(false);
+const postDetailId = ref<number>();
 // Modal
-const showModal = () => {
+const showModal = (id) => {
   openModal.value = true;
+  postDetailId.value = id;
+  console.log(id);
 };
 
 const closeModal = () => {
@@ -192,7 +203,7 @@ const columns = [
     key: "created_at",
   },
   {
-    title: "Lượt bình luận",
+    title: "Lượt xem",
     dataIndex: "view",
     key: "view",
   },
