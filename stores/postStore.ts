@@ -56,10 +56,23 @@ export const usePostStore = defineStore("post-store", {
         this.isLoading = false;
       }
     },
+    // slug
     async getOnePost(slug: string) {
       try {
         this.isLoading = true;
         const data: any = await useCustomFetch(`/api/v1/posts/get-one/${slug}`);
+        this.post = data.data._value?.data;
+        this.isLoading = false;
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    // id
+    async getOnePostClient(id: string) {
+      try {
+        this.isLoading = true;
+        const data: any = await useCustomFetch(`/api/v1/posts/get/${id}`);
         this.post = data.data._value?.data;
         this.isLoading = false;
         return data;

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="text-sm font-bold pb-5">Bài viết của bạn</h2>
-    <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">
+    <h2 class="text-sm font-bold pb-5">Bài viết của bạnnn</h2>
+    <div class="w-full bg-white rounded-lg shadow-md shadow-gray-300 p-5">
       <div class="relative w-1/4 md:block hidden pb-2">
         <div class="flex">
           <input
@@ -49,7 +49,11 @@
         >
       </div>
       <!--  -->
-      <a-table :columns="columns" :data-source="userStore?.posts?.posts">
+      <a-table
+        :columns="columns"
+        :data-source="userStore?.posts?.posts"
+        :pagination="false"
+      >
         <template #bodyCell="{ column, record }">
           <!--  -->
           <template v-if="column.key === 'created_at'">
@@ -59,7 +63,7 @@
           </template>
           <!--  -->
           <template v-if="column.key === 'view'">
-            <span>{{ record.view }} lượt bình luận</span>
+            <span>{{ record.view }} lượt xem</span>
           </template>
           <!--  -->
           <template v-if="column.key === 'status'">
@@ -111,11 +115,6 @@
                   </button>
                 </a-tooltip>
               </span>
-              <AccountFormPostDetail
-                :openModal="openModal"
-                :closeModal="closeModal"
-                :postDetailId="postDetailId"
-              />
 
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
@@ -158,7 +157,20 @@
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="userStore?.posts?.totalResults"
+          :pageSize="userStore?.posts?.pageSize"
+          show-less-items
+        />
+      </div>
     </div>
+    <AccountPostFormDetail
+      :openModal="openModal"
+      :closeModal="closeModal"
+      :postDetailId="postDetailId"
+    />
   </div>
 </template>
 <script setup lang="ts">
@@ -181,6 +193,7 @@ useAsyncData(
     try {
       await userStore.getAllPost({
         page: current.value,
+        // pageSize: 2,
       });
     } catch (error) {
       console.log(error);
@@ -203,7 +216,7 @@ const columns = [
     key: "created_at",
   },
   {
-    title: "Lượt bình luận",
+    title: "Lượt xem",
     dataIndex: "view",
     key: "view",
   },
