@@ -59,7 +59,7 @@
           </template>
           <!--  -->
           <template v-if="column.key === 'view'">
-            <span>{{ record.view }} lượt bình luận</span>
+            <span>{{ record.view }} lượt xem</span>
           </template>
           <!--  -->
           <template v-if="column.key === 'status'">
@@ -203,7 +203,7 @@ const columns = [
     key: "created_at",
   },
   {
-    title: "Lượt bình luận",
+    title: "Lượt xem",
     dataIndex: "view",
     key: "view",
   },
