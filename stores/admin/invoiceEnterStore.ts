@@ -12,7 +12,7 @@ export const useInvoiceEnterStore = defineStore("invoice-enter-store", {
     async getAllInvoiceEnter({ page, pageSize, search, status }: any) {
       this.isLoading = true;
       const data: any = await useCustomFetch(
-        `/api/v1/invoice-enters?${page ? `&page=${page}` : ""}${
+        `/api/v1/admin/invoice-enters?${page ? `&page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
         }${search ? `&search=${search}` : ""}${
           status ? `&status=${status}` : ""
@@ -24,14 +24,14 @@ export const useInvoiceEnterStore = defineStore("invoice-enter-store", {
     },
     async getOneInvoiceEnter(id: string) {
       this.isLoading = true;
-      const data: any = await useCustomFetch(`/api/v1/invoice-enters/${id}`);
+      const data: any = await useCustomFetch(`/api/v1/admin/invoice-enters/${id}`);
       this.isLoading = false;
       this.getOneInvoiceEnterAdmin = data.data._value?.data;;
       return data;
     },
     async createInvoiceEnter(dataPost: any) {
       this.isSubmitting = true;
-      const data: any = await useCustomFetch(`/api/v1/invoice-enters/create`, {
+      const data: any = await useCustomFetch(`/api/v1/admin/invoice-enters/create`, {
         method: "POST",
         body: JSON.stringify(dataPost),
       });
@@ -40,7 +40,7 @@ export const useInvoiceEnterStore = defineStore("invoice-enter-store", {
     },
     async updateInvoiceEnter({ id, valueInvoiceEnter }: any) {
       const data: any = await useCustomFetch(
-        `/api/v1/invoice-enters/update/${id}`,
+        `/api/v1/admin/invoice-enters/update/${id}`,
         {
           method: "PUT",
           body: JSON.stringify(valueInvoiceEnter),

@@ -16,6 +16,8 @@ export const useAuthorStore = defineStore("author-store", {
       return data;
     },
 
+
+    // Admin
     async getAllAuthor({ page, pageSize, search, status }: any) {
       this.isLoading = true;
       const data: any = await useCustomFetch(

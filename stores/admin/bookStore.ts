@@ -44,9 +44,11 @@ export const useBookStore = defineStore("book-store", {
       return data;
     },
 
+
+  // Admin
     async createBook(valuecreateBook: any) {
       this.isSubmitting = true;
-      const data: any = await useCustomFetch("/api/v1/books/create-full", {
+      const data: any = await useCustomFetch("/api/v1/admin/books/create-full", {
         method: "POST",
         body: JSON.stringify(valuecreateBook),
       });
@@ -63,7 +65,7 @@ export const useBookStore = defineStore("book-store", {
     }: any) {
       this.isLoading = true;
       const data: any = await useCustomFetch(
-        `/api/v1/admin/books/admin/get-all?${page ? `&page=${page}` : ""}${
+        `/api/v1/admin/books?${page ? `&page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
         }${search ? `&search=${search}` : ""}${
           category_id ? `&category_id=${category_id}` : ""
@@ -92,7 +94,7 @@ export const useBookStore = defineStore("book-store", {
     },
     async getOneBookAdmin(id: string) {
       this.isLoading = true;
-      const data: any = await useCustomFetch(`/api/v1/admin/books/admin/get-one/${id}`);
+      const data: any = await useCustomFetch(`/api/v1/admin/books/${id}`);
       this.OneBookAdmin = data.data._value?.data;
       this.isLoading = false;
       return data;
