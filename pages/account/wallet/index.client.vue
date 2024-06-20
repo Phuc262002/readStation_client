@@ -20,21 +20,21 @@
 
       <div class="flex gap-[30px] mt-5">
         <div
-          class="flex-[1_1_600px] bg-[url('../../assets/images/bg-credit.png')] p-[30px] rounded-xl min-h-[330px] flex flex-col"
+          class="bg-[url('../../assets/images/bg-credit.png')] p-[30px] rounded-lg min-h-[330px] flex flex-col bg-no-repeat"
         >
           <p class="font-bold text-xl">Nhập số tiền muốn nạp</p>
           <div class="flex-1 flex flex-col justify-end relative">
             <img
-              src="../../assets/images/icon-money.svg"
-              class="w-10 h-10"
+              src="../../../assets/images/icon-money.svg"
+              class="w-10 h-10 absolute bottom-16"
               alt=""
             />
             <a-input-number
               v-model:value="depositAmount"
-              class="absolute right-0 bottom-16 font-bold text-4xl w-[530px] border-0 outline-none border-b-[1px] border-b-white rounded-none bg-transparent"
+              class="absolute right-0 bottom-16 font-bold text-4xl w-[500px] border-0 outline-none border-b-[1px] border-b-white rounded-none bg-transparent"
               :controls="false"
             />
-            <div class="flex pt-6 gap-4">
+            <div class="flex pt-6 gap-4 text-sm">
               <button
                 @click="assignAmount(20000)"
                 class="bg-rtyellow-50 px-3 py-2 rounded-lg cursor-pointer"
@@ -116,7 +116,7 @@
     <div class="p-5 bg-white mt-5 shadow-lg rounded-xl">
       <div class="flex justify-between">
         <p>Lịch sử giao dịch (30 ngày gần nhất)</p>
-        <NuxtLink to="/account/transaction-history">
+        <NuxtLink to="/account/wallet/transaction-history">
           <button class="text-blue-600 text-[14px]">Xem chi tiết</button>
         </NuxtLink>
       </div>
@@ -124,6 +124,7 @@
       <a-table
         :columns="columns"
         :data-source="walletStore?.transactions?.transactions"
+        :pagination="false"
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
@@ -142,7 +143,12 @@
           </template>
           <template v-if="column.key === 'amount'">
             <span>
-              {{ record?.amount }}
+              {{
+                new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(record?.amount)
+              }}
             </span>
           </template>
           <template v-if="column.key === 'transaction_method'">
@@ -170,6 +176,13 @@
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="walletStore?.transactions?.totalResults"
+          :pageSize="walletStore?.transactions?.pageSize"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -251,16 +264,6 @@ const columns = [
     title: "Hình thức",
     key: "transaction_method",
     dataIndex: "transaction_method",
-  },
-  {
-    title: "Loại giao dịch",
-    key: "transaction_type",
-    dataIndex: "transaction_type",
-  },
-  {
-    title: "Trạng thái",
-    key: "status",
-    dataIndex: "status",
   },
   {
     title: "Thời gian",

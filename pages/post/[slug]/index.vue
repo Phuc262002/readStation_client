@@ -1,9 +1,6 @@
 <template>
   <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
-    <div v-if="postStore.isLoading" class="flex justify-center my-10">
-      <a-spin size="large" />
-    </div>
-    <div v-else class="flex gap-[30px]">
+    <div class="flex gap-[30px]">
       <div class="w-3/4">
         <div
           class="relative overflow-hidden h-[462px] w-full bg-cover bg-center bg-no-repeat rounded-xl"
@@ -110,7 +107,6 @@
             <ArrowRightOutlined />
           </button>
         </div>
-        <div class="grid grid-cols-3 gap-4"></div>
       </div>
 
       <div class="w-1/4 space-y-5">
@@ -158,7 +154,7 @@
           <div v-if="postStore.isLoading" class="flex justify-center my-10">
             <a-spin size="large" />
           </div>
-          <div v-else class="space-y-4 h-[400px] overflow-auto">
+          <div v-else class="space-y-4 h-[400px] overflow-auto pr-4">
             <NuxtLink
               v-for="post in postStore.postsPopular?.posts?.filter(
                 (item) => item.id !== postStore.post?.id

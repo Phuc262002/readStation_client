@@ -37,6 +37,7 @@
       <a-table
         :columns="columns"
         :data-source="walletAdminStore.adminWallet?.wallets"
+        :loading="walletAdminStore.isLoading"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'avatar'">
