@@ -1,23 +1,24 @@
 import { defineStore } from "pinia";
 
-export const useCommentStore = defineStore("comment-store", {
+export const usePublicCommentStore = defineStore("public-comment-store", {
   state: () => {
     return {
-      commentAdmin: [],
+      comment: [],
+
       isLoading: false,
       isSubmitting: false,
     };
   },
   actions: {
-    async getAllComment({ page, pageSize, status }: any) {
+    async getComment({ page, pageSize, post_id }: any) {
       try {
         this.isLoading = true;
         const data: any = await useCustomFetch(
-          `/api/v1/admin/comments?${page ? `&page=${page}` : ""}${
+          `/api/v1/public/comments?${page ? `&page=${page}` : ""}${
             pageSize ? `&pageSize=${pageSize}` : ""
-          }${status ? `&status=${status}` : ""}`
+          }${post_id ? `&post_id=${post_id}` : ""}`
         );
-        this.commentAdmin = data.data._value?.data;
+        this.comment = data.data._value?.data;
         this.isLoading = false;
         return data;
       } catch (error) {

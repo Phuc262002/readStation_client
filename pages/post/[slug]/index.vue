@@ -198,8 +198,8 @@ import { Pagination } from "swiper/modules";
 const authStore = useAuthStore();
 const route = useRoute();
 const slug = route.params.slug;
-const postStore = usePostStore();
-const commentStore = useCommentStore();
+const postStore = usePublicPostStore();
+const commentStore = usePublicCommentStore();
 const swiperInstance = ref();
 
 function onSwiper(swiper) {
@@ -230,7 +230,7 @@ useAsyncData(async () => {
     console.error(error);
   }
   try {
-    const data = await postStore.getPost({
+    const data = await postStore.getPosts({
       page: 1,
       pageSize: 9,
       category_id: postStore.post.category.id,
@@ -242,7 +242,7 @@ useAsyncData(async () => {
 });
 useAsyncData(async () => {
   try {
-    const data = await postStore.getPost({
+    const data = await postStore.getPosts({
       page: post.value.page,
       pageSize: post.value.pageSize,
       sort: "popular",

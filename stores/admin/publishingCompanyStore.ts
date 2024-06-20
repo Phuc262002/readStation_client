@@ -19,7 +19,7 @@ export const usePublishingCompanyStore = defineStore(
         return data;
       },
 
-      // admin
+     
       async getAllPublishingCompany({ page, pageSize, search, status }: any) {
         this.isLoading = true;
         const data: any = await useCustomFetch(
