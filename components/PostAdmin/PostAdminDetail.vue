@@ -123,7 +123,9 @@ watch(
 );
 useAsyncData(
   async () => {
-    await postStore.getOnePostClient(props.postDetailId);
+   if (postDetailId.value) {
+      await postStore.getPostDetail(postDetailId.value);
+    }
   },
   {
     watch: [postDetailId],

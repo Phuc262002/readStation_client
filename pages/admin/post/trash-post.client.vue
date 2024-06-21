@@ -174,6 +174,7 @@
 <script lang="ts" setup>
 import { Modal } from "ant-design-vue";
 const postStore = usePostStore();
+const generalPostStore = useGeneralPostStore(); 
 const current = ref(1);
 useAsyncData(
   async () => {
@@ -189,7 +190,7 @@ useAsyncData(
 );
 
 const onRecover = async (id: string) => {
-  await postStore.updatePost({ id: id, post: { status: "published" } });
+  await generalPostStore.updatePost({ id: id, post: { status: "published" } });
   await postStore.getAllPost({
     page: current.value,
     status: "deleted",

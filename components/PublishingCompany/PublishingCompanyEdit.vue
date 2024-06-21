@@ -5,7 +5,13 @@
     :footer="null"
     :onCancel="handleClose"
   >
-    <form @submit.prevent="onUpdate">
+    <div
+      v-if="publishingCompanyStore.isLoading"
+      class="flex justify-center items-center min-h-[50vh]"
+    >
+      <a-spin size="large" />
+    </div>
+    <form v-else @submit.prevent="onUpdate">
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
@@ -82,12 +88,7 @@
           </div>
         </div>
         <div class="flex justify-end items-end gap-2">
-          <a-button
-            @click="handleClose"
-          
-            danger
-            html-type="button"
-            class="mt-4"
+          <a-button @click="handleClose" danger html-type="button" class="mt-4"
             >Hủy</a-button
           >
           <a-button

@@ -114,7 +114,7 @@ const postID = route.params.id;
 const categoryStore = useCategoryStore();
 const baseStore = useBaseStore();
 const postStore = usePostStore();
-const postGeneralStore = usePostGeneralStore();
+const postGeneralStore = useGeneralPostStore();
 const post = ref({
   title: "",
   category_id: "",
@@ -177,7 +177,7 @@ useAsyncData(async () => {
 });
 
 useAsyncData(async () => {
-  const data = await postStore.getOnePostAdmin(postID);
+  const data = await postGeneralStore.getOnePostClient(postID);
   post.value.title = data.data._value?.data?.title;
   post.value.category_id = data.data._value?.data?.category.name;
   post.value.status = data.data._value?.data?.status;
@@ -203,7 +203,7 @@ const updatePost = async () => {
       content: post.value.content,
       summary: post.value.summary,
     };
-    await postStore.updatePost({ id: postID, post: data });
+    await postGeneralStore.updatePost({ id: postID, post: data });
     message.success("Cập nhật thành công");
     navigateTo("/admin/post");
   } catch (error) {

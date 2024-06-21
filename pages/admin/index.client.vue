@@ -7,7 +7,7 @@
     </div>
 
     <!-- Đây là phần code mẫu body -->
-    <div class="grid grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4">
       <div class="flex flex-col">
         <div
           class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
@@ -174,7 +174,7 @@
           >
         </div>
         <div>
-          <a-table :columns="columns" :data-source="data">
+          <a-table :columns="columns" :data-source="data" class="overflow-auto">
             <template #bodyCell="{ column, record }">
               <template v-if="column.dataIndex === 'user'">
                 <a>{{ record.user }}</a>
@@ -259,7 +259,7 @@
         <div class="text-xl font-semibold">Sách được thuê nhiều</div>
         <div class="max-h-[400px] overflow-auto pr-4">
           <div
-            class="flex justify-between cursor-pointer hover:bg-[#212122]/10"
+            class="flex justify-between cursor-pointer hover:bg-[#f1f1f1] p-2 hover:rounded-md"
           >
             <div class="flex justify-center items-start">
               <img
@@ -359,7 +359,7 @@
           <div class="space-y-1 cursor-pointer">
             <div class="flex justify-between">
               <p>#TW15090251</p>
-              <a-tag :bordered="false" class="bg-tag-bg-09 text-tag-text-09"
+              <a-tag :bordered="false" class="bg-tag-bg-09 text-tag-text-09 m-0"
                 >Đã thanh toán</a-tag
               >
             </div>

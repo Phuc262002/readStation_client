@@ -3,31 +3,20 @@ import { defineStore } from "pinia";
 export const useCategoryStore = defineStore("category-store", {
   state: () => {
     return {
-      categories: [],
       categoriesAdmin: [],
       isSubmitting: false,
       isLoading: false,
     };
   },
   actions: {
-    async getAllCategoryClient({ page, pageSize, type }: any) {
-      const data: any = await useCustomFetch(
-        `/api/v1/categories?type=${type}${page ? `&page=${page}` : ""}${
-          pageSize ? `&pageSize=${pageSize}` : ""
-        }`
-      );
-      this.categories = data.data._value?.data;
-      return data;
-    },
-
     async getAllCategory({ page, pageSize, search, status, type }: any) {
       this.isLoading = true;
       const data: any = await useCustomFetch(
-        `/api/v1/admin/categories?type=${type}${
-          page ? `&page=${page}` : ""
-        }${pageSize ? `&pageSize=${pageSize}` : ""}${
-          search ? `&search=${search}` : ""
-        }${status ? `&status=${status}` : ""}`
+        `/api/v1/admin/categories?type=${type}${page ? `&page=${page}` : ""}${
+          pageSize ? `&pageSize=${pageSize}` : ""
+        }${search ? `&search=${search}` : ""}${
+          status ? `&status=${status}` : ""
+        }`
       );
       this.categoriesAdmin = data.data._value?.data;
       this.isLoading = false;
@@ -35,18 +24,19 @@ export const useCategoryStore = defineStore("category-store", {
     },
     async getOneCategory(id: number) {
       this.isLoading = true;
-      const data: any = await useCustomFetch(
-        `/api/v1/admin/categories/${id}`
-      );
+      const data: any = await useCustomFetch(`/api/v1/admin/categories/${id}`);
       this.isLoading = false;
       return data;
     },
     async createCategory(category: any) {
       this.isSubmitting = true;
-      const data: any = await useCustomFetch(`/api/v1/admin/categories/create`, {
-        method: "POST",
-        body: JSON.stringify(category),
-      });
+      const data: any = await useCustomFetch(
+        `/api/v1/admin/categories/create`,
+        {
+          method: "POST",
+          body: JSON.stringify(category),
+        }
+      );
       this.isSubmitting = false;
       return data;
     },
