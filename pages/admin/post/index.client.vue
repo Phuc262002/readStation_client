@@ -71,47 +71,47 @@
           <template v-else-if="column.key === 'status'">
             <a-tag
               :bordered="false"
-              v-if="record.status === 'wating_approve'"
-              color="yellow"
+              v-if="record.status === PostStatus.WATING_APPROVE"
+              class="bg-tag-bg-01 text-tag-text-01"
             >
               Đang chờ duyệt
             </a-tag>
 
             <a-tag
               :bordered="false"
-              v-else-if="record.status === 'draft'"
-              color="black"
+              v-if="record.status === PostStatus.DRAFT"
+              class="bg-tag-bg-08 text-tag-text-08"
             >
               Bản nháp
             </a-tag>
             <a-tag
               :bordered="false"
-              v-else-if="record.status === 'published'"
-              color="green"
+              v-if="record.status === PostStatus.PUBLISHED"
+              class="bg-tag-bg-09 text-tag-text-09"
             >
-              Công khai
+              Đang hoạt động
             </a-tag>
 
             <a-tag
               :bordered="false"
-              v-else-if="record.status === 'hidden'"
-              color="#B2B6BB"
+              v-if="record.status === PostStatus.HIDDEN"
+              class="bg-tag-bg-07 text-tag-text-07"
             >
               Đã ẩn
             </a-tag>
 
             <a-tag
               :bordered="false"
-              v-else-if="record.status === 'deleted'"
-              color="red"
+              v-if="record.status === PostStatus.DELETED"
+              class="bg-tag-bg-06 text-tag-text-06"
             >
               Đã xóa
             </a-tag>
 
             <a-tag
               :bordered="false"
-              v-else-if="record.status === 'approve_canceled'"
-              class="bg-tag-bg-07 text-tag-text-07"
+               v-if="record.status === PostStatus.APPROVE_CANCELED"
+              class="bg-tag-bg-11 text-tag-text-11"
             >
               Từ chối
             </a-tag>
@@ -197,13 +197,18 @@
 </template>
 <script lang="ts" setup>
 import { Modal } from "ant-design-vue";
+import { PostStatus } from "~/types/admin/post";
+
+const postGeneralStore = useGeneralPostStore();
 const postStore = usePostStore();
+
 const postDetailId = ref<number>();
 const openModalDetail = ref<boolean>(false);
 const current = ref(1);
 useAsyncData(
   async () => {
     await postStore.getAllPost({
+      
       page: current.value,
     });
   },
@@ -214,7 +219,7 @@ useAsyncData(
 );
 
 const onDelete = async (id: string) => {
-  await postStore.deletePost(id);
+  await postGeneralStore.deletePost(id);
   await postStore.getAllPost({});
 };
 const showDeleteConfirm = (id: string) => {

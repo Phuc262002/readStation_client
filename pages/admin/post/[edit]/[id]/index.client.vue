@@ -114,6 +114,7 @@ const postID = route.params.id;
 const categoryStore = useCategoryStore();
 const baseStore = useBaseStore();
 const postStore = usePostStore();
+const postGeneralStore = usePostGeneralStore();
 const post = ref({
   title: "",
   category_id: "",

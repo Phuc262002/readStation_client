@@ -14,7 +14,7 @@ export const useGeneralPostStore = defineStore("general-post-store", {
       try {
         this.isLoading = true;
         const data: any = await useCustomFetch(
-          `/api/v1/general/posts/get/${id}`
+          `/api/v1/general/posts/${id}`
         );
         this.post = data.data._value?.data;
         return data;

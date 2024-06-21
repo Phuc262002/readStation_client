@@ -13,7 +13,7 @@
           src="/assets/images/logo_small.svg"
           alt="logo"
         />
-        <img src="/assets/images/logo_header.svg" alt="logo" />
+        <img v-else src="/assets/images/logo_header.svg" alt="logo" />
       </div>
     </NuxtLink>
 
