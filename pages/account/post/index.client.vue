@@ -2,7 +2,7 @@
   <div>
     <h2 class="text-sm font-bold pb-5">Bài viết của bạn</h2>
     <div class="bg-white rounded-lg shadow-md shadow-gray-300 p-5">
-      <div class="relative w-1/4 md:block hidden pb-2">
+      <div class="relative w-1/4 md:block hidden">
         <div class="flex">
           <input
             type="text"
@@ -20,24 +20,72 @@
       <div class="flex items-center justify-between py-5">
         <div class="flex gap-3">
           <a-button
-            class="flex items-center gap-2 h-10 bg-orange-500 !text-white border-none"
+            :class="[
+              'flex items-center justify-center h-10 border-none shadow-none',
+              filter === null ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus(null)"
           >
             <img src="../../assets/images/icon-blog.svg" alt="" />
             <span>Tất cả bài viết</span>
           </a-button>
-          <a-button class="flex items-center gap-2 h-10 border-none">
+
+          <!--  -->
+          <a-button
+            :class="[
+              'flex items-center justify-center h-10 border-none shadow-none',
+              filter === 'published' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus('published')"
+          >
             <img src="../../assets/images/icon-public.svg" alt="" />
             <span>Công khai</span>
           </a-button>
-          <a-button class="flex items-center gap-2 h-10 border-none">
+
+          <!--  -->
+          <a-button
+            :class="[
+              'flex items-center h-10 border-none shadow-none',
+              filter === 'wating_approve' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus('wating_approve')"
+          >
             <img src="../../assets/images/icon-wait-accept.svg" alt="" />
             <span>Chờ duyệt</span>
           </a-button>
-          <a-button class="flex items-center gap-2 h-10 border-none">
+
+          <!--  -->
+          <a-button
+            :class="[
+              'flex items-center h-10 border-none shadow-none',
+              filter === 'draft' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus('draft')"
+          >
             <img src="../../assets/images/icon-draft.svg" alt="" />
             <span>Nháp</span>
           </a-button>
-          <a-button class="flex items-center gap-2 h-10 border-none">
+
+          <!--  -->
+          <a-button
+            :class="[
+              'flex items-center h-10 border-none shadow-none',
+              filter === 'approve_canceled' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus('approve_canceled')"
+          >
+            <img src="../../assets/images/icon-hidden.svg" alt="" />
+            <span>Bị từ chối</span>
+          </a-button>
+
+          <!--  -->
+          <a-button
+            :class="[
+              'flex items-center h-10 border-none shadow-none',
+              filter === 'hidden' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus('hidden')"
+          >
             <img src="../../assets/images/icon-hidden.svg" alt="" />
             <span>Đang ẩn</span>
           </a-button>
@@ -178,7 +226,7 @@ const postStore = usePostClientStore();
 const current = ref(1);
 const openModal = ref(false);
 const postDetailId = ref<number>();
-const filter = ref({ status: null });
+const filter = ref(null);
 // Modal
 const showModal = (id) => {
   openModal.value = true;
@@ -195,7 +243,7 @@ useAsyncData(
     try {
       await postStore.getAllPost({
         page: current.value,
-        status: filter.value.status,
+        status: filter.value,
       });
     } catch (error) {
       console.log(error);
@@ -203,10 +251,15 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current],
+    watch: [current, filter],
   }
 );
-//
+
+// Handle Check Status Post
+const handleCheckStatus = (status) => {
+  filter.value = status;
+  console.log(status);
+};
 const columns = [
   {
     title: "Bài viết",

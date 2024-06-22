@@ -19,24 +19,24 @@
       <!--  -->
       <div class="flex gap-3 text-white py-5">
         <a-button
-          class="flex items-center gap-2 h-10 bg-orange-500 !text-white border-none"
+          class="flex items-center gap-2 h-10 bg-orange-500 !text-white border-none shadow-none"
         >
           <img src="../../../assets/images/icon-blog.svg" alt="" />
           <span>Tất cả đơn hàng</span>
         </a-button>
-        <a-button class="flex items-center gap-2 h-10 border-none">
+        <a-button class="flex items-center gap-2 h-10 border-none shadow-none">
           <img src="../../../assets/images/icon-shipping.svg" alt="" />
           <span>Đang giao</span>
         </a-button>
-        <a-button class="flex items-center gap-2 h-10 border-none">
+        <a-button class="flex items-center gap-2 h-10 border-none shadow-none">
           <img src="../../../assets/images/icon-rent.svg" alt="" />
           <span>Đang thuê</span>
         </a-button>
-        <a-button class="flex items-center gap-2 h-10 border-none">
+        <a-button class="flex items-center gap-2 h-10 border-none shadow-none">
           <img src="../../../assets/images/icon-return.svg" alt="" />
           <span>Đã hoàn trả</span>
         </a-button>
-        <a-button class="flex items-center gap-2 h-10 border-none">
+        <a-button class="flex items-center gap-2 h-10 border-none shadow-none">
           <img src="../../../assets/images/icon-cancel.svg" alt="" />
           <span>Đã hủy</span>
         </a-button>
