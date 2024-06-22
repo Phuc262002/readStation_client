@@ -188,7 +188,7 @@
 </template>
 
 <script setup lang="ts">
-const walletStore = useWalletStore();
+const walletStore = useWalletClientStore();
 const isSubmitting = ref(false);
 const resErrors = ref({});
 const current = ref(1);

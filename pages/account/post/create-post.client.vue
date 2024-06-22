@@ -75,8 +75,8 @@
 </template>
 <script lang="ts" setup>
 const fileList = ref([]);
-const categoryStore = useCategoryStore();
-const postStore = usePostStore();
+const categoryStore = useCategoryPublicStore();
+const postStore = useGeneralPostStore();
 const current = ref(1);
 const options = ref([]);
 const baseStore = useBaseStore();
@@ -91,7 +91,7 @@ const post = ref({
 // Get Category
 useAsyncData(async () => {
   try {
-    await categoryStore.getAllCategoryClient({
+    await categoryStore.getAllCategory({
       type: "post",
     });
     options.value = categoryStore?.categories?.categories.map((item) => ({
@@ -113,7 +113,7 @@ const onSubmit = async () => {
       image: imageInfo.value?.url,
     });
     message.success("Thêm bài viết thành công");
-    navigateTo("/account/posts-manager");
+    navigateTo("/account/post");
   } catch (error) {
     message.error("Thêm thất bại");
   }

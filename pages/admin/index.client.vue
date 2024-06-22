@@ -7,7 +7,9 @@
     </div>
 
     <!-- Đây là phần code mẫu body -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+    >
       <div class="flex flex-col">
         <div
           class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
@@ -19,7 +21,9 @@
 
             <div class="text-tag-text-03">
               <p class="font-normal text-base">Doanh thu</p>
-              <p class="font-bold text-xl">100.100 đ</p>
+              <p class="font-bold text-xl">
+                {{ dashboardStore?.dashboardAdmin?.revenue }} đ
+              </p>
             </div>
           </div>
         </div>
@@ -35,7 +39,9 @@
 
             <div class="text-tag-text-04">
               <p class="font-normal text-base">Nhập hàng</p>
-              <p class="font-bold text-xl">2 đơn hàng</p>
+              <p class="font-bold text-xl">
+                {{ dashboardStore?.dashboardAdmin?.invoiceEnter }} đơn hàng
+              </p>
             </div>
           </div>
         </div>
@@ -51,7 +57,9 @@
 
             <div class="text-tag-text-01">
               <p class="font-normal text-base">Tổng khách hàng</p>
-              <p class="font-bold text-xl">1000 khách hàng</p>
+              <p class="font-bold text-xl">
+                {{ dashboardStore?.dashboardAdmin?.user }} khách hàng
+              </p>
             </div>
           </div>
         </div>
@@ -69,7 +77,9 @@
 
             <div class="text-tag-text-03">
               <p class="font-normal text-base">Khách hàng đã kích hoạt</p>
-              <p class="font-bold text-xl">500 khách hàng </p>
+              <p class="font-bold text-xl">
+                {{ dashboardStore?.dashboardAdmin?.user }} khách hàng
+              </p>
             </div>
           </div>
         </div>
@@ -85,7 +95,9 @@
 
             <div class="text-tag-text-10">
               <p class="font-normal text-base">Số lượng tủ sách</p>
-              <p class="font-bold text-xl">30 tủ sách</p>
+              <p class="font-bold text-xl">
+                {{ dashboardStore?.dashboardAdmin?.bookcase }} tủ sách
+              </p>
             </div>
           </div>
         </div>
@@ -103,7 +115,7 @@
 
             <div class="text-tag-text-11">
               <p class="font-normal text-base">Số lượng kệ sách</p>
-              <p class="font-bold text-xl">80 kệ sách</p>
+              <p class="font-bold text-xl">{{ dashboardStore?.dashboardAdmin?.shelve }}  kệ sách</p>
             </div>
           </div>
         </div>
@@ -119,7 +131,7 @@
 
             <div class="text-tag-text-05">
               <p class="font-normal text-base">Số lượng sách</p>
-              <p class="font-bold text-xl">3000 sách</p>
+              <p class="font-bold text-xl">{{ dashboardStore?.dashboardAdmin?.book }} sách</p>
             </div>
           </div>
         </div>
@@ -137,7 +149,7 @@
 
             <div class="text-tag-text-06">
               <p class="font-normal text-base">Số lượng bài viết</p>
-              <p class="font-bold text-xl">20 bài viết</p>
+              <p class="font-bold text-xl">{{ dashboardStore?.dashboardAdmin?.post }} bài viết</p>
             </div>
           </div>
         </div>
@@ -258,222 +270,41 @@
       <div class="bg-white w-full shadow-md rounded-md space-y-2 p-5">
         <div class="text-xl font-semibold">Sách được thuê nhiều</div>
         <div class="max-h-[400px] overflow-auto pr-4">
-          <div
-            class="flex justify-between cursor-pointer hover:bg-[#f1f1f1] p-2 hover:rounded-md"
-          >
-            <div class="flex justify-center items-start">
-              <img
-                class="w-20 h-20 object-cover rounded-md"
-                src="https://cdn0.fahasa.com/media/catalog/product/8/9/8935244875805.jpg"
-                alt=""
-              />
-              <div class=" ">
-                <p>Cho tôi xin một vé đi tuổi thơ</p>
-                <p>phiên bản 2024 -<span> Tác giả: Nguyễn Nhật Ánh</span></p>
-                <p class="flex items-center">
-                  <span>4.8</span> <span><IconYellowStar /></span>
-                </p>
-              </div>
-            </div>
-            <p class="flex items-start">200 lượt thuê</p>
-          </div>
-          <hr class="my-2" />
-          <div class="flex justify-between cursor-pointer">
-            <div class="flex justify-center items-start">
-              <img
-                class="w-20 h-20 object-cover rounded-md"
-                src="https://cdn0.fahasa.com/media/catalog/product/8/9/8935244875805.jpg"
-                alt=""
-              />
-              <div class=" ">
-                <p>Cho tôi xin một vé đi tuổi thơ</p>
-                <p>phiên bản 2024 -<span> Tác giả: Nguyễn Nhật Ánh</span></p>
-                <p class="flex items-center">
-                  <span>4.8</span> <span><IconYellowStar /></span>
-                </p>
-              </div>
-            </div>
-            <p class="flex items-start">200 lượt thuê</p>
-          </div>
-          <hr class="my-2" />
-          <div class="flex justify-between cursor-pointer">
-            <div class="flex justify-center items-start">
-              <img
-                class="w-20 h-20 object-cover rounded-md"
-                src="https://cdn0.fahasa.com/media/catalog/product/8/9/8935244875805.jpg"
-                alt=""
-              />
-              <div class=" ">
-                <p>Cho tôi xin một vé đi tuổi thơ</p>
-                <p>phiên bản 2024 -<span> Tác giả: Nguyễn Nhật Ánh</span></p>
-                <p class="flex items-center">
-                  <span>4.8</span> <span><IconYellowStar /></span>
-                </p>
-              </div>
-            </div>
-            <p class="flex items-start">200 lượt thuê</p>
-          </div>
-          <hr class="my-2" />
-          <div class="flex justify-between cursor-pointer">
-            <div class="flex justify-center items-start">
-              <img
-                class="w-20 h-20 object-cover rounded-md"
-                src="https://cdn0.fahasa.com/media/catalog/product/8/9/8935244875805.jpg"
-                alt=""
-              />
-              <div class=" ">
-                <p>Cho tôi xin một vé đi tuổi thơ</p>
-                <p>phiên bản 2024 -<span> Tác giả: Nguyễn Nhật Ánh</span></p>
-                <p class="flex items-center">
-                  <span>4.8</span> <span><IconYellowStar /></span>
-                </p>
-              </div>
-            </div>
-            <p class="flex items-start">200 lượt thuê</p>
-          </div>
-          <hr class="my-2" />
-          <div class="flex justify-between cursor-pointer">
-            <div class="flex justify-center items-start">
-              <img
-                class="w-20 h-20 object-cover rounded-md"
-                src="https://cdn0.fahasa.com/media/catalog/product/8/9/8935244875805.jpg"
-                alt=""
-              />
-              <div class=" ">
-                <p>Cho tôi xin một vé đi tuổi thơ</p>
-                <p>phiên bản 2024 -<span> Tác giả: Nguyễn Nhật Ánh</span></p>
-                <p class="flex items-center">
-                  <span>4.8</span> <span><IconYellowStar /></span>
-                </p>
-              </div>
-            </div>
-            <p class="flex items-start">200 lượt thuê</p>
-          </div>
-          <hr class="my-2" />
+          <DashboardBook
+            v-for="book in dashboardStore.dashboardBook"
+            :key="book.id"
+            :dashboard="book"
+          />
         </div>
       </div>
 
       <div class="bg-white w-full shadow-md rounded-md space-y-2 p-5">
         <div class="text-xl font-semibold space-y-2">Hóa đơn nhập hàng</div>
         <div class="max-h-[400px] overflow-auto pr-4">
-          <div class="space-y-1 cursor-pointer">
-            <div class="flex justify-between">
-              <p>#TW15090251</p>
-              <a-tag :bordered="false" class="bg-tag-bg-09 text-tag-text-09 m-0"
-                >Đã thanh toán</a-tag
-              >
-            </div>
-            <div class="flex justify-between items-center text-sm">
-              <p>Người nhận: An Khương</p>
-              <p>Tổng tiền: 1.500.000đ</p>
-              <p>10/05/2034</p>
-            </div>
-          </div>
-          <hr class="my-2" />
-          <div class="space-y-1 cursor-pointer">
-            <div class="flex justify-between">
-              <p>#TW15090251</p>
-              <a-tag :bordered="false" class="bg-tag-bg-09 text-tag-text-09"
-                >Đã thanh toán</a-tag
-              >
-            </div>
-            <div class="flex justify-between items-center text-sm">
-              <p>Người nhận: An Khương</p>
-              <p>Tổng tiền: 1.500.000đ</p>
-              <p>10/05/2034</p>
-            </div>
-          </div>
-          <hr class="my-2" />
-          <div class="space-y-1 cursor-pointer">
-            <div class="flex justify-between">
-              <p>#TW15090251</p>
-              <a-tag :bordered="false" class="bg-tag-bg-09 text-tag-text-09"
-                >Đã thanh toán</a-tag
-              >
-            </div>
-            <div class="flex justify-between items-center text-sm">
-              <p>Người nhận: An Khương</p>
-              <p>Tổng tiền: 1.500.000đ</p>
-              <p>10/05/2034</p>
-            </div>
-          </div>
-          <hr class="my-2" />
-          <div class="space-y-1 cursor-pointer">
-            <div class="flex justify-between">
-              <p>#TW15090251</p>
-              <a-tag :bordered="false" class="bg-tag-bg-09 text-tag-text-09"
-                >Đã thanh toán</a-tag
-              >
-            </div>
-            <div class="flex justify-between items-center text-sm">
-              <p>Người nhận: An Khương</p>
-              <p>Tổng tiền: 1.500.000đ</p>
-              <p>10/05/2034</p>
-            </div>
-          </div>
-          <hr class="my-2" />
-          <div class="space-y-1 cursor-pointer">
-            <div class="flex justify-between">
-              <p>#TW15090251</p>
-              <a-tag :bordered="false" class="bg-tag-bg-09 text-tag-text-09"
-                >Đã thanh toán</a-tag
-              >
-            </div>
-            <div class="flex justify-between items-center text-sm">
-              <p>Người nhận: An Khương</p>
-              <p>Tổng tiền: 1.500.000đ</p>
-              <p>10/05/2034</p>
-            </div>
-          </div>
-          <hr class="my-2" />
-          <div class="space-y-1 cursor-pointer">
-            <div class="flex justify-between">
-              <p>#TW15090251</p>
-              <a-tag :bordered="false" class="bg-tag-bg-09 text-tag-text-09"
-                >Đã thanh toán</a-tag
-              >
-            </div>
-            <div class="flex justify-between items-center text-sm">
-              <p>Người nhận: An Khương</p>
-              <p>Tổng tiền: 1.500.000đ</p>
-              <p>10/05/2034</p>
-            </div>
-          </div>
-          <hr class="my-2" />
-          <div class="space-y-1 cursor-pointer">
-            <div class="flex justify-between">
-              <p>#TW15090251</p>
-              <a-tag :bordered="false" class="bg-tag-bg-09 text-tag-text-09"
-                >Đã thanh toán</a-tag
-              >
-            </div>
-            <div class="flex justify-between items-center text-sm">
-              <p>Người nhận: An Khương</p>
-              <p>Tổng tiền: 1.500.000đ</p>
-              <p>10/05/2034</p>
-            </div>
-          </div>
-          <hr class="my-2" />
-          <div class="space-y-1 cursor-pointer">
-            <div class="flex justify-between">
-              <p>#TW15090251</p>
-              <a-tag :bordered="false" class="bg-tag-bg-09 text-tag-text-09"
-                >Đã thanh toán</a-tag
-              >
-            </div>
-            <div class="flex justify-between items-center text-sm">
-              <p>Người nhận: An Khương</p>
-              <p>Tổng tiền: 1.500.000đ</p>
-              <p>10/05/2034</p>
-            </div>
-          </div>
-          <hr class="my-2" />
+          <DashboardBill
+            v-for="bill in dashboardStore.dashboardInvoice"
+            :key="bill.id"
+            :dashboard="bill"
+          />
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup>
+const dashboardStore = useDashboardStore();
+useAsyncData(async () => {
+  await dashboardStore.getAllDashboard();
+});
+
+useAsyncData(async () => {
+  await dashboardStore.getBookDashboard();
+});
+
+useAsyncData(async () => {
+  await dashboardStore.getInvoiceDashboard();
+});
+
 const columns = [
   {
     title: "Mã đơn hàng",
@@ -528,66 +359,6 @@ const data = [
     quantity: 2,
     payment_method: "Thanh toán khi nhận hàng",
     status: "Đang xử lý",
-  },
-  {
-    id: 2,
-    order_code: "33BSA2f8",
-    user: "John Brown",
-    address: "161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM",
-    receipt_date: "2021-09-01",
-    quantity: 2,
-    payment_method: "Thanh toán khi nhận hàng",
-    status: "Đang thuê",
-  },
-  {
-    id: 3,
-    order_code: "33BSA2f8",
-    user: "John Brown",
-    address: "161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM",
-    receipt_date: "2021-09-01",
-    quantity: 2,
-    payment_method: "Thanh toán khi nhận hàng",
-    status: "Đã hủy",
-  },
-  {
-    id: 4,
-    order_code: "33BSA2f8",
-    user: "John Brown",
-    address: "161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM",
-    receipt_date: "2021-09-01",
-    quantity: 2,
-    payment_method: "Thanh toán khi nhận hàng",
-    status: "Hoàn thành",
-  },
-  {
-    id: 5,
-    order_code: "33BSA2f8",
-    user: "John Brown",
-    address: "161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM",
-    receipt_date: "2021-09-01",
-    quantity: 2,
-    payment_method: "Thanh toán khi nhận hàng",
-    status: "Đã xác nhận",
-  },
-  {
-    id: 6,
-    order_code: "33BSA2f8",
-    user: "John Brown",
-    address: "161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM",
-    receipt_date: "2021-09-01",
-    quantity: 2,
-    payment_method: "Thanh toán khi nhận hàng",
-    status: "Đang giao",
-  },
-  {
-    id: 7,
-    order_code: "33BSA2f8",
-    user: "John Brown",
-    address: "161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP. HCM",
-    receipt_date: "2021-09-01",
-    quantity: 2,
-    payment_method: "Thanh toán khi nhận hàng",
-    status: "Quá hạn",
   },
 ];
 </script>

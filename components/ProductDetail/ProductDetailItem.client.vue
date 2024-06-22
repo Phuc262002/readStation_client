@@ -90,5 +90,5 @@
 </template>
 
 <script setup lang="ts">
-const bookStore = useBookStore();
+const bookStore = useBookPublicStore();
 </script>

@@ -288,7 +288,7 @@
 </template>
 <script setup lang="ts">
 const authStore = useAuthStore();
-const userStore = useUserStore();
+const orderStore = useOrderClientStore();
 const cartStore = useCartStore();
 const isSubmitting = ref(false);
 const resErrors = ref({});
@@ -339,7 +339,7 @@ const payCart = async () => {
         deposit: parseFloat(item.price) * (item.hire_percent / 100),
       };
     });
-    const resData = await userStore.createOrder({
+    const resData = await orderStore.createOrder({
       payment_method: "cash",
       payment_shipping: "library",
       phone: authStore?.authUser?.user?.phone,

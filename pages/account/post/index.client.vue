@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h2 class="text-sm font-bold pb-5">Bài viết của bạnnn</h2>
+    <h2 class="text-sm font-bold pb-5">Bài viết của bạn</h2>
     <div class="bg-white rounded-lg shadow-md shadow-gray-300 p-5">
-      <div class="relative w-1/4 md:block hidden pb-2">
+      <div class="relative w-1/4 md:block hidden">
         <div class="flex">
           <input
             type="text"
@@ -20,24 +20,72 @@
       <div class="flex items-center justify-between py-5">
         <div class="flex gap-3">
           <a-button
-            class="flex items-center gap-2 h-10 bg-orange-500 !text-white border-none"
+            :class="[
+              'flex items-center justify-center h-10 border-none shadow-none',
+              filter === null ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus(null)"
           >
             <img src="../../assets/images/icon-blog.svg" alt="" />
             <span>Tất cả bài viết</span>
           </a-button>
-          <a-button class="flex items-center gap-2 h-10 border-none">
+
+          <!--  -->
+          <a-button
+            :class="[
+              'flex items-center justify-center h-10 border-none shadow-none',
+              filter === 'published' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus('published')"
+          >
             <img src="../../assets/images/icon-public.svg" alt="" />
             <span>Công khai</span>
           </a-button>
-          <a-button class="flex items-center gap-2 h-10 border-none">
+
+          <!--  -->
+          <a-button
+            :class="[
+              'flex items-center h-10 border-none shadow-none',
+              filter === 'wating_approve' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus('wating_approve')"
+          >
             <img src="../../assets/images/icon-wait-accept.svg" alt="" />
             <span>Chờ duyệt</span>
           </a-button>
-          <a-button class="flex items-center gap-2 h-10 border-none">
+
+          <!--  -->
+          <a-button
+            :class="[
+              'flex items-center h-10 border-none shadow-none',
+              filter === 'draft' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus('draft')"
+          >
             <img src="../../assets/images/icon-draft.svg" alt="" />
             <span>Nháp</span>
           </a-button>
-          <a-button class="flex items-center gap-2 h-10 border-none">
+
+          <!--  -->
+          <a-button
+            :class="[
+              'flex items-center h-10 border-none shadow-none',
+              filter === 'approve_canceled' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus('approve_canceled')"
+          >
+            <img src="../../assets/images/icon-hidden.svg" alt="" />
+            <span>Bị từ chối</span>
+          </a-button>
+
+          <!--  -->
+          <a-button
+            :class="[
+              'flex items-center h-10 border-none shadow-none',
+              filter === 'hidden' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus('hidden')"
+          >
             <img src="../../assets/images/icon-hidden.svg" alt="" />
             <span>Đang ẩn</span>
           </a-button>
@@ -51,7 +99,7 @@
       <!--  -->
       <a-table
         :columns="columns"
-        :data-source="userStore?.posts?.posts"
+        :data-source="postStore?.posts?.posts"
         :pagination="false"
       >
         <template #bodyCell="{ column, record }">
@@ -127,7 +175,7 @@
                 </button>
                 <template #overlay>
                   <a-menu>
-                    <NuxtLink :to="`/account/post/${id}`">
+                    <NuxtLink :to="`/account/post`">
                       <a-menu-item key="2" class="p-4">
                         <span class="flex items-center gap-2 text-blue-400">
                           <UIcon
@@ -160,8 +208,8 @@
       <div class="mt-4 flex justify-end">
         <a-pagination
           v-model:current="current"
-          :total="userStore?.posts?.totalResults"
-          :pageSize="userStore?.posts?.pageSize"
+          :total="postStore?.posts?.totalResults"
+          :pageSize="postStore?.posts?.pageSize"
           show-less-items
         />
       </div>
@@ -174,10 +222,11 @@
   </div>
 </template>
 <script setup lang="ts">
-const userStore = useUserStore();
+const postStore = usePostClientStore();
 const current = ref(1);
 const openModal = ref(false);
 const postDetailId = ref<number>();
+const filter = ref(null);
 // Modal
 const showModal = (id) => {
   openModal.value = true;
@@ -188,12 +237,13 @@ const showModal = (id) => {
 const closeModal = () => {
   openModal.value = false;
 };
+// GetAll Post
 useAsyncData(
   async () => {
     try {
-      await userStore.getAllPost({
+      await postStore.getAllPost({
         page: current.value,
-        // pageSize: 2,
+        status: filter.value,
       });
     } catch (error) {
       console.log(error);
@@ -201,9 +251,15 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current],
+    watch: [current, filter],
   }
 );
+
+// Handle Check Status Post
+const handleCheckStatus = (status) => {
+  filter.value = status;
+  console.log(status);
+};
 const columns = [
   {
     title: "Bài viết",

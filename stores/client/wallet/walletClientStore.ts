@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-export const useWalletStore = defineStore("wallet-store", {
+export const useWalletClientStore = defineStore("wallet-client-store", {
   state() {
     return {
       paymentLink: "",
@@ -32,7 +32,7 @@ export const useWalletStore = defineStore("wallet-store", {
       );
       return data;
     },
-    async getPaymentLink(id) {
+    async getPaymentLink(id: any) {
       const data: any = await useCustomFetch(
         `/api/v1/account/wallet/get-payment-link/${id}`
       );
