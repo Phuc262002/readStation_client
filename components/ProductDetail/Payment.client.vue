@@ -42,7 +42,7 @@
           </div>
 
           <div class="grid gap-2">
-            <NuxtLink to="/cart">
+            <NuxtLink to="/account/manager/checkout">
               <a-button
                 class="bg-rtprimary border-none border border-lg rounded-lg text-center !text-white text-sm h-10 w-full"
               >
