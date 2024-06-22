@@ -142,15 +142,31 @@
                     </a-tag>
                     <a-tag :bordered="false" v-else-if="record.status === 'completed'"
                       class="bg-tag-bg-05 text-tag-text-05">
-                      Đã hoàn thành
+                      Hoàn thành
                     </a-tag>
                     <a-tag :bordered="false" v-else-if="record.status === 'out_of_date'"
                       class="bg-tag-bg-06 text-tag-text-06">
-                      Đã hết hạn
+                      Quá hạn
                     </a-tag>
                     <a-tag :bordered="false" v-else-if="record.status === 'canceled'"
                       class="bg-tag-bg-07 text-tag-text-07">
                       Đã hủy
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'approved'"
+                      class="bg-tag-bg-02 text-tag-text-02">
+                      Đã xác nhận
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'wating_take_book'"
+                      class="bg-tag-bg-03 text-tag-text-03">
+                      Đang giao
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'increasing'"
+                      class="bg-tag-bg-12 text-tag-text-12">
+                      Đang gia hạn
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'wating_return'"
+                      class="bg-tag-bg-13 text-tag-text-13">
+                      Chờ trả sách
                     </a-tag>
                   </span>
                 </template>
