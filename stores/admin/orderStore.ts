@@ -5,6 +5,7 @@ export const useOrderStore = defineStore("order-store", {
       isLoading: false,
       isSubmitting: false,
       getAllOrderAdmin : [],  
+      getOneOrderAdmin : {},
     };
   },
   actions: {
@@ -18,6 +19,13 @@ export const useOrderStore = defineStore("order-store", {
             }`
         );
         this.getAllOrderAdmin = data.data._value?.data;
+        this.isLoading = false;
+        return data;
+    },
+    async getOneOrder(id: any) {
+        this.isLoading = true;
+        const data: any = await useCustomFetch(`/api/v1/admin/orders/${id}`);
+        this.getOneOrderAdmin = data.data._value;
         this.isLoading = false;
         return data;
     },
