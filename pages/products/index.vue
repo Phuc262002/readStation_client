@@ -393,7 +393,7 @@ const handleIsShow = (section) => {
 };
 
 const publishingCompanyStore = usePublishingCompanyStore();
-const bookstore = useBookStore();
+const bookstore = useBookPublicStore();
 const categoryStore = useCategoryStore();
 const authorStore = useAuthorStore();
 

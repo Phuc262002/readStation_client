@@ -18,48 +18,58 @@
       <div class="py-5 border-b border-rtgray-50">
         <div>
           <div class="flex">
-            <div class="w-1/2 flex border-r border-rtgray-50">
-              <div class="w-1/3 font-bold text-sm space-y-3">
-                <p>Tên bài viết:</p>
-                <p>Tiêu đề:</p>
-                <p>Trạng thái:</p>
+            <div class="w-1/2 border-r border-rtgray-50 space-y-3">
+              <div class="grid grid-cols-4">
+                <span class="font-bold col-span-1">Tiêu đề:</span>
+                <span class="col-span-3">
+                  {{ postStore?.post?.title }}
+                </span>
               </div>
-              <div class="w-2/3 text-sm space-y-3">
-                <p>{{ postStore?.post?.title }}</p>
-                <p>{{ postStore?.post?.summary }}</p>
-                <a-tag color="Green">{{ postStore?.post?.status }}</a-tag>
+              <div class="grid grid-cols-4">
+                <span class="font-bold col-span-1">Trạng thái:</span>
+                <div class="col-span-3">
+                  <a-tag>
+                    {{ postStore?.post?.status }}
+                  </a-tag>
+                </div>
               </div>
             </div>
-            <!--  -->
-            <div class="w-1/2 flex pl-5">
-              <div class="w-1/3 font-bold text-sm space-y-3">
-                <p>Danh mục:</p>
-                <p>Lượt xem:</p>
-                <p>Ngày đăng:</p>
+            <div class="w-1/2 border-r border-rtgray-50 space-y-3 pl-5">
+              <div class="grid grid-cols-4">
+                <span class="font-bold col-span-1">Danh mục:</span>
+                <span class="col-span-3">
+                  {{ postStore?.post?.category?.name }}
+                </span>
               </div>
-              <div class="w-2/3 text-sm space-y-3">
-                <p>{{ postStore?.post?.category?.name }}</p>
-                <p>{{ postStore?.post?.view }} lượt xem</p>
-                <p>
+
+              <div class="grid grid-cols-4">
+                <span class="font-bold col-span-1">Lượt xem:</span>
+                <span class="col-span-3">
+                  {{ postStore?.post?.view }}
+                </span>
+              </div>
+              <div class="grid grid-cols-4">
+                <span class="font-bold col-span-1">Ngày đăng:</span>
+                <span class="col-span-3">
                   {{ $dayjs(postStore?.post?.created_at).format("DD/MM/YYYY") }}
-                </p>
+                </span>
               </div>
             </div>
           </div>
-          <div class="w-1/2 flex pt-3">
-            <div class="w-1/3 font-bold text-sm">
-              <p>Ảnh bìa</p>
-            </div>
-            <p class="w-2/3">
-              <img
-                :src="postStore?.post?.image"
-                alt=""
-                class="w-[350px] h-[160px] rounded-lg"
-              />
-            </p>
+          <div class="w-1/2 pt-3 grid grid-cols-4">
+            <p class="font-bold text-sm col-span-1">Ảnh bìa:</p>
+            <img
+              :src="postStore?.post?.image"
+              alt=""
+              class="w-[350px] h-[160px] rounded-lg col-span-3"
+            />
           </div>
         </div>
-        <!--  -->
+      </div>
+
+      <div class="py-5 text-sm border-b border-rtgray-50">
+        <p class="font-bold pb-2">Mô tả ngắn:</p>
+        <p v-html="postStore?.post?.summary"></p>
       </div>
       <div class="py-5 text-sm">
         <p class="font-bold pb-2">Nội dung bài viết:</p>
@@ -75,7 +85,7 @@
   </a-modal>
 </template>
 <script lang="ts" setup>
-const postStore = usePostStore();
+const postStore = useGeneralPostStore();
 const props = defineProps({
   openModal: Boolean,
   closeModal: Function,
@@ -97,7 +107,7 @@ watch(
 );
 useAsyncData(
   async () => {
-    await postStore.getOnePostClient(props.postDetailId);
+    await postStore.getOnePost(props.postDetailId);
   },
   {
     watch: [postDetailId],

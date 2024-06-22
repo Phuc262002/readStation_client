@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="text-sm font-bold pb-5">Danh sách đơn hànggg</h2>
+    <h2 class="text-sm font-bold pb-5">Danh sách đơn hàng</h2>
     <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">
       <div class="relative w-1/4 md:block hidden">
         <div class="flex">
@@ -44,7 +44,7 @@
       <!--  -->
       <a-table
         :columns="columns"
-        :data-source="userStore?.orders?.orders"
+        :data-source="orderStore?.orders?.orders"
         :pagination="false"
       >
         <template #headerCell="{ column }">
@@ -123,7 +123,7 @@
           </template>
           <template v-if="column.key === 'action'">
             <div class="flex gap-2">
-              <NuxtLink to="/account/order-status">
+              <NuxtLink :to="`/account/order/${record.id}`">
                 <a-tooltip placement="top">
                   <template #title>
                     <span>Xem chi tiết</span>
@@ -160,8 +160,8 @@
       <div class="mt-4 flex justify-end">
         <a-pagination
           v-model:current="current"
-          :total="userStore?.orders?.totalResults"
-          :pageSize="userStore?.orders?.pageSize"
+          :total="orderStore?.orders?.totalResults"
+          :pageSize="orderStore?.orders?.pageSize"
           show-less-items
         />
       </div>
@@ -169,15 +169,14 @@
   </div>
 </template>
 <script setup lang="ts">
-const userStore = useUserStore();
+const orderStore = useOrderClientStore();
 const dataOrder = ref({});
 const current = ref(1);
-
 // Get All Order
 useAsyncData(
   async () => {
     try {
-      await userStore.getAllOrder({
+      await orderStore.getAllOrder({
         page: current.value,
       });
     } catch (error) {

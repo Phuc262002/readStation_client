@@ -215,7 +215,7 @@
 import dayjs from "dayjs";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
-// import { useBaseStore, useAuthStore } from "@/stores";
+// import { useBaseStore, useaccountStore } from "@/stores";
 
 const baseStore = useBaseStore();
 const address = ref({
@@ -226,7 +226,7 @@ const address = ref({
 //get API
 const data = ref(null);
 const isLoading = ref(false);
-const authStore = useAuthStore();
+const accountStore = useAccountClientStore();
 interface EditAcc {
   isShow: boolean;
 }
@@ -290,7 +290,7 @@ const onSubmit = handleSubmit(async (values) => {
   console.log("messges dataa", newData);
   try {
     isSubmitting.value = true;
-    const resData = await authStore.updateProfile(newData);
+    const resData = await accountStore.updateProfile(newData);
     console.log("resData", resData);
 
     if (resData?.data?._rawValue?.status == true) {
@@ -325,7 +325,7 @@ const handleCancel = () => {
 useAsyncData(async () => {
   isLoading.value = true;
   try {
-    const response = await authStore.getProfile();
+    const response = await accountStore.getProfile();
     data.value = response.data._rawValue.data;
     setFieldValue("email", data.value.email);
     setFieldValue("fullname", data.value.fullname);

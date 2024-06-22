@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="text-sm font-bold pb-5">Bài viết của bạnnn</h2>
+    <h2 class="text-sm font-bold pb-5">Bài viết của bạn</h2>
     <div class="bg-white rounded-lg shadow-md shadow-gray-300 p-5">
       <div class="relative w-1/4 md:block hidden pb-2">
         <div class="flex">
@@ -51,7 +51,7 @@
       <!--  -->
       <a-table
         :columns="columns"
-        :data-source="userStore?.posts?.posts"
+        :data-source="postStore?.posts?.posts"
         :pagination="false"
       >
         <template #bodyCell="{ column, record }">
@@ -127,7 +127,7 @@
                 </button>
                 <template #overlay>
                   <a-menu>
-                    <NuxtLink :to="`/account/post/${id}`">
+                    <NuxtLink :to="`/account/post`">
                       <a-menu-item key="2" class="p-4">
                         <span class="flex items-center gap-2 text-blue-400">
                           <UIcon
@@ -160,8 +160,8 @@
       <div class="mt-4 flex justify-end">
         <a-pagination
           v-model:current="current"
-          :total="userStore?.posts?.totalResults"
-          :pageSize="userStore?.posts?.pageSize"
+          :total="postStore?.posts?.totalResults"
+          :pageSize="postStore?.posts?.pageSize"
           show-less-items
         />
       </div>
@@ -174,10 +174,11 @@
   </div>
 </template>
 <script setup lang="ts">
-const userStore = useUserStore();
+const postStore = usePostClientStore();
 const current = ref(1);
 const openModal = ref(false);
 const postDetailId = ref<number>();
+const filter = ref({ status: null });
 // Modal
 const showModal = (id) => {
   openModal.value = true;
@@ -188,12 +189,13 @@ const showModal = (id) => {
 const closeModal = () => {
   openModal.value = false;
 };
+// GetAll Post
 useAsyncData(
   async () => {
     try {
-      await userStore.getAllPost({
+      await postStore.getAllPost({
         page: current.value,
-        // pageSize: 2,
+        status: filter.value.status,
       });
     } catch (error) {
       console.log(error);
@@ -204,6 +206,7 @@ useAsyncData(
     watch: [current],
   }
 );
+//
 const columns = [
   {
     title: "Bài viết",

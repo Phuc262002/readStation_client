@@ -9,13 +9,10 @@ export const useGeneralPostStore = defineStore("general-post-store", {
     };
   },
   actions: {
-    // id
-    async getOnePostClient(id: string) {
+    async getOnePost(id: string) {
       try {
         this.isLoading = true;
-        const data: any = await useCustomFetch(
-          `/api/v1/general/posts/get/${id}`
-        );
+        const data: any = await useCustomFetch(`/api/v1/general/posts/${id}`);
         this.post = data.data._value?.data;
         return data;
       } catch (error) {
