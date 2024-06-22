@@ -18,7 +18,7 @@
                 {{ postStore.post?.category?.name }}
               </div>
             </div>
-            <p class="text-white w-2/3 text-[27px] pt-2 font-bold">
+            <p class="text-white  text-[27px] pt-2 font-bold">
               {{ postStore.post?.title }}
             </p>
             <div class="pt-4">
@@ -68,44 +68,46 @@
         <hr class="mb-5" />
 
         <div class="mb-5 font-bold text-[27px]">Bài viết liên quan</div>
-        <div v-if="postStore.isLoading" class="flex justify-center my-10">
-          <a-spin size="large" />
-        </div>
-
-        <div v-else class="relative">
-          <swiper
-            :slidesPerView="3"
-            :spaceBetween="16"
-            :pagination="{
-              clickable: true,
-            }"
-            :modules="Pagination"
-            class="mySwiper"
-            @swiper="onSwiper"
-            :loop="true"
-            ref="swiperRef"
-          >
-            <swiper-slide
-              v-for="post in postStore.posts?.posts?.filter(
-                (item) => item.id !== postStore.post?.id
-              )"
-              :key="post.id"
+        <div v-if="postStore.posts?.posts?.length > 0">
+          <div v-if="postStore.isLoading" class="flex justify-center my-10">
+            <a-spin size="large" />
+          </div>
+          
+          <div v-else class="relative">
+            <swiper
+              :slidesPerView="3"
+              :spaceBetween="16"
+              :pagination="{
+                clickable: true,
+              }"
+              :modules="Pagination"
+              class="mySwiper"
+              @swiper="onSwiper"
+              :loop="true"
+              ref="swiperRef"
             >
-              <BlogDetailItem :post="post" />
-            </swiper-slide>
-          </swiper>
-          <button
-            @click="swiperPrevSlide"
-            class="border absolute top-1/2 left-0 z-10 bg-white -translate-x-5 -translate-y-1/2 border-gray-300 rounded-full w-10 h-10 flex justify-center items-center"
-          >
-            <ArrowLeftOutlined />
-          </button>
-          <button
-            @click="swiperNextSlide"
-            class="border absolute top-1/2 right-0 z-10 bg-white border-gray-300 translate-x-5 -translate-y-1/2 rounded-full w-10 h-10 flex justify-center items-center"
-          >
-            <ArrowRightOutlined />
-          </button>
+              <swiper-slide
+                v-for="post in postStore.posts?.posts?.filter(
+                  (item) => item.id !== postStore.post?.id
+                )"
+                :key="post.id"
+              >
+                <BlogDetailItem :post="post" />
+              </swiper-slide>
+            </swiper>
+            <button
+              @click="swiperPrevSlide"
+              class="border absolute top-1/2 left-0 z-10 bg-white -translate-x-5 -translate-y-1/2 border-gray-300 rounded-full w-10 h-10 flex justify-center items-center"
+            >
+              <ArrowLeftOutlined />
+            </button>
+            <button
+              @click="swiperNextSlide"
+              class="border absolute top-1/2 right-0 z-10 bg-white border-gray-300 translate-x-5 -translate-y-1/2 rounded-full w-10 h-10 flex justify-center items-center"
+            >
+              <ArrowRightOutlined />
+            </button>
+          </div>
         </div>
       </div>
 
@@ -198,8 +200,8 @@ import { Pagination } from "swiper/modules";
 const authStore = useAuthStore();
 const route = useRoute();
 const slug = route.params.slug;
-const postStore = usePostStore();
-const commentStore = useCommentStore();
+const postStore = usePublicPostStore();
+const commentStore = usePublicCommentStore();
 const swiperInstance = ref();
 
 function onSwiper(swiper) {
@@ -230,7 +232,7 @@ useAsyncData(async () => {
     console.error(error);
   }
   try {
-    const data = await postStore.getPost({
+    const data = await postStore.getPosts({
       page: 1,
       pageSize: 9,
       category_id: postStore.post.category.id,
@@ -242,7 +244,7 @@ useAsyncData(async () => {
 });
 useAsyncData(async () => {
   try {
-    const data = await postStore.getPost({
+    const data = await postStore.getPosts({
       page: post.value.page,
       pageSize: post.value.pageSize,
       sort: "popular",

@@ -31,7 +31,7 @@
 <script setup>
 import { ref } from "vue";
 const page = ref(1);
-const postStore = usePostStore();
+const postStore = usePublicPostStore();
 const pageChange = () => {
   page.value++;
   console.log(page.value);
@@ -39,7 +39,7 @@ const pageChange = () => {
 useAsyncData(
   async () => {
     try {
-      const data = await postStore.getPost({
+      const data = await postStore.getPosts({
         page: 1,
         pageSize: 9 * page.value,
       });

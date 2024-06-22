@@ -19,11 +19,11 @@ export const usePublishingCompanyStore = defineStore(
         return data;
       },
 
-      // admin
+     
       async getAllPublishingCompany({ page, pageSize, search, status }: any) {
         this.isLoading = true;
         const data: any = await useCustomFetch(
-          `/api/v1/publishing-companies/admin/get-all?${
+          `/api/v1/admin/publishing-companies?${
             page ? `&page=${page}` : ""
           }${pageSize ? `&pageSize=${pageSize}` : ""}${
             search ? `&search=${search}` : ""
@@ -36,7 +36,7 @@ export const usePublishingCompanyStore = defineStore(
       async getOnePublishingCompany(id: number) {
         this.isLoading = true;
         const data: any = await useCustomFetch(
-          `/api/v1/publishing-companies/get-one/${id}`
+          `/api/v1/admin/publishing-companies/${id}`
         );
         this.isLoading = false;
         return data;
@@ -45,7 +45,7 @@ export const usePublishingCompanyStore = defineStore(
       async createPublishingCompany(publishingCompany: any) {
         this.isSubmitting = true;
         const data: any = await useCustomFetch(
-          `/api/v1/publishing-companies/create`,
+          `/api/v1/admin/publishing-companies/create`,
           {
             method: "POST",
             body: JSON.stringify(publishingCompany),
@@ -56,7 +56,7 @@ export const usePublishingCompanyStore = defineStore(
       },
       async deletePublishingCompany(id: string) {
         const data: any = await useCustomFetch(
-          `/api/v1/publishing-companies/delete/${id}`,
+          `/api/v1/admin/publishing-companies/delete/${id}`,
           {
             method: "DELETE",
           }
@@ -67,7 +67,7 @@ export const usePublishingCompanyStore = defineStore(
       async updatePublishingCompany({ id, publishingCompany }: any) {
         this.isSubmitting = true;
         const data: any = await useCustomFetch(
-          `/api/v1/publishing-companies/update/${id}`,
+          `/api/v1/admin/publishing-companies/update/${id}`,
           {
             method: "PUT",
             body: JSON.stringify(publishingCompany),

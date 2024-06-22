@@ -42,14 +42,30 @@
             </span>
           </template>
           <template v-else-if="column.key === 'role'">
-            <span>
-              <a-tag
-                :bordered="false"
-                :color="record.role === 'active' ? 'green' : 'volcano'"
-              >
-                {{ record.role.name }}
-              </a-tag>
-            </span>
+            <a-tag
+              :bordered="false"
+               v-if="record.role.name === UserRole.ADMIN"
+            >
+              Quản trị viên
+            </a-tag>
+            <a-tag
+              :bordered="false"
+               v-if="record.role.name === UserRole.USER"
+            >
+              Người dùng
+            </a-tag>
+            <a-tag
+              :bordered="false"
+               v-if="record.role.name === UserRole.STUDENT"
+            >
+              Sinh viên
+            </a-tag>
+            <a-tag
+              :bordered="false"
+               v-if="record.role.name === UserRole.MANAGER"
+            >
+              Thủ thư
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'google_id'">
             <IconTick v-if="record.google_id" />
@@ -67,21 +83,21 @@
           <template v-else-if="column.key === 'status'">
             <a-tag
               :bordered="false"
-              v-if="record.status === 'active'"
+              v-if="record.status === UserStatus.ACTIVE"
               color="green"
             >
               Công khai
             </a-tag>
             <a-tag
               :bordered="false"
-              v-else="record.status === 'inactive'"
+              v-else="record.status === UserStatus.INACTIVE"
               color="yellow"
             >
               Đang ẩn
             </a-tag>
             <a-tag
               :bordered="false"
-              v-else="record.status === 'deleted'"
+              v-else="record.status === UserStatus.DELETED"
               color="red"
             >
               Đã xóa
@@ -167,6 +183,8 @@
 </template>
 
 <script lang="ts" setup>
+import { UserStatus } from "~/types/admin/user";
+import { UserRole } from "~/types/admin/user";
 const userStore = useUserStore();
 useAsyncData(async () => {
   await userStore.getUser({});

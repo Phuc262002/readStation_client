@@ -13,7 +13,7 @@
       <a-form-item>
         <a-button
           html-type="submit"
-          :loading="commentStore.isSubmitting"
+          :loading="comentGeneralStore.isSubmitting"
           type="primary"
           @click="handleSubmit"
         >
@@ -109,7 +109,7 @@
         <a-form-item>
           <a-button
             html-type="submit"
-            :loading="commentStore.isSubmitting"
+            :loading="comentGeneralStore.isSubmitting"
             type="primary"
             @click="handleSubmitReply"
           >
@@ -136,14 +136,13 @@
         <a-form-item>
           <a-button
             class="mr-2"
-            :loading="commentStore.isSubmitting"
             type="default"
             @click="handleCloseEditComment"
           >
             Hủy
           </a-button>
           <a-button
-            :loading="commentStore.isSubmitting"
+            :loading="comentGeneralStore.isSubmitting"
             type="primary"
             @click="updateComment"
           >
@@ -228,7 +227,7 @@
           <a-form-item>
             <a-button
               html-type="submit"
-              :loading="commentStore.isSubmitting"
+              :loading="comentGeneralStore.isSubmitting"
               type="primary"
               @click="handleSubmitReply"
             >
@@ -256,14 +255,14 @@
           <a-form-item>
             <a-button
               class="mr-2"
-              :loading="commentStore.isSubmitting"
+             
               type="default"
               @click="handleCloseEditComment"
             >
               Hủy
             </a-button>
             <a-button
-              :loading="commentStore.isSubmitting"
+              :loading="comentGeneralStore.isSubmitting"
               type="primary"
               @click="updateComment"
             >
@@ -347,14 +346,14 @@
             <a-form-item>
               <a-button
                 class="mr-2"
-                :loading="commentStore.isSubmitting"
+               
                 type="default"
                 @click="handleCloseEditComment"
               >
                 Hủy
               </a-button>
               <a-button
-                :loading="commentStore.isSubmitting"
+                :loading="comentGeneralStore.isSubmitting"
                 type="primary"
                 @click="updateComment"
               >
@@ -405,7 +404,6 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
@@ -421,8 +419,9 @@ const showReply = ref({
   parent_id: null,
   comment_hash: null,
 });
-const commentStore = useCommentStore();
-const postStore = usePostStore();
+const commentStore = usePublicCommentStore();
+const comentGeneralStore = useGeneralCommentStore();
+const postStore = usePublicPostStore();
 
 type Comment = Record<string, string>;
 const comments = ref<Comment[]>([]);
@@ -435,7 +434,7 @@ const handleSubmit = async () => {
     message.error("Vui lòng nhập nội dung bình luận");
     return;
   }
-  await commentStore.createComment({
+  await comentGeneralStore.createComment({
     post_id: postStore.post?.id,
     content: value.value,
   });
@@ -450,7 +449,7 @@ const handleSubmitReply = async () => {
     return;
   }
 
-  await commentStore.createComment({
+  await comentGeneralStore.createComment({
     post_id: postStore.post?.id,
     content: showReply.value.content,
     parent_id: showReply.value.parent_id,
@@ -502,7 +501,7 @@ const updateComment = async () => {
     message.error("Vui lòng nhập nội dung bình luận");
     return;
   }
-  await commentStore.updateComment({
+  await comentGeneralStore.updateComment({
     comment_id: showEditComment.value.comment_id,
     content: showEditComment.value.content,
   });
@@ -512,7 +511,7 @@ const updateComment = async () => {
   showEditComment.value.comment_hash = null;
 };
 const deleteComment = async (comment_id: any) => {
-  await commentStore.deleteComment({ comment_id });
+  await comentGeneralStore.deleteComment({ comment_id });
   await commentStore.getComment({ post_id: postStore.post?.id });
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="text-sm font-bold pb-5">Bài viết của bạnnn</h2>
-    <div class="w-full bg-white rounded-lg shadow-md shadow-gray-300 p-5">
+    <div class="bg-white rounded-lg shadow-md shadow-gray-300 p-5">
       <div class="relative w-1/4 md:block hidden pb-2">
         <div class="flex">
           <input
@@ -42,7 +42,7 @@
             <span>Đang ẩn</span>
           </a-button>
         </div>
-        <NuxtLink to="/account/create-post"
+        <NuxtLink to="/account/post/create-post"
           ><a-button class="bg-orange-500 border-none !text-white h-10"
             >Bài viết mới</a-button
           ></NuxtLink
@@ -127,7 +127,7 @@
                 </button>
                 <template #overlay>
                   <a-menu>
-                    <NuxtLink to="">
+                    <NuxtLink :to="`/account/post/${id}`">
                       <a-menu-item key="2" class="p-4">
                         <span class="flex items-center gap-2 text-blue-400">
                           <UIcon
