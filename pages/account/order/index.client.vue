@@ -19,24 +19,52 @@
       <!--  -->
       <div class="flex gap-3 text-white py-5">
         <a-button
-          class="flex items-center gap-2 h-10 bg-orange-500 !text-white border-none shadow-none"
+          :class="[
+            'flex items-center gap-2 h-10 rounded-lg border-none shadow-none',
+            filter === null ? 'bg-orange-500 !text-white' : '',
+          ]"
+          @click="handleCheckStatus(null)"
         >
           <img src="../../../assets/images/icon-blog.svg" alt="" />
           <span>Tất cả đơn hàng</span>
         </a-button>
-        <a-button class="flex items-center gap-2 h-10 border-none shadow-none">
+        <a-button
+          :class="[
+            'flex items-center gap-2 h-10 rounded-lg border-none shadow-none',
+            filter === 'pending' ? 'bg-orange-500 !text-white' : '',
+          ]"
+          @click="handleCheckStatus('pending')"
+        >
           <img src="../../../assets/images/icon-shipping.svg" alt="" />
-          <span>Đang giao</span>
+          <span>Chờ xử lý</span>
         </a-button>
-        <a-button class="flex items-center gap-2 h-10 border-none shadow-none">
+        <a-button
+          :class="[
+            'flex items-center gap-2 h-10 rounded-lg border-none shadow-none',
+            filter === 'hiring' ? 'bg-orange-500 !text-white' : '',
+          ]"
+          @click="handleCheckStatus('hiring')"
+        >
           <img src="../../../assets/images/icon-rent.svg" alt="" />
           <span>Đang thuê</span>
         </a-button>
-        <a-button class="flex items-center gap-2 h-10 border-none shadow-none">
+        <a-button
+          :class="[
+            'flex items-center gap-2 h-10 rounded-lg border-none shadow-none',
+            filter === 'completed' ? 'bg-orange-500 !text-white' : '',
+          ]"
+          @click="handleCheckStatus('completed')"
+        >
           <img src="../../../assets/images/icon-return.svg" alt="" />
-          <span>Đã hoàn trả</span>
+          <span>Đã giao</span>
         </a-button>
-        <a-button class="flex items-center gap-2 h-10 border-none shadow-none">
+        <a-button
+          :class="[
+            'flex items-center gap-2 h-10 rounded-lg border-none shadow-none',
+            filter === 'canceled' ? 'bg-orange-500 !text-white' : '',
+          ]"
+          @click="handleCheckStatus('canceled')"
+        >
           <img src="../../../assets/images/icon-cancel.svg" alt="" />
           <span>Đã hủy</span>
         </a-button>
@@ -170,14 +198,16 @@
 </template>
 <script setup lang="ts">
 const orderStore = useOrderClientStore();
-const dataOrder = ref({});
 const current = ref(1);
+const filter = ref(null);
+
 // Get All Order
 useAsyncData(
   async () => {
     try {
       await orderStore.getAllOrder({
         page: current.value,
+        status: filter.value,
       });
     } catch (error) {
       console.log(error);
@@ -185,9 +215,14 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current],
+    watch: [current, filter],
   }
 );
+
+// handle check Status Order
+const handleCheckStatus = (status) => {
+  filter.value = status;
+};
 
 const columns = [
   {

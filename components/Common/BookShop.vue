@@ -24,7 +24,12 @@
             {{ props?.book?.book?.author?.author }}
           </div>
           <div class="text-orange-600 font-extrabold text-xl">
-            {{ props?.book?.price }} đ
+            {{
+              new Intl.NumberFormat("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              }).format(props?.book?.price)
+            }}
           </div>
         </div>
       </div>
