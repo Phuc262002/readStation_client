@@ -1,6 +1,5 @@
 <template>
-  <a-modal v-model:open="props.openModalAdd" title="Thêm nhà cung cấp"  :footer="null"
-    :closable="false">
+  <a-modal v-model:open="props.openModalAdd" title="Thêm nhà cung cấp"  :footer="null" :onCancel="handleClose">
     <form @submit.prevent="onSubmit">
       <div class="bg-white py-2">
         <div class="grid gap-4 my-3">
@@ -24,8 +23,8 @@
             </div>
           </div>
         </div>
-        <div class="flex justify-end items-end gap-4">
-          <a-button @click="handleClose" type="primary" danger html-type="button" class="mt-4">Hủy</a-button>
+        <div class="flex justify-end items-end gap-2">
+          <a-button @click="handleClose" >Hủy</a-button>
           <a-button html-type="submit" :loading="supplierStore.isSubmitting"
             class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary mt-4 ">Lưu</a-button>
         </div>

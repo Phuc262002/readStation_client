@@ -12,7 +12,7 @@ export const useBookcaseStore = defineStore("bookcase-store", {
     async getAllBookcases({ page, pageSize, status, search }: any) {
       this.isLoading = true;
       const data: any = await useCustomFetch(
-        `/api/v1/bookcases?${page ? `&page=${page}` : ""}${
+        `/api/v1/admin/bookcases?${page ? `&page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
         }${search ? `&search=${search}` : ""}${
           status ? `&status=${status}` : ""
@@ -24,14 +24,14 @@ export const useBookcaseStore = defineStore("bookcase-store", {
     },
     async getOneBookcase(id: string) {
       this.isLoading = true;
-      const data: any = await useCustomFetch(`/api/v1/bookcases/get-one/${id}`);
+      const data: any = await useCustomFetch(`/api/v1/admin/bookcases/${id}`);
       this.isLoading = false;
       this.bookCase = data.data._value?.data;
       return data;
     },
     async createBookcase(bookcase: any) {
       this.isSubmitting = true;
-      const data: any = await useCustomFetch(`/api/v1/bookcases/create`, {
+      const data: any = await useCustomFetch(`/api/v1/admin/bookcases/{id}`, {
         method: "POST",
         body: JSON.stringify(bookcase),
       });
@@ -39,14 +39,14 @@ export const useBookcaseStore = defineStore("bookcase-store", {
       return data;
     },
     async deleteBookcase(id: string) {
-      const data: any = await useCustomFetch(`/api/v1/bookcases/delete/${id}`, {
+      const data: any = await useCustomFetch(`/api/v1/admin/bookcases/delete/${id}`, {
         method: "DELETE",
       });
       return data;
     },
     async updateBookcase({ id, bookcase }: any) {
       this.isSubmitting = true;
-      const data: any = await useCustomFetch(`/api/v1/bookcases/update/${id}`, {
+      const data: any = await useCustomFetch(`/api/v1/admin/bookcases/update/${id}`, {
         method: "PUT",
         body: JSON.stringify(bookcase),
       });

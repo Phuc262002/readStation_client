@@ -33,34 +33,37 @@
                         </div>
                     </div>
                     <div class="border border-gray-100"></div>
-                    <div class="flex justify-start gap-10">
-                        <div class="flex">
-                            <div class="flex gap-10">
-                                <div class="grid gap-3">
-                                    <span class="font-bold text-base">Tên sách: </span>
-                                    <span class="font-bold text-base">Tác giả: </span>
-                                    <span class="font-bold text-base">Danh mục: </span>
-                                    <span class="font-bold text-base">Tủ sách: </span>
-                                    <span class="font-bold text-base">Kệ sách: </span>
-                                </div>
-                                <div class="grid gap-3">
-                                    <span class="text-base">{{ bookStore?.OneBookAdmin?.title }}</span>
-                                    <span class="text-base">{{ bookStore?.OneBookAdmin?.author?.author }}</span>
-                                    <span class="text-base">{{ bookStore?.OneBookAdmin?.category?.name }}</span>
-                                    <span class="text-base">{{ bookStore?.OneBookAdmin?.shelve?.bookcase?.name }}</span>
-                                    <span class="text-base">{{ bookStore?.OneBookAdmin?.shelve?.name }}</span>
-                                </div>
+                    <div class="grid md:grid-cols-3 gap-5">
+                        <div class="md:col-span-1 space-y-2 border-r border-gray-200">
+                            <div class="grid grid-cols-3">
+                                <span class="font-bold text-base">Tên sách: </span>
+                                <span class="text-base">{{ bookStore?.OneBookAdmin?.title }}</span>
+                            </div>
+                            <div class="grid grid-cols-3">
+                                <span class="font-bold text-base">Tác giả: </span>
+                                <span class="text-base">{{ bookStore?.OneBookAdmin?.author?.author }}</span>
+                            </div>
+                            <div class="grid grid-cols-3">
+                                <span class="font-bold text-base">Danh mục: </span>
+                                <span class="text-base">{{ bookStore?.OneBookAdmin?.category?.name }}</span>
+                            </div>
+                            <div class="grid grid-cols-3">
+                                <span class="font-bold text-base">Tủ sách: </span>
+                                <span class="text-base">{{ bookStore?.OneBookAdmin?.shelve?.bookcase?.name }}</span>
+                            </div>
+                            <div class="grid grid-cols-3">
+                                <span class="font-bold text-base">Kệ sách: </span>
+                                <span class="text-base">{{ bookStore?.OneBookAdmin?.shelve?.name }}</span>
                             </div>
                         </div>
-                        <div class="border border-gray-200"></div>
-                        <div class="flex w-2/3">
-                            <div class="grid grid-rows-2 gap-2 w-1/4">
-                                <h1 class="font-bold text-base">Mô tả :</h1>
-                                <h1 class="font-bold text-base">Mô tả chi tiết :</h1>
+                        <div class="md:col-span-2 space-y-3">
+                            <div class="grid grid-cols-4">
+                                <span class="text-base font-bold col-span-1">Mô tả: </span>
+                                <span class="text-base col-span-3">{{ bookStore?.OneBookAdmin?.description_summary }}</span>
                             </div>
-                            <div class="grid grid-rows-2 gap-2 w-full">
-                                <span class="text-base">{{ bookStore?.OneBookAdmin?.description_summary}}</span>
-                                <div class="text-base" v-html="bookStore?.OneBookAdmin?.description"></div>
+                            <div class="grid grid-cols-4">
+                                <span class="text-base font-bold col-span-1">Mô tả chi tiết:</span>
+                                <span class="text-base col-span-3" v-html="bookStore?.OneBookAdmin?.description"></span>
                             </div>
                         </div>
                     </div>
@@ -89,7 +92,7 @@
 
                             </div>
                             <div class="border border-gray-200"></div>
-                            <div class="flex justify-start gap-5">
+                            <div class="grid grid-cols-2">
                                 <div class="py-10 px-5">
                                     <div class="flex justify-center items-center gap-4">
                                         <img class="w-28 h-44" :src="items.poster" alt="">
@@ -101,37 +104,51 @@
                                     </div>
 
                                 </div>
-                                <div class="border border-r-1 border-gray-200"></div>
-                                <div class="grid grid-row-2">
-                                    <div class="flex gap-10">
-                                        <div class="grid gap-2">
-                                            <span class="font-bold text-base">Số lượng: </span>
-                                            <span class="font-bold text-base">Giá: </span>
-                                            <span class="font-bold text-base">Tiền cọc: </span>
-                                            <span class="font-bold text-base">Loại bìa: </span>
-                                            <span class="font-bold text-base">Số trang: </span>
-                                            <span class="font-bold text-base">Kích thước: </span>
-                                            <span class="font-bold text-base">Ngôn ngữ: </span>
-                                            <span class="font-bold text-base">Người dịch: </span>
-                                            <span class="font-bold text-base">Ngày phát hành: </span>
-                                            <span class="font-bold text-base">Công ty phát hành:</span>
-                                            <span class="font-bold text-base">Đánh giá:</span>
-
-                                        </div>
-                                        <div class="grid gap-2">
-                                            <span class="text-base">{{ items?.stock }}</span>
-                                            <span class="text-base">{{ items?.price }}</span>
-                                            <span class="text-base">{{ items.hire_percent }}%</span>
-                                            <span class="text-base">{{ items?.cardboard }}</span>
-                                            <span class="text-base">{{ items?.total_page }}</span>
-                                            <span class="text-base">{{ items?.book_size }} cm</span>
-                                            <span class="text-base">{{ items?.language }}</span>
-                                            <span class="text-base">{{ items?.translator }}</span>
-                                            <span class="text-base">{{ items?.publish_date }}</span>
-                                            <span class="text-base">{{ items?.publishing_company?.name }}</span>
-                                            <span class="text-base">4.8</span>
-
-                                        </div>
+                                <div class="md:col-span-1 space-y-3 space-x-5 border-l border-gray-200">
+                                    <div></div>
+                                    <div class="grid grid-cols-2 space-x-5">
+                                        <span class="font-bold text-base">Số lượng: </span>
+                                        <span class="text-base">{{ items?.stock }}</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 space-x-5">
+                                        <span class="font-bold text-base">Giá: </span>
+                                        <span class="text-base">{{ items?.price }}</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 space-x-5">
+                                        <span class="font-bold text-base">Tiền cọc: </span>
+                                        <span class="text-base">{{ items.hire_percent }}%</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 space-x-5">
+                                        <span class="font-bold text-base">Loại bìa: </span>
+                                        <span class="text-base">{{ items?.cardboard }}</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 space-x-5">
+                                        <span class="font-bold text-base">Số trang: </span>
+                                        <span class="text-base">{{ items?.total_page }}</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 space-x-5">
+                                        <span class="font-bold text-base">Kích thước: </span>
+                                        <span class="text-base">{{ items?.book_size }} cm</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 space-x-5">
+                                        <span class="font-bold text-base">Ngôn ngữ: </span>
+                                        <span class="text-base">{{ items?.language }}</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 space-x-5">
+                                        <span class="font-bold text-base">Người dịch: </span>
+                                        <span class="text-base">{{ items?.translator }}</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 space-x-5">
+                                        <span class="font-bold text-base">Ngày phát hành: </span>
+                                        <span class="text-base">{{ items?.publish_date }}</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 space-x-5">
+                                        <span class="font-bold text-base">Công ty phát hành: </span>
+                                        <span class="text-base">{{ items?.publishing_company?.name }}</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 space-x-5">
+                                        <span class="font-bold text-base">Đánh giá: </span>
+                                        <span class="text-base">4.8</span>
                                     </div>
                                 </div>
                             </div>

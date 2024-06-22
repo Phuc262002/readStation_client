@@ -14,7 +14,7 @@
           {{ props.post?.category?.name }}
         </div>
 
-        <p class="text-white w-2/3 font-semibold text-4xl">
+        <p class="text-white font-semibold text-4xl">
           {{ props.post?.title }}
         </p>
         <div class="mt-6">

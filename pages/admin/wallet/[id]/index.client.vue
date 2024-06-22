@@ -25,23 +25,23 @@
       <div class="grid md:grid-cols-2 gap-5">
         <div class="md:col-span-1 space-y-3 border-r border-gray-200">
           <div class="grid grid-cols-3">
-            <span class="text-base cols-span-1">Họ và tên: </span>
-            <span class="text-base cols-span-2">An khương</span>
+            <span class="text-base col-span-1">Họ và tên: </span>
+            <span class="text-base col-span-2">An khương</span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base cols-span-1">Số điện thoại: </span>
+            <span class="text-base col-span-1">Số điện thoại: </span>
             <span class="text-base">An khương</span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base cols-span-1">Email: </span>
+            <span class="text-base col-span-1">Email: </span>
             <span class="text-base">khuongttaps26697@fpt.edu.vn </span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base cols-span-1">CMT/CCCD: </span>
+            <span class="text-base col-span-1">CMT/CCCD: </span>
             <span class="text-base">An khương</span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base cols-span-1">Ảnh đại diện: </span>
+            <span class="text-base col-span-1">Ảnh đại diện: </span>
             <span class="text-base">
               <a-image
                 class="rounded-md"
@@ -55,7 +55,7 @@
         </div>
 
         <div class="md:col-span-1 space-y-3">
-          <div class="grid grid-cols-3">
+          <div class="grid grid-cols-2">
             <span class="text-base">Trạng thái ví: </span>
             <span class="text-base">
               <span class="bg-tag-bg-10 text-tag-text-10 px-2 py-1 rounded">
@@ -64,19 +64,19 @@
             </span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base cols-span-1">Số tiền trong ví: </span>
+            <span class="text-base col-span-1">Số tiền trong ví: </span>
             <span class="text-base">500.000 đ</span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base cols-span-1">Tiền cọc đang thuê sách: </span>
+            <span class="text-base col-span-1">Tiền cọc đang thuê sách: </span>
             <span class="text-base">200.000 đ</span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base cols-span-1">Số tiền đang xử lý: </span>
+            <span class="text-base col-span-1">Số tiền đang xử lý: </span>
             <span class="text-base">100.000 đ</span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base cols-span-1">Số tiền đang rút: </span>
+            <span class="text-base col-span-1">Số tiền đang rút: </span>
             <span class="text-base">20.000 đ</span>
           </div>
         </div>

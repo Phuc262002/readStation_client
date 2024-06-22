@@ -8,32 +8,41 @@
       </div>
       <CommonBreadcrumAdmin />
     </div>
-
+    <div v-if="errors" class="space-y-2 mb-4">
+      <a-alert
+        v-for="(error, index) in errors"
+        :key="index"
+        :message="error"
+        type="error"
+        show-icon
+      />
+    </div>
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <form :model="posts" @submit.prevent="onSubmit">
         <div class="flex flex-col gap-2 w-full pb-4">
           <label class="text-sm font-semibold" for="">Thêm hình ảnh</label>
           <ClientOnly>
-              <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
-                <a-upload-dragger
-                  v-model:fileList="fileList"
-                  list-type="picture"
-                  name="image"
-                  :multiple="false"
-                  :action="(file) => uploadFile(file)"
-                  @change="handleChange"
-                  @drop="handleDrop"
-                  :before-upload="beforeUpload"
-                  :remove="(file) => deleteFile(file)"
-                >
-                  <p class="ant-upload-drag-icon">
-                    <inbox-outlined></inbox-outlined>
-                  </p>
-                  <p class="ant-upload-text">Click hoặc kéo thả file vào đây</p>
-                  <p class="ant-upload-hint">Hoặc nhấn vào đây để chọn file</p>
-                </a-upload-dragger>
-              </a-spin>
-            </ClientOnly>
+            <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
+              <a-upload-dragger
+                v-model:fileList="fileList"
+                list-type="picture"
+                name="image"
+                :multiple="false"
+                :action="(file) => uploadFile(file)"
+                @change="handleChange"
+                @drop="handleDrop"
+                :before-upload="beforeUpload"
+                :remove="(file) => deleteFile(file)"
+                required
+              >
+                <p class="ant-upload-drag-icon">
+                  <inbox-outlined></inbox-outlined>
+                </p>
+                <p class="ant-upload-text">Click hoặc kéo thả file vào đây</p>
+                <p class="ant-upload-hint">Hoặc nhấn vào đây để chọn file</p>
+              </a-upload-dragger>
+            </a-spin>
+          </ClientOnly>
         </div>
         <div class="flex flex-col gap-2 w-full pb-4">
           <label class="text-sm font-semibold" for="">Tên bài viết</label>
@@ -42,6 +51,7 @@
             size="large"
             type="text"
             class="border rounded-md"
+            required
             placeholder="Tên bài viết"
           />
         </div>
@@ -59,6 +69,7 @@
               @focus="handleFocus"
               @blur="handleBlur"
               @change="handleChangeSelect"
+              required
             ></a-select>
           </div>
         </div>
@@ -69,6 +80,7 @@
             v-model:value="posts.summary"
             :rows="6"
             allow-clear
+            required
           />
         </div>
         <div class="flex flex-col gap-2 f-full pb-4">
@@ -78,8 +90,6 @@
             @input="(event) => (posts.content = event)"
           />
         </div>
-
-        <div></div>
         <div class="flex items-end gap-4 pt-4">
           <a-button type="text"> Hủy</a-button>
           <a-button type="primary" html-type="submit"> Lưu</a-button>
@@ -90,10 +100,12 @@
 </template>
 <script setup>
 const categoryStore = useCategoryStore();
-const postStore = usePostStore();
+const postStore = useGeneralPostStore();
+
 const baseStore = useBaseStore();
 const fileList = ref([]);
 const imageInfo = ref("");
+const errors = ref({});
 const options = ref([]);
 const uploadFile = async (file) => {
   if (fileList.value.length > 0) {
@@ -107,7 +119,6 @@ const uploadFile = async (file) => {
     imageInfo.value = dataUpload.data._rawValue.data;
   } catch (error) {
     message.error("Upload ảnh thất bại");
-    
   }
 };
 const handleChange = (info) => {
@@ -145,7 +156,7 @@ const posts = ref({
 useAsyncData(async () => {
   await categoryStore.getAllCategory({
     type: "post",
-    status:"active"
+    status: "active",
   });
   options.value = categoryStore.categoriesAdmin.categories.map((item) => ({
     value: item.id,
@@ -153,19 +164,39 @@ useAsyncData(async () => {
   }));
 });
 
-
 const onSubmit = async () => {
   try {
-    await postStore.createPost({
+    if (!imageInfo.value?.url) {
+      message.error("Vui lòng chọn ảnh");
+      return;
+    }
+
+    if (!posts.value.category) {
+      message.error("Vui lòng chọn danh mục");
+      return;
+    }
+
+    if (!posts.value.content) {
+      message.error("Vui lòng nhập nội dung");
+      return;
+    }
+    
+    const data = await postStore.createPost({
       image: imageInfo.value?.url,
       title: posts.value.title,
       content: posts.value.content,
       summary: posts.value.summary,
       category_id: posts.value.category,
     });
-    message.success("Thêm thành công");
+    if (data.error?.value?.data) {
+      errors.value = data.error.value.data?.errors;
+      message.error("Thêm bài viết thất bại");
+      return;
+    }
+    message.success("Thêm bài viết thành công");
     navigateTo("/admin/post");
   } catch (error) {
+    console.log("🚀 ~ onSubmit ~ error:", error);
     message.error("Thêm thất bại");
   }
 };

@@ -28,7 +28,6 @@ export const useGeneralPostStore = defineStore("general-post-store", {
           method: "POST",
           body: JSON.stringify(post),
         });
-
         return data;
       } catch (error) {
         console.log(error);

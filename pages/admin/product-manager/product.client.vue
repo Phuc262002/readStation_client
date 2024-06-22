@@ -125,24 +125,31 @@
                     </div>
                   </div>
                 </template>
+                <template v-else-if="column.dataIndex === 'order_details'">
+                  <span>{{ record.order_details.length }} quyển</span>
+                </template>
+                <template v-else-if="column.dataIndex === 'receipt_date'">
+                  <span>{{ $dayjs(record.receipt_date).format("DD/MM/YYYY")  }}</span>
+                </template>
                 <template v-if="column.dataIndex === 'status'">
                   <span>
-                    <a-tag :bordered="false" v-if="record.status === 'wating_approve'"class="bg-[#F5F5F5] text-[#9E9E9E]">
-                      Đang chờ duyệt
-                    </a-tag>
-                    <a-tag :bordered="false" v-else-if="record.status === 'pending'"class="bg-[#FFFBE5] text-[#FFD700]">
+                    <a-tag :bordered="false" v-if="record.status === 'pending'" class="bg-tag-bg-01 text-tag-text-01">
                       Đang xử lý
                     </a-tag>
-                    <a-tag :bordered="false" v-else-if="record.status === 'hiring'" class="bg-[#FFFBE5] text-[#FFD700]">
-                      Đang chờ duyệt
+                    <a-tag :bordered="false" v-else-if="record.status === 'hiring'"
+                      class="bg-tag-bg-04 text-tag-text-04">
+                      Đang thuê
                     </a-tag>
-                    <a-tag :bordered="false" v-else-if="record.status === 'completed'" class="bg-[#E5F4F3] text-[#009688]">
+                    <a-tag :bordered="false" v-else-if="record.status === 'completed'"
+                      class="bg-tag-bg-05 text-tag-text-05">
                       Đã hoàn thành
                     </a-tag>
-                    <a-tag :bordered="false" v-else-if="record.status === 'out_of_date'" class="bg-[#F44336] text-[#FEECEB]">
+                    <a-tag :bordered="false" v-else-if="record.status === 'out_of_date'"
+                      class="bg-tag-bg-06 text-tag-text-06">
                       Đã hết hạn
                     </a-tag>
-                    <a-tag :bordered="false" v-else-if="record.status === 'canceled'" class="bg-[#F5F5F5] text-[#9E9E9E]" >
+                    <a-tag :bordered="false" v-else-if="record.status === 'canceled'"
+                      class="bg-tag-bg-07 text-tag-text-07">
                       Đã hủy
                     </a-tag>
                   </span>
@@ -233,8 +240,8 @@ const columns = [
   },
   {
     title: 'Số lượng sách',
-    dataIndex: 'quantity',
-    key: 'quantity',
+    dataIndex: 'order_details',
+    key: 'order_details',
   },
   {
     title: 'Phương thức thanh toán',

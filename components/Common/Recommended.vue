@@ -6,7 +6,7 @@
                 <div>
                     <p>{{ title?.description }}</p>
                 </div>
-                <div class="flex justify-end gap-5">
+                <div class="flex justify-end gap-2">
                     <button @click="swiperPrevSlide"
                         class="bg-white border border-gray-300 rounded-full w-10 h-10 flex justify-center items-center -top-10">
                         <ArrowLeftOutlined />
