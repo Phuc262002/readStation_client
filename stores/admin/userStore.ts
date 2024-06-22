@@ -4,6 +4,7 @@ export const useUserStore = defineStore("user-store", {
   state: () => {
     return {
       userAdmin: [],
+      user: {},
       isLoading: false,
       isSubmitting: false,
     };
@@ -29,12 +30,18 @@ export const useUserStore = defineStore("user-store", {
         this.isLoading = false;
       }
     },
-    async getOneuser(id: any) {
+    async getOneUser(id: any) {
       try {
-        const data: any = await useCustomFetch(`/api/v1/admin/users/${id}`);
+        this.isSubmitting = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/admin/users/get-one/${id}`
+        );
+        this.user = data.data._value?.data;
         return data;
       } catch (error) {
         console.log(error);
+      }finally {
+        this.isSubmitting = false;
       }
     },
     async createUser(user: any) {
