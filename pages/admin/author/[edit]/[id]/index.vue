@@ -43,37 +43,33 @@
             </a-tooltip>
           </div>
         </div>
-
-        <div class="grid grid-cols-3 gap-4 pb-4 mt-5">
-          <div class="flex flex-col gap-2 w-[100%]">
-            <label class="text-sm font-semibold" for="">Tên tác giả</label>
-            <a-input placeholder="Tên tác giả" class="border p-2 rounded-md" v-model:value="valueAuthor.author" />
+        <div class="flex flex-col gap-5 mt-5">
+          <div class="grid grid-cols-3 gap-4">
+            <div class="flex flex-col gap-2">
+              <label class="text-sm font-semibold" for="">Tên tác giả</label>
+              <a-input placeholder="Tên tác giả" class="border p-2 rounded-md" v-model:value="valueAuthor.author" />
+            </div>
+            <div class="flex flex-col gap-2">
+              <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
+              <a-input placeholder="Ngày, tháng, năm sinh" class="border p-2 rounded-md" type="date"
+                v-model:value="valueAuthor.dob" />
+            </div>
+            <div class="flex flex-col gap-2">
+              <label class="text-sm font-semibold" for="">Trạng thái</label>
+              <a-select size="large" v-model:value="valueAuthor.status" show-search placeholder="Trạng thái"
+                :options="optionsStatus" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
+                @change="handleChange"></a-select>
+            </div>
           </div>
-          <div class="flex flex-col gap-2 w-[100%]">
-            <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
-            <a-input placeholder="Ngày, tháng, năm sinh" class="border p-2 rounded-md" type="date"
-              v-model:value="valueAuthor.dob" />
+          <div class="flex flex-col gap-2">
+            <label class="text-sm font-semibold" for="">Nội dung</label>
+            <CommonCKEditor v-model:value="valueAuthor.description"
+              @input="(event) => (ValueAuthor.description = event)" />
           </div>
-          <div class="flex flex-col gap-2 w-[100%]">
-            <label class="text-sm font-semibold" for="">Trạng thái</label>
-            <a-select size="large" v-model:value="valueAuthor.status" show-search placeholder="Trạng thái"
-              :options="optionsStatus" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
-              @change="handleChange"></a-select>
+          <div class="flex justify-end gap-2">
+            <a-button> Hủy</a-button>
+            <a-button type="primary" html-type="submit" :loading="AuthorStore.isSubmitting"> Cập nhật</a-button>
           </div>
-        </div>
-        <div class="grid grid-cols-2 gap-4 pb-4">
-          <div class="flex flex-col gap-2 w-[100%]">
-
-          </div>
-        </div>
-        <div class="flex flex-col gap-2 f-full pb-4">
-          <label class="text-sm font-semibold" for="">Nội dung</label>
-          <CommonCKEditor v-model:value="valueAuthor.description"
-            @input="(event) => (valueAuthor.description = event)" />
-        </div>
-        <div class="flex items-end gap-4 pt-4">
-          <a-button danger type="primary"> Hủy</a-button>
-          <a-button type="primary" html-type="submit"> Cập nhật </a-button>
         </div>
       </form>
 

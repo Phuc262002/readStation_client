@@ -5,7 +5,7 @@
     <div class="p-5 bg-white mt-5 shadow-lg rounded-xl">
       <a-table
         :columns="columns"
-        :data-source="userStore?.comments?.comments"
+        :data-source="commentStore?.comments?.comments"
         :pagination="false"
       >
         <template #headerCell="{ column }">
@@ -99,8 +99,8 @@
       <div class="mt-4 flex justify-end">
         <a-pagination
           v-model:current="current"
-          :total="userStore?.comments?.totalResults"
-          :pageSize="userStore?.comments?.pageSize"
+          :total="commentStore?.comments?.totalResults"
+          :pageSize="commentStore?.comments?.pageSize"
           show-less-items
         />
       </div>
@@ -110,12 +110,12 @@
 <script setup lang="ts">
 import { px2remTransformer } from "ant-design-vue";
 
-const userStore = useUserStore();
+const commentStore = useCommentClientStore();
 const current = ref(1);
 useAsyncData(
   async () => {
     try {
-      await userStore.getAllComment({
+      await commentStore.getAllComment({
         page: current.value,
         // pageSize: 1,
       });

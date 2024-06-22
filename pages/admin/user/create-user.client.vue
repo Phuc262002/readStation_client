@@ -322,7 +322,7 @@
               </div>
             </div>
           </div>
-          <div class="flex gap-4">
+          <div class="flex gap-2">
             <a-button type="default">Hủy</a-button>
             <a-button html-type="submit" type="primary">Thêm</a-button>
           </div>

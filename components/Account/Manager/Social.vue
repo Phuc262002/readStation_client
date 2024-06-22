@@ -30,7 +30,7 @@
       <div class="bg-white rounded-md shadow-md shadow-gray-300 p-4">
         <div class="flex items-center justify-between">
           <img
-            src="../../assets/images/meta-logo.png"
+            src="../../../assets/images/meta-logo.png"
             class="w-[40px] h-[30px]"
             alt=""
           />

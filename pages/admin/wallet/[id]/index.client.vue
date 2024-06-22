@@ -55,7 +55,7 @@
         </div>
 
         <div class="md:col-span-1 space-y-3">
-          <div class="grid grid-cols-3">
+          <div class="grid grid-cols-2">
             <span class="text-base">Trạng thái ví: </span>
             <span class="text-base">
               <span class="bg-tag-bg-10 text-tag-text-10 px-2 py-1 rounded">

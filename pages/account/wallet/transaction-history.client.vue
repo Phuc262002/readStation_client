@@ -43,7 +43,7 @@
   </div>
 </template>
 <script setup lang="ts">
-const walletStore = useWalletStore();
+const walletStore = useWalletClientStore();
 const current = ref(1);
 // render transaction
 useAsyncData(

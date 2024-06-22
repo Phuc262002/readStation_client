@@ -50,7 +50,7 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/pagination";
 import { ref } from "vue";
-const bookStore = useBookStore();
+const bookStore = useBookPublicStore();
 
 const visible = ref(false);
 const selectedImage = ref(bookStore.book?.poster);

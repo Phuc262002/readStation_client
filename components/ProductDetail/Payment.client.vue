@@ -63,7 +63,7 @@
   </div>
 </template>
 <script setup lang="ts">
-const bookStore = useBookStore();
+const bookStore = useBookPublicStore();
 const cartStore = useCartStore();
 const addToCart = () => {
   try {

@@ -114,8 +114,8 @@
             </div>
           </div>
         </div>
-        <div class="flex justify-end items-end gap-4">
-          <a-button class="mt-4">Hủy</a-button>
+        <div class="flex justify-end items-end gap-2">
+          <a-button  @click="handleClose" >Hủy</a-button>
           <a-button type="primary" html-type="submit" class="mt-4"
             :loading="DetailBookStore.isSubmitting">Thêm</a-button>
         </div>

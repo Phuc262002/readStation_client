@@ -115,7 +115,7 @@
                                     </template>
                                 </template>
                             </a-table>
-                            <div class="mt-5 flex justify-end gap-3">
+                            <div class="mt-5 flex justify-end gap-2">
                                 <a-button class="border">Hủy</a-button>
                                 <a-button class="border border-orange-400 text-orange-500" html-type="submit" :submitting="invoiceEnter.isSubmitting"
                                     @click="saveDraft">Lưu

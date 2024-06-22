@@ -12,7 +12,7 @@
             <div class="flex flex-col gap-10 ">
                 <div class="flex flex-col gap-5">
                     <div class="font-bold text-xl">Thông tin khách hàng</div>
-                    <div class="relative w-full md:block hidden">
+                    <div class="relative w-1/2 md:block hidden">
                         <div class="flex">
                             <input type="text"
                                 class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
@@ -22,10 +22,20 @@
                             <UIcon class="text-gray-500" name="i-material-symbols-search" />
                         </div>
                     </div>
-                    <div class="grid grid-rows-4 gap-5 ">
-                        <div class="grid grid-cols-4 gap-10">
+                    <div class="grid grid-rows-5 gap-5 border-b border-gray-200 pb-10">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-sm font-semibold" for="">Vai trò</label>
+                            <div class="flex justify-start gap-4">
+                                <a-checkbox @click="setRole('Customer')" :checked="role === 'Customer'">Khách
+                                    hàng</a-checkbox>
+                                <a-checkbox @click="setRole('Student')" :checked="role === 'Student'">Học
+                                    sinh</a-checkbox>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4">
                             <div class="flex flex-col gap-2">
-                                <label class="text-sm font-semibold" for="">Họ và tên</label>
+                                <label class="text-sm font-semibold" for="">Họ và tên <span
+                                        class="text-red-500">*</span></label>
                                 <a-input type="text" class="border p-2 rounded-md" placeholder="Họ và tên" />
                             </div>
 
@@ -34,18 +44,32 @@
                                 <a-input type="date" class="border p-2 rounded-md"
                                     placeholder="Ngày, tháng, năm sinh" />
                             </div>
-
                             <div class="flex flex-col gap-2">
-                                <label class="text-sm font-semibold" for="">Số điện thoại</label>
+                                <label class="text-sm font-semibold">Giới tính</label>
+                                <div class="flex justify-start gap-4">
+                                    <a-checkbox @click="setGender('male')" :checked="gender === 'male'">Nam</a-checkbox>
+                                    <a-checkbox @click="setGender('female')"
+                                        :checked="gender === 'female'">Nữ</a-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Số điện thoại <span
+                                        class="text-red-500">*</span></label>
                                 <a-input type="text" class="border p-2 rounded-md" placeholder="Số điện thoại" />
                             </div>
-
                             <div class="flex flex-col gap-2">
-                                <label class="text-sm font-semibold" for="">Email</label>
+                                <label class="text-sm font-semibold" for="">Email <span
+                                        class="text-red-500">*</span></label>
+                                <a-input type="text" class="border p-2 rounded-md" placeholder="Email" />
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold" for="">Công Việc</label>
                                 <a-input type="text" class="border p-2 rounded-md" placeholder="Email" />
                             </div>
                         </div>
-                        <div class="grid grid-cols-4 gap-10">
+                        <div class="grid grid-cols-4 gap-4">
                             <div class="flex flex-col gap-2">
                                 <label class="text-sm font-semibold" for="">CMT/ CCCD</label>
                                 <a-input type="text" class="border p-2 rounded-md" placeholder="Mã số CMT/ CCCD" />
@@ -63,24 +87,51 @@
                                 <a-input type="text" class="border p-2 rounded-md" placeholder="Nơi cấp" />
                             </div>
                         </div>
+                        <div class="grid grid-cols-4 gap-4" v-if="role === 'Student'">
+                            <div>
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-sm font-semibold" for="">ID sinh viên</label>
+                                    <a-input type="text" class="border p-2 rounded-md" placeholder="ID sinh viên" />
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-sm font-semibold" for="">Họ tên</label>
+                                    <a-input type="text" class="border p-2 rounded-md" placeholder="Họ tên" />
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-sm font-semibold" for="">Ngày kết thúc năm học</label>
+                                    <a-input style="height: 40px" type="date" class="border p-2 rounded-md"
+                                        placeholder="Ngày hết hạn" />
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-sm font-semibold" for="">Trường học/ Cao đẳng/ Đại học</label>
+                                    <a-input type="text" class="border p-2 rounded-md" placeholder="Trường" />
+                                </div>
+                            </div>
+                        </div>
                         <div class="grid grid-cols-4 gap-4">
                             <div class="flex flex-col gap-2 ">
                                 <label class="text-sm font-semibold" for="">Tỉnh/ Thành phố</label>
-                                <a-select v-model:value="valuePronvines" show-search placeholder="Tỉnh/Thành phố"
-                                    :options="provinces" :filter-option="filterOption" @focus="handleFocus"
-                                    @blur="handleBlur" @change="handleChangeProvince">
+                                <a-select size="large" v-model:value="valuePronvines" show-search
+                                    placeholder="Tỉnh/Thành phố" :options="provinces" :filter-option="filterOption"
+                                    @focus="handleFocus" @blur="handleBlur" @change="handleChangeProvince">
                                 </a-select>
                             </div>
                             <div class="flex flex-col gap-2 ">
                                 <label class="text-sm font-semibold" for="">Quận/ Huyện</label>
-                                <a-select v-model:value="valueDistricts" show-search placeholder="Quận/Huyện"
-                                    :options="districts" :filter-option="filterOption" @focus="handleFocus"
-                                    @blur="handleBlur" @change="handleChangeDistrict">
+                                <a-select size="large" v-model:value="valueDistricts" show-search
+                                    placeholder="Quận/Huyện" :options="districts" :filter-option="filterOption"
+                                    @focus="handleFocus" @blur="handleBlur" @change="handleChangeDistrict">
                                 </a-select>
                             </div>
                             <div class="flex flex-col gap-2 ">
                                 <label class="text-sm font-semibold" for="">Phường/ Xã</label>
-                                <a-select v-model:value="valueWards" show-search placeholder="Phường/Xã"
+                                <a-select size="large" v-model:value="valueWards" show-search placeholder="Phường/Xã"
                                     :options="wards" :filter-option="filterOption" @focus="handleFocus"
                                     @blur="handleBlur" @change="handleChangeWard">
                                 </a-select>
@@ -101,7 +152,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="border "></div>
+
                 <div class="flex flex-col gap-5">
                     <div class="font-bold text-xl">Thông tin đơn hàng</div>
                     <div class="relative w-full md:block hidden">
@@ -179,8 +230,9 @@
 
                 </div>
 
-                <div class="flex justify-end">
-                    <button class="bg-[#54cc54] w-1/6 p-1 text-white text-xl rounded-lg">Thêm</button>
+                <div class="flex justify-end gap-2">
+                    <a-button type="default">Hủy</a-button>
+                    <a-button html-type="submit" type="primary">Thêm</a-button>
                 </div>
             </div>
 
@@ -190,48 +242,56 @@
 
 <script setup>
 import { ref } from "vue";
+const role = ref("Customer");
+const setRole = (selectedRole) => {
+    role.value = selectedRole;
+};
+const gender = ref("male");
+const setGender = (selecteGender) => {
+    gender.value = selecteGender;
+};
 const columns = [
     {
-      name: "Mã sách",
-      dataIndex: "sku",
-      key: "sku",
+        name: "Mã sách",
+        dataIndex: "sku",
+        key: "sku",
     },
     {
-      title: "Tên sách",
-      dataIndex: "title",
-      key: "title",
+        title: "Tên sách",
+        dataIndex: "title",
+        key: "title",
     },
     {
-      title: "Tác giả",
-      dataIndex: "author",
-      key: "author",
+        title: "Tác giả",
+        dataIndex: "author",
+        key: "author",
     },
     {
-      title: "Danh mục",
-      dataIndex: "category",
-      key: "category",
+        title: "Danh mục",
+        dataIndex: "category",
+        key: "category",
     },
     {
-      title: "Mô tả",
-      dataIndex: "dicription",
-      key: "dicription",
+        title: "Mô tả",
+        dataIndex: "dicription",
+        key: "dicription",
     },
     {
-      title: "Action",
-      key: "action",
+        title: "Action",
+        key: "action",
     },
-  ];
-  
-  const data = [
+];
+
+const data = [
     {
-      key: "1",
-      sku: "123",
-      title: "Cho tôi vé đi tuổi thơ",
-      author: "Nguyễn Nhật Ánh",
-      category: "New York No. 1 Lake Park",
-      dicription: "My name is John Brown",
+        key: "1",
+        sku: "123",
+        title: "Cho tôi vé đi tuổi thơ",
+        author: "Nguyễn Nhật Ánh",
+        category: "New York No. 1 Lake Park",
+        dicription: "My name is John Brown",
     },
-  ];
+];
 
 const baseStore = useBaseStore();
 const provinces = ref([]);

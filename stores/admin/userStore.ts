@@ -3,9 +3,6 @@ import { defineStore } from "pinia";
 export const useUserStore = defineStore("user-store", {
   state: () => {
     return {
-      comments: [],
-      posts: [],
-      orders: [],
       userAdmin: [],
       isLoading: false,
       isSubmitting: false,
@@ -24,11 +21,11 @@ export const useUserStore = defineStore("user-store", {
           }`
         );
         this.userAdmin = data.data._value?.data;
-      
+
         return data;
       } catch (error) {
         console.log(error);
-      }finally{
+      } finally {
         this.isLoading = false;
       }
     },
@@ -67,48 +64,48 @@ export const useUserStore = defineStore("user-store", {
         return data;
       } catch (error) {
         console.log(error);
-      }finally{
+      } finally {
         this.isSubmitting = false;
       }
     },
-    async createOrder(body: any) {
-      const data: any = await useCustomFetch("/api/v1/account/order/create", {
-        method: "POST",
-        body: JSON.stringify(body),
-      });
-      return data;
-    },
+    // async createOrder(body: any) {
+    //   const data: any = await useCustomFetch("/api/v1/account/order/create", {
+    //     method: "POST",
+    //     body: JSON.stringify(body),
+    //   });
+    //   return data;
+    // },
 
-    async getAllOrder({ page, pageSize, status, search }: any) {
-      const data: any = await useCustomFetch(
-        `/api/v1/account/order/get-all?${page ? `&page=${page}` : ""}${
-          pageSize ? `&pageSize=${pageSize}` : ""
-        }${status ? `&status=${status}` : ""}${
-          search ? `$search=${search}` : ""
-        }`
-      );
-      this.orders = data.data._value?.data;
-      return data;
-    },
-    async getAllPost({ page, pageSize, search, status, category_id }: any) {
-      const data: any = await useCustomFetch(
-        `/api/v1/account/get-posts?${page ? `&page=${page}` : ""}${
-          pageSize ? `&pageSize=${pageSize}` : ""
-        }${search ? `&search=${search}` : ""}${
-          status ? `&status=${status}` : ""
-        }${category_id ? `&category_id=${category_id}` : ""}`
-      );
-      this.posts = data.data._value?.data;
-      return data;
-    },
-    async getAllComment({ page, pageSize, sort }: any) {
-      const data: any = await useCustomFetch(
-        `/api/v1/account/get-comments?${page ? `&page=${page}` : ""}${
-          pageSize ? `&pageSize=${pageSize}` : ""
-        }${sort ? `&sort=${sort}` : ""}`
-      );
-      this.comments = data.data._value?.data;
-      return data;
-    },
+    // async getAllOrder({ page, pageSize, status, search }: any) {
+    //   const data: any = await useCustomFetch(
+    //     `/api/v1/account/order/get-all?${page ? `&page=${page}` : ""}${
+    //       pageSize ? `&pageSize=${pageSize}` : ""
+    //     }${status ? `&status=${status}` : ""}${
+    //       search ? `$search=${search}` : ""
+    //     }`
+    //   );
+    //   this.orders = data.data._value?.data;
+    //   return data;
+    // },
+    // async getAllPost({ page, pageSize, search, status, category_id }: any) {
+    //   const data: any = await useCustomFetch(
+    //     `/api/v1/account/get-posts?${page ? `&page=${page}` : ""}${
+    //       pageSize ? `&pageSize=${pageSize}` : ""
+    //     }${search ? `&search=${search}` : ""}${
+    //       status ? `&status=${status}` : ""
+    //     }${category_id ? `&category_id=${category_id}` : ""}`
+    //   );
+    //   this.posts = data.data._value?.data;
+    //   return data;
+    // },
+    // async getAllComment({ page, pageSize, sort }: any) {
+    //   const data: any = await useCustomFetch(
+    //     `/api/v1/account/get-comments?${page ? `&page=${page}` : ""}${
+    //       pageSize ? `&pageSize=${pageSize}` : ""
+    //     }${sort ? `&sort=${sort}` : ""}`
+    //   );
+    //   this.comments = data.data._value?.data;
+    //   return data;
+    // },
   },
 });

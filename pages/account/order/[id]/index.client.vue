@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h2 class="font-bold pb-5">Chi tiết đơn hàng <span>#0488D7D3C7</span></h2>
+    <h2 class="font-bold pb-5">
+      Chi tiết đơn hàng <span>{{ orderStore?.order?.order_code }}</span>
+    </h2>
     <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">
       <div>
         <h3 class="font-bold border-b border-rtgray-50 pb-5">
@@ -152,3 +154,16 @@
     </div>
   </div>
 </template>
+<script setup lang="ts">
+const orderStore = useOrderClientStore();
+const route = useRoute();
+const id = route.params.id;
+// console.log("id", id);
+useAsyncData(async () => {
+  try {
+    await orderStore.getOneOrder(id);
+  } catch (error) {
+    console.log("error", error);
+  }
+});
+</script>

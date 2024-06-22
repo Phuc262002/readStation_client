@@ -153,7 +153,7 @@
                   >
                 </div>
                 <div class="w-full">
-                  <nuxt-link to="/account/checkout">
+                  <nuxt-link to="/account/manager/checkout">
                     <button
                       class="bg-rtprimary text-white uppercase text-sm w-full h-8 rounded-lg"
                     >
