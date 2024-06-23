@@ -11,8 +11,8 @@
       <div class="flex justify-between pb-4">
         <div class="relative w-1/4 md:block hidden">
           <div class="flex">
-            <input type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
+            <a-input type="text" v-model:value="valueSearch"
+              class="pl-7"
               placeholder="Tìm kiếm..." />
           </div>
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -123,12 +123,15 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
+const valueSearch = ref("");
 const allAdminBooks = useBookStore();
 const current = ref(1);
 const getAllAdminBooks = async () => {
   try {
+    
     const data: any = await allAdminBooks.getAdminBooks({
       page: current.value,
+      search: valueSearch.value,
     });
     return data;
   } catch (error) {
@@ -141,7 +144,7 @@ useAsyncData(async () => {
 },
   {
     immediate: true,
-    watch: [current],
+    watch: [current, valueSearch],
   }
 );
 const onDelete = async (id: string) => {
