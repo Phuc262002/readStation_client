@@ -108,8 +108,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { px2remTransformer } from "ant-design-vue";
-
 const commentStore = useCommentClientStore();
 const current = ref(1);
 useAsyncData(

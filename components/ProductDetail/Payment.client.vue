@@ -15,15 +15,28 @@
           <div class="p-4 bg-orange-50 rounded-lg space-y-1">
             <div>
               <span class="text-sm">Giá sách : </span>
-              <span class="text-orange-400 text-sm">{{
-                bookStore?.book?.price
-              }}</span>
+              <span class="text-orange-400 text-sm">
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(bookStore?.book?.price)
+                }}
+              </span>
             </div>
             <div>
               <span class="text-base font-bold">Phí thuê sách : </span>
-              <span class="text-orange-600 font-bold text-xl">{{
-                bookStore?.book?.price * (bookStore?.book?.hire_percent / 100)
-              }}</span>
+              <span class="text-orange-600 font-bold text-xl">
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(
+                    bookStore?.book?.price *
+                      (bookStore?.book?.hire_percent / 100)
+                  )
+                }}
+              </span>
             </div>
             <p class="text-xs">
               <span class="text-red-600 text-base">* </span>Phí thuê sẽ bằng

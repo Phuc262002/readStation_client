@@ -35,7 +35,14 @@
         </p>
       </div>
       <div class="flex items-center gap-3 pt-1">
-        <p class="font-bold text-2xl">{{ bookStore?.book?.price }}</p>
+        <p class="font-bold text-2xl">
+          {{
+            new Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(bookStore?.book?.price)
+          }}
+        </p>
         <p
           class="flex justify-center items-center bg-[#F5F5FA] h-[18px] rounded-md text-xs font-normal px-1"
         >

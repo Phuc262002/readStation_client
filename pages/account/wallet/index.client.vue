@@ -6,13 +6,85 @@
     >
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
     </div>
-    <h3 class="font-bold">Quản lý ví</h3>
+    <h3 class="font-bold mb-5">Thông tin ví</h3>
 
-    <div class="p-5 bg-white mt-5 shadow-lg rounded-xl">
-      <p>
-        Số dư trong tài khoản:
-        <span class="text-orange-400 text-xl">500.000 đ</span>
-      </p>
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+    >
+      <div class="flex flex-col">
+        <div
+          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
+        >
+          <div class="flex items-center text-sm font-medium p-4">
+            <a-tag :bordered="false" class="bg-tag-bg-03 text-tag-text-03">
+              <UIcon class="text-lg w-10 h-10" name="i-grommet-icons-cubes"
+            /></a-tag>
+
+            <div class="text-tag-text-03">
+              <p class="font-normal text-base">Số dư ví</p>
+              <p class="font-bold text-xl">
+                {{ dashboardStore?.dashboardAdmin?.revenue }} đ
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div
+          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
+        >
+          <div class="flex items-center text-sm font-medium p-4">
+            <a-tag :bordered="false" class="bg-tag-bg-04 text-tag-text-04">
+              <UIcon class="text-lg w-10 h-10" name="i-bi-box-arrow-in-down"
+            /></a-tag>
+
+            <div class="text-tag-text-04">
+              <p class="font-normal text-base">Tiền đang thuê sách</p>
+              <p class="font-bold text-xl">
+                {{ dashboardStore?.dashboardAdmin?.invoiceEnter }} đơn hàng
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div
+          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
+        >
+          <div class="flex items-center text-sm font-medium p-4">
+            <a-tag :bordered="false" class="bg-tag-bg-01 text-tag-text-01">
+              <UIcon class="text-lg w-10 h-10" name="i-iconoir-user"
+            /></a-tag>
+
+            <div class="text-tag-text-01">
+              <p class="font-normal text-base">Số tiền đang xử lý</p>
+              <p class="font-bold text-xl">
+                {{ dashboardStore?.dashboardAdmin?.user }} khách hàng
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div
+          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
+        >
+          <div class="flex items-center text-sm font-medium p-4">
+            <a-tag :bordered="false" class="bg-tag-bg-03 text-tag-text-03">
+              <UIcon
+                class="text-lg w-10 h-10"
+                name="i-ph-user-circle-check-thin"
+            /></a-tag>
+
+            <div class="text-tag-text-03">
+              <p class="font-normal text-base">Số tiền đang rút</p>
+              <p class="font-bold text-xl">
+                {{ dashboardStore?.dashboardAdmin?.user }} khách hàng
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="p-5 bg-white mt-5 shadow-lg rounded-xl">
@@ -110,78 +182,6 @@
             Tiền được nạp vào tài khoản sau khi thanh toán
           </p>
         </div>
-      </div>
-    </div>
-
-    <div class="p-5 bg-white mt-5 shadow-lg rounded-xl">
-      <div class="flex justify-between">
-        <p>Lịch sử giao dịch (30 ngày gần nhất)</p>
-        <NuxtLink to="/account/wallet/transaction-history">
-          <button class="text-blue-600 text-[14px]">Xem chi tiết</button>
-        </NuxtLink>
-      </div>
-
-      <a-table
-        :columns="columns"
-        :data-source="walletStore?.transactions?.transactions"
-        :pagination="false"
-      >
-        <template #headerCell="{ column }">
-          <template v-if="column.key === 'name'">
-            <span>
-              <smile-outlined />
-              Name
-            </span>
-          </template>
-        </template>
-
-        <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'transaction_code'">
-            <span>
-              {{ record?.transaction_code }}
-            </span>
-          </template>
-          <template v-if="column.key === 'amount'">
-            <span>
-              {{
-                new Intl.NumberFormat("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                }).format(record?.amount)
-              }}
-            </span>
-          </template>
-          <template v-if="column.key === 'transaction_method'">
-            <span>
-              {{ record?.transaction_method }}
-            </span>
-          </template>
-          <template v-if="column.key === 'transaction_type'">
-            <span v-if="record.transaction_type === 'deposit'"> Nạp tiền </span>
-          </template>
-          <template v-if="column.key === 'status'">
-            <a-tag
-              v-if="record.status === 'pending'"
-              color="red"
-              class="cursor-pointer"
-              @click="() => getLinkPayment(record.transaction_code)"
-            >
-              Đang chờ xử lý
-            </a-tag>
-          </template>
-          <template v-if="column.key === 'created_at'">
-            <span>
-              {{ $dayjs(record?.created_at).format("DD/MM/YYYY - HH:MM") }}
-            </span>
-          </template>
-        </template>
-      </a-table>
-      <div class="mt-4 flex justify-end">
-        <a-pagination
-          v-model:current="current"
-          :total="walletStore?.transactions?.totalResults"
-          :pageSize="walletStore?.transactions?.pageSize"
-        />
       </div>
     </div>
   </div>
