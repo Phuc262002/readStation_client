@@ -110,50 +110,23 @@
         <div class="">
           <div class="bg-white h-auto p-5 shadow-md rounded-lg">
             <div class="w-full flex flex-col pb-4 font-medium">
-              <a-radio-group v-model:value="value" name="radioGroup">
-                <a-radio value="payment_method">Nhận sách tại nhà</a-radio>
-                <a-radio value="payment_shipping"
-                  >Nhận sách tại thư viện</a-radio
-                >
+              <a-radio-group v-model:value="payment_shipping" name="radioGroup">
+                <a-radio value="shipper"> Nhận sách tại nhà </a-radio>
+                <a-radio value="library"> Nhận sách tại thư viện </a-radio>
               </a-radio-group>
             </div>
             <div class="grid grid-cols-2 gap-4">
-              <div
-                @click="checkIsShow"
-                class="flex gap-4 p-5 border rounded-lg cursor-pointer border-slate-200 hover:border-violet-500"
-                :class="{ 'opacity-50': isShow }"
-              >
-                <div class="flex items-center gap-4">
-                  <img
-                    src="/assets/images/pay-wallet.svg"
-                    alt=""
-                    class="w-[65px] h-[50px]"
-                  />
-
-                  <div class="font-semibold text-15">Thanh toán qua ví</div>
-                </div>
-              </div>
-
-              <div
-                @click="checkIsShow"
-                class="flex flex-col gap-4 p-5 border rounded-lg cursor-pointer border-slate-200 hover:border-violet-500"
-                :class="{ 'opacity-50': !isShow }"
-              >
-                <div class="flex items-center gap-4">
-                  <img
-                    src="/assets/images/pay-libary.svg"
-                    alt=""
-                    class="w-[65px] h-[50px]"
-                  />
-
-                  <div class="font-semibold text-15">
-                    Thanh toán tại thư viện
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <span></span>
+              <a-radio-group v-model:value="payment_method" size="large">
+                <a-radio-button value="wallet">
+                  Thanh toán qua ví
+                </a-radio-button>
+                <a-radio-button
+                  value="cash"
+                  v-if="payment_shipping === 'library'"
+                >
+                  Thanh toán tại thư viện
+                </a-radio-button>
+              </a-radio-group>
             </div>
           </div>
         </div>
@@ -292,6 +265,8 @@ const orderStore = useOrderClientStore();
 const cartStore = useCartStore();
 const isSubmitting = ref(false);
 const resErrors = ref({});
+const payment_method = ref("");
+const payment_shipping = ref(null);
 
 const isShow = ref(false);
 const userNote = ref();
@@ -340,8 +315,8 @@ const payCart = async () => {
       };
     });
     const resData = await orderStore.createOrder({
-      payment_method: "cash",
-      payment_shipping: "library",
+      payment_method: payment_method.value,
+      payment_shipping: payment_shipping.value,
       phone: authStore?.authUser?.user?.phone,
       address: authStore?.authUser?.user?.address_detail,
       user_note: userNote.value,
@@ -370,7 +345,6 @@ const payCart = async () => {
 };
 
 const openModalForm = ref<boolean>(false);
-const value = ref<string>("payment_method");
 
 const showModal = () => {
   openModalForm.value = true;

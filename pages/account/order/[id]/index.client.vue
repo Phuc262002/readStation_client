@@ -133,9 +133,13 @@
         </h3>
         <!--  -->
         <div class="">
-          <div class="pt-5 pb-8 border-b border-rtgray-50">
+          <div
+            class="pt-5 pb-8 border-b border-rtgray-50"
+            v-for="(order, index) in orderStore?.order?.order_details"
+          >
             <h3 class="font-bold">
-              Cho tôi xin một vé đi tuổi thơ - Phiên bản năm 2024
+              {{ order?.book_detail?.book?.title }} -
+              {{ order?.book_detail?.book_version }}
             </h3>
             <div class="grid grid-cols-6 mt-3">
               <div class="col-span-1">
