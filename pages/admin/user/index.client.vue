@@ -121,7 +121,7 @@
                 </button>
                 <template #overlay>
                   <a-menu>
-                    <NuxtLink to="/admin/user/edit/1">
+                    <NuxtLink :to="`/admin/user/edit/${record.id}`">
                       <a-menu-item key="2" class="p-4">
                         <span class="flex items-center gap-2">
                           <UIcon

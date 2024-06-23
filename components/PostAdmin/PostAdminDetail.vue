@@ -85,7 +85,7 @@
 
       <div>
         <h1 class="font-bold text-base">Mô tả ngắn</h1>
-        <div>{{ postStore.post?.content }}</div>
+        <div v-html="postStore.post?.content"></div>
       </div>
     </div>
 

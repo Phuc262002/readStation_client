@@ -3,6 +3,9 @@ import { defineStore } from "pinia";
 export const useBaseStore = defineStore("base-store", {
   state: () => {
     return {
+      districts: [],
+      province: [],
+      ward: [],
       isSubmitting: false,
       isLoading: false,
     };
@@ -20,6 +23,7 @@ export const useBaseStore = defineStore("base-store", {
           },
         }
       );
+      this.province = data.data._value.data;
       return data;
     },
     async getDistricts(provinceId: any) {
@@ -36,6 +40,7 @@ export const useBaseStore = defineStore("base-store", {
           }),
         }
       );
+      this.districts = data.data._value.data;
       return data;
     },
     async getWards(districtsId: any) {
@@ -52,6 +57,7 @@ export const useBaseStore = defineStore("base-store", {
           }),
         }
       );
+      this.ward = data.data._value.data;
       return data;
     },
     async uploadImg(file: any) {

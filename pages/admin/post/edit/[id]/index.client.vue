@@ -8,8 +8,13 @@
       </div>
       <CommonBreadcrumAdmin />
     </div>
-
-    <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
+    <div
+      v-if="postGeneralStore.isLoading"
+      class="flex justify-center items-center min-h-[50vh]"
+    >
+      <a-spin size="large" />
+    </div>
+    <div v-else class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <form @submit.prevent="updatePost">
         <div class="flex flex-col gap-2 w-full pb-4">
           <label class="text-sm font-semibold" for="">Thêm hình ảnh</label>
@@ -68,7 +73,7 @@
               v-model:value="post.status"
               show-search
               placeholder="Trạng thái"
-              :options="options"
+              :options="optionsStatus"
               :filter-option="filterOption"
               @focus="handleFocus"
               @blur="handleBlur"
@@ -99,7 +104,7 @@
           <a-button
             type="primary"
             html-type="submit"
-            :loading="postStore.isSubmitting"
+            :loading="postGeneralStore.isSubmitting"
           >
             Cập nhật</a-button
           >
@@ -113,7 +118,6 @@ const route = useRoute();
 const postID = route.params.id;
 const categoryStore = useCategoryStore();
 const baseStore = useBaseStore();
-const postStore = usePostStore();
 const postGeneralStore = useGeneralPostStore();
 const post = ref({
   title: "",
@@ -125,8 +129,14 @@ const post = ref({
 });
 const options = ref([]);
 const optionsStatus = ref([
+  { value: "wating_approve", label: "Chờ duyệt" },
+  { value: "approve_canceled", label: "Từ chối" },
+  { value: "draft", label: "Nháp" },
+  { value: "published", label: "Công khai" },
+  { value: "hidden", label: "Ẩn" },
+  { value: "deleted", label: "Đã xóa" },
+]);
 
-])
 const fileList = ref([]);
 const imageInfo = ref("");
 const uploadFile = async (file) => {
@@ -177,7 +187,7 @@ useAsyncData(async () => {
 });
 
 useAsyncData(async () => {
-  const data = await postGeneralStore.getOnePostClient(postID);
+  const data = await postGeneralStore.getOnePost(postID);
   post.value.title = data.data._value?.data?.title;
   post.value.category_id = data.data._value?.data?.category.name;
   post.value.status = data.data._value?.data?.status;

@@ -16,22 +16,9 @@
           <div class="flex flex-col gap-2">
             <label class="text-sm font-semibold">Vai trò</label>
             <div class="flex justify-start gap-4">
-              <a-checkbox
-                @click="setRole('Customer')"
-                :checked="role === 'Customer'"
-                >Khách hàng</a-checkbox
-              >
-              <a-checkbox
-                v-if="authStore.authUser?.user?.role?.name === 'admin'"
-                @click="setRole('Manager')"
-                :checked="role === 'Manager'"
-                >Quản thư</a-checkbox
-              >
-              <a-checkbox
-                @click="setRole('Student')"
-                :checked="role === 'Student'"
-                >Học sinh</a-checkbox
-              >
+              <a-radio>Khách hàng</a-radio>
+              <a-radio>Quản thư</a-radio>
+              <a-radio>Học sinh</a-radio>
             </div>
           </div>
 
@@ -68,16 +55,10 @@
                 <div class="flex flex-col gap-2">
                   <label class="text-sm font-semibold">Giới tính</label>
                   <div class="flex justify-start gap-4">
-                    <a-checkbox
-                      @click="setGender('male')"
-                      :checked="gender === 'male'"
-                      >Nam</a-checkbox
-                    >
-                    <a-checkbox
-                      @click="setGender('female')"
-                      :checked="gender === 'female'"
-                      >Nữ</a-checkbox
-                    >
+                    <a-radio-group name="gender">
+                      <a-radio value="male">Nam</a-radio>
+                      <a-radio :checked="true" value="female">Nữ</a-radio>
+                    </a-radio-group>
                   </div>
                 </div>
               </div>
@@ -169,7 +150,7 @@
                 </div>
               </div>
             </div>
-            <div class="grid grid-cols-4 gap-4" v-if="role === 'Student'">
+            <div class="grid grid-cols-4 gap-4" v-if="role === 'student'">
               <div>
                 <div class="flex flex-col gap-2">
                   <label class="text-sm font-semibold" for=""
@@ -324,7 +305,7 @@
           </div>
           <div class="flex gap-4">
             <a-button type="default">Hủy</a-button>
-            <a-button html-type="submit" type="primary">Thêm</a-button>
+            <a-button html-type="submit" type="primary">Cập nhập</a-button>
           </div>
         </div>
       </form>
@@ -335,14 +316,10 @@
 import { ref } from "vue";
 import { message, Upload } from "ant-design-vue";
 const fileList = ref([]);
-const role = ref("Customer");
-const setRole = (selectedRole) => {
-  role.value = selectedRole;
-};
-const gender = ref("male");
-const setGender = (selecteGender) => {
-  gender.value = selecteGender;
-};
+const role = ref("user");
+const route = useRoute();
+const userId = route.params.id;
+const imageInfo = ref("");
 const authStore = useAuthStore();
 const baseStore = useBaseStore();
 const userStore = useUserStore();
@@ -363,7 +340,7 @@ const user = ref({
   student_code: "",
   student_card_expired: "",
   place_of_study: "",
-
+  gender: "male",
 });
 const valuePronvines = ref(undefined);
 const valueDistricts = ref(undefined);
@@ -374,8 +351,45 @@ const address = ref({
   ward: "",
   street: "",
 });
+useAsyncData(async () => {
+  await userStore.getOneUser(userId);
+  user.value.gender = userStore.user?.gender;
+  user.value.fullname = userStore.user.fullname;
+  user.value.job = userStore.user.job;
+  user.value.dob = userStore.user.dob;
+  user.value.email = userStore.user.email;
+  user.value.phone = userStore.user.phone;
+  user.value.citizen_name = userStore.user.citizen_identity_card?.citizen_name;
+  user.value.citizen_code = userStore.user.citizen_identity_card?.citizen_code;
+  user.value.date_of_issue =
+    userStore.user.citizen_identity_card?.date_of_issue;
+  user.value.place_of_issue =
+    userStore.user.citizen_identity_card?.place_of_issue;
+  user.value.student_name = userStore.user.student_id_card?.student_name;
+  user.value.student_code = userStore.user.student_id_card?.student_code;
+  user.value.student_card_expired =
+    userStore.user.student_id_card?.student_card_expired;
+  user.value.place_of_study = userStore.user.student_id_card?.place_of_study;
+  valuePronvines = baseStore.province.find(
+    (item) => item.ProvinceName === userStore.user.province
+  )?.ProvinceID;
+  valueDistricts = baseStore.districts.find(
+    (item) => item.DistrictName === userStore.user.district
+  )?.DistrictID;
+  valueWards = baseStore.ward.find(
+    (item) => item.WardName === userStore.user.ward
+  )?.WardCode;
+  fileList.value = [
+    {
+      uid: "-1",
+      name: "image.png",
+      status: "done",
+      url: userStore?.user?.avatar,
+    },
+  ];
+});
+console.log("🚀 ~ useAsyncData ~ fileList.value:", fileList.value);
 
-const imageInfo = ref("");
 const uploadFile = async (file) => {
   if (fileList.value.length > 0) {
     fileList.value = [];
@@ -386,10 +400,7 @@ const uploadFile = async (file) => {
   try {
     const dataUpload = await baseStore.uploadImg(formData);
     imageInfo.value = dataUpload.data._rawValue.data;
-  } catch (error) {
-    message.error("Upload ảnh thất bại");
-    console.log("🚀 ~ uploadFile ~ error:", error);
-  }
+  } catch (error) {}
 };
 const handleChangeUploadImg = (info) => {
   const status = info.file.status;
@@ -416,10 +427,10 @@ const beforeUpload = (file) => {
   }
   return isImage || Upload.LIST_IGNORE;
 };
-useAsyncData(async () => {});
+
 useAsyncData(async () => {
-  const data = await baseStore.getProvinces();
-  provinces.value = data.data._rawValue.data.map((item) => {
+  await baseStore.getProvinces();
+  provinces.value = baseStore.province.map((item) => {
     return {
       value: item.ProvinceID,
       label: item.ProvinceName,
@@ -429,8 +440,8 @@ useAsyncData(async () => {
 
 useAsyncData(
   async () => {
-    const dataDistricts = await baseStore.getDistricts(valuePronvines.value);
-    districts.value = dataDistricts.data._rawValue.data.map((item) => ({
+    await baseStore.getDistricts(valuePronvines.value);
+    districts.value = baseStore.districts.map((item) => ({
       value: item.DistrictID,
       label: item.DistrictName,
     }));
@@ -442,8 +453,8 @@ useAsyncData(
 
 useAsyncData(
   async () => {
-    const dataWards = await baseStore.getWards(valueDistricts._rawValue);
-    wards.value = dataWards.data._rawValue.data.map((item) => ({
+    await baseStore.getWards(valueDistricts._rawValue);
+    wards.value = baseStore.ward.map((item) => ({
       value: item.WardCode,
       label: item.WardName,
     }));
@@ -504,15 +515,14 @@ const handleSubmit = async () => {
       return false;
     }
   }
-  const roleId =
-    role.value === "Customer" ? 1 : role.value === "Student" ? 2 : 3;
+  const roleId = role.value === "user" ? 1 : role.value === "student" ? 2 : 3;
 
   const userData = {
     role_id: roleId ? roleId : null,
     avatar: imageInfo.value ? imageInfo.value.url : null,
     fullname: user.value.fullname,
     job: user.value.job ? user.value.job : null,
-    gender: gender.value ? gender.value : null,
+    gender: user.value.gender ? user.value.gender : null,
     dob: user.value.dob ? user.value.dob : null,
     email: user.value.email,
     citizen_identity_card:
@@ -551,6 +561,7 @@ const handleSubmit = async () => {
         ? `${address.value.street}, ${address.value.ward}, ${address.value.district}, ${address.value.province}`
         : null,
     phone: user.value.phone,
+    avatar: imageInfo.value?.url || user.value.avatar,
   };
 
   Object.entries(userData).forEach(([key, value]) => {
@@ -559,6 +570,9 @@ const handleSubmit = async () => {
     }
   });
 
-  await userStore.createUser(userData);
+  const updateUser = await userStore.updateUser({ id: userId, user: userData });
+  if (updateUser) {
+    message.success("Cập nhập thông tin người dùng thành công");
+  }
 };
 </script>

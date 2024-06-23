@@ -15,11 +15,12 @@
           <span> {{ props?.dashboard?.book?.author?.author }}</span>
         </p>
         <p class="flex items-center">
-          <span>{{props?.dashboard?.average_rate}}</span> <span><IconYellowStar /></span>
+          <span>{{ props?.dashboard?.average_rate }}</span>
+          <span><IconYellowStar /></span>
         </p>
       </div>
     </div>
-    <p class="flex items-start">{{props?.dashboard?.hire_count}} lượt thuê</p>
+    <p class="flex items-start">{{ props?.dashboard?.hire_count }} lượt thuê</p>
   </div>
   <hr class="my-2" />
 </template>

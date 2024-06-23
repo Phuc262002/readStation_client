@@ -11,9 +11,7 @@
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium p-4">
             <a-tag :bordered="false" class="bg-tag-bg-03 text-tag-text-03">
               <UIcon class="text-lg w-10 h-10" name="i-grommet-icons-cubes"
@@ -34,9 +32,7 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium p-4">
             <a-tag :bordered="false" class="bg-tag-bg-04 text-tag-text-04">
               <UIcon class="text-lg w-10 h-10" name="i-bi-box-arrow-in-down"
@@ -45,16 +41,15 @@
             <div class="text-tag-text-04">
               <p class="font-normal text-base">Nhập hàng</p>
               <p class="font-bold text-xl">
-                {{ dashboardStore?.dashboardAdmin?.invoiceEnter }} đơn hàng
+                {{ dashboardStore?.dashboardAdmin?.invoiceEnter }}
+                <span class="text-base">đơn hàng</span>
               </p>
             </div>
           </div>
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium p-4">
             <a-tag :bordered="false" class="bg-tag-bg-01 text-tag-text-01">
               <UIcon class="text-lg w-10 h-10" name="i-iconoir-user"
@@ -63,16 +58,15 @@
             <div class="text-tag-text-01">
               <p class="font-normal text-base">Tổng khách hàng</p>
               <p class="font-bold text-xl">
-                {{ dashboardStore?.dashboardAdmin?.user }} khách hàng
+                {{ dashboardStore?.dashboardAdmin?.user }}
+                <span class="text-base">khách hàng</span>
               </p>
             </div>
           </div>
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium p-4">
             <a-tag :bordered="false" class="bg-tag-bg-03 text-tag-text-03">
               <UIcon
@@ -83,16 +77,15 @@
             <div class="text-tag-text-03">
               <p class="font-normal text-base">Khách hàng đã kích hoạt</p>
               <p class="font-bold text-xl">
-                {{ dashboardStore?.dashboardAdmin?.user }} khách hàng
+                {{ dashboardStore?.dashboardAdmin?.user }}
+                <span class="text-base">khách hàng</span>
               </p>
             </div>
           </div>
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium p-4">
             <a-tag :bordered="false" class="bg-tag-bg-10 text-tag-text-10">
               <UIcon class="text-lg w-10 h-10" name="i-bi-bookshelf"
@@ -101,16 +94,15 @@
             <div class="text-tag-text-10">
               <p class="font-normal text-base">Số lượng tủ sách</p>
               <p class="font-bold text-xl">
-                {{ dashboardStore?.dashboardAdmin?.bookcase }} tủ sách
+                {{ dashboardStore?.dashboardAdmin?.bookcase }}
+                <span class="text-base">tủ sách</span>
               </p>
             </div>
           </div>
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium p-4">
             <a-tag :bordered="false" class="bg-tag-bg-11 text-tag-text-11">
               <UIcon
@@ -121,16 +113,15 @@
             <div class="text-tag-text-11">
               <p class="font-normal text-base">Số lượng kệ sách</p>
               <p class="font-bold text-xl">
-                {{ dashboardStore?.dashboardAdmin?.shelve }} kệ sách
+                {{ dashboardStore?.dashboardAdmin?.shelve }}
+                <span class="text-base">kệ sách</span>
               </p>
             </div>
           </div>
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium p-4">
             <a-tag :bordered="false" class="bg-tag-bg-05 text-tag-text-05">
               <UIcon class="text-lg w-10 h-10" name="i-ion-book-outline"
@@ -139,16 +130,15 @@
             <div class="text-tag-text-05">
               <p class="font-normal text-base">Số lượng sách</p>
               <p class="font-bold text-xl">
-                {{ dashboardStore?.dashboardAdmin?.book }} sách
+                {{ dashboardStore?.dashboardAdmin?.book }}
+                <span class="text-base"> sách</span>
               </p>
             </div>
           </div>
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium p-4">
             <a-tag :bordered="false" class="bg-tag-bg-06 text-tag-text-06">
               <UIcon
@@ -159,13 +149,15 @@
             <div class="text-tag-text-06">
               <p class="font-normal text-base">Số lượng bài viết</p>
               <p class="font-bold text-xl">
-                {{ dashboardStore?.dashboardAdmin?.post }} bài viết
+                {{ dashboardStore?.dashboardAdmin?.post }}
+                <span class="text-base"> bài viết</span>
               </p>
             </div>
           </div>
         </div>
       </div>
     </div>
+
     <div class="w-full min-h-[360px] bg-[white] rounded-lg p-5">
       <div class="flex flex-col gap-5">
         <div class="flex justify-between items-center">
@@ -181,28 +173,6 @@
           <div>
             <a-button type="primary" size="large">Thêm đơn hàng</a-button>
           </div>
-        </div>
-        <div class="flex gap-3 text-white py-5">
-          <a-button
-            :class="[
-              'flex justify-center items-center gap-2 h-10 border-none shadow-none',
-              filter === 'pending' ? 'bg-orange-500 !text-white' : '',
-            ]"
-            @click="handleCheckStatus('pending')"
-          >
-            <UIcon class="" name="i-nonicons-loading-16" />
-            <span>Đang xử lý</span>
-          </a-button>
-          <a-button
-            :class="[
-              'flex justify-center items-center gap-2  h-10 border-none shadow-none',
-              filter === 'out_of_date' ? 'bg-orange-500 !text-white' : '',
-            ]"
-            @click="handleCheckStatus('out_of_date')"
-          >
-            <UIcon name="i-ph-warning-light" />
-            <span>Quá hạn</span>
-          </a-button>
         </div>
         <div>
           <a-table
@@ -239,13 +209,61 @@
                   >
                     Đang xử lý
                   </a-tag>
-
+                  <a-tag
+                    :bordered="false"
+                    v-else-if="record.status === 'hiring'"
+                    class="bg-tag-bg-04 text-tag-text-04"
+                  >
+                    Đang thuê
+                  </a-tag>
+                  <a-tag
+                    :bordered="false"
+                    v-else-if="record.status === 'completed'"
+                    class="bg-tag-bg-05 text-tag-text-05"
+                  >
+                    Hoàn thành
+                  </a-tag>
                   <a-tag
                     :bordered="false"
                     v-else-if="record.status === 'out_of_date'"
                     class="bg-tag-bg-06 text-tag-text-06"
                   >
                     Quá hạn
+                  </a-tag>
+                  <a-tag
+                    :bordered="false"
+                    v-else-if="record.status === 'canceled'"
+                    class="bg-tag-bg-07 text-tag-text-07"
+                  >
+                    Đã hủy
+                  </a-tag>
+                  <a-tag
+                    :bordered="false"
+                    v-else-if="record.status === 'approved'"
+                    class="bg-tag-bg-02 text-tag-text-02"
+                  >
+                    Đã xác nhận
+                  </a-tag>
+                  <a-tag
+                    :bordered="false"
+                    v-else-if="record.status === 'wating_take_book'"
+                    class="bg-tag-bg-03 text-tag-text-03"
+                  >
+                    Đang giao
+                  </a-tag>
+                  <a-tag
+                    :bordered="false"
+                    v-else-if="record.status === 'increasing'"
+                    class="bg-tag-bg-12 text-tag-text-12"
+                  >
+                    Đang gia hạn
+                  </a-tag>
+                  <a-tag
+                    :bordered="false"
+                    v-else-if="record.status === 'wating_return'"
+                    class="bg-tag-bg-13 text-tag-text-13"
+                  >
+                    Chờ trả sách
                   </a-tag>
                 </span>
               </template>
@@ -315,8 +333,9 @@
         </div>
       </div>
     </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="bg-white w-full shadow-md rounded-md space-y-2 p-5">
+      <div class="bg-white w-full rounded-md space-y-2 p-5">
         <div class="text-xl font-semibold">Sách được thuê nhiều</div>
         <div class="max-h-[400px] overflow-auto pr-4">
           <DashboardBook
@@ -327,7 +346,7 @@
         </div>
       </div>
 
-      <div class="bg-white w-full shadow-md rounded-md space-y-2 p-5">
+      <div class="bg-white w-full rounded-md space-y-2 p-5">
         <div class="text-xl font-semibold space-y-2">Hóa đơn nhập hàng</div>
         <div class="max-h-[400px] overflow-auto pr-4">
           <DashboardBill
@@ -384,6 +403,7 @@ const columns = [
     title: "Thông tin cá nhân",
     dataIndex: "user",
     key: "user",
+    width: 270,
   },
   {
     title: "Nơi nhận hàng",
@@ -399,8 +419,8 @@ const columns = [
   },
   {
     title: "Số lượng sách",
-    dataIndex: "quantity",
-    key: "quantity",
+    dataIndex: "order_details",
+    key: "order_details",
   },
   {
     title: "Phương thức thanh toán",

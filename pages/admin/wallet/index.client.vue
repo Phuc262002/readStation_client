@@ -99,7 +99,7 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <NuxtLink to="/admin/wallet/1">
+              <NuxtLink :to="`/admin/wallet/${record.id}`">
                 <a-tooltip placement="top" color="black">
                   <template #title>
                     <span>Xem chi tiết</span>
