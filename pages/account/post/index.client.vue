@@ -21,7 +21,7 @@
         <div class="flex gap-3">
           <a-button
             :class="[
-              'flex items-center justify-center h-10 border-none shadow-none',
+              'flex items-center justify-center rounded-lg h-10 border-none shadow-none',
               filter === null ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus(null)"
@@ -33,7 +33,7 @@
           <!--  -->
           <a-button
             :class="[
-              'flex items-center justify-center h-10 border-none shadow-none',
+              'flex items-center justify-center rounded-lg h-10 border-none shadow-none',
               filter === 'published' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('published')"
@@ -45,7 +45,7 @@
           <!--  -->
           <a-button
             :class="[
-              'flex items-center h-10 border-none shadow-none',
+              'flex items-center rounded-lg h-10 border-none shadow-none',
               filter === 'wating_approve' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('wating_approve')"
@@ -57,7 +57,7 @@
           <!--  -->
           <a-button
             :class="[
-              'flex items-center h-10 border-none shadow-none',
+              'flex items-center rounded-lg h-10 border-none shadow-none',
               filter === 'draft' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('draft')"
@@ -69,7 +69,7 @@
           <!--  -->
           <a-button
             :class="[
-              'flex items-center h-10 border-none shadow-none',
+              'flex items-center rounded-lg h-10 border-none shadow-none',
               filter === 'approve_canceled' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('approve_canceled')"
@@ -81,7 +81,7 @@
           <!--  -->
           <a-button
             :class="[
-              'flex items-center h-10 border-none shadow-none',
+              'flex items-center rounded-lg h-10 border-none shadow-none',
               filter === 'hidden' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('hidden')"
@@ -91,7 +91,8 @@
           </a-button>
         </div>
         <NuxtLink to="/account/post/create-post"
-          ><a-button class="bg-orange-500 border-none !text-white h-10"
+          ><a-button
+            class="bg-orange-500 border-none !text-white rounded-lg h-10"
             >Bài viết mới</a-button
           ></NuxtLink
         >
@@ -103,6 +104,10 @@
         :pagination="false"
       >
         <template #bodyCell="{ column, record }">
+          <!--  -->
+          <template v-if="column.key === 'image'">
+            <a-avatar :src="record.image" :size="80" />
+          </template>
           <!--  -->
           <template v-if="column.key === 'created_at'">
             <span>{{
@@ -175,7 +180,7 @@
                 </button>
                 <template #overlay>
                   <a-menu>
-                    <NuxtLink :to="`/account/post`">
+                    <NuxtLink :to="`/account/post/${record?.id}`">
                       <a-menu-item key="2" class="p-4">
                         <span class="flex items-center gap-2 text-blue-400">
                           <UIcon
@@ -189,7 +194,10 @@
 
                     <a-menu-item key="3" class="p-4">
                       <span>
-                        <button class="flex items-center gap-1 text-blue-400">
+                        <button
+                          class="flex items-center gap-1 text-blue-400"
+                          @click="showDeleteConfirm(record?.id)"
+                        >
                           <UIcon
                             class="group-hover:text-[red] text-lg"
                             name="i-material-symbols-delete-outline"
@@ -223,6 +231,7 @@
 </template>
 <script setup lang="ts">
 const postStore = usePostClientStore();
+const postGeneralStore = useGeneralPostStore();
 const current = ref(1);
 const openModal = ref(false);
 const postDetailId = ref<number>();
@@ -237,17 +246,37 @@ const showModal = (id) => {
 const closeModal = () => {
   openModal.value = false;
 };
-// GetAll Post
+// Get All Post
+// useAsyncData(
+//   async () => {
+//     try {
+//       await postStore.getAllPost({
+//         page: current.value,
+//         status: filter.value,
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   },
+//   {
+//     immediate: true,
+//     watch: [current, filter],
+//   }
+// );
+
+const getDataPost = async () => {
+  try {
+    await postStore.getAllPost({
+      page: current.value,
+      status: filter.value,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
 useAsyncData(
   async () => {
-    try {
-      await postStore.getAllPost({
-        page: current.value,
-        status: filter.value,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await getDataPost();
   },
   {
     immediate: true,
@@ -260,7 +289,34 @@ const handleCheckStatus = (status) => {
   filter.value = status;
   console.log(status);
 };
+
+// Delete a Post
+const onDelete = async (id: any) => {
+  await postGeneralStore.deletePost(id);
+  getDataPost();
+};
+const showDeleteConfirm = (id: any) => {
+  Modal.confirm({
+    title: "Are you sure delete this task?",
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      onDelete(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+};
 const columns = [
+  {
+    title: "Ảnh bìa",
+    dataIndex: "image",
+    key: "image",
+    width: "50px",
+  },
   {
     title: "Bài viết",
     dataIndex: "title",

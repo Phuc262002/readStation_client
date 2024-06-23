@@ -8,7 +8,6 @@
           Danh sách người dùng
         </h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <!-- Đây là phần code mẫu body -->
@@ -42,27 +41,21 @@
             </span>
           </template>
           <template v-else-if="column.key === 'role'">
-            <a-tag
-              :bordered="false"
-               v-if="record.role.name === UserRole.ADMIN"
-            >
+            <a-tag :bordered="false" v-if="record.role.name === UserRole.ADMIN">
               Quản trị viên
             </a-tag>
-            <a-tag
-              :bordered="false"
-               v-if="record.role.name === UserRole.USER"
-            >
+            <a-tag :bordered="false" v-if="record.role.name === UserRole.USER">
               Người dùng
             </a-tag>
             <a-tag
               :bordered="false"
-               v-if="record.role.name === UserRole.STUDENT"
+              v-if="record.role.name === UserRole.STUDENT"
             >
               Sinh viên
             </a-tag>
             <a-tag
               :bordered="false"
-               v-if="record.role.name === UserRole.MANAGER"
+              v-if="record.role.name === UserRole.MANAGER"
             >
               Thủ thư
             </a-tag>
@@ -105,32 +98,15 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top">
+              <a-tooltip placement="top" color="black">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
                 <button
+                  @click="showModalDetail(record.id)"
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                 >
-                  <div class="flex">
-                    <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
-
-                    <a-modal v-model:open="open" title="Sửa" width="70%">
-                      <div class="flex justify-between gap-4">
-                        <div class="grow">
-                          <h1 class="font-bold text-xl">Bài viết số 1</h1>
-                        </div>
-                      </div>
-                      <div
-                        class="flex border border-transparent border-b-gray-300 pb-2"
-                      >
-                        <div class="w-1/5">
-                          <h4 class="font-bold">Tên người viết</h4>
-                        </div>
-                        <div class="w-4/5">Huỳnh Tuấn Kiệt</div>
-                      </div>
-                    </a-modal>
-                  </div>
+                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
                 </button>
               </a-tooltip>
 
@@ -178,6 +154,11 @@
           </template>
         </template>
       </a-table>
+      <UserAdminDetail
+        :openModalDetail="openModalDetail"
+        :openModal="CloseModalDetail"
+        :userDetailId="userDetailId"
+      />
     </div>
   </div>
 </template>
@@ -186,6 +167,8 @@
 import { UserStatus } from "~/types/admin/user";
 import { UserRole } from "~/types/admin/user";
 const userStore = useUserStore();
+const userDetailId = ref<string>();
+const openModalDetail = ref<boolean>(false);
 useAsyncData(async () => {
   await userStore.getUser({});
 });
@@ -256,6 +239,13 @@ const columns = [
   },
 ];
 
+const CloseModalDetail = () => {
+  openModalDetail.value = false;
+};
+const showModalDetail = (id) => {
+  openModalDetail.value = true;
+  userDetailId.value = id;
+};
 const open = ref<boolean>(false);
 const showModal = () => {
   open.value = true;

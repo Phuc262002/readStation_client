@@ -124,7 +124,7 @@ watch(
 useAsyncData(
   async () => {
    if (postDetailId.value) {
-      await postStore.getPostDetail(postDetailId.value);
+      await postStore.getOnePost(postDetailId.value);
     }
   },
   {

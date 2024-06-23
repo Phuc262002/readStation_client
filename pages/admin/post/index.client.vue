@@ -6,7 +6,7 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả bài viết</h5>
       </div>
-      <CommonBreadcrumAdmin />
+      
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
@@ -110,7 +110,7 @@
 
             <a-tag
               :bordered="false"
-               v-if="record.status === PostStatus.APPROVE_CANCELED"
+              v-if="record.status === PostStatus.APPROVE_CANCELED"
               class="bg-tag-bg-11 text-tag-text-11"
             >
               Từ chối
@@ -118,20 +118,15 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top">
+              <a-tooltip placement="top" color="black">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
                 <button
                   @click="showModalDetail(record.id)"
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                 >
-                  <div>
-                    <UIcon
-                      class="group-hover:text-[#212122]"
-                      name="i-icon-park-outline-eyes"
-                    />
-                  </div>
+                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
                 </button>
               </a-tooltip>
 
@@ -208,7 +203,6 @@ const current = ref(1);
 useAsyncData(
   async () => {
     await postStore.getAllPost({
-      
       page: current.value,
     });
   },
