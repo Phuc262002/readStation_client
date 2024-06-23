@@ -22,7 +22,12 @@
             <div class="text-tag-text-03">
               <p class="font-normal text-base">Doanh thu</p>
               <p class="font-bold text-xl">
-                {{ dashboardStore?.dashboardAdmin?.revenue }} đ
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(dashboardStore?.dashboardAdmin?.revenue)
+                }}
               </p>
             </div>
           </div>
@@ -115,7 +120,9 @@
 
             <div class="text-tag-text-11">
               <p class="font-normal text-base">Số lượng kệ sách</p>
-              <p class="font-bold text-xl">{{ dashboardStore?.dashboardAdmin?.shelve }}  kệ sách</p>
+              <p class="font-bold text-xl">
+                {{ dashboardStore?.dashboardAdmin?.shelve }} kệ sách
+              </p>
             </div>
           </div>
         </div>
@@ -131,7 +138,9 @@
 
             <div class="text-tag-text-05">
               <p class="font-normal text-base">Số lượng sách</p>
-              <p class="font-bold text-xl">{{ dashboardStore?.dashboardAdmin?.book }} sách</p>
+              <p class="font-bold text-xl">
+                {{ dashboardStore?.dashboardAdmin?.book }} sách
+              </p>
             </div>
           </div>
         </div>
@@ -149,56 +158,96 @@
 
             <div class="text-tag-text-06">
               <p class="font-normal text-base">Số lượng bài viết</p>
-              <p class="font-bold text-xl">{{ dashboardStore?.dashboardAdmin?.post }} bài viết</p>
+              <p class="font-bold text-xl">
+                {{ dashboardStore?.dashboardAdmin?.post }} bài viết
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="w-full min-h-[360px] bg-[white] rounded-lg p-5 shadow-md">
+    <div class="w-full min-h-[360px] bg-[white] rounded-lg p-5">
       <div class="flex flex-col gap-5">
         <div class="flex justify-between items-center">
-          <div class="relative w-1/4 md:block hidden">
+          <div class="w-1/4 md:block hidden">
             <div class="flex">
-              <a-input placeholder="Nhập mã đơn hàng để tìm kiếm" class="h-10">
+              <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
                 <template #prefix>
                   <SearchOutlined />
                 </template>
               </a-input>
             </div>
-            <div
-              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-            >
-              <UIcon class="text-gray-500" name="i-material-symbols-search" />
-            </div>
           </div>
-
           <div>
             <a-button type="primary" size="large">Thêm đơn hàng</a-button>
           </div>
         </div>
-        <div>
-          <a-tag :bordered="false" class="bg-tag-bg-01 text-tag-text-01"
-            >Đang xử lý</a-tag
+        <div class="flex gap-3 text-white py-5">
+          <a-button
+            :class="[
+              'flex justify-center items-center gap-2 h-10 border-none shadow-none',
+              filter === 'pending' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus('pending')"
           >
-          <a-tag :bordered="false" class="bg-tag-bg-06 text-tag-text-06"
-            >Quá hạn</a-tag
+            <UIcon class="" name="i-nonicons-loading-16" />
+            <span>Đang xử lý</span>
+          </a-button>
+          <a-button
+            :class="[
+              'flex justify-center items-center gap-2  h-10 border-none shadow-none',
+              filter === 'out_of_date' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus('out_of_date')"
           >
+            <UIcon name="i-ph-warning-light" />
+            <span>Quá hạn</span>
+          </a-button>
         </div>
         <div>
-          <a-table :columns="columns" :data-source="data" class="overflow-auto">
+          <a-table
+            :columns="columns"
+            :data-source="orderStore?.getAllOrderAdmin?.orders"
+            :isLoading="orderStore.isLoading"
+          >
             <template #bodyCell="{ column, record }">
               <template v-if="column.dataIndex === 'user'">
-                <a>{{ record.user }}</a>
+                <div class="flex justify-start gap-2">
+                  <div>
+                    <a-avatar :src="record.user.avatar" />
+                  </div>
+                  <div class="flex flex-col gap-1">
+                    <span>{{ record.user.fullname }}</span>
+                    <span>{{ record.user.phone }}</span>
+                  </div>
+                </div>
+              </template>
+              <template v-else-if="column.dataIndex === 'order_details'">
+                <span>{{ record.order_details.length }} quyển</span>
+              </template>
+              <template v-else-if="column.dataIndex === 'receipt_date'">
+                <span>{{
+                  $dayjs(record.receipt_date).format("DD/MM/YYYY")
+                }}</span>
               </template>
               <template v-if="column.dataIndex === 'status'">
-                <a-tag
-                  :bordered="false"
-                  v-if="record.status === 'active'"
-                  class="bg-tag-bg-09 text-tag-text-09"
-                >
-                  Công khai
-                </a-tag>
+                <span>
+                  <a-tag
+                    :bordered="false"
+                    v-if="record.status === 'pending'"
+                    class="bg-tag-bg-01 text-tag-text-01"
+                  >
+                    Đang xử lý
+                  </a-tag>
+
+                  <a-tag
+                    :bordered="false"
+                    v-else-if="record.status === 'out_of_date'"
+                    class="bg-tag-bg-06 text-tag-text-06"
+                  >
+                    Quá hạn
+                  </a-tag>
+                </span>
               </template>
               <template v-else-if="column.key === 'action'">
                 <div class="flex text-[16px] gap-4">
@@ -293,6 +342,21 @@
 </template>
 <script setup>
 const dashboardStore = useDashboardStore();
+const orderStore = useOrderStore();
+const filter = ref("pending");
+
+useAsyncData(
+  async () => {
+    await orderStore.getAllOrder({
+      status: filter.value,
+    });
+  },
+  {
+    immediate: true,
+    watch: filter,
+  }
+);
+
 useAsyncData(async () => {
   await dashboardStore.getAllDashboard();
 });
@@ -304,6 +368,10 @@ useAsyncData(async () => {
 useAsyncData(async () => {
   await dashboardStore.getInvoiceDashboard();
 });
+const handleCheckStatus = (status) => {
+  filter.value = status;
+  console.log(status);
+};
 
 const columns = [
   {
