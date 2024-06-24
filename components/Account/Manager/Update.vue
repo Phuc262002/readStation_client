@@ -270,7 +270,6 @@ const resErrors = ref({});
 
 // Submit handler
 const onSubmit = handleSubmit(async (values) => {
-  console.log({ values });
   // Submit to API
   const newData = {
     ...values,
