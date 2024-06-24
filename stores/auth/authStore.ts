@@ -6,6 +6,8 @@ export const useAuthStore = defineStore("auth-store", {
     return {
       authUser: {} as any,
       isLogged: false,
+      isSubmitting: false,
+      isLoading: false,
     };
   },
   persist: true,
@@ -67,11 +69,21 @@ export const useAuthStore = defineStore("auth-store", {
       return data;
     },
     async updateProfile(body: any) {
-      const data: any = await useCustomFetch("/api/v1/account/update-profile", {
-        method: "PUT",
-        body: JSON.stringify(body),
-      });
-      return data;
+      try {
+        this.isSubmitting = true;
+        const data: any = await useCustomFetch(
+          "/api/v1/account/update-profile",
+          {
+            method: "PUT",
+            body: JSON.stringify(body),
+          }
+        );
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        this.isSubmitting = false;
+      }
     },
     async resendOtp(body: any) {
       const data: any = await useCustomFetch("/api/v1/auth/resend-otp", {

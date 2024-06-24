@@ -191,84 +191,33 @@
 const walletStore = useWalletClientStore();
 const isSubmitting = ref(false);
 const resErrors = ref({});
-const current = ref(1);
+const data = ref(null);
 const depositAmount = ref(0);
 
 const assignAmount = (amount: number) => {
   depositAmount.value = amount;
 };
-// Get link Payment
-const getLinkPayment = async (id) => {
-  const resData = await walletStore.getPaymentLink(id);
-  window.location.href =
-    "https://pay.payos.vn/web/" + resData?.data?._rawValue?.data.id;
-};
+
 // Create Transaction
 const deposit = async () => {
-  try {
-    isSubmitting.value = true;
-    const resData = await walletStore.createTransaction({
-      amount: depositAmount.value,
-      description: "Nạp tiền vào ví",
-      transaction_type: "deposit",
+  const resData = await walletStore.createTransaction({
+    amount: depositAmount.value,
+    description: "Nạp tiền vào ví",
+    transaction_type: "deposit",
+  });
+  // console.log("Transaction Response:", resData);
+  if (resData?.data?._rawValue?.status === true) {
+    message.success({
+      content: "Thành công, chuyển hướng trang thanh toán!",
     });
-    if (resData?.data?._rawValue?.status === true) {
-      message.success({
-        content: "Thành công, chuyển hướng trang thanh toán!",
-      });
-      window.location.href = resData?.data?._rawValue?.data.checkoutUrl;
-    } else {
-      resErrors.value = resData.error.value.data.errors;
-      message.error({
-        content: "Thất bại, vui lòng thử lại sau!",
-      });
-    }
-  } catch (error) {
+    window.location.href = resData?.data?._rawValue?.data.checkoutUrl;
+  } else if (resData?.data?._rawValue?.status === false) {
+    message.error(resData?.data?._rawValue?.message);
+  } else {
+    resErrors.value = resData.error.value.data.errors;
     message.error({
-      content: "Ops! Vui lòng thử lại sau.",
+      content: "Thất bại, vui lòng thử lại sau!",
     });
-  } finally {
-    isSubmitting.value = false;
   }
 };
-
-// render transaction
-useAsyncData(
-  async () => {
-    try {
-      await walletStore.getAllTransaction({
-        page: current.value,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  },
-  {
-    immediate: true,
-    watch: [current],
-  }
-);
-
-const columns = [
-  {
-    title: "Mã giao dịch",
-    dataIndex: "transaction_code",
-    key: "transaction_code",
-  },
-  {
-    title: "Số tiền",
-    dataIndex: "amount",
-    key: "amount",
-  },
-  {
-    title: "Hình thức",
-    key: "transaction_method",
-    dataIndex: "transaction_method",
-  },
-  {
-    title: "Thời gian",
-    key: "created_at",
-    dataIndex: "created_at",
-  },
-];
 </script>
