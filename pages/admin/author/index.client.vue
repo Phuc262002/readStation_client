@@ -11,7 +11,7 @@
       <div class="flex justify-between pb-4">
         <div class="relative w-1/4 md:block hidden">
           <div class="flex">
-            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
+            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10" v-model:value="valueSearch">
               <template #prefix>
                 <SearchOutlined />
               </template>
@@ -124,10 +124,12 @@
 import { ref } from "vue";
 const AuthorStore = useAuthorStore();
 const current = ref(1);
+const valueSearch = ref("");
 const getDataAuthor = async () => {
   try {
     await AuthorStore.getAllAuthor({
       page: current.value,
+      search : valueSearch.value
     });
   } catch (error) {
     console.error(error);
@@ -137,7 +139,7 @@ useAsyncData(async () => {
   await getDataAuthor();
 }, {
   immediate: true,
-  watch: [current],
+  watch: [current,valueSearch],
 });
 
 const onDelete = async (id: string) => {

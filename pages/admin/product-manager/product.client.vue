@@ -13,7 +13,7 @@
               </button>
               <h1 class="text-base text-orange-500">Tổng đơn</h1>
             </div>
-            <h1 class="text-base text-orange-500 font-bold">10.000</h1>
+            <h1 class="text-base text-orange-500 font-bold">{{ orderStore?.statistic?.orders }}</h1>
           </div>
         </div>
         <div class="w-full bg-[white] rounded-lg p-4">
@@ -24,7 +24,7 @@
               </button>
               <h1 class="text-base text-[#9C27B0]">Đang thuê</h1>
             </div>
-            <h1 class="text-base text-[#9C27B0] font-bold">10.000</h1>
+            <h1 class="text-base text-[#9C27B0] font-bold">{{ orderStore?.statistic?.ordersHiring }}</h1>
           </div>
         </div>
         <div class="w-full bg-[white] rounded-lg p-4">
@@ -35,7 +35,7 @@
               </button>
               <h1 class="text-base text-[#009688]">Hoàn thành</h1>
             </div>
-            <h1 class="text-base text-[#009688] font-bold">10.000</h1>
+            <h1 class="text-base text-[#009688] font-bold">{{ orderStore?.statistic?.ordersCompleted }}</h1>
           </div>
         </div>
         <div class="w-full bg-[white] rounded-lg p-4">
@@ -46,7 +46,7 @@
               </button>
               <h1 class="text-base text-[#F44336]">Quá hạn</h1>
             </div>
-            <h1 class="text-base text-[#F44336] font-bold">10.000</h1>
+            <h1 class="text-base text-[#F44336] font-bold">{{ orderStore?.statistic?.ordersOutOfDate }}</h1>
           </div>
         </div>
         <div class="w-full bg-[white] rounded-lg p-4">
@@ -57,7 +57,7 @@
               </button>
               <h1 class="text-base text-[#FFD700]">Đang xử lý</h1>
             </div>
-            <h1 class="text-base text-[#FFD700] font-bold">10.000</h1>
+            <h1 class="text-base text-[#FFD700] font-bold">{{ orderStore?.statistic?.ordersPending }}</h1>
           </div>
         </div>
         <div class="w-full bg-[white] rounded-lg p-4">
@@ -68,7 +68,7 @@
               </button>
               <h1 class="text-base text-[#2196F3]">Đã xác nhận</h1>
             </div>
-            <h1 class="text-base text-[#2196F3] font-bold">10.000</h1>
+            <h1 class="text-base text-[#2196F3] font-bold">{{ orderStore?.statistic?.ordersApproved }}</h1>
           </div>
         </div>
         <div class="w-full bg-[white] rounded-lg p-4">
@@ -79,7 +79,7 @@
               </button>
               <h1 class="text-base text-[#FFB74D]">Đang giao</h1>
             </div>
-            <h1 class="text-base text-[#FFB74D] font-bold">10.000</h1>
+            <h1 class="text-base text-[#FFB74D] font-bold">{{ orderStore?.statistic?.ordersWatingTakeBook }}</h1>
           </div>
         </div>
         <div class="w-full bg-[white] rounded-lg p-4">
@@ -90,7 +90,7 @@
               </button>
               <h1 class="text-base text-[#9E9E9E]">Đã hủy</h1>
             </div>
-            <h1 class="text-base text-[#9E9E9E] font-bold">10.000</h1>
+            <h1 class="text-base text-[#9E9E9E] font-bold">{{ orderStore?.statistic?.ordersCanceled }}</h1>
           </div>
         </div>
       </div>
@@ -112,7 +112,7 @@
           </div>
           <div>
             <a-table :columns="columns" :data-source="orderStore?.getAllOrderAdmin?.orders"
-              :isLoading="orderStore.isLoading">
+              :loading="orderStore.isLoading" :pagination="false">
               <template #bodyCell="{ column, record }">
                 <template v-if="column.dataIndex === 'user'">
                   <div class="flex justify-start gap-2">
@@ -129,7 +129,7 @@
                   <span>{{ record.order_details.length }} quyển</span>
                 </template>
                 <template v-else-if="column.dataIndex === 'receipt_date'">
-                  <span>{{ $dayjs(record.receipt_date).format("DD/MM/YYYY")  }}</span>
+                  <span>{{ $dayjs(record.receipt_date).format("DD/MM/YYYY") }}</span>
                 </template>
                 <template v-if="column.dataIndex === 'status'">
                   <span>
@@ -170,6 +170,11 @@
                     </a-tag>
                   </span>
                 </template>
+                <temolate v-else-if="column.dataIndex === 'payment_method'">
+                  <div v-if="record.payment_method === 'cash'">
+                    <span>Tiền mặt</span>
+                  </div>
+                </temolate>
                 <template v-else-if="column.key === 'action'">
                   <div class="flex text-[16px] gap-4">
                     <NuxtLink :to="`/admin/product-manager/${record.id}`">
@@ -216,6 +221,10 @@
                 </template>
               </template>
             </a-table>
+            <div class="mt-4 flex justify-end">
+              <a-pagination v-model:current="current" :total="orderStore?.getAllOrderAdmin?.totalResults"
+                :pageSize="orderStore?.getAllOrderAdmin?.pageSize" show-less-items />
+            </div>
           </div>
         </div>
 
@@ -225,8 +234,22 @@
 </template>
 <script setup>
 const orderStore = useOrderStore();
+const current = ref(1);
 useAsyncData(async () => {
-  await orderStore.getAllOrder({});
+  try {
+    await orderStore.getAllOrder({
+      page: current.value,
+    });
+  } catch (error) {
+
+  }
+
+}, {
+  immediate: true,
+  watch: [current],
+});
+useAsyncData(async () => {
+  await orderStore.statisticOrder();
 });
 const columns = [
   {
@@ -240,12 +263,6 @@ const columns = [
     dataIndex: 'user',
     key: 'user',
     width: 270
-  },
-  {
-    title: 'Nơi nhận hàng',
-    dataIndex: 'address',
-    key: 'address',
-    width: 200
   },
   {
     title: 'Ngày thuê',
