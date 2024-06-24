@@ -12,11 +12,15 @@
           <div class="w-1/2 border-r border-rtgray-50 space-y-3">
             <div class="grid grid-cols-4">
               <span class="col-span-1 font-bold">Tên khách hàng:</span>
-              <span class="col-span-3">Tôn Thất An Khương</span>
+              <span class="col-span-3">
+                {{ authStore?.authUser?.use?.fullname }}
+              </span>
             </div>
             <div class="grid grid-cols-4">
               <span class="col-span-1 font-bold">Email:</span>
-              <span class="col-span-3">trung.tranquanggg@gmail.com</span>
+              <span class="col-span-3">
+                {{ authStore?.authUser?.use?.email }}
+              </span>
             </div>
             <div class="grid grid-cols-4">
               <span class="col-span-1 font-bold">Số điện thoại:</span>
@@ -97,7 +101,9 @@
             </div>
             <div class="grid grid-cols-4">
               <span class="col-span-1 font-bold">Phí trễ hạn:</span>
-              <span class="col-span-3">N/A</span>
+              <span class="col-span-3">
+                {{ orderStore?.order?.fine_fee }}
+              </span>
             </div>
             <div class="grid grid-cols-4">
               <span class="col-span-1 font-bold">Số lần gia hạn:</span>
@@ -136,6 +142,7 @@
           <div
             class="pt-5 pb-8 border-b border-rtgray-50"
             v-for="(order, index) in orderStore?.order?.order_details"
+            :key="index"
           >
             <h3 class="font-bold">
               {{ order?.book_detail?.book?.title }} -
@@ -144,7 +151,7 @@
             <div class="grid grid-cols-6 mt-3">
               <div class="col-span-1">
                 <img
-                  src="../../assets/images/bookshop.jpg"
+                  :src="order?.book_detail?.poster"
                   alt=""
                   class="w-[114px] h-[176px] shadow-lg shadow-gray-500"
                 />
@@ -152,11 +159,15 @@
               <div class="col-span-5">
                 <div class="grid grid-cols-6">
                   <span class="col-span-1">Tác giả:</span>
-                  <span class="col-span-5">Nguyễn Nhật Ánh</span>
+                  <span class="col-span-5">
+                    {{ order?.book_detail?.book?.author?.author }}
+                  </span>
                 </div>
                 <div class="grid grid-cols-6">
                   <span class="col-span-1">Danh mục:</span>
-                  <span class="col-span-5">Văn học</span>
+                  <span class="col-span-5">
+                    {{ order?.book_detail?.book?.category?.name }}
+                  </span>
                 </div>
                 <div class="grid grid-cols-6">
                   <span class="col-span-1">Số lần gia hạn:</span>
@@ -185,6 +196,7 @@
 </template>
 <script setup lang="ts">
 const orderStore = useOrderClientStore();
+const authStore = useAuthStore();
 const route = useRoute();
 const id = route.params.id;
 // console.log("id", id);
@@ -194,5 +206,8 @@ useAsyncData(async () => {
   } catch (error) {
     console.log("error", error);
   }
+});
+useAsyncData(async () => {
+  await authStore.getProfile();
 });
 </script>

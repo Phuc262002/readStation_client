@@ -154,7 +154,7 @@
                 >Thay đổi địa chỉ nhận hàng?</span
               >
 
-              <AccountFormPayAddress
+              <AccountManagerFormChangeAddress
                 :openModalForm="openModalForm"
                 :openModal="closeModal"
               />
@@ -183,7 +183,7 @@
                       >Thay đổi địa chỉ?</span
                     >
 
-                    <AccountFormPayAddress
+                    <AccountManagerFormChangeAddress
                       :openModalForm="openModalForm"
                       :openModal="closeModal"
                     />
@@ -345,8 +345,10 @@ const payCart = async () => {
     phone: authStore?.authUser?.user?.phone,
     address: authStore?.authUser?.user?.address_detail,
     user_note: userNote.value,
-    deposit_fee: parseFloat(depositFee.value),
-    total_fee: totalFee.value,
+    shipping_fee: parseFloat(shippingFee.value),
+    total_service_fee: parseFloat(serviceFee.value),
+    total_deposit_fee: parseFloat(depositFee.value),
+    total_all_fee: parseFloat(totalFee.value),
     order_details: newArr,
   });
   if (resData?.data?._rawValue?.status == true) {

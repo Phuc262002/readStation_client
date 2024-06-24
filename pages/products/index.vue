@@ -360,6 +360,13 @@
 </template>
 
 <script setup lang="ts">
+const publishingCompanyStore = usePublishingCompanyPublicStore();
+const bookstore = useBookPublicStore();
+const categoryStore = usePublicCategoryStore();
+const authorStore = useAuthorPublicStore();
+
+const dataAuthor = ref({});
+const dataBooks = ref({});
 const isShow = ref([]);
 const filter = ref({
   sort: "asc",
@@ -388,20 +395,8 @@ const handleIsShow = (section) => {
   } else {
     isShow.value = [...isShow.value, section];
   }
-
-  // console.log("ishow", isShow.value);
 };
 
-const publishingCompanyStore = usePublishingCompanyStore();
-const bookstore = useBookPublicStore();
-const categoryStore = useCategoryStore();
-const authorStore = useAuthorStore();
-
-const dataAuthor = ref({});
-const dataCategory = ref({});
-const dataBooks = ref({});
-
-// console.log("a", dataBooks);
 const dataCompanies = ref({});
 const current = ref(1);
 
@@ -470,7 +465,6 @@ useAsyncData(async () => {
     await categoryStore.getAllCategoryClient({
       type: "book",
     });
-    console.log("object111", dataCategory.value);
   } catch (error) {
     console.error(error);
   } finally {

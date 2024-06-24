@@ -12,22 +12,14 @@ export const usePublishingCompanyStore = defineStore(
       };
     },
     actions: {
-      // client
-      async getAllPublishingCompanyClient() {
-        const data: any = await useCustomFetch("/api/v1/publishing-companies");
-        this.publishingCompany = data.data._value?.data;
-        return data;
-      },
-
-     
       async getAllPublishingCompany({ page, pageSize, search, status }: any) {
         this.isLoading = true;
         const data: any = await useCustomFetch(
-          `/api/v1/admin/publishing-companies?${
-            page ? `&page=${page}` : ""
-          }${pageSize ? `&pageSize=${pageSize}` : ""}${
-            search ? `&search=${search}` : ""
-          }${status ? `&status=${status}` : ""}`
+          `/api/v1/admin/publishing-companies?${page ? `&page=${page}` : ""}${
+            pageSize ? `&pageSize=${pageSize}` : ""
+          }${search ? `&search=${search}` : ""}${
+            status ? `&status=${status}` : ""
+          }`
         );
         this.publishingCompaniesAdmin = data.data._value?.data;
         this.isLoading = false;

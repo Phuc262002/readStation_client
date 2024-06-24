@@ -3,7 +3,7 @@ export const useWalletClientStore = defineStore("wallet-client-store", {
   state() {
     return {
       paymentLink: "",
-      wallets: [],
+      updateStatus: [],
       transactions: [],
       isLoading: false,
       isSubmitting: false,
@@ -12,40 +12,55 @@ export const useWalletClientStore = defineStore("wallet-client-store", {
   persist: true,
   actions: {
     async getAllTransaction({ page, pageSize, sort }: any) {
-      const data: any = await useCustomFetch(
-        `/api/v1/account/wallet/transaction-history?${
-          page ? `&page=${page}` : ""
-        }${pageSize ? `&pageSize=${pageSize}` : ""}${
-          sort ? `&sort=${sort}` : ""
-        }`
-      );
-      this.transactions = data.data._value?.data;
-      return data;
+      try {
+        const data: any = await useCustomFetch(
+          `/api/v1/account/wallet/transaction-history?${
+            page ? `&page=${page}` : ""
+          }${pageSize ? `&pageSize=${pageSize}` : ""}${
+            sort ? `&sort=${sort}` : ""
+          }`
+        );
+        this.transactions = data.data._value?.data;
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
     },
     async createTransaction(body: any) {
-      const data: any = await useCustomFetch(
-        "/api/v1/account/wallet/create-transaction",
-        {
-          method: "POST",
-          body: body,
-        }
-      );
-      return data;
+      try {
+        this.isSubmitting = true;
+        const data: any = await useCustomFetch(
+          "/api/v1/account/wallet/create-transaction",
+          {
+            method: "POST",
+            body: body,
+          }
+        );
+        return data;
+      } catch (error) {
+        message.error({
+          content: "Ops! Vui lòng thử lại sau.",
+        });
+      } finally {
+        this.isSubmitting = false;
+      }
     },
-    async getPaymentLink(id: any) {
+    async getPaymentLink(transaction_code: any) {
       const data: any = await useCustomFetch(
-        `/api/v1/account/wallet/get-payment-link/${id}`
+        `/api/v1/account/wallet/get-payment-link/${transaction_code}?${
+          transaction_code ? `&transaction_code=${transaction_code}` : ""
+        }`
       );
       this.paymentLink = data.data._value?.data;
       return data;
     },
-    async updateTransactionStatus({ id }: any) {
+    async updateTransactionStatus({ transaction_code }: any) {
       const data: any = await useCustomFetch(
-        `/api/v1/account/wallet/update-transaction-status/{id}?${
-          id ? `&id=${id}` : ""
+        `/api/v1/account/wallet/update-transaction-status/${transaction_code}?${
+          transaction_code ? `&transaction_code=${transaction_code}` : ""
         }`
       );
-      this.wallets = data.data._value?.data;
+      this.updateStatus = data.data._value?.data;
       return data;
     },
   },
