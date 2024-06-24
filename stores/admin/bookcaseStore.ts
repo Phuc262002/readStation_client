@@ -3,7 +3,7 @@ export const useBookcaseStore = defineStore("bookcase-store", {
   state: () => {
     return {
       bookCaseAdmin: [],
-      bookCase:{},
+      bookCase: {},
       isLoading: false,
       isSubmitting: false,
     };
@@ -31,7 +31,7 @@ export const useBookcaseStore = defineStore("bookcase-store", {
     },
     async createBookcase(bookcase: any) {
       this.isSubmitting = true;
-      const data: any = await useCustomFetch(`/api/v1/admin/bookcases/{id}`, {
+      const data: any = await useCustomFetch(`/api/v1/admin/bookcases/create`, {
         method: "POST",
         body: JSON.stringify(bookcase),
       });
@@ -39,17 +39,23 @@ export const useBookcaseStore = defineStore("bookcase-store", {
       return data;
     },
     async deleteBookcase(id: string) {
-      const data: any = await useCustomFetch(`/api/v1/admin/bookcases/delete/${id}`, {
-        method: "DELETE",
-      });
+      const data: any = await useCustomFetch(
+        `/api/v1/admin/bookcases/delete/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
       return data;
     },
     async updateBookcase({ id, bookcase }: any) {
       this.isSubmitting = true;
-      const data: any = await useCustomFetch(`/api/v1/admin/bookcases/update/${id}`, {
-        method: "PUT",
-        body: JSON.stringify(bookcase),
-      });
+      const data: any = await useCustomFetch(
+        `/api/v1/admin/bookcases/update/${id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(bookcase),
+        }
+      );
       this.isSubmitting = false;
       return data;
     },

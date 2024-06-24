@@ -4,6 +4,7 @@ export const useWalletAdminStore = defineStore("walletAdmin-store", {
   state: () => {
     return {
       adminWallet: [],
+      oneWalletAdmin: [],
       isSubmitting: false,
       isLoading: false,
     };
@@ -19,6 +20,15 @@ export const useWalletAdminStore = defineStore("walletAdmin-store", {
         }`
       );
       this.adminWallet = data.data._value?.data;
+      this.isLoading = false;
+      return data;
+    },
+    async getOneWallet(id: any) {
+      this.isLoading = true;
+      const data: any = await useCustomFetch(
+        `/api/v1/admin/wallet/get-user-wallet-transactions-history/${id}`
+      );
+      this.oneWalletAdmin = data.data._value?.data;
       this.isLoading = false;
       return data;
     },

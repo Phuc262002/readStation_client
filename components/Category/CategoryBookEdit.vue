@@ -5,6 +5,10 @@
     :footer="null"
     :onCancel="handleClose"
   >
+    <div
+      v-if="categoryStore.isLoading"
+      class="flex justify-center items-center min-h-[50vh]"
+    ></div>
     <form @submit.prevent="onUpdate">
       <div class="bg-white py-2">
         <div class="pb-4">
@@ -95,11 +99,7 @@
         </div>
 
         <div class="flex justify-end items-end gap-2">
-          <a-button
-            @click="handleClose"
-            danger
-            html-type="button"
-            class="mt-4"
+          <a-button @click="handleClose" danger html-type="button" class="mt-4"
             >Hủy</a-button
           >
           <a-button
@@ -234,7 +234,6 @@ const onUpdate = async () => {
 };
 
 const handleClose = () => {
- 
   props.openModal();
 };
 </script>

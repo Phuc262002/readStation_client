@@ -252,6 +252,7 @@
                   @focus="handleFocus"
                   @blur="handleBlur"
                   @change="handleChangeDistrict"
+                  :disabled="valuePronvines === undefined"
                 >
                 </a-select>
               </div>
@@ -267,6 +268,7 @@
                   @focus="handleFocus"
                   @blur="handleBlur"
                   @change="handleChangeWard"
+                  :disabled="valueDistricts === undefined"
                 >
                 </a-select>
               </div>
@@ -276,6 +278,7 @@
                   v-model:value="address.street"
                   class="border p-2 rounded-md"
                   placeholder="Đường"
+                  :disabled="valuePronvines === undefined || valueDistricts === undefined || valueWards === undefined" 
                 />
               </div>
             </div>
@@ -363,7 +366,6 @@ const user = ref({
   student_code: "",
   student_card_expired: "",
   place_of_study: "",
-
 });
 const valuePronvines = ref(undefined);
 const valueDistricts = ref(undefined);
@@ -416,10 +418,9 @@ const beforeUpload = (file) => {
   }
   return isImage || Upload.LIST_IGNORE;
 };
-useAsyncData(async () => {});
 useAsyncData(async () => {
-  const data = await baseStore.getProvinces();
-  provinces.value = data.data._rawValue.data.map((item) => {
+  await baseStore.getProvinces();
+  provinces.value = baseStore.province.map((item) => {
     return {
       value: item.ProvinceID,
       label: item.ProvinceName,
@@ -429,8 +430,8 @@ useAsyncData(async () => {
 
 useAsyncData(
   async () => {
-    const dataDistricts = await baseStore.getDistricts(valuePronvines.value);
-    districts.value = dataDistricts.data._rawValue.data.map((item) => ({
+    await baseStore.getDistricts(valuePronvines.value);
+    districts.value = baseStore.districts.map((item) => ({
       value: item.DistrictID,
       label: item.DistrictName,
     }));
@@ -442,8 +443,8 @@ useAsyncData(
 
 useAsyncData(
   async () => {
-    const dataWards = await baseStore.getWards(valueDistricts._rawValue);
-    wards.value = dataWards.data._rawValue.data.map((item) => ({
+    await baseStore.getWards(valueDistricts._rawValue);
+    wards.value = baseStore.ward.map((item) => ({
       value: item.WardCode,
       label: item.WardName,
     }));

@@ -5,6 +5,10 @@
     :footer="null"
     :onCancel="handleClose"
   >
+  <div
+      v-if="categoryStore.isLoading"
+      class="flex justify-center items-center min-h-[50vh]"
+    ></div>
     <form @submit.prevent="onUpdate">
       <div class="bg-white py-2">
         <div class="pb-4">

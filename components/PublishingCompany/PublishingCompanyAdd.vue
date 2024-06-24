@@ -3,8 +3,14 @@
     v-model:open="props.openModalAdd"
     title="Thêm nhà xuất bản"
     :footer="null"
-   :onCancel="handleClose"
+    :onCancel="handleClose"
   >
+    <div
+      v-if="publishingCompanyStore.isLoading"
+      class="flex justify-center items-center min-h-[50vh]"
+    >
+      <a-spin size="large" />
+    </div>
     <form @submit.prevent="onSubmit">
       <div class="bg-white py-2">
         <div class="pb-4">
@@ -64,12 +70,7 @@
         </div>
 
         <div class="flex justify-end items-end gap-2">
-          <a-button
-            @click="handleClose"
-
-            danger
-            html-type="button"
-            class="mt-4"
+          <a-button @click="handleClose" danger html-type="button" class="mt-4"
             >Hủy</a-button
           >
           <a-button
@@ -120,7 +121,6 @@ const uploadFile = async (file) => {
     imageInfo.value = dataUpload.data._rawValue.data;
   } catch (error) {
     message.error("Upload ảnh thất bại");
-    
   }
 };
 const handleChange = (info) => {
