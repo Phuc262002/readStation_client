@@ -117,10 +117,16 @@
                     <DownOutlined />
                   </a>
                   <template #overlay>
-                    <a-menu class="">
-                      <a-menu-item value="active">Hoạt động</a-menu-item>
-                      <a-menu-item value="inactive">Không hoạt động</a-menu-item>
-                      <a-menu-item value="deleted">Đã xóa</a-menu-item>
+                    <a-menu>
+                      <a-menu-item @click="statusValue('pending')" >Đang xử lý</a-menu-item>
+                      <a-menu-item @click="statusValue('hiring')" >Đang thuê</a-menu-item>
+                      <a-menu-item @click="statusValue('completed')" >Hoàn thành</a-menu-item>
+                      <a-menu-item @click="statusValue('out_of_date')" >Quá hạn</a-menu-item>
+                      <a-menu-item @click="statusValue('approved')" >Đã xác nhận</a-menu-item>
+                      <a-menu-item @click="statusValue('wating_take_book')" >Đang giao</a-menu-item>
+                      <a-menu-item @click="statusValue('increasing')" >Đang gia hạn</a-menu-item>
+                      <a-menu-item @click="statusValue('wating_return')" >Chờ trả sách</a-menu-item>
+                      <a-menu-item @click="statusValue('canceled')" >Đã hủy</a-menu-item>
                     </a-menu>
                   </template>
                 </a-dropdown>
@@ -252,15 +258,20 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const orderStore = useOrderStore();
 const current = ref(1);
 const valueSearch = ref('');
+const queryStatus = ref('');
+const statusValue = (value: string) => {
+  queryStatus.value = value;
+}
 useAsyncData(async () => {
   try {
     await orderStore.getAllOrder({
       page: current.value,
-      search : valueSearch.value
+      search : valueSearch.value,
+      status: queryStatus.value
     });
   } catch (error) {
 
@@ -268,7 +279,7 @@ useAsyncData(async () => {
 
 }, {
   immediate: true,
-  watch: [current,valueSearch],
+  watch: [current,valueSearch,queryStatus],
 });
 useAsyncData(async () => {
   await orderStore.statisticOrder();

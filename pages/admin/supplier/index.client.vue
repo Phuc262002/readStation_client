@@ -31,9 +31,9 @@
                             </a>
                             <template #overlay>
                                 <a-menu class="">
-                                    <a-menu-item value="active">Hoạt động</a-menu-item>
-                                    <a-menu-item value="inactive">Không hoạt động</a-menu-item>
-                                    <a-menu-item value="deleted">Đã xóa</a-menu-item>
+                                    <a-menu-item @click="statusValue('active')">Hoạt động</a-menu-item>
+                                    <a-menu-item @click="statusValue('inactive')">Không hoạt động</a-menu-item>
+                                    <a-menu-item @click="statusValue('deleted')">Đã xóa</a-menu-item>
                                 </a-menu>
                             </template>
                         </a-dropdown>
@@ -131,6 +131,10 @@ const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const supplierId = ref<number>();
 const valueSearch = ref("");
+const queryStatus = ref("");
+const statusValue = (value: string) => {
+    queryStatus.value = value;
+};
 const indicator = h(LoadingOutlined, {
     style: {
         fontSize: "16px",
@@ -139,14 +143,15 @@ const indicator = h(LoadingOutlined, {
 });
 const getData = async () => {
     await supplierStore.getAllSupplier({
-        search: valueSearch.value
+        search: valueSearch.value,
+        status : queryStatus.value
     });
 };
 useAsyncData(async () => {
     getData();
 }, {
     immediate: true,
-    watch: [valueSearch],
+    watch: [valueSearch,queryStatus],
 
 });
 const onDelete = async (id: string) => {

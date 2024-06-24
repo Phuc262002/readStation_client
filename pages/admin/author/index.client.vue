@@ -30,9 +30,9 @@
               </a>
               <template #overlay>
                 <a-menu class="">
-                  <a-menu-item value="active">Hoạt động</a-menu-item>
-                  <a-menu-item value="inactive">Không hoạt động</a-menu-item>
-                  <a-menu-item value="deleted">Đã xóa</a-menu-item>
+                  <a-menu-item @click="statusValue('active')">Hoạt động</a-menu-item>
+                  <a-menu-item @click="statusValue('inactive')">Không hoạt động</a-menu-item>
+                  <a-menu-item @click="statusValue('deleted')">Đã xóa</a-menu-item>
                 </a-menu>
               </template>
             </a-dropdown>
@@ -143,6 +143,9 @@ const AuthorStore = useAuthorStore();
 const current = ref(1);
 const valueSearch = ref("");
 const queryStatus = ref("");
+const statusValue = (value: string) => {
+  queryStatus.value = value;
+};
 const getDataAuthor = async () => {
   try {
     await AuthorStore.getAllAuthor({

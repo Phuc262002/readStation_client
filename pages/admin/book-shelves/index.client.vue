@@ -28,10 +28,10 @@
                 <DownOutlined />
               </a>
               <template #overlay>
-                <a-menu class="">
-                  <a-menu-item value="active">Hoạt động</a-menu-item>
-                  <a-menu-item value="inactive">Không hoạt động</a-menu-item>
-                  <a-menu-item value="deleted">Đã xóa</a-menu-item>
+                <a-menu class=""> 
+                    <a-menu-item  @click="statusValue('active')">Hoạt động</a-menu-item>
+                    <a-menu-item  @click="statusValue('inactive')">Không hoạt động</a-menu-item>
+                    <a-menu-item  @click="statusValue('deleted')">Đã xóa</a-menu-item>
                 </a-menu>
               </template>
             </a-dropdown>
@@ -46,7 +46,7 @@
                 <div>
                   <a-menu>
                     <a-menu-item v-for="(items, index) in categoryStore?.categoriesAdmin?.categories" :key="index">
-                      <div>{{ items.name }}</div>
+                      <div @click="categoryValue(items?.id)">{{ items.name }}</div>
                     </a-menu-item>
                   </a-menu>
                 </div>
@@ -64,7 +64,7 @@
                 <div>
                   <a-menu>
                     <a-menu-item v-for="(items, index) in bookcaseStore?.bookCaseAdmin?.bookcases" :key="index">
-                      <div>{{ items.name }}</div>
+                      <div @click="bookcaseValue(items?.id)">{{ items.name }}</div>
                     </a-menu-item>
                   </a-menu>
                 </div>
@@ -166,6 +166,10 @@ const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const shelvesId = ref<number>();
 const valueSearch = ref("");
+const queryStatus = ref("");
+const statusValue = (status: string) => {
+  queryStatus.value = status;
+};
 const indicator = h(LoadingOutlined, {
   style: {
     fontSize: "16px",
@@ -173,28 +177,45 @@ const indicator = h(LoadingOutlined, {
   spin: true,
 });
 const categoryStore = useCategoryStore();
+const categoryQuery = ref('');
 useAsyncData(async () => {
   await categoryStore.getAllCategory({
     type: 'book'
   });
 },
 );
+const categoryValue = (id: string) => {
+  categoryQuery.value = id;
+};
 const bookcaseStore = useBookcaseStore();
+const bookcaseQuery = ref('');
 useAsyncData(async () => {
   await bookcaseStore.getAllBookcase({});
 },
 );
+const bookcaseValue = (id: string) => {
+  bookcaseQuery.value = id;
+};
 const shelvesValue = useShelvesStore();
 const getData = async () => {
   try {
     const data = await shelvesValue.getAllShelves({
-      search: valueSearch.value
+      search: valueSearch.value,
+      category_id: categoryQuery.value,
+      bookcase_id: bookcaseQuery.value,
+      status: queryStatus.value
     });
     return data;
   } catch (error) {
     console.error(error);
   }
 };
+useAsyncData(async () => {
+  await getData();
+}, {
+  immediate: true,
+  watch: [valueSearch, categoryQuery, bookcaseQuery,queryStatus]
+});
 const onDelete = async (id: string) => {
   await shelvesValue.deleteShelves(id);
   await getData();
@@ -215,13 +236,7 @@ const showDeleteConfirm = (id: string) => {
   });
 };
 
-useAsyncData(async () => {
-  await getData();
-}, {
-  immediate: true,
-  watch: [valueSearch]
 
-});
 
 const CloseModalAdd = () => {
   openModalAdd.value = false;

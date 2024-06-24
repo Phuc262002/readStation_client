@@ -30,9 +30,9 @@
               </a>
               <template #overlay>
                 <a-menu class="">
-                  <a-menu-item value="active">Hoạt động</a-menu-item>
-                  <a-menu-item value="inactive">Không hoạt động</a-menu-item>
-                  <a-menu-item value="deleted">Đã xóa</a-menu-item>
+                  <a-menu-item  @click="statusValue('active')">Hoạt động</a-menu-item>
+                  <a-menu-item  @click="statusValue('inactive')">Không hoạt động</a-menu-item>
+                  <a-menu-item  @click="statusValue('deleted')">Đã xóa</a-menu-item>
                 </a-menu>
               </template>
             </a-dropdown>
@@ -47,7 +47,7 @@
                 <div>
                   <a-menu>
                     <a-menu-item v-for="(items, index) in authorStore?.AuthorAdmin?.authors" :key="index">
-                      <div>{{ items.author }}</div>
+                      <div @click="authorValue(items?.id)">{{ items.author }}</div>
                     </a-menu-item>
                   </a-menu>
                 </div>
@@ -64,7 +64,7 @@
                 <div>
                   <a-menu>
                     <a-menu-item v-for="(items, index) in categoryStore?.categoriesAdmin?.categories" :key="index">
-                      <div>{{ items.name }}</div>
+                      <div @click="categoryValue(items.id)">{{ items.name }}</div>
                     </a-menu-item>
                   </a-menu>
                 </div>
@@ -178,19 +178,31 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 const valueSearch = ref("");
+const queryStatus = ref("");
+const statusValue = (value: string) => {
+  queryStatus.value = value;
+};
 const allAdminBooks = useBookStore();
 const categoryStore = useCategoryStore();
+const categoryQuery = ref('');
 useAsyncData(async () => {
   await categoryStore.getAllCategory({
     type: 'book'
   });
 },
 );
+const categoryValue = (id: string) => {
+  categoryQuery.value = id;
+};
 const authorStore = useAuthorStore();
+const authorQuery = ref('');
 useAsyncData(async () => {
   await authorStore.getAllAuthor({});
 },
 );
+const authorValue = (id: string) => {
+  authorQuery.value = id;
+};
 const current = ref(1);
 const getAllAdminBooks = async () => {
   try {
@@ -198,6 +210,9 @@ const getAllAdminBooks = async () => {
     const data: any = await allAdminBooks.getAdminBooks({
       page: current.value,
       search: valueSearch.value,
+      category_id: categoryQuery.value,
+      author_id: authorQuery.value,
+      status: queryStatus.value
     });
     return data;
   } catch (error) {
@@ -210,7 +225,7 @@ useAsyncData(async () => {
 },
   {
     immediate: true,
-    watch: [current, valueSearch],
+    watch: [current, valueSearch, categoryQuery, authorQuery,queryStatus]
   }
 );
 const onDelete = async (id: string) => {
