@@ -8,20 +8,69 @@
     </div>
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10" v-model:value="valueSearch">
-              <template #prefix>
-                <SearchOutlined />
-              </template>
-              <template #suffix>
-                <a-spin :indicator="indicator" />
-              </template>
-            </a-input>
+        <div class="w-2/3 flex items-center gap-2">
+          <div class="relative w-1/2 md:block hidden">
+            <div class="flex">
+              <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10" v-model:value="valueSearch">
+                <template #prefix>
+                  <SearchOutlined />
+                </template>
+              </a-input>
+            </div>
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <UIcon class="text-gray-500" name="i-material-symbols-search" />
+            </div>
           </div>
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
+          <a-button size='large'>
+            <a-dropdown :trigger="['click']">
+              <a class="flex gap-3 items-center" @click.prevent>
+                Trạng thái
+                <DownOutlined />
+              </a>
+              <template #overlay>
+                <a-menu class="">
+                  <a-menu-item value="active">Hoạt động</a-menu-item>
+                  <a-menu-item value="inactive">Không hoạt động</a-menu-item>
+                  <a-menu-item value="deleted">Đã xóa</a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
+          </a-button>
+          <a-button size='large'>
+            <a-dropdown :trigger="['click']">
+              <a class="flex gap-3 items-center" @click.prevent>
+                Danh mục
+                <DownOutlined />
+              </a>
+              <template #overlay>
+                <div>
+                  <a-menu>
+                    <a-menu-item v-for="(items, index) in categoryStore?.categoriesAdmin?.categories" :key="index">
+                      <div>{{ items.name }}</div>
+                    </a-menu-item>
+                  </a-menu>
+                </div>
+
+              </template>
+            </a-dropdown>
+          </a-button>
+          <a-button size='large'>
+            <a-dropdown :trigger="['click']">
+              <a class="flex gap-3 items-center" @click.prevent>
+                Tủ sách
+                <DownOutlined />
+              </a>
+              <template #overlay>
+                <div>
+                  <a-menu>
+                    <a-menu-item v-for="(items, index) in bookcaseStore?.bookCaseAdmin?.bookcases" :key="index">
+                      <div>{{ items.name }}</div>
+                    </a-menu-item>
+                  </a-menu>
+                </div>
+              </template>
+            </a-dropdown>
+          </a-button>
         </div>
         <div class="">
           <a-button type="primary" @click="showModalAdd">Thêm kệ sách</a-button>
@@ -123,6 +172,18 @@ const indicator = h(LoadingOutlined, {
   },
   spin: true,
 });
+const categoryStore = useCategoryStore();
+useAsyncData(async () => {
+  await categoryStore.getAllCategory({
+    type: 'book'
+  });
+},
+);
+const bookcaseStore = useBookcaseStore();
+useAsyncData(async () => {
+  await bookcaseStore.getAllBookcase({});
+},
+);
 const shelvesValue = useShelvesStore();
 const getData = async () => {
   try {
