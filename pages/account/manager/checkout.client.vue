@@ -109,51 +109,55 @@
         </div>
         <div class="">
           <div class="bg-white h-auto p-5 shadow-md rounded-lg">
-            <div class="w-full flex flex-col pb-4 font-medium">
-              <a-radio-group v-model:value="value" name="radioGroup">
-                <a-radio value="payment_method">Nhận sách tại nhà</a-radio>
-                <a-radio value="payment_shipping"
-                  >Nhận sách tại thư viện</a-radio
-                >
+            <div class="w-full flex flex-col pb-5 font-medium">
+              <a-radio-group
+                v-model:value="payment_shipping"
+                name="radioGroup"
+                class="flex gap-5"
+              >
+                <a-radio value="shipper"> Nhận sách tại nhà </a-radio>
+                <a-radio value="library"> Nhận sách tại thư viện </a-radio>
               </a-radio-group>
             </div>
-            <div class="grid grid-cols-2 gap-4">
-              <div
-                @click="checkIsShow"
-                class="flex gap-4 p-5 border rounded-lg cursor-pointer border-slate-200 hover:border-violet-500"
-                :class="{ 'opacity-50': isShow }"
+            <div class="">
+              <a-radio-group
+                v-model:value="payment_method"
+                class="grid grid-cols-12 gap-5"
               >
-                <div class="flex items-center gap-4">
-                  <img
-                    src="/assets/images/pay-wallet.svg"
-                    alt=""
-                    class="w-[65px] h-[50px]"
-                  />
-
-                  <div class="font-semibold text-15">Thanh toán qua ví</div>
-                </div>
-              </div>
-
-              <div
-                @click="checkIsShow"
-                class="flex flex-col gap-4 p-5 border rounded-lg cursor-pointer border-slate-200 hover:border-violet-500"
-                :class="{ 'opacity-50': !isShow }"
-              >
-                <div class="flex items-center gap-4">
-                  <img
-                    src="/assets/images/pay-libary.svg"
-                    alt=""
-                    class="w-[65px] h-[50px]"
-                  />
-
-                  <div class="font-semibold text-15">
-                    Thanh toán tại thư viện
+                <a-radio-button
+                  value="wallet"
+                  class="col-span-6 rounded-lg h-[90px] h-full"
+                >
+                  <div class="flex items-center justify-start gap-8">
+                    <img src="../../../assets/images/pay-wallet.svg" alt="" />
+                    <span>Thanh toán qua ví</span>
                   </div>
-                </div>
-              </div>
+                </a-radio-button>
+                <a-radio-button
+                  value="cash"
+                  class="col-span-6 rounded-lg h-[90px] h-full"
+                  v-if="payment_shipping === 'library'"
+                >
+                  <div class="flex items-center justify-start gap-8 h-full">
+                    <img src="../../../assets/images/pay-libary.svg" alt="" />
+                    <span>Thanh toán tại thư viện</span>
+                  </div>
+                </a-radio-button>
+              </a-radio-group>
             </div>
-            <div>
-              <span></span>
+            <div class="my-5 flex justify-between">
+              <span>Bạn muốn giao đến địa chỉ khác?</span>
+              <span
+                type="primary"
+                @click="showModal"
+                class="cursor-pointer text-orange-600"
+                >Thay đổi địa chỉ nhận hàng?</span
+              >
+
+              <AccountFormPayAddress
+                :openModalForm="openModalForm"
+                :openModal="closeModal"
+              />
             </div>
           </div>
         </div>
@@ -292,8 +296,9 @@ const orderStore = useOrderClientStore();
 const cartStore = useCartStore();
 const isSubmitting = ref(false);
 const resErrors = ref({});
+const payment_method = ref("wallet");
+const payment_shipping = ref("shipper");
 
-const isShow = ref(false);
 const userNote = ref();
 // phí cọc
 const depositFee = ref(
@@ -325,52 +330,42 @@ const totalFee = ref(
     ) +
     20000
 );
-const checkIsShow = () => {
-  isShow.value = !isShow.value;
-};
 
 const payCart = async () => {
-  try {
-    isSubmitting.value = true;
-    const newArr = cartStore.carts.map((item) => {
-      return {
-        book_details_id: item.id,
-        service_fee: parseFloat(item.price) * 0.1,
-        deposit: parseFloat(item.price) * (item.hire_percent / 100),
-      };
+  const newArr = cartStore.carts.map((item) => {
+    return {
+      book_details_id: item.id,
+      service_fee: parseFloat(item.price) * 0.1,
+      deposit: parseFloat(item.price) * (item.hire_percent / 100),
+    };
+  });
+  const resData = await orderStore.createOrder({
+    payment_method: payment_method.value,
+    payment_shipping: payment_shipping.value,
+    phone: authStore?.authUser?.user?.phone,
+    address: authStore?.authUser?.user?.address_detail,
+    user_note: userNote.value,
+    deposit_fee: parseFloat(depositFee.value),
+    total_fee: totalFee.value,
+    order_details: newArr,
+  });
+  if (resData?.data?._rawValue?.status == true) {
+    message.success({
+      content: "Đặt hàng thành công",
     });
-    const resData = await orderStore.createOrder({
-      payment_method: "cash",
-      payment_shipping: "library",
-      phone: authStore?.authUser?.user?.phone,
-      address: authStore?.authUser?.user?.address_detail,
-      user_note: userNote.value,
-      deposit_fee: parseFloat(depositFee.value),
-      total_fee: totalFee.value,
-      order_details: newArr,
-    });
-    if (resData?.data?._rawValue?.status == true) {
-      message.success({
-        content: "Đặt hàng thành công",
-      });
-      navigateTo("/products");
-    } else {
-      resErrors.value = resData.error.value.data.errors;
-      message.error({
-        content: "Đặt hàng không thành công",
-      });
-    }
-  } catch (error) {
+    cartStore.carts = [];
+    navigateTo("/products");
+  } else if (resData?.data?._rawValue?.status == false) {
+    message.error(resData?.data?._rawValue?.errors);
+  } else {
+    resErrors.value = resData.error.value.data.errors;
     message.error({
       content: "Đặt hàng không thành công",
     });
-  } finally {
-    isSubmitting.value = false;
   }
 };
 
 const openModalForm = ref<boolean>(false);
-const value = ref<string>("payment_method");
 
 const showModal = () => {
   openModalForm.value = true;
@@ -380,3 +375,10 @@ const closeModal = () => {
   openModalForm.value = false;
 };
 </script>
+<style scoped>
+:where(.css-dev-only-do-not-override-1mvo6uw).ant-radio-button-wrapper:not(
+    :first-child
+  )::before {
+  content: initial;
+}
+</style>

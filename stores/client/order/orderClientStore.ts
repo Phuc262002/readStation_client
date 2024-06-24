@@ -37,11 +37,17 @@ export const useOrderClientStore = defineStore("order-client-store", {
       }
     },
     async createOrder(body: any) {
-      const data: any = await useCustomFetch("/api/v1/account/order/create", {
-        method: "POST",
-        body: JSON.stringify(body),
-      });
-      return data;
+      try {
+        const data: any = await useCustomFetch("/api/v1/account/order/create", {
+          method: "POST",
+          body: JSON.stringify(body),
+        });
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        this.isLoading = false;
+      }
     },
   },
 });

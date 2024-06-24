@@ -40,26 +40,25 @@
                         </div>
                     </div>
                     <div class="h-full overflow-auto">
-                        <div v-for="(items,index) in inVoiceEnter?.getAllInvoiceEnterAdmin?.envoiceEnters" :key="index">
-                            <div class="border-t p-5">
-                                <div class="float-right">
-                                    <span
-                                        class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Đã
-                                        thanh toán</span>
-                                </div>
-                                <h6 class="text-base font-semibold">#{{items?.invoice_code}}</h6>
-                                <div class="flex">
-                                    <div class="grow">
-                                        <h6 class="mt-3 mb-1 text-16 text-base font-semibold">{{items?.user?.fullname}}</h6>
-                                        <p class="text-slate-500 dark:text-zink-200 text-base">{{items?.total}}VND</p>
+                        <div v-for="(items, index) in inVoiceEnter?.getAllInvoiceEnterAdmin?.envoiceEnters"
+                            :key="index">
+                            <button class=" p-5 border-t w-full hover:bg-gray-200">
+                                <div class="flex flex-col gap-2">
+                                    <div class="flex justify-between items-center">
+                                        <h1 class="text-base font-semibold">#{{ items?.invoice_code }}</h1>
+                                        <a-tag class="bg-tag-bg-09 text-tag-text-09 " :bordered="false">Đã thanh
+                                            toán</a-tag>
                                     </div>
-                                    <p
-                                        class="self-end mb-0 text-slate-500 dark:text-zink-200 shrink-0 flex items-center gap-2">
-                                        <IoMdCalendar class="text-base" />
-                                        <span class="align-middle text-base">{{ $dayjs(items?.invoice_date).format("DD/MM/YYYY") }}</span>
-                                    </p>
+                                    <div class="flex justify-between items-center">
+                                        <h1 class="text-base font-semibold">{{ items?.user?.fullname }}</h1>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <h1 class="text-base text-gray-500">{{ items?.total }}đ</h1>
+                                        <span class="text-base text-gray-500">{{
+                                            $dayjs(items?.invoice_date).format("DD/MM/YYYY")}}</span>
+                                    </div>
                                 </div>
-                            </div>
+                            </button>
                         </div>
                     </div>
                 </div>

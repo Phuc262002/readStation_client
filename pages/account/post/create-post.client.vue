@@ -15,7 +15,7 @@
                 name="image"
                 :multiple="false"
                 :action="(file) => uploadFile(file)"
-                @change="handleChangeUploadImg"
+                @change="handleChange"
                 @drop="handleDrop"
                 :before-upload="beforeUpload"
                 :remove="(file) => deleteFile(file)"
@@ -138,10 +138,9 @@ const uploadFile = async (file) => {
     imageInfo.value = dataUpload.data._rawValue.data;
   } catch (error) {
     message.error("Upload ảnh thất bại");
-    console.log("🚀 ~ uploadFile ~ error:", error);
   }
 };
-const handleChangeUploadImg = (info) => {
+const handleChange = (info) => {
   const status = info.file.status;
   if (status !== "uploading") {
     console.log(info.file, info.fileList);
@@ -153,9 +152,8 @@ const handleChangeUploadImg = (info) => {
   }
 };
 const deleteFile = async (file) => {
-  await baseStore.deleteImg(file.url.split("/").pop().split(".")[0]);
+  await baseStore.deleteImg(imageInfo.value?.publicId);
 };
-
 const beforeUpload = (file) => {
   const isImage = file.type.startsWith("image/");
   if (!isImage) {

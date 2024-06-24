@@ -1,108 +1,83 @@
-<template>
+<!-- <template>
   <a-modal
     v-model:open="props.openModalEdit"
     title="Sửa"
     :footer="null"
-    :closable="false"
+    :onCancel="handleClose"
   >
     <form @submit.prevent="onUpdate">
-      <div class="bg-white py-2">
-        <div class="pb-4">
-          <label for="email" class="block text-sm font-medium text-gray-700">
-            Tên nhà xuất bản
-          </label>
-          <div class="mt-1">
-            <a-input
-              v-model:value="publishingCompany.name"
-              class="w-[450px] h-[45px]"
-              placeholder="Nhập tên nhà xuất bản"
-              required
-            />
-          </div>
-        </div>
-
-        <div>
-          <label for="email" class="block text-sm font-medium text-gray-700">
-            Mô tả
-          </label>
-          <div class="mt-1">
-            <a-textarea
-              :rows="6"
-              v-model:value="publishingCompany.description"
-              class="w-[450px] h-[45px]"
-              placeholder="Nhập nội dung"
-              required
-            />
-          </div>
-        </div>
-
-        <div>
-          <label for="email" class="block text-sm font-medium text-gray-700">
-            Trạng thái
-          </label>
-          <div class="mt-1">
-            <a-select
-              ref="select"
-              v-model:value="publishingCompany.status"
-              style="width: 120px"
-              @change="handleChange"
-            >
-              <a-select-option value="active">Active</a-select-option>
-              <a-select-option value="inactive">Inactive</a-select-option>
-            </a-select>
-          </div>
-        </div>
-
-        <div class="pb-4">
-          <label for="email" class="block text-sm font-medium text-gray-700">
-            Logo nhà xuất bản
-          </label>
-          <div class="mt-1">
-            <CommonUploadImg :value="file" @input="(event) => (file = event)" />
-          </div>
-        </div>
-        <div class="flex justify-end items-end gap-4">
-          <a-button
-            @click="handleClose"
-            type="primary"
-            danger
-            html-type="button"
-            class="mt-4"
-            >Hủy</a-button
+      <ClientOnly>
+        <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
+          <a-upload-dragger
+            v-model:fileList="fileList"
+            list-type="picture"
+            name="image"
+            :multiple="false"
+            :action="(file) => uploadFile(file)"
+            @change="handleChangeUploadImg"
+            @drop="handleDrop"
+            :before-upload="beforeUpload"
+            :remove="(file) => deleteFile(file)"
           >
-          <a-button
-            type="primary"
-            :loading="publishingCompanyStore.isSubmitting"
-            html-type="submit"
-            class="mt-4"
-            >Cập nhật</a-button
-          >
-        </div>
-      </div>
+            <p class="ant-upload-drag-icon">
+              <inbox-outlined></inbox-outlined>
+            </p>
+            <p class="ant-upload-text">Click hoặc kéo thả file vào đây</p>
+            <p class="ant-upload-hint">Hoặc nhấn vào đây để chọn file</p>
+          </a-upload-dragger>
+        </a-spin>
+      </ClientOnly>
     </form>
   </a-modal>
 </template>
 <script setup>
 const publishingCompanyStore = usePublishingCompanyStore();
-const file = ref("");
+const fileList = ref([]);
+const imageInfo = ref("");
+// Upload Image
+const uploadFile = async (file) => {
+  if (fileList.value.length > 0) {
+    fileList.value = [];
+    await baseStore.deleteImg(imageInfo.value?.publicId);
+  }
+  const formData = new FormData();
+  formData.append("image", file);
+  try {
+    const dataUpload = await baseStore.uploadImg(formData);
+    imageInfo.value = dataUpload.data._rawValue.data;
+  } catch (error) {
+    message.error("Upload ảnh thất bại");
+    console.log("🚀 ~ uploadFile ~ error:", error);
+  }
+};
+const handleChangeUploadImg = (info) => {
+  const status = info.file.status;
+  if (status !== "uploading") {
+    console.log(info.file, info.fileList);
+  }
+  if (status === "done") {
+    message.success(`${info.file.name} file uploaded successfully.`);
+  } else if (status === "error") {
+    message.error(`${info.file.name} file upload failed.`);
+  }
+};
+const deleteFile = async (file) => {
+  await baseStore.deleteImg(file.url.split("/").pop().split(".")[0]);
+};
 
-const publishingCompany = ref({
-  name: "",
-  description: "",
-  logo_company: "",
-  status: "",
-});
+const beforeUpload = (file) => {
+  const isImage = file.type.startsWith("image/");
+  if (!isImage) {
+    message.error("Bạn chỉ có thể tải lên file ảnh!");
+  }
+  return isImage || Upload.LIST_IGNORE;
+};
 
 const props = defineProps({
-  publishingCompanyId: Number,
   openModalEdit: Boolean,
-  openModal: Function,
+  closeModalEdit: Function,
 });
-const publishingCompanyId = ref(props.publishingCompanyId);
 const open = ref(props.openModalEdit);
-const handleChange = (value) => {
-  category.value.status = value;
-};
 
 watch(
   () => props.openModalEdit,
@@ -110,24 +85,7 @@ watch(
     open.value = newVal;
   }
 );
-watch(
-  () => props.publishingCompanyId,
-  (newVal) => {
-    publishingCompanyId.value = newVal;
-  }
-);
 
-const uploadFile = async () => {
-  // if (!file._rawValue.target.files[0]) {
-  //   return publishingCompany.value.logo_company;
-  // }
-  // const formData = new FormData();
-  // formData.append("image", file._rawValue.target.files[0]);
-  // const dataUpload = await baseStore.uploadImg(formData);
-
-  // return dataUpload.data._rawValue.data.link;
-  return "";
-};
 useAsyncData(
   async () => {
     const data = await publishingCompanyStore.getOnePublishingCompany(
@@ -159,14 +117,11 @@ const onUpdate = async () => {
   await publishingCompanyStore.getAllPublishingCompany({});
   handleClose();
 };
-
-const handleClose = () => {
-  publishingCompany.value = {
-    name: "",
-    description: "",
-    logo_company: "",
-    status: "",
-  };
-  props.openModal();
+const handleClose = async () => {
+  props.closeModal();
 };
-</script>
+</script> -->
+
+<template>
+  <div>aa</div>
+</template>

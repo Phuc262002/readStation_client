@@ -129,7 +129,7 @@
                 </div>
                 <div class="flex justify-end" v-if="orderStore?.getOneOrderAdmin?.data?.status === 'hiring'">
                     <div class="flex gap-2">
-                        <a-button class="border-orange-400 text-orange-500">Trở sách</a-button>
+                        <a-button class="border-orange-400 text-orange-500">Trả sách</a-button>
                         <a-button type="primary">Giao hạn toàn bộ</a-button>
                     </div>
                 </div>
@@ -138,8 +138,13 @@
                 <h1 class="text-base font-bold">Thông tin sách thuê</h1>
                 <div v-for="(items, index) in orderStore?.getOneOrderAdmin?.data?.order_details" :key="index">
                     <div class="border-t-2 border-gray-200 p-5 space-y-3">
-                        <h1 class="text-base font-bold">{{ items?.book_detail?.book?.title }} - {{
-                            items?.book_detail?.book_version }} </h1>
+                        <div class="flex gap-2 items-center">
+                            <h1 class="text-base font-bold">{{ items?.book_detail?.book?.title }} - {{
+                                items?.book_detail?.book_version }} </h1>
+                            <span v-if="orderStore?.getOneOrderAdmin?.data?.status === 'hiring'"
+                                class="text-tag-text-04 bg-tag-bg-04 p-2 rounded-lg flex justify-center items-center">Đang
+                                thuê</span>
+                        </div>
                         <div class="flex gap-5">
                             <img class="w-32 h-48" :src="items?.book_detail?.poster" alt="">
                             <div class="flex-1 space-y-3">
@@ -160,21 +165,57 @@
                         <div class="flex justify-end" v-if="orderStore?.getOneOrderAdmin?.data?.status === 'hiring'">
                             <div class="flex gap-2">
                                 <a-button class="border-orange-400 text-orange-500">Trả sách</a-button>
-                                <a-button type="primary">Giao hạn lần 1</a-button>
+                                <a-button type="primary">Giao hạn</a-button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div v-if="orderStore?.getOneOrderAdmin?.data?.status === 'pending'">
                     <div class="flex justify-end gap-2">
-                        <a-button>Trở về</a-button>
-                        <a-button class="border border-orange-400 text-orange-500">Từ chối</a-button>
-                        <a-button type="primary">Xác định</a-button>
+                        <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                        <a-button class="border border-orange-400 text-orange-500">Hủy</a-button>
+                        <a-button type="primary">Xác nhận</a-button>
                     </div>
                 </div>
-                <div v-else="orderStore?.getOneOrderAdmin?.data?.status === 'hiring'">
+                <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'hiring'">
                     <div class="flex justify-end gap-2">
-                        <a-button>Trở về</a-button>
+                        <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                    </div>
+                </div>
+                <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'approved'">
+                    <div class="flex justify-end gap-2">
+                        <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                        <a-button type="primary">Giao sách</a-button>
+                    </div>
+                </div>
+                <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'wating_take_book'">
+                    <div class="flex justify-end gap-2">
+                        <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                    </div>
+                </div>
+                <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'canceled'">
+                    <div class="flex justify-end gap-2">
+                        <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                    </div>
+                </div>
+                <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'wating_return'">
+                    <div class="flex justify-end gap-2">
+                        <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                    </div>
+                </div>
+                <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'increasing'">
+                    <div class="flex justify-end gap-2">
+                        <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                    </div>
+                </div>
+                <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'out_of_date'">
+                    <div class="flex justify-end gap-2">
+                        <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                    </div>
+                </div>
+                <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'completed'">
+                    <div class="flex justify-end gap-2">
+                        <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
                     </div>
                 </div>
             </div>

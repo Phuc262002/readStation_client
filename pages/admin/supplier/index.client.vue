@@ -12,7 +12,7 @@
             <div class="flex justify-between pb-4">
                 <div class="relative w-1/4 md:block hidden">
                     <div class="flex">
-                        <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
+                        <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10" v-model:value="valueSearch">
                             <template #prefix>
                                 <SearchOutlined />
                             </template>
@@ -116,6 +116,7 @@ const supplierStore = useSupplierStore();
 const openModalEdit = ref < boolean > (false);
 const openModalAdd = ref < boolean > (false);
 const supplierId = ref < number > ();
+const valueSearch = ref("");
 const indicator = h(LoadingOutlined, {
     style: {
         fontSize: "16px",
@@ -123,10 +124,16 @@ const indicator = h(LoadingOutlined, {
     spin: true,
 });
 const getData = async () => {
-    await supplierStore.getAllSupplier({});
+    await supplierStore.getAllSupplier({
+        search: valueSearch.value
+    });
 };
 useAsyncData(async () => {
     getData();
+},{
+    immediate: true,
+    watch: [valueSearch],
+
 });
 const onDelete = async (id: string) => {
     await supplierStore.deleteSupplier(id);

@@ -1,3 +1,4 @@
+
 import { defineStore } from "pinia";
 export const useOrderStore = defineStore("order-store", {
   state: () => {
@@ -6,10 +7,18 @@ export const useOrderStore = defineStore("order-store", {
       isSubmitting: false,
       getAllOrderAdmin : [],  
       getOneOrderAdmin : {},
+      statistic:{}
     };
   },
   actions: {
-    async getAllOrder({ page, pageSize, search, status }: any) {
+    async statisticOrder() {
+        this.isLoading = true;
+        const data: any = await useCustomFetch(`/api/v1/admin/orders/statistic`);
+        this.statistic = data?.data?._value?.data;
+        this.isLoading = false;
+        return data;
+    },
+    async getAllOrder({ page, pageSize, search, spayment_methodtatus }: any) {
         this.isLoading = true;
         const data: any = await useCustomFetch(
             `/api/v1/admin/orders?${page ? `&page=${page}` : ""}${
