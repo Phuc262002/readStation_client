@@ -11,7 +11,7 @@ export const usePublicCategoryStore = defineStore("public-category-store", {
   actions: {
     async getAllCategoryClient({ page, pageSize, type }: any) {
       const data: any = await useCustomFetch(
-        `/api/v1/categories?type=${type}${page ? `&page=${page}` : ""}${
+        `/api/v1/public/categories?type=${type}${page ? `&page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
         }`
       );

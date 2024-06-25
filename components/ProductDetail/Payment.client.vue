@@ -55,14 +55,12 @@
           </div>
 
           <div class="grid gap-2">
-            <NuxtLink to="/account/manager/checkout">
-              <a-button
-                class="bg-rtprimary border-none border border-lg rounded-lg text-center !text-white text-sm h-10 w-full"
-              >
-                Thuê ngay
-              </a-button>
-            </NuxtLink>
-
+            <a-button
+              @click="handleRentNow"
+              class="bg-rtprimary border-none border border-lg rounded-lg text-center !text-white text-sm h-10 w-full"
+            >
+              Thuê ngay
+            </a-button>
             <a-button
               @click="addToCart"
               class="border border-lg border-x-rtgray-50 rounded-lg text-center text-rtprimary text-sm h-10"
@@ -78,6 +76,42 @@
 <script setup lang="ts">
 const bookStore = useBookPublicStore();
 const cartStore = useCartStore();
+const handleRentNow = () => {
+  try {
+    if (cartStore && cartStore?.carts) {
+      const bookToAdd = bookStore?.book;
+      const isCheck = cartStore?.carts.some((item) => item.id === bookToAdd.id);
+      if (isCheck) {
+        message.error({
+          content: "Thuê sản phẩm thất bại. Sản phẩm đã có trong giỏ hàng",
+        });
+        return;
+      }
+      if (cartStore?.carts.length < 2) {
+        if (bookToAdd) {
+          cartStore.addToCart(bookStore?.book);
+          message.success({
+            content:
+              "Thêm sản phẩm thành công. Chuyển hướng đến trang thanh toán!",
+          });
+          navigateTo("/account/manager/checkout");
+        } else {
+          message.error({
+            content: "Thêm sản phẩm thất bại.",
+          });
+        }
+      } else {
+        message.error({
+          content: "Thêm sản phẩm thất bại. Đơn hàng tối đa 2 quyển!",
+        });
+      }
+    }
+  } catch (error) {
+    message.error({
+      content: "Thêm sản phẩm thất bại. Vui lòng thử lại!",
+    });
+  }
+};
 const addToCart = () => {
   try {
     if (cartStore && cartStore?.carts) {

@@ -34,11 +34,11 @@
             <a-menu-item key="1">
               <span class="flex items-center gap-2">
                 <UIcon name="i-ant-design-user-outlined" />
-                <span>Quản lí tài khoản </span>
+                <span>Quản lý tài khoản </span>
               </span>
             </a-menu-item>
           </nuxt-link>
-          <nuxt-link to="/account/account-setting">
+          <nuxt-link to="/account/manager/account-setting">
             <a-menu-item key="2">
               <span class="flex items-center gap-2">
                 <UIcon name="i-material-symbols-light-settings" />
@@ -61,21 +61,21 @@
             >
           </nuxt-link>
           <div class="border-solid border border-gray-200 w-full my-2"></div>
-          <nuxt-link to="/account/order-manager">
+          <nuxt-link to="/account/order">
             <a-menu-item key="3"
               ><span class="flex items-center gap-2">
                 <UIcon
                   name="i-material-symbols-light-shopping-bag-outline-sharp"
                 />
-                <span>Quản lí đơn hàng</span>
+                <span>Quản lý đơn hàng</span>
               </span>
             </a-menu-item>
           </nuxt-link>
-          <nuxt-link to="/">
+          <nuxt-link to="/account/wallet">
             <a-menu-item key="4"
               ><span class="flex items-center gap-2">
                 <UIcon name="i-ph-wallet-light" />
-                <span>Quản lí ví</span>
+                <span>Quản lý ví</span>
               </span></a-menu-item
             >
           </nuxt-link>

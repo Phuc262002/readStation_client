@@ -9,17 +9,34 @@
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10" v-model:value="valueSearch">
-              <template #prefix>
-                <SearchOutlined />
+        <div class="w-1/2 flex items-center gap-2">
+          <div class="relative w-2/3 md:block hidden">
+            <div class="flex">
+              <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10" v-model:value="valueSearch">
+                <template #prefix>
+                  <SearchOutlined />
+                </template>
+              </a-input>
+            </div>
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <UIcon class="text-gray-500" name="i-material-symbols-search" />
+            </div>
+          </div>
+          <a-button size='large'>
+            <a-dropdown :trigger="['click']">
+              <a class="flex gap-3 items-center" @click.prevent>
+                Trạng thái
+                <DownOutlined />
+              </a>
+              <template #overlay>
+                <a-menu class="">
+                  <a-menu-item @click="statusValue('active')">Hoạt động</a-menu-item>
+                  <a-menu-item @click="statusValue('inactive')">Không hoạt động</a-menu-item>
+                  <a-menu-item @click="statusValue('deleted')">Đã xóa</a-menu-item>
+                </a-menu>
               </template>
-            </a-input>
-          </div>
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
+            </a-dropdown>
+          </a-button>
         </div>
         <NuxtLink to="author/add-author">
           <div class="">
@@ -55,7 +72,7 @@
             <span>
               {{ $dayjs(record.dob).format("DD/MM/YYYY") }}
             </span>
-           </template> 
+          </template>
           <template v-if="column.key === 'status'">
             <span>
               <a-tag :color="record.status === 'active' ? 'green' : 'volcano'" style="border: none">
@@ -125,11 +142,16 @@ import { ref } from "vue";
 const AuthorStore = useAuthorStore();
 const current = ref(1);
 const valueSearch = ref("");
+const queryStatus = ref("");
+const statusValue = (value: string) => {
+  queryStatus.value = value;
+};
 const getDataAuthor = async () => {
   try {
     await AuthorStore.getAllAuthor({
       page: current.value,
-      search : valueSearch.value
+      search: valueSearch.value,
+      status: queryStatus.value,
     });
   } catch (error) {
     console.error(error);
@@ -139,7 +161,7 @@ useAsyncData(async () => {
   await getDataAuthor();
 }, {
   immediate: true,
-  watch: [current,valueSearch],
+  watch: [current, valueSearch, queryStatus],
 });
 
 const onDelete = async (id: string) => {

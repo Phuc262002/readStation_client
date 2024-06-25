@@ -287,31 +287,23 @@ const onSubmit = handleSubmit(async (values) => {
     dob: dayjs(values?.dob, "DD-MM-YYYY").format("YYYY-MM-DD"),
   };
   console.log("messges dataa", newData);
-  try {
-    isSubmitting.value = true;
-    const resData = await authStore.updateProfile(newData);
-    console.log("resData", resData);
 
-    if (resData?.data?._rawValue?.status == true) {
-      message.success({
-        content: "Chỉnh sửa thành công",
-      });
-      // navigateTo("/account");
-      isShow.value = false;
-      data.value = resData?.data?._rawValue?.data;
-    } else {
-      resErrors.value = resData.error.value.data.errors;
-      console.log("object", resErrors.value);
-      message.error({
-        content: "Chỉnh sửa không thành công",
-      });
-    }
-  } catch (error) {
+  const resData = await authStore.updateProfile(newData);
+  console.log("resData", resData);
+
+  if (resData?.data?._rawValue?.status == true) {
+    message.success({
+      content: "Chỉnh sửa thành công",
+    });
+    // navigateTo("/account");
+    isShow.value = false;
+    data.value = resData?.data?._rawValue?.data;
+  } else {
+    resErrors.value = resData.error.value.data.errors;
+    console.log("object", resErrors.value);
     message.error({
       content: "Chỉnh sửa không thành công",
     });
-  } finally {
-    isSubmitting.value = false;
   }
 });
 

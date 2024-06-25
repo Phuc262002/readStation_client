@@ -18,7 +18,7 @@ export const useOrderStore = defineStore("order-store", {
         this.isLoading = false;
         return data;
     },
-    async getAllOrder({ page, pageSize, search, spayment_methodtatus }: any) {
+    async getAllOrder({ page, pageSize, search, status }: any) {
         this.isLoading = true;
         const data: any = await useCustomFetch(
             `/api/v1/admin/orders?${page ? `&page=${page}` : ""}${

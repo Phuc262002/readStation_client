@@ -97,14 +97,40 @@
       <div class="w-full min-h-[360px] bg-[white] rounded-lg p-5">
         <div class="flex flex-col gap-5">
           <div class="flex justify-between items-center">
-            <div class="w-1/4 md:block hidden">
-              <div class="flex">
-                <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
-                  <template #prefix>
-                    <SearchOutlined />
-                  </template>
-                </a-input>
+            <div class="w-1/2 flex items-center gap-2">
+              <div class="relative w-2/3 md:block hidden">
+                <div class="flex">
+                  <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10" v-model:value="valueSearch">
+                    <template #prefix>
+                      <SearchOutlined />
+                    </template>
+                  </a-input>
+                </div>
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <UIcon class="text-gray-500" name="i-material-symbols-search" />
+                </div>
               </div>
+              <a-button size='large'>
+                <a-dropdown :trigger="['click']">
+                  <a class="flex gap-3 items-center" @click.prevent>
+                    Trạng thái
+                    <DownOutlined />
+                  </a>
+                  <template #overlay>
+                    <a-menu>
+                      <a-menu-item @click="statusValue('pending')" >Đang xử lý</a-menu-item>
+                      <a-menu-item @click="statusValue('hiring')" >Đang thuê</a-menu-item>
+                      <a-menu-item @click="statusValue('completed')" >Hoàn thành</a-menu-item>
+                      <a-menu-item @click="statusValue('out_of_date')" >Quá hạn</a-menu-item>
+                      <a-menu-item @click="statusValue('approved')" >Đã xác nhận</a-menu-item>
+                      <a-menu-item @click="statusValue('wating_take_book')" >Đang giao</a-menu-item>
+                      <a-menu-item @click="statusValue('increasing')" >Đang gia hạn</a-menu-item>
+                      <a-menu-item @click="statusValue('wating_return')" >Chờ trả sách</a-menu-item>
+                      <a-menu-item @click="statusValue('canceled')" >Đã hủy</a-menu-item>
+                    </a-menu>
+                  </template>
+                </a-dropdown>
+              </a-button>
             </div>
             <div>
               <a-button type="primary" size="large">Thêm đơn hàng</a-button>
@@ -232,13 +258,20 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 const orderStore = useOrderStore();
 const current = ref(1);
+const valueSearch = ref('');
+const queryStatus = ref('');
+const statusValue = (value: string) => {
+  queryStatus.value = value;
+}
 useAsyncData(async () => {
   try {
     await orderStore.getAllOrder({
       page: current.value,
+      search : valueSearch.value,
+      status: queryStatus.value
     });
   } catch (error) {
 
@@ -246,7 +279,7 @@ useAsyncData(async () => {
 
 }, {
   immediate: true,
-  watch: [current],
+  watch: [current,valueSearch,queryStatus],
 });
 useAsyncData(async () => {
   await orderStore.statisticOrder();

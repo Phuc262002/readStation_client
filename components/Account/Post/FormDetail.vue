@@ -28,9 +28,31 @@
               <div class="grid grid-cols-4">
                 <span class="font-bold col-span-1">Trạng thái:</span>
                 <div class="col-span-3">
-                  <a-tag>
-                    {{ postStore?.post?.status }}
-                  </a-tag>
+                  <a-tag
+                    v-if="postStore?.post?.status === 'published'"
+                    class="text-tag-text-09 bg-tag-bg-09 border-none px-3 py-1"
+                    >Công khai</a-tag
+                  >
+                  <a-tag
+                    v-else-if="postStore?.post?.status === 'wating_approve'"
+                    class="text-tag-text-pending bg-tag-bg-pending border-none px-3 py-1"
+                    >Chờ phê duyệt</a-tag
+                  >
+                  <a-tag
+                    v-else-if="postStore?.post?.status === 'draft'"
+                    class="text-tag-text-draft bg-tag-bg-draft border-none px-3 py-1"
+                    >Nháp</a-tag
+                  >
+                  <a-tag
+                    v-else-if="postStore?.post?.status === 'hidden'"
+                    class="text-tag-text-draft bg-tag-bg-canceled border-none px-3 py-1"
+                    >Ẩn</a-tag
+                  >
+                  <a-tag
+                    v-else-if="postStore?.post?.status === 'deleted'"
+                    class="text-tag-text bg-tag-bg border-none"
+                    >Đã xóa</a-tag
+                  >
                 </div>
               </div>
             </div>
