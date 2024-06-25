@@ -27,7 +27,8 @@
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
-        <NuxtLink to="/admin/user/add-user" class="">
+
+        <NuxtLink to="/admin/user/create-user" class="">
           <a-button type="primary">Thêm người dùng</a-button>
         </NuxtLink>
       </div>
