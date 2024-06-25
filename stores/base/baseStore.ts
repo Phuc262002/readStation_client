@@ -13,25 +13,31 @@ export const useBaseStore = defineStore("base-store", {
 
   actions: {
     async getProvinces() {
+      this.isLoading = true;
       const data: any = await useCustomFetch("/api/v1/public/shiip/province");
       this.province = data.data._value.data;
+      this.isLoading = false;
       return data;
     },
     async getDistricts(province_id: any) {
+      this.isLoading = true;
       const data: any = await useCustomFetch(
         `/api/v1/public/shiip/district?province_id=${province_id}`
       );
       this.districts = data.data._value.data;
+      this.isLoading = false;
       return data;
     },
     async getWards(district_id: any) {
+      this.isLoading = true;
       const data: any = await useCustomFetch(
         `/api/v1/public/shiip/ward?district_id=${district_id}`
       );
       this.ward = data.data._value.data;
+      this.isLoading = false;
       return data;
     },
-    
+
     async uploadImg(file: any) {
       this.isSubmitting = true;
       const data: any = await useCustomFetch(`/api/v1/upload/images`, {
