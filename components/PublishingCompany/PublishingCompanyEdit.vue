@@ -222,15 +222,7 @@ const onUpdate = async () => {
 };
 
 const handleClose = () => {
-  // if (fileList.value.length > 0) {
-  //   fileList.value = [];
-  // }
-  // publishingCompany.value = {
-  //   name: "",
-  //   description: "",
-  //   logo_company: "",
-  //   status: "",
-  // };
+  
   props.openModal();
 };
 </script>

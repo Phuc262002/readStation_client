@@ -4,21 +4,20 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">
-          Tất cả nhà xuất bản
-        </h5>
+        <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả tác giả</h5>
       </div>
+      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
         <div class="relative w-1/4 md:block hidden">
           <div class="flex">
-            <input
-              type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..."
-            />
+            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
+              <template #prefix>
+                <SearchOutlined />
+              </template>
+            </a-input>
           </div>
           <div
             class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
@@ -26,56 +25,51 @@
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
+
         <div class="">
-          <a-button
-            class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary"
-            @click="showModalAdd"
-            >Thêm nhà xuất bản</a-button
+          <a-button @click="showModalAdd" type="primary"
+            >Thêm phương thức thanh toán</a-button
           >
         </div>
       </div>
-      <PublishingCompanyAdd
+      <ShippingMethodsAdd
         :openModalAdd="openModalAdd"
         :openModal="CloseModalAdd"
       />
-      <PublishingCompanyEdit
+      <ShippingMethodsEdit
         :openModalEdit="openModalEdit"
         :openModal="CloseModalEdit"
-        :publishingCompanyId="publishingCompanyId"
+        :shippingMethodId="shippingMethodId"
       />
+
       <a-table
         :columns="columns"
-        :loading="publishingCompanyStore.isLoading"
-        :data-source="
-          publishingCompanyStore?.publishingCompaniesAdmin?.publishing_companies
-        "
+        :data-source="shippingMethodStore.shippingMethodsAdmin?.shippingMethods"
         :pagination="false"
+        :loading="shippingMethodStore.isLoading"
       >
-        <template #headerCell="{ column }">
-          <template v-if="column.key === 'name'">
-            <span> Tên nhà xuất bản </span>
-          </template>
-        </template>
-
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'name'">
-            <a>
-              {{ record.name }}
-            </a>
+          <template v-if="column.key === 'logo'">
+            <a-image class="rounded-md" :width="100" :src="record.logo" />
           </template>
-          <template v-else-if="column.key === 'logo_company'">
-            <a-image
-              class="rounded-md"
-              :width="100"
-              :src="record.logo_company"
-            />
+          <template v-if="column.key === 'location'">
+            <ul>
+              <li v-for="item in record.location" :key="item">
+                {{ item }}
+              </li>
+            </ul>
           </template>
-          <template v-else-if="column.key === 'description'">
-            <p class="p-0">
-              {{ record.description }}
-            </p>
+          <template v-if="column.key === 'method'">
+            <span>
+              {{ record.method }}
+            </span>
           </template>
-          <template v-else-if="column.key === 'status'">
+          <template v-if="column.key === 'fee'">
+            <span>
+              {{ record.fee }}
+            </span>
+          </template>
+          <template v-if="column.key === 'status'">
             <a-tag
               :bordered="false"
               v-if="record.status === 'active'"
@@ -100,6 +94,11 @@
               Đã xóa
             </a-tag>
           </template>
+          <template v-else-if="column.key === 'is_featured'">
+            <IconTick v-if="record.is_featured" />
+            <IconMul v-else />
+          </template>
+
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
               <a-tooltip placement="top">
@@ -135,42 +134,30 @@
           </template>
         </template>
       </a-table>
-      <div class="mt-4 flex justify-end">
+      <!-- <div class="mt-4 flex justify-end">
         <a-pagination
           v-model:current="current"
-          :total="
-            publishingCompanyStore?.publishingCompaniesAdmin?.totalResults
-          "
-          :pageSize="publishingCompanyStore?.publishingCompaniesAdmin?.pageSize"
+          :total="AuthorStore?.AuthorAdmin?.totalResults"
+          :pageSize="AuthorStore?.AuthorAdmin?.pageSize"
           show-less-items
         />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { Modal } from "ant-design-vue";
-const baseStore = useBaseStore();
-const openModalEdit = ref<boolean>(false);
+import ShippingMethodsEdit from "~/components/ShippingMethods/ShippingMethodsEdit.vue";
 const openModalAdd = ref<boolean>(false);
-const publishingCompanyId = ref<number>();
-const publishingCompanyStore = usePublishingCompanyStore();
-const current = ref(1);
-useAsyncData(
-  async () => {
-    await publishingCompanyStore.getAllPublishingCompany({
-      page: current.value,
-    });
-  },
-  {
-    immediate: true,
-    watch: [current],
-  }
-);
-
+const openModalEdit = ref<boolean>(false);
+const shippingMethodId = ref<number>();
+const shippingMethodStore = useShippingMethodsStore();
+useAsyncData(async () => {
+  shippingMethodStore.getAllShippingMethods({});
+});
 const onDelete = async (id: string) => {
-  await publishingCompanyStore.deletePublishingCompany(id);
-  await publishingCompanyStore.getAllPublishingCompany({});
+  await shippingMethodStore.deleteShippingMethod(id);
+  await shippingMethodStore.getAllShippingMethods({});
 };
 
 const showDeleteConfirm = (id: string) => {
@@ -188,31 +175,42 @@ const showDeleteConfirm = (id: string) => {
     },
   });
 };
-
 const columns = [
   {
-    title: "Hình ảnh",
-    dataIndex: "logo_company",
-    key: "logo_company",
-    width: "100px",
+    title: "Logo",
+    dataIndex: "logo",
+    key: "logo",
   },
   {
-    name: "Name",
-    dataIndex: "name",
-    key: "name",
+    title: "Khu vực",
+    dataIndex: "location",
+    key: "location",
   },
   {
-    title: "Thông tin",
-    dataIndex: "description",
-    key: "description",
+    title: "Phương thức vận chuyển",
+    dataIndex: "method",
+    key: "method",
   },
+  {
+    title: "Phí vận chuyển",
+    dataIndex: "fee",
+    key: "fee",
+  },
+
+  {
+    title: "Ghi chú",
+    dataIndex: "note",
+    key: "note",
+  },
+
   {
     title: "Trạng thái",
-    key: "status",
     dataIndex: "status",
+    key: "status",
   },
   {
     title: "Action",
+    dataIndex: "action",
     key: "action",
   },
 ];
@@ -220,14 +218,14 @@ const columns = [
 const CloseModalAdd = () => {
   openModalAdd.value = false;
 };
-const CloseModalEdit = () => {
-  openModalEdit.value = false;
-};
 const showModalAdd = () => {
   openModalAdd.value = true;
 };
+const CloseModalEdit = () => {
+  openModalEdit.value = false;
+};
 const showModalEdit = (id: number) => {
   openModalEdit.value = true;
-  publishingCompanyId.value = id;
+  shippingMethodId.value = id;
 };
 </script>

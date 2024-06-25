@@ -243,12 +243,12 @@ const columns = [
     key: "title",
     width: "250px",
   },
-  {
-    title: "Tiêu đề",
-    dataIndex: "summary",
-    key: "summary",
-    width: "200px",
-  },
+  // {
+  //   title: "Tiêu đề",
+  //   dataIndex: "summary",
+  //   key: "summary",
+  //   width: "200px",
+  // },
   {
     title: "Người đăng",
     dataIndex: "user_id",

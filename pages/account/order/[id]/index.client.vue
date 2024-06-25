@@ -13,13 +13,13 @@
             <div class="grid grid-cols-4">
               <span class="col-span-1 font-bold">Tên khách hàng:</span>
               <span class="col-span-3">
-                {{ authStore?.authUser?.use?.fullname }}
+                {{ authStore?.authUser?.user?.fullname }}
               </span>
             </div>
             <div class="grid grid-cols-4">
               <span class="col-span-1 font-bold">Email:</span>
               <span class="col-span-3">
-                {{ authStore?.authUser?.use?.email }}
+                {{ authStore?.authUser?.user?.email }}
               </span>
             </div>
             <div class="grid grid-cols-4">
@@ -34,8 +34,17 @@
             </div>
             <div class="grid grid-cols-4">
               <span class="col-span-2 font-bold">Phương thức thanh toán:</span>
-              <span class="col-span-2">
-                {{ orderStore?.order?.payment_method }}
+              <span
+                class="col-span-2"
+                v-if="orderStore?.order?.payment_method === 'wallet'"
+              >
+                Chuyển khoản
+              </span>
+              <span
+                class="col-span-2"
+                v-else-if="orderStore?.order?.payment_method === 'cash'"
+              >
+                Tiền mặt
               </span>
             </div>
           </div>
@@ -49,7 +58,33 @@
       <div>
         <h3 class="font-bold border-b border-rtgray-50 pb-5 flex gap-5">
           Thông tin đơn hàng
-          <a-tag color="yellow">Đang xử lý</a-tag>
+          <span class="flex justify-center">
+            <a-tag
+              v-if="orderStore?.order?.status === 'pending'"
+              class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg"
+              >Đang xử lý</a-tag
+            >
+            <a-tag
+              v-else-if="orderStore?.order?.status === 'hiring'"
+              class="text-tag-text-04 bg-tag-bg-04 border-none py-1 px-3 rounded-lg"
+              >Đang thuê</a-tag
+            >
+            <a-tag
+              v-else-if="orderStore?.order?.status === 'completed'"
+              class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg"
+              >Hoàn thành</a-tag
+            >
+            <a-tag
+              v-else-if="orderStore?.order?.status === 'canceled'"
+              class="text-tag-text-07 bg-tag-bg-07 border-none py-1 px-3 rounded-lg"
+              >Đã hủy</a-tag
+            >
+            <a-tag
+              v-else-if="orderStore?.order?.status === 'out_of_date'"
+              class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
+              >Quá hạn</a-tag
+            >
+          </span>
         </h3>
         <div class="flex py-5 text-sm">
           <div class="w-1/2 border-r border-rtgray-50 space-y-3">
@@ -91,18 +126,25 @@
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  }).format(orderStore?.order?.deposit_fee)
+                  }).format(orderStore?.order?.total_deposit_fee)
                 }}
               </span>
             </div>
             <div class="grid grid-cols-4">
               <span class="col-span-1 font-bold">Phí dịch vụ:</span>
-              <span class="col-span-3">10/06/2024</span>
+              <span class="col-span-3">
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(orderStore?.order?.total_service_fee)
+                }}
+              </span>
             </div>
             <div class="grid grid-cols-4">
               <span class="col-span-1 font-bold">Phí trễ hạn:</span>
               <span class="col-span-3">
-                {{ orderStore?.order?.fine_fee }}
+                {{ orderStore?.order?.total_fine_fee }}
               </span>
             </div>
             <div class="grid grid-cols-4">
@@ -123,7 +165,7 @@
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  }).format(orderStore?.order?.total_fee)
+                  }).format(orderStore?.order?.total_all_fee)
                 }}
               </span>
             </div>

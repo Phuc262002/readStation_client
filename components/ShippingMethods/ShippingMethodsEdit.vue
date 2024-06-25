@@ -5,61 +5,70 @@
     :footer="null"
     :onCancel="handleClose"
   >
-  <div
-      v-if="categoryStore.isLoading"
+    <div
+      v-if="shippingMethodStore.isLoading"
       class="flex justify-center items-center min-h-[50vh]"
-    ></div>
+    >
+      <a-spin size="large" />
+    </div>
     <form @submit.prevent="onUpdate">
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Tên danh mục
+            Phương thức vận chuyển
           </label>
           <div class="mt-1">
             <a-input
-              v-model:value="category.name"
+              v-model:value="shippingMethod.method"
               class="w-[450px] h-[45px]"
-              placeholder="Nhập tên danh mục"
+              placeholder="Nhập phương thức vận chuyển"
               required
             />
           </div>
         </div>
-       
 
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Mô tả
+            Khu vực
+          </label>
+          <div class="mt-1">
+            <a-input
+              v-model:value="shippingMethod.location"
+              class="w-[450px] h-[45px]"
+              placeholder="Nhập khu vực"
+              required
+            />
+          </div>
+        </div>
+        <div class="pb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">
+            Phí vận chuyển
+          </label>
+          <div class="mt-1">
+            <a-input
+              v-model:value="shippingMethod.fee"
+              class="w-[450px] h-[45px]"
+              placeholder="Nhập phí vận chuyển"
+              required
+            />
+          </div>
+        </div>
+        <div class="pb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">
+            Ghi chú
           </label>
           <div class="mt-1">
             <a-textarea
-              :rows="6"
-              v-model:value="category.description"
-              class="w-[450px] h-[45px]"
-              placeholder="Nhập mô tả"
+              v-model:value="shippingMethod.note"
+              size="large"
+              placeholder="Nhập ghi chú"
               required
             />
           </div>
         </div>
-
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Trạng thái
-          </label>
-          <div class="mt-1">
-            <a-select
-              ref="select"
-              v-model:value="category.status"
-              style="width: 450px"
-              @change="handleChange"
-            >
-              <a-select-option value="active">Active</a-select-option>
-              <a-select-option value="inactive">Inactive</a-select-option>
-            </a-select>
-          </div>
-        </div>
-        <div class="pb-4">
-          <label for="email" class="block text-sm font-medium text-gray-700">
-            Hình danh mục bài viết
+            Logo phương thức vận chuyển
           </label>
           <div class="mt-1">
             <ClientOnly>
@@ -85,16 +94,17 @@
             </ClientOnly>
           </div>
         </div>
+
         <div class="flex justify-end items-end gap-2">
           <a-button @click="handleClose" danger html-type="button" class="mt-4"
             >Hủy</a-button
           >
           <a-button
             type="primary"
-            :loading="category.isSubmitting"
+            :loading="shippingMethodStore.isSubmitting"
             html-type="submit"
             class="mt-4"
-            >Cập nhật</a-button
+            >Lưu</a-button
           >
         </div>
       </div>
@@ -103,27 +113,26 @@
 </template>
 <script setup>
 import { message, Upload } from "ant-design-vue";
-const categoryStore = useCategoryStore();
+const shippingMethodStore = useShippingMethodsStore();
 const baseStore = useBaseStore();
 const fileList = ref([]);
 const imageInfo = ref("");
-const category = ref({
-  image: "",
-  name: "",
-  description: "",
- 
-  type: "post",
+const shippingMethod = ref({
+  method: "",
+  location: [" Hồ chí minh", "Hà nội"],
+  fee: "",
+  note: "",
+  logo: "",
 });
 const props = defineProps({
   openModalEdit: Boolean,
+  shippingMethodId: Number,
   openModal: Function,
-  categoryId: Number,
 });
-const categoryId = ref(props.categoryId);
 const open = ref(props.openModalEdit);
-
+const shippingMethodId = ref(props.shippingMethodId);
 const handleChange = (value) => {
-  category.value.status = value;
+  shippingMethod.value.location = value;
 };
 watch(
   () => props.openModalEdit,
@@ -132,11 +141,12 @@ watch(
   }
 );
 watch(
-  () => props.categoryId,
+  () => props.shippingMethodId,
   (newVal) => {
-    categoryId.value = newVal;
+    shippingMethodId.value = newVal;
   }
 );
+
 const uploadFile = async (file) => {
   if (fileList.value.length > 0) {
     fileList.value = [];
@@ -179,42 +189,40 @@ const beforeUpload = (file) => {
 };
 useAsyncData(
   async () => {
-    const data = await categoryStore.getOneCategory(categoryId.value);
-    category.value.name = data.data._value?.data?.name;
-    category.value.description = data.data._value?.data?.description;
-    category.value.status = data.data._value?.data?.status;
-    
-    category.value.image = data.data._value?.data?.image;
+    await shippingMethodStore.getOneShippingMethod(shippingMethodId.value);
+    shippingMethod.value.method = shippingMethodStore.shippingMethod.method;
+    shippingMethod.value.location = shippingMethodStore.shippingMethod.location;
+    shippingMethod.value.fee = shippingMethodStore.shippingMethod.fee;
+    shippingMethod.value.note = shippingMethodStore.shippingMethod.note;
+    imageInfo.value = shippingMethodStore.shippingMethod.logo;
     fileList.value = [
       {
         uid: "-1",
         name: "image.png",
         status: "done",
-        url: data.data._value?.data?.image,
+        url: imageInfo.value,
       },
     ];
   },
   {
-    watch: [categoryId, open],
+    watch: [shippingMethodId, open],
     initialCache: false,
   }
 );
 
 const onUpdate = async () => {
   const data = {
-    name: category.value?.name,
-    description: category.value?.description,
-    status: category.value?.status,
-    image: imageInfo.value?.url || category.value?.image,
-    type: "post",
+    method: shippingMethod.value.method,
+    location: shippingMethod.value.location,
+    fee: shippingMethod.value.fee,
+    note: shippingMethod.value.note,
+    logo: imageInfo.value?.url,
   };
-  await categoryStore.updateCategory({
-    id: categoryId.value,
-    category: data,
+  await shippingMethodStore.updateShippingMethod({
+    id: shippingMethodId.value,
+    shippingMethod: data,
   });
-  await categoryStore.getAllCategory({
-    type: "post",
-  });
+  await shippingMethodStore.getAllShippingMethods({});
   handleClose();
 };
 

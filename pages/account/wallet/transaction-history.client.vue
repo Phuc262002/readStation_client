@@ -1,12 +1,13 @@
 <template>
   <div>
-    <h3 class="font-bold pb-5">Lịch sử giao dịch</h3>
+    <h3 class="font-bold">Lịch sử giao dịch</h3>
     <NuxtLink
       to="/account/wallet"
       class="flex justify-end text-blue-600 text-sm"
       >Trở về</NuxtLink
     >
     <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">
+      <span class="py-5">Các giao dịch bạn đã thực hiện</span>
       <a-table
         :columns="columns"
         :data-source="walletStore?.transactions?.transactions"
@@ -15,7 +16,28 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'amount'">
-            <span>
+            <span
+              v-if="
+                column.key === 'amount' && record.transaction_type === 'deposit'
+              "
+              class="text-tag-text-09 font-bold"
+            >
+              +
+              {{
+                new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(record?.amount)
+              }}
+            </span>
+            <span
+              v-else-if="
+                column.key === 'amount' &&
+                record.transaction_type === 'withdraw'
+              "
+              class="text-tag-text-06 font-bold"
+            >
+              -
               {{
                 new Intl.NumberFormat("vi-VN", {
                   style: "currency",
@@ -36,7 +58,7 @@
               v-else-if="record.transaction_type === 'withdraw'"
               class="text-tag-text-06"
             >
-              Nạp tiền
+              Rút tiền
             </span>
           </template>
           <!--  -->
@@ -82,64 +104,37 @@
             </span>
           </template>
           <!--  -->
-          <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
-              <span>
-                <a-tooltip placement="top">
-                  <template #title>
-                    <span>Xem chi tiết</span>
-                  </template>
-                  <button
-                    @click="getLinkPayment(record.transaction_code)"
-                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                  >
-                    <div class="flex items-center">
-                      <UIcon
-                        class="group-hover:text-[#212122]"
-                        name="i-icon-park-outline-eyes"
-                      />
-                    </div>
-                  </button>
-                </a-tooltip>
-              </span>
-
-              <a-dropdown :trigger="['click']" placement="bottom">
+          <template v-if="column.key === 'action'">
+            <div class="flex gap-2">
+              <a-tooltip placement="top">
+                <template #title>
+                  <span>Thanh toán ngay</span>
+                </template>
                 <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                  @click="() => getLinkPayment(record.transaction_code)"
+                  class="bg-rtgray-50 p-2 rounded-lg flex items-center justify-center"
                 >
                   <UIcon
-                    class="group-hover:text-[#131313]"
-                    name="i-solar-menu-dots-bold"
+                    class="group-hover:text-black"
+                    name="i-charm-arrow-up-right"
                   />
                 </button>
-                <template #overlay>
-                  <a-menu>
-                    <NuxtLink>
-                      <a-menu-item key="2" class="p-4">
-                        <span class="flex items-center gap-2 text-blue-400">
-                          <UIcon
-                            class="group-hover:text-[green]"
-                            name="i-material-symbols-edit-outline"
-                          />
-                          <span>Sửa</span>
-                        </span>
-                      </a-menu-item>
-                    </NuxtLink>
+              </a-tooltip>
 
-                    <a-menu-item key="3" class="p-4">
-                      <span>
-                        <button class="flex items-center gap-1 text-blue-400">
-                          <UIcon
-                            class="group-hover:text-[red] text-lg"
-                            name="i-material-symbols-delete-outline"
-                          />
-                          <span>Xóa</span>
-                        </button>
-                      </span>
-                    </a-menu-item>
-                  </a-menu>
+              <a-tooltip placement="top">
+                <template #title>
+                  <span>Hủy</span>
                 </template>
-              </a-dropdown>
+                <button
+                  @click="showCancelConfirm(record.transaction_code)"
+                  class="bg-rtgray-50 p-2 rounded-lg flex items-center justify-center"
+                >
+                  <UIcon
+                    class="group-hover:text-black"
+                    name="i-material-symbols-close-rounded"
+                  />
+                </button>
+              </a-tooltip>
             </div>
           </template>
         </template>
@@ -157,29 +152,50 @@
 <script setup lang="ts">
 const walletStore = useWalletClientStore();
 const current = ref(1);
-const transaction_type = ref();
-const route = useRoute();
-const transaction_code = route.params.transaction_code;
+const data = ref(null);
+// Update Transaction Status
+const updateStatus = async (id) => {
+  const resData = await walletStore.updateTransactionStatus(id);
+};
+
+// Cancel Transaction
+const cancelTransaction = async (id: any) => {
+  await walletStore.cancelTransaction(id);
+  getData();
+};
+const showCancelConfirm = (id: any) => {
+  Modal.confirm({
+    title: "Bạn đang muốn hủy giao dịch?",
+    content: "Sau khi hủy sẽ không khôi phục lại",
+    okText: "Đồng ý",
+    okType: "danger",
+    cancelText: "Hủy",
+    onOk() {
+      cancelTransaction(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+};
 
 // Get link Payment
-const getLinkPayment = async () => {
-  const resData = await walletStore.getPaymentLink(transaction_code);
-  window.location.href =
-    "https://pay.payos.vn/web/" +
-    resData?.data?._rawValue?.data.transaction_code;
+const getLinkPayment = async (id) => {
+  const resData = await walletStore.getPaymentLink(id);
 
-  console.log("resData", resData.value);
+  window.location.href =
+    "https://pay.payos.vn/web/" + resData?.data?._rawValue?.data.id;
 };
 // render transaction
+const getData = async () => {
+  await walletStore.getAllTransaction({
+    page: current.value,
+    pageSize: 5,
+  });
+};
 useAsyncData(
   async () => {
-    try {
-      await walletStore.getAllTransaction({
-        page: current.value,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await getData();
   },
   {
     immediate: true,

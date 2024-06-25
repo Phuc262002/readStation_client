@@ -154,11 +154,6 @@ const user = ref({
   phone: "",
 });
 
-// Get Profile
-useAsyncData(async () => {
-  await authStore.getProfile();
-});
-
 // Update Profile
 const onSubmit = async () => {
   const resData = await authStore.updateProfile({
@@ -170,7 +165,7 @@ const onSubmit = async () => {
     message.success({
       content: "Chỉnh sửa thành công",
     });
-    data.value = resData?.data?._rawValue?.data;
+    await authStore.getProfile();
   } else {
     resErrors.value = resData.error.value.data.errors;
     console.log("object", resErrors.value);

@@ -8,7 +8,6 @@ export const usePostClientStore = defineStore("post-client-store", {
       isSubmitting: false,
     };
   },
-  persist: true,
   actions: {
     async getAllPost({ page, pageSize, search, status, category_id }: any) {
       const data: any = await useCustomFetch(

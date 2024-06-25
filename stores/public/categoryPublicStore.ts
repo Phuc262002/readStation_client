@@ -8,7 +8,6 @@ export const useCategoryPublicStore = defineStore("category-public-store", {
       isSubmitting: false,
     };
   },
-  persist: true,
   actions: {
     async getAllCategory({ page, pageSize, type }: any) {
       const data: any = await useCustomFetch(
