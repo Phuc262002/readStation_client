@@ -12,6 +12,25 @@
 
     <!-- Đây là phần code mẫu body -->
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
+      <div class="flex justify-between pb-4">
+        <div class="relative w-1/4 md:block hidden">
+          <div class="flex">
+            <input
+              type="text"
+              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
+              placeholder="Tìm kiếm..."
+            />
+          </div>
+          <div
+            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          >
+            <UIcon class="text-gray-500" name="i-material-symbols-search" />
+          </div>
+        </div>
+        <NuxtLink to="/admin/user/add-user" class="">
+          <a-button type="primary">Thêm người dùng</a-button>
+        </NuxtLink>
+      </div>
       <a-table
         :columns="columns"
         :data-source="userStore.userAdmin?.users"
