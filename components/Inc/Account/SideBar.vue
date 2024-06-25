@@ -130,7 +130,7 @@
 
         <a-menu-item key="10">
           <NuxtLink
-            to="/account/post/your-comment"
+            to="/account/wallet/withdraw-money"
             class="flex items-center gap-2"
           >
             Rút tiền
