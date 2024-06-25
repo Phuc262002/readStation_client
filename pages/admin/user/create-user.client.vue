@@ -229,14 +229,14 @@
                 >
                 <a-select
                   size="large"
-                  v-model:value="valuePronvines"
+                  v-model:value="province_id"
                   show-search
                   placeholder="Tỉnh/Thành phố"
-                  :options="provinces"
-                  :filter-option="filterOption"
+                  :options="optionsPronvines"
                   @focus="handleFocus"
                   @blur="handleBlur"
                   @change="handleChangeProvince"
+                  :loading="baseStore.isLoading"
                 >
                 </a-select>
               </div>
@@ -244,14 +244,16 @@
                 <label class="text-sm font-semibold" for="">Quận/ Huyện</label>
                 <a-select
                   size="large"
-                  v-model:value="valueDistricts"
+                  v-model:value="district_id"
                   show-search
                   placeholder="Quận/Huyện"
-                  :options="districts"
+                  :options="optionsDistricts"
                   :filter-option="filterOption"
                   @focus="handleFocus"
                   @blur="handleBlur"
                   @change="handleChangeDistrict"
+                  :disabled="!province_id"
+                  :loading="baseStore.isLoading"
                 >
                 </a-select>
               </div>
@@ -259,14 +261,16 @@
                 <label class="text-sm font-semibold" for="">Phường/ Xã</label>
                 <a-select
                   size="large"
-                  v-model:value="valueWards"
+                  v-model:value="ward_id"
                   show-search
                   placeholder="Phường/Xã"
-                  :options="wards"
+                  :options="optionsWards"
                   :filter-option="filterOption"
                   @focus="handleFocus"
                   @blur="handleBlur"
                   @change="handleChangeWard"
+                  :disabled="!district_id"
+                  :loading="baseStore.isLoading"
                 >
                 </a-select>
               </div>
@@ -276,6 +280,7 @@
                   v-model:value="address.street"
                   class="border p-2 rounded-md"
                   placeholder="Đường"
+                  :disabled="!ward_id"
                 />
               </div>
             </div>
@@ -322,7 +327,7 @@
               </div>
             </div>
           </div>
-          <div class="flex gap-4">
+          <div class="flex gap-2">
             <a-button type="default">Hủy</a-button>
             <a-button html-type="submit" type="primary">Thêm</a-button>
           </div>
@@ -346,9 +351,7 @@ const setGender = (selecteGender) => {
 const authStore = useAuthStore();
 const baseStore = useBaseStore();
 const userStore = useUserStore();
-const provinces = ref([]);
-const districts = ref([]);
-const wards = ref([]);
+
 const user = ref({
   fullname: "",
   dob: "",
@@ -363,17 +366,19 @@ const user = ref({
   student_code: "",
   student_card_expired: "",
   place_of_study: "",
-
 });
-const valuePronvines = ref(undefined);
-const valueDistricts = ref(undefined);
-const valueWards = ref(undefined);
 const address = ref({
+  street: "",
   province: "",
   district: "",
   ward: "",
-  street: "",
 });
+const ward_id = ref(undefined);
+const district_id = ref(undefined);
+const province_id = ref(undefined);
+const optionsPronvines = ref([]);
+const optionsDistricts = ref([]);
+const optionsWards = ref([]);
 
 const imageInfo = ref("");
 const uploadFile = async (file) => {
@@ -416,12 +421,11 @@ const beforeUpload = (file) => {
   }
   return isImage || Upload.LIST_IGNORE;
 };
-useAsyncData(async () => {});
 useAsyncData(async () => {
-  const data = await baseStore.getProvinces();
-  provinces.value = data.data._rawValue.data.map((item) => {
+  await baseStore.getProvinces();
+  optionsPronvines.value = baseStore.province.map((item) => {
     return {
-      value: item.ProvinceID,
+      value: item.id,
       label: item.ProvinceName,
     };
   });
@@ -429,48 +433,36 @@ useAsyncData(async () => {
 
 useAsyncData(
   async () => {
-    const dataDistricts = await baseStore.getDistricts(valuePronvines.value);
-    districts.value = dataDistricts.data._rawValue.data.map((item) => ({
-      value: item.DistrictID,
-      label: item.DistrictName,
-    }));
+    if (province_id.value) {
+      await baseStore.getDistricts(province_id.value);
+      optionsDistricts.value = baseStore.districts.map((item) => ({
+        value: item.id,
+        label: item.DistrictName,
+      }));
+    }
   },
   {
-    watch: valuePronvines,
+    immediate: true,
+    watch: province_id,
   }
 );
 
 useAsyncData(
   async () => {
-    const dataWards = await baseStore.getWards(valueDistricts._rawValue);
-    wards.value = dataWards.data._rawValue.data.map((item) => ({
-      value: item.WardCode,
-      label: item.WardName,
-    }));
+    if (district_id.value) {
+      await baseStore.getWards(district_id.value);
+      optionsWards.value = baseStore.ward.map((item) => ({
+        value: item.id,
+        label: item.WardName,
+      }));
+    }
   },
   {
-    watch: valueDistricts,
+    immediate: true,
+    watch: district_id,
   }
 );
 
-const handleChangeProvince = (province) => {
-  const selectedProvince = provinces.value.find(
-    (item) => item.value === province
-  );
-  address.value.province = selectedProvince ? selectedProvince.label : "";
-};
-
-const handleChangeDistrict = (district) => {
-  const selectedDistrict = districts.value.find(
-    (item) => item.value === district
-  );
-  address.value.district = selectedDistrict ? selectedDistrict.label : "";
-};
-
-const handleChangeWard = (ward) => {
-  const selectedWard = wards.value.find((item) => item.value === ward);
-  address.value.ward = selectedWard ? selectedWard.label : "";
-};
 const handleSubmit = async () => {
   if (
     user.value.citizen_name ||
@@ -540,9 +532,9 @@ const handleSubmit = async () => {
           }
         : null,
     street: address.value.street ? address.value.street : null,
-    province: address.value.province ? address.value.province : null,
-    district: address.value.district ? address.value.district : null,
-    ward: address.value.ward ? address.value.ward : null,
+    province_id: province_id.value ? province_id.value : null,
+    district_id: district_id.value ? district_id.value : null,
+    ward_id: ward_id.value ? ward_id.value : null,
     address_detail:
       address.value.street &&
       address.value.province &&
@@ -560,5 +552,27 @@ const handleSubmit = async () => {
   });
 
   await userStore.createUser(userData);
+};
+const handleChangeProvince = (value) => {
+  province_id.value = value;
+  address.value.province = optionsPronvines.value.find(
+    (item) => item.value === value
+  ).label;
+};
+const handleChangeDistrict = (value) => {
+  district_id.value = value;
+  address.value.district = optionsDistricts.value.find(
+    (item) => item.value === value
+  ).label;
+};
+const handleChangeWard = (value) => {
+  ward_id.value = value;
+  address.value.ward = optionsWards.value.find(
+    (item) => item.value === value
+  ).label;
+};
+
+const filterOption = (input, option) => {
+  return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
 </script>

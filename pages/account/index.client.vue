@@ -8,10 +8,10 @@
     </div>
     <div class="flex gap-6">
       <div class="w-1/2">
-        <AccountUpdateAccountManager />
+        <AccountManagerUpdate />
       </div>
       <div class="w-1/2">
-        <AccountSocialAccountManager />
+        <AccountManagerSocial />
       </div>
     </div>
   </div>

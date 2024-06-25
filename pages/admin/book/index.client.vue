@@ -9,17 +9,71 @@
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <input type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..." />
+        <div class="w-2/3 flex items-center gap-2">
+          <div class="relative w-1/2 md:block hidden">
+            <div class="flex">
+              <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10" v-model:value="valueSearch">
+                <template #prefix>
+                  <SearchOutlined />
+                </template>
+              </a-input>
+            </div>
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <UIcon class="text-gray-500" name="i-material-symbols-search" />
+            </div>
           </div>
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
+          <a-button size='large'>
+            <a-dropdown :trigger="['click']">
+              <a class="flex gap-3 items-center" @click.prevent>
+                Trạng thái
+                <DownOutlined />
+              </a>
+              <template #overlay>
+                <a-menu class="">
+                  <a-menu-item  @click="statusValue('active')">Hoạt động</a-menu-item>
+                  <a-menu-item  @click="statusValue('inactive')">Không hoạt động</a-menu-item>
+                  <a-menu-item  @click="statusValue('deleted')">Đã xóa</a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
+          </a-button>
+          <a-button size='large'>
+            <a-dropdown :trigger="['click']">
+              <a class="flex gap-3 items-center" @click.prevent>
+                Tác giả
+                <DownOutlined />
+              </a>
+              <template #overlay>
+                <div>
+                  <a-menu>
+                    <a-menu-item v-for="(items, index) in authorStore?.AuthorAdmin?.authors" :key="index">
+                      <div @click="authorValue(items?.id)">{{ items.author }}</div>
+                    </a-menu-item>
+                  </a-menu>
+                </div>
+              </template>
+            </a-dropdown>
+          </a-button>
+          <a-button size='large'>
+            <a-dropdown :trigger="['click']">
+              <a class="flex gap-3 items-center" @click.prevent>
+                Danh mục
+                <DownOutlined />
+              </a>
+              <template #overlay>
+                <div>
+                  <a-menu>
+                    <a-menu-item v-for="(items, index) in categoryStore?.categoriesAdmin?.categories" :key="index">
+                      <div @click="categoryValue(items.id)">{{ items.name }}</div>
+                    </a-menu-item>
+                  </a-menu>
+                </div>
+
+              </template>
+            </a-dropdown>
+          </a-button>
         </div>
-        <NuxtLink to="/admin/book/create-book" class="">
+        <NuxtLink to="/admin/book/create-book">
           <a-button type="primary">Thêm sách</a-button>
         </NuxtLink>
       </div>
@@ -123,12 +177,42 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
+const valueSearch = ref("");
+const queryStatus = ref("");
+const statusValue = (value: string) => {
+  queryStatus.value = value;
+};
 const allAdminBooks = useBookStore();
+const categoryStore = useCategoryStore();
+const categoryQuery = ref('');
+useAsyncData(async () => {
+  await categoryStore.getAllCategory({
+    type: 'book'
+  });
+},
+);
+const categoryValue = (id: string) => {
+  categoryQuery.value = id;
+};
+const authorStore = useAuthorStore();
+const authorQuery = ref('');
+useAsyncData(async () => {
+  await authorStore.getAllAuthor({});
+},
+);
+const authorValue = (id: string) => {
+  authorQuery.value = id;
+};
 const current = ref(1);
 const getAllAdminBooks = async () => {
   try {
+
     const data: any = await allAdminBooks.getAdminBooks({
       page: current.value,
+      search: valueSearch.value,
+      category_id: categoryQuery.value,
+      author_id: authorQuery.value,
+      status: queryStatus.value
     });
     return data;
   } catch (error) {
@@ -141,7 +225,7 @@ useAsyncData(async () => {
 },
   {
     immediate: true,
-    watch: [current],
+    watch: [current, valueSearch, categoryQuery, authorQuery,queryStatus]
   }
 );
 const onDelete = async (id: string) => {

@@ -44,7 +44,7 @@
                                 <div class="flex justify-between items-center">
                                     <h1 class="font-bold text-xl">{{ getFeauturedBooks?.getbookFeatured[0]?.book_detail[0]?.price }}</h1>
                                     <button
-                                        class="bg-rtprimary hover:bg-orange-300 w-1/2 h-11 rounded-lg text-white">Thuê
+                                        class="bg-orange-500 hover:bg-orange-600 w-1/2 h-11 rounded-lg text-white">Thuê
                                         Ngay</button>
                                 </div>
                             </div>

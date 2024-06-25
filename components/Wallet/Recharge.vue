@@ -81,7 +81,6 @@
   </a-modal>
 </template>
 <script setup>
-import { message, Upload } from "ant-design-vue";
 
 const props = defineProps({
   openModalRecharge: Boolean,

@@ -8,72 +8,125 @@
           Danh sách người dùng
         </h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <!-- Đây là phần code mẫu body -->
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
+      <div class="flex justify-between pb-4">
+        <div class="relative w-1/4 md:block hidden">
+          <div class="flex">
+            <input
+              type="text"
+              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
+              placeholder="Tìm kiếm..."
+            />
+          </div>
+          <div
+            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          >
+            <UIcon class="text-gray-500" name="i-material-symbols-search" />
+          </div>
+        </div>
+
+        <NuxtLink to="/admin/user/create-user" class="">
+          <a-button type="primary">Thêm người dùng</a-button>
+        </NuxtLink>
+      </div>
       <a-table
         :columns="columns"
         :data-source="userStore.userAdmin?.users"
+        :loading="userStore.isLoading"
       >
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'avatar'">
-            <img
-              :src="record.avatar"
-              alt="Avatar"
-              style="width: 50px; height: 50px"
+            <a-image
+              class="w-5 h-5 rounded-full"
+              :src="record.avatar.replace('=s96-c', '')"
             />
           </template>
-          <template v-if="column.dataIndex === 'name'">
-            <a>{{ text }}</a>
+          <template v-if="column.dataIndex === 'user_info'">
+            <p class="p-0">
+              {{ record.fullname }}
+            </p>
+            <p class="p-0">
+              {{ record.email }}
+            </p>
+            <p class="p-0">
+              {{ record.phone }}
+            </p>
+          </template>
+          <template v-if="column.key === 'address'">
+            <span>
+              {{ record.address_detail }}
+            </span>
           </template>
           <template v-else-if="column.key === 'role'">
-            <span>
-              <a-tag
-                :bordered="false"
-                :color="record.role === 'active' ? 'green' : 'volcano'"
-              >
-                {{ record.role.name }}
-              </a-tag>
-            </span>
+            <a-tag :bordered="false" v-if="record.role.name === UserRole.ADMIN">
+              Quản trị viên
+            </a-tag>
+            <a-tag :bordered="false" v-if="record.role.name === UserRole.USER">
+              Người dùng
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.role.name === UserRole.STUDENT"
+            >
+              Sinh viên
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.role.name === UserRole.MANAGER"
+            >
+              Thủ thư
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'google_id'">
             <IconTick v-if="record.google_id" />
             <IconMul v-else />
           </template>
+          <template v-else-if="column.key === 'has_wallet'">
+            <IconTick v-if="record.has_wallet" />
+            <IconMul v-else />
+          </template>
+          <template v-else-if="column.key === 'citizen_identity_card'">
+            <IconTick v-if="record.citizen_identity_card" />
+            <IconMul v-else />
+          </template>
+
+          <template v-else-if="column.key === 'status'">
+            <a-tag
+              :bordered="false"
+              v-if="record.status === UserStatus.ACTIVE"
+              color="green"
+            >
+              Công khai
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-else="record.status === UserStatus.INACTIVE"
+              color="yellow"
+            >
+              Đang ẩn
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-else="record.status === UserStatus.DELETED"
+              color="red"
+            >
+              Đã xóa
+            </a-tag>
+          </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top">
+              <a-tooltip placement="top" color="black">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
                 <button
-                  @click="showModal"
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                  @click="showModalDetail(record.id)"
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                 >
-                  <div>
-                    <UIcon
-                      class="group-hover:text-[#212122]"
-                      name="i-icon-park-outline-eyes"
-                    />
-
-                    <a-modal v-model:open="open" title="Sửa" width="70%">
-                      <div class="flex justify-between gap-4">
-                        <div class="grow">
-                          <h1 class="font-bold text-xl">Bài viết số 1</h1>
-                        </div>
-                      </div>
-                      <div
-                        class="flex border border-transparent border-b-gray-300 pb-2"
-                      >
-                        <div class="w-1/5">
-                          <h4 class="font-bold">Tên người viết</h4>
-                        </div>
-                        <div class="w-4/5">Huỳnh Tuấn Kiệt</div>
-                      </div>
-                    </a-modal>
-                  </div>
+                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
                 </button>
               </a-tooltip>
 
@@ -88,9 +141,9 @@
                 </button>
                 <template #overlay>
                   <a-menu>
-                    <NuxtLink to="">
+                    <NuxtLink :to="`/admin/user/edit/${record.id}`">
                       <a-menu-item key="2" class="p-4">
-                        <span class="flex items-center gap-2 text-blue-400">
+                        <span class="flex items-center gap-2">
                           <UIcon
                             class="group-hover:text-[green]"
                             name="i-material-symbols-edit-outline"
@@ -104,7 +157,7 @@
                       <span>
                         <button
                           @click="showDeleteConfirm(record?.id)"
-                          class="flex items-center gap-1 text-blue-400"
+                          class="flex items-center gap-1"
                         >
                           <UIcon
                             class="group-hover:text-[red] text-lg"
@@ -121,12 +174,21 @@
           </template>
         </template>
       </a-table>
+      <UserAdminDetail
+        :openModalDetail="openModalDetail"
+        :openModal="CloseModalDetail"
+        :userDetailId="userDetailId"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { UserStatus } from "~/types/admin/user";
+import { UserRole } from "~/types/admin/user";
 const userStore = useUserStore();
+const userDetailId = ref<string>();
+const openModalDetail = ref<boolean>(false);
 useAsyncData(async () => {
   await userStore.getUser({});
 });
@@ -148,25 +210,37 @@ const showDeleteConfirm = (id: string) => {
 };
 const columns = [
   {
-    title: "Hình ảnh",
+    title: "Ảnh đại diện",
     dataIndex: "avatar",
     key: "avatar",
+    width: "120px",
   },
   {
-    title: "Họ tên",
-    dataIndex: "fullname",
-    key: "fullname",
-  },
-
-  {
-    title: "Email",
-    dataIndex: "email",
-    key: "email",
+    title: "Thông tin liên hệ",
+    dataIndex: "user_info",
+    key: "user_info",
+    width: "200px",
   },
   {
-    title: "Số điện thoại",
-    dataIndex: "phone",
-    key: "phone",
+    title: "Địa chỉ",
+    dataIndex: "address",
+    key: "address",
+    width: "200px",
+  },
+  {
+    title: "Ví tài khoản",
+    dataIndex: "has_wallet",
+    key: "has_wallet",
+  },
+  {
+    title: "Vai trò",
+    dataIndex: "role",
+    key: "role",
+  },
+  {
+    title: "Xác thực tài khoản",
+    dataIndex: "citizen_identity_card",
+    key: "citizen_identity_card",
   },
   {
     title: "Google",
@@ -174,9 +248,9 @@ const columns = [
     key: "google_id",
   },
   {
-    title: "Vai trò",
-    dataIndex: "role",
-    key: "role",
+    title: "Trạng thái",
+    dataIndex: "status",
+    key: "status",
   },
   {
     title: "Hành động",
@@ -185,18 +259,13 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    key: "1",
-    avatar:
-      "https://thanhnien.mediacdn.vn/Uploaded/nhutnq/2022_10_02/220928180903-03-dall-e-ai-2189.jpg",
-    fullname: "John Brown",
-    gender: "Nam",
-    email: "nguyenvana@gmail.com",
-    phone: "0123456789",
-    role: "Admin",
-  },
-];
+const CloseModalDetail = () => {
+  openModalDetail.value = false;
+};
+const showModalDetail = (id) => {
+  openModalDetail.value = true;
+  userDetailId.value = id;
+};
 const open = ref<boolean>(false);
 const showModal = () => {
   open.value = true;

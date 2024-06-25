@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model:open="props.openModalEdit" title="Sửa kệ sách" :footer="null" :closable="false">
+  <a-modal v-model:open="props.openModalEdit" title="Sửa kệ sách" :footer="null" :onCancel="handleClose">
     <div class="bg-white py-2">
       <form @submit.prevent="updateShelves">
         <div class="grid grid-row-3 gap-5">
@@ -36,9 +36,9 @@
                 @change="handleChange"></a-select>
             </div>
           </div>
-          <div class="flex justify-end items-end gap-4">
-            <a-button @click="handleClose" type="primary" danger html-type="button" class="mt-4">Hủy</a-button>
-            <a-button type="primary" html-type="submit" class="mt-4">Cập nhật</a-button>
+          <div class="flex justify-end items-end gap-2">
+            <a-button @click="handleClose" >Hủy</a-button>
+            <a-button type="primary" html-type="submit">Cập nhật</a-button>
           </div>
         </div>
       </form>

@@ -134,6 +134,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 const open = ref<boolean>(false);
 const commentStore = useCommentStore();
+const commentGeneralStore = useGeneralCommentStore();
 useAsyncData(async () => {
   await commentStore.getAllComment({});
 });
@@ -153,12 +154,12 @@ const showDeleteConfirm = (comment_id: string) => {
   });
 };
 const onDelete = async (comment_id: string) => {
-  await commentStore.deleteComment({ comment_id: comment_id });
+  await commentGeneralStore.deleteComment({ comment_id: comment_id });
   await commentStore.getAllComment({});
 };
 
 const onRecover = async (comment_id: string) => {
-  await commentStore.updateComment({
+  await commentGeneralStore.updateComment({
     comment_id: comment_id,
     status: "hidden",
   });

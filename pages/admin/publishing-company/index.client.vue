@@ -8,7 +8,6 @@
           Tất cả nhà xuất bản
         </h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
@@ -71,55 +70,63 @@
               :src="record.logo_company"
             />
           </template>
+          <template v-else-if="column.key === 'description'">
+            <p class="p-0">
+              {{ record.description }}
+            </p>
+          </template>
           <template v-else-if="column.key === 'status'">
             <a-tag
-                :bordered="false"
-                v-if="record.status === 'active'"
-                color="green"
-              >
-               Công khai
-              </a-tag>
+              :bordered="false"
+              v-if="record.status === 'active'"
+              class="bg-tag-bg-09 text-tag-text-09"
+            >
+              Công khai
+            </a-tag>
 
-              <a-tag
-                :bordered="false"
-                v-else="record.status === 'inactive'"
-                color="red">
-                Đang ẩn
-              </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'inactive'"
+              class="bg-tag-bg-07 text-tag-text-07"
+            >
+              Đang ẩn
+            </a-tag>
 
-              <a-tag
-                :bordered="false"
-                v-else="record.status === 'deleted'"
-                color="red">
-                Đã xóa
-              </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'deleted'"
+              class="bg-tag-bg-06 text-tag-text-06"
+            >
+              Đã xóa
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top" color="green">
+              <a-tooltip placement="top">
                 <template #title>
                   <span>Sửa</span>
                 </template>
                 <button
                   @click="showModalEdit(record?.id)"
-                  class="group hover:bg-[green]/20 bg-[#e4e1e1] flex justify-center items-center cursor-pointer w-8 h-8 rounded-md"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
                   <UIcon
-                    class="group-hover:text-[green]"
+                    class="text-lg"
                     name="i-material-symbols-edit-outline"
                   />
                 </button>
               </a-tooltip>
-              <a-tooltip placement="top" color="red">
+              <a-tooltip placement="top">
                 <template #title>
                   <span>Xóa</span>
                 </template>
                 <button
                   @click="showDeleteConfirm(record?.id)"
-                  class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                  s
                 >
                   <UIcon
-                    class="group-hover:text-[red]"
+                    class="text-lg"
                     name="i-material-symbols-delete-outline"
                   />
                 </button>
@@ -142,9 +149,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-const baseStore = useBaseStore();
-
 import { Modal } from "ant-design-vue";
+const baseStore = useBaseStore();
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const publishingCompanyId = ref<number>();
@@ -185,17 +191,18 @@ const showDeleteConfirm = (id: string) => {
 
 const columns = [
   {
+    title: "Hình ảnh",
+    dataIndex: "logo_company",
+    key: "logo_company",
+    width: "100px",
+  },
+  {
     name: "Name",
     dataIndex: "name",
     key: "name",
   },
   {
-    title: "Hình ảnh",
-    dataIndex: "logo_company",
-    key: "logo_company",
-  },
-  {
-    title: "Mô tả",
+    title: "Thông tin",
     dataIndex: "description",
     key: "description",
   },

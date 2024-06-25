@@ -6,6 +6,16 @@
                 <div>
                     <p>{{ title?.description }}</p>
                 </div>
+                <div class="flex justify-end gap-2">
+                    <button @click="swiperPrevSlide"
+                        class="bg-white border border-gray-300 rounded-full w-10 h-10 flex justify-center items-center -top-10">
+                        <ArrowLeftOutlined />
+                    </button>
+                    <button @click="swiperNextSlide"
+                        class="bg-white border border-gray-300 rounded-full w-10 h-10 flex justify-center items-center -top-10">
+                        <ArrowRightOutlined />
+                    </button>
+                </div>
                 <swiper :slidesPerView="4" :spaceBetween="1" :pagination="{
                     clickable: true,
                 }" :breakpoints="{
@@ -21,18 +31,20 @@
                         slidesPerView: 4,
                         spaceBetween: 5,
                     },
-                }" :modules="modules" class="mySwiper">
-                    <swiper-slide v-for="(items, index) in data" :key="items.id">   
-                            <img class="rounded-lg" :src="items.poster" alt="">
+                }" class="mySwiper" @swiper="onSwiper" :loop="true" ref="swiperRef">
+                    <swiper-slide v-for="(items, index) in data" :key="items.id">
+                        <img class="rounded-lg" :src="items.poster" alt="">
                     </swiper-slide>
                 </swiper>
+
+
             </div>
         </div>
     </div>
 </template>
 <script>
+import { ref } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 
@@ -42,20 +54,30 @@ export default {
         SwiperSlide,
     },
     setup() {
+        const swiperInstance = ref();
+
+        function onSwiper(swiper) {
+            swiperInstance.value = swiper;
+        }
+        const swiperNextSlide = () => {
+            swiperInstance.value.slideNext();
+        };
+        const swiperPrevSlide = () => {
+            swiperInstance.value.slidePrev();
+        };
         return {
-            modules: [Pagination],
+            swiperPrevSlide,
+            swiperNextSlide,
+            onSwiper,
         };
     },
     props: ["title", "data"],
-    setup() {
-        return {}
-    }
 };
 </script>
 <style scoped>
 :deep(.swiper) {
     width: 100%;
-    height: 100%;
+    padding: 2px;
     cursor: pointer;
 }
 
@@ -86,7 +108,6 @@ const getDataRecomended = async () => {
     feauturedRecommended.value = response?.data?._rawValue?.data;
 }
 const feauturedLastest = ref({})    
-console.log("🚀 ~ feauturedLastest:", feauturedLastest)
 const getDataLastest = async () => {
     try {
         const data = await recomendedBooks.getLastestBook();

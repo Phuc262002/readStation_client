@@ -8,7 +8,12 @@
   >
     <NuxtLink to="/">
       <div class="p-5">
-        <img src="../../../assets/images/Logo.svg" alt="" />
+        <img
+          v-if="props.collapsed"
+          src="/assets/images/logo_small.svg"
+          alt="logo"
+        />
+        <img v-else src="/assets/images/logo_header.svg" alt="logo" />
       </div>
     </NuxtLink>
 
@@ -43,13 +48,7 @@
           >Thêm người dùng</a-menu-item
         >
         <a-menu-item key="5" @click="navigateTo('/admin/user/await-user')"
-          >Tài khoản chờ duyệt</a-menu-item
-        >
-        <a-menu-item key="7" @click="navigateTo('/admin/user/invite-user')"
-          >Thống kê người giới thiệu</a-menu-item
-        >
-        <a-menu-item key="6" @click="navigateTo('/admin/user/trash-user')"
-          >Thùng rác</a-menu-item
+          >Tài khoản chờ xác thực</a-menu-item
         >
       </a-sub-menu>
       <a-sub-menu key="sub12">
@@ -65,10 +64,14 @@
         <a-menu-item key="25" @click="navigateTo('/admin/wallet')"
           >Tất cả ví</a-menu-item
         >
-        <a-menu-item key="24" @click="navigateTo('/admin/wallet/create-wallet')"
+        <a-menu-item
+          key="82"
+          @click="navigateTo('/admin/wallet/authentication-wallet')"
+          >Xác thực ví</a-menu-item
+        >
+        <a-menu-item key="24" @click="navigateTo('/admin/wallet/frozen-wallet')"
           >Đóng băng ví</a-menu-item
         >
-        
       </a-sub-menu>
       <a-sub-menu key="sub3">
         <template #title>
@@ -152,7 +155,6 @@
         <a-menu-item key="42" @click="navigateTo('/admin/comment')"
           >Tất cả bình luận</a-menu-item
         >
-        
       </a-sub-menu>
       <a-sub-menu key="sub6">
         <template #title>
@@ -246,6 +248,25 @@
         >
         <a-menu-item key="23" @click="navigateTo('/admin/author')"
           >Tất cả tác giả</a-menu-item
+        >
+      </a-sub-menu>
+      <a-sub-menu key="sub23">
+        <template #title>
+          <span class="flex items-center gap-2">
+            <UIcon
+              name="i-ant-design-user-outlined"
+              :class="props.collapsed && 'anticon anticon-desktop'"
+            />
+            <span>Phương thức vận chuyển </span>
+          </span>
+        </template>
+        <a-menu-item key="36" @click="navigateTo('/admin/shipping-methods')"
+          >Tất cả pt vận chuyển</a-menu-item
+        >
+        <a-menu-item
+          key="37"
+          @click="navigateTo('/admin/shipping-methods/trash-shipping-methods')"
+          >Thùng rác</a-menu-item
         >
       </a-sub-menu>
 

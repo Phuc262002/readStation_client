@@ -12,11 +12,11 @@ export default defineNuxtRouteMiddleware((to, from) => {
     to.fullPath.startsWith("/verify-email") ||
     to.fullPath.startsWith("/verify-code") ||
     to.fullPath.startsWith("/send-email") ||
-    to.fullPath.startsWith("/account/transaction-success") ||
-    to.fullPath.startsWith("/account/transaction-error")
+    to.fullPath.startsWith("/account/wallet/transaction-success") ||
+    to.fullPath.startsWith("/account/wallet/transaction-error")
   ) {
     layout = "none-default";
-  } else if (to.fullPath.startsWith("/account/checkout")) {
+  } else if (to.fullPath.startsWith("/account/manager/checkout")) {
     layout = "client-default";
   } else if (to.fullPath.startsWith("/account")) {
     layout = "account-default";

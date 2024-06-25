@@ -129,11 +129,13 @@
                       name="i-material-symbols-shopping-bag-outline"
                     />
                   </div>
-                  <div
-                    class="absolute top-0 right-0 bg-red-500 text-white w-4 h-4 rounded-full flex justify-center items-center text-xs"
-                  >
-                    {{ cartStore?.carts ? cartStore?.carts?.length : 0 }}
-                  </div>
+                  <ClientOnly>
+                    <div
+                      class="absolute top-0 right-0 bg-red-500 text-white w-4 h-4 rounded-full flex justify-center items-center text-xs"
+                    >
+                      {{ cartStore?.carts ? cartStore?.carts?.length : 0 }}
+                    </div>
+                  </ClientOnly>
                 </button>
               </NuxtLink>
             </div>

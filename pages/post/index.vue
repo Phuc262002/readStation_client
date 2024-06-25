@@ -1,21 +1,28 @@
 <template>
   <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
-    <div class="pb-12">
-      <BlogBanner :post="postStore.posts?.posts[0]" />
+    <div v-if="postStore.isLoading">
+      <div class="flex justify-center my-10">
+        <a-spin size="large" />
+      </div>
     </div>
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-3">
-      <BlogItem
-        v-for="(post, index) in postStore.posts.posts.slice(1)"
-        :key="post.id || index"
-        :post="post"
-      />
-    </div>
-    <div class="flex justify-center items-center mt-8">
-      <div>
-        <a-button
-         type="primary"
-          >Xem thêm</a-button
-        >
+    <div v-else v-if="postStore.posts?.posts">
+      <div class="pb-12">
+        <BlogBanner :post="postStore.posts?.posts[0]" />
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-3">
+        <BlogItem
+          v-for="(post, index) in postStore.posts?.posts.slice(1)"
+          :key="post.id || index"
+          :post="post"
+        />
+      </div>
+      <div
+        v-if="postStore.posts?.totalPages > 1"
+        class="flex justify-center items-center mt-8"
+      >
+        <div>
+          <a-button @click="pageChange" type="primary">Xem thêm</a-button>
+        </div>
       </div>
     </div>
   </div>
@@ -23,17 +30,29 @@
 
 <script setup>
 import { ref } from "vue";
-
-const postStore = usePostStore();
-
-useAsyncData(async () => {
-  try {
-    const data = await postStore.getPost({});
-    postStore.posts = data.data._value?.data;
-  } catch (error) {
-    console.error(error);
+const page = ref(1);
+const postStore = usePublicPostStore();
+const pageChange = () => {
+  page.value++;
+  console.log(page.value);
+};
+useAsyncData(
+  async () => {
+    try {
+      const data = await postStore.getPosts({
+        page: 1,
+        pageSize: 9 * page.value,
+      });
+      postStore.posts = data.data._value?.data;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  {
+    immediate: true,
+    watch: [page],
   }
-});
+);
 
 useSeoMeta({
   title: "Blog",

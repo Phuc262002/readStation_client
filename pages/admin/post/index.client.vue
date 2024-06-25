@@ -6,7 +6,7 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả bài viết</h5>
       </div>
-      <CommonBreadcrumAdmin />
+      
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
@@ -71,68 +71,62 @@
           <template v-else-if="column.key === 'status'">
             <a-tag
               :bordered="false"
-              v-if="record.status === 'wating_approve'"
-              color="yellow"
+              v-if="record.status === PostStatus.WATING_APPROVE"
+              class="bg-tag-bg-01 text-tag-text-01"
             >
               Đang chờ duyệt
             </a-tag>
 
             <a-tag
               :bordered="false"
-              v-else-if="record.status === 'draft'"
-              color="black"
+              v-if="record.status === PostStatus.DRAFT"
+              class="bg-tag-bg-08 text-tag-text-08"
             >
               Bản nháp
             </a-tag>
             <a-tag
               :bordered="false"
-              v-else-if="record.status === 'published'"
-              color="green"
+              v-if="record.status === PostStatus.PUBLISHED"
+              class="bg-tag-bg-09 text-tag-text-09"
             >
-              Công khai
+              Đang hoạt động
             </a-tag>
 
             <a-tag
               :bordered="false"
-              v-else-if="record.status === 'hidden'"
-              color="#B2B6BB"
+              v-if="record.status === PostStatus.HIDDEN"
+              class="bg-tag-bg-07 text-tag-text-07"
             >
               Đã ẩn
             </a-tag>
 
             <a-tag
               :bordered="false"
-              v-else-if="record.status === 'deleted'"
-              color="red"
+              v-if="record.status === PostStatus.DELETED"
+              class="bg-tag-bg-06 text-tag-text-06"
             >
               Đã xóa
             </a-tag>
 
             <a-tag
               :bordered="false"
-              v-else-if="record.status === 'approve_canceled'"
-              color="cyan">
-              Không duyệt
+              v-if="record.status === PostStatus.APPROVE_CANCELED"
+              class="bg-tag-bg-11 text-tag-text-11"
+            >
+              Từ chối
             </a-tag>
-
-           
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top">
+              <a-tooltip placement="top" color="black">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
                 <button
                   @click="showModalDetail(record.id)"
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                 >
-                  <div>
-                    <UIcon
-                      class="group-hover:text-[#212122]"
-                      name="i-icon-park-outline-eyes"
-                    />
-                  </div>
+                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
                 </button>
               </a-tooltip>
 
@@ -198,7 +192,11 @@
 </template>
 <script lang="ts" setup>
 import { Modal } from "ant-design-vue";
+import { PostStatus } from "~/types/admin/post";
+
+const postGeneralStore = useGeneralPostStore();
 const postStore = usePostStore();
+
 const postDetailId = ref<number>();
 const openModalDetail = ref<boolean>(false);
 const current = ref(1);
@@ -215,7 +213,7 @@ useAsyncData(
 );
 
 const onDelete = async (id: string) => {
-  await postStore.deletePost(id);
+  await postGeneralStore.deletePost(id);
   await postStore.getAllPost({});
 };
 const showDeleteConfirm = (id: string) => {
@@ -243,19 +241,18 @@ const columns = [
     title: "Tên bài viết",
     dataIndex: "title",
     key: "title",
-    width: "300px",
+    width: "250px",
   },
-  {
-    title: "Tiêu đề",
-    dataIndex: "summary",
-    key: "summary",
-    width: "200px",
-  },
+  // {
+  //   title: "Tiêu đề",
+  //   dataIndex: "summary",
+  //   key: "summary",
+  //   width: "200px",
+  // },
   {
     title: "Người đăng",
     dataIndex: "user_id",
     key: "user_id",
-    width: "200px",
   },
 
   {

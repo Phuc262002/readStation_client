@@ -15,12 +15,15 @@
         />
         <button
           class="border-none absolute bottom-0 left-[calc(50%+25px)] -translate-x-1/2 w-6 h-6 bg-white rounded-full flex items-center justify-center"
-          @click="showModalAdd"
+          @click="showModalEdit"
         >
           <CommonAddImg />
         </button>
       </div>
-      <AvatarAdd :openModalAdd="openModalAdd" :openModal="CloseModalAdd" />
+      <AvatarEdit
+        :openModalEdit="openModalEdit"
+        :closeModalEdit="closeModalEdit"
+      />
 
       <div class="mt-[17px] mb-[23px]">
         <h2 class="font-bold">{{ authStore?.authUser?.user?.fullname }}</h2>
@@ -38,7 +41,7 @@
     >
       <a-sub-menu key="sub1">
         <template #title>
-          <span class="flex items-center gap-1">
+          <span class="flex items-center gap-2">
             <UIcon name="i-ant-design-user-outlined" class="text-base" />
             <span>Thông tin cá nhân</span>
           </span>
@@ -50,31 +53,39 @@
         </a-menu-item>
 
         <a-menu-item key="3">
-          <NuxtLink to="/account/account-setting"> Cài đặt tài khoản </NuxtLink>
+          <NuxtLink to="/account/manager/account-setting">
+            Cài đặt tài khoản
+          </NuxtLink>
         </a-menu-item>
       </a-sub-menu>
 
       <a-sub-menu key="sub2">
         <template #title>
-          <span class="flex items-center gap-1">
-            <UIcon name="i-material-symbols-post-add" class="text-base" />
+          <span class="flex items-center gap-2">
+            <UIcon name="i-material-symbols-light-post-add" class="text-base" />
             <span>Đóng góp bài viết</span>
           </span>
         </template>
         <a-menu-item key="4">
-          <NuxtLink to="/account/posts-manager" class="flex items-center gap-2">
+          <NuxtLink to="/account/post" class="flex items-center gap-2">
             Bài viết của bạn
           </NuxtLink>
         </a-menu-item>
 
         <a-menu-item key="5">
-          <NuxtLink to="/account/rep-comment" class="flex items-center gap-2">
+          <NuxtLink
+            to="/account/post/rep-comment"
+            class="flex items-center gap-2"
+          >
             Trả lời bình luận
           </NuxtLink>
         </a-menu-item>
 
         <a-menu-item key="6">
-          <NuxtLink to="/account/your-comment" class="flex items-center gap-2">
+          <NuxtLink
+            to="/account/post/your-comment"
+            class="flex items-center gap-2"
+          >
             Bài viết đã bình luận
           </NuxtLink>
         </a-menu-item>
@@ -87,7 +98,7 @@
           authStore.authUser?.user?.role?.name === 'manager'
         "
       >
-        <a-menu-item key="11">
+        <a-menu-item key="7">
           <span class="flex items-center gap-2">
             <UIcon name="i-material-symbols-light-webhook-rounded" />
             <span>Quản trị Website</span>
@@ -95,28 +106,56 @@
         >
       </NuxtLink>
 
-      <a-menu-item key="7">
-        <NuxtLink to="/account/credit-manager" class="flex items-center gap-2">
-          <UIcon name="i-tabler-credit-card-pay" class="text-base" />
-          <span>Quản lý ví</span>
-        </NuxtLink>
-      </a-menu-item>
+      <a-sub-menu key="sub3">
+        <template #title>
+          <span class="flex items-center gap-2">
+            <UIcon name="i-tabler-credit-card-pay" class="text-base" />
+            <span>Quản lý ví</span>
+          </span>
+        </template>
+        <a-menu-item key="8">
+          <NuxtLink to="/account/wallet" class="flex items-center gap-2">
+            Thông tin ví
+          </NuxtLink>
+        </a-menu-item>
 
-      <a-menu-item key="8">
-        <NuxtLink to="/account/order-manager" class="flex items-center gap-2">
+        <a-menu-item key="9">
+          <NuxtLink
+            to="/account/wallet/transaction-history"
+            class="flex items-center gap-2"
+          >
+            Lịch sử giao dịch
+          </NuxtLink>
+        </a-menu-item>
+
+        <a-menu-item key="10">
+          <NuxtLink
+            to="/account/wallet/withdraw-money"
+            class="flex items-center gap-2"
+          >
+            Rút tiền
+          </NuxtLink>
+        </a-menu-item>
+      </a-sub-menu>
+
+      <a-menu-item key="11">
+        <NuxtLink to="/account/order" class="flex items-center gap-2">
           <UIcon name="i-bi-basket" class="text-base" />
           <span>Quản lý đơn hàng</span>
         </NuxtLink>
       </a-menu-item>
 
-      <a-menu-item key="9">
-        <NuxtLink to="/account/change-password" class="flex items-center gap-2">
+      <a-menu-item key="12">
+        <NuxtLink
+          to="/account/manager/change-password"
+          class="flex items-center gap-2"
+        >
           <UIcon name="i-carbon-password" class="text-base" />
           <span>Đổi mật khẩu</span>
         </NuxtLink>
       </a-menu-item>
 
-      <a-menu-item key="10" @click="logout">
+      <a-menu-item key="13" @click="logout">
         <NuxtLink to="/" class="flex items-center gap-2">
           <UIcon name="i-tabler-logout-2" class="text-base" />
           <span>Đăng xuất</span>
@@ -132,7 +171,7 @@ const props = defineProps<{
 }>();
 const selectedKeys = ref<string[]>(["sub1"]);
 const changeAvatarRef = ref(null);
-const openModalAdd = ref<boolean>(false);
+const openModalEdit = ref<boolean>(false);
 
 //get API
 const data = ref(null);
@@ -141,10 +180,10 @@ const logout = async () => {
   await authStore.logout();
 };
 
-const showModalAdd = () => {
-  openModalAdd.value = true;
+const showModalEdit = () => {
+  openModalEdit.value = true;
 };
-const CloseModalAdd = () => {
-  openModalAdd.value = false;
+const closeModalEdit = () => {
+  openModalEdit.value = false;
 };
 </script>

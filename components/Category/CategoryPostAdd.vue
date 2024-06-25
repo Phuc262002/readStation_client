@@ -21,19 +21,7 @@
           </div>
         </div>
 
-        <div class="pb-4">
-          <label for="email" class="block text-sm font-medium text-gray-700">
-            Nổi bật
-          </label>
-          <div class="mt-1">
-            <a-space direction="vertical">
-              <a-switch v-model:checked="category.is_featured">
-                <template #checkedChildren><check-outlined /></template>
-                <template #unCheckedChildren><close-outlined /></template>
-              </a-switch>
-            </a-space>
-          </div>
-        </div>
+      
 
         <div>
           <label for="email" class="block text-sm font-medium text-gray-700">
@@ -104,7 +92,6 @@ const category = ref({
   image: "",
   name: "",
   description: "",
-  is_featured: false,
   type: "post",
 });
 
@@ -165,7 +152,7 @@ const onSubmit = async () => {
     image: imageInfo.value?.url,
     name: category.value.name,
     description: category.value.description,
-    is_featured: category.value.is_featured,
+
     type: "post",
   });
   await categoryStore.getAllCategory({
@@ -175,7 +162,7 @@ const onSubmit = async () => {
     name: "",
     description: "",
     image: "",
-    is_featured: false,
+
   };
   if (fileList.value.length > 0) {
     fileList.value = [];

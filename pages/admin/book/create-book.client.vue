@@ -14,12 +14,12 @@
                     <!-- Sách -->
                     <div class="flex flex-col gap-5">
                         <div class="text-xl font-bold">Sách</div>
-                        <div class="flex flex-col gap-2">
-
+                        <div class="flex flex-col gap-5 border-b border-gray-200 pb-10">
                             <div class="grid grid-rows-2 gap-5 ">
-                                <div class="grid grid-cols-3 gap-10">
+                                <div class="grid grid-cols-3 gap-4">
                                     <div class="flex flex-col gap-2">
-                                        <label class="text-sm font-semibold" for="">Tác giả</label>
+                                        <label class="text-sm font-semibold" for="">Tác giả <span
+                                            class="text-red-500">*</span></label>
                                         <a-select v-model:value="valuecreateBook.author_id" show-search size="large"
                                             placeholder="Mã tác giả" :options="optionsAuthor"
                                             :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
@@ -40,7 +40,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-3 gap-10">
+                                <div class="grid grid-cols-3 gap-4">
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Danh mục</label>
                                         <a-select v-model:value="valuecreateBook.category_id" show-search size="large"
@@ -64,14 +64,14 @@
                                 </div>
                             </div>
                             <div class="flex w-full">
-                                <div class="flex flex-col gap-4 w-full">
+                                <div class="flex flex-col gap-2 w-full">
                                     <label class="text-sm font-semibold" for="">Mô tả</label>
                                     <a-textarea class="h-28" v-model:value="valuecreateBook.description_summary"
                                         placeholder="Mô tả ngắn" allow-clear />
                                 </div>
                             </div>
                             <div class="flex w-full">
-                                <div class="flex flex-col gap-4 w-full">
+                                <div class="flex flex-col gap-2 w-full">
                                     <label class="text-sm font-semibold" for="">Mô tả chi tiết</label>
                                     <CommonCKEditor :value="valuecreateBook.description"
                                         @input="(event) => (valuecreateBook.description = event)" />
@@ -79,7 +79,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="border"></div>
                     <!-- Sách chi tiết -->
                     <div class="flex flex-col gap-5">
                         <div class="text-xl font-bold">Sách chi tiết</div>
@@ -125,7 +124,7 @@
                                             v-model:value="valuecreateBook.book_detail.sku_origin" />
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-4 gap-10">
+                                <div class="grid grid-cols-4 gap-4">
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Phiên bản sách</label>
                                         <a-input type="text" class="border p-2 rounded-md h-10"
@@ -138,8 +137,8 @@
                                             v-model:value="valuecreateBook.book_detail.price" />
                                     </div>
                                     <div class="flex flex-col gap-2">
-                                        <label class="text-sm font-semibold" for="">Thuế</label>
-                                        <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Thuế"
+                                        <label class="text-sm font-semibold" for="">Tiền cọc</label>
+                                        <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Tiền cọc"
                                             v-model:value="valuecreateBook.book_detail.hire_percent" />
                                     </div>
                                     <div class="flex flex-col gap-2">
@@ -148,7 +147,7 @@
                                             v-model:value="valuecreateBook.book_detail.stock" />
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-4 gap-10">
+                                <div class="grid grid-cols-4 gap-4">
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Ngày xuất bản</label>
                                         <a-input type="date" class="border p-2 rounded-md h-10"
@@ -175,7 +174,7 @@
                                             @focus="handleFocus" @blur="handleBlur" @change="handleChange"></a-select>
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-4 gap-10">
+                                <div class="grid grid-cols-4 gap-4">
                                     <div class="flex flex-col gap-2">
                                         <label class="text-sm font-semibold" for="">Số trang</label>
                                         <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Số trang"
@@ -203,7 +202,7 @@
                             </div>
 
                         </div>
-                        <div class="flex justify-start gap-5">
+                        <div class="flex justify-start gap-2">
                             <a-button type="default">Hủy</a-button>
                             <a-button type="primary" html-type="submit" :loading="createBook.isSubmitting">Thêm</a-button>
                         </div>
@@ -387,7 +386,7 @@ const onSubmit = async () => {
             category_id: valuecreateBook.value.category_id,
             shelve_id: valuecreateBook.value.shelve_id,
             book_detail: [{
-                sku_origin: "123",
+                sku_origin: null,
                 poster: imageInfo.value?.url,
                 images: [
                     "https://i0.wp.com/sachcugiadinh.wordpress.com/wp-content/uploads/2016/12/img_10661.jpg?ssl=1",

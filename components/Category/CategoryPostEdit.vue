@@ -5,6 +5,10 @@
     :footer="null"
     :onCancel="handleClose"
   >
+  <div
+      v-if="categoryStore.isLoading"
+      class="flex justify-center items-center min-h-[50vh]"
+    ></div>
     <form @submit.prevent="onUpdate">
       <div class="bg-white py-2">
         <div class="pb-4">
@@ -20,19 +24,7 @@
             />
           </div>
         </div>
-        <div class="pb-4">
-          <label for="email" class="block text-sm font-medium text-gray-700">
-            Nổi bật
-          </label>
-          <div class="mt-1">
-            <a-space direction="vertical">
-              <a-switch v-model:checked="category.is_featured">
-                <template #checkedChildren><check-outlined /></template>
-                <template #unCheckedChildren><close-outlined /></template>
-              </a-switch>
-            </a-space>
-          </div>
-        </div>
+       
 
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
@@ -119,7 +111,7 @@ const category = ref({
   image: "",
   name: "",
   description: "",
-  is_featured: false,
+ 
   type: "post",
 });
 const props = defineProps({
@@ -191,7 +183,7 @@ useAsyncData(
     category.value.name = data.data._value?.data?.name;
     category.value.description = data.data._value?.data?.description;
     category.value.status = data.data._value?.data?.status;
-    category.value.is_featured = data.data._value?.data?.is_featured;
+    
     category.value.image = data.data._value?.data?.image;
     fileList.value = [
       {
@@ -213,7 +205,6 @@ const onUpdate = async () => {
     name: category.value?.name,
     description: category.value?.description,
     status: category.value?.status,
-    is_featured: category.value?.is_featured,
     image: imageInfo.value?.url || category.value?.image,
     type: "post",
   };

@@ -6,7 +6,6 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Ví</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
@@ -26,7 +25,7 @@
           </div>
         </div>
         <div class="flex gap-2">
-          <a-button @click="showModalAccept" type="primary">Xác thực</a-button>
+          <!-- <a-button @click="showModalAccept" type="primary">Xác thực</a-button> -->
         </div>
       </div>
       <WalletAccept
@@ -37,6 +36,7 @@
       <a-table
         :columns="columns"
         :data-source="walletAdminStore.adminWallet?.wallets"
+        :loading="walletAdminStore.isLoading"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'avatar'">
@@ -98,16 +98,18 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top" color="black">
-                <template #title>
-                  <span>Xem chi tiết</span>
-                </template>
-                <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
-                >
-                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
-                </button>
-              </a-tooltip>
+              <NuxtLink :to="`/admin/wallet/${record.id}`">
+                <a-tooltip placement="top" color="black">
+                  <template #title>
+                    <span>Xem chi tiết</span>
+                  </template>
+                  <button
+                    class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
+                  >
+                    <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
+                  </button>
+                </a-tooltip>
+              </NuxtLink>
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
@@ -119,7 +121,11 @@
                 </button>
                 <template #overlay>
                   <a-menu>
-                    <a-menu-item key="2" class="p-4">
+                    <a-menu-item
+                      v-if="record.status === 'active'"
+                      key="2"
+                      class="p-4"
+                    >
                       <button
                         @click="showModalRecharge"
                         class="flex items-center gap-2"
@@ -132,7 +138,11 @@
                       </button>
                     </a-menu-item>
 
-                    <a-menu-item key="4" class="p-4">
+                    <a-menu-item
+                      v-if="record.status !== 'active'"
+                      key="4"
+                      class="p-4"
+                    >
                       <span>
                         <button class="flex items-center gap-1">
                           <UIcon
@@ -143,10 +153,20 @@
                         </button>
                       </span>
                     </a-menu-item>
-                    
-                    <a-menu-item key="6" class="p-4">
+
+                    <a-menu-item
+                      v-if="
+                        record.status !== 'suspended' &&
+                        record.status !== 'frozen' && record.status !== 'locked'
+                      "
+                      key="6"
+                      class="p-4"
+                    >
                       <span>
-                        <button class="flex items-center gap-1">
+                        <button
+                          @click="showModalLocked"
+                          class="flex items-center gap-1"
+                        >
                           <UIcon
                             class="text-lg"
                             name="i-material-symbols-delete-outline"
@@ -155,9 +175,19 @@
                         </button>
                       </span>
                     </a-menu-item>
-                    <a-menu-item key="7" class="p-4">
+                    <a-menu-item
+                      v-if="
+                        record.status !== 'suspended' &&
+                        record.status !== 'frozen' && record.status !== 'locked'
+                      "
+                      key="7"
+                      class="p-4"
+                    >
                       <span>
-                        <button class="flex items-center gap-1">
+                        <button
+                          @click="showModalFrozen"
+                          class="flex items-center gap-1"
+                        >
                           <UIcon
                             class="text-lg"
                             name="i-material-symbols-delete-outline"
@@ -177,17 +207,23 @@
         :openModalRecharge="openModalRecharge"
         :openModal="CloseModalRecharge"
       />
-      <WalletWithdraw
-        :openModalWithdraw="openModalWithdraw"
-        :openModal="CloseModalWithdraw"
+      <WalletLocked
+        :openModalLocked="openModalLocked"
+        :openModal="CloseModalLocked"
+      />
+
+      <WalletFrozen
+        :openModalFrozen="openModalFrozen"
+        :openModal="CloseModalFrozen"
       />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 const openModalRecharge = ref<boolean>(false);
-const openModalWithdraw = ref<boolean>(false);
+const openModalLocked = ref<boolean>(false);
 const openModalAccept = ref<boolean>(false);
+const openModalFrozen = ref<boolean>(false);
 const walletAdminStore = useWalletAdminStore();
 useAsyncData(async () => {
   await walletAdminStore.getAdminWallet({});
@@ -231,6 +267,12 @@ const columns = [
     key: "action",
   },
 ];
+const CloseModalFrozen = () => {
+  openModalFrozen.value = false;
+};
+const showModalFrozen = () => {
+  openModalFrozen.value = true;
+};
 const CloseModalRecharge = () => {
   openModalRecharge.value = false;
 };
@@ -243,10 +285,10 @@ const CloseModalAccept = () => {
 const showModalAccept = () => {
   openModalAccept.value = true;
 };
-const CloseModalWithdraw = () => {
-  openModalWithdraw.value = false;
+const CloseModalLocked = () => {
+  openModalLocked.value = false;
 };
-const showModalWithdraw = () => {
-  openModalWithdraw.value = true;
+const showModalLocked = () => {
+  openModalLocked.value = true;
 };
 </script>
