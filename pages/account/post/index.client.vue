@@ -21,72 +21,72 @@
         <div class="flex gap-3">
           <a-button
             :class="[
-              'flex items-center justify-center rounded-lg h-10 border-none shadow-none',
+              'flex items-center justify-center rounded-lg h-10 border-none shadow-none gap-3',
               filter === null ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus(null)"
           >
-            <img src="../../assets/images/icon-blog.svg" alt="" />
+            <img src="../../../assets/images/icon-blog.svg" alt="" />
             <span>Tất cả bài viết</span>
           </a-button>
 
           <!--  -->
           <a-button
             :class="[
-              'flex items-center justify-center rounded-lg h-10 border-none shadow-none',
+              'flex items-center justify-center rounded-lg h-10 border-none shadow-none gap-3',
               filter === 'published' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('published')"
           >
-            <img src="../../assets/images/icon-public.svg" alt="" />
+            <img src="../../../assets/images/icon-public.svg" alt="" />
             <span>Công khai</span>
           </a-button>
 
           <!--  -->
           <a-button
             :class="[
-              'flex items-center rounded-lg h-10 border-none shadow-none',
+              'flex items-center rounded-lg h-10 border-none shadow-none gap-3',
               filter === 'wating_approve' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('wating_approve')"
           >
-            <img src="../../assets/images/icon-wait-accept.svg" alt="" />
+            <img src="../../../assets/images/icon-wait-accept.svg" alt="" />
             <span>Chờ duyệt</span>
           </a-button>
 
           <!--  -->
           <a-button
             :class="[
-              'flex items-center rounded-lg h-10 border-none shadow-none',
+              'flex items-center rounded-lg h-10 border-none shadow-none gap-3',
               filter === 'draft' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('draft')"
           >
-            <img src="../../assets/images/icon-draft.svg" alt="" />
+            <img src="../../../assets/images/icon-draft.svg" alt="" />
             <span>Nháp</span>
           </a-button>
 
           <!--  -->
           <a-button
             :class="[
-              'flex items-center rounded-lg h-10 border-none shadow-none',
+              'flex items-center rounded-lg h-10 border-none shadow-none gap-3',
               filter === 'approve_canceled' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('approve_canceled')"
           >
-            <img src="../../assets/images/icon-hidden.svg" alt="" />
+            <img src="../../../assets/images/icon-hidden.svg" alt="" />
             <span>Bị từ chối</span>
           </a-button>
 
           <!--  -->
           <a-button
             :class="[
-              'flex items-center rounded-lg h-10 border-none shadow-none',
+              'flex items-center rounded-lg h-10 border-none shadow-none gap-3',
               filter === 'hidden' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('hidden')"
           >
-            <img src="../../assets/images/icon-hidden.svg" alt="" />
+            <img src="../../../assets/images/icon-hidden.svg" alt="" />
             <span>Đang ẩn</span>
           </a-button>
         </div>
@@ -246,23 +246,6 @@ const showModal = (id) => {
 const closeModal = () => {
   openModal.value = false;
 };
-// Get All Post
-// useAsyncData(
-//   async () => {
-//     try {
-//       await postStore.getAllPost({
-//         page: current.value,
-//         status: filter.value,
-//       });
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   },
-//   {
-//     immediate: true,
-//     watch: [current, filter],
-//   }
-// );
 
 const getDataPost = async () => {
   try {
@@ -297,11 +280,11 @@ const onDelete = async (id: any) => {
 };
 const showDeleteConfirm = (id: any) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
+    title: "Bạn đang muốn xóa bài viết?",
+    content: "Sau khi xóa sẽ không khôi phục lại",
+    okText: "Đồng ý",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onDelete(id);
     },

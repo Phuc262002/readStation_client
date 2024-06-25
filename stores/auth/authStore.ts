@@ -66,6 +66,7 @@ export const useAuthStore = defineStore("auth-store", {
     },
     async getProfile() {
       const data: any = await useCustomFetch("/api/v1/account/get-profile");
+      this.authUser.user = data.data._rawValue.data;
       return data;
     },
     async updateProfile(body: any) {

@@ -104,12 +104,22 @@
             </span>
           </template>
 
+          <!--  -->
           <template v-if="column.key === 'payment_method'">
-            <span class="flex justify-center">
-              {{ record?.payment_method }}
+            <span
+              class="flex justify-center"
+              v-if="record?.payment_method === 'wallet'"
+            >
+              Chuyển khoản
+            </span>
+            <span
+              class="flex justify-center"
+              v-else-if="record?.payment_method === 'cash'"
+            >
+              Tiền mặt
             </span>
           </template>
-
+          <!--  -->
           <template v-if="column.key === 'status'">
             <span class="flex justify-center">
               <a-tag
@@ -144,6 +154,8 @@
               {{ record?.extension_dates }}
             </span>
           </template>
+
+          <!--  -->
           <template v-if="column.key === 'max_extensions'">
             <span class="flex justify-center">
               {{ record?.current_extensions }} / {{ record?.max_extensions }}

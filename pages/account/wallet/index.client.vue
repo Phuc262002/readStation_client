@@ -15,15 +15,23 @@
         <div
           class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
         >
-          <div class="flex items-center text-sm font-medium p-4">
-            <a-tag :bordered="false" class="bg-tag-bg-03 text-tag-text-03">
-              <UIcon class="text-lg w-10 h-10" name="i-grommet-icons-cubes"
+          <div class="flex items-center text-sm font-medium p-4 gap-3">
+            <a-tag
+              :bordered="false"
+              class="bg-tag-bg-03 text-tag-text-03 flex items-center p-1"
+            >
+              <UIcon class="text-lg w-10 h-10" name="i-solar-wallet-outline"
             /></a-tag>
 
-            <div class="text-tag-text-03">
+            <div class="text-orange-400">
               <p class="font-normal text-base">Số dư ví</p>
               <p class="font-bold text-xl">
-                {{ dashboardStore?.dashboardAdmin?.revenue }} đ
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(walletStore?.statistic?.balance)
+                }}
               </p>
             </div>
           </div>
@@ -33,15 +41,23 @@
         <div
           class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
         >
-          <div class="flex items-center text-sm font-medium p-4">
-            <a-tag :bordered="false" class="bg-tag-bg-04 text-tag-text-04">
-              <UIcon class="text-lg w-10 h-10" name="i-bi-box-arrow-in-down"
+          <div class="flex items-center text-sm font-medium p-4 gap-3">
+            <a-tag
+              :bordered="false"
+              class="bg-tag-bg-05 text-tag-text-05 flex items-center p-1"
+            >
+              <UIcon class="text-lg w-10 h-10" name="i-ion-book-outline"
             /></a-tag>
 
-            <div class="text-tag-text-04">
+            <div class="text-tag-text-05">
               <p class="font-normal text-base">Tiền đang thuê sách</p>
               <p class="font-bold text-xl">
-                {{ dashboardStore?.dashboardAdmin?.invoiceEnter }} đơn hàng
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(walletStore?.statistic?.transactionsHolding)
+                }}
               </p>
             </div>
           </div>
@@ -51,15 +67,23 @@
         <div
           class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
         >
-          <div class="flex items-center text-sm font-medium p-4">
-            <a-tag :bordered="false" class="bg-tag-bg-01 text-tag-text-01">
-              <UIcon class="text-lg w-10 h-10" name="i-iconoir-user"
+          <div class="flex items-center text-sm font-medium p-4 gap-3">
+            <a-tag
+              :bordered="false"
+              class="bg-tag-bg-01 text-tag-text-01 flex items-center p-1"
+            >
+              <UIcon class="text-lg w-10 h-10" name="i-mage-money-exchange"
             /></a-tag>
 
             <div class="text-tag-text-01">
               <p class="font-normal text-base">Số tiền đang xử lý</p>
               <p class="font-bold text-xl">
-                {{ dashboardStore?.dashboardAdmin?.user }} khách hàng
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(walletStore?.statistic?.transactionsPending)
+                }}
               </p>
             </div>
           </div>
@@ -69,17 +93,25 @@
         <div
           class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
         >
-          <div class="flex items-center text-sm font-medium p-4">
-            <a-tag :bordered="false" class="bg-tag-bg-03 text-tag-text-03">
+          <div class="flex items-center text-sm font-medium p-4 gap-3">
+            <a-tag
+              :bordered="false"
+              class="bg-tag-bg-06 text-tag-text-06 flex items-center p-1"
+            >
               <UIcon
                 class="text-lg w-10 h-10"
-                name="i-ph-user-circle-check-thin"
+                name="i-hugeicons-money-send-circle"
             /></a-tag>
 
-            <div class="text-tag-text-03">
+            <div class="text-tag-text-06">
               <p class="font-normal text-base">Số tiền đang rút</p>
               <p class="font-bold text-xl">
-                {{ dashboardStore?.dashboardAdmin?.user }} khách hàng
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(walletStore?.statistic?.transactionsWithdraw)
+                }}
               </p>
             </div>
           </div>
@@ -197,6 +229,10 @@ const depositAmount = ref(0);
 const assignAmount = (amount: number) => {
   depositAmount.value = amount;
 };
+// Statistic
+useAsyncData(async () => {
+  const resData = await walletStore.getAllStatistic();
+});
 
 // Create Transaction
 const deposit = async () => {

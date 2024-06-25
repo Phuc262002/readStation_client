@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 export const useWalletClientStore = defineStore("wallet-client-store", {
   state() {
     return {
+      statistic: {},
       paymentLink: "",
       updateStatus: [],
       transactions: [],
@@ -11,6 +12,17 @@ export const useWalletClientStore = defineStore("wallet-client-store", {
   },
   persist: true,
   actions: {
+    async getAllStatistic() {
+      try {
+        const data: any = await useCustomFetch(
+          "/api/v1/account/wallet/statistic"
+        );
+        this.statistic = data.data._value?.data;
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async getAllTransaction({ page, pageSize, sort }: any) {
       try {
         const data: any = await useCustomFetch(
@@ -57,6 +69,15 @@ export const useWalletClientStore = defineStore("wallet-client-store", {
     async updateTransactionStatus({ transaction_code }: any) {
       const data: any = await useCustomFetch(
         `/api/v1/account/wallet/update-transaction-status/${transaction_code}?${
+          transaction_code ? `&transaction_code=${transaction_code}` : ""
+        }`
+      );
+      this.updateStatus = data.data._value?.data;
+      return data;
+    },
+    async cancelTransaction({ transaction_code }: any) {
+      const data: any = await useCustomFetch(
+        `/api/v1/account/wallet/cancel-transaction/${transaction_code}?${
           transaction_code ? `&transaction_code=${transaction_code}` : ""
         }`
       );
