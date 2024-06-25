@@ -124,7 +124,7 @@
             to="/account/wallet/transaction-history"
             class="flex items-center gap-2"
           >
-            Lịch sử giao diện
+            Lịch sử giao dịch
           </NuxtLink>
         </a-menu-item>
 

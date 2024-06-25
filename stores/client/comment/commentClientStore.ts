@@ -9,7 +9,6 @@ export const useCommentClientStore = defineStore("comment-client-store", {
       isSubmitting: false,
     };
   },
-  persist: true,
   actions: {
     async getAllComment({ page, pageSize, sort }: any) {
       const data: any = await useCustomFetch(
