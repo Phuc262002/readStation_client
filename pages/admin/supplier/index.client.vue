@@ -10,20 +10,34 @@
         <!-- Đây là phần code mẫu body -->
         <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
             <div class="flex justify-between pb-4">
-                <div class="relative w-1/4 md:block hidden">
-                    <div class="flex">
-                        <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10" v-model:value="valueSearch">
-                            <template #prefix>
-                                <SearchOutlined />
-                            </template>
-                            <template #suffix>
-                                <a-spin :indicator="indicator" />
-                            </template>
-                        </a-input>
+                <div class="w-1/2 flex items-center gap-2">
+                    <div class="relative w-2/3 md:block hidden">
+                        <div class="flex">
+                            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10" v-model:value="valueSearch">
+                                <template #prefix>
+                                    <SearchOutlined />
+                                </template>
+                            </a-input>
+                        </div>
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <UIcon class="text-gray-500" name="i-material-symbols-search" />
+                        </div>
                     </div>
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <UIcon class="text-gray-500" name="i-material-symbols-search" />
-                    </div>
+                    <a-button size='large'>
+                        <a-dropdown :trigger="['click']">
+                            <a class="flex gap-3 items-center" @click.prevent>
+                                Trạng thái
+                                <DownOutlined />
+                            </a>
+                            <template #overlay>
+                                <a-menu class="">
+                                    <a-menu-item @click="statusValue('active')">Hoạt động</a-menu-item>
+                                    <a-menu-item @click="statusValue('inactive')">Không hoạt động</a-menu-item>
+                                    <a-menu-item @click="statusValue('deleted')">Đã xóa</a-menu-item>
+                                </a-menu>
+                            </template>
+                        </a-dropdown>
+                    </a-button>
                 </div>
                 <div class="">
                     <a-button @click="showModalAdd"
@@ -113,10 +127,14 @@ import { Modal } from "ant-design-vue";
 import { LoadingOutlined } from "@ant-design/icons-vue";
 import { h } from "vue";
 const supplierStore = useSupplierStore();
-const openModalEdit = ref < boolean > (false);
-const openModalAdd = ref < boolean > (false);
-const supplierId = ref < number > ();
+const openModalEdit = ref<boolean>(false);
+const openModalAdd = ref<boolean>(false);
+const supplierId = ref<number>();
 const valueSearch = ref("");
+const queryStatus = ref("");
+const statusValue = (value: string) => {
+    queryStatus.value = value;
+};
 const indicator = h(LoadingOutlined, {
     style: {
         fontSize: "16px",
@@ -125,14 +143,15 @@ const indicator = h(LoadingOutlined, {
 });
 const getData = async () => {
     await supplierStore.getAllSupplier({
-        search: valueSearch.value
+        search: valueSearch.value,
+        status : queryStatus.value
     });
 };
 useAsyncData(async () => {
     getData();
-},{
+}, {
     immediate: true,
-    watch: [valueSearch],
+    watch: [valueSearch,queryStatus],
 
 });
 const onDelete = async (id: string) => {

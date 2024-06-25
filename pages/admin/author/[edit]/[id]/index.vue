@@ -126,15 +126,15 @@ const beforeUpload = (file) => {
 const optionsStatus = ref([
   {
     value: "active",
-    label: "Active",
+    label: "Hoạt động",
   },
   {
     value: "inactive",
-    label: "InActive",
+    label: "Không hoạt động",
   },
   {
     value: "deleted",
-    label: "Deleted",
+    label: "Không hoạt động",
   },
 ]);
 const valueAuthor = ref({

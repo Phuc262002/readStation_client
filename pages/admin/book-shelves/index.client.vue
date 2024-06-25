@@ -8,20 +8,69 @@
     </div>
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10" v-model:value="valueSearch">
-              <template #prefix>
-                <SearchOutlined />
-              </template>
-              <template #suffix>
-                <a-spin :indicator="indicator" />
-              </template>
-            </a-input>
+        <div class="w-2/3 flex items-center gap-2">
+          <div class="relative w-1/2 md:block hidden">
+            <div class="flex">
+              <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10" v-model:value="valueSearch">
+                <template #prefix>
+                  <SearchOutlined />
+                </template>
+              </a-input>
+            </div>
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <UIcon class="text-gray-500" name="i-material-symbols-search" />
+            </div>
           </div>
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
+          <a-button size='large'>
+            <a-dropdown :trigger="['click']">
+              <a class="flex gap-3 items-center" @click.prevent>
+                Trạng thái
+                <DownOutlined />
+              </a>
+              <template #overlay>
+                <a-menu class=""> 
+                    <a-menu-item  @click="statusValue('active')">Hoạt động</a-menu-item>
+                    <a-menu-item  @click="statusValue('inactive')">Không hoạt động</a-menu-item>
+                    <a-menu-item  @click="statusValue('deleted')">Đã xóa</a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
+          </a-button>
+          <a-button size='large'>
+            <a-dropdown :trigger="['click']">
+              <a class="flex gap-3 items-center" @click.prevent>
+                Danh mục
+                <DownOutlined />
+              </a>
+              <template #overlay>
+                <div>
+                  <a-menu>
+                    <a-menu-item v-for="(items, index) in categoryStore?.categoriesAdmin?.categories" :key="index">
+                      <div @click="categoryValue(items?.id)">{{ items.name }}</div>
+                    </a-menu-item>
+                  </a-menu>
+                </div>
+
+              </template>
+            </a-dropdown>
+          </a-button>
+          <a-button size='large'>
+            <a-dropdown :trigger="['click']">
+              <a class="flex gap-3 items-center" @click.prevent>
+                Tủ sách
+                <DownOutlined />
+              </a>
+              <template #overlay>
+                <div>
+                  <a-menu>
+                    <a-menu-item v-for="(items, index) in bookcaseStore?.bookCaseAdmin?.bookcases" :key="index">
+                      <div @click="bookcaseValue(items?.id)">{{ items.name }}</div>
+                    </a-menu-item>
+                  </a-menu>
+                </div>
+              </template>
+            </a-dropdown>
+          </a-button>
         </div>
         <div class="">
           <a-button type="primary" @click="showModalAdd">Thêm kệ sách</a-button>
@@ -117,23 +166,56 @@ const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const shelvesId = ref<number>();
 const valueSearch = ref("");
+const queryStatus = ref("");
+const statusValue = (status: string) => {
+  queryStatus.value = status;
+};
 const indicator = h(LoadingOutlined, {
   style: {
     fontSize: "16px",
   },
   spin: true,
 });
+const categoryStore = useCategoryStore();
+const categoryQuery = ref('');
+useAsyncData(async () => {
+  await categoryStore.getAllCategory({
+    type: 'book'
+  });
+},
+);
+const categoryValue = (id: string) => {
+  categoryQuery.value = id;
+};
+const bookcaseStore = useBookcaseStore();
+const bookcaseQuery = ref('');
+useAsyncData(async () => {
+  await bookcaseStore.getAllBookcase({});
+},
+);
+const bookcaseValue = (id: string) => {
+  bookcaseQuery.value = id;
+};
 const shelvesValue = useShelvesStore();
 const getData = async () => {
   try {
     const data = await shelvesValue.getAllShelves({
-      search: valueSearch.value
+      search: valueSearch.value,
+      category_id: categoryQuery.value,
+      bookcase_id: bookcaseQuery.value,
+      status: queryStatus.value
     });
     return data;
   } catch (error) {
     console.error(error);
   }
 };
+useAsyncData(async () => {
+  await getData();
+}, {
+  immediate: true,
+  watch: [valueSearch, categoryQuery, bookcaseQuery,queryStatus]
+});
 const onDelete = async (id: string) => {
   await shelvesValue.deleteShelves(id);
   await getData();
@@ -154,13 +236,7 @@ const showDeleteConfirm = (id: string) => {
   });
 };
 
-useAsyncData(async () => {
-  await getData();
-}, {
-  immediate: true,
-  watch: [valueSearch]
 
-});
 
 const CloseModalAdd = () => {
   openModalAdd.value = false;
