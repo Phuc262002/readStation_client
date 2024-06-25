@@ -6,7 +6,6 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Ví</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
@@ -122,7 +121,11 @@
                 </button>
                 <template #overlay>
                   <a-menu>
-                    <a-menu-item key="2" class="p-4">
+                    <a-menu-item
+                      v-if="record.status === 'active'"
+                      key="2"
+                      class="p-4"
+                    >
                       <button
                         @click="showModalRecharge"
                         class="flex items-center gap-2"
@@ -135,7 +138,11 @@
                       </button>
                     </a-menu-item>
 
-                    <a-menu-item key="4" class="p-4">
+                    <a-menu-item
+                      v-if="record.status !== 'active'"
+                      key="4"
+                      class="p-4"
+                    >
                       <span>
                         <button class="flex items-center gap-1">
                           <UIcon
@@ -147,9 +154,19 @@
                       </span>
                     </a-menu-item>
 
-                    <a-menu-item key="6" class="p-4">
+                    <a-menu-item
+                      v-if="
+                        record.status !== 'suspended' &&
+                        record.status !== 'frozen' && record.status !== 'locked'
+                      "
+                      key="6"
+                      class="p-4"
+                    >
                       <span>
-                        <button class="flex items-center gap-1">
+                        <button
+                          @click="showModalLocked"
+                          class="flex items-center gap-1"
+                        >
                           <UIcon
                             class="text-lg"
                             name="i-material-symbols-delete-outline"
@@ -158,7 +175,14 @@
                         </button>
                       </span>
                     </a-menu-item>
-                    <a-menu-item key="7" class="p-4">
+                    <a-menu-item
+                      v-if="
+                        record.status !== 'suspended' &&
+                        record.status !== 'frozen' && record.status !== 'locked'
+                      "
+                      key="7"
+                      class="p-4"
+                    >
                       <span>
                         <button
                           @click="showModalFrozen"
@@ -183,10 +207,11 @@
         :openModalRecharge="openModalRecharge"
         :openModal="CloseModalRecharge"
       />
-      <WalletWithdraw
-        :openModalWithdraw="openModalWithdraw"
-        :openModal="CloseModalWithdraw"
+      <WalletLocked
+        :openModalLocked="openModalLocked"
+        :openModal="CloseModalLocked"
       />
+
       <WalletFrozen
         :openModalFrozen="openModalFrozen"
         :openModal="CloseModalFrozen"
@@ -196,7 +221,7 @@
 </template>
 <script lang="ts" setup>
 const openModalRecharge = ref<boolean>(false);
-const openModalWithdraw = ref<boolean>(false);
+const openModalLocked = ref<boolean>(false);
 const openModalAccept = ref<boolean>(false);
 const openModalFrozen = ref<boolean>(false);
 const walletAdminStore = useWalletAdminStore();
@@ -260,10 +285,10 @@ const CloseModalAccept = () => {
 const showModalAccept = () => {
   openModalAccept.value = true;
 };
-const CloseModalWithdraw = () => {
-  openModalWithdraw.value = false;
+const CloseModalLocked = () => {
+  openModalLocked.value = false;
 };
-const showModalWithdraw = () => {
-  openModalWithdraw.value = true;
+const showModalLocked = () => {
+  openModalLocked.value = true;
 };
 </script>

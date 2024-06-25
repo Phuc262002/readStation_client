@@ -6,22 +6,22 @@
     :onCancel="handleClose"
   >
     <div
-      v-if="publishingCompanyStore.isLoading"
+      v-if="shippingMethodStore.isLoading"
       class="flex justify-center items-center min-h-[50vh]"
     >
       <a-spin size="large" />
     </div>
-    <form v-else @submit.prevent="onUpdate">
+    <form @submit.prevent="onUpdate">
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Tên nhà xuất bản
+            Phương thức vận chuyển
           </label>
           <div class="mt-1">
             <a-input
-              v-model:value="publishingCompany.name"
+              v-model:value="shippingMethod.method"
               class="w-[450px] h-[45px]"
-              placeholder="Nhập tên nhà xuất bản"
+              placeholder="Nhập phương thức vận chuyển"
               required
             />
           </div>
@@ -29,39 +29,46 @@
 
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Mô tả
+            Khu vực
+          </label>
+          <div class="mt-1">
+            <a-input
+              v-model:value="shippingMethod.location"
+              class="w-[450px] h-[45px]"
+              placeholder="Nhập khu vực"
+              required
+            />
+          </div>
+        </div>
+        <div class="pb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">
+            Phí vận chuyển
+          </label>
+          <div class="mt-1">
+            <a-input
+              v-model:value="shippingMethod.fee"
+              class="w-[450px] h-[45px]"
+              placeholder="Nhập phí vận chuyển"
+              required
+            />
+          </div>
+        </div>
+        <div class="pb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">
+            Ghi chú
           </label>
           <div class="mt-1">
             <a-textarea
-              :rows="6"
-              v-model:value="publishingCompany.description"
-              class="w-[450px] h-[45px]"
-              placeholder="Nhập nội dung"
+              v-model:value="shippingMethod.note"
+              size="large"
+              placeholder="Nhập ghi chú"
               required
             />
           </div>
         </div>
-
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Trạng thái
-          </label>
-          <div class="mt-1">
-            <a-select
-              ref="select"
-              v-model:value="publishingCompany.status"
-              style="width: 120px"
-              @change="handleChange"
-            >
-              <a-select-option value="active">Active</a-select-option>
-              <a-select-option value="inactive">Inactive</a-select-option>
-            </a-select>
-          </div>
-        </div>
-
-        <div class="pb-4">
-          <label for="email" class="block text-sm font-medium text-gray-700">
-            Logo nhà xuất bản
+            Logo phương thức vận chuyển
           </label>
           <div class="mt-1">
             <ClientOnly>
@@ -87,16 +94,17 @@
             </ClientOnly>
           </div>
         </div>
+
         <div class="flex justify-end items-end gap-2">
           <a-button @click="handleClose" danger html-type="button" class="mt-4"
             >Hủy</a-button
           >
           <a-button
             type="primary"
-            :loading="publishingCompanyStore.isSubmitting"
+            :loading="shippingMethodStore.isSubmitting"
             html-type="submit"
             class="mt-4"
-            >Cập nhật</a-button
+            >Lưu</a-button
           >
         </div>
       </div>
@@ -105,28 +113,27 @@
 </template>
 <script setup>
 import { message, Upload } from "ant-design-vue";
-const publishingCompanyStore = usePublishingCompanyStore();
+const shippingMethodStore = useShippingMethodsStore();
 const baseStore = useBaseStore();
 const fileList = ref([]);
 const imageInfo = ref("");
-const publishingCompany = ref({
-  name: "",
-  description: "",
-  logo_company: "",
-  status: "",
+const shippingMethod = ref({
+  method: "",
+  location: [" Hồ chí minh", "Hà nội"],
+  fee: "",
+  note: "",
+  logo: "",
 });
-
 const props = defineProps({
-  publishingCompanyId: Number,
   openModalEdit: Boolean,
+  shippingMethodId: Number,
   openModal: Function,
 });
-const publishingCompanyId = ref(props.publishingCompanyId);
 const open = ref(props.openModalEdit);
+const shippingMethodId = ref(props.shippingMethodId);
 const handleChange = (value) => {
-  category.value.status = value;
+  shippingMethod.value.location = value;
 };
-
 watch(
   () => props.openModalEdit,
   (newVal) => {
@@ -134,9 +141,9 @@ watch(
   }
 );
 watch(
-  () => props.publishingCompanyId,
+  () => props.shippingMethodId,
   (newVal) => {
-    publishingCompanyId.value = newVal;
+    shippingMethodId.value = newVal;
   }
 );
 
@@ -182,47 +189,45 @@ const beforeUpload = (file) => {
 };
 useAsyncData(
   async () => {
-    const data = await publishingCompanyStore.getOnePublishingCompany(
-      publishingCompanyId.value
-    );
-
-    publishingCompany.value.name = data.data._value?.data?.name;
-    publishingCompany.value.description = data.data._value?.data?.description;
-    publishingCompany.value.logo_company = data.data._value?.data?.logo_company;
-    publishingCompany.value.status = data.data._value?.data?.status;
+    await shippingMethodStore.getOneShippingMethod(shippingMethodId.value);
+    shippingMethod.value.method = shippingMethodStore.shippingMethod.method;
+    shippingMethod.value.location = shippingMethodStore.shippingMethod.location;
+    shippingMethod.value.fee = shippingMethodStore.shippingMethod.fee;
+    shippingMethod.value.note = shippingMethodStore.shippingMethod.note;
+    imageInfo.value = shippingMethodStore.shippingMethod.logo;
     fileList.value = [
       {
         uid: "-1",
         name: "image.png",
         status: "done",
-        url: data.data._value?.data?.logo_company,
+        url: imageInfo.value,
       },
     ];
   },
   {
-    watch: [publishingCompanyId, open],
+    watch: [shippingMethodId, open],
     initialCache: false,
   }
 );
 
 const onUpdate = async () => {
   const data = {
-    name: publishingCompany.value?.name,
-    description: publishingCompany.value?.description,
-    status: publishingCompany?.value?.status,
-    logo_company: imageInfo.value?.url || publishingCompany.value?.logo_company,
+    method: shippingMethod.value.method,
+    location: shippingMethod.value.location,
+    fee: shippingMethod.value.fee,
+    note: shippingMethod.value.note,
+    logo: imageInfo.value?.url,
   };
-
-  await publishingCompanyStore.updatePublishingCompany({
-    id: publishingCompanyId.value,
-    publishingCompany: data,
+  await shippingMethodStore.updateShippingMethod({
+    id: shippingMethodId.value,
+    shippingMethod: data,
   });
-  await publishingCompanyStore.getAllPublishingCompany({});
+  await shippingMethodStore.getAllShippingMethods({});
   handleClose();
 };
 
 const handleClose = () => {
-  
+
   props.openModal();
 };
 </script>

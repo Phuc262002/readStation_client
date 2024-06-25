@@ -1,27 +1,27 @@
 <template>
   <a-modal
-    v-model:open="open"
-    title="Sửa"
+    v-model:open="props.openModalAdd"
+    title="Thêm phương thức vận chuyển"
     :footer="null"
     :onCancel="handleClose"
   >
     <div
-      v-if="publishingCompanyStore.isLoading"
+      v-if="shippingMethodStore.isLoading"
       class="flex justify-center items-center min-h-[50vh]"
     >
       <a-spin size="large" />
     </div>
-    <form v-else @submit.prevent="onUpdate">
+    <form @submit.prevent="onSubmit">
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Tên nhà xuất bản
+            Phương thức vận chuyển
           </label>
           <div class="mt-1">
             <a-input
-              v-model:value="publishingCompany.name"
+              v-model:value="shippingMethod.method"
               class="w-[450px] h-[45px]"
-              placeholder="Nhập tên nhà xuất bản"
+              placeholder="Nhập phương thức vận chuyển"
               required
             />
           </div>
@@ -29,39 +29,46 @@
 
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Mô tả
+            Khu vực
+          </label>
+          <div class="mt-1">
+            <a-input
+              v-model:value="shippingMethod.location"
+              class="w-[450px] h-[45px]"
+              placeholder="Nhập khu vực"
+              required
+            />
+          </div>
+        </div>
+        <div class="pb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">
+            Phí vận chuyển
+          </label>
+          <div class="mt-1">
+            <a-input
+              v-model:value="shippingMethod.fee"
+              class="w-[450px] h-[45px]"
+              placeholder="Nhập phí vận chuyển"
+              required
+            />
+          </div>
+        </div>
+        <div class="pb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">
+            Ghi chú
           </label>
           <div class="mt-1">
             <a-textarea
-              :rows="6"
-              v-model:value="publishingCompany.description"
-              class="w-[450px] h-[45px]"
-              placeholder="Nhập nội dung"
+              v-model:value="shippingMethod.note"
+              size="large"
+              placeholder="Nhập ghi chú"
               required
             />
           </div>
         </div>
-
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Trạng thái
-          </label>
-          <div class="mt-1">
-            <a-select
-              ref="select"
-              v-model:value="publishingCompany.status"
-              style="width: 120px"
-              @change="handleChange"
-            >
-              <a-select-option value="active">Active</a-select-option>
-              <a-select-option value="inactive">Inactive</a-select-option>
-            </a-select>
-          </div>
-        </div>
-
-        <div class="pb-4">
-          <label for="email" class="block text-sm font-medium text-gray-700">
-            Logo nhà xuất bản
+            Logo phương thức vận chuyển
           </label>
           <div class="mt-1">
             <ClientOnly>
@@ -72,7 +79,7 @@
                   name="image"
                   :multiple="false"
                   :action="(file) => uploadFile(file)"
-                  @change="handleChangeUploadImg"
+                  @change="handleChange"
                   @drop="handleDrop"
                   :before-upload="beforeUpload"
                   :remove="(file) => deleteFile(file)"
@@ -87,16 +94,17 @@
             </ClientOnly>
           </div>
         </div>
+
         <div class="flex justify-end items-end gap-2">
           <a-button @click="handleClose" danger html-type="button" class="mt-4"
             >Hủy</a-button
           >
           <a-button
             type="primary"
-            :loading="publishingCompanyStore.isSubmitting"
+            :loading="shippingMethodStore.isSubmitting"
             html-type="submit"
             class="mt-4"
-            >Cập nhật</a-button
+            >Lưu</a-button
           >
         </div>
       </div>
@@ -105,41 +113,29 @@
 </template>
 <script setup>
 import { message, Upload } from "ant-design-vue";
-const publishingCompanyStore = usePublishingCompanyStore();
 const baseStore = useBaseStore();
+const shippingMethodStore = useShippingMethodsStore();
 const fileList = ref([]);
 const imageInfo = ref("");
-const publishingCompany = ref({
-  name: "",
-  description: "",
-  logo_company: "",
-  status: "",
+const shippingMethod = ref({
+  method: "",
+  location: [" Hồ chí minh", "Hà nội"],
+  fee: "",
+  note: "",
+  logo: "",
 });
-
 const props = defineProps({
-  publishingCompanyId: Number,
-  openModalEdit: Boolean,
+  openModalAdd: Boolean,
   openModal: Function,
 });
-const publishingCompanyId = ref(props.publishingCompanyId);
-const open = ref(props.openModalEdit);
-const handleChange = (value) => {
-  category.value.status = value;
-};
+const open = ref(props.openModalAdd);
 
 watch(
-  () => props.openModalEdit,
+  () => props.openModalAdd,
   (newVal) => {
     open.value = newVal;
   }
 );
-watch(
-  () => props.publishingCompanyId,
-  (newVal) => {
-    publishingCompanyId.value = newVal;
-  }
-);
-
 const uploadFile = async (file) => {
   if (fileList.value.length > 0) {
     fileList.value = [];
@@ -152,10 +148,9 @@ const uploadFile = async (file) => {
     imageInfo.value = dataUpload.data._rawValue.data;
   } catch (error) {
     message.error("Upload ảnh thất bại");
-    console.log("🚀 ~ uploadFile ~ error:", error);
   }
 };
-const handleChangeUploadImg = (info) => {
+const handleChange = (info) => {
   const status = info.file.status;
   if (status !== "uploading") {
     console.log(info.file, info.fileList);
@@ -167,7 +162,7 @@ const handleChangeUploadImg = (info) => {
   }
 };
 const deleteFile = async (file) => {
-  await baseStore.deleteImg(file.url.split("/").pop().split(".")[0]);
+  await baseStore.deleteImg(imageInfo.value?.publicId);
 };
 
 function handleDrop(e) {
@@ -180,49 +175,40 @@ const beforeUpload = (file) => {
   }
   return isImage || Upload.LIST_IGNORE;
 };
-useAsyncData(
-  async () => {
-    const data = await publishingCompanyStore.getOnePublishingCompany(
-      publishingCompanyId.value
-    );
-
-    publishingCompany.value.name = data.data._value?.data?.name;
-    publishingCompany.value.description = data.data._value?.data?.description;
-    publishingCompany.value.logo_company = data.data._value?.data?.logo_company;
-    publishingCompany.value.status = data.data._value?.data?.status;
-    fileList.value = [
-      {
-        uid: "-1",
-        name: "image.png",
-        status: "done",
-        url: data.data._value?.data?.logo_company,
-      },
-    ];
-  },
-  {
-    watch: [publishingCompanyId, open],
-    initialCache: false,
-  }
-);
-
-const onUpdate = async () => {
-  const data = {
-    name: publishingCompany.value?.name,
-    description: publishingCompany.value?.description,
-    status: publishingCompany?.value?.status,
-    logo_company: imageInfo.value?.url || publishingCompany.value?.logo_company,
-  };
-
-  await publishingCompanyStore.updatePublishingCompany({
-    id: publishingCompanyId.value,
-    publishingCompany: data,
+const onSubmit = async () => {
+  await shippingMethodStore.createShippingMethod({
+    method: shippingMethod.value.method,
+    location: shippingMethod.value.location,
+    fee: shippingMethod.value.fee,
+    note: shippingMethod.value.note,
+    logo: imageInfo.value?.url,
   });
-  await publishingCompanyStore.getAllPublishingCompany({});
-  handleClose();
+  await shippingMethodStore.getAllShippingMethods({});
+  shippingMethod.value = {
+    method: "",
+    location: [" Hồ chí minh", "Hà nội"],
+    fee: "",
+    note: "",
+    logo: "",
+  };
+  if (fileList.value.length > 0) {
+    fileList.value = [];
+  }
+  props.openModal();
 };
-
-const handleClose = () => {
-  
+const handleClose = async () => {
+  props.openModal();
+  if (fileList.value.length > 0) {
+    fileList.value = [];
+    await baseStore.deleteImg(imageInfo.value?.publicId);
+  }
+  shippingMethod.value = {
+    method: "",
+    location: [" Hồ chí minh", "Hà nội"],
+    fee: "",
+    note: "",
+    logo: "",
+  };
   props.openModal();
 };
 </script>

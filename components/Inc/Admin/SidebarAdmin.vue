@@ -50,7 +50,6 @@
         <a-menu-item key="5" @click="navigateTo('/admin/user/await-user')"
           >Tài khoản chờ xác thực</a-menu-item
         >
-        
       </a-sub-menu>
       <a-sub-menu key="sub12">
         <template #title>
@@ -249,6 +248,25 @@
         >
         <a-menu-item key="23" @click="navigateTo('/admin/author')"
           >Tất cả tác giả</a-menu-item
+        >
+      </a-sub-menu>
+      <a-sub-menu key="sub23">
+        <template #title>
+          <span class="flex items-center gap-2">
+            <UIcon
+              name="i-ant-design-user-outlined"
+              :class="props.collapsed && 'anticon anticon-desktop'"
+            />
+            <span>Phương thức vận chuyển </span>
+          </span>
+        </template>
+        <a-menu-item key="36" @click="navigateTo('/admin/shipping-methods')"
+          >Tất cả pt vận chuyển</a-menu-item
+        >
+        <a-menu-item
+          key="37"
+          @click="navigateTo('/admin/shipping-methods/add-shipping-methods')"
+          >Thêm pt vận chuyển</a-menu-item
         >
       </a-sub-menu>
 
