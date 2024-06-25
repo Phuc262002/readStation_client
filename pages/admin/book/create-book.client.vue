@@ -386,7 +386,7 @@ const onSubmit = async () => {
             category_id: valuecreateBook.value.category_id,
             shelve_id: valuecreateBook.value.shelve_id,
             book_detail: [{
-                sku_origin: "123",
+                sku_origin: null,
                 poster: imageInfo.value?.url,
                 images: [
                     "https://i0.wp.com/sachcugiadinh.wordpress.com/wp-content/uploads/2016/12/img_10661.jpg?ssl=1",

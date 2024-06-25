@@ -5,8 +5,11 @@
                 <div class="text-xl text-orange-500">Tác giả nổi bật</div>
                 <div class="flex flex-col gap-5">
                     <h1 class="text-4xl font-bold">{{ featureAuthor?.getauthorFeatured[0]?.author }}</h1>
-                    <div class="text-[#999999]" v-html="featureAuthor?.getauthorFeatured[0]?.description "></div>
-                    <!-- <p class="text-[#999999]"><span v-html="featureAuthor?.getauthorFeatured[0]?.description"></span></p> -->
+                    <div class="text-[#999999]" v-html="featureAuthor?.getauthorFeatured[0]?.description"></div>
+                </div>
+                <div>
+                    <button class="bg-orange-500 hover:bg-orange-600 w-1/2 h-11 rounded-lg text-white">Xem thêm
+                        sách</button>
                 </div>
             </div>
             <div class="">
@@ -14,7 +17,8 @@
             </div>
             <div class="">
                 <div class="grid grid-rows-2 grid-flow-col gap-10">
-                    <CommonBook v-for="(books, index) in featureAuthor?.getauthorFeatured[0]?.books" :data=books :key="index" />
+                    <CommonBook v-for="(books, index) in featureAuthor?.getauthorFeatured[0]?.books" :data=books
+                        :key="index" />
                 </div>
             </div>
         </div>
