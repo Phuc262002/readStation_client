@@ -9,7 +9,6 @@ export const useBookPublicStore = defineStore("book-public-store", {
       isSubmitting: false,
     };
   },
-  persist: true,
   actions: {
     async getAllBooks({
       page,

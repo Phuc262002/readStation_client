@@ -7,7 +7,7 @@
       >Trở về</NuxtLink
     >
     <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">
-      <span class="py-5">Các lịch sử bạn đã thực hiện</span>
+      <span class="py-5">Các giao dịch bạn đã thực hiện</span>
       <a-table
         :columns="columns"
         :data-source="walletStore?.transactions?.transactions"
@@ -126,7 +126,7 @@
                   <span>Hủy</span>
                 </template>
                 <button
-                  @click="() => cancelTransaction(record.transaction_code)"
+                  @click="showCancelConfirm(record.transaction_code)"
                   class="bg-rtgray-50 p-2 rounded-lg flex items-center justify-center"
                 >
                   <UIcon
@@ -152,35 +152,50 @@
 <script setup lang="ts">
 const walletStore = useWalletClientStore();
 const current = ref(1);
-const transaction_type = ref();
-const route = useRoute();
-const transaction_code = route.params.transaction_code;
+const data = ref(null);
+// Update Transaction Status
+const updateStatus = async (id) => {
+  const resData = await walletStore.updateTransactionStatus(id);
+};
 
 // Cancel Transaction
-const cancelTransaction = async (id) => {
-  const resData = await walletStore.cancelTransaction(id);
-  window.location.href =
-    "https://pay.payos.vn/web/" + resData?.data?._rawValue?.data.id;
+const cancelTransaction = async (id: any) => {
+  await walletStore.cancelTransaction(id);
+  getData();
+};
+const showCancelConfirm = (id: any) => {
+  Modal.confirm({
+    title: "Bạn đang muốn hủy giao dịch?",
+    content: "Sau khi hủy sẽ không khôi phục lại",
+    okText: "Đồng ý",
+    okType: "danger",
+    cancelText: "Hủy",
+    onOk() {
+      cancelTransaction(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
 };
 
 // Get link Payment
 const getLinkPayment = async (id) => {
   const resData = await walletStore.getPaymentLink(id);
+
   window.location.href =
     "https://pay.payos.vn/web/" + resData?.data?._rawValue?.data.id;
-
-  console.log("resData", resData.value);
 };
 // render transaction
+const getData = async () => {
+  await walletStore.getAllTransaction({
+    page: current.value,
+    pageSize: 5,
+  });
+};
 useAsyncData(
   async () => {
-    try {
-      await walletStore.getAllTransaction({
-        page: current.value,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await getData();
   },
   {
     immediate: true,

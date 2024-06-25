@@ -4,13 +4,13 @@ export const useWalletClientStore = defineStore("wallet-client-store", {
     return {
       statistic: {},
       paymentLink: "",
+      cancelPayment: {},
       updateStatus: [],
       transactions: [],
       isLoading: false,
       isSubmitting: false,
     };
   },
-  persist: true,
   actions: {
     async getAllStatistic() {
       try {
@@ -66,7 +66,7 @@ export const useWalletClientStore = defineStore("wallet-client-store", {
       this.paymentLink = data.data._value?.data;
       return data;
     },
-    async updateTransactionStatus({ transaction_code }: any) {
+    async updateTransactionStatus(transaction_code: any) {
       const data: any = await useCustomFetch(
         `/api/v1/account/wallet/update-transaction-status/${transaction_code}?${
           transaction_code ? `&transaction_code=${transaction_code}` : ""
@@ -75,13 +75,16 @@ export const useWalletClientStore = defineStore("wallet-client-store", {
       this.updateStatus = data.data._value?.data;
       return data;
     },
-    async cancelTransaction({ transaction_code }: any) {
+    async cancelTransaction(transaction_code: any) {
       const data: any = await useCustomFetch(
         `/api/v1/account/wallet/cancel-transaction/${transaction_code}?${
           transaction_code ? `&transaction_code=${transaction_code}` : ""
-        }`
+        }`,
+        {
+          method: "POST",
+        }
       );
-      this.updateStatus = data.data._value?.data;
+      this.cancelPayment = data.data._value?.data;
       return data;
     },
   },

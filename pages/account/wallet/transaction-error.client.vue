@@ -25,5 +25,17 @@
 </template>
 <script setup lang="ts">
 const walletStore = useWalletClientStore();
+const code = ref("");
 const route = useRoute();
+onMounted(() => {
+  const codeQuery = route.query.code;
+
+  if (typeof codeQuery === number) {
+    code.value = codeQuery;
+    console.log(email.value);
+  } else {
+    code.value = "";
+    console.error("Invalid code parameter:", codeQuery);
+  }
+});
 </script>
