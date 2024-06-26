@@ -93,9 +93,11 @@
         <div class="flex flex-col gap-2 f-full pb-4">
           <label class="text-sm font-semibold" for="">Nội dung</label>
 
-          <CommonCKEditor
-            :value="content"
-            @input="(event) => (content = event)"
+          <ckeditor
+            :editor="editor"
+            :model-value="post.content"
+            @update:model-value="updateValue"
+            :config="editorConfiguration"
           />
         </div>
 
@@ -127,7 +129,6 @@ const post = ref({
   content: "",
   summary: "",
 });
-const content = ref("");
 const { $ckeditor } = useNuxtApp();
 const editor = $ckeditor.classicEditor;
 const options = ref([]);
@@ -195,7 +196,7 @@ useAsyncData(async () => {
   post.value.category_id = data.data._value?.data?.category.name;
   post.value.status = data.data._value?.data?.status;
   post.value.image = data.data._value?.data?.image;
-  content.value = data.data._value?.data?.content;
+  post.value.content = data.data._value?.data?.content;
   post.value.summary = data.data._value?.data?.summary;
   fileList.value = [
     {
@@ -213,7 +214,7 @@ const updatePost = async () => {
       category_id: post.value.category?.name,
       status: post.value.status,
       image: imageInfo.value?.url || post.value.image,
-      content: content.value,
+      content: post.value.content,
       summary: post.value.summary,
     };
     await postGeneralStore.updatePost({ id: postID, post: data });
@@ -236,4 +237,106 @@ const handleFocus = () => {
 const filterOption = (input, option) => {
   return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
+const updateValue = (newValue) => {
+  post.value.content = newValue;
+};
+const editorConfiguration = {
+  allowedContent: "p b i; a[!href] table",
+  removePlugins: ["Title"],
+  image: {
+    toolbar: [
+      "imageStyle:alignLeft",
+      "imageStyle:alignCenter",
+      "imageStyle:alignRight",
+      "|",
+      "imageResize",
+      "|",
+      "imageTextAlternative",
+    ],
+    styles: ["alignLeft", "alignCenter", "alignRight"],
+    resizeOptions: [
+      {
+        name: "imageResize:original",
+        label: "Original",
+        value: null,
+      },
+      {
+        name: "imageResize:50",
+        label: "50%",
+        value: "50",
+      },
+      {
+        name: "imageResize:75",
+        label: "75%",
+        value: "75",
+      },
+    ],
+  },
+  toolbar: {
+    items: [
+      "heading",
+      "fontFamily",
+      "fontSize",
+      "alignment",
+      "bold",
+      "italic",
+      "underline",
+      "highlight",
+      "fontColor",
+      "fontBackgroundColor",
+      "|",
+      "link",
+      "bulletedList",
+      "numberedList",
+      "subscript",
+      "superscript",
+      "|",
+      "indent",
+      "outdent",
+      "specialCharacters",
+      "removeFormat",
+      "strikethrough",
+      "horizontalLine",
+      "|",
+      // 'imageUpload',
+      "imageInsert",
+      "mediaEmbed",
+      "|",
+      "blockQuote",
+      "insertTable",
+      "undo",
+      "redo",
+      "exportPdf",
+      "MathType",
+      "ChemType",
+    ],
+    shouldNotGroupWhenFull: true,
+  },
+  mediaEmbed: {
+    previewsInData: true,
+  },
+  table: {
+    contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+  },
+  language: "vi",
+};
 </script>
+<style>
+.ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar,
+.ck.ck-editor__top .ck-sticky-panel .ck-toolbar.ck-rounded-corners {
+  border-radius: 8px !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.ck-rounded-corners .ck.ck-editor__main > .ck-editor__editable,
+.ck.ck-editor__main > .ck-editor__editable.ck-rounded-corners {
+  border-radius: 8px !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.ck-editor__editable {
+  min-height: 16rem;
+}
+</style>
