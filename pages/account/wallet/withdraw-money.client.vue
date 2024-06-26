@@ -47,28 +47,21 @@
           Rút tiền
         </a-button>
       </div>
-      <a-modal
-        v-model:open="open"
-        width="1000px"
-        title="Basic Modal"
-        @ok="handleOk"
-      >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-      </a-modal>
     </div>
+    <AccountWalletInformationWithdraw
+      :openModal="openModal"
+      :closeModal="closeModal"
+    />
   </div>
 </template>
 <script lang="ts" setup>
-const open = ref<boolean>(false);
+const openModal = ref(false);
 
 const showModal = () => {
-  open.value = true;
+  openModal.value = true;
 };
 
-const handleOk = (e: MouseEvent) => {
-  console.log(e);
-  open.value = false;
+const closeModal = () => {
+  openModal.value = false;
 };
 </script>

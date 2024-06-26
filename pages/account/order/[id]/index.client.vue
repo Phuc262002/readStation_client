@@ -89,32 +89,39 @@
         <div class="flex py-5 text-sm">
           <div class="w-1/2 border-r border-rtgray-50 space-y-3">
             <div class="grid grid-cols-4">
-              <span class="col-span-1 font-bold">Số sách thuê:</span>
-              <span class="col-span-3">
+              <span class="col-span-2 font-bold">Số sách thuê:</span>
+              <span class="col-span-2">
                 {{ orderStore?.order?.order_details?.length }}
               </span>
             </div>
             <div class="grid grid-cols-4">
-              <span class="col-span-1 font-bold">Ngày đặt sách:</span>
-              <span class="col-span-3">
+              <span class="col-span-2 font-bold">Ngày đặt sách:</span>
+              <span class="col-span-2">
                 {{ $dayjs(orderStore?.order?.created_at).format("DD/MM/YYYY") }}
               </span>
             </div>
             <div class="grid grid-cols-4">
-              <span class="col-span-1 font-bold">Ngày nhận sách:</span>
-              <span class="col-span-3">N/A</span>
+              <span class="col-span-2 font-bold">Ngày nhận sách:</span>
+              <span class="col-span-2">Chưa có thông tin</span>
             </div>
             <div class="grid grid-cols-4">
-              <span class="col-span-1 font-bold">Ngày trả dự kiến:</span>
-              <span class="col-span-3">
-                {{
-                  $dayjs(orderStore?.order?.expired_date).format("DD/MM/YYYY")
-                }}
+              <span class="col-span-2 font-bold">Ngày trả dự kiến:</span>
+              <span class="col-span-2"> Chưa có thông tin </span>
+            </div>
+            <div class="grid grid-cols-4">
+              <span class="col-span-2 font-bold">Ngày trả thực tế:</span>
+              <span class="col-span-2">Chưa có thông tin</span>
+            </div>
+            <div class="grid grid-cols-4">
+              <span class="col-span-2 font-bold">Số lần gia hạn:</span>
+              <span class="col-span-2">
+                {{ orderStore?.order?.current_extensions }} /
+                {{ orderStore?.order?.max_extensions }}
               </span>
             </div>
             <div class="grid grid-cols-4">
-              <span class="col-span-1 font-bold">Ngày trả thực tế:</span>
-              <span class="col-span-3">N/A</span>
+              <span class="col-span-2 font-bold">Hình thức vận chuyển:</span>
+              <span class="col-span-2">Chưa có thông tin</span>
             </div>
           </div>
           <!--  -->
@@ -131,6 +138,17 @@
               </span>
             </div>
             <div class="grid grid-cols-4">
+              <span class="col-span-1 font-bold">Phí vận chuyển:</span>
+              <span class="col-span-3">
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(orderStore?.order?.total_service_fee)
+                }}
+              </span>
+            </div>
+            <div class="grid grid-cols-4">
               <span class="col-span-1 font-bold">Phí dịch vụ:</span>
               <span class="col-span-3">
                 {{
@@ -142,24 +160,14 @@
               </span>
             </div>
             <div class="grid grid-cols-4">
-              <span class="col-span-1 font-bold">Phí trễ hạn:</span>
+              <span class="col-span-1 font-bold">Tổng tiền nhận:</span>
               <span class="col-span-3">
                 {{ orderStore?.order?.total_fine_fee }}
               </span>
             </div>
+
             <div class="grid grid-cols-4">
-              <span class="col-span-1 font-bold">Số lần gia hạn:</span>
-              <span class="col-span-3">
-                {{ orderStore?.order?.current_extensions }} /
-                {{ orderStore?.order?.max_extensions }}
-              </span>
-            </div>
-            <div class="grid grid-cols-4">
-              <span class="col-span-1 font-bold">Phí gia hạn:</span>
-              <span class="col-span-3">N/A</span>
-            </div>
-            <div class="grid grid-cols-4">
-              <span class="col-span-1 font-bold">Tổng tiền:</span>
+              <span class="col-span-1 font-bold">Tổng cộng:</span>
               <span class="col-span-3">
                 {{
                   new Intl.NumberFormat("vi-VN", {
@@ -168,6 +176,10 @@
                   }).format(orderStore?.order?.total_all_fee)
                 }}
               </span>
+            </div>
+            <div class="grid grid-cols-4">
+              <span class="col-span-1 font-bold">Số tiền trả lại:</span>
+              <span class="col-span-3"> Chưa cập nhật </span>
             </div>
           </div>
         </div>
