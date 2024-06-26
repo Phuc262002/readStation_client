@@ -94,8 +94,8 @@
           <label class="text-sm font-semibold" for="">Nội dung</label>
 
           <CommonCKEditor
-            :value="post.content"
-            @input="(event) => (post.content = event)"
+            :value="content"
+            @input="(event) => (content = event)"
           />
         </div>
 
@@ -127,6 +127,7 @@ const post = ref({
   content: "",
   summary: "",
 });
+const content = ref("");
 const { $ckeditor } = useNuxtApp();
 const editor = $ckeditor.classicEditor;
 const options = ref([]);
@@ -194,7 +195,7 @@ useAsyncData(async () => {
   post.value.category_id = data.data._value?.data?.category.name;
   post.value.status = data.data._value?.data?.status;
   post.value.image = data.data._value?.data?.image;
-  post.value.content = data.data._value?.data?.content;
+  content.value = data.data._value?.data?.content;
   post.value.summary = data.data._value?.data?.summary;
   fileList.value = [
     {
@@ -212,7 +213,7 @@ const updatePost = async () => {
       category_id: post.value.category?.name,
       status: post.value.status,
       image: imageInfo.value?.url || post.value.image,
-      content: post.value.content,
+      content: content.value,
       summary: post.value.summary,
     };
     await postGeneralStore.updatePost({ id: postID, post: data });
@@ -235,8 +236,4 @@ const handleFocus = () => {
 const filterOption = (input, option) => {
   return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
-
-
 </script>
-
-
