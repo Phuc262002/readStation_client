@@ -265,8 +265,8 @@
         >
         <a-menu-item
           key="37"
-          @click="navigateTo('/admin/shipping-methods/add-shipping-methods')"
-          >Thêm pt vận chuyển</a-menu-item
+          @click="navigateTo('/admin/shipping-methods/trash-shipping-methods')"
+          >Thùng rác</a-menu-item
         >
       </a-sub-menu>
 
