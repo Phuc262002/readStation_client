@@ -15,7 +15,7 @@
         <span>Chỉnh sửa</span>
       </p>
     </div>
-    <form @submit="onSubmit">
+    <form @submit.prevent="onSubmit">
       <div
         class="flex flex-col bg-white shadow-md shadow-gray-300 rounded-md p-4"
       >
@@ -23,13 +23,16 @@
           <span class="w-1/2 h-8 flex items-center">Họ tên</span>
           <div class="w-1/2 text-left">
             <a-input
+              size="large"
               id="fullname"
               type="fullname"
-              v-bind="fullname"
+              v-model:value="user.fullname"
               name="fullname"
               v-if="isShow"
             />
-            <span v-else class="w-full">{{ data?.fullname }}</span>
+            <span v-else class="w-full">
+              {{ authStore?.authUser?.user?.fullname }}
+            </span>
           </div>
         </div>
 
@@ -41,13 +44,15 @@
               v-bind="gender"
               name="gender"
               v-if="isShow"
-              v-model="gender"
+              v-model:value="user.gender"
             >
               <a-radio value="male">Nam</a-radio>
               <a-radio value="female">Nữ</a-radio>
             </a-radio-group>
 
-            <span v-else>{{ data?.gender === "female" ? "Nữ" : "Nam" }}</span>
+            <span v-else>{{
+              authStore?.authUser?.user?.gender === "female" ? "Nữ" : "Nam"
+            }}</span>
           </div>
         </div>
 
@@ -59,50 +64,61 @@
 
           <div class="w-1/2 text-left">
             <a-input
+              size="large"
+              v-model:value="user.phone"
               type="phone"
-              v-bind="phone"
               name="phone"
               v-if="isShow"
               required
             />
-            <span v-else>{{ data?.phone }}</span>
+            <span v-else>{{ authStore?.authUser?.user?.phone }}</span>
           </div>
         </div>
         <div class="border-b flex items-center justify-between py-4">
           <span class="w-1/2 h-8 flex items-center">Email</span>
           <div class="w-1/2 text-left">
             <a-input
+              size="large"
               v-if="isShow"
-              v-bind="email"
+              v-model:value="user.email"
               name="email"
               type="email"
               disabled
             />
-            <span v-else>{{ data?.email }}</span>
+            <span v-else>{{ authStore?.authUser?.user?.email }}</span>
           </div>
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
           <span class="w-1/2 h-8 flex items-center">Ngày sinh</span>
           <a-form-item class="w-1/2 text-left mb-0">
-            <a-date-picker
+            <a-input
+              size="large"
               v-if="isShow"
-              v-bind="dob"
+              v-model:value="user.dob"
               name="dob"
-              type="dob"
+              type="date"
               class="w-full"
               value-format="DD-MM-YYYY"
               placeholder="Chọn ngày, tháng, năm sinh"
             />
-            <span v-else>{{ dayjs(data?.dob).format("DD-MM-YYYY") }}</span>
+            <span v-else>{{
+              $dayjs(authStore?.authUser?.user?.dob).format("DD/MM/YYYY")
+            }}</span>
           </a-form-item>
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
           <span class="w-1/2 h-8 flex items-center">Công việc</span>
           <div class="w-1/2 text-left">
-            <a-input v-if="isShow" v-bind="job" name="job" type="job" />
-            <span v-else>{{ data?.job }}</span>
+            <a-input
+              size="large"
+              v-if="isShow"
+              v-model:value="user.job"
+              name="job"
+              type="job"
+            />
+            <span v-else>{{ authStore?.authUser?.user?.job }}</span>
           </div>
         </div>
 
@@ -110,22 +126,22 @@
           <span class="w-1/2 h-8 flex items-center">Tỉnh/ Thành Phố</span>
           <div class="w-1/2 text-left">
             <a-select
-              v-model:value="valuePronvines"
+              v-if="isShow"
+              class="w-full"
+              size="large"
+              v-model:value="province_id"
               show-search
               placeholder="Tỉnh/Thành phố"
-              :options="provinces"
-              :filter-option="filterOption"
+              :options="optionsPronvines"
               @focus="handleFocus"
               @blur="handleBlur"
               @change="handleChangeProvince"
-              v-if="isShow"
-              type="province"
-              v-bind="province"
-              name="province"
-              class="w-full"
+              :loading="baseStore.isLoading"
             >
             </a-select>
-            <span v-else>{{ data?.province }}</span>
+            <span v-else>{{
+              authStore?.authUser?.user?.province?.ProvinceName
+            }}</span>
           </div>
         </div>
 
@@ -133,22 +149,24 @@
           <span class="w-1/2 h-8 flex items-center">Quận/ Huyện</span>
           <div class="w-1/2 text-left">
             <a-select
-              v-model:value="valueDistricts"
+              v-if="isShow"
+              class="w-full"
+              size="large"
+              v-model:value="district_id"
               show-search
               placeholder="Quận/Huyện"
-              :options="districts"
+              :options="optionsDistricts"
               :filter-option="filterOption"
               @focus="handleFocus"
               @blur="handleBlur"
               @change="handleChangeDistrict"
-              v-if="isShow"
-              type="district"
-              v-bind="district"
-              name="district"
-              class="w-full"
+              :disabled="!province_id"
+              :loading="baseStore.isLoading"
             >
             </a-select>
-            <span v-else>{{ data?.district }}</span>
+            <span v-else>{{
+              authStore?.authUser?.user?.district?.DistrictName
+            }}</span>
           </div>
         </div>
 
@@ -156,37 +174,52 @@
           <span class="w-1/2 h-8 flex items-center">Xã/ Phường/ Thị trấn</span>
           <div class="w-1/2 text-left">
             <a-select
-              v-model:value="valueWards"
+              v-if="isShow"
+              class="w-full"
+              size="large"
+              v-model:value="ward_id"
               show-search
               placeholder="Phường/Xã"
-              :options="wards"
+              :options="optionsWards"
               :filter-option="filterOption"
               @focus="handleFocus"
               @blur="handleBlur"
               @change="handleChangeWard"
-              v-if="isShow"
-              type="ward"
-              v-bind="ward"
-              name="ward"
-              class="w-full"
+              :disabled="!district_id"
+              :loading="baseStore.isLoading"
             >
             </a-select>
-            <span v-else>{{ data?.ward }}</span>
+            <span v-else>{{ authStore?.authUser?.user?.ward?.WardName }}</span>
           </div>
         </div>
-
+        <!--  -->
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center flex items-center"
-            >Địa chỉ</span
-          >
+          <span class="w-1/2 h-8 flex items-center flex items-center">
+            Đường
+          </span>
           <div class="w-1/2 text-left">
             <a-input
-              type="address_detail"
-              v-bind="address_detail"
-              name="address_detail"
+              v-model:value="address.street"
+              class="border p-2 rounded-md"
+              placeholder="Đường"
+              :disabled="!ward_id"
               v-if="isShow"
             />
-            <span v-else>{{ data?.address_detail }}</span>
+            <span v-else>{{ authStore?.authUser?.user?.street }}</span>
+          </div>
+        </div>
+        <!--  -->
+        <div class="border-b flex items-center justify-between py-4">
+          <span class="w-1/2 h-8 flex items-center flex items-center">
+            Địa chỉ cụ thể
+          </span>
+          <div class="w-1/2 text-left">
+            <a-input
+              :value="`${address.street},${address.ward}, ${address.district}, ${address.province}`"
+              size="large"
+              v-if="isShow"
+            />
+            <span v-else>{{ authStore?.authUser?.user?.address_detail }}</span>
           </div>
         </div>
         <div
@@ -212,135 +245,77 @@
 </template>
 
 <script setup lang="ts">
-import dayjs from "dayjs";
-import { useForm } from "vee-validate";
-import * as yup from "yup";
-// import { useBaseStore, useauthStore } from "@/stores";
-
+const authStore = useAuthStore();
 const baseStore = useBaseStore();
+const isShow = ref(false);
+const resErrors = ref({});
+const data = ref(null);
+
+const user = ref({
+  fullname: "",
+  email: "",
+  gender: "",
+  phone: "",
+  dob: "",
+  job: "",
+});
+
 const address = ref({
   province: "",
   district: "",
   ward: "",
+  street: "",
 });
 //get API
-const data = ref(null);
-const isLoading = ref(false);
-const authStore = useAuthStore();
-interface EditAcc {
-  isShow: boolean;
-}
-// address
-const provinces = ref([]);
-const districts = ref([]);
-const wards = ref([]);
 
-const valuePronvines = ref(undefined);
-const valueDistricts = ref(undefined);
-const valueWards = ref(undefined);
-const isShow = ref(false);
-//Create the form
-const { defineInputBinds, handleSubmit, errors, setFieldValue } = useForm({
-  validationSchema: {
-    fullname: yup.string().required("Trường này không được để trống"),
-    gender: yup.string().required("Trường này không được để trống"),
-    phone: yup.string().required("Trường này không được để trống"),
-    province: yup.string().required("Trường này không được để trống"),
-    district: yup.string().required("Trường này không được để trống"),
-    address_detail: yup.string().required("Trường này không được để trống"),
-    dob: yup.string().required("Trường này không được để trống"),
-    job: yup.string().required("Trường này không được để trống"),
-  },
-});
-// Define fields
-const email = defineInputBinds("email");
-const fullname = defineInputBinds("fullname");
-const gender = defineInputBinds("gender");
-const phone = defineInputBinds("phone");
-const dob = defineInputBinds("dob");
-const avatar = defineInputBinds("avatar");
-const job = defineInputBinds("job");
-const province = defineInputBinds("province");
-const district = defineInputBinds("district");
-const ward = defineInputBinds("ward");
-const address_detail = defineInputBinds("address_detail");
-
-const isSubmitting = ref(false);
-const resErrors = ref({});
+const ward_id = ref(undefined);
+const district_id = ref(undefined);
+const province_id = ref(undefined);
+const optionsPronvines = ref([]);
+const optionsDistricts = ref([]);
+const optionsWards = ref([]);
 
 // Submit handler
-const onSubmit = handleSubmit(async (values) => {
-  // Submit to API
-  const newData = {
-    ...values,
-    province:
-      (provinces as any).value.filter(
-        (item) => values.province === item.value
-      )[0]?.label || values?.province,
-    district:
-      (districts as any).value.filter(
-        (item) => values.district === item.value
-      )[0]?.label || values?.district,
-    ward:
-      (wards as any).value.filter((item) => values.ward === item.value)[0]
-        ?.label || values?.ward,
-    dob: dayjs(values?.dob, "DD-MM-YYYY").format("YYYY-MM-DD"),
-  };
-  console.log("messges dataa", newData);
-
-  const resData = await authStore.updateProfile(newData);
-  console.log("resData", resData);
-
+const onSubmit = async () => {
+  const resData = await authStore.updateProfile({
+    fullname: user.value.fullname,
+    email: user.value.email,
+    phone: user.value.phone,
+    gender: user.value.gender,
+    dob: user.value.dob,
+    job: user.value.job,
+    province_id: province_id.value,
+    district_id: district_id.value,
+    ward_id: ward_id.value,
+    street: address.value.street,
+    address_detail:
+      address.value.province &&
+      address.value.district &&
+      address.value.ward &&
+      address.value.street
+        ? `${address.value.street}, ${address.value.ward}, ${address.value.district}, ${address.value.province}`
+        : null,
+  });
   if (resData?.data?._rawValue?.status == true) {
     message.success({
       content: "Chỉnh sửa thành công",
     });
-    // navigateTo("/account");
+    await authStore.getProfile();
     isShow.value = false;
     data.value = resData?.data?._rawValue?.data;
   } else {
     resErrors.value = resData.error.value.data.errors;
-    console.log("object", resErrors.value);
     message.error({
       content: "Chỉnh sửa không thành công",
     });
   }
-});
-
-const handleChangeEditAcc = () => {
-  isShow.value = !isShow.value;
 };
-const handleCancel = () => {
-  isShow.value = false;
-};
-useAsyncData(async () => {
-  isLoading.value = true;
-  try {
-    const response = await authStore.getProfile();
-    data.value = response.data._rawValue.data;
-    setFieldValue("email", data.value.email);
-    setFieldValue("fullname", data.value.fullname);
-    setFieldValue("gender", data.value.gender);
-    setFieldValue("phone", data.value.phone);
-    setFieldValue("avatar", data.value.avatar);
-    setFieldValue("job", data.value.job);
-    setFieldValue("dob", dayjs(data.value.dob));
-    setFieldValue("province", data.value.province);
-    setFieldValue("district", data.value.district);
-    setFieldValue("ward", data.value.ward);
-    setFieldValue("address_detail", data.value.address_detail);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    isLoading.value = false;
-  }
-});
 
 useAsyncData(async () => {
-  const data = await baseStore.getProvinces();
-  provinces.value = data.data._rawValue.data.map((item) => {
+  await baseStore.getProvinces();
+  optionsPronvines.value = baseStore.province.map((item) => {
     return {
-      value: item.ProvinceID,
+      value: item.id,
       label: item.ProvinceName,
     };
   });
@@ -348,47 +323,88 @@ useAsyncData(async () => {
 
 useAsyncData(
   async () => {
-    const dataDistricts = await baseStore.getDistricts(valuePronvines._value);
-    districts.value = dataDistricts.data._rawValue.data.map((item) => ({
-      value: item.DistrictID,
-      label: item.DistrictName,
-    }));
+    if (province_id.value) {
+      await baseStore.getDistricts(province_id.value);
+      optionsDistricts.value = baseStore.districts.map((item) => ({
+        value: item.id,
+        label: item.DistrictName,
+      }));
+    }
   },
   {
-    watch: valuePronvines,
+    immediate: true,
+    watch: province_id,
   }
 );
 
 useAsyncData(
   async () => {
-    const dataWards = await baseStore.getWards(valueDistricts._rawValue);
-    wards.value = dataWards.data._rawValue.data.map((item) => ({
-      value: item.WardCode,
-      label: item.WardName,
-    }));
+    if (district_id.value) {
+      await baseStore.getWards(district_id.value);
+      optionsWards.value = baseStore.ward.map((item) => ({
+        value: item.id,
+        label: item.WardName,
+      }));
+    }
   },
   {
-    watch: valueDistricts,
+    immediate: true,
+    watch: district_id,
   }
 );
 
-const handleChangeProvince = (province) => {
-  const selectedProvince = provinces.value.find(
-    (item) => item.value === province
-  );
-  address.value.province = selectedProvince ? selectedProvince.label : "";
-};
+const handleChangeEditAcc = () => {
+  isShow.value = !isShow.value;
+  if (isShow.value) {
+    user.value.fullname = authStore?.authUser?.user?.fullname;
+    user.value.gender = authStore?.authUser?.user?.gender;
+    user.value.phone = authStore?.authUser?.user?.phone;
+    user.value.email = authStore?.authUser?.user?.email;
+    user.value.dob = authStore?.authUser?.user?.dob;
+    user.value.job = authStore?.authUser?.user?.job;
+    address.value.province = authStore?.authUser?.user?.province?.ProvinceName;
+    address.value.district = authStore?.authUser?.user?.district?.DistrictName;
+    address.value.ward = authStore?.authUser?.user?.ward?.WardName;
+    address.value.street = authStore?.authUser?.user?.street;
+    province_id.value = authStore?.authUser?.user?.province?.id;
+    district_id.value = authStore?.authUser?.user?.district?.id;
+    ward_id.value = authStore?.authUser?.user?.ward?.id;
 
-const handleChangeDistrict = (district) => {
-  const selectedDistrict = districts.value.find(
-    (item) => item.value === district
-  );
-  address.value.district = selectedDistrict ? selectedDistrict.label : "";
+    // province_id: province_id.value,
+    // district_id: district_id.value,
+    // ward_id: ward_id.value,
+  }
 };
+const handleCancel = () => {
+  isShow.value = false;
+};
+useAsyncData(async () => {
+  await authStore.getProfile();
+});
 
-const handleChangeWard = (ward) => {
-  const selectedWard = wards.value.find((item) => item.value === ward);
-  address.value.ward = selectedWard ? selectedWard.label : "";
+const handleChangeProvince = (value) => {
+  province_id.value = value;
+  district_id.value = undefined;
+  ward_id.value = undefined;
+  address.value.street = "";
+  address.value.province = optionsPronvines.value.find(
+    (item) => item.value === value
+  ).label;
+};
+const handleChangeDistrict = (value) => {
+  district_id.value = value;
+  ward_id.value = undefined;
+  address.value.street = "";
+  address.value.district = optionsDistricts.value.find(
+    (item) => item.value === value
+  ).label;
+};
+const handleChangeWard = (value) => {
+  ward_id.value = value;
+  address.value.street = "";
+  address.value.ward = optionsWards.value.find(
+    (item) => item.value === value
+  ).label;
 };
 
 const handleBlur = () => {

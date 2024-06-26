@@ -74,7 +74,7 @@
             ]"
             @click="handleCheckStatus('approve_canceled')"
           >
-            <img src="../../../assets/images/icon-hidden.svg" alt="" />
+            <img src="../../../assets/images/icon-draft.svg" alt="" />
             <span>Bị từ chối</span>
           </a-button>
 
@@ -86,7 +86,7 @@
             ]"
             @click="handleCheckStatus('hidden')"
           >
-            <img src="../../../assets/images/icon-hidden.svg" alt="" />
+            <img src="../../../assets/images/icon-draft.svg" alt="" />
             <span>Đang ẩn</span>
           </a-button>
         </div>
@@ -106,7 +106,7 @@
         <template #bodyCell="{ column, record }">
           <!--  -->
           <template v-if="column.key === 'image'">
-            <a-avatar :src="record.image" :size="80" />
+            <a-avatar :src="record.image" :size="80" class="rounded-lg" />
           </template>
           <!--  -->
           <template v-if="column.key === 'created_at'">
