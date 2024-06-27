@@ -98,7 +98,7 @@
     <WalletHistory />
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 const route = useRoute();
 const walletId = route.params.id;
 const walletAdminStore = useWalletAdminStore();

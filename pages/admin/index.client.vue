@@ -182,7 +182,7 @@
             <a-button type="primary" size="large">Thêm đơn hàng</a-button>
           </div>
         </div>
-        <div class="flex gap-3 text-white py-5">
+        <div class="flex gap-4 text-white">
           <a-button
             :class="[
               'flex justify-center items-center gap-2 h-10 border-none shadow-none',
@@ -251,31 +251,29 @@
               </template>
               <template v-else-if="column.key === 'action'">
                 <div class="flex text-[16px] gap-4">
-                  <NuxtLink :to="`/admin/product-manager/${record.id}`">
-                    <a-tooltip placement="top">
+                  <NuxtLink
+                    class="hover:text-black"
+                    :to="`/admin/product-manager/${record.id}`"
+                  >
+                    <a-tooltip placement="top" color="black">
                       <template #title>
                         <span>Xem chi tiết</span>
                       </template>
                       <button
-                        class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                        class="hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                       >
-                        <div>
-                          <UIcon
-                            class="group-hover:text-[#212122]"
-                            name="i-icon-park-outline-eyes"
-                          />
+                        <div class="flex items-center">
+                          <UIcon name="i-icon-park-outline-eyes" />
                         </div>
                       </button>
                     </a-tooltip>
                   </NuxtLink>
+
                   <a-dropdown :trigger="['click']" placement="bottom">
                     <button
                       class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                     >
-                      <UIcon
-                        class="group-hover:text-[#131313]"
-                        name="i-solar-menu-dots-bold"
-                      />
+                      <UIcon class="text-lg" name="i-solar-menu-dots-bold" />
                     </button>
                     <template #overlay>
                       <a-menu>

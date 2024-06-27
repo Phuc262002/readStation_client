@@ -32,7 +32,7 @@ export const useUserStore = defineStore("user-store", {
     },
     async getOneUser(id: any) {
       try {
-        this.isSubmitting = true;
+        this.isLoading = true;
         const data: any = await useCustomFetch(
           `/api/v1/admin/users/get-one/${id}`
         );
@@ -40,8 +40,8 @@ export const useUserStore = defineStore("user-store", {
         return data;
       } catch (error) {
         console.log(error);
-      }finally {
-        this.isSubmitting = false;
+      } finally {
+        this.isLoading = false;
       }
     },
     async createUser(user: any) {
