@@ -10,7 +10,7 @@
       >
         <div class="flex items-center justify-between border-b pb-2">
           <span>Loại tài khoản</span>
-          <span>User</span>
+          <span> {{ authStore?.authUser?.user?.role?.name }} </span>
         </div>
         <div class="flex items-center justify-between border-b pb-2">
           <span>Xác minh</span>
@@ -18,7 +18,11 @@
         </div>
         <div class="flex items-center justify-between">
           <span>Ngày mở tài khoản</span>
-          <span>18.02.2023</span>
+          <span>
+            {{
+              $dayjs(authStore?.authUser?.user?.created_at).format("DD-MM-YYYY")
+            }}
+          </span>
         </div>
       </div>
     </div>
@@ -50,3 +54,6 @@
     </div>
   </div>
 </template>
+<script setup lang="ts">
+const authStore = useAuthStore();
+</script>

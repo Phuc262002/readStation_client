@@ -11,12 +11,11 @@
         <div class="space-y-0 pb-4">
           <h2 class="font-bold text-3xl pb-2">Giao dịch không thành công</h2>
           <p class="text-xl">Giao dịch không thực hiện được</p>
-          <p class="text-xl">Tài khoản của bạn không bị trừ tiền</p>
           <p class="text-xl">Vui lòng thử lại sau</p>
         </div>
-        <NuxtLink to="/products">
+        <NuxtLink to="/account/wallet">
           <a-button class="text-base bg-orange-500 !text-white h-10 px-10">
-            Quay lại trang chủ
+            Quay lại trang quản lý ví
           </a-button>
         </NuxtLink>
       </div>

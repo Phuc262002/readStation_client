@@ -162,7 +162,7 @@
                   </nuxt-link>
                 </div>
                 <div class="flex justify-center">
-                  <Nuxt-link to="/shop">
+                  <Nuxt-link to="/products">
                     <button
                       class="flex justify-center text-sm items-center gap-2 hover:text-rtsecondary"
                     >

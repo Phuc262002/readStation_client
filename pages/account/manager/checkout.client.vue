@@ -332,24 +332,39 @@ const totalFee = ref(
 );
 
 const payCart = async () => {
+  const newInfo = {
+    fullname: authStore?.authUser?.user?.fullname,
+    phone: authStore?.authUser?.user?.phone,
+    address: authStore?.authUser?.user?.address_detail,
+  };
   const newArr = cartStore.carts.map((item) => {
     return {
       book_details_id: item.id,
       service_fee: parseFloat(item.price) * 0.1,
-      deposit: parseFloat(item.price) * (item.hire_percent / 100),
+      deposit_fee: parseFloat(item.price) * (item.hire_percent / 100),
     };
   });
   const resData = await orderStore.createOrder({
     payment_method: payment_method.value,
-    payment_shipping: payment_shipping.value,
-    phone: authStore?.authUser?.user?.phone,
-    address: authStore?.authUser?.user?.address_detail,
+    delivery_method: "shipper",
     user_note: userNote.value,
-    shipping_fee: parseFloat(shippingFee.value),
+    discount: 0,
+    shipping_method_id: 1,
+    total_shipping_fee: parseFloat(shippingFee.value),
     total_service_fee: parseFloat(serviceFee.value),
     total_deposit_fee: parseFloat(depositFee.value),
     total_all_fee: parseFloat(totalFee.value),
     order_details: newArr,
+    delivery_info: newInfo,
+    // payment_method: payment_method.value,
+    // payment_shipping: payment_shipping.value,
+    // phone: authStore?.authUser?.user?.phone,
+    // address: authStore?.authUser?.user?.address_detail,
+    // user_note: userNote.value,
+    // shipping_fee: parseFloat(shippingFee.value),
+    // total_service_fee: parseFloat(serviceFee.value),
+    // total_deposit_fee: parseFloat(depositFee.value),
+    // total_all_fee: parseFloat(totalFee.value),
   });
   if (resData?.data?._rawValue?.status == true) {
     message.success({

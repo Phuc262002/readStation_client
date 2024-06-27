@@ -13,7 +13,7 @@ export const useOrderClientStore = defineStore("order-client-store", {
   actions: {
     async getAllOrder({ page, pageSize, status, search }: any) {
       const data: any = await useCustomFetch(
-        `/api/v1/account/order/get-all?${page ? `&page=${page}` : ""}${
+        `/api/v1/account/orders?${page ? `&page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
         }${status ? `&status=${status}` : ""}${
           search ? `$search=${search}` : ""
@@ -38,10 +38,13 @@ export const useOrderClientStore = defineStore("order-client-store", {
     },
     async createOrder(body: any) {
       try {
-        const data: any = await useCustomFetch("/api/v1/account/order/create", {
-          method: "POST",
-          body: JSON.stringify(body),
-        });
+        const data: any = await useCustomFetch(
+          "/api/v1/account/orders/create",
+          {
+            method: "POST",
+            body: JSON.stringify(body),
+          }
+        );
         return data;
       } catch (error) {
         console.log("error", error);

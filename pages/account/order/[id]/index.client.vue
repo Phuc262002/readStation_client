@@ -125,10 +125,10 @@
             </div>
           </div>
           <!--  -->
-          <div class="w-1/2 border-r border-rtgray-50 space-y-3 pl-5">
+          <div class="w-1/2 space-y-3 pl-5">
             <div class="grid grid-cols-4">
-              <span class="col-span-1 font-bold">Tiền cọc:</span>
-              <span class="col-span-3">
+              <span class="col-span-2 font-bold">Tiền cọc:</span>
+              <span class="col-span-2">
                 {{
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
@@ -138,8 +138,8 @@
               </span>
             </div>
             <div class="grid grid-cols-4">
-              <span class="col-span-1 font-bold">Phí vận chuyển:</span>
-              <span class="col-span-3">
+              <span class="col-span-2 font-bold">Phí vận chuyển:</span>
+              <span class="col-span-2">
                 {{
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
@@ -149,8 +149,8 @@
               </span>
             </div>
             <div class="grid grid-cols-4">
-              <span class="col-span-1 font-bold">Phí dịch vụ:</span>
-              <span class="col-span-3">
+              <span class="col-span-2 font-bold">Phí dịch vụ:</span>
+              <span class="col-span-2">
                 {{
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
@@ -160,15 +160,15 @@
               </span>
             </div>
             <div class="grid grid-cols-4">
-              <span class="col-span-1 font-bold">Tổng tiền nhận:</span>
-              <span class="col-span-3">
+              <span class="col-span-2 font-bold">Tổng tiền nhận:</span>
+              <span class="col-span-2">
                 {{ orderStore?.order?.total_fine_fee }}
               </span>
             </div>
 
             <div class="grid grid-cols-4">
-              <span class="col-span-1 font-bold">Tổng cộng:</span>
-              <span class="col-span-3">
+              <span class="col-span-2 font-bold">Tổng cộng:</span>
+              <span class="col-span-2">
                 {{
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
@@ -178,21 +178,39 @@
               </span>
             </div>
             <div class="grid grid-cols-4">
-              <span class="col-span-1 font-bold">Số tiền trả lại:</span>
-              <span class="col-span-3"> Chưa cập nhật </span>
+              <span class="col-span-2 font-bold">Số tiền trả lại:</span>
+              <span class="col-span-2"> Chưa cập nhật </span>
             </div>
           </div>
         </div>
+      </div>
+      <div
+        class="flex justify-end pt-4 gap-2"
+        v-if="orderStore?.order?.status === 'hiring'"
+      >
+        <NuxtLink to="/account/order">
+          <a-button class="h-10"> Trả sách </a-button>
+        </NuxtLink>
+        <a-button class="h-10 bg-orange-500 !text-white border-none">
+          Gia hạn toàn bộ
+        </a-button>
       </div>
     </div>
     <!--  -->
     <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">
       <div>
-        <h3 class="font-bold border-b border-rtgray-50 pb-5">
-          Thông tin sách thuê
-        </h3>
-        <!--  -->
-        <div class="">
+        <div class="border-b border-rtgray-50 pb-3">
+          <h3 class="font-bold mb-1">Thông tin sách thuê</h3>
+          <span
+            class="text-xs text-tag-text-06"
+            v-if="orderStore?.order?.status === 'hiring'"
+          >
+            Lưu ý: Gia hạn riêng lẻ từng sách sẽ tính là 1 lần gia hạn. Nếu bạn
+            muốn gia hạn toàn bộ trong 1 lần hãy chọn “ Gia hạn toàn bộ ” ở trên
+          </span>
+        </div>
+
+        <!-- <div class="">
           <div
             class="pt-5 pb-8 border-b border-rtgray-50"
             v-for="(order, index) in orderStore?.order?.order_details"
@@ -233,11 +251,111 @@
               </div>
             </div>
           </div>
-          <!--  -->
+          
+        </div> -->
+
+        <div class="pt-5 pb-8 border-b border-rtgray-50">
+          <h3 class="font-bold">The Mountain Is You:</h3>
+          <div class="flex mt-3">
+            <div class="w-1/2 grid grid-cols-12 border-r border-rtgray-50">
+              <div class="col-span-4">
+                <img
+                  src="../../../../assets/images/bookshop.jpg"
+                  alt=""
+                  class="w-[114px] h-[176px] shadow-lg shadow-gray-500"
+                />
+              </div>
+              <div class="col-span-8 text-sm space-y-3">
+                <div class="grid grid-cols-6">
+                  <span class="col-span-3 font-bold">Tác giả:</span>
+                  <span class="col-span-3"> adsa </span>
+                </div>
+                <div class="grid grid-cols-6">
+                  <span class="col-span-3 font-bold">Danh mục:</span>
+                  <span class="col-span-3"> sdfdsv </span>
+                </div>
+                <div class="grid grid-cols-6">
+                  <span class="col-span-3 font-bold">Số lần gia hạn:</span>
+                  <span class="col-span-3"> 0 / 3 </span>
+                </div>
+                <div class="grid grid-cols-6">
+                  <span class="col-span-3 font-bold">Ngày trả dự kiến:</span>
+                  <span class="col-span-3"> adsa </span>
+                </div>
+                <div class="grid grid-cols-6">
+                  <span class="col-span-3 font-bold">Ngày trả thực tế:</span>
+                  <span class="col-span-3"> sdfdsv </span>
+                </div>
+                <div class="grid grid-cols-6">
+                  <span class="col-span-3 font-bold">Hình thức trả sách:</span>
+                  <span class="col-span-3"> 0 / 3 </span>
+                </div>
+              </div>
+            </div>
+            <!--  -->
+            <div class="w-1/2 space-y-3 pl-5 text-sm">
+              <div class="grid grid-cols-4">
+                <span class="col-span-2 font-bold">Tiền cọc:</span>
+                <span class="col-span-2">
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(orderStore?.order?.total_deposit_fee)
+                  }}
+                </span>
+              </div>
+              <div class="grid grid-cols-4">
+                <span class="col-span-2 font-bold">Phần trăm cọc:</span>
+                <span class="col-span-2">
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(orderStore?.order?.total_service_fee)
+                  }}
+                </span>
+              </div>
+              <div class="grid grid-cols-4">
+                <span class="col-span-2 font-bold">Phí dịch vụ:</span>
+                <span class="col-span-2">
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(orderStore?.order?.total_service_fee)
+                  }}
+                </span>
+              </div>
+              <div class="grid grid-cols-4">
+                <span class="col-span-2 font-bold">Tổng tiền:</span>
+                <span class="col-span-2">
+                  {{ orderStore?.order?.total_fine_fee }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex justify-end pt-4 gap-2"
+            v-if="orderStore?.order?.status === 'pending'"
+          >
+            <a-button class="h-10" @click="showModalGive"> Trả sách </a-button>
+
+            <a-button
+              class="h-10 bg-orange-500 !text-white border-none"
+              @click="showModalExtend"
+            >
+              Gia hạn lần 1
+            </a-button>
+          </div>
         </div>
       </div>
       <!--  -->
-      <div class="flex justify-end pt-4 gap-2">
+
+      <div
+        class="flex justify-end pt-4 gap-2"
+        v-if="orderStore?.order?.status === 'pending'"
+      >
         <NuxtLink to="/account/order">
           <a-button class="h-10"> Trở về </a-button>
         </NuxtLink>
@@ -246,6 +364,14 @@
         </a-button>
       </div>
     </div>
+    <AccountOrderExtendBook
+      :openModalExtend="openModalExtend"
+      :closeModalExtend="closeModalExtend"
+    />
+    <AccountOrderGiveBook
+      :openModalGive="openModalGive"
+      :closeModalGive="closeModalGive"
+    />
   </div>
 </template>
 <script setup lang="ts">
@@ -253,7 +379,25 @@ const orderStore = useOrderClientStore();
 const authStore = useAuthStore();
 const route = useRoute();
 const id = route.params.id;
-// console.log("id", id);
+
+// Modal Extend
+const openModalExtend = ref(false);
+const showModalExtend = () => {
+  openModalExtend.value = true;
+};
+const closeModalExtend = () => {
+  openModalExtend.value = false;
+};
+
+// Modal Give
+const openModalGive = ref(false);
+const showModalGive = () => {
+  openModalGive.value = true;
+};
+const closeModalGive = () => {
+  openModalGive.value = false;
+};
+
 useAsyncData(async () => {
   try {
     await orderStore.getOneOrder(id);

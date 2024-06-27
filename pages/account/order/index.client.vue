@@ -178,21 +178,21 @@
                   </button>
                 </a-tooltip>
               </NuxtLink>
-              <NuxtLink to="">
-                <a-tooltip placement="top">
-                  <template #title>
-                    <span>Hủy</span>
-                  </template>
-                  <button
-                    class="bg-rtgray-50 p-2 rounded-lg flex items-center justify-center"
-                  >
-                    <UIcon
-                      class="group-hover:text-black"
-                      name="i-material-symbols-close-rounded"
-                    />
-                  </button>
-                </a-tooltip>
-              </NuxtLink>
+
+              <a-tooltip placement="top">
+                <template #title>
+                  <span>Hủy</span>
+                </template>
+                <button
+                  v-if="record.status === 'pending'"
+                  class="bg-rtgray-50 p-2 rounded-lg flex items-center justify-center"
+                >
+                  <UIcon
+                    class="group-hover:text-black"
+                    name="i-material-symbols-close-rounded"
+                  />
+                </button>
+              </a-tooltip>
             </div>
           </template>
         </template>
