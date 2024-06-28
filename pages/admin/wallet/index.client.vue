@@ -144,7 +144,10 @@
                       class="p-4"
                     >
                       <span>
-                        <button class="flex items-center gap-1">
+                        <button
+                          @click="showModalConfirm('active')"
+                          class="flex items-center gap-1"
+                        >
                           <UIcon
                             class="group-hover:text-[red] text-lg"
                             name="i-material-symbols-delete-outline"
@@ -157,14 +160,15 @@
                     <a-menu-item
                       v-if="
                         record.status !== 'suspended' &&
-                        record.status !== 'frozen' && record.status !== 'locked'
+                        record.status !== 'frozen' &&
+                        record.status !== 'locked'
                       "
                       key="6"
                       class="p-4"
                     >
                       <span>
                         <button
-                          @click="showModalLocked"
+                          @click="showModalConfirm('suspended')"
                           class="flex items-center gap-1"
                         >
                           <UIcon
@@ -178,14 +182,15 @@
                     <a-menu-item
                       v-if="
                         record.status !== 'suspended' &&
-                        record.status !== 'frozen' && record.status !== 'locked'
+                        record.status !== 'frozen' &&
+                        record.status !== 'locked'
                       "
                       key="7"
                       class="p-4"
                     >
                       <span>
                         <button
-                          @click="showModalFrozen"
+                          @click="showModalConfirm('frozen')"
                           class="flex items-center gap-1"
                         >
                           <UIcon
@@ -207,23 +212,19 @@
         :openModalRecharge="openModalRecharge"
         :openModal="CloseModalRecharge"
       />
-      <WalletLocked
-        :openModalLocked="openModalLocked"
-        :openModal="CloseModalLocked"
-      />
-
-      <WalletFrozen
-        :openModalFrozen="openModalFrozen"
-        :openModal="CloseModalFrozen"
+      <WalletConfirm
+        :openModalConfirm="openModalConfirm"
+        :openModal="CloseModalConfirm"
+        :status="status"
       />
     </div>
   </div>
 </template>
-<script lang="ts" setup>
-const openModalRecharge = ref<boolean>(false);
-const openModalLocked = ref<boolean>(false);
-const openModalAccept = ref<boolean>(false);
-const openModalFrozen = ref<boolean>(false);
+<script setup>
+const openModalRecharge = ref(false);
+
+const openModalConfirm = ref(false);
+const status = ref("");
 const walletAdminStore = useWalletAdminStore();
 useAsyncData(async () => {
   await walletAdminStore.getAdminWallet({});
@@ -267,28 +268,18 @@ const columns = [
     key: "action",
   },
 ];
-const CloseModalFrozen = () => {
-  openModalFrozen.value = false;
+const CloseModalConfirm = () => {
+  openModalConfirm.value = false;
+  status.value = "";
 };
-const showModalFrozen = () => {
-  openModalFrozen.value = true;
+const showModalConfirm = (statusModal) => {
+  openModalConfirm.value = true;
+  status.value = statusModal;
 };
 const CloseModalRecharge = () => {
   openModalRecharge.value = false;
 };
 const showModalRecharge = () => {
   openModalRecharge.value = true;
-};
-const CloseModalAccept = () => {
-  openModalAccept.value = false;
-};
-const showModalAccept = () => {
-  openModalAccept.value = true;
-};
-const CloseModalLocked = () => {
-  openModalLocked.value = false;
-};
-const showModalLocked = () => {
-  openModalLocked.value = true;
 };
 </script>

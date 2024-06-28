@@ -4,7 +4,7 @@ export const useWalletAdminStore = defineStore("walletAdmin-store", {
   state: () => {
     return {
       adminWallet: [],
-      oneWalletAdmin: [],
+      oneWalletAdmin: {},
       isSubmitting: false,
       isLoading: false,
     };
