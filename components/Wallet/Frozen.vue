@@ -5,22 +5,22 @@
     :onCancel="handleClose"
   >
     <form @submit.prevent="onSubmit">
-      <div class="flex flex-col items-center bg-white py-2 px-10">
+      <div class="flex flex-col items-center bg-white py-2 ">
         <div class="py-2 text-center">
           <ExclamationCircleOutlined
-            class="text-red-500"
-            style="font-size: 64px"
+            class="text-red-500 mt-10 mb-5"
+            style="font-size: 80px"
           />
-          <span class="block text-base font-medium text-tag-text-06">
+          <span class="block text-2xl font-medium text-tag-text-06 my-2">
             Bạn có chắc chắn muốn đóng băng ví?
           </span>
           <span
             for="email"
-            class="block text-base font-medium text-tag-text-07"
+            class="block text-base font-medium text-tag-text-07 my-2"
           >
-            Ví của bạn sẽ không thể thực hiện giao dịch nào cho đến khi mở khóa
+            Ví của khách hàng sẽ không thể thực hiện giao dịch nào cho đến khi được mở khóa
           </span>
-          <span for="email" class="block text-base font-medium">
+          <span for="email" class="block text-base font-medium mt-5 mb-2">
             <span class="text-tag-text-06">*</span> Vui lòng nhập lý do đóng
             băng ví
           </span>
@@ -35,7 +35,7 @@
           >Hủy</a-button
         >
         <a-button type="primary" html-type="submit" class="mt-4"
-          >Cập nhật</a-button
+          >Xác nhận</a-button
         >
       </div>
     </form>

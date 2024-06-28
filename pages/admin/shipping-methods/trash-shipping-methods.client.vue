@@ -115,18 +115,17 @@
                   />
                 </button>
               </a-tooltip>
-              <a-tooltip placement="top">
+              <a-tooltip placement="top" color="black ">
                 <template #title>
-                  <span>Xóa</span>
+                  <span>Khôi phục</span>
                 </template>
                 <button
-                  @click="showDeleteConfirm(record?.id)"
+                  @click="showRecoverConfirm(record.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                  s
                 >
                   <UIcon
                     class="text-lg"
-                    name="i-material-symbols-delete-outline"
+                    name="i-material-symbols-autorenew-rounded"
                   />
                 </button>
               </a-tooltip>
@@ -152,14 +151,23 @@ const openModalEdit = ref<boolean>(false);
 const shippingMethodId = ref<number>();
 const shippingMethodStore = useShippingMethodsStore();
 useAsyncData(async () => {
-  shippingMethodStore.getAllShippingMethods({});
+  shippingMethodStore.getAllShippingMethods({
+    status: "deleted",
+  });
 });
-const onDelete = async (id: string) => {
-  await shippingMethodStore.deleteShippingMethod(id);
-  await shippingMethodStore.getAllShippingMethods({});
+const onRecover = async (id: string) => {
+  await shippingMethodStore.deleteShippingMethod({
+    id: id,
+    shippingMethod: {
+      status: "active",
+    },
+  });
+  await shippingMethodStore.getAllShippingMethods({
+    status: "deleted",
+  });
 };
 
-const showDeleteConfirm = (id: string) => {
+const showRecoverConfirm = (id: string) => {
   Modal.confirm({
     title: "Are you sure delete this task?",
     content: "Some descriptions",
@@ -167,7 +175,7 @@ const showDeleteConfirm = (id: string) => {
     okType: "danger",
     cancelText: "No",
     onOk() {
-      onDelete(id);
+      onRecover(id);
     },
     onCancel() {
       console.log("Cancel");

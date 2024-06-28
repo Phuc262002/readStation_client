@@ -5,12 +5,11 @@
     >
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">
-          Danh sách người dùng
+          Tài khoản chờ duyệt
         </h5>
       </div>
     </div>
 
-    <!-- Đây là phần code mẫu body -->
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
       <div class="flex justify-between pb-4">
         <div class="relative w-1/4 md:block hidden">
@@ -32,11 +31,7 @@
           <a-button type="primary">Thêm người dùng</a-button>
         </NuxtLink>
       </div>
-      <a-table
-        :columns="columns"
-        :data-source="userStore.userAdmin?.users"
-        :loading="userStore.isLoading"
-      >
+      <a-table :columns="columns" :data-source="data">
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'avatar'">
             <a-image
@@ -46,7 +41,7 @@
           </template>
           <template v-if="column.dataIndex === 'user_info'">
             <p class="p-0">
-              {{ record.fullname }}
+              {{ record.user_info }}
             </p>
             <p class="p-0">
               {{ record.email }}
@@ -57,26 +52,20 @@
           </template>
           <template v-if="column.key === 'address'">
             <span>
-              {{ record.address_detail }}
+              {{ record.address }}
             </span>
           </template>
           <template v-else-if="column.key === 'role'">
-            <a-tag :bordered="false" v-if="record.role.name === UserRole.ADMIN">
+            <a-tag :bordered="false" v-if="record.role === UserRole.ADMIN">
               Quản trị viên
             </a-tag>
-            <a-tag :bordered="false" v-if="record.role.name === UserRole.USER">
+            <a-tag :bordered="false" v-if="record.role === UserRole.USER">
               Người dùng
             </a-tag>
-            <a-tag
-              :bordered="false"
-              v-if="record.role.name === UserRole.STUDENT"
-            >
+            <a-tag :bordered="false" v-if="record.role === UserRole.STUDENT">
               Sinh viên
             </a-tag>
-            <a-tag
-              :bordered="false"
-              v-if="record.role.name === UserRole.MANAGER"
-            >
+            <a-tag :bordered="false" v-if="record.role === UserRole.MANAGER">
               Thủ thư
             </a-tag>
           </template>
@@ -89,8 +78,13 @@
             <IconMul v-else />
           </template>
           <template v-else-if="column.key === 'citizen_identity_card'">
-            <IconTick v-if="record.citizen_identity_card" />
-            <IconMul v-else />
+            <a-tag
+              :bordered="false"
+              v-if="record.citizen_identity_card === 'CMT/CCCD'"
+              color="green"
+            >
+              CMT/CCCD
+            </a-tag>
           </template>
 
           <template v-else-if="column.key === 'status'">
@@ -118,17 +112,18 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top" color="black">
-                <template #title>
-                  <span>Xem chi tiết</span>
-                </template>
-                <button
-                  @click="showModalDetail(record.id)"
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
-                >
-                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
-                </button>
-              </a-tooltip>
+              <NuxtLink to="/admin/user/await-user/1">
+                <a-tooltip placement="top" color="black">
+                  <template #title>
+                    <span>Xem chi tiết</span>
+                  </template>
+                  <button
+                    class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
+                  >
+                    <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
+                  </button>
+                </a-tooltip>
+              </NuxtLink>
 
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
@@ -141,17 +136,15 @@
                 </button>
                 <template #overlay>
                   <a-menu>
-                    <NuxtLink :to="`/admin/user/edit/${record.id}`">
-                      <a-menu-item key="2" class="p-4">
-                        <span class="flex items-center gap-2">
-                          <UIcon
-                            class="group-hover:text-[green]"
-                            name="i-material-symbols-edit-outline"
-                          />
-                          <span>Sửa</span>
-                        </span>
-                      </a-menu-item>
-                    </NuxtLink>
+                    <a-menu-item key="2" class="p-4">
+                      <span class="flex items-center gap-2">
+                        <UIcon
+                          class="group-hover:text-[green]"
+                          name="i-material-symbols-edit-outline"
+                        />
+                        <span>Sửa</span>
+                      </span>
+                    </a-menu-item>
                   </a-menu>
                 </template>
               </a-dropdown>
@@ -159,11 +152,6 @@
           </template>
         </template>
       </a-table>
-      <UserAdminDetail
-        :openModalDetail="openModalDetail"
-        :openModal="CloseModalDetail"
-        :userDetailId="userDetailId"
-      />
     </div>
   </div>
 </template>
@@ -171,12 +159,6 @@
 <script lang="ts" setup>
 import { UserStatus } from "~/types/admin/user";
 import { UserRole } from "~/types/admin/user";
-const userStore = useUserStore();
-const userDetailId = ref<string>();
-const openModalDetail = ref<boolean>(false);
-useAsyncData(async () => {
-  await userStore.getUser({});
-});
 
 const columns = [
   {
@@ -192,23 +174,12 @@ const columns = [
     width: "200px",
   },
   {
-    title: "Địa chỉ",
-    dataIndex: "address",
-    key: "address",
-    width: "200px",
-  },
-  {
     title: "Ví tài khoản",
     dataIndex: "has_wallet",
     key: "has_wallet",
   },
   {
-    title: "Vai trò",
-    dataIndex: "role",
-    key: "role",
-  },
-  {
-    title: "Xác thực tài khoản",
+    title: "Loại xác thực",
     dataIndex: "citizen_identity_card",
     key: "citizen_identity_card",
   },
@@ -223,19 +194,30 @@ const columns = [
     key: "status",
   },
   {
+    title: "Lý do",
+    dataIndex: "address",
+    key: "address",
+    width: "200px",
+  },
+
+  {
     title: "Hành động",
     dataIndex: "action",
     key: "action",
   },
 ];
-
-const CloseModalDetail = () => {
-  openModalDetail.value = false;
-};
-const showModalDetail = (id) => {
-  openModalDetail.value = true;
-  userDetailId.value = id;
-};
-
-
+const data = [
+  {
+    id: "1",
+    avatar:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCBSby-Eog7rtsX6n7KnopJpVFmkJjMcScJA&s",
+    user_info: "Nguyễn Văn A",
+    address: "Ảnh mờ không kiểm tra được thông tin",
+    has_wallet: true,
+    role: "Quản trị viên",
+    citizen_identity_card: "CMT/CCCD",
+    google_id: true,
+    status: "Công khai",
+  },
+];
 </script>

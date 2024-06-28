@@ -162,7 +162,7 @@
                   </nuxt-link>
                 </div>
                 <div class="flex justify-center">
-                  <Nuxt-link to="/shop">
+                  <Nuxt-link to="/products">
                     <button
                       class="flex justify-center text-sm items-center gap-2 hover:text-rtsecondary"
                     >
@@ -202,19 +202,45 @@
 <script setup>
 import { ref } from "vue";
 const cartStore = useCartStore();
+const depositFee = ref(0);
+const serviceFee = ref(0);
+const totalFee = ref(0);
 
 // phí cọc
-const depositFee = ref(
-  cartStore?.carts.reduce(
+const calcDepositFee = () => {
+  depositFee.value = cartStore?.carts.reduce(
     (acc, curr) =>
       acc + (parseFloat(curr.price) * parseFloat(curr.hire_percent)) / 100,
     0
-  )
-);
+  );
+};
 // phí dịch vụ
-const serviceFee = ref(
-  cartStore.carts.reduce((acc, curr) => acc + parseFloat(curr.price) * 0.1, 0)
-);
+const calcServiceFee = () => {
+  serviceFee.value = cartStore.carts.reduce(
+    (acc, curr) => acc + parseFloat(curr.price) * 0.1,
+    0
+  );
+};
 // Tổng tiền
-const totalFee = ref(depositFee.value + serviceFee.value);
+const calcTotalFee = () => {
+  totalFee.value = depositFee.value + serviceFee.value;
+};
+useAsyncData(
+  async () => {
+    calcDepositFee();
+    calcServiceFee();
+    calcTotalFee();
+  },
+  {
+    immediate: true,
+    watch: [() => cartStore.carts],
+  }
+);
+watch(
+  () => cartStore.carts,
+
+  () => {
+    calcDepositFee(), calcServiceFee(), calcTotalFee();
+  }
+);
 </script>

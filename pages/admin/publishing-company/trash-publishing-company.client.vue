@@ -157,7 +157,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-const baseStore = useBaseStore();
 
 import { Modal } from "ant-design-vue";
 const openModalEdit = ref<boolean>(false);

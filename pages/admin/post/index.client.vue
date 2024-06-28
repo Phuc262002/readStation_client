@@ -143,9 +143,9 @@
                   <a-menu>
                     <NuxtLink :to="`/admin/post/edit/${record.id}`">
                       <a-menu-item key="2" class="p-4">
-                        <span class="flex items-center gap-2 text-blue-400">
+                        <span class="flex items-center gap-2 ">
                           <UIcon
-                            class="group-hover:text-[green]"
+                            class="text-lg"
                             name="i-material-symbols-edit-outline"
                           />
                           <span>Sửa</span>
@@ -157,10 +157,10 @@
                       <span>
                         <button
                           @click="showDeleteConfirm(record?.id)"
-                          class="flex items-center gap-1 text-blue-400"
+                          class="flex items-center gap-1"
                         >
                           <UIcon
-                            class="group-hover:text-[red] text-lg"
+                            class=" text-lg"
                             name="i-material-symbols-delete-outline"
                           />
                           <span>Xóa</span>
