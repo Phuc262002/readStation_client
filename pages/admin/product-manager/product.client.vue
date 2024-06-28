@@ -147,52 +147,59 @@
                     </div>
                     <div class="flex flex-col gap-1">
                       <span>{{ record.user.fullname }}</span>
-                      <span>{{ record.user.phone }}</span>
                     </div>
                   </div>
                 </template>
                 <template v-else-if="column.dataIndex === 'order_details'">
-                  <span>{{ record.order_details.length }} quyển</span>
+                  <span>{{ record.loan_order_details.length }} quyển</span>
                 </template>
                 <template v-else-if="column.dataIndex === 'receipt_date'">
-                  <span>{{ $dayjs(record.receipt_date).format("DD/MM/YYYY") }}</span>
+                  <span>{{ $dayjs(record.loan_date).format("DD/MM/YYYY") }}</span>
                 </template>
                 <template v-if="column.dataIndex === 'status'">
                   <span>
                     <a-tag :bordered="false" v-if="record.status === 'pending'" class="bg-tag-bg-01 text-tag-text-01">
                       Đang xử lý
                     </a-tag>
-                    <a-tag :bordered="false" v-else-if="record.status === 'hiring'"
-                      class="bg-tag-bg-04 text-tag-text-04">
-                      Đang thuê
+                    <a-tag :bordered="false" v-else-if="record.status === 'approved'"
+                      class="bg-tag-bg-01 text-tag-text-01">
+                      approved
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'ready_for_pickup'"
+                      class="bg-tag-bg-01 text-tag-text-01">
+                      ready_for_pickup
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'preparing_shipment'"
+                      class="bg-tag-bg-06 text-tag-text-06">
+                      preparing_shipment
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'in_transit'"
+                      class="bg-tag-bg-07 text-tag-text-07">
+                      in_transit
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'extended'"
+                      class="bg-tag-bg-02 text-tag-text-02">
+                      extended
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'active'"
+                      class="bg-tag-bg-03 text-tag-text-03">
+                      active
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'returning'"
+                      class="bg-tag-bg-12 text-tag-text-12">
+                      returning
                     </a-tag>
                     <a-tag :bordered="false" v-else-if="record.status === 'completed'"
-                      class="bg-tag-bg-05 text-tag-text-05">
-                      Hoàn thành
-                    </a-tag>
-                    <a-tag :bordered="false" v-else-if="record.status === 'out_of_date'"
-                      class="bg-tag-bg-06 text-tag-text-06">
-                      Quá hạn
+                      class="bg-tag-bg-13 text-tag-text-13">
+                      completed
                     </a-tag>
                     <a-tag :bordered="false" v-else-if="record.status === 'canceled'"
-                      class="bg-tag-bg-07 text-tag-text-07">
-                      Đã hủy
-                    </a-tag>
-                    <a-tag :bordered="false" v-else-if="record.status === 'approved'"
-                      class="bg-tag-bg-02 text-tag-text-02">
-                      Đã xác nhận
-                    </a-tag>
-                    <a-tag :bordered="false" v-else-if="record.status === 'wating_take_book'"
-                      class="bg-tag-bg-03 text-tag-text-03">
-                      Đang giao
-                    </a-tag>
-                    <a-tag :bordered="false" v-else-if="record.status === 'increasing'"
-                      class="bg-tag-bg-12 text-tag-text-12">
-                      Đang gia hạn
-                    </a-tag>
-                    <a-tag :bordered="false" v-else-if="record.status === 'wating_return'"
                       class="bg-tag-bg-13 text-tag-text-13">
-                      Chờ trả sách
+                      canceled
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'overdue'"
+                      class="bg-tag-bg-13 text-tag-text-13">
+                      overdue
                     </a-tag>
                   </span>
                 </template>
