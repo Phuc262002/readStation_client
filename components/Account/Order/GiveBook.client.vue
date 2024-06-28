@@ -29,7 +29,7 @@
         <div class="grid grid-cols-12 px-5">
           <div class="col-span-3">
             <img
-              src="../../../../assets/images/bookshop.jpg"
+              src=""
               alt=""
               class="w-[114px] h-[176px] shadow-lg shadow-gray-500"
             />
