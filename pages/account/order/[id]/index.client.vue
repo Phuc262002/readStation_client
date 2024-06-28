@@ -13,7 +13,7 @@
             <div class="grid grid-cols-4">
               <span class="col-span-1 font-bold">Tên khách hàng:</span>
               <span class="col-span-3">
-                {{ authStore?.authUser?.user?.fullname }}
+                {{ orderStore?.order?.delivery_info?.fullname }}
               </span>
             </div>
             <div class="grid grid-cols-4">
@@ -24,13 +24,17 @@
             </div>
             <div class="grid grid-cols-4">
               <span class="col-span-1 font-bold">Số điện thoại:</span>
-              <span class="col-span-3">{{ orderStore?.order?.phone }}</span>
+              <span class="col-span-3">
+                {{ orderStore?.order?.delivery_info?.phone }}
+              </span>
             </div>
           </div>
           <div class="w-1/2 pl-5 space-y-3">
             <div class="grid grid-cols-4">
               <span class="col-span-2 font-bold">Địa chỉ nhận sách:</span>
-              <span class="col-span-2"> {{ orderStore?.order?.address }} </span>
+              <span class="col-span-2">
+                {{ orderStore?.order?.delivery_info?.address }}
+              </span>
             </div>
             <div class="grid grid-cols-4">
               <span class="col-span-2 font-bold">Phương thức thanh toán:</span>
@@ -91,7 +95,7 @@
             <div class="grid grid-cols-4">
               <span class="col-span-2 font-bold">Số sách thuê:</span>
               <span class="col-span-2">
-                {{ orderStore?.order?.order_details?.length }}
+                {{ orderStore?.order?.loan_order_details?.length }}
               </span>
             </div>
             <div class="grid grid-cols-4">
@@ -121,7 +125,9 @@
             </div>
             <div class="grid grid-cols-4">
               <span class="col-span-2 font-bold">Hình thức vận chuyển:</span>
-              <span class="col-span-2">Chưa có thông tin</span>
+              <span class="col-span-2">
+                {{ orderStore?.order?.delivery_method }}
+              </span>
             </div>
           </div>
           <!--  -->
@@ -144,7 +150,7 @@
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  }).format(orderStore?.order?.total_service_fee)
+                  }).format(orderStore?.order?.total_shipping_fee)
                 }}
               </span>
             </div>
@@ -210,57 +216,20 @@
           </span>
         </div>
 
-        <!-- <div class="">
-          <div
-            class="pt-5 pb-8 border-b border-rtgray-50"
-            v-for="(order, index) in orderStore?.order?.order_details"
-            :key="index"
-          >
-            <h3 class="font-bold">
-              {{ order?.book_detail?.book?.title }} -
-              {{ order?.book_detail?.book_version }}
-            </h3>
-            <div class="grid grid-cols-6 mt-3">
-              <div class="col-span-1">
-                <img
-                  :src="order?.book_detail?.poster"
-                  alt=""
-                  class="w-[114px] h-[176px] shadow-lg shadow-gray-500"
-                />
-              </div>
-              <div class="col-span-5">
-                <div class="grid grid-cols-6">
-                  <span class="col-span-1">Tác giả:</span>
-                  <span class="col-span-5">
-                    {{ order?.book_detail?.book?.author?.author }}
-                  </span>
-                </div>
-                <div class="grid grid-cols-6">
-                  <span class="col-span-1">Danh mục:</span>
-                  <span class="col-span-5">
-                    {{ order?.book_detail?.book?.category?.name }}
-                  </span>
-                </div>
-                <div class="grid grid-cols-6">
-                  <span class="col-span-1">Số lần gia hạn:</span>
-                  <span class="col-span-5">
-                    {{ orderStore?.order?.current_extensions }} /
-                    {{ orderStore?.order?.max_extensions }}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-        </div> -->
-
-        <div class="pt-5 pb-8 border-b border-rtgray-50">
-          <h3 class="font-bold">The Mountain Is You:</h3>
+        <div
+          class="pt-5 pb-8 border-b border-rtgray-50"
+          v-for="(order, index) in orderStore?.order?.loan_order_details"
+          :key="index"
+        >
+          <h3 class="font-bold">
+            {{ order?.book_details?.book?.title }} -
+            {{ order?.book_details?.book_version }}
+          </h3>
           <div class="flex mt-3">
             <div class="w-1/2 grid grid-cols-12 border-r border-rtgray-50">
               <div class="col-span-4">
                 <img
-                  src="../../../../assets/images/bookshop.jpg"
+                  :src="order?.book_details?.poster"
                   alt=""
                   class="w-[114px] h-[176px] shadow-lg shadow-gray-500"
                 />
@@ -268,11 +237,15 @@
               <div class="col-span-8 text-sm space-y-3">
                 <div class="grid grid-cols-6">
                   <span class="col-span-3 font-bold">Tác giả:</span>
-                  <span class="col-span-3"> adsa </span>
+                  <span class="col-span-3">
+                    {{ order?.book_details?.book?.author?.author }}
+                  </span>
                 </div>
                 <div class="grid grid-cols-6">
                   <span class="col-span-3 font-bold">Danh mục:</span>
-                  <span class="col-span-3"> sdfdsv </span>
+                  <span class="col-span-3">
+                    {{ order?.book_details?.book?.category?.name }}
+                  </span>
                 </div>
                 <div class="grid grid-cols-6">
                   <span class="col-span-3 font-bold">Số lần gia hạn:</span>
@@ -301,19 +274,14 @@
                     new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(orderStore?.order?.total_deposit_fee)
+                    }).format(order?.deposit_fee)
                   }}
                 </span>
               </div>
               <div class="grid grid-cols-4">
                 <span class="col-span-2 font-bold">Phần trăm cọc:</span>
                 <span class="col-span-2">
-                  {{
-                    new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(orderStore?.order?.total_service_fee)
-                  }}
+                  {{ order?.book_details?.hire_percent }} %
                 </span>
               </div>
               <div class="grid grid-cols-4">
@@ -323,14 +291,19 @@
                     new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(orderStore?.order?.total_service_fee)
+                    }).format(order?.service_fee)
                   }}
                 </span>
               </div>
               <div class="grid grid-cols-4">
                 <span class="col-span-2 font-bold">Tổng tiền:</span>
                 <span class="col-span-2">
-                  {{ orderStore?.order?.total_fine_fee }}
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(order?.deposit_fee + order?.service_fee)
+                  }}
                 </span>
               </div>
             </div>
