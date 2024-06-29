@@ -9,16 +9,14 @@
     </div>
 
     <!-- Đây là phần code mẫu body -->
-    <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
-      <div class="text-xl text-[#1e293b] font-semibold pb-4">
-        Thông tin cá nhân
-      </div>
-      <div class="w-1/2 md:block hidden pb-4">
+    <div class="bg-white min-h-[360px] w-full rounded-lg p-5 space-y-5">
+      <div class="text-xl text-[#1e293b] font-semibold">Thông tin cá nhân</div>
+      <div class="w-1/2 md:block hidden">
         <div class="flex">
           <a-dropdown :open="valueSearch ? true : false">
             <a-input
               v-model:value="valueSearch"
-              placeholder="Nhập mã kệ để tìm kiếm"
+              placeholder="Tìm kiếm người dùng"
               class="h-10"
               allow-clear
               @click.prevent
@@ -42,7 +40,7 @@
                   <div
                     class="flex justify-start gap-5 items-center"
                     v-if="userStore?.userAdmin?.users"
-                    @click="showConfirm(user)"
+                    @click="importUser(user)"
                   >
                     <div>
                       <a-avatar :src="user?.avatar" :size="64"> </a-avatar>
@@ -62,7 +60,7 @@
         </div>
       </div>
       <div class="grid grid-cols-3 gap-4">
-        <div class="pb-2">
+        <div>
           <label for="fullname" class="block text-sm font-medium text-gray-700">
             Họ và tên
           </label>
@@ -75,7 +73,7 @@
             />
           </div>
         </div>
-        <div class="pb-2">
+        <div>
           <label for="phone" class="block text-sm font-medium text-gray-700">
             Số điện thoại
           </label>
@@ -88,7 +86,7 @@
             />
           </div>
         </div>
-        <div class="pb-2">
+        <div>
           <label for="email" class="block text-sm font-medium text-gray-700">
             email
           </label>
@@ -103,11 +101,9 @@
         </div>
       </div>
 
-      <div class="text-xl text-[#1e293b] font-semibold pb-4">
-        Thông tin căn cước
-      </div>
-      <div class="grid grid-cols-4 gap-4">
-        <div class="pb-2">
+      <div class="text-xl text-[#1e293b] font-semibold">Thông tin căn cước</div>
+      <form @submit.prevent="showConfirm" class="grid grid-cols-4 gap-4">
+        <div>
           <label for="email" class="block text-sm font-medium text-gray-700">
             Họ tên khai sinh
           </label>
@@ -120,7 +116,7 @@
             />
           </div>
         </div>
-        <div class="pb-2">
+        <div>
           <label for="email" class="block text-sm font-medium text-gray-700">
             CMT/CCCD
           </label>
@@ -133,7 +129,7 @@
             />
           </div>
         </div>
-        <div class="pb-2">
+        <div>
           <label for="email" class="block text-sm font-medium text-gray-700">
             Ngày cấp
           </label>
@@ -146,7 +142,7 @@
             />
           </div>
         </div>
-        <div class="pb-2">
+        <div>
           <label for="email" class="block text-sm font-medium text-gray-700">
             Nơi cấp
           </label>
@@ -159,20 +155,58 @@
             />
           </div>
         </div>
-      </div>
-      <div class="flex gap-4"></div>
+        <div class="flex justify-end gap-2 col-span-4">
+          <a-button danger html-type="button">Hủy</a-button>
+          <a-button type="primary" html-type="submit"> Cập nhật </a-button>
+        </div>
+      </form>
+    </div>
+    <a-modal :footer="null" v-model:open="open">
+      <div class="flex flex-col items-center bg-white py-2">
+        <div class="py-2 text-center">
+          <ExclamationCircleOutlined
+            class="text-tag-text-01 mt-10 mb-5"
+            style="font-size: 80px"
+          />
 
+          <span class="block text-2xl font-medium text-tag-text-01 my-2">
+            Bạn có chắc chắn muốn xác thực ví cho người dùng
+            <span>{{ userShow.fullname }}</span
+            >?
+          </span>
+          <span class="block text-base font-medium my-2">
+            Sau khi xác thực, ví của người dùng sẽ được kích hoạt và hoạt động
+            bình thường.
+          </span>
+        </div>
+      </div>
       <div class="flex justify-end items-end gap-2">
         <a-button danger html-type="button" class="mt-4">Hủy</a-button>
-        <a-button type="primary" html-type="submit" class="mt-4">Cập nhật</a-button>
+        <a-button
+          :loading="walletAdminStore.isSubmitting"
+          @click="onSubmit"
+          type="primary"
+          html-type="submit"
+          class="mt-4"
+          >Xác thực</a-button
+        >
       </div>
-    </div>
+    </a-modal>
   </div>
 </template>
 <script setup>
 const userStore = useUserStore();
 const valueSearch = ref("");
 const userShow = ref({});
+const walletAdminStore = useWalletAdminStore();
+const open = ref(false);
+const showModal = () => {
+  open.value = true;
+};
+const hideModal = () => {
+  open.value = false;
+};
+
 const cccd = ref({
   citizen_code: "",
   citizen_name: "",
@@ -190,17 +224,37 @@ useAsyncData(
     watch: valueSearch,
   }
 );
-const showConfirm = (user) => {
-  Modal.confirm({
-    title: "Bạn có muốn thêm sách này vào kệ không?",
-    onOk() {
-      userShow.value = user;
-      valueSearch.value = "";
-    },
-    onCancel() {
-      console.log("Cancel");
-    },
-    class: "test",
-  });
+const onSubmit = async () => {
+  if (!userShow.value.id) {
+    message.error("Vui lòng chọn người dùng");
+    return;
+  }
+  // console.log({
+  //   ...cccd.value,
+  //   user_id: userShow.value.id,
+  // });
+  try {
+    const data = await walletAdminStore.verificationWallet({
+      ...cccd.value,
+      user_id: userShow.value.id,
+    });
+    console.log(data.error.value.data);
+    if (data.error.value.data) {
+      message.error(data.error.value.data.errors);
+    } else {
+      message.success("Xác thực ví thành công");
+    }
+  } catch (error) {
+    console.log(error);
+    message.error("Xác thực ví thất bại");
+  }
+  hideModal();
+};
+const importUser = (user) => {
+  userShow.value = user;
+  valueSearch.value = "";
+};
+const showConfirm = () => {
+  showModal();
 };
 </script>

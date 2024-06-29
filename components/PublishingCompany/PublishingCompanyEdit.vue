@@ -50,11 +50,13 @@
             <a-select
               ref="select"
               v-model:value="publishingCompany.status"
-              style="width: 120px"
+              style="width: 200px"
               @change="handleChange"
             >
-              <a-select-option value="active">Active</a-select-option>
-              <a-select-option value="inactive">Inactive</a-select-option>
+              <a-select-option value="active">Hoạt động</a-select-option>
+              <a-select-option value="inactive"
+                >Không hoạt động</a-select-option
+              >
             </a-select>
           </div>
         </div>
@@ -222,7 +224,6 @@ const onUpdate = async () => {
 };
 
 const handleClose = () => {
-  
   props.openModal();
 };
 </script>

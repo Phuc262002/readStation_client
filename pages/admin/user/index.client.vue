@@ -103,14 +103,14 @@
             </a-tag>
             <a-tag
               :bordered="false"
-              v-else="record.status === UserStatus.INACTIVE"
+              v-if="record.status === UserStatus.INACTIVE"
               color="yellow"
             >
               Đang ẩn
             </a-tag>
             <a-tag
               :bordered="false"
-              v-else="record.status === UserStatus.DELETED"
+              v-if="record.status === UserStatus.DELETED"
               color="red"
             >
               Đã xóa

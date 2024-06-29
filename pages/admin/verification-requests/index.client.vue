@@ -130,8 +130,6 @@
                   </button>
                 </a-tooltip>
               </NuxtLink>
-
-             
             </div>
           </template>
         </template>
@@ -180,18 +178,5 @@ const columns = [
     key: "action",
   },
 ];
-const data = [
-  {
-    id: "1",
-    avatar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCBSby-Eog7rtsX6n7KnopJpVFmkJjMcScJA&s",
-    user_info: "Nguyễn Văn A",
-    address: "Ảnh mờ không kiểm tra được thông tin",
-    has_wallet: true,
-    role: "Quản trị viên",
-    citizen_identity_card: "CMT/CCCD",
-    google_id: true,
-    status: "Công khai",
-  },
-];
+
 </script>
