@@ -9,18 +9,18 @@
     <a-modal
       v-model:open="props.openModalForm"
       title="Địa chỉ mới"
+      width="40%"
       :footer="null"
       :onCancel="handleClose"
     >
       <form @submit.prevent="onSubmit">
         <div class="flex gap-2">
           <div class="w-1/2 pb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700">
-              Họ tên
-            </label>
+            <label class="text-sm font-bold"> Họ tên </label>
             <div class="mt-1">
               <a-input
-                class="w-full h-10"
+                size="large"
+                class="w-full"
                 placeholder="Nhập họ tên"
                 v-model:value="user.fullname"
                 required
@@ -28,12 +28,11 @@
             </div>
           </div>
           <div class="w-1/2 pb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700">
-              Số điện thoại
-            </label>
+            <label class="text-sm font-bold"> Số điện thoại </label>
             <div class="mt-1">
               <a-input
-                class="w-full h-10"
+                size="large"
+                class="w-full"
                 placeholder="Nhập số điện thoại"
                 v-model:value="user.phone"
                 required
@@ -41,92 +40,90 @@
             </div>
           </div>
         </div>
-        <!-- <div class="flex gap-2">
+        <div class="flex gap-2">
           <div class="w-1/2 pb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700">
-              Tỉnh/ Thành phố
-            </label>
+            <label class="text-sm font-bold"> Tỉnh/ Thành phố </label>
             <div class="mt-1">
               <a-select
-                size="large"
-                v-model:value="valuePronvines"
-                show-search
-                placeholder="Tỉnh/Thành phố"
-                :options="provinces"
-                :filter-option="filterOption"
+                v-model:value="province_id"
+                :options="optionsProvines"
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @change="handleChangeProvince"
+                :loading="baseStore.isLoading"
                 class="w-full"
-              />
+                size="large"
+                show-search
+                placeholder="Tỉnh/Thành phố"
+              >
+              </a-select>
             </div>
           </div>
           <div class="w-1/2 pb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700">
-              Quận/ Huyện
-            </label>
+            <label class="text-sm font-bold"> Quận/ Huyện </label>
             <div class="mt-1">
               <a-select
-                v-model:value="valueDistricts"
-                show-search
-                placeholder="Quận/Huyện"
-                :options="districts"
+                v-model:value="district_id"
+                :options="optionsDistricts"
                 :filter-option="filterOption"
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @change="handleChangeDistrict"
+                :disabled="!province_id"
+                :loading="baseStore.isLoading"
                 class="w-full"
-              />
+                size="large"
+                show-search
+                placeholder="Quận/ Huyện"
+              >
+              </a-select>
             </div>
           </div>
         </div>
         <div class="flex gap-2">
           <div class="w-1/2 pb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700">
-              Phường/ Xã
-            </label>
+            <label class="text-sm font-bold"> Xã/ Phường/ Thị trấn </label>
             <div class="mt-1">
               <a-select
-                size="large"
-                v-model:value="valueWards"
-                show-search
-                placeholder="Phường/Xã"
-                :options="wards"
+                v-model:value="ward_id"
+                :options="optionsWards"
                 :filter-option="filterOption"
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @change="handleChangeWard"
+                :disabled="!district_id"
+                :loading="baseStore.isLoading"
                 class="w-full"
-              />
+                size="large"
+                show-search
+                placeholder="Xã/ Phường/ Thị trấn"
+              >
+              </a-select>
             </div>
           </div>
           <div class="w-1/2 pb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700">
-              Đường
-            </label>
+            <label class="text-sm font-bold"> Đường </label>
             <div class="mt-1">
               <a-input
-                class="w-full h-10"
-                placeholder="Đường"
                 v-model:value="address.street"
+                :disabled="!ward_id"
+                size="large"
+                class="w-full"
+                placeholder="Nhập đường"
                 required
               />
             </div>
           </div>
         </div>
-        <div class="pb-4">
-          <label for="email" class="block text-sm font-medium text-gray-700">
-            Địa chỉ cụ thể
-          </label>
+        <div>
+          <label class="text-sm font-bold"> Địa chỉ cụ thể </label>
           <div class="mt-1">
             <a-textarea
-              placeholder="Địa chỉ cụ thể của bạn"
-              :rows="4"
-              class="resize-none"
+              size="large"
               :value="`${address.street}, ${address.ward}, ${address.district}, ${address.province}`"
             />
           </div>
-        </div> -->
+        </div>
 
         <div class="flex justify-end items-end gap-2">
           <a-button @click="handleClose" danger html-type="button" class="mt-4"
@@ -148,17 +145,41 @@
 
 <script setup lang="ts">
 const authStore = useAuthStore();
-const data = ref(null);
+const baseStore = useBaseStore();
 const user = ref({
-  fullname: "",
-  phone: "",
+  fullname: authStore?.authUser?.user?.fullname,
+  phone: authStore?.authUser?.user?.phone,
 });
+const address = ref({
+  province: "",
+  district: "",
+  ward: "",
+  street: "",
+});
+const ward_id = ref(undefined);
+const district_id = ref(undefined);
+const province_id = ref(undefined);
+
+const optionsProvines = ref([]);
+const optionsDistricts = ref([]);
+const optionsWards = ref([]);
 
 // Update Profile
 const onSubmit = async () => {
   const resData = await authStore.updateProfile({
     fullname: user.value.fullname,
     phone: user.value.phone,
+    province_id: province_id.value,
+    district_id: district_id.value,
+    ward_id: ward_id.value,
+    street: address.value.street,
+    address_detail:
+      address.value.province &&
+      address.value.district &&
+      address.value.ward &&
+      address.value.street
+        ? `${address.value.street}, ${address.value.ward}, ${address.value.district}, ${address.value.province}`
+        : null,
   });
   console.log("user", resData.value);
   if (resData?.data?._rawValue?.status == true) {
@@ -166,6 +187,7 @@ const onSubmit = async () => {
       content: "Chỉnh sửa thành công",
     });
     await authStore.getProfile();
+    handleClose();
   } else {
     resErrors.value = resData.error.value.data.errors;
     console.log("object", resErrors.value);
@@ -173,45 +195,74 @@ const onSubmit = async () => {
       content: "Chỉnh sửa không thành công",
     });
   }
-  // const newData = {
-  //   ...values,
-  //   province:
-  //     (provinces as any).value.filter(
-  //       (item) => values.province === item.value
-  //     )[0]?.label || values?.provinces,
-  //   district:
-  //     (districts as any).value.filter(
-  //       (item) => values.district === item.value
-  //     )[0]?.label || values?.district,
-  //   ward:
-  //     (wards as any).value.filter((item) => values.ward === item.value)[0]
-  //       ?.label || values?.ward,
-  // };
-  // const resData = await authStore.updateProfile(newData);
-  // // console.log("newData", resData);
-  // if (resData?.data?._rawValue?.status == true) {
-  //   message.success({
-  //     content: "Chỉnh sửa thành công",
-  //   });
-  //   data.value = resData?.data?._rawValue?.data;
-  // } else {
-  //   resErrors.value = resData.error.value.data.errors;
-  //   console.log("object", resErrors.value);
-  //   message.error({
-  //     content: "Chỉnh sửa không thành công",
-  //   });
-  // }
 };
 
-// useAsyncData(async () => {
-//   const data = await baseStore.getProvinces();
-//   provinces.value = data.data._rawValue.data.map((item) => {
-//     return {
-//       value: item.ProvinceID,
-//       label: item.ProvinceName,
-//     };
-//   });
-// });
+useAsyncData(async () => {
+  await baseStore.getProvinces();
+  optionsProvines.value = baseStore.province.map((item) => {
+    return {
+      value: item.id,
+      label: item.ProvinceName,
+    };
+  });
+});
+
+useAsyncData(
+  async () => {
+    if (province_id.value) {
+      await baseStore.getDistricts(province_id.value);
+      optionsDistricts.value = baseStore.districts.map((item) => ({
+        value: item.id,
+        label: item.DistrictName,
+      }));
+    }
+  },
+  {
+    immediate: true,
+    watch: province_id,
+  }
+);
+
+useAsyncData(
+  async () => {
+    if (district_id.value) {
+      await baseStore.getWards(district_id.value);
+      optionsWards.value = baseStore.ward.map((item) => ({
+        value: item.id,
+        label: item.WardName,
+      }));
+    }
+  },
+  {
+    immediate: true,
+    watch: district_id,
+  }
+);
+
+const handleChangeProvince = (value) => {
+  province_id.value = value;
+  district_id.value = undefined;
+  ward_id.value = undefined;
+  address.value.street = "";
+  address.value.province = optionsProvines.value.find(
+    (item) => item.value === value
+  ).label;
+};
+const handleChangeDistrict = (value) => {
+  district_id.value = value;
+  ward_id.value = undefined;
+  address.value.street = "";
+  address.value.district = optionsDistricts.value.find(
+    (item) => item.value === value
+  ).label;
+};
+const handleChangeWard = (value) => {
+  ward_id.value = value;
+  address.value.street = "";
+  address.value.ward = optionsWards.value.find(
+    (item) => item.value === value
+  ).label;
+};
 
 const props = defineProps({
   openModalForm: Boolean,
@@ -226,5 +277,15 @@ watch(
 );
 const handleClose = async () => {
   props.openModal();
+};
+
+const handleBlur = () => {
+  console.log("blur");
+};
+const handleFocus = () => {
+  console.log("focus");
+};
+const filterOption = (input, option) => {
+  return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 4;
 };
 </script>

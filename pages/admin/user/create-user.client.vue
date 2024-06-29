@@ -361,7 +361,8 @@ const user = ref({
   citizen_name: "",
   citizen_code: "",
   date_of_issue: "",
-  place_of_issue: "",
+  place_of_issue:
+    "CỤC TRƯỞNG CỤC CẢNH SÁT QUẢN LÝ HÀNH CHÍNH VỀ TRẬT TỰ XÃ HỘI",
   student_name: "",
   student_code: "",
   student_card_expired: "",

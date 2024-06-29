@@ -5,6 +5,7 @@ export const useOrderClientStore = defineStore("order-client-store", {
     return {
       orders: [],
       order: {},
+      cancel: {},
       isLoading: false,
       isSubmitting: false,
     };
@@ -25,9 +26,7 @@ export const useOrderClientStore = defineStore("order-client-store", {
     async getOneOrder(id: any) {
       try {
         this.isLoading = true;
-        const data: any = await useCustomFetch(
-          `/api/v1/account/order/get-one/${id}`
-        );
+        const data: any = await useCustomFetch(`/api/v1/account/orders/${id}`);
         this.order = data.data._value?.data;
         return data;
       } catch (error) {
@@ -45,6 +44,23 @@ export const useOrderClientStore = defineStore("order-client-store", {
             body: JSON.stringify(body),
           }
         );
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async cancelOrder(id: any) {
+      try {
+        this.isLoading = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/account/orders/cancel/${id}`,
+          {
+            method: "PUT",
+          }
+        );
+        this.cancel = data.data._value?.data;
         return data;
       } catch (error) {
         console.log("error", error);

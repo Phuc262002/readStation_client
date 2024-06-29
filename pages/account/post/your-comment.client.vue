@@ -36,7 +36,7 @@
                     <span>Xem chi tiết</span>
                   </template>
                   <button
-                    @click="showModal(record.id)"
+                    @click="showModal(record?.post?.id)"
                     class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                   >
                     <div class="flex items-center">
@@ -146,30 +146,6 @@ const columns = [
   {
     title: "Thao tác",
     key: "action",
-  },
-];
-
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
   },
 ];
 </script>

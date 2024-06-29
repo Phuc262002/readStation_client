@@ -182,11 +182,6 @@
                       class="cursor-pointer text-sm text-orange-600"
                       >Thay đổi địa chỉ?</span
                     >
-
-                    <AccountManagerFormChangeAddress
-                      :openModalForm="openModalForm"
-                      :openModal="closeModal"
-                    />
                   </div>
                 </div>
 
@@ -288,6 +283,10 @@
         </div>
       </div>
     </div>
+    <AccountManagerFormChangeAddress
+      :openModalForm="openModalForm"
+      :openModal="closeModal"
+    />
   </div>
 </template>
 <script setup lang="ts">
@@ -356,15 +355,6 @@ const payCart = async () => {
     total_all_fee: parseFloat(totalFee.value),
     order_details: newArr,
     delivery_info: newInfo,
-    // payment_method: payment_method.value,
-    // payment_shipping: payment_shipping.value,
-    // phone: authStore?.authUser?.user?.phone,
-    // address: authStore?.authUser?.user?.address_detail,
-    // user_note: userNote.value,
-    // shipping_fee: parseFloat(shippingFee.value),
-    // total_service_fee: parseFloat(serviceFee.value),
-    // total_deposit_fee: parseFloat(depositFee.value),
-    // total_all_fee: parseFloat(totalFee.value),
   });
   if (resData?.data?._rawValue?.status == true) {
     message.success({

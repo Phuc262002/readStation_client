@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="font-bold">Trả lời bình luận</h3>
+    <h3 class="font-bold">Bình luận bài viết của bạn</h3>
 
     <div class="p-5 bg-white mt-5 shadow-lg rounded-xl">
       <a-table
