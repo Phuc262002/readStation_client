@@ -138,7 +138,7 @@
                 v-else-if="record.status === 'ready_for_pickup'"
                 class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg"
               >
-                Sẵn sàng
+                Đơn hàng sẵn sàng
               </a-tag>
               <a-tag
                 v-else-if="record.status === 'preparing_shipment'"
@@ -160,15 +160,15 @@
               </a-tag>
               <a-tag
                 v-else-if="record.status === 'active'"
-                class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
+                class="text-tag-text-09 bg-tag-bg-09 border-none py-1 px-3 rounded-lg"
               >
                 Đang hoạt động
               </a-tag>
               <a-tag
                 v-else-if="record.status === 'returning'"
-                class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
+                class="text-tag-text-13 bg-tag-bg-13 border-none py-1 px-3 rounded-lg"
               >
-                Trở về
+                Đang trả sách
               </a-tag>
               <a-tag
                 v-else-if="record.status === 'completed'"
@@ -225,6 +225,7 @@
                   <span>Hủy</span>
                 </template>
                 <button
+                  @click="showCancelConfirm(record.id)"
                   v-if="record.status === 'pending'"
                   class="bg-rtgray-50 p-2 rounded-lg flex items-center justify-center"
                 >
@@ -253,24 +254,61 @@
 const orderStore = useOrderClientStore();
 const current = ref(1);
 const filter = ref(null);
-
+const onCancelOrder = async (id: any) => {
+  await orderStore.cancelOrder(id);
+  getDataOrder();
+};
+const showCancelConfirm = (id: any) => {
+  Modal.confirm({
+    title: "Bạn đang muốn hủy đơn hàng?",
+    content: "Sau khi hủy sẽ không khôi phục lại",
+    okText: "Đồng ý",
+    okType: "danger",
+    cancelText: "Hủy",
+    onOk() {
+      onCancelOrder(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+};
 // Get All Order
+const getDataOrder = async () => {
+  try {
+    await orderStore.getAllOrder({
+      page: current.value,
+      status: filter.value,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
 useAsyncData(
   async () => {
-    try {
-      await orderStore.getAllOrder({
-        page: current.value,
-        status: filter.value,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await getDataOrder();
   },
   {
     immediate: true,
     watch: [current, filter],
   }
 );
+// useAsyncData(
+//   async () => {
+//     try {
+//       await orderStore.getAllOrder({
+//         page: current.value,
+//         status: filter.value,
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   },
+//   {
+//     immediate: true,
+//     watch: [current, filter],
+//   }
+// );
 
 // handle check Status Order
 const handleCheckStatus = (status) => {

@@ -11,20 +11,23 @@ export const useGeneralCommentStore = defineStore("general-comment-store", {
     async createComment(comment: any) {
       try {
         this.isSubmitting = true;
-        const data: any = await useCustomFetch("/api/v1/general/comments/create", {
-          method: "POST",
-          body: JSON.stringify(comment),
-        });
+        const data: any = await useCustomFetch(
+          "/api/v1/general/comments/create",
+          {
+            method: "POST",
+            body: JSON.stringify(comment),
+          }
+        );
         this.isSubmitting = false;
         return data;
       } catch (error) {
         console.log(error);
       }
     },
-    async deleteComment({ comment_id }: any) {
+    async deleteComment(id: any) {
       try {
         const data: any = await useCustomFetch(
-          `/api/v1/general/comments/delete/${comment_id}`,
+          `/api/v1/general/comments/delete/${id}`,
           {
             method: "DELETE",
           }

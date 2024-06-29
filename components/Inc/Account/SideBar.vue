@@ -77,7 +77,7 @@
             to="/account/post/rep-comment"
             class="flex items-center gap-2"
           >
-            Trả lời bình luận
+            Bình luận bài viết của bạn
           </NuxtLink>
         </a-menu-item>
 

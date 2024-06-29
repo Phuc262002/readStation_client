@@ -66,28 +66,69 @@
             <a-tag
               v-if="orderStore?.order?.status === 'pending'"
               class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg"
-              >Đang xử lý</a-tag
             >
+              Đang xử lý
+            </a-tag>
             <a-tag
-              v-else-if="orderStore?.order?.status === 'hiring'"
-              class="text-tag-text-04 bg-tag-bg-04 border-none py-1 px-3 rounded-lg"
-              >Đang thuê</a-tag
+              v-else-if="orderStore?.order?.status === 'approved'"
+              class="text-tag-text-02 bg-tag-bg-02 border-none py-1 px-3 rounded-lg"
             >
+              Đã xác nhận
+            </a-tag>
+            <a-tag
+              v-else-if="orderStore?.order?.status === 'ready_for_pickup'"
+              class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg"
+            >
+              Đơn hàng sẵn sàng
+            </a-tag>
+            <a-tag
+              v-else-if="orderStore?.order?.status === 'preparing_shipment'"
+              class="text-tag-text-07 bg-tag-bg-07 border-none py-1 px-3 rounded-lg"
+            >
+              Đang chuẩn bị
+            </a-tag>
+            <a-tag
+              v-else-if="orderStore?.order?.status === 'in_transit'"
+              class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
+            >
+              Đang vận chuyển
+            </a-tag>
+            <a-tag
+              v-else-if="orderStore?.order?.status === 'extended'"
+              class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
+            >
+              Quá hạn
+            </a-tag>
+            <a-tag
+              v-else-if="orderStore?.order?.status === 'active'"
+              class="text-tag-text-09 bg-tag-bg-09 border-none py-1 px-3 rounded-lg"
+            >
+              Đang hoạt động
+            </a-tag>
+            <a-tag
+              v-else-if="orderStore?.order?.status === 'returning'"
+              class="text-tag-text-13 bg-tag-bg-13 border-none py-1 px-3 rounded-lg"
+            >
+              Đang trả sách
+            </a-tag>
             <a-tag
               v-else-if="orderStore?.order?.status === 'completed'"
               class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg"
-              >Hoàn thành</a-tag
             >
+              Hoàn thành
+            </a-tag>
             <a-tag
               v-else-if="orderStore?.order?.status === 'canceled'"
               class="text-tag-text-07 bg-tag-bg-07 border-none py-1 px-3 rounded-lg"
-              >Đã hủy</a-tag
             >
+              Đã hủy
+            </a-tag>
             <a-tag
-              v-else-if="orderStore?.order?.status === 'out_of_date'"
+              v-else-if="orderStore?.order?.status === 'overdue'"
               class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
-              >Quá hạn</a-tag
             >
+              Quá hạn
+            </a-tag>
           </span>
         </h3>
         <div class="flex py-5 text-sm">

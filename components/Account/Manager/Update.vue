@@ -215,7 +215,7 @@
           </span>
           <div class="w-1/2 text-left">
             <a-input
-              :value="`${address.street},${address.ward}, ${address.district}, ${address.province}`"
+              :value="`${address.street}, ${address.ward}, ${address.district}, ${address.province}`"
               size="large"
               v-if="isShow"
             />
