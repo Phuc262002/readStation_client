@@ -32,16 +32,18 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
-                <a-menu-item @click="statusValue('active')"
+                <a-menu-item
+                  @click="statusValue({ value: 'active', label: 'Hoạt động' })"
                   >Hoạt động</a-menu-item
                 >
-                <a-menu-item @click="statusValue('inactive')"
+                <a-menu-item
+                  @click="statusValue({ value: 'inactive', label: 'Đang ẩn' })"
                   >Đang ẩn</a-menu-item
                 >
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              Trạng thái
+              {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -174,22 +176,26 @@ const openModalAdd = ref<boolean>(false);
 const categoryId = ref<number>();
 const current = ref(1);
 const valueSearch = ref("");
-const queryStatus = ref("");
-const statusValue = (value: string) => {
-  queryStatus.value = value;
+const queryStatus = ref({
+  value: "",
+  label: "",
+});
+const statusValue = ({ value, label }: any) => {
+  queryStatus.value.value = value;
+  queryStatus.value.label = label;
 };
 useAsyncData(
   async () => {
     await categoryStore.getAllCategory({
       page: current.value,
       search: valueSearch.value,
-      status: queryStatus.value,
+      status: queryStatus.value.value,
       type: "book",
     });
   },
   {
     immediate: true,
-    watch: [current, valueSearch, queryStatus],
+    watch: [current, valueSearch, queryStatus.value],
   }
 );
 

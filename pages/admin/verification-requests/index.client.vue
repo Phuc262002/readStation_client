@@ -33,6 +33,7 @@
           verificationRequestsStore.verificationRequestsAdmin
             ?.verificationRequests
         "
+        :loading="verificationRequestsStore.isLoading"
       >
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'user_handle'">
@@ -93,29 +94,32 @@
           <template v-else-if="column.key === 'status'">
             <a-tag
               :bordered="false"
-              v-if="record.status === 'pending'"
-              class="text-tag-text-06 bg-tag-bg-06"
+              v-if="record.status === VerificationRequestsStatus.PENDING"
+              class="text-tag-text-01 bg-tag-bg-01"
             >
-              Đang chờ
+              Chờ xác thực
             </a-tag>
             <a-tag
               :bordered="false"
-              v-if="record.status === 'approved'"
-              class="text-tag-text-07 bg-tag-bg-07"
+              v-if="record.status === VerificationRequestsStatus.APPROVED"
+              class="text-tag-text-09 bg-tag-bg-09"
             >
               Đã duyệt
             </a-tag>
             <a-tag
               :bordered="false"
-              v-if="record.status === 'rejected'"
-              class="text-tag-text-08 bg-tag-bg-08"
+              v-if="record.status === VerificationRequestsStatus.REJECTED"
+              class="text-tag-text-11 bg-tag-bg-11"
             >
               Từ chối
             </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <NuxtLink class="hover:text-black" :to="`/admin/verification-requests/${record.id}`">
+              <NuxtLink
+                class="hover:text-black"
+                :to="`/admin/verification-requests/${record.id}`"
+              >
                 <a-tooltip placement="top" color="black">
                   <template #title>
                     <span>Sửa</span>
@@ -124,7 +128,7 @@
                     class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                   >
                     <UIcon
-                      class="text-lg "
+                      class="text-lg"
                       name="i-material-symbols-edit-outline"
                     />
                   </button>
@@ -139,6 +143,7 @@
 </template>
 
 <script setup>
+import { VerificationRequestsStatus } from "~/types/admin/verificationRequests";
 const verificationRequestsStore = useVerificationRequestsStore();
 useAsyncData(async () => {
   await verificationRequestsStore.getVerificationRequests({});
@@ -178,5 +183,4 @@ const columns = [
     key: "action",
   },
 ];
-
 </script>

@@ -35,16 +35,18 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
-                <a-menu-item @click="statusValue('active')"
-                  >Công khai</a-menu-item
+                <a-menu-item
+                  @click="statusValue({ value: 'active', label: 'Hoạt động' })"
+                  >Hoạt động</a-menu-item
                 >
-                <a-menu-item @click="statusValue('inactive')"
+                <a-menu-item
+                  @click="statusValue({ value: 'inactive', label: 'Đang ẩn' })"
                   >Đang ẩn</a-menu-item
                 >
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              Trạng thái
+              {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -101,7 +103,7 @@
           <template v-else-if="column.key === 'status'">
             <a-tag
               :bordered="false"
-              v-if="record.status === 'active'"
+              v-if="record.status === PublishingCompanyStatus.ACTIVE"
               class="bg-tag-bg-09 text-tag-text-09"
             >
               Công khai
@@ -109,7 +111,7 @@
 
             <a-tag
               :bordered="false"
-              v-if="record.status === 'inactive'"
+              v-if="record.status === PublishingCompanyStatus.INACTIVE"
               class="bg-tag-bg-07 text-tag-text-07"
             >
               Đang ẩn
@@ -117,7 +119,7 @@
 
             <a-tag
               :bordered="false"
-              v-if="record.status === 'deleted'"
+              v-if="record.status === PublishingCompanyStatus.DELETED"
               class="bg-tag-bg-06 text-tag-text-06"
             >
               Đã xóa
@@ -171,16 +173,21 @@
     </div>
   </div>
 </template>
-<script  setup>
+<script setup>
 import { Modal } from "ant-design-vue";
+import { PublishingCompanyStatus } from "~/types/admin/publishingCompany";
 const baseStore = useBaseStore();
 const openModalEdit = ref(false);
 const openModalAdd = ref(false);
 const publishingCompanyId = ref(0);
 const valueSearch = ref("");
-const queryStatus = ref("");
-const statusValue = (value) => {
-  queryStatus.value = value;
+const queryStatus = ref({
+  value: "",
+  label: "",
+});
+const statusValue = ({ value, label }) => {
+  queryStatus.value.value = value;
+  queryStatus.value.label = label;
 };
 const publishingCompanyStore = usePublishingCompanyStore();
 const current = ref(1);
@@ -189,12 +196,12 @@ useAsyncData(
     await publishingCompanyStore.getAllPublishingCompany({
       page: current.value,
       search: valueSearch.value,
-      status: queryStatus.value,
+      status: queryStatus.value.value,
     });
   },
   {
     immediate: true,
-    watch: [current, valueSearch, queryStatus],
+    watch: [current, valueSearch, queryStatus.value],
   }
 );
 

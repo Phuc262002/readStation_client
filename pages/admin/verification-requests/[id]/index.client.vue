@@ -367,8 +367,14 @@
       </div>
 
       <div class="flex justify-end items-end gap-2">
-        <a-button @click="()=>  navigateTo('/admin/verification-requests')" html-type="button" class="mt-4">Trở về</a-button>
-        <div class="flex justify-end items-end gap-2"
+        <a-button
+          @click="() => navigateTo('/admin/verification-requests')"
+          html-type="button"
+          class="mt-4"
+          >Trở về</a-button
+        >
+        <div
+          class="flex justify-end items-end gap-2"
           v-if="
             verificationRequestsStore.oneVerificationRequest?.status ===
             'pending'

@@ -287,7 +287,7 @@
             <span>Quản lý nhà xuất bản</span>
           </span>
         </template>
-        <a-menu-item key="36" @click="navigateTo('/admin/publishing-company')"
+        <a-menu-item key="49" @click="navigateTo('/admin/publishing-company')"
           >Tất cả nhà xuất bản</a-menu-item
         >
         <!-- <a-menu-item key="22" @click="navigateTo('/admin/publishing-company/add-publishing-company')"

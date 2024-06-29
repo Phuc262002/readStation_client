@@ -4,9 +4,10 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Tạo người dùng</h5>
+        <h5 class="text-xl text-[#1e293b] font-semibold">
+          Cập nhập thông tin người dùng
+        </h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <!-- Đây là phần code mẫu body -->
