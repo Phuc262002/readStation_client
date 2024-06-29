@@ -31,6 +31,15 @@
         />
         <span>Dashboards</span>
       </a-menu-item>
+
+      <a-menu-item key="545" @click="navigateTo('/admin/verification-requests')">
+        <UIcon
+          name="i-streamline-dashboard-3"
+          :class="props.collapsed && 'anticon anticon-desktop'"
+        />
+        <span>Chờ xác thực</span>
+      </a-menu-item>
+
       <a-sub-menu key="sub1">
         <template #title>
           <span class="flex items-center gap-2">
@@ -47,10 +56,8 @@
         <a-menu-item key="3" @click="navigateTo('/admin/user/create-user')"
           >Thêm người dùng</a-menu-item
         >
-        <a-menu-item key="5" @click="navigateTo('/admin/user/await-user')"
-          >Tài khoản chờ xác thực</a-menu-item
-        >
       </a-sub-menu>
+
       <a-sub-menu key="sub12">
         <template #title>
           <span class="flex items-center gap-2">

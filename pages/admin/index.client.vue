@@ -166,7 +166,7 @@
         </div>
       </div>
     </div>
-    <div class="w-full min-h-[360px] bg-[white] rounded-lg p-5">
+    <!-- <div class="w-full min-h-[360px] bg-[white] rounded-lg p-5">
       <div class="flex flex-col gap-5">
         <div class="flex justify-between items-center">
           <div class="w-1/4 md:block hidden">
@@ -312,7 +312,7 @@
           </a-table>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="bg-white w-full shadow-md rounded-md space-y-2 p-5">
         <div class="text-xl font-semibold">Sách được thuê nhiều</div>
