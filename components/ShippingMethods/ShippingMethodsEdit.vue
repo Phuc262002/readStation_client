@@ -68,6 +68,24 @@
         </div>
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
+            Trạng thái
+          </label>
+          <div class="mt-1">
+            <a-select
+              ref="select"
+              v-model:value="shippingMethod.status"
+              style="width: 120px"
+              @change="handleChange"
+            >
+              <a-select-option value="active">Hoạt động</a-select-option>
+              <a-select-option value="inactive"
+                >Không hoạt động</a-select-option
+              >
+            </a-select>
+          </div>
+        </div>
+        <div class="pb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">
             Logo phương thức vận chuyển
           </label>
           <div class="mt-1">
@@ -123,6 +141,7 @@ const shippingMethod = ref({
   fee: "",
   note: "",
   logo: "",
+  status: "",
 });
 const props = defineProps({
   openModalEdit: Boolean,
@@ -194,6 +213,7 @@ useAsyncData(
     shippingMethod.value.location = shippingMethodStore.shippingMethod.location;
     shippingMethod.value.fee = shippingMethodStore.shippingMethod.fee;
     shippingMethod.value.note = shippingMethodStore.shippingMethod.note;
+    shippingMethod.value.status = shippingMethodStore.shippingMethod.status;
     imageInfo.value = shippingMethodStore.shippingMethod.logo;
     fileList.value = [
       {
@@ -216,6 +236,7 @@ const onUpdate = async () => {
     location: shippingMethod.value.location,
     fee: shippingMethod.value.fee,
     note: shippingMethod.value.note,
+    status: shippingMethod.value.status,
     logo: imageInfo.value?.url,
   };
   await shippingMethodStore.updateShippingMethod({
@@ -227,7 +248,6 @@ const onUpdate = async () => {
 };
 
 const handleClose = () => {
-
   props.openModal();
 };
 </script>
