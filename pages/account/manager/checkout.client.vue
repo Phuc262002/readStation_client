@@ -182,11 +182,6 @@
                       class="cursor-pointer text-sm text-orange-600"
                       >Thay đổi địa chỉ?</span
                     >
-
-                    <AccountManagerFormChangeAddress
-                      :openModalForm="openModalForm"
-                      :openModal="closeModal"
-                    />
                   </div>
                 </div>
 
@@ -288,6 +283,10 @@
         </div>
       </div>
     </div>
+    <AccountManagerFormChangeAddress
+      :openModalForm="openModalForm"
+      :openModal="closeModal"
+    />
   </div>
 </template>
 <script setup lang="ts">

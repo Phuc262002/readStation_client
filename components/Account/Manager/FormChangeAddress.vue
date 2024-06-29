@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div>
     <div
       v-if="isSubmitting"
@@ -9,6 +9,7 @@
     <a-modal
       v-model:open="props.openModalForm"
       title="Địa chỉ mới"
+      width="40%"
       :footer="null"
       :onCancel="handleClose"
     >
@@ -44,6 +45,12 @@
             <label class="text-sm font-bold"> Tỉnh/ Thành phố </label>
             <div class="mt-1">
               <a-select
+                v-model:value="province_id"
+                :options="optionsProvines"
+                @focus="handleFocus"
+                @blur="handleBlur"
+                @change="handleChangeProvince"
+                :loading="baseStore.isLoading"
                 class="w-full"
                 size="large"
                 show-search
@@ -56,6 +63,14 @@
             <label class="text-sm font-bold"> Quận/ Huyện </label>
             <div class="mt-1">
               <a-select
+                v-model:value="district_id"
+                :options="optionsDistricts"
+                :filter-option="filterOption"
+                @focus="handleFocus"
+                @blur="handleBlur"
+                @change="handleChangeDistrict"
+                :disabled="!province_id"
+                :loading="baseStore.isLoading"
                 class="w-full"
                 size="large"
                 show-search
@@ -70,6 +85,14 @@
             <label class="text-sm font-bold"> Xã/ Phường/ Thị trấn </label>
             <div class="mt-1">
               <a-select
+                v-model:value="ward_id"
+                :options="optionsWards"
+                :filter-option="filterOption"
+                @focus="handleFocus"
+                @blur="handleBlur"
+                @change="handleChangeWard"
+                :disabled="!district_id"
+                :loading="baseStore.isLoading"
                 class="w-full"
                 size="large"
                 show-search
@@ -82,6 +105,8 @@
             <label class="text-sm font-bold"> Đường </label>
             <div class="mt-1">
               <a-input
+                v-model:value="address.street"
+                :disabled="!ward_id"
                 size="large"
                 class="w-full"
                 placeholder="Nhập đường"
@@ -93,7 +118,10 @@
         <div>
           <label class="text-sm font-bold"> Địa chỉ cụ thể </label>
           <div class="mt-1">
-            <a-textarea size="large" />
+            <a-textarea
+              size="large"
+              :value="`${address.street}, ${address.ward}, ${address.district}, ${address.province}`"
+            />
           </div>
         </div>
 
@@ -119,8 +147,8 @@
 const authStore = useAuthStore();
 const baseStore = useBaseStore();
 const user = ref({
-  fullname: "",
-  phone: "",
+  fullname: authStore?.authUser?.user?.fullname,
+  phone: authStore?.authUser?.user?.phone,
 });
 const address = ref({
   province: "",
@@ -135,6 +163,7 @@ const province_id = ref(undefined);
 const optionsProvines = ref([]);
 const optionsDistricts = ref([]);
 const optionsWards = ref([]);
+
 // Update Profile
 const onSubmit = async () => {
   const resData = await authStore.updateProfile({
@@ -142,7 +171,7 @@ const onSubmit = async () => {
     phone: user.value.phone,
     province_id: province_id.value,
     district_id: district_id.value,
-    ward_id = ward_id.value,
+    ward_id: ward_id.value,
     street: address.value.street,
     address_detail:
       address.value.province &&
@@ -158,6 +187,7 @@ const onSubmit = async () => {
       content: "Chỉnh sửa thành công",
     });
     await authStore.getProfile();
+    handleClose();
   } else {
     resErrors.value = resData.error.value.data.errors;
     console.log("object", resErrors.value);
@@ -169,7 +199,7 @@ const onSubmit = async () => {
 
 useAsyncData(async () => {
   await baseStore.getProvinces();
-  optionsPronvines.value = baseStore.province.map((item) => {
+  optionsProvines.value = baseStore.province.map((item) => {
     return {
       value: item.id,
       label: item.ProvinceName,
@@ -214,7 +244,7 @@ const handleChangeProvince = (value) => {
   district_id.value = undefined;
   ward_id.value = undefined;
   address.value.street = "";
-  address.value.province = optionsPronvines.value.find(
+  address.value.province = optionsProvines.value.find(
     (item) => item.value === value
   ).label;
 };
@@ -248,8 +278,14 @@ watch(
 const handleClose = async () => {
   props.openModal();
 };
-</script> -->
 
-<template>
-  <div>aaa</div>
-</template>
+const handleBlur = () => {
+  console.log("blur");
+};
+const handleFocus = () => {
+  console.log("focus");
+};
+const filterOption = (input, option) => {
+  return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 4;
+};
+</script>
