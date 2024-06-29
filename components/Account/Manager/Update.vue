@@ -215,6 +215,7 @@
           </span>
           <div class="w-1/2 text-left">
             <a-input
+              readonly
               :value="`${address.street}, ${address.ward}, ${address.district}, ${address.province}`"
               size="large"
               v-if="isShow"
@@ -383,6 +384,8 @@ const handleChangeProvince = (value) => {
   district_id.value = undefined;
   ward_id.value = undefined;
   address.value.street = "";
+  address.value.district = "";
+  address.value.ward = "";
   address.value.province = optionsPronvines.value.find(
     (item) => item.value === value
   ).label;
@@ -391,6 +394,7 @@ const handleChangeDistrict = (value) => {
   district_id.value = value;
   ward_id.value = undefined;
   address.value.street = "";
+  address.value.ward = "";
   address.value.district = optionsDistricts.value.find(
     (item) => item.value === value
   ).label;

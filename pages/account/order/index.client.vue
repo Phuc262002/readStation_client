@@ -293,22 +293,6 @@ useAsyncData(
     watch: [current, filter],
   }
 );
-// useAsyncData(
-//   async () => {
-//     try {
-//       await orderStore.getAllOrder({
-//         page: current.value,
-//         status: filter.value,
-//       });
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   },
-//   {
-//     immediate: true,
-//     watch: [current, filter],
-//   }
-// );
 
 // handle check Status Order
 const handleCheckStatus = (status) => {

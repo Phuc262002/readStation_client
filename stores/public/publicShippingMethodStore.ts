@@ -17,6 +17,7 @@ export const useShippingMethodPublicStore = defineStore(
           const data: any = await useCustomFetch(
             `/api/v1/public/shipping-methods`
           );
+          this.shippings = data.data._value?.data;
           return data;
         } catch (error) {
           console.log(error);
