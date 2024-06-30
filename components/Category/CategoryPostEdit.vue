@@ -5,7 +5,7 @@
     :footer="null"
     :onCancel="handleClose"
   >
-  <div
+    <div
       v-if="categoryStore.isLoading"
       class="flex justify-center items-center min-h-[50vh]"
     ></div>
@@ -24,7 +24,6 @@
             />
           </div>
         </div>
-       
 
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
@@ -52,8 +51,8 @@
               style="width: 450px"
               @change="handleChange"
             >
-              <a-select-option value="active">Active</a-select-option>
-              <a-select-option value="inactive">Inactive</a-select-option>
+              <a-select-option value="active">Công khai</a-select-option>
+              <a-select-option value="inactive">Đang ẩn</a-select-option>
             </a-select>
           </div>
         </div>
@@ -111,7 +110,7 @@ const category = ref({
   image: "",
   name: "",
   description: "",
- 
+
   type: "post",
 });
 const props = defineProps({
@@ -183,7 +182,7 @@ useAsyncData(
     category.value.name = data.data._value?.data?.name;
     category.value.description = data.data._value?.data?.description;
     category.value.status = data.data._value?.data?.status;
-    
+
     category.value.image = data.data._value?.data?.image;
     fileList.value = [
       {
@@ -219,7 +218,6 @@ const onUpdate = async () => {
 };
 
 const handleClose = () => {
-
   props.openModal();
 };
 </script>

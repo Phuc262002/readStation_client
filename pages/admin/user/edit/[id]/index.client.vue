@@ -4,9 +4,10 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Tạo người dùng</h5>
+        <h5 class="text-xl text-[#1e293b] font-semibold">
+          Cập nhập thông tin người dùng
+        </h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <!-- Đây là phần code mẫu body -->
@@ -16,9 +17,20 @@
           <div class="flex flex-col gap-2">
             <label class="text-sm font-semibold">Vai trò</label>
             <div class="flex justify-start gap-4">
-              <a-radio>Khách hàng</a-radio>
-              <a-radio>Quản thư</a-radio>
-              <a-radio>Học sinh</a-radio>
+              <a-radio-group
+                @change="handleChangeRoleId"
+                v-model:value="user.role_id"
+                name="role_id"
+              >
+                <a-radio :value="1">Khách hàng</a-radio>
+                <a-radio
+                  v-if="authStore.authUser?.user?.role?.name === 'admin'"
+                  :value="3"
+                  >Quản thư</a-radio
+                >
+                <a-radio :value="2">Học sinh</a-radio>
+                <a-radio :value="4">Admin</a-radio>
+              </a-radio-group>
             </div>
           </div>
 
@@ -55,9 +67,13 @@
                 <div class="flex flex-col gap-2">
                   <label class="text-sm font-semibold">Giới tính</label>
                   <div class="flex justify-start gap-4">
-                    <a-radio-group name="gender">
+                    <a-radio-group
+                      @change="handleChangeGender"
+                      v-model:value="user.gender"
+                      name="gender"
+                    >
                       <a-radio value="male">Nam</a-radio>
-                      <a-radio :checked="true" value="female">Nữ</a-radio>
+                      <a-radio value="female">Nữ</a-radio>
                     </a-radio-group>
                   </div>
                 </div>
@@ -113,6 +129,7 @@
                     type="text"
                     class="border p-2 rounded-md"
                     placeholder="Mã số CMT/ CCCD"
+                    readonly
                   />
                 </div>
               </div>
@@ -124,6 +141,7 @@
                     type="text"
                     class="border p-2 rounded-md"
                     placeholder="Họ tên"
+                    readonly
                   />
                 </div>
               </div>
@@ -135,6 +153,7 @@
                     type="date"
                     class="border p-2 rounded-md"
                     placeholder="Ngày cấp"
+                    readonly
                   />
                 </div>
               </div>
@@ -146,6 +165,7 @@
                     type="text"
                     class="border p-2 rounded-md"
                     placeholder="Nơi cấp"
+                    readonly
                   />
                 </div>
               </div>
@@ -210,10 +230,10 @@
                 >
                 <a-select
                   size="large"
-                  v-model:value="valuePronvines"
+                  v-model:value="province_id"
                   show-search
                   placeholder="Tỉnh/Thành phố"
-                  :options="provinces"
+                  :options="optionsPronvines"
                   :filter-option="filterOption"
                   @focus="handleFocus"
                   @blur="handleBlur"
@@ -225,10 +245,10 @@
                 <label class="text-sm font-semibold" for="">Quận/ Huyện</label>
                 <a-select
                   size="large"
-                  v-model:value="valueDistricts"
+                  v-model:value="district_id"
                   show-search
                   placeholder="Quận/Huyện"
-                  :options="districts"
+                  :options="optionsDistricts"
                   :filter-option="filterOption"
                   @focus="handleFocus"
                   @blur="handleBlur"
@@ -240,10 +260,10 @@
                 <label class="text-sm font-semibold" for="">Phường/ Xã</label>
                 <a-select
                   size="large"
-                  v-model:value="valueWards"
+                  v-model:value="ward_id"
                   show-search
                   placeholder="Phường/Xã"
-                  :options="wards"
+                  :options="optionsWards"
                   :filter-option="filterOption"
                   @focus="handleFocus"
                   @blur="handleBlur"
@@ -323,15 +343,20 @@ const imageInfo = ref("");
 const authStore = useAuthStore();
 const baseStore = useBaseStore();
 const userStore = useUserStore();
-const provinces = ref([]);
-const districts = ref([]);
-const wards = ref([]);
+
+const ward_id = ref(undefined);
+const district_id = ref(undefined);
+const province_id = ref(undefined);
+const optionsPronvines = ref([]);
+const optionsDistricts = ref([]);
+const optionsWards = ref([]);
 const user = ref({
   fullname: "",
   dob: "",
   job: "",
   email: "",
   phone: "",
+  role_id: "",
   citizen_name: "",
   citizen_code: "",
   date_of_issue: "",
@@ -340,11 +365,10 @@ const user = ref({
   student_code: "",
   student_card_expired: "",
   place_of_study: "",
-  gender: "male",
+  gender: "",
+  avatar: "",
 });
-const valuePronvines = ref(undefined);
-const valueDistricts = ref(undefined);
-const valueWards = ref(undefined);
+
 const address = ref({
   province: "",
   district: "",
@@ -353,7 +377,9 @@ const address = ref({
 });
 useAsyncData(async () => {
   await userStore.getOneUser(userId);
-  user.value.gender = userStore.user?.gender;
+  user.value.gender = userStore.user.gender;
+  user.value.role_id = userStore.user.role.id;
+  role.value = userStore.user.role.name;
   user.value.fullname = userStore.user.fullname;
   user.value.job = userStore.user.job;
   user.value.dob = userStore.user.dob;
@@ -370,15 +396,16 @@ useAsyncData(async () => {
   user.value.student_card_expired =
     userStore.user.student_id_card?.student_card_expired;
   user.value.place_of_study = userStore.user.student_id_card?.place_of_study;
-  valuePronvines = baseStore.province.find(
-    (item) => item.ProvinceName === userStore.user.province
-  )?.ProvinceID;
-  valueDistricts = baseStore.districts.find(
-    (item) => item.DistrictName === userStore.user.district
-  )?.DistrictID;
-  valueWards = baseStore.ward.find(
-    (item) => item.WardName === userStore.user.ward
-  )?.WardCode;
+  user.value.avatar = userStore.user.avatar;
+  address.value.street = userStore.user.address_detail;
+  address.value.province = userStore.user.province?.ProvinceName;
+  address.value.district = userStore.user.district?.DistrictName;
+  address.value.ward = userStore.user.ward?.WardName;
+  province_id.value = userStore.user.province?.id;
+  district_id.value = userStore.user.district?.id;
+  ward_id.value = userStore.user.ward?.id;
+  address.value.street = userStore.user.street;
+
   fileList.value = [
     {
       uid: "-1",
@@ -388,7 +415,6 @@ useAsyncData(async () => {
     },
   ];
 });
-console.log("🚀 ~ useAsyncData ~ fileList.value:", fileList.value);
 
 const uploadFile = async (file) => {
   if (fileList.value.length > 0) {
@@ -430,9 +456,9 @@ const beforeUpload = (file) => {
 
 useAsyncData(async () => {
   await baseStore.getProvinces();
-  provinces.value = baseStore.province.map((item) => {
+  optionsPronvines.value = baseStore.province.map((item) => {
     return {
-      value: item.ProvinceID,
+      value: item.id,
       label: item.ProvinceName,
     };
   });
@@ -440,47 +466,62 @@ useAsyncData(async () => {
 
 useAsyncData(
   async () => {
-    await baseStore.getDistricts(valuePronvines.value);
-    districts.value = baseStore.districts.map((item) => ({
-      value: item.DistrictID,
-      label: item.DistrictName,
-    }));
+    if (province_id.value) {
+      await baseStore.getDistricts(province_id.value);
+      optionsDistricts.value = baseStore.districts.map((item) => ({
+        value: item.id,
+        label: item.DistrictName,
+      }));
+    }
   },
   {
-    watch: valuePronvines,
+    immediate: true,
+    watch: province_id,
   }
 );
 
 useAsyncData(
   async () => {
-    await baseStore.getWards(valueDistricts._rawValue);
-    wards.value = baseStore.ward.map((item) => ({
-      value: item.WardCode,
-      label: item.WardName,
-    }));
+    if (district_id.value) {
+      await baseStore.getWards(district_id.value);
+      optionsWards.value = baseStore.ward.map((item) => ({
+        value: item.id,
+        label: item.WardName,
+      }));
+    }
   },
   {
-    watch: valueDistricts,
+    immediate: true,
+    watch: district_id,
   }
 );
 
-const handleChangeProvince = (province) => {
-  const selectedProvince = provinces.value.find(
-    (item) => item.value === province
-  );
-  address.value.province = selectedProvince ? selectedProvince.label : "";
+const handleChangeProvince = (value) => {
+  province_id.value = value;
+  district_id.value = undefined;
+  ward_id.value = undefined;
+  address.value.street = "";
+  address.value.district = "";
+  address.value.ward = "";
+  address.value.province = optionsPronvines.value.find(
+    (item) => item.value === value
+  ).label;
 };
-
-const handleChangeDistrict = (district) => {
-  const selectedDistrict = districts.value.find(
-    (item) => item.value === district
-  );
-  address.value.district = selectedDistrict ? selectedDistrict.label : "";
+const handleChangeDistrict = (value) => {
+  district_id.value = value;
+  ward_id.value = undefined;
+  address.value.street = "";
+  address.value.ward = "";
+  address.value.district = optionsDistricts.value.find(
+    (item) => item.value === value
+  ).label;
 };
-
-const handleChangeWard = (ward) => {
-  const selectedWard = wards.value.find((item) => item.value === ward);
-  address.value.ward = selectedWard ? selectedWard.label : "";
+const handleChangeWard = (value) => {
+  ward_id.value = value;
+  address.value.street = "";
+  address.value.ward = optionsWards.value.find(
+    (item) => item.value === value
+  ).label;
 };
 const handleSubmit = async () => {
   if (
@@ -549,10 +590,10 @@ const handleSubmit = async () => {
             place_of_study: user.value.place_of_study,
           }
         : null,
-    street: address.value.street ? address.value.street : null,
-    province: address.value.province ? address.value.province : null,
-    district: address.value.district ? address.value.district : null,
-    ward: address.value.ward ? address.value.ward : null,
+    street: userStore.user?.street,
+    province_id: userStore.user?.province?.id,
+    district_id: userStore.user?.district?.id,
+    ward_id: userStore.user?.ward?.id,
     address_detail:
       address.value.street &&
       address.value.province &&
@@ -574,5 +615,11 @@ const handleSubmit = async () => {
   if (updateUser) {
     message.success("Cập nhập thông tin người dùng thành công");
   }
+};
+const handleChangeGender = (e) => {
+  user.value.gender = e.target.value;
+};
+const handleChangeRoleId = (e) => {
+  user.value.role_id = e.target.value;
 };
 </script>

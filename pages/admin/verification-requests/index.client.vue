@@ -1,0 +1,186 @@
+<template>
+  <div>
+    <div
+      class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
+    >
+      <div class="grow">
+        <h5 class="text-xl text-[#1e293b] font-semibold">
+          Tài khoản chờ duyệt
+        </h5>
+      </div>
+    </div>
+
+    <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
+      <div class="flex justify-between pb-4">
+        <div class="relative w-1/4 md:block hidden">
+          <div class="flex">
+            <input
+              type="text"
+              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
+              placeholder="Tìm kiếm..."
+            />
+          </div>
+          <div
+            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          >
+            <UIcon class="text-gray-500" name="i-material-symbols-search" />
+          </div>
+        </div>
+      </div>
+      <a-table
+        :columns="columns"
+        :data-source="
+          verificationRequestsStore.verificationRequestsAdmin
+            ?.verificationRequests
+        "
+        :loading="verificationRequestsStore.isLoading"
+      >
+        <template #bodyCell="{ column, text, record }">
+          <template v-if="column.dataIndex === 'user_handle'">
+            <p class="p-0">
+              {{ record.user_handle?.citizen_identity_card?.citizen_name }}
+            </p>
+          </template>
+          <template v-if="column.dataIndex === 'user_request'">
+            <div class="flex gap-4">
+              <div>
+                <a-image
+                  class="w-5 h-5 rounded-full p-0"
+                  :width="50"
+                  :src="record.user_request?.avatar"
+                />
+              </div>
+              <div>
+                <p class="p-0">
+                  {{ record.user_request?.email }}
+                </p>
+                <p class="p-0">
+                  {{ record.user_request?.citizen_identity_card?.citizen_name }}
+                </p>
+              </div>
+            </div>
+          </template>
+          <template v-if="column.key === 'reason'">
+            <span>
+              {{ record.reason }}
+            </span>
+          </template>
+
+          <template v-else-if="column.key === 'google_id'">
+            <IconTick v-if="record.user_request?.google_id" />
+            <IconMul v-else />
+          </template>
+          <template v-else-if="column.key === 'has_wallet'">
+            <IconTick v-if="record.has_wallet" />
+            <IconMul v-else />
+          </template>
+          <template v-else-if="column.key === 'verification_card_type'">
+            <a-tag
+              :bordered="false"
+              v-if="record.verification_card_type === 'citizen_card'"
+              class="text-tag-text-09 bg-tag-bg-09"
+            >
+              CMT/CCCD
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.verification_card_type === 'student_card'"
+              class="text-tag-text-10 bg-tag-bg-10"
+            >
+              Thẻ sinh viên
+            </a-tag>
+          </template>
+
+          <template v-else-if="column.key === 'status'">
+            <a-tag
+              :bordered="false"
+              v-if="record.status === VerificationRequestsStatus.PENDING"
+              class="text-tag-text-01 bg-tag-bg-01"
+            >
+              Chờ xác thực
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === VerificationRequestsStatus.APPROVED"
+              class="text-tag-text-09 bg-tag-bg-09"
+            >
+              Đã duyệt
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === VerificationRequestsStatus.REJECTED"
+              class="text-tag-text-11 bg-tag-bg-11"
+            >
+              Từ chối
+            </a-tag>
+          </template>
+          <template v-else-if="column.key === 'action'">
+            <div class="flex text-[16px] gap-4">
+              <NuxtLink
+                class="hover:text-black"
+                :to="`/admin/verification-requests/${record.id}`"
+              >
+                <a-tooltip placement="top" color="black">
+                  <template #title>
+                    <span>Sửa</span>
+                  </template>
+                  <button
+                    class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
+                  >
+                    <UIcon
+                      class="text-lg"
+                      name="i-material-symbols-edit-outline"
+                    />
+                  </button>
+                </a-tooltip>
+              </NuxtLink>
+            </div>
+          </template>
+        </template>
+      </a-table>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { VerificationRequestsStatus } from "~/types/admin/verificationRequests";
+const verificationRequestsStore = useVerificationRequestsStore();
+useAsyncData(async () => {
+  await verificationRequestsStore.getVerificationRequests({});
+});
+
+const columns = [
+  {
+    title: "Người yêu cầu",
+    dataIndex: "user_request",
+    key: "user_request",
+  },
+  {
+    title: "Loại xác thực",
+    dataIndex: "verification_card_type",
+    key: "verification_card_type",
+  },
+  {
+    title: "Trạng thái",
+    dataIndex: "status",
+    key: "status",
+  },
+  {
+    title: "Lý do",
+    dataIndex: "reason",
+    key: "reason",
+    width: "200px",
+  },
+  {
+    title: "Người xử lý",
+    dataIndex: "user_handle",
+    key: "user_handle",
+  },
+
+  {
+    title: "Hành động",
+    dataIndex: "action",
+    key: "action",
+  },
+];
+</script>

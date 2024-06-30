@@ -43,6 +43,7 @@
         :columns="columns"
         :data-source="bookCaseStore?.bookCaseAdmin?.bookcases"
         :loading="bookCaseStore.isLoading"
+        :pagination="false"
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'bookcase_code'">
@@ -158,18 +159,27 @@
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="bookCaseStore?.bookCaseAdmin?.totalResults"
+          :pageSize="bookCaseStore?.bookCaseAdmin?.pageSize"
+          show-less-items
+        />
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
 import { Modal } from "ant-design-vue";
+import { LoadingOutlined } from "@ant-design/icons-vue";
+import { h } from "vue";
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const bookCaseStore = useBookcaseStore();
 const bookCaseId = ref<number>();
-import { LoadingOutlined } from "@ant-design/icons-vue";
-import { h } from "vue";
+const current = ref(1);
 const indicator = h(LoadingOutlined, {
   style: {
     fontSize: "16px",
@@ -177,9 +187,17 @@ const indicator = h(LoadingOutlined, {
   spin: true,
 });
 
-useAsyncData(async () => {
-  await bookCaseStore.getAllBookcases({});
-});
+useAsyncData(
+  async () => {
+    await bookCaseStore.getAllBookcases({
+      page: current.value,
+    });
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
 
 const onDelete = async (id: string) => {
   try {

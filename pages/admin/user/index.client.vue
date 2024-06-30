@@ -36,6 +36,7 @@
         :columns="columns"
         :data-source="userStore.userAdmin?.users"
         :loading="userStore.isLoading"
+        :pagination="false"
       >
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'avatar'">
@@ -103,14 +104,14 @@
             </a-tag>
             <a-tag
               :bordered="false"
-              v-else="record.status === UserStatus.INACTIVE"
+              v-if="record.status === UserStatus.INACTIVE"
               color="yellow"
             >
               Đang ẩn
             </a-tag>
             <a-tag
               :bordered="false"
-              v-else="record.status === UserStatus.DELETED"
+              v-if="record.status === UserStatus.DELETED"
               color="red"
             >
               Đã xóa
@@ -159,6 +160,14 @@
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="userStore?.userAdmin?.totalResults"
+          :pageSize="userStore?.userAdmin?.pageSize"
+          show-less-items
+        />
+      </div>
       <UserAdminDetail
         :openModalDetail="openModalDetail"
         :openModal="CloseModalDetail"
@@ -171,12 +180,21 @@
 <script lang="ts" setup>
 import { UserStatus } from "~/types/admin/user";
 import { UserRole } from "~/types/admin/user";
+const current = ref(1);
 const userStore = useUserStore();
 const userDetailId = ref<string>();
 const openModalDetail = ref<boolean>(false);
-useAsyncData(async () => {
-  await userStore.getUser({});
-});
+useAsyncData(
+  async () => {
+    await userStore.getUser({
+      page: current.value,
+    });
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
 
 const columns = [
   {
@@ -236,6 +254,4 @@ const showModalDetail = (id) => {
   openModalDetail.value = true;
   userDetailId.value = id;
 };
-
-
 </script>

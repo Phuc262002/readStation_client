@@ -111,12 +111,12 @@
           <div class="bg-white h-auto p-5 shadow-md rounded-lg">
             <div class="w-full flex flex-col pb-5 font-medium">
               <a-radio-group
-                v-model:value="payment_shipping"
+                v-model:value="delivery_method"
                 name="radioGroup"
                 class="flex gap-5"
               >
                 <a-radio value="shipper"> Nhận sách tại nhà </a-radio>
-                <a-radio value="library"> Nhận sách tại thư viện </a-radio>
+                <a-radio value="pickup"> Nhận sách tại thư viện </a-radio>
               </a-radio-group>
             </div>
             <div class="">
@@ -136,7 +136,7 @@
                 <a-radio-button
                   value="cash"
                   class="col-span-6 rounded-lg h-[90px] h-full"
-                  v-if="payment_shipping === 'library'"
+                  v-if="delivery_method === 'pickup'"
                 >
                   <div class="flex items-center justify-start gap-8 h-full">
                     <img src="../../../assets/images/pay-libary.svg" alt="" />
@@ -145,7 +145,10 @@
                 </a-radio-button>
               </a-radio-group>
             </div>
-            <div class="my-5 flex justify-between">
+            <div
+              class="mt-5 flex justify-between text-sm"
+              v-if="delivery_method === 'shipper'"
+            >
               <span>Bạn muốn giao đến địa chỉ khác?</span>
               <span
                 type="primary"
@@ -167,9 +170,13 @@
       <div class="w-1/4 space-y-4">
         <div class="bg-white shadow-md rounded-lg">
           <div class="p-6 w-full">
-            <div class="flex flex-col gap-5">
-              <div class="text-xl font-semibold">Địa chỉ nhận hàng</div>
-              <div class="border-solid border border-gray-100 w-full"></div>
+            <div
+              class="flex flex-col gap-5"
+              v-if="delivery_method === 'shipper'"
+            >
+              <div class="font-bold border-b border-rtgray-50 pb-5">
+                Địa chỉ nhận hàng
+              </div>
               <div class="text-base space-y-1">
                 <div class="flex items-center justify-between">
                   <p class="font-medium">
@@ -182,11 +189,6 @@
                       class="cursor-pointer text-sm text-orange-600"
                       >Thay đổi địa chỉ?</span
                     >
-
-                    <AccountManagerFormChangeAddress
-                      :openModalForm="openModalForm"
-                      :openModal="closeModal"
-                    />
                   </div>
                 </div>
 
@@ -198,15 +200,74 @@
                 </p>
               </div>
             </div>
+            <!--  -->
+            <div
+              class="flex flex-col gap-5"
+              v-if="delivery_method === 'pickup'"
+            >
+              <div class="font-bold border-b border-rtgray-50 pb-5">
+                Địa chỉ thư viện
+              </div>
+              <div class="text-base space-y-3">
+                <p class="text-rtgray-100">
+                  Lô 42, đường số 3, Công viên phần mềm Quang Trung, phường Tân
+                  Chánh Hiệp, Quận 12, TP HCM
+                </p>
+
+                <p>Đừng quên đến thư viện lấy sách nhé !</p>
+              </div>
+            </div>
           </div>
         </div>
-
+        <!--  -->
+        <div class="bg-white shadow-md rounded-lg">
+          <div class="p-6 w-full">
+            <!--  -->
+            <div class="flex flex-col gap-5">
+              <div class="font-bold border-b border-rtgray-50 pb-5">
+                Hình thức vận chuyển
+              </div>
+              <div class="text-base space-y-5">
+                <a-select
+                  size="large"
+                  v-model:value="shipping_method_id"
+                  style="width: 100%"
+                  @focus="focus"
+                  @change="handleChange"
+                  :options="options"
+                >
+                </a-select>
+                <div class="text-sm space-y-3" v-if="shippingValue?.method">
+                  <div>
+                    <span>Hình thức vận chuyển:</span>
+                    <span class="text-orange-500 float-right">
+                      {{ shippingValue?.method }}
+                    </span>
+                  </div>
+                  <div>
+                    <span>Phí vận chuyển:</span>
+                    <span class="text-orange-500 font-bold float-right">
+                      {{
+                        new Intl.NumberFormat("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        }).format(shippingValue?.fee)
+                      }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--  -->
         <div class="bg-white shadow-lg rounded-lg">
           <div class="p-6 w-full">
             <div class="flex flex-col gap-5">
-              <div class="text-xl font-semibold">Thông tin đơn hàng</div>
-              <div class="border-solid border border-gray-100 w-full"></div>
-              <div class="">
+              <div class="font-bold border-b border-rtgray-50 pb-5">
+                Thông tin đơn hàng
+              </div>
+              <div class="border-b border-rtgray-50 pb-5">
                 <div class="flex justify-between items-center">
                   <span class="text-sm text-gray-400">Phí cọc</span>
                   <span class="text-base font-bold">
@@ -252,9 +313,9 @@
                   </span>
                 </div>
               </div>
-              <div class="border-solid border border-gray-100 w-full"></div>
+
               <div>
-                <span>Note:</span>
+                <span>Ghi chú của bạn:</span>
                 <a-textarea
                   placeholder="Nhập ghi chú của bạn"
                   :rows="4"
@@ -288,16 +349,33 @@
         </div>
       </div>
     </div>
+    <AccountManagerFormChangeAddress
+      :openModalForm="openModalForm"
+      :openModal="closeModal"
+    />
   </div>
 </template>
 <script setup lang="ts">
 const authStore = useAuthStore();
 const orderStore = useOrderClientStore();
 const cartStore = useCartStore();
+const shippingMethodStore = useShippingMethodPublicStore();
 const isSubmitting = ref(false);
 const resErrors = ref({});
 const payment_method = ref("wallet");
-const payment_shipping = ref("shipper");
+const delivery_method = ref("shipper");
+const shipping_method_id = ref("Hình thức vận chuyển");
+const options = ref([]);
+const shippingValue = ref({});
+
+useAsyncData(async () => {
+  await shippingMethodStore.getAllShipping();
+  options.value = shippingMethodStore?.shippings.map((item) => ({
+    value: item.id,
+    label: item.method,
+  }));
+  console.log("options.value", options.value);
+});
 
 const userNote = ref();
 // phí cọc
@@ -346,26 +424,18 @@ const payCart = async () => {
   });
   const resData = await orderStore.createOrder({
     payment_method: payment_method.value,
-    delivery_method: "shipper",
+    delivery_method: delivery_method.value,
     user_note: userNote.value,
-    discount: 0,
-    shipping_method_id: 1,
+    discount: authStore?.authUser?.user?.discount,
+    shipping_method_id: shipping_method_id.value,
     total_shipping_fee: parseFloat(shippingFee.value),
     total_service_fee: parseFloat(serviceFee.value),
     total_deposit_fee: parseFloat(depositFee.value),
     total_all_fee: parseFloat(totalFee.value),
     order_details: newArr,
     delivery_info: newInfo,
-    // payment_method: payment_method.value,
-    // payment_shipping: payment_shipping.value,
-    // phone: authStore?.authUser?.user?.phone,
-    // address: authStore?.authUser?.user?.address_detail,
-    // user_note: userNote.value,
-    // shipping_fee: parseFloat(shippingFee.value),
-    // total_service_fee: parseFloat(serviceFee.value),
-    // total_deposit_fee: parseFloat(depositFee.value),
-    // total_all_fee: parseFloat(totalFee.value),
   });
+  // console.log("resData", resData);
   if (resData?.data?._rawValue?.status == true) {
     message.success({
       content: "Đặt hàng thành công",
@@ -380,6 +450,16 @@ const payCart = async () => {
       content: "Đặt hàng không thành công",
     });
   }
+};
+
+const focus = () => {
+  console.log("focus");
+};
+
+const handleChange = (value: string) => {
+  shippingValue.value = shippingMethodStore?.shippings.filter(
+    (item) => value === item.id
+  )[0];
 };
 
 const openModalForm = ref<boolean>(false);

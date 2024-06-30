@@ -28,15 +28,14 @@
           </template>
 
           <!--  -->
-          <template v-else-if="column.key === 'action'">
+          <template v-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <span>
+              <NuxtLink :to="`/post/${record?.post?.slug}`">
                 <a-tooltip placement="top">
                   <template #title>
                     <span>Xem chi tiết</span>
                   </template>
                   <button
-                    @click="showModal(record.id)"
                     class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                   >
                     <div class="flex items-center">
@@ -47,50 +46,22 @@
                     </div>
                   </button>
                 </a-tooltip>
-              </span>
-              <AccountFormPostDetail
-                :openModal="openModal"
-                :closeModal="closeModal"
-                :postDetailId="postDetailId"
-              />
+              </NuxtLink>
 
-              <a-dropdown :trigger="['click']" placement="bottom">
+              <a-tooltip placement="top">
+                <template #title>
+                  <span>Hủy</span>
+                </template>
                 <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                  @click="showDeleteConfirm(record.id)"
+                  class="bg-rtgray-50 p-2 rounded-lg flex items-center justify-center"
                 >
                   <UIcon
-                    class="group-hover:text-[#131313]"
-                    name="i-solar-menu-dots-bold"
+                    class="group-hover:text-black"
+                    name="i-material-symbols-close-rounded"
                   />
                 </button>
-                <template #overlay>
-                  <a-menu>
-                    <NuxtLink to="">
-                      <a-menu-item key="2" class="p-4">
-                        <span class="flex items-center gap-2 text-blue-400">
-                          <UIcon
-                            class="group-hover:text-[green]"
-                            name="i-material-symbols-edit-outline"
-                          />
-                          <span>Sửa</span>
-                        </span>
-                      </a-menu-item>
-                    </NuxtLink>
-
-                    <a-menu-item key="3" class="p-4">
-                      <span>
-                        <button class="flex items-center gap-1 text-blue-400">
-                          <UIcon
-                            class="group-hover:text-[red] text-lg"
-                            name="i-material-symbols-delete-outline"
-                          />
-                          <span>Xóa</span>
-                        </button>
-                      </span>
-                    </a-menu-item>
-                  </a-menu>
-                </template>
-              </a-dropdown>
+              </a-tooltip>
             </div>
           </template>
           <!--  -->
@@ -109,23 +80,45 @@
 </template>
 <script setup lang="ts">
 const commentStore = useCommentClientStore();
+const generalCommentStore = useGeneralCommentStore();
 const current = ref(1);
+// Delete
+const onDelete = async (id: any) => {
+  await generalCommentStore.deleteComment(id);
+  getData();
+};
+const showDeleteConfirm = (id: any) => {
+  Modal.confirm({
+    title: "Bạn đang muốn xóa bình luận?",
+    content: "Sau khi xóa sẽ không khôi phục lại",
+    okText: "Đồng ý",
+    okType: "danger",
+    cancelText: "Hủy",
+    onOk() {
+      onDelete(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+};
+
+// Get Data
+const getData = async (id: any) => {
+  await commentStore.getAllComment({
+    page: current.value,
+  });
+};
 useAsyncData(
   async () => {
-    try {
-      await commentStore.getAllComment({
-        page: current.value,
-        // pageSize: 1,
-      });
-    } catch (error) {
-      console.log("error", error);
-    }
+    await getData();
   },
   {
     immediate: true,
     watch: [current],
   }
 );
+
 const columns = [
   {
     title: "Bài viết",
@@ -146,30 +139,6 @@ const columns = [
   {
     title: "Thao tác",
     key: "action",
-  },
-];
-
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
   },
 ];
 </script>

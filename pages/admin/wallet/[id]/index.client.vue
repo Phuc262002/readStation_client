@@ -17,9 +17,13 @@
           <span class="text-2xl font-bold">Thông tin cá nhân</span>
         </div>
         <div class="flex gap-2">
-          <a-button>Chặn ví</a-button>
-          <a-button type="primary">Đóng băng ví</a-button>
-          <a-button type="primary">Khôi phục ví</a-button>
+          <a-button @click="showModalConfirm('suspended')">Chặn ví</a-button>
+          <a-button @click="showModalConfirm('frozen')" type="primary"
+            >Đóng băng ví</a-button
+          >
+          <a-button @click="showModalConfirm('active')" type="primary"
+            >Khôi phục ví</a-button
+          >
         </div>
       </div>
       <div class="grid md:grid-cols-2 gap-5">
@@ -95,16 +99,29 @@
         </div>
       </div>
     </div>
+    <WalletConfirm
+      :openModalConfirm="openModalConfirm"
+      :openModal="CloseModalConfirm"
+      :status="status"
+    />
     <WalletHistory />
   </div>
 </template>
 <script setup>
+const openModalConfirm = ref(false);
+const status = ref("");
 const route = useRoute();
 const walletId = route.params.id;
 const walletAdminStore = useWalletAdminStore();
 useAsyncData(async () => {
   await walletAdminStore.getOneWallet(walletId);
 });
-
-
+const CloseModalConfirm = () => {
+  openModalConfirm.value = false;
+  status.value = "";
+};
+const showModalConfirm = (statusModal) => {
+  openModalConfirm.value = true;
+  status.value = statusModal;
+};
 </script>

@@ -33,6 +33,8 @@
       <a-table
         :columns="columns"
         :data-source="commentStore?.commentAdmin?.comments"
+        :loading="commentStore.isLoading"
+        :pagination="false"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'post_id'">
@@ -61,14 +63,27 @@
             </span>
           </template>
           <template v-else-if="column.key === 'status'">
-            <span>
-              <a-tag
-                :bordered="false"
-                :color="record.status === 'active' ? 'green' : 'volcano'"
-              >
-                {{ record.status }}
-              </a-tag>
-            </span>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === CommentStatus.PUBLISHED"
+              class="bg-tag-bg-09 text-tag-text-09"
+            >
+              Công khai
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === CommentStatus.BANNED"
+              class="bg-tag-bg-06 text-tag-text-06"
+            >
+              Bị chặn
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === CommentStatus.HIDDEN"
+              class="bg-tag-bg-07 text-tag-text-07"
+            >
+              Đang ẩn
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
@@ -124,20 +139,38 @@
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="commentStore?.commentAdmin?.totalResults"
+          :pageSize="commentStore?.commentAdmin?.pageSize"
+          show-less-items
+        />
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { Modal } from "ant-design-vue";
+import { CommentStatus } from "~/types/admin/comment";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 const open = ref<boolean>(false);
+const current = ref(1);
 const commentStore = useCommentStore();
 const commentGeneralStore = useGeneralCommentStore();
-useAsyncData(async () => {
-  await commentStore.getAllComment({});
-});
+useAsyncData(
+  async () => {
+    await commentStore.getAllComment({
+      page: current.value,
+    });
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
 const showDeleteConfirm = (comment_id: string) => {
   Modal.confirm({
     title: "Are you sure delete this task?",

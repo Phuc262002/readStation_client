@@ -22,15 +22,22 @@ export const useCommentClientStore = defineStore("comment-client-store", {
       return data;
     },
     async getAllRepComment({ page, pageSize, sort, post_id }: any) {
-      const data: any = await useCustomFetch(
-        `/api/v1/account/comments/get-comments-my-post?${
-          page ? `&page=${page}` : ""
-        }${pageSize ? `&pageSize=${pageSize}` : ""}${
-          sort ? `&sort=${sort}` : ""
-        }${post_id ? `&post_id=${post_id}` : ""}`
-      );
-      this.repcomment = data.data._value?.data;
-      return data;
+      try {
+        this.isLoading = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/account/comments/get-comments-my-post?${
+            page ? `&page=${page}` : ""
+          }${pageSize ? `&pageSize=${pageSize}` : ""}${
+            sort ? `&sort=${sort}` : ""
+          }${post_id ? `&post_id=${post_id}` : ""}`
+        );
+        this.repcomment = data.data._value?.data;
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        this.isLoading = false;
+      }
     },
   },
 });

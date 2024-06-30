@@ -215,7 +215,8 @@
           </span>
           <div class="w-1/2 text-left">
             <a-input
-              :value="`${address.street},${address.ward}, ${address.district}, ${address.province}`"
+              readonly
+              :value="`${address.street}, ${address.ward}, ${address.district}, ${address.province}`"
               size="large"
               v-if="isShow"
             />
@@ -266,8 +267,8 @@ const address = ref({
   ward: "",
   street: "",
 });
-//get API
 
+//get API
 const ward_id = ref(undefined);
 const district_id = ref(undefined);
 const province_id = ref(undefined);
@@ -369,10 +370,6 @@ const handleChangeEditAcc = () => {
     province_id.value = authStore?.authUser?.user?.province?.id;
     district_id.value = authStore?.authUser?.user?.district?.id;
     ward_id.value = authStore?.authUser?.user?.ward?.id;
-
-    // province_id: province_id.value,
-    // district_id: district_id.value,
-    // ward_id: ward_id.value,
   }
 };
 const handleCancel = () => {
@@ -387,6 +384,8 @@ const handleChangeProvince = (value) => {
   district_id.value = undefined;
   ward_id.value = undefined;
   address.value.street = "";
+  address.value.district = "";
+  address.value.ward = "";
   address.value.province = optionsPronvines.value.find(
     (item) => item.value === value
   ).label;
@@ -395,6 +394,7 @@ const handleChangeDistrict = (value) => {
   district_id.value = value;
   ward_id.value = undefined;
   address.value.street = "";
+  address.value.ward = "";
   address.value.district = optionsDistricts.value.find(
     (item) => item.value === value
   ).label;

@@ -72,7 +72,7 @@
           <template v-if="column.key === 'status'">
             <a-tag
               :bordered="false"
-              v-if="record.status === 'active'"
+              v-if="record.status === ShippingMethodsStatus.ACTIVE"
               class="bg-tag-bg-09 text-tag-text-09"
             >
               Công khai
@@ -80,7 +80,7 @@
 
             <a-tag
               :bordered="false"
-              v-if="record.status === 'inactive'"
+              v-if="record.status === ShippingMethodsStatus.INACTIVE"
               class="bg-tag-bg-07 text-tag-text-07"
             >
               Đang ẩn
@@ -88,7 +88,7 @@
 
             <a-tag
               :bordered="false"
-              v-if="record.status === 'deleted'"
+              v-if="record.status === ShippingMethodsStatus.DELETED"
               class="bg-tag-bg-06 text-tag-text-06"
             >
               Đã xóa
@@ -134,26 +134,36 @@
           </template>
         </template>
       </a-table>
-      <!-- <div class="mt-4 flex justify-end">
+      <div class="mt-4 flex justify-end">
         <a-pagination
           v-model:current="current"
-          :total="AuthorStore?.AuthorAdmin?.totalResults"
-          :pageSize="AuthorStore?.AuthorAdmin?.pageSize"
+          :total="shippingMethodStore?.shippingMethodsAdmin?.totalResults"
+          :pageSize="shippingMethodStore?.shippingMethodsAdmin?.pageSize"
           show-less-items
         />
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { Modal } from "ant-design-vue";
+import {ShippingMethodsStatus} from "~/types/admin/shippingMethods";
 const openModalAdd = ref<boolean>(false);
 const openModalEdit = ref<boolean>(false);
 const shippingMethodId = ref<number>();
+const current = ref(1);
 const shippingMethodStore = useShippingMethodsStore();
-useAsyncData(async () => {
-  shippingMethodStore.getAllShippingMethods({});
-});
+useAsyncData(
+  async () => {
+    shippingMethodStore.getAllShippingMethods({
+      page: current.value,
+    });
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
 const onDelete = async (id: string) => {
   await shippingMethodStore.deleteShippingMethod(id);
   await shippingMethodStore.getAllShippingMethods({});
