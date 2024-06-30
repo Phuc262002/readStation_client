@@ -38,5 +38,14 @@ export const useOrderStore = defineStore("order-store", {
         this.isLoading = false;
         return data;
     },
+    async updateOrderStatus({id, body}: any) {
+        this.isSubmitting = true;
+        const data: any = await useCustomFetch(`/api/v1/admin/orders/update/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(body),
+        });
+        this.isSubmitting = false;
+        return data;
+    }
   },
 });
