@@ -4,7 +4,7 @@
       Quản lý đơn hàng
     </h1>
     <div class="grid gird-row-2 w-full gap-5">
-      <div class="px-5 grid grid-cols-4 gap-4">
+      <div class="grid grid-cols-4 gap-4">
         <div class="w-full bg-[white] rounded-lg p-4">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-7">
@@ -118,15 +118,18 @@
                   </a>
                   <template #overlay>
                     <a-menu>
-                      <a-menu-item @click="statusValue('pending')" >Đang xử lý</a-menu-item>
-                      <a-menu-item @click="statusValue('hiring')" >Đang thuê</a-menu-item>
-                      <a-menu-item @click="statusValue('completed')" >Hoàn thành</a-menu-item>
-                      <a-menu-item @click="statusValue('out_of_date')" >Quá hạn</a-menu-item>
-                      <a-menu-item @click="statusValue('approved')" >Đã xác nhận</a-menu-item>
-                      <a-menu-item @click="statusValue('wating_take_book')" >Đang giao</a-menu-item>
-                      <a-menu-item @click="statusValue('increasing')" >Đang gia hạn</a-menu-item>
-                      <a-menu-item @click="statusValue('wating_return')" >Chờ trả sách</a-menu-item>
-                      <a-menu-item @click="statusValue('canceled')" >Đã hủy</a-menu-item>
+                      <a-menu-item @click="statusValue('')">Tất cả</a-menu-item>
+                      <a-menu-item @click="statusValue('pending')">Đang xử lý</a-menu-item>
+                      <a-menu-item @click="statusValue('approved')">Đã xác nhận</a-menu-item>
+                      <a-menu-item @click="statusValue('ready_for_pickup')">Đơn hàng sẵn sàng</a-menu-item>
+                      <a-menu-item @click="statusValue('preparing_shipment')">Chuẩn bị giao hàng</a-menu-item>
+                      <a-menu-item @click="statusValue('in_transit')">Đang giao</a-menu-item>
+                      <a-menu-item @click="statusValue('extended')">Gia hạn</a-menu-item>
+                      <a-menu-item @click="statusValue('active')">Đang thuê</a-menu-item>
+                      <a-menu-item @click="statusValue('returning')">Đang trả sách</a-menu-item>
+                      <a-menu-item @click="statusValue('completed')">Hoàn thành</a-menu-item>
+                      <a-menu-item @click="statusValue('canceled')">Đã hủy</a-menu-item>
+                      <a-menu-item @click="statusValue('overdue')">Quá hạn</a-menu-item>
                     </a-menu>
                   </template>
                 </a-dropdown>
@@ -162,44 +165,44 @@
                       Đang xử lý
                     </a-tag>
                     <a-tag :bordered="false" v-else-if="record.status === 'approved'"
-                      class="bg-tag-bg-01 text-tag-text-01">
-                      approved
+                      class="bg-tag-bg-02 text-tag-text-02">
+                      Đã xác nhận
                     </a-tag>
                     <a-tag :bordered="false" v-else-if="record.status === 'ready_for_pickup'"
                       class="bg-tag-bg-01 text-tag-text-01">
-                      ready_for_pickup
+                      Đơn hàng sẵn sàng
                     </a-tag>
                     <a-tag :bordered="false" v-else-if="record.status === 'preparing_shipment'"
-                      class="bg-tag-bg-06 text-tag-text-06">
-                      preparing_shipment
+                      class="bg-tag-bg-01 text-tag-text-01">
+                      Chuẩn bị giao hàng
                     </a-tag>
                     <a-tag :bordered="false" v-else-if="record.status === 'in_transit'"
-                      class="bg-tag-bg-07 text-tag-text-07">
-                      in_transit
+                      class="bg-tag-bg-03 text-tag-text-03">
+                      Đang giao
                     </a-tag>
                     <a-tag :bordered="false" v-else-if="record.status === 'extended'"
-                      class="bg-tag-bg-02 text-tag-text-02">
-                      extended
+                      class="bg-tag-bg-12 text-tag-text-12">
+                      Gia hạn
                     </a-tag>
                     <a-tag :bordered="false" v-else-if="record.status === 'active'"
-                      class="bg-tag-bg-03 text-tag-text-03">
-                      active
+                      class="bg-tag-bg-04 text-tag-text-04">
+                      Đang thuê
                     </a-tag>
                     <a-tag :bordered="false" v-else-if="record.status === 'returning'"
-                      class="bg-tag-bg-12 text-tag-text-12">
-                      returning
+                      class="bg-tag-bg-13 text-tag-text-13">
+                      Đang trả sách
                     </a-tag>
                     <a-tag :bordered="false" v-else-if="record.status === 'completed'"
-                      class="bg-tag-bg-13 text-tag-text-13">
-                      completed
+                      class="bg-tag-bg-05 text-tag-text-05">
+                      Hoàn thành
                     </a-tag>
                     <a-tag :bordered="false" v-else-if="record.status === 'canceled'"
-                      class="bg-tag-bg-13 text-tag-text-13">
-                      canceled
+                      class="bg-tag-bg-07 text-tag-text-07">
+                      Đã hủy
                     </a-tag>
                     <a-tag :bordered="false" v-else-if="record.status === 'overdue'"
-                      class="bg-tag-bg-13 text-tag-text-13">
-                      overdue
+                      class="bg-tag-bg-06 text-tag-text-06">
+                      Quá hạn
                     </a-tag>
                   </span>
                 </template>
@@ -277,7 +280,7 @@ useAsyncData(async () => {
   try {
     await orderStore.getAllOrder({
       page: current.value,
-      search : valueSearch.value,
+      search: valueSearch.value,
       status: queryStatus.value
     });
   } catch (error) {
@@ -286,7 +289,7 @@ useAsyncData(async () => {
 
 }, {
   immediate: true,
-  watch: [current,valueSearch,queryStatus],
+  watch: [current, valueSearch, queryStatus],
 });
 useAsyncData(async () => {
   await orderStore.statisticOrder();
