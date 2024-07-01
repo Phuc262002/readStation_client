@@ -103,7 +103,7 @@
               v-else-if="orderStore?.order?.status === 'active'"
               class="text-tag-text-09 bg-tag-bg-09 border-none py-1 px-3 rounded-lg"
             >
-              Đang hoạt động
+              Đang thuê
             </a-tag>
             <a-tag
               v-else-if="orderStore?.order?.status === 'returning'"
@@ -351,7 +351,7 @@
           </div>
           <div
             class="flex justify-end pt-4 gap-2"
-            v-if="orderStore?.order?.status === 'pending'"
+            v-if="orderStore?.order?.status === 'active'"
           >
             <a-button class="h-10" @click="showModalGive"> Trả sách </a-button>
 
@@ -366,14 +366,24 @@
       </div>
       <!--  -->
 
-      <div
-        class="flex justify-end pt-4 gap-2"
-        v-if="orderStore?.order?.status === 'pending'"
-      >
-        <NuxtLink to="/account/order">
+      <div class="flex justify-end pt-4 gap-2">
+        <NuxtLink
+          to="/account/order"
+          v-if="
+            orderStore?.order?.status === 'pending' ||
+            orderStore?.order?.status === 'canceled' ||
+            orderStore?.order?.status === 'approved' ||
+            orderStore?.order?.status === 'preparing_shipment' ||
+            orderStore?.order?.status === 'in_transit'
+          "
+        >
           <a-button class="h-10"> Trở về </a-button>
         </NuxtLink>
-        <a-button class="h-10 bg-orange-500 !text-white border-none">
+        <a-button
+          class="h-10 bg-orange-500 !text-white border-none"
+          v-if="orderStore?.order?.status === 'pending'"
+          @click="showCancelConfirm(orderStore?.order?.id)"
+        >
           Hủy đơn
         </a-button>
       </div>
@@ -393,6 +403,24 @@ const orderStore = useOrderClientStore();
 const authStore = useAuthStore();
 const route = useRoute();
 const id = route.params.id;
+const onCancelOrderDetail = async (id: any) => {
+  await orderStore.cancelOrder(id);
+};
+const showCancelConfirm = (id: any) => {
+  Modal.confirm({
+    title: "Bạn đang muốn hủy đơn hàng?",
+    content: "Sau khi hủy sẽ không khôi phục lại",
+    okText: "Đồng ý",
+    okType: "danger",
+    cancelText: "Hủy",
+    onOk() {
+      onCancelOrderDetail(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+};
 
 // Modal Extend
 const openModalExtend = ref(false);

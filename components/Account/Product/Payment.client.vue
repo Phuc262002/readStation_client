@@ -94,7 +94,7 @@ const handleRentNow = () => {
             content:
               "Thêm sản phẩm thành công. Chuyển hướng đến trang thanh toán!",
           });
-          navigateTo("/account/manager/checkout");
+          navigateTo("/account/order/checkout");
         } else {
           message.error({
             content: "Thêm sản phẩm thất bại.",

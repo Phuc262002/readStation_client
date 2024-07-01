@@ -40,11 +40,11 @@
           />
         </div>
         <div>
-          <p class="pb-2">Tiêu đề bài viết</p>
-          <a-input
+          <p class="pb-2">Mô tả ngắn</p>
+          <a-textarea
             v-model:value="post.summary"
-            placeholder="Tiêu đề"
-            class="h-10"
+            placeholder="Mô tả ngắn"
+            :rows="4"
           />
         </div>
         <div class="w-1/3 w-full">
@@ -66,15 +66,18 @@
           />
         </div>
         <div class="flex justify-end gap-2">
-          <a-button class="h-10 text-base">Hủy</a-button>
-          <a-button class="h-10 text-base !text-orange-500 border-orange-500"
-            >Lưu nháp</a-button
-          >
+          <NuxtLink to="/account/post">
+            <a-button class="h-10 text-base">Hủy</a-button>
+          </NuxtLink>
+          <a-button class="h-10 text-base !text-orange-500 border-orange-500">
+            Lưu nháp
+          </a-button>
           <a-button
             html-type="submit"
             class="h-10 text-base bg-orange-500 border-none !text-white"
-            >Lưu</a-button
           >
+            Lưu
+          </a-button>
         </div>
       </form>
     </div>
@@ -86,6 +89,7 @@ const categoryStore = useCategoryPublicStore();
 const postStore = useGeneralPostStore();
 const current = ref(1);
 const options = ref([]);
+
 const baseStore = useBaseStore();
 const imageInfo = ref("");
 const post = ref({
@@ -95,6 +99,11 @@ const post = ref({
   summary: "",
   image: "",
 });
+
+// useAsyncData(async () => {
+//   await postStore?.ge;
+// });
+
 // Get Category
 useAsyncData(async () => {
   try {
@@ -162,3 +171,8 @@ const beforeUpload = (file) => {
   return isImage || Upload.LIST_IGNORE;
 };
 </script>
+<style scoped>
+::v-deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
+  resize: none;
+}
+</style>

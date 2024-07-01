@@ -40,11 +40,11 @@
           />
         </div>
         <div>
-          <p class="pb-2">Tiêu đề bài viết</p>
-          <a-input
+          <p class="pb-2">Mô tả ngắn</p>
+          <a-textarea
             v-model:value="post.summary"
-            placeholder="Tiêu đề"
-            class="h-10"
+            placeholder="Mô tả ngắn"
+            :rows="4"
           />
         </div>
         <div class="w-1/3 w-full">
@@ -66,7 +66,9 @@
           />
         </div>
         <div class="flex justify-end gap-2">
-          <a-button class="h-10 text-base">Hủy</a-button>
+          <NuxtLink to="/account/post">
+            <a-button class="h-10 text-base">Hủy</a-button>
+          </NuxtLink>
 
           <a-button
             html-type="submit"
@@ -180,3 +182,8 @@ const updatePost = async () => {
   }
 };
 </script>
+<style scoped>
+::v-deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
+  resize: none;
+}
+</style>
