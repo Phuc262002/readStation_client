@@ -83,7 +83,8 @@
             <div class="text-tag-text-03">
               <p class="font-normal text-base">Khách hàng đã kích hoạt</p>
               <p class="font-bold text-xl">
-                {{ dashboardStore?.dashboardAdmin?.user }} khách hàng
+                {{ dashboardStore?.dashboardAdmin?.userActiveWallet }} khách
+                hàng
               </p>
             </div>
           </div>

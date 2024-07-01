@@ -11,19 +11,55 @@
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <input
-              type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..."
-            />
+        <div class="w-1/2 flex items-center gap-2">
+          <div class="relative w-2/3 md:block hidden">
+            <div class="flex">
+              <a-input
+                placeholder="Nhập tên bài viết để tìm kiếm"
+                class="h-10"
+                v-model:value="valueSearch"
+              >
+                <template #prefix>
+                  <SearchOutlined />
+                </template>
+              </a-input>
+            </div>
+            <div
+              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+            >
+              <UIcon class="text-gray-500" name="i-material-symbols-search" />
+            </div>
           </div>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
+
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'published', label: 'Công khai' })
+                  "
+                  >Công khai</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'banned', label: 'Bị chặn' })
+                  "
+                  >Chờ duyệt</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'hidden', label: 'Đang ẩn' })
+                  "
+                  >Từ chối</a-menu-item
+                >
+                
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
         <!-- <NuxtLink to="/admin/book-case/add-bookcase" class="">
           <a-button type="primary">Thêm bình luận</a-button>
@@ -150,28 +186,39 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 import { Modal } from "ant-design-vue";
 import { CommentStatus } from "~/types/admin/comment";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
-const open = ref<boolean>(false);
+const open = ref(false);
 const current = ref(1);
+const valueSearch = ref("");
+const queryStatus = ref({
+  value: "",
+  label: "",
+});
+const statusValue = ({ value, label }) => {
+  queryStatus.value.value = value;
+  queryStatus.value.label = label;
+};
 const commentStore = useCommentStore();
 const commentGeneralStore = useGeneralCommentStore();
 useAsyncData(
   async () => {
     await commentStore.getAllComment({
       page: current.value,
+      search: valueSearch.value,
+      status: queryStatus.value.value,
     });
   },
   {
     immediate: true,
-    watch: [current],
+    watch: [current, valueSearch, queryStatus.value],
   }
 );
-const showDeleteConfirm = (comment_id: string) => {
+const showDeleteConfirm = (comment_id) => {
   Modal.confirm({
     title: "Are you sure delete this task?",
     content: "Some descriptions",
@@ -186,19 +233,19 @@ const showDeleteConfirm = (comment_id: string) => {
     },
   });
 };
-const onDelete = async (comment_id: string) => {
+const onDelete = async (comment_id) => {
   await commentGeneralStore.deleteComment({ comment_id: comment_id });
   await commentStore.getAllComment({});
 };
 
-const onRecover = async (comment_id: string) => {
+const onRecover = async (comment_id) => {
   await commentGeneralStore.updateComment({
     comment_id: comment_id,
     status: "hidden",
   });
   await commentStore.getAllComment({});
 };
-const showRecoverConfirm = (id: string) => {
+const showRecoverConfirm = (id) => {
   Modal.confirm({
     title: "Are you sure delete this task?",
     content: "Some descriptions",

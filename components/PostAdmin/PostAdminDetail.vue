@@ -97,6 +97,7 @@
   </a-modal>
 </template>
 <script setup>
+import { PostStatus } from "~/types/admin/post";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);

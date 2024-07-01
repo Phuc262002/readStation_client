@@ -13,19 +13,44 @@
     <!-- Đây là phần code mẫu body -->
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
       <div class="flex justify-between pb-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <input
-              type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..."
-            />
+        <div class="w-1/2 flex items-center gap-2">
+          <div class="relative w-2/3 md:block hidden">
+            <div class="flex">
+              <a-input
+                placeholder="Nhập thông tin liên hệ để tìm kiếm"
+                class="h-10"
+                v-model:value="valueSearch"
+              >
+                <template #prefix>
+                  <SearchOutlined />
+                </template>
+              </a-input>
+            </div>
+            <div
+              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+            >
+              <UIcon class="text-gray-500" name="i-material-symbols-search" />
+            </div>
           </div>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
+
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item
+                  @click="statusValue({ value: 'active', label: 'Công khai' })"
+                  >Công khai</a-menu-item
+                >
+                <a-menu-item
+                  @click="statusValue({ value: 'inactive', label: 'Đang ẩn' })"
+                  >Đang ẩn</a-menu-item
+                >
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
 
         <NuxtLink to="/admin/user/create-user" class="">
@@ -98,21 +123,21 @@
             <a-tag
               :bordered="false"
               v-if="record.status === UserStatus.ACTIVE"
-              color="green"
+              class="bg-tag-bg-09 text-tag-text-09"
             >
               Công khai
             </a-tag>
             <a-tag
               :bordered="false"
               v-if="record.status === UserStatus.INACTIVE"
-              color="yellow"
+              class="bg-tag-bg-07 text-tag-text-07"
             >
               Đang ẩn
             </a-tag>
             <a-tag
               :bordered="false"
               v-if="record.status === UserStatus.DELETED"
-              color="red"
+              class="bg-tag-bg-06 text-tag-text-06"
             >
               Đã xóa
             </a-tag>
@@ -177,22 +202,33 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { UserStatus } from "~/types/admin/user";
 import { UserRole } from "~/types/admin/user";
 const current = ref(1);
 const userStore = useUserStore();
-const userDetailId = ref<string>();
-const openModalDetail = ref<boolean>(false);
+const userDetailId = ref();
+const openModalDetail = ref(false);
+const valueSearch = ref("");
+const queryStatus = ref({
+  value: "",
+  label: "",
+});
+const statusValue = ({ value, label }) => {
+  queryStatus.value.value = value;
+  queryStatus.value.label = label;
+};
 useAsyncData(
   async () => {
     await userStore.getUser({
       page: current.value,
+      search: valueSearch.value,
+      status: queryStatus.value.value,
     });
   },
   {
     immediate: true,
-    watch: [current],
+    watch: [current, valueSearch, queryStatus.value],
   }
 );
 

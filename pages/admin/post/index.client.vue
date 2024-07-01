@@ -6,24 +6,66 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả bài viết</h5>
       </div>
-      
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <input
-              type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..."
-            />
+        <div class="w-1/2 flex items-center gap-2">
+          <div class="relative w-2/3 md:block hidden">
+            <div class="flex">
+              <a-input
+                placeholder="Nhập tên bài viết để tìm kiếm"
+                class="h-10"
+                v-model:value="valueSearch"
+              >
+                <template #prefix>
+                  <SearchOutlined />
+                </template>
+              </a-input>
+            </div>
+            <div
+              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+            >
+              <UIcon class="text-gray-500" name="i-material-symbols-search" />
+            </div>
           </div>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
+
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'published', label: 'Công khai' })
+                  "
+                  >Công khai</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'wating_approve', label: 'Chờ duyệt' })
+                  "
+                  >Chờ duyệt</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'approve_canceled', label: 'Từ chối' })
+                  "
+                  >Từ chối</a-menu-item
+                >
+                <a-menu-item
+                  @click="statusValue({ value: 'draft', label: 'Bản nháp' })"
+                  >Bản nháp</a-menu-item
+                >
+                <a-menu-item
+                  @click="statusValue({ value: 'hidden', label: 'Đã ẩn' })"
+                  >Đã ẩn</a-menu-item
+                >
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
         <NuxtLink to="/admin/post/add-post" class="">
           <a-button type="primary">Thêm bài viết</a-button>
@@ -74,7 +116,7 @@
               v-if="record.status === PostStatus.WATING_APPROVE"
               class="bg-tag-bg-01 text-tag-text-01"
             >
-              Đang chờ duyệt
+              Chờ duyệt
             </a-tag>
 
             <a-tag
@@ -143,7 +185,7 @@
                   <a-menu>
                     <NuxtLink :to="`/admin/post/edit/${record.id}`">
                       <a-menu-item key="2" class="p-4">
-                        <span class="flex items-center gap-2 ">
+                        <span class="flex items-center gap-2">
                           <UIcon
                             class="text-lg"
                             name="i-material-symbols-edit-outline"
@@ -160,7 +202,7 @@
                           class="flex items-center gap-1"
                         >
                           <UIcon
-                            class=" text-lg"
+                            class="text-lg"
                             name="i-material-symbols-delete-outline"
                           />
                           <span>Xóa</span>
@@ -190,33 +232,44 @@
     />
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 import { Modal } from "ant-design-vue";
 import { PostStatus } from "~/types/admin/post";
 
 const postGeneralStore = useGeneralPostStore();
 const postStore = usePostStore();
 
-const postDetailId = ref<number>();
-const openModalDetail = ref<boolean>(false);
+const postDetailId = ref();
+const openModalDetail = ref(false);
 const current = ref(1);
+const valueSearch = ref("");
+const queryStatus = ref({
+  value: "",
+  label: "",
+});
+const statusValue = ({ value, label }) => {
+  queryStatus.value.value = value;
+  queryStatus.value.label = label;
+};
 useAsyncData(
   async () => {
     await postStore.getAllPost({
       page: current.value,
+      search: valueSearch.value,
+      status: queryStatus.value.value,
     });
   },
   {
     immediate: true,
-    watch: [current],
+    watch: [current, valueSearch, queryStatus.value],
   }
 );
 
-const onDelete = async (id: string) => {
+const onDelete = async (id) => {
   await postGeneralStore.deletePost(id);
   await postStore.getAllPost({});
 };
-const showDeleteConfirm = (id: string) => {
+const showDeleteConfirm = (id) => {
   Modal.confirm({
     title: "Are you sure delete this task?",
     content: "Some descriptions",
@@ -282,9 +335,8 @@ const CloseModalDetail = () => {
 const showModalDetail = (id) => {
   openModalDetail.value = true;
   postDetailId.value = id;
-  console.log(id);
 };
-const open = ref<boolean>(false);
+const open = ref(false);
 const showModal = () => {
   open.value = true;
 };
