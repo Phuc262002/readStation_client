@@ -16,7 +16,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
     to.fullPath.startsWith("/account/wallet/transaction-error")
   ) {
     layout = "none-default";
-  } else if (to.fullPath.startsWith("/account/manager/checkout")) {
+  } else if (to.fullPath.startsWith("/account/order/checkout")) {
     layout = "client-default";
   } else if (to.fullPath.startsWith("/account")) {
     layout = "account-default";

@@ -47,11 +47,11 @@
                   </div>
                   <div class="text-[14px]">
                     <div>
-                      <span class="font-bold">Tác giả : </span
+                      <span class="font-bold">Tác giả: </span
                       ><span>{{ cart?.book?.author?.author }}</span>
                     </div>
                     <div>
-                      <span class="font-bold">Phiên bản :</span
+                      <span class="font-bold">Phiên bản: </span
                       ><span> {{ cart?.book_version }}</span>
                     </div>
                   </div>
@@ -125,12 +125,12 @@
                 class="grid grid-cols-12 gap-5"
               >
                 <a-radio-button
-                  value="wallet"
+                  value="online"
                   class="col-span-6 rounded-lg h-[90px] h-full"
                 >
                   <div class="flex items-center justify-start gap-8">
                     <img src="../../../assets/images/pay-wallet.svg" alt="" />
-                    <span>Thanh toán qua ví</span>
+                    <span>Thanh toán Online</span>
                   </div>
                 </a-radio-button>
                 <a-radio-button
@@ -154,8 +154,9 @@
                 type="primary"
                 @click="showModal"
                 class="cursor-pointer text-orange-600"
-                >Thay đổi địa chỉ nhận hàng?</span
               >
+                Thay đổi địa chỉ nhận hàng?
+              </span>
 
               <AccountManagerFormChangeAddress
                 :openModalForm="openModalForm"
@@ -220,7 +221,10 @@
           </div>
         </div>
         <!--  -->
-        <div class="bg-white shadow-md rounded-lg">
+        <div
+          class="bg-white shadow-md rounded-lg"
+          v-if="delivery_method === 'shipper'"
+        >
           <div class="p-6 w-full">
             <!--  -->
             <div class="flex flex-col gap-5">
@@ -290,14 +294,17 @@
                     }}
                   </span>
                 </div>
-                <div class="flex justify-between items-center">
+                <div
+                  class="flex justify-between items-center"
+                  v-if="delivery_method === 'shipper'"
+                >
                   <span class="text-sm text-gray-400">Phí vận chuyển</span>
                   <span class="text-base font-bold">
                     {{
                       new Intl.NumberFormat("vi-VN", {
                         style: "currency",
                         currency: "VND",
-                      }).format(shippingFee)
+                      }).format(shippingValue?.fee)
                     }}
                   </span>
                 </div>
@@ -362,11 +369,14 @@ const cartStore = useCartStore();
 const shippingMethodStore = useShippingMethodPublicStore();
 const isSubmitting = ref(false);
 const resErrors = ref({});
-const payment_method = ref("wallet");
+const payment_method = ref("online");
 const delivery_method = ref("shipper");
-const shipping_method_id = ref("Hình thức vận chuyển");
+const shipping_method_id = ref();
 const options = ref([]);
 const shippingValue = ref({});
+const depositFee = ref(0);
+const serviceFee = ref(0);
+const totalFee = ref(0);
 
 useAsyncData(async () => {
   await shippingMethodStore.getAllShipping();
@@ -376,37 +386,47 @@ useAsyncData(async () => {
   }));
   console.log("options.value", options.value);
 });
-
 const userNote = ref();
 // phí cọc
-const depositFee = ref(
-  cartStore.carts.reduce(
+const calcDepositFee = () => {
+  depositFee.value = cartStore.carts.reduce(
     (acc, curr) =>
       acc + (parseFloat(curr.price) * parseFloat(curr.hire_percent)) / 100,
     0
-  )
-);
-
+  );
+};
 // phí dịch vụ
-const serviceFee = ref(
-  cartStore.carts.reduce((acc, curr) => acc + parseFloat(curr.price) * 0.1, 0)
-);
-
-// phí vận chuyển
-const shippingFee = ref(20000);
-
-// tổng tiền
-const totalFee = ref(
-  cartStore.carts.reduce(
-    (acc, curr) =>
-      acc + (parseFloat(curr.price) * parseFloat(curr.hire_percent)) / 100,
+const calcServiceFee = () => {
+  serviceFee.value = cartStore.carts.reduce(
+    (acc, curr) => acc + parseFloat(curr.price) * 0.1,
     0
-  ) +
-    cartStore.carts.reduce(
-      (acc, curr) => acc + parseFloat(curr.price) * 0.1,
-      0
-    ) +
-    20000
+  );
+};
+// Tổng tiền
+const calcTotalFee = () => {
+  totalFee.value =
+    depositFee.value +
+    serviceFee.value +
+    (delivery_method === "pickup"
+      ? (cartStore.shippingFee = 0)
+      : cartStore.shippingFee);
+};
+useAsyncData(
+  async () => {
+    calcDepositFee();
+    calcServiceFee();
+    calcTotalFee();
+  },
+  {
+    immediate: true,
+    watch: [cartStore.shippingFee, totalFee.value],
+  }
+);
+watch(
+  () => cartStore.shippingFee,
+  () => {
+    calcDepositFee(), calcServiceFee(), calcTotalFee();
+  }
 );
 
 const payCart = async () => {
@@ -422,6 +442,7 @@ const payCart = async () => {
       deposit_fee: parseFloat(item.price) * (item.hire_percent / 100),
     };
   });
+
   const resData = await orderStore.createOrder({
     payment_method: payment_method.value,
     delivery_method: delivery_method.value,
@@ -460,6 +481,9 @@ const handleChange = (value: string) => {
   shippingValue.value = shippingMethodStore?.shippings.filter(
     (item) => value === item.id
   )[0];
+  cartStore.addShipFee(
+    shippingMethodStore?.shippings.filter((item) => value === item.id)[0].fee
+  );
 };
 
 const openModalForm = ref<boolean>(false);
@@ -473,9 +497,7 @@ const closeModal = () => {
 };
 </script>
 <style scoped>
-:where(.css-dev-only-do-not-override-1mvo6uw).ant-radio-button-wrapper:not(
-    :first-child
-  )::before {
-  content: initial;
+::v-deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
+  resize: none;
 }
 </style>

@@ -113,8 +113,8 @@
                 <div class="" :key="index">
                   <div class="flex justify-between items-center">
                     <span class="text-sm text-gray-400">Phí cọc</span>
-                    <span class="text-base font-bold"
-                      >{{
+                    <span class="text-base font-bold">
+                      {{
                         new Intl.NumberFormat("vi-VN", {
                           style: "currency",
                           currency: "VND",
@@ -148,12 +148,12 @@
                 <div class="border-solid border border-gray-100 w-full"></div>
                 <div class="flex gap-1">
                   <span class="text-red-600 text-base">* </span>
-                  <span class="text-xs"
-                    >Phí vận chuyển sẽ được tính ở trang thanh toán.</span
-                  >
+                  <span class="text-xs">
+                    Phí vận chuyển sẽ được tính ở trang thanh toán.
+                  </span>
                 </div>
                 <div class="w-full">
-                  <nuxt-link to="/account/manager/checkout">
+                  <nuxt-link to="/account/order/checkout">
                     <button
                       class="bg-rtprimary text-white uppercase text-sm w-full h-8 rounded-lg"
                     >
@@ -191,9 +191,9 @@
         </h2>
         <p class="text-xl pb-4">Hãy thuê thêm sách và quay lại nhé !</p>
         <NuxtLink to="/products">
-          <a-button class="text-base bg-orange-500 !text-white h-10"
-            >Thuê sách ngay</a-button
-          >
+          <a-button class="text-base bg-orange-500 !text-white h-10">
+            Thuê sách ngay
+          </a-button>
         </NuxtLink>
       </div>
     </div>

@@ -68,5 +68,22 @@ export const useOrderClientStore = defineStore("order-client-store", {
         this.isLoading = false;
       }
     },
+    async getOrderPayment({ id, body }: any) {
+      try {
+        this.isSubmitting = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/account/orders/payment/${id}`,
+          {
+            method: "POST",
+            body: JSON.stringify(body),
+          }
+        );
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        this.isSubmitting = false;
+      }
+    },
   },
 });

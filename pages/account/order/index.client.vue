@@ -123,67 +123,67 @@
           <template v-if="column.key === 'status'">
             <span class="flex justify-center">
               <a-tag
-                v-if="record.status === 'pending'"
+                v-if="record?.status === 'pending'"
                 class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg"
               >
                 Đang xử lý
               </a-tag>
               <a-tag
-                v-else-if="record.status === 'approved'"
+                v-else-if="record?.status === 'approved'"
                 class="text-tag-text-02 bg-tag-bg-02 border-none py-1 px-3 rounded-lg"
               >
                 Đã xác nhận
               </a-tag>
               <a-tag
-                v-else-if="record.status === 'ready_for_pickup'"
+                v-else-if="record?.status === 'ready_for_pickup'"
                 class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg"
               >
                 Đơn hàng sẵn sàng
               </a-tag>
               <a-tag
-                v-else-if="record.status === 'preparing_shipment'"
+                v-else-if="record?.status === 'preparing_shipment'"
                 class="text-tag-text-07 bg-tag-bg-07 border-none py-1 px-3 rounded-lg"
               >
                 Đang chuẩn bị
               </a-tag>
               <a-tag
-                v-else-if="record.status === 'in_transit'"
+                v-else-if="record?.status === 'in_transit'"
                 class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
               >
                 Đang vận chuyển
               </a-tag>
               <a-tag
-                v-else-if="record.status === 'extended'"
+                v-else-if="record?.status === 'extended'"
                 class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
               >
                 Quá hạn
               </a-tag>
               <a-tag
-                v-else-if="record.status === 'active'"
+                v-else-if="record?.status === 'active'"
                 class="text-tag-text-09 bg-tag-bg-09 border-none py-1 px-3 rounded-lg"
               >
-                Đang hoạt động
+                Đang thuê
               </a-tag>
               <a-tag
-                v-else-if="record.status === 'returning'"
+                v-else-if="record?.status === 'returning'"
                 class="text-tag-text-13 bg-tag-bg-13 border-none py-1 px-3 rounded-lg"
               >
                 Đang trả sách
               </a-tag>
               <a-tag
-                v-else-if="record.status === 'completed'"
+                v-else-if="record?.status === 'completed'"
                 class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg"
               >
                 Hoàn thành
               </a-tag>
               <a-tag
-                v-else-if="record.status === 'canceled'"
+                v-else-if="record?.status === 'canceled'"
                 class="text-tag-text-07 bg-tag-bg-07 border-none py-1 px-3 rounded-lg"
               >
                 Đã hủy
               </a-tag>
               <a-tag
-                v-else-if="record.status === 'overdue'"
+                v-else-if="record?.status === 'overdue'"
                 class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
               >
                 Quá hạn
