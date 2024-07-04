@@ -185,10 +185,12 @@ const queryStatus = ref({
   value: "",
   label: "",
 });
+
 const statusValue = ({ value, label }) => {
   queryStatus.value.value = value;
   queryStatus.value.label = label;
 };
+console.log("🚀 ~ statusValue ~ statusValue:", statusValue)
 const publishingCompanyStore = usePublishingCompanyStore();
 const current = ref(1);
 useAsyncData(

@@ -43,7 +43,7 @@ export default {
           "bg-12" : "#ECEEF8",
           "bg-13" : "#E5FAF8",
           "bg-14" : "#FFF0F7",
-          "bg-14" : "#F8EFF9",
+          "bg-15" : "#F8EFF9",
           "text-01" : "#FFD700",
           "text-02" : "#2196F3",
           "text-03" : "#FFB74D",
