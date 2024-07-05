@@ -57,29 +57,6 @@
           >Thêm người dùng</a-menu-item
         >
       </a-sub-menu>
-
-      <a-sub-menu key="sub12">
-        <template #title>
-          <span class="flex items-center gap-2">
-            <UIcon
-              name="i-ph-wallet-light"
-              :class="props.collapsed && 'anticon anticon-desktop'"
-            />
-            <span>Quản lý ví</span>
-          </span>
-        </template>
-        <a-menu-item key="25" @click="navigateTo('/admin/wallet')"
-          >Tất cả ví</a-menu-item
-        >
-        <a-menu-item
-          key="82"
-          @click="navigateTo('/admin/wallet/authentication-wallet')"
-          >Xác thực ví</a-menu-item
-        >
-        <a-menu-item key="24" @click="navigateTo('/admin/wallet/frozen-wallet')"
-          >Đóng băng ví</a-menu-item
-        >
-      </a-sub-menu>
       <a-sub-menu key="sub3">
         <template #title>
           <span class="flex items-center gap-2">
