@@ -17,12 +17,12 @@
             {{ bookShelves?.adminGetOneBookShelve?.book_details.length }} cuốn sách</p>
         </div>
         <div>
-          <a-button class="flex justify-center items-center gap-1" type="primary"
-            @click="showModalEdit">
+          <a-button class="flex justify-center items-center gap-1" type="primary" @click="showModalEdit">
             <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
             <span class="text-white text-base">Chỉnh sửa</span>
           </a-button>
-          <BookShelvesEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit" :shelvesId="bookShelves?.adminGetOneBookShelve?.id" />
+          <BookShelvesEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit"
+            :shelvesId="bookShelves?.adminGetOneBookShelve?.id" />
         </div>
       </div>
     </div>
@@ -96,34 +96,15 @@
                 </button>
               </a-tooltip>
 
-              <a-dropdown :trigger="['click']" placement="bottom">
-                <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
-                  <UIcon class="group-hover:text-[#131313]" name="i-solar-menu-dots-bold" />
-                </button>
-                <template #overlay>
-                  <a-menu>
-                    <NuxtLink>
-                      <a-menu-item key="2" class="p-4">
-                        <span class="flex items-center gap-2 text-blue-400">
-                          <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
-                          <span>Sửa</span>
-                        </span>
-                      </a-menu-item>
-                    </NuxtLink>
-
-                    <a-menu-item key="3" class="p-4">
-                      <span>
-                        <button class="flex items-center gap-1 text-blue-400"
-                          @click.prevent="showConfirm(record?.book?.id)">
-                          <UIcon class="group-hover:text-[red] text-lg" name="i-material-symbols-delete-outline" />
-                          <span>Xóa</span>
-                        </button>
-                      </span>
-                    </a-menu-item>
-                  </a-menu>
+              <a-tooltip placement="top" color="red">
+                <template #title>
+                  <span>Xóa</span>
                 </template>
-              </a-dropdown>
+                <button @click.prevent="showConfirm(record?.book?.id)"
+                  class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md">
+                  <UIcon class="group-hover:text-[red]" name="i-material-symbols-delete-outline" />
+                </button>
+              </a-tooltip>
             </div>
           </template>
 
