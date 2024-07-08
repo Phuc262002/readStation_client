@@ -76,11 +76,7 @@ const options = ref([
     {
         value: 'inactive',
         label: 'Không hoạt động',
-    },
-    {
-        value: 'deteled',
-        label: 'Đã xóa',
-    },
+    }
 ]);
 const supplierStore = useSupplierStore();
 const valueSupplier = ref({
