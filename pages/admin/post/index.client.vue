@@ -33,11 +33,12 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
+                <a-menu-item @click="statusValue({ value: '', label: 'Tất cả' })">Tất cả</a-menu-item>
                 <a-menu-item
                   @click="
-                    statusValue({ value: 'published', label: 'Công khai' })
+                    statusValue({ value: 'published', label: 'Đang hoạt động' })
                   "
-                  >Công khai</a-menu-item
+                  >Đang hoạt động</a-menu-item
                 >
                 <a-menu-item
                   @click="
@@ -62,7 +63,7 @@
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+              {{ queryStatus.label ? queryStatus.label : "Tất cả" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>

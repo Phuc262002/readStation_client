@@ -35,8 +35,12 @@
             <template #overlay>
               <a-menu class="">
                 <a-menu-item
-                  @click="statusValue({ value: 'active', label: 'Hoạt động' })"
-                  >Hoạt động</a-menu-item
+                  @click="statusValue({ value: '', label: 'Tất cả' })"
+                  >Tất cả</a-menu-item
+                >
+                <a-menu-item
+                  @click="statusValue({ value: 'active', label: ' Đang hoạt động' })"
+                  > Đang hoạt động</a-menu-item
                 >
                 <a-menu-item
                   @click="statusValue({ value: 'inactive', label: 'Đang ẩn' })"
@@ -45,7 +49,7 @@
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+              {{ queryStatus.label ? queryStatus.label : "Tất cả" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -105,7 +109,7 @@
 
             <a-tag
               :bordered="false"
-              v-else="record.status === 'inactive'"
+              v-if="record.status === 'inactive'"
               class="bg-tag-bg-07 text-tag-text-07"
             >
               Đang ẩn
@@ -113,7 +117,7 @@
 
             <a-tag
               :bordered="false"
-              v-else="record.status === 'deleted'"
+              v-if="record.status === 'deleted'"
               class="bg-tag-bg-06 text-tag-text-06"
             >
               Đã xóa
