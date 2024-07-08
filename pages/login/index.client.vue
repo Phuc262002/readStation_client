@@ -14,7 +14,7 @@
           <div class="py-10 w-fit mx-auto">
             <img
               src="../../assets/images/logo_header.svg"
-              class="max-w-[280px] max-h-[40px] justify-center"
+              class="w-[280px] h-[40px] justify-center"
               alt=""
             />
           </div>
@@ -41,10 +41,10 @@
                         #action
                         v-if="error[0] === 'Email chưa được xác thực'"
                       >
-                        <NuxtLink to="/">
-                          <a-button size="small" type="primary"
-                            >Xác thực</a-button
-                          >
+                        <NuxtLink :to="`/verify-code?email=${email.value}`">
+                          <a-button size="small" type="primary">
+                            Xác thực
+                          </a-button>
                         </NuxtLink>
                       </template>
                     </a-alert>
@@ -143,21 +143,21 @@
                 </div>
               </form>
               <div class="max-w-[388px] text-center pt-6">
-                <span
-                  >Bằng việc đăng nhập, bạn đọc và đồng ý với
+                <span>
+                  Bằng việc đăng nhập, bạn đọc và đồng ý với
                   <NuxtLink to="/privacy-policy"
-                    ><span class="border-b-2"
-                      >điều khoản sử dụng</span
-                    ></NuxtLink
+                    ><span class="border-b-2">
+                      điều khoản sử dụng
+                    </span></NuxtLink
                   >
                   và
-
                   <span class="border-b-2">
-                    <NuxtLink to="/privacy-policy"
-                      >Chính sách bảo mật thông tin cá nhân của
-                    </NuxtLink> </span
-                  >ReadStation</span
-                >
+                    <NuxtLink to="/privacy-policy">
+                      Chính sách bảo mật thông tin cá nhân của
+                    </NuxtLink>
+                  </span>
+                  ReadStation
+                </span>
               </div>
             </div>
           </div>
