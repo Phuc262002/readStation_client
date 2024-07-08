@@ -76,7 +76,7 @@
             html-type="submit"
             class="h-10 text-base bg-orange-500 border-none !text-white"
           >
-            Lưu
+            Thêm bài viết
           </a-button>
         </div>
       </form>

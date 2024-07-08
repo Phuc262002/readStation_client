@@ -339,7 +339,7 @@
                 </a-button>
               </div>
               <div class="flex justify-center">
-                <Nuxt-link to="/shop">
+                <Nuxt-link to="/products">
                   <button
                     class="flex justify-center text-sm items-center gap-2 hover:text-rtsecondary"
                   >
@@ -377,6 +377,7 @@ const shippingValue = ref({});
 const depositFee = ref(0);
 const serviceFee = ref(0);
 const totalFee = ref(0);
+const shippingFee = ref(0);
 
 useAsyncData(async () => {
   await shippingMethodStore.getAllShipping();
@@ -404,12 +405,9 @@ const calcServiceFee = () => {
 };
 // Tổng tiền
 const calcTotalFee = () => {
-  totalFee.value =
-    depositFee.value +
-    serviceFee.value +
-    (delivery_method === "pickup"
-      ? (cartStore.shippingFee = 0)
-      : cartStore.shippingFee);
+  const shippingFee =
+    delivery_method === "pickup" ? (shippingFee = 0) : cartStore.shippingFee;
+  totalFee.value = depositFee.value + serviceFee.value + shippingFee;
 };
 useAsyncData(
   async () => {
@@ -419,13 +417,13 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [cartStore.shippingFee, totalFee.value],
+    watch: [cartStore.shippingFee, delivery_method],
   }
 );
 watch(
   () => cartStore.shippingFee,
   () => {
-    calcDepositFee(), calcServiceFee(), calcTotalFee();
+    calcTotalFee();
   }
 );
 
