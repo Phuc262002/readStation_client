@@ -79,6 +79,7 @@ export const useAuthStore = defineStore("auth-store", {
             body: JSON.stringify(body),
           }
         );
+        this.authUser.user = data.data._rawValue.data;
         return data;
       } catch (error) {
         console.log("error", error);

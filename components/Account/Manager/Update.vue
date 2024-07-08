@@ -301,7 +301,6 @@ const onSubmit = async () => {
     message.success({
       content: "Chỉnh sửa thành công",
     });
-    await authStore.getProfile();
     isShow.value = false;
     data.value = resData?.data?._rawValue?.data;
   } else {
