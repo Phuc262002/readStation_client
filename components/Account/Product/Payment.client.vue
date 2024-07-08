@@ -31,17 +31,13 @@
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  }).format(
-                    bookStore?.book?.price *
-                      (bookStore?.book?.hire_percent / 100)
-                  )
+                  }).format(bookStore?.book?.price * (20 / 100))
                 }}
               </span>
             </div>
             <p class="text-xs">
-              <span class="text-red-600 text-base">* </span>Phí thuê sẽ bằng
-              <span> {{ bookStore?.book?.hire_percent }} %</span>
-              giá sách
+              <span class="text-red-600 text-base">* </span> Phí thuê sẽ bằng 20
+              % giá sách
             </p>
           </div>
 
