@@ -199,11 +199,11 @@
           <span class="flex items-center gap-2">
             <UIcon name="i-material-symbols-light-order-approve-outline-sharp "
               :class="props.collapsed && 'anticon anticon-desktop'" />
-            <span>Hóa đơn nhập hàng</span>
+            <span>Phiếu nhập hàng</span>
           </span>
         </template>
-        <a-menu-item key="28" @click="navigateTo('/admin/manager-bill')">Tất cả hóa đơn</a-menu-item>
-        <a-menu-item key="29" @click="navigateTo('/admin/manager-bill/create-bill')">Thêm hóa đơn</a-menu-item>
+        <a-menu-item key="28" @click="navigateTo('/admin/manager-bill')">Tất cả phiếu nhập hàng</a-menu-item>
+        <a-menu-item key="29" @click="navigateTo('/admin/manager-bill/create-bill')">Thêm phiếu nhập hàng</a-menu-item>
       </a-sub-menu>
     </a-menu>
   </a-layout-sider>
