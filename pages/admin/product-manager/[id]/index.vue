@@ -178,7 +178,7 @@
                         <div class="flex gap-2 items-center">
                             <h1 class="text-base font-bold">{{ items?.book_details?.book?.title }} - {{
                                 items?.book_details.book_version }} </h1>
-                            <!-- <span v-if="items?.status === 'extended'"
+                            <span v-if="items?.status === 'extended'"
                                 class="text-tag-text-12 bg-tag-bg-12 p-2 rounded-lg flex justify-center items-center">Gia
                                 hạn</span>
                             <span v-else-if="items?.status === 'returning'"
@@ -190,7 +190,7 @@
                                 thành</span>
                             <span v-else-if="items?.status === 'overdue'"
                                 class="text-tag-text-06 bg-tag-bg-06 p-2 rounded-lg flex justify-center items-center">Quá
-                                hạn</span> -->
+                                hạn</span>
                         </div>
                         <div class="flex gap-5">
                             <img class="w-32 h-48" :src="items?.book_details?.poster" alt="">
@@ -263,8 +263,9 @@
                         </div>
                         <div class="flex justify-end" v-if="items?.status === 'extended'">
                             <div class="flex gap-2">
-                                <a-button class="border-orange-400 text-orange-500">Trả sách</a-button>
-                                <a-button type="primary">Gia hạn</a-button>
+                                <a-button class="border-orange-400 text-orange-500" @click="showReturnBook">Trả
+                                    sách</a-button>
+                                <a-button type="primary" @click="showModalExtend">Gia hạn</a-button>
                             </div>
                         </div>
                         <div class="flex justify-end" v-else-if="items?.status === 'overdue'">
@@ -353,15 +354,22 @@
                         </div>
                     </div>
                 </form>
-                <ModalCanceled :openModal="openModalAdd" :CloseModal="CloseModalAdd" :orderId="orderId" />
+                <OrderCanceled :openModal="openModalAdd" :CloseModal="CloseModalAdd" :orderId="orderId" />
+                <OrderExtended :openModal="openModalExtend" :CloseModal="CloseModalExtend" />
+                <OrderReturnBook :openModal="openModalReturnBook" :CloseModal="CloseReturnBook" />
             </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import ModalCanceled from '~/components/OrderAdmin/ModalCanceled.vue';
-const openModalAdd = ref < boolean > (false);
+import OrderCanceled from '~/components/OrderAdmin/OrderCanceled.vue';
+import OrderExtended from '~/components/OrderAdmin/OrderExtended.vue';
+import OrderReturnBook from '~/components/OrderAdmin/OrderReturnBook.vue';
+
+const openModalAdd = ref<boolean>(false);
+const openModalExtend = ref<boolean>(false);
+const openModalReturnBook = ref<boolean>(false);
 const route = useRoute()
 const orderId = route.params.id;
 const orderStore = useOrderStore();
@@ -381,5 +389,18 @@ const showModalAdd = () => {
 };
 const CloseModalAdd = () => {
     openModalAdd.value = false;
+};
+
+const showModalExtend = () => {
+    openModalExtend.value = true;
+};
+const CloseModalExtend = () => {
+    openModalExtend.value = false;
+};
+const showReturnBook = () => {
+    openModalReturnBook.value = true;
+};
+const CloseReturnBook = () => {
+    openModalReturnBook.value = false;
 };
 </script>

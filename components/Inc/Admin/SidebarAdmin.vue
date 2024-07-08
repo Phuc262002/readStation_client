@@ -58,7 +58,7 @@
         >
       </a-sub-menu>
 
-      <a-sub-menu key="sub12">
+      <!-- <a-sub-menu key="sub12">
         <template #title>
           <span class="flex items-center gap-2">
             <UIcon
@@ -79,7 +79,7 @@
         <a-menu-item key="24" @click="navigateTo('/admin/wallet/frozen-wallet')"
           >Đóng băng ví</a-menu-item
         >
-      </a-sub-menu>
+      </a-sub-menu> -->
       <a-sub-menu key="sub3">
         <template #title>
           <span class="flex items-center gap-2">

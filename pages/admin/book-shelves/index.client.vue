@@ -21,21 +21,22 @@
               <UIcon class="text-gray-500" name="i-material-symbols-search" />
             </div>
           </div>
-          <a-button size='large'>
-            <a-dropdown :trigger="['click']">
-              <a class="flex gap-3 items-center" @click.prevent>
-                Trạng thái
-                <DownOutlined />
-              </a>
-              <template #overlay>
-                <a-menu class=""> 
-                    <a-menu-item  @click="statusValue('active')">Hoạt động</a-menu-item>
-                    <a-menu-item  @click="statusValue('inactive')">Không hoạt động</a-menu-item>
-                    <a-menu-item  @click="statusValue('deleted')">Đã xóa</a-menu-item>
-                </a-menu>
-              </template>
-            </a-dropdown>
-          </a-button>
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item @click="statusValue({ value: 'active', label: 'Hoạt động' })">Hoạt
+                  động</a-menu-item>
+                <a-menu-item @click="statusValue({ value: 'inactive', label: 'Không hoạt động' })">Không
+                  hoạt động</a-menu-item>
+                <a-menu-item @click="statusValue({ value: 'deleted', label: 'Đã xóa' })">Đã
+                  xóa</a-menu-item>
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
           <a-button size='large'>
             <a-dropdown :trigger="['click']">
               <a class="flex gap-3 items-center" @click.prevent>
@@ -166,9 +167,13 @@ const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const shelvesId = ref<number>();
 const valueSearch = ref("");
-const queryStatus = ref("");
-const statusValue = (status: string) => {
-  queryStatus.value = status;
+const queryStatus = ref({
+  value: "",
+  label: ""
+});
+const statusValue = ({ value, label }: any) => {
+  queryStatus.value.value = value;
+  queryStatus.value.label = label;
 };
 const indicator = h(LoadingOutlined, {
   style: {
@@ -203,7 +208,7 @@ const getData = async () => {
       search: valueSearch.value,
       category_id: categoryQuery.value,
       bookcase_id: bookcaseQuery.value,
-      status: queryStatus.value
+      status: queryStatus.value.value
     });
     return data;
   } catch (error) {
@@ -214,7 +219,7 @@ useAsyncData(async () => {
   await getData();
 }, {
   immediate: true,
-  watch: [valueSearch, categoryQuery, bookcaseQuery,queryStatus]
+  watch: [valueSearch, categoryQuery, bookcaseQuery, queryStatus.value]
 });
 const onDelete = async (id: string) => {
   await shelvesValue.deleteShelves(id);

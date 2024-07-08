@@ -22,21 +22,19 @@
               <UIcon class="text-gray-500" name="i-material-symbols-search" />
             </div>
           </div>
-          <a-button size='large'>
-            <a-dropdown :trigger="['click']">
-              <a class="flex gap-3 items-center" @click.prevent>
-                Trạng thái
-                <DownOutlined />
-              </a>
-              <template #overlay>
-                <a-menu class="">
-                  <a-menu-item @click="statusValue('active')">Hoạt động</a-menu-item>
-                  <a-menu-item @click="statusValue('inactive')">Không hoạt động</a-menu-item>
-                  <a-menu-item @click="statusValue('deleted')">Đã xóa</a-menu-item>
-                </a-menu>
-              </template>
-            </a-dropdown>
-          </a-button>
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item @click="statusValue({value:'active', label:'Hoạt động'})">Hoạt động</a-menu-item>
+                <a-menu-item @click="statusValue({value:'inactive', label:'Không hoạt động'})">Không hoạt động</a-menu-item>
+                <a-menu-item @click="statusValue({value:'deleted', label:'Đã xóa'})">Đã xóa</a-menu-item>
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
         <NuxtLink to="author/add-author">
           <div class="">
@@ -137,21 +135,25 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref } from "vue";
 const AuthorStore = useAuthorStore();
 const current = ref(1);
 const valueSearch = ref("");
-const queryStatus = ref("");
-const statusValue = (value: string) => {
-  queryStatus.value = value;
+const queryStatus = ref({
+  value: "",
+  label: ""
+});
+const statusValue = ({ value, label }) => {
+  queryStatus.value.value = value;
+  queryStatus.value.label = label;
 };
 const getDataAuthor = async () => {
   try {
     await AuthorStore.getAllAuthor({
       page: current.value,
       search: valueSearch.value,
-      status: queryStatus.value,
+      status: queryStatus.value.value,
     });
   } catch (error) {
     console.error(error);
@@ -161,7 +163,7 @@ useAsyncData(async () => {
   await getDataAuthor();
 }, {
   immediate: true,
-  watch: [current, valueSearch, queryStatus],
+  watch: [current, valueSearch, queryStatus.value],
 });
 
 const onDelete = async (id: string) => {
@@ -219,8 +221,8 @@ const columns = [
 
 
 
-const openModalEdit = ref<boolean>(false);
-const openModalDetail = ref<boolean>(false);
+const openModalEdit = ref < boolean > (false);
+const openModalDetail = ref < boolean > (false);
 const showModalEdit = () => {
   openModalEdit.value = true;
 };
