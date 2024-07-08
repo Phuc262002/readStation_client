@@ -172,11 +172,11 @@
         <div class="flex justify-between items-center">
           <div class="w-1/4 md:block hidden">
             <div class="flex">
-              <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
-                <template #prefix>
-                  <SearchOutlined />
-                </template>
-              </a-input>
+              <a-input placeholder="Nhập thông tin cá nhân" class="h-10" v-model:value="valueSearch">
+                    <template #prefix>
+                      <SearchOutlined />
+                    </template>
+                  </a-input>
             </div>
           </div>
           <div>
@@ -359,15 +359,17 @@
 const dashboardStore = useDashboardStore();
 const orderStore = useOrderStore();
 const filter = ref("pending");
+const valueSearch = ref('');
 useAsyncData(
   async () => {
     await orderStore.getAllOrder({
       status: filter.value,
+      search: valueSearch.value,
     });
   },
   {
     immediate: true,
-    watch: filter,
+    watch: [filter, valueSearch],
   }
 );
 useAsyncData(async () => {

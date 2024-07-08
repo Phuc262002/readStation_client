@@ -98,10 +98,10 @@
               <p>cuốn sách</p>
             </span>
           </template>
-          <template v-if="column.key === 'status'">
+          <template v-else-if="column.key === 'status'">
             <a-tag
               :bordered="false"
-              v-if="record.status === 'active'"
+              v-if="record.status === BookCaseStatus.ACTIVE"
               class="bg-tag-bg-09 text-tag-text-09"
             >
               Đang hoạt động
@@ -109,7 +109,7 @@
 
             <a-tag
               :bordered="false"
-              v-if="record.status === 'inactive'"
+              v-if="record.status === BookCaseStatus.INACTIVE"
               class="bg-tag-bg-07 text-tag-text-07"
             >
               Đang ẩn
@@ -117,7 +117,7 @@
 
             <a-tag
               :bordered="false"
-              v-if="record.status === 'deleted'"
+              v-if="record.status === BookCaseStatus.DELETED"
               class="bg-tag-bg-06 text-tag-text-06"
             >
               Đã xóa
@@ -202,6 +202,7 @@
 <script setup>
 import { ref } from "vue";
 import { Modal } from "ant-design-vue";
+import {BookCaseStatus} from "~/types/admin/bookCase";
 import { LoadingOutlined } from "@ant-design/icons-vue";
 import { h } from "vue";
 const openModalEdit = ref(false);

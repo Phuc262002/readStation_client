@@ -25,27 +25,31 @@
       :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
     >
       <a-menu-item key="1" @click="navigateTo('/admin')">
-        <UIcon
-          name="i-streamline-dashboard-3"
+        <Icon
           :class="props.collapsed && 'anticon anticon-desktop'"
+          icon="hugeicons:dashboard-square-02"
         />
         <span>Dashboards</span>
       </a-menu-item>
 
-      <a-menu-item key="545" @click="navigateTo('/admin/verification-requests')">
+      <a-menu-item
+        key="545"
+        @click="navigateTo('/admin/verification-requests')"
+      >
         <UIcon
           name="i-streamline-dashboard-3"
           :class="props.collapsed && 'anticon anticon-desktop'"
         />
+
         <span>Chờ xác thực</span>
       </a-menu-item>
 
       <a-sub-menu key="sub1">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-ant-design-user-outlined"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="ph:user"
             />
             <span>Quản lý người dùng</span>
           </span>
@@ -83,9 +87,9 @@
       <a-sub-menu key="sub3">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-material-symbols-light-orders-outline"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="material-symbols-light:order-approve-outline-sharp"
             />
             <span>Quản lý đơn hàng</span>
           </span>
@@ -104,9 +108,9 @@
       <a-sub-menu key="sub2">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-streamline-interface-content-book-open-content-books-book-open"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="material-symbols-light:book-4-outline"
             />
             <span>Quản lý sách</span>
           </span>
@@ -129,9 +133,9 @@
       <a-sub-menu key="sub5">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-material-symbols-light-post-outline"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="iconoir:post"
             />
             <span>Quản lý bài viết</span>
           </span>
@@ -204,9 +208,9 @@
       <a-sub-menu key="sub8">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-iconamoon-category-thin"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="material-symbols:category-rounded"
             />
             <span>Danh mục sản phẩm</span>
           </span>
@@ -341,6 +345,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
+import { Icon } from "@iconify/vue";
 const props = defineProps<{
   collapsed: boolean;
 }>();
