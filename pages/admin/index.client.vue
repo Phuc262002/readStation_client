@@ -167,7 +167,7 @@
         </div>
       </div>
     </div>
-    <!-- <div class="w-full min-h-[360px] bg-[white] rounded-lg p-5">
+    <div class="w-full min-h-[360px] bg-[white] rounded-lg p-5">
       <div class="flex flex-col gap-5">
         <div class="flex justify-between items-center">
           <div class="w-1/4 md:block hidden">
@@ -199,121 +199,137 @@
               'flex justify-center items-center gap-2  h-10 border-none shadow-none',
               filter === 'out_of_date' ? 'bg-orange-500 !text-white' : '',
             ]"
-            @click="handleCheckStatus('out_of_date')"
+            @click="handleCheckStatus('overdue')"
           >
             <UIcon name="i-ph-warning-light" />
             <span>Quá hạn</span>
           </a-button>
         </div>
         <div>
-          <a-table
-            :columns="columns"
-            :data-source="orderStore?.getAllOrderAdmin?.orders"
-            :isLoading="orderStore.isLoading"
-          >
-            <template #bodyCell="{ column, record }">
-              <template v-if="column.dataIndex === 'user'">
-                <div class="flex justify-start gap-2">
-                  <div>
-                    <a-avatar :src="record.user.avatar" />
+            <a-table :columns="columns" :data-source="orderStore?.getAllOrderAdmin?.orders"
+              :loading="orderStore.isLoading" :pagination="false">
+              <template #bodyCell="{ column, record }">
+                <template v-if="column.dataIndex === 'user'">
+                  <div class="flex justify-start gap-2">
+                    <div>
+                      <a-avatar :src="record.user.avatar" />
+                    </div>
+                    <div class="flex flex-col gap-1">
+                      <span>{{ record.user.fullname }}</span>
+                    </div>
                   </div>
-                  <div class="flex flex-col gap-1">
-                    <span>{{ record.user.fullname }}</span>
-                    <span>{{ record.user.phone }}</span>
+                </template>
+                <template v-else-if="column.dataIndex === 'order_details'">
+                  <span>{{ record.loan_order_details.length }} quyển</span>
+                </template>
+                <template v-else-if="column.dataIndex === 'receipt_date'">
+                  <span>{{ $dayjs(record.loan_date).format("DD/MM/YYYY") }}</span>
+                </template>
+                <template v-if="column.dataIndex === 'status'">
+                  <span>
+                    <a-tag :bordered="false" v-if="record.status === 'pending'" class="bg-tag-bg-01 text-tag-text-01">
+                      Đang xử lý
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'approved'"
+                      class="bg-tag-bg-02 text-tag-text-02">
+                      Đã xác nhận
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'ready_for_pickup'"
+                      class="bg-tag-bg-14 text-tag-text-14">
+                      Đơn hàng sẵn sàng
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'preparing_shipment'"
+                      class="bg-tag-bg-15 text-tag-text-15">
+                      Chuẩn bị giao hàng
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'in_transit'"
+                      class="bg-tag-bg-03 text-tag-text-03">
+                      Đang giao
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'extended'"
+                      class="bg-tag-bg-12 text-tag-text-12">
+                      Gia hạn
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'active'"
+                      class="bg-tag-bg-04 text-tag-text-04">
+                      Đang thuê
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'returning'"
+                      class="bg-tag-bg-13 text-tag-text-13">
+                      Đang trả sách
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'completed'"
+                      class="bg-tag-bg-05 text-tag-text-05">
+                      Hoàn thành
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'canceled'"
+                      class="bg-tag-bg-07 text-tag-text-07">
+                      Đã hủy
+                    </a-tag>
+                    <a-tag :bordered="false" v-else-if="record.status === 'overdue'"
+                      class="bg-tag-bg-06 text-tag-text-06">
+                      Quá hạn
+                    </a-tag>
+                  </span>
+                </template>
+                <temolate v-else-if="column.dataIndex === 'payment_method'">
+                  <div v-if="record.payment_method === 'cash'">
+                    <span>Tiền mặt</span>
                   </div>
-                </div>
-              </template>
-              <template v-else-if="column.dataIndex === 'order_details'">
-                <span>{{ record.order_details.length }} quyển</span>
-              </template>
-              <template v-else-if="column.dataIndex === 'receipt_date'">
-                <span>{{
-                  $dayjs(record.receipt_date).format("DD/MM/YYYY")
-                }}</span>
-              </template>
-              <template v-if="column.dataIndex === 'status'">
-                <span>
-                  <a-tag
-                    :bordered="false"
-                    v-if="record.status === 'pending'"
-                    class="bg-tag-bg-01 text-tag-text-01"
-                  >
-                    Đang xử lý
-                  </a-tag>
-
-                  <a-tag
-                    :bordered="false"
-                    v-else-if="record.status === 'out_of_date'"
-                    class="bg-tag-bg-06 text-tag-text-06"
-                  >
-                    Quá hạn
-                  </a-tag>
-                </span>
-              </template>
-              <template v-else-if="column.key === 'action'">
-                <div class="flex text-[16px] gap-4">
-                  <NuxtLink
-                    class="hover:text-black"
-                    :to="`/admin/product-manager/${record.id}`"
-                  >
-                    <a-tooltip placement="top" color="black">
-                      <template #title>
-                        <span>Xem chi tiết</span>
-                      </template>
+                </temolate>
+                <template v-else-if="column.key === 'action'">
+                  <div class="flex text-[16px] gap-4">
+                    <NuxtLink :to="`/admin/product-manager/${record.id}`">
+                      <a-tooltip placement="top">
+                        <template #title>
+                          <span>Xem chi tiết</span>
+                        </template>
+                        <button
+                          class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                          <div>
+                            <UIcon class="group-hover:text-[#212122]" name="i-icon-park-outline-eyes" />
+                          </div>
+                        </button>
+                      </a-tooltip>
+                    </NuxtLink>
+                    <a-dropdown :trigger="['click']" placement="bottom">
                       <button
-                        class="hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
-                      >
-                        <div class="flex items-center">
-                          <UIcon name="i-icon-park-outline-eyes" />
-                        </div>
+                        class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                        <UIcon class="group-hover:text-[#131313]" name="i-solar-menu-dots-bold" />
                       </button>
-                    </a-tooltip>
-                  </NuxtLink>
-
-                  <a-dropdown :trigger="['click']" placement="bottom">
-                    <button
-                      class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                    >
-                      <UIcon class="text-lg" name="i-solar-menu-dots-bold" />
-                    </button>
-                    <template #overlay>
-                      <a-menu>
-                        <NuxtLink>
-                          <a-menu-item key="2" class="p-4">
-                            <button
-                              class="flex items-center gap-1 text-blue-400"
-                            >
-                              <UIcon
-                                class="group-hover:text-[green]"
-                                name="i-material-symbols-edit-outline"
-                              />
-                              <span>Sửa</span>
-                            </button>
+                      <template #overlay>
+                        <a-menu>
+                          <NuxtLink>
+                            <a-menu-item key="2" class="p-4">
+                              <button class="flex items-center gap-1 text-blue-400">
+                                <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
+                                <span>Sửa</span>
+                              </button>
+                            </a-menu-item>
+                          </NuxtLink>
+                          <a-menu-item key="3" class="p-4">
+                            <span>
+                              <button class="flex items-center gap-1 text-blue-400">
+                                <UIcon class="group-hover:text-[red] text-lg"
+                                  name="i-material-symbols-delete-outline" />
+                                <span>Xóa</span>
+                              </button>
+                            </span>
                           </a-menu-item>
-                        </NuxtLink>
-                        <a-menu-item key="3" class="p-4">
-                          <span>
-                            <button
-                              class="flex items-center gap-1 text-blue-400"
-                            >
-                              <UIcon
-                                class="group-hover:text-[red] text-lg"
-                                name="i-material-symbols-delete-outline"
-                              />
-                              <span>Xóa</span>
-                            </button>
-                          </span>
-                        </a-menu-item>
-                      </a-menu>
-                    </template>
-                  </a-dropdown>
-                </div>
+                        </a-menu>
+                      </template>
+                    </a-dropdown>
+                  </div>
+                </template>
               </template>
-            </template>
-          </a-table>
-        </div>
+            </a-table>
+            <div class="mt-4 flex justify-end">
+              <a-pagination v-model:current="current" :total="orderStore?.getAllOrderAdmin?.totalResults"
+                :pageSize="orderStore?.getAllOrderAdmin?.pageSize" show-less-items />
+            </div>
+          </div>
       </div>
-    </div> -->
+    </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="bg-white w-full shadow-md rounded-md space-y-2 p-5">
         <div class="text-xl font-semibold">Sách được thuê nhiều</div>
