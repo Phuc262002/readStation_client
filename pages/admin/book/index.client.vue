@@ -25,12 +25,11 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
+                <a-menu-item @click="statusValue({ value: '', label: 'Trạng thái' })">Tất cả</a-menu-item>
                 <a-menu-item @click="statusValue({ value: 'active', label: 'Hoạt động' })">Hoạt
                   động</a-menu-item>
                 <a-menu-item @click="statusValue({ value: 'inactive', label: 'Không hoạt động' })">Không
                   hoạt động</a-menu-item>
-                <a-menu-item @click="statusValue({ value: 'deleted', label: 'Đã xóa' })">Đã
-                  xóa</a-menu-item>
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
@@ -38,41 +37,43 @@
               <DownOutlined />
             </a-button>
           </a-dropdown>
-          <a-button size='large'>
-            <a-dropdown :trigger="['click']">
-              <a class="flex gap-3 items-center" @click.prevent>
-                Tác giả
-                <DownOutlined />
-              </a>
-              <template #overlay>
-                <div>
-                  <a-menu>
-                    <a-menu-item v-for="(items, index) in authorStore?.AuthorAdmin?.authors" :key="index">
-                      <div @click="authorValue(items?.id)">{{ items.author }}</div>
-                    </a-menu-item>
-                  </a-menu>
-                </div>
-              </template>
-            </a-dropdown>
-          </a-button>
-          <a-button size='large'>
-            <a-dropdown :trigger="['click']">
-              <a class="flex gap-3 items-center" @click.prevent>
-                Danh mục
-                <DownOutlined />
-              </a>
-              <template #overlay>
-                <div>
-                  <a-menu>
-                    <a-menu-item v-for="(items, index) in categoryStore?.categoriesAdmin?.categories" :key="index">
-                      <div @click="categoryValue(items.id)">{{ items.name }}</div>
-                    </a-menu-item>
-                  </a-menu>
-                </div>
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <div>
+                <a-menu>
+                  <a-menu-item>
+                    <div @click="authorValue({ id: null, label: 'Tác giả' })">Tất cả</div>
+                  </a-menu-item>
+                  <a-menu-item v-for="(items, index) in authorStore?.AuthorAdmin?.authors" :key="index">
+                    <div @click="authorValue({ id: items?.id, label: items?.author })">{{ items.author }}</div>
+                  </a-menu-item>
+                </a-menu>
+              </div>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ authorQuery.label ? authorQuery.label : "Tác giả" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
 
+            <a-dropdown :trigger="['click']">
+              <template #overlay>
+                <div>
+                  <a-menu>
+                    <a-menu-item>
+                      <div @click="categoryValue({ id: null, label: 'Danh mục' })">Tất cả</div>
+                    </a-menu-item>
+                    <a-menu-item v-for="(items, index) in categoryStore?.categoriesAdmin?.categories" :key="index">
+                      <div @click="categoryValue({ id: items.id, label: items?.name })">{{ items.name }}</div>
+                    </a-menu-item>
+                  </a-menu>
+                </div>
               </template>
+              <a-button size="large" class="flex gap-3 items-center">
+                {{ categoryQuery.label ? categoryQuery.label : "Danh mục" }}
+                <DownOutlined />
+              </a-button>
             </a-dropdown>
-          </a-button>
         </div>
         <NuxtLink to="/admin/book/create-book">
           <a-button type="primary">Thêm sách</a-button>
@@ -189,24 +190,32 @@ const statusValue = ({ value, label }: any) => {
 };
 const allAdminBooks = useBookStore();
 const categoryStore = useCategoryStore();
-const categoryQuery = ref('');
+const categoryQuery = ref({
+  id: "",
+  label: ""
+});
 useAsyncData(async () => {
   await categoryStore.getAllCategory({
     type: 'book'
   });
 },
 );
-const categoryValue = (id: string) => {
-  categoryQuery.value = id;
+const categoryValue = ({ id, label }: any) => {
+  categoryQuery.value.id = id;
+  categoryQuery.value.label = label;
 };
 const authorStore = useAuthorStore();
-const authorQuery = ref('');
+const authorQuery = ref({
+  id: "",
+  label: ""
+});
 useAsyncData(async () => {
   await authorStore.getAllAuthor({});
 },
 );
-const authorValue = (id: string) => {
-  authorQuery.value = id;
+const authorValue = ({ id, label }: any) => {
+  authorQuery.value.id = id;
+  authorQuery.value.label = label;
 };
 const current = ref(1);
 const getAllAdminBooks = async () => {
@@ -215,8 +224,8 @@ const getAllAdminBooks = async () => {
     const data: any = await allAdminBooks.getAdminBooks({
       page: current.value,
       search: valueSearch.value,
-      category_id: categoryQuery.value,
-      author_id: authorQuery.value,
+      category_id: categoryQuery.value.id,
+      author_id: authorQuery.value.id,
       status: queryStatus.value.value
     });
     return data;
@@ -230,7 +239,7 @@ useAsyncData(async () => {
 },
   {
     immediate: true,
-    watch: [current, valueSearch, categoryQuery, authorQuery, queryStatus.value]
+    watch: [current, valueSearch, categoryQuery.value, authorQuery.value, queryStatus.value]
   }
 );
 const onDelete = async (id: string) => {

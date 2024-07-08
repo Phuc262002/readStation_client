@@ -24,12 +24,11 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
+                <a-menu-item @click="statusValue({ value: '', label: 'Trạng thái' })">Tất cả</a-menu-item>
                 <a-menu-item @click="statusValue({ value: 'active', label: 'Hoạt động' })">Hoạt
                   động</a-menu-item>
                 <a-menu-item @click="statusValue({ value: 'inactive', label: 'Không hoạt động' })">Không
                   hoạt động</a-menu-item>
-                <a-menu-item @click="statusValue({ value: 'deleted', label: 'Đã xóa' })">Đã
-                  xóa</a-menu-item>
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
@@ -37,41 +36,49 @@
               <DownOutlined />
             </a-button>
           </a-dropdown>
-          <a-button size='large'>
-            <a-dropdown :trigger="['click']">
-              <a class="flex gap-3 items-center" @click.prevent>
-                Danh mục
-                <DownOutlined />
-              </a>
-              <template #overlay>
-                <div>
-                  <a-menu>
-                    <a-menu-item v-for="(items, index) in categoryStore?.categoriesAdmin?.categories" :key="index">
-                      <div @click="categoryValue(items?.id)">{{ items.name }}</div>
-                    </a-menu-item>
-                  </a-menu>
-                </div>
 
-              </template>
-            </a-dropdown>
-          </a-button>
-          <a-button size='large'>
-            <a-dropdown :trigger="['click']">
-              <a class="flex gap-3 items-center" @click.prevent>
-                Tủ sách
-                <DownOutlined />
-              </a>
-              <template #overlay>
-                <div>
-                  <a-menu>
-                    <a-menu-item v-for="(items, index) in bookcaseStore?.bookCaseAdmin?.bookcases" :key="index">
-                      <div @click="bookcaseValue(items?.id)">{{ items.name }}</div>
-                    </a-menu-item>
-                  </a-menu>
-                </div>
-              </template>
-            </a-dropdown>
-          </a-button>
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <div>
+                <a-menu>
+                  <a-menu-item>
+                    <div @click="categoryValue({ id: null, label: 'Danh mục' })">
+                      Tất cả
+                    </div>
+                  </a-menu-item>
+                  <a-menu-item v-for="(items, index) in categoryStore?.categoriesAdmin?.categories" :key="index">
+                    <div @click="categoryValue({ id: items?.id, label: items?.name })">{{ items.name }}</div>
+                  </a-menu-item>
+                </a-menu>
+              </div>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ categoryQuery.label ? categoryQuery.label : "Danh mục" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
+
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <div>
+                <a-menu>
+                  <a-menu-item>
+                    <div @click="bookcaseValue({ id: null, label: 'Tủ sách' })">
+                      Tất cả
+                    </div>
+                  </a-menu-item>
+                  <a-menu-item v-for="(items, index) in bookcaseStore?.bookCaseAdmin?.bookcases" :key="index">
+                    <div @click="bookcaseValue({ id: items?.id, label: items?.name })">{{ items.name }}</div>
+                  </a-menu-item>
+                </a-menu>
+              </div>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ bookcaseQuery.label ? bookcaseQuery.label : "Tủ sách" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
+
         </div>
         <div class="">
           <a-button type="primary" @click="showModalAdd">Thêm kệ sách</a-button>
@@ -182,32 +189,40 @@ const indicator = h(LoadingOutlined, {
   spin: true,
 });
 const categoryStore = useCategoryStore();
-const categoryQuery = ref('');
+const categoryQuery = ref({
+  id: "",
+  label: ""
+});
 useAsyncData(async () => {
   await categoryStore.getAllCategory({
     type: 'book'
   });
 },
 );
-const categoryValue = (id: string) => {
-  categoryQuery.value = id;
+const categoryValue = ({ id, label }: any) => {
+  categoryQuery.value.id = id;
+  categoryQuery.value.label = label;
 };
 const bookcaseStore = useBookcaseStore();
-const bookcaseQuery = ref('');
+const bookcaseQuery = ref({
+  id: "",
+  label: ""
+});
 useAsyncData(async () => {
   await bookcaseStore.getAllBookcase({});
 },
 );
-const bookcaseValue = (id: string) => {
-  bookcaseQuery.value = id;
+const bookcaseValue = ({ id, label }: any) => {
+  bookcaseQuery.value.id = id;
+  bookcaseQuery.value.label = label
 };
 const shelvesValue = useShelvesStore();
 const getData = async () => {
   try {
     const data = await shelvesValue.getAllShelves({
       search: valueSearch.value,
-      category_id: categoryQuery.value,
-      bookcase_id: bookcaseQuery.value,
+      category_id: categoryQuery.value.id,
+      bookcase_id: bookcaseQuery.value.id,
       status: queryStatus.value.value
     });
     return data;
@@ -219,7 +234,7 @@ useAsyncData(async () => {
   await getData();
 }, {
   immediate: true,
-  watch: [valueSearch, categoryQuery, bookcaseQuery, queryStatus.value]
+  watch: [valueSearch, categoryQuery.value, bookcaseQuery.value, queryStatus.value]
 });
 const onDelete = async (id: string) => {
   await shelvesValue.deleteShelves(id);
