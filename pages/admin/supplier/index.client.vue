@@ -26,12 +26,13 @@
                     <a-dropdown :trigger="['click']">
                         <template #overlay>
                             <a-menu class="">
+                                <a-menu-item @click="statusValue({ value: '', label: 'Trạng thái' })">Tất
+                                    cả</a-menu-item>
                                 <a-menu-item @click="statusValue({ value: 'active', label: 'Hoạt động' })">Hoạt
                                     động</a-menu-item>
                                 <a-menu-item @click="statusValue({ value: 'inactive', label: 'Không hoạt động' })">Không
                                     hoạt động</a-menu-item>
-                                <a-menu-item @click="statusValue({ value: 'deleted', label: 'Đã xóa' })">Đã
-                                    xóa</a-menu-item>
+
                             </a-menu>
                         </template>
                         <a-button size="large" class="flex gap-3 items-center">
@@ -136,7 +137,7 @@ const queryStatus = ref({
     value: "",
     label: ""
 });
-const statusValue = ({ value, label }) => {
+const statusValue = ({ value, label }: any) => {
     queryStatus.value.value = value;
     queryStatus.value.label = label;
 };
