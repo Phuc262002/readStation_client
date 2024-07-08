@@ -9,104 +9,79 @@
     <div class="flex justify-between h-auto gap-5">
       <!-- Left -->
       <div class="w-3/4 space-y-5">
-        <div class="bg-white h-auto shadow-md rounded-lg">
-          <div class="p-5 w-full flex flex-col gap-5">
-            <div class="bg-slate-100 rounded-md shadow-sm h-12">
-              <div
-                class="flex justify-between items-center text-base font-semibold p-3 w-full"
-              >
-                <h1 class="w-3/5">Sản phẩm</h1>
-                <h1 class="w-1/4 flex justify-center items-center">Giá bìa</h1>
-                <h1 class="w-1/4 flex justify-center items-center">
-                  Phần trăm cọc
-                </h1>
-                <h1 class="w-1/4 flex justify-center items-center">
-                  Tiền cọc tạm tính
-                </h1>
-                <h1 class="w-1/4 flex justify-center items-center">
-                  Phí dịch vụ
-                </h1>
-                <h1 class="w-1/4 flex justify-center items-center">
-                  Tổng tạm tính
-                </h1>
-              </div>
-            </div>
-            <!--  -->
-            <div
-              class="flex justify-between items-center border-b border-rtgray-50 pb-5"
-              v-for="(cart, index) in cartStore?.carts"
-              :key="index"
-            >
-              <div class="flex justify-start gap-5 items-start w-3/5">
+        <a-table
+          :columns="columns"
+          :data-source="cartStore?.carts"
+          :pagination="false"
+          class="bg-white h-auto shadow-lg rounded-lg"
+        >
+          <template #headerCell="{ column }">
+            <template v-if="column.key === 'name'">
+              <span> Sản phẩm </span>
+            </template>
+          </template>
+
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'name'">
+              <div class="flex justify-start gap-5">
                 <div class="min-w-[100px] min-h-[100px]">
-                  <img class="w-24 rounded-md" :src="cart?.poster" alt="" />
+                  <img
+                    class="w-24 rounded-md shadow-lg"
+                    :src="record?.poster"
+                    alt=""
+                  />
                 </div>
-                <div class="flex flex-col gap-2">
+                <div class="flex flex-col gap-2 font-normal space-y-3">
                   <div class="text-base font-bold">
-                    {{ cart?.book?.title }}
+                    {{ record?.book?.title }}
                   </div>
-                  <div class="text-[14px]">
-                    <div>
-                      <span class="font-bold">Tác giả: </span
-                      ><span>{{ cart?.book?.author?.author }}</span>
+                  <div class="text-[14px] space-y-3">
+                    <div class="grid grid-cols-12 gap-2">
+                      <span class="font-bold col-span-6"> Tác giả: </span>
+                      <span class="col-span-6">
+                        {{ record?.book?.author?.author }}
+                      </span>
                     </div>
-                    <div>
-                      <span class="font-bold">Phiên bản: </span
-                      ><span> {{ cart?.book_version }}</span>
+                    <div class="grid grid-cols-12 gap-2">
+                      <span class="font-bold col-span-6"> Phiên bản: </span>
+                      <span class="col-span-6"> {{ record?.cardboard }}</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div
-                class="text-base font-bold w-1/4 flex justify-center items-center"
-              >
+            </template>
+            <template v-else-if="column.key === 'price'">
+              <span>
                 {{
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  }).format(cart?.price)
+                  }).format(record?.price)
                 }}
-              </div>
-              <div
-                class="flex justify-center items-center gap-2 w-1/4 text-center text-base font-bold"
-              >
-                {{ cart?.hire_percent }}
-              </div>
-              <div
-                class="text-base font-bold w-1/4 flex justify-center items-center"
-              >
+              </span>
+            </template>
+            <template v-else-if="column.key === 'serviceFee'">
+              <span>
                 {{
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  }).format(cart?.price * (cart?.hire_percent / 100))
+                  }).format(record?.price * 0.2)
                 }}
-              </div>
-              <div
-                class="text-base font-bold w-1/4 flex justify-center items-center"
-              >
+              </span>
+            </template>
+            <template v-else-if="column.key === 'totalFee'">
+              <span>
                 {{
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  }).format(cart?.price * 0.1)
+                  }).format(record?.price * 0.2 + record?.price)
                 }}
-              </div>
-              <div
-                class="text-base font-bold w-1/4 flex justify-center items-center"
-              >
-                {{
-                  new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(
-                    cart?.price * (cart?.hire_percent / 100) + cart?.price * 0.1
-                  )
-                }}
-              </div>
-            </div>
-          </div>
-        </div>
+              </span>
+            </template>
+          </template>
+        </a-table>
         <div class="">
           <div class="bg-white h-auto p-5 shadow-md rounded-lg">
             <div class="w-full flex flex-col pb-5 font-medium">
@@ -229,10 +204,11 @@
             <!--  -->
             <div class="flex flex-col gap-5">
               <div class="font-bold border-b border-rtgray-50 pb-5">
-                Hình thức vận chuyển
+                Hình thức vận chuyển <span class="text-tag-text-06"> *</span>
               </div>
               <div class="text-base space-y-5">
                 <a-select
+                  placeholder="Chọn hình thức vận chuyển"
                   size="large"
                   v-model:value="shipping_method_id"
                   style="width: 100%"
@@ -390,29 +366,31 @@ useAsyncData(async () => {
 const userNote = ref();
 // phí cọc
 const calcDepositFee = () => {
-  depositFee.value = cartStore.carts.reduce(
-    (acc, curr) =>
-      acc + (parseFloat(curr.price) * parseFloat(curr.hire_percent)) / 100,
-    0
-  );
+  depositFee.value = cartStore.carts.reduce((acc, curr) => acc + curr.price, 0);
 };
+
 // phí dịch vụ
 const calcServiceFee = () => {
   serviceFee.value = cartStore.carts.reduce(
-    (acc, curr) => acc + parseFloat(curr.price) * 0.1,
+    (acc, curr) => acc + parseFloat(curr.price) * 0.2,
     0
   );
 };
+
+// phí vận chuyển
+const calcShippingFee = () => {
+  shippingFee.value =
+    delivery_method.value === "pickup" ? 0 : cartStore.shippingFee;
+};
 // Tổng tiền
 const calcTotalFee = () => {
-  const shippingFee =
-    delivery_method === "pickup" ? (shippingFee = 0) : cartStore.shippingFee;
-  totalFee.value = depositFee.value + serviceFee.value + shippingFee;
+  totalFee.value = depositFee.value + serviceFee.value + shippingFee.value;
 };
 useAsyncData(
   async () => {
     calcDepositFee();
     calcServiceFee();
+    calcShippingFee();
     calcTotalFee();
   },
   {
@@ -423,6 +401,14 @@ useAsyncData(
 watch(
   () => cartStore.shippingFee,
   () => {
+    calcShippingFee();
+    calcTotalFee();
+  }
+);
+watch(
+  () => delivery_method.value,
+  () => {
+    calcShippingFee();
     calcTotalFee();
   }
 );
@@ -493,6 +479,30 @@ const showModal = () => {
 const closeModal = () => {
   openModalForm.value = false;
 };
+
+const columns = ref([
+  {
+    dataIndex: "Sản phẩm",
+    key: "name",
+    resizable: true,
+    width: 400,
+  },
+  {
+    title: "Tiền cọc thuê sách",
+    dataIndex: "price",
+    key: "price",
+  },
+  {
+    title: "Phí dịch vụ",
+    dataIndex: "serviceFee",
+    key: "serviceFee",
+  },
+  {
+    title: "Tổng",
+    key: "totalFee",
+    dataIndex: "totalFee",
+  },
+]);
 </script>
 <style scoped>
 ::v-deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
