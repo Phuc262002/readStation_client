@@ -166,8 +166,17 @@
             </div>
             <div class="grid grid-cols-4">
               <span class="col-span-2 font-bold">Hình thức vận chuyển:</span>
-              <span class="col-span-2">
-                {{ orderStore?.order?.delivery_method }}
+              <span
+                class="col-span-2"
+                v-if="orderStore?.order?.delivery_method === 'pickup'"
+              >
+                Nhận sách tại thư viện
+              </span>
+              <span
+                class="col-span-2"
+                v-else-if="orderStore?.order?.delivery_method === 'shipper'"
+              >
+                Nhận sách tại nhà
               </span>
             </div>
           </div>
@@ -294,15 +303,15 @@
                 </div>
                 <div class="grid grid-cols-6">
                   <span class="col-span-3 font-bold">Ngày trả dự kiến:</span>
-                  <span class="col-span-3"> adsa </span>
+                  <span class="col-span-3"> Chưa cập nhật </span>
                 </div>
                 <div class="grid grid-cols-6">
                   <span class="col-span-3 font-bold">Ngày trả thực tế:</span>
-                  <span class="col-span-3"> sdfdsv </span>
+                  <span class="col-span-3"> Chưa cập nhật </span>
                 </div>
                 <div class="grid grid-cols-6">
                   <span class="col-span-3 font-bold">Hình thức trả sách:</span>
-                  <span class="col-span-3"> 0 / 3 </span>
+                  <span class="col-span-3"> Chưa cập nhật </span>
                 </div>
               </div>
             </div>
@@ -315,15 +324,13 @@
                     new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(order?.deposit_fee)
+                    }).format(order?.book_details?.price)
                   }}
                 </span>
               </div>
               <div class="grid grid-cols-4">
                 <span class="col-span-2 font-bold">Phần trăm cọc:</span>
-                <span class="col-span-2">
-                  {{ order?.book_details?.hire_percent }} %
-                </span>
+                <span class="col-span-2"> 20 % </span>
               </div>
               <div class="grid grid-cols-4">
                 <span class="col-span-2 font-bold">Phí dịch vụ:</span>
@@ -332,7 +339,7 @@
                     new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(order?.service_fee)
+                    }).format(order?.book_details?.price * 0.2)
                   }}
                 </span>
               </div>
@@ -343,7 +350,10 @@
                     new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(order?.deposit_fee + order?.service_fee)
+                    }).format(
+                      order?.book_details?.price * 0.2 +
+                        order?.book_details?.price
+                    )
                   }}
                 </span>
               </div>

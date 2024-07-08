@@ -36,18 +36,19 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
+                <a-menu-item @click="statusValue({ value: '', label: 'Tất cả' })">Tất cả</a-menu-item>
                 <a-menu-item
-                  @click="statusValue({ value: 'active', label: 'Công khai' })"
-                  >Công khai</a-menu-item
+                  @click="statusValue({ value: 'active', label: 'Đang hoạt động' })"
+                  >Đang hoạt động</a-menu-item
                 >
                 <a-menu-item
-                  @click="statusValue({ value: 'inactive', label: 'Đang ẩn' })"
-                  >Đang ẩn</a-menu-item
+                  @click="statusValue({ value: 'inactive', label: 'Đã chặn' })"
+                  >Đã chặn</a-menu-item
                 >
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+              {{ queryStatus.label ? queryStatus.label : "Tất cả" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -87,24 +88,41 @@
             </span>
           </template>
           <template v-else-if="column.key === 'role'">
-            <a-tag :bordered="false" v-if="record.role.name === UserRole.ADMIN">
-              Quản trị viên
+            <a-tag
+              :bordered="false"
+              v-if="record.role.name === UserRole.ADMIN"
+              class="bg-tag-bg-04 text-tag-text-04"
+            >
+              Quản trị
             </a-tag>
-            <a-tag :bordered="false" v-if="record.role.name === UserRole.USER">
-              Người dùng
+
+            <a-tag
+              :bordered="false"
+              v-if="record.role.name === UserRole.USER"
+              class="bg-tag-bg-02 text-tag-text-02"
+            >
+              Khách hàng
             </a-tag>
+
             <a-tag
               :bordered="false"
               v-if="record.role.name === UserRole.STUDENT"
+              class="bg-tag-bg-01 text-tag-text-01"
             >
               Sinh viên
             </a-tag>
+
             <a-tag
               :bordered="false"
               v-if="record.role.name === UserRole.MANAGER"
+              class="bg-tag-bg-03 text-tag-text-03"
             >
               Thủ thư
             </a-tag>
+            
+
+         
+           
           </template>
           <template v-else-if="column.key === 'google_id'">
             <IconTick v-if="record.google_id" />
@@ -125,14 +143,14 @@
               v-if="record.status === UserStatus.ACTIVE"
               class="bg-tag-bg-09 text-tag-text-09"
             >
-              Công khai
+              Đang hoạt động
             </a-tag>
             <a-tag
               :bordered="false"
               v-if="record.status === UserStatus.INACTIVE"
               class="bg-tag-bg-07 text-tag-text-07"
             >
-              Đang ẩn
+              Đã chặn
             </a-tag>
             <a-tag
               :bordered="false"

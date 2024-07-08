@@ -12,40 +12,46 @@
       </div>
     </div>
     <div class="mt-5">
-      <h2 class="font-bold text-3xl">Có thể bạn sẽ thích</h2>
-      <div>
-        <div class="py-5 border-b">
-          <NuxtLink>
-            <div class="flex flex-col gap-5 px-5 border-x">
-              <div class="mx-auto">
-                <img class="rounded-lg w-[180px] h-[284px]" src="" alt="" />
-              </div>
+      <h2 class="font-bold text-xl">Có thể bạn sẽ thích</h2>
+      <div class="flex mt-10">
+        <NuxtLink class="grid grid-cols-6 gap-5">
+          <div
+            class="flex flex-col gap-5 p-3 border rounded-lg"
+            v-for="(book, index) in limitBook"
+            :key="index"
+          >
+            <div class="mx-auto">
+              <img
+                class="rounded-lg w-[180px] h-[284px]"
+                :src="book?.poster"
+                alt=""
+              />
+            </div>
 
-              <div class="flex flex-col gap-3">
-                <div class="text-xl font-bold hover:text-[#f65d4e] line-clamp">
-                  <!-- {{ props?.book?.book?.original_title }} -->
-                </div>
-                <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
-                  <!-- {{ props?.book?.book_version }} -->
-                </div>
-                <div class="flex justify-start">
-                  <!-- <CommonRating :rating="props?.book?.average_rate" /> -->
-                </div>
-                <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
-                  <!-- {{ props?.book?.book?.author?.author }} -->
-                </div>
-                <div class="text-orange-600 font-extrabold text-xl">
-                  <!-- {{
-                    new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(props?.book?.price)
-                  }} -->
-                </div>
+            <div class="flex flex-col gap-3">
+              <div class="text-xl font-bold hover:text-[#f65d4e] line-clamp">
+                {{ book?.book?.title }}
+              </div>
+              <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
+                {{ book?.book_version }}
+              </div>
+              <div class="flex justify-start">
+                <CommonRating :rating="book?.average_rate" />
+              </div>
+              <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
+                {{ book?.book?.author?.author }}
+              </div>
+              <div class="text-orange-600 font-extrabold text-xl">
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(book?.price)
+                }}
               </div>
             </div>
-          </NuxtLink>
-        </div>
+          </div>
+        </NuxtLink>
       </div>
     </div>
   </div>
@@ -57,10 +63,9 @@ const route = useRoute();
 const slug = route.params.slug;
 const current = ref(1);
 
+const limitBook = computed(() => bookStore?.books?.books?.slice(0, 6));
 useAsyncData(async () => {
-  await bookStore.getAllBooks({
-    // page: current.value;
-  });
+  await bookStore.getAllBooks({});
 });
 
 useAsyncData(async () => {

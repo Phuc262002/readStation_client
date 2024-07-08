@@ -11,19 +11,48 @@
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <input
-              type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..."
-            />
+        <div class="w-1/2 flex items-center gap-2">
+          <div class="relative w-2/3 md:block hidden">
+            <div class="flex">
+              <a-input
+                placeholder="Nhập mã kệ để tìm kiếm"
+                class="h-10"
+                v-model:value="valueSearch"
+              >
+                <template #prefix>
+                  <SearchOutlined />
+                </template>
+              </a-input>
+            </div>
+            <div
+              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+            >
+              <UIcon class="text-gray-500" name="i-material-symbols-search" />
+            </div>
           </div>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
+
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item
+                  @click="statusValue({ value: '', label: 'Tất cả' })"
+                  >Tất cả</a-menu-item
+                >
+                <a-menu-item
+                  @click="statusValue({ value: 'active', label: ' Đang hoạt động' })"
+                  > Đang hoạt động</a-menu-item
+                >
+                <a-menu-item
+                  @click="statusValue({ value: 'inactive', label: 'Đang ẩn' })"
+                  >Đang ẩn</a-menu-item
+                >
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryStatus.label ? queryStatus.label : "Tất cả" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
         <div class="">
           <a-button type="primary" @click="showModalAdd">Thêm tủ sách</a-button>
@@ -73,23 +102,23 @@
             <a-tag
               :bordered="false"
               v-if="record.status === 'active'"
-              color="green"
+              class="bg-tag-bg-09 text-tag-text-09"
             >
-              Công khai
+              Đang hoạt động
             </a-tag>
 
             <a-tag
               :bordered="false"
-              v-else="record.status === 'inactive'"
-              color="red"
+              v-if="record.status === 'inactive'"
+              class="bg-tag-bg-07 text-tag-text-07"
             >
               Đang ẩn
             </a-tag>
 
             <a-tag
               :bordered="false"
-              v-else="record.status === 'deleted'"
-              color="red"
+              v-if="record.status === 'deleted'"
+              class="bg-tag-bg-06 text-tag-text-06"
             >
               Đã xóa
             </a-tag>
@@ -170,16 +199,26 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 import { ref } from "vue";
 import { Modal } from "ant-design-vue";
 import { LoadingOutlined } from "@ant-design/icons-vue";
 import { h } from "vue";
-const openModalEdit = ref<boolean>(false);
-const openModalAdd = ref<boolean>(false);
+const openModalEdit = ref(false);
+const openModalAdd = ref(false);
 const bookCaseStore = useBookcaseStore();
-const bookCaseId = ref<number>();
+const bookCaseId = ref();
 const current = ref(1);
+const valueSearch = ref("");
+const queryStatus = ref({
+  value: "",
+  label: "",
+});
+
+const statusValue = ({ value, label }) => {
+  queryStatus.value.value = value;
+  queryStatus.value.label = label;
+};
 const indicator = h(LoadingOutlined, {
   style: {
     fontSize: "16px",
@@ -191,15 +230,17 @@ useAsyncData(
   async () => {
     await bookCaseStore.getAllBookcases({
       page: current.value,
+      search: valueSearch.value,
+      status: queryStatus.value.value,
     });
   },
   {
     immediate: true,
-    watch: [current],
+    watch: [current, valueSearch, queryStatus.value],
   }
 );
 
-const onDelete = async (id: string) => {
+const onDelete = async (id) => {
   try {
     await bookCaseStore.deleteBookcase(id);
     await bookCaseStore.getAllBookcases({});
@@ -208,7 +249,7 @@ const onDelete = async (id: string) => {
   }
 };
 
-const showDeleteConfirm = (id: string) => {
+const showDeleteConfirm = (id) => {
   Modal.confirm({
     title: "Are you sure delete this task?",
     content: "Some descriptions",
@@ -232,7 +273,7 @@ const CloseModalEdit = () => {
 const showModalAdd = () => {
   openModalAdd.value = true;
 };
-const showModalEdit = (id: number) => {
+const showModalEdit = (id) => {
   openModalEdit.value = true;
   bookCaseId.value = id;
 };
