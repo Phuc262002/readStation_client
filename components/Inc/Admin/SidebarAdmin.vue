@@ -102,7 +102,7 @@
           @click="navigateTo('/admin/book/reviewbook-manager')"
           >Quản lý đánh giá</a-menu-item
         >
-        <a-menu-item key="59" @click="navigateTo('/admin/book/hello')"
+        <a-menu-item key="59" @click="navigateTo('/admin/book/trash-book')"
           >Thùng rác</a-menu-item
         >
       </a-sub-menu>
