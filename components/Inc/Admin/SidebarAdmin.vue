@@ -29,7 +29,15 @@
           name="i-streamline-dashboard-3"
           :class="props.collapsed && 'anticon anticon-desktop'"
         />
+        <!-- <Icon icon="ion:book-outline" width="32" height="32" /> -->
         <span>Dashboards</span>
+      </a-menu-item>
+      <a-menu-item key="541" @click="navigateTo('/admin/dashboard')">
+        <UIcon
+          name="i-streamline-dashboard-3"
+          :class="props.collapsed && 'anticon anticon-desktop'"
+        />
+        <span>Thống kê</span>
       </a-menu-item>
 
       <a-menu-item
@@ -60,12 +68,15 @@
           >Thêm người dùng</a-menu-item
         >
       </a-sub-menu>
+
       <a-sub-menu key="sub3">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-material-symbols-light-orders-outline"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="material-symbols-light:order-approve-outline-sharp"
+              width="32"
+              height="32"
             />
             <span>Quản lý đơn hàng</span>
           </span>
@@ -243,9 +254,11 @@
       <a-sub-menu key="sub23">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-ant-design-user-outlined"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="hugeicons:shipping-truck-01"
+              width="32"
+              height="32"
             />
             <span>Phương thức vận chuyển </span>
           </span>
@@ -273,9 +286,6 @@
         <a-menu-item key="49" @click="navigateTo('/admin/publishing-company')"
           >Tất cả nhà xuất bản</a-menu-item
         >
-        <!-- <a-menu-item key="22" @click="navigateTo('/admin/publishing-company/add-publishing-company')"
-          >Thêm nhà xuất bản</a-menu-item
-        > -->
 
         <a-menu-item
           key="23"
@@ -307,13 +317,21 @@
       <a-sub-menu key="sub11">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon name="i-material-symbols-light-order-approve-outline-sharp "
-              :class="props.collapsed && 'anticon anticon-desktop'" />
+            <UIcon
+              name="i-material-symbols-light-order-approve-outline-sharp "
+              :class="props.collapsed && 'anticon anticon-desktop'"
+            />
             <span>Hóa đơn nhập hàng</span>
           </span>
         </template>
-        <a-menu-item key="28" @click="navigateTo('/admin/manager-bill')">Tất cả hóa đơn</a-menu-item>
-        <a-menu-item key="29" @click="navigateTo('/admin/manager-bill/create-bill')">Thêm hóa đơn</a-menu-item>
+        <a-menu-item key="28" @click="navigateTo('/admin/manager-bill')"
+          >Tất cả hóa đơn</a-menu-item
+        >
+        <a-menu-item
+          key="29"
+          @click="navigateTo('/admin/manager-bill/create-bill')"
+          >Thêm hóa đơn</a-menu-item
+        >
       </a-sub-menu>
     </a-menu>
   </a-layout-sider>
