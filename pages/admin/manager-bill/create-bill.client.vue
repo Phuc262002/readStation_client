@@ -85,21 +85,27 @@
                             <label class="text-base font-semibold">Sản phẩm đã nhập</label>
                             <a-table :columns="columns" v-model:value="valueInvoiceEnter.invoice_enter_detail"
                                 :data-source="data" :pagination="false">
-                                <template #bodyCell="{ column, text }">
+                                <template #bodyCell="{ column, record }">
                                     <template v-if="column.dataIndex === 'title'">
-                                        <a>{{ text }}</a>
-                                    </template>
-                                    <template v-if="column.dataIndex === 'total'">
-                                        <span>{{ valueInvoiceEnter.total }}</span>
+                                        <a>{{ record.title }}</a>
                                     </template>
                                     <template v-if="column.dataIndex === 'quantity'">
                                         <div class="flex items-center gap-3">
-                                            <button
+                                            <button @click="decreaseQuantity"
                                                 class="border rounded-lg w-10 h-10 flex justify-center items-center text-lg">-</button>
-                                            {{ text }}
-                                            <button
+                                            {{ record.quantity }}
+                                            <button @click="increaseQuantity"
                                                 class="border rounded-lg w-10 h-10 flex justify-center items-center text-lg">+</button>
                                         </div>
+                                        <template v-if="column.dataIndex === 'price'">
+                                            <span> {{ new Intl.NumberFormat("vi-VN", {
+                                                style: "currency",
+                                                currency: "VND",
+                                            }).format(record?.price) }}</span>
+                                        </template>
+                                        <template v-if="column.dataIndex === 'total'">
+                                            <span>{{ valueInvoiceEnter.total }}</span>
+                                        </template>
                                     </template>
                                     <template v-if="column.dataIndex === 'action'">
                                         <a-tooltip placement="top" color="red">
@@ -117,10 +123,12 @@
                             </a-table>
                             <div class="mt-5 flex justify-end gap-2">
                                 <a-button class="border">Hủy</a-button>
-                                <a-button class="border border-orange-400 text-orange-500" html-type="submit" :submitting="invoiceEnter.isSubmitting"
-                                    @click="saveDraft">Lưu
+                                <a-button class="border border-orange-400 text-orange-500" html-type="submit"
+                                    :submitting="invoiceEnter.isSubmitting" @click="saveDraft">Lưu
                                     nháp</a-button>
-                                <a-button type="primary" html-type="submit" :submitting="invoiceEnter.isSubmitting" @click="saveInvoice">Lưu hóa đơn</a-button>
+                                <a-button type="primary" html-type="submit" :submitting="invoiceEnter.isSubmitting"
+                                    @click="saveInvoice">Lưu
+                                    hóa đơn</a-button>
                             </div>
                         </div>
                     </div>
@@ -240,6 +248,26 @@ const calculateTotal = () => {
     }
     valueInvoiceEnter.value.total = total.toString();
 };
+
+const decreaseQuantity = () => {
+    const newData = [...data.value];
+    const index = newData.findIndex((item) => item.id === id);
+    if (newData[index].quantity > 1) {
+        newData[index].quantity -= 1;
+        newData[index].total = newData[index].price * newData[index].quantity;
+        data.value = newData;
+    }
+    calculateTotal();
+};
+const increaseQuantity = () => {
+    const newData = [...data.value];
+    const index = newData.findIndex((item) => item.id === id);
+    newData[index].quantity += 1;
+    newData[index].total = newData[index].price * newData[index].quantity;
+    data.value = newData;
+    calculateTotal();
+};
+
 const valueInvoiceEnter = ref({
     invoice_code: "" || null,
     invoice_name: "",

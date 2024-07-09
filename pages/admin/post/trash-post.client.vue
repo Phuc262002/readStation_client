@@ -70,78 +70,53 @@
           <template v-else-if="column.key === 'status'">
             <a-tag
               :bordered="false"
-              v-if="record.status === 'wating_approve'"
-              color="yellow"
+              v-if="record.status === PostStatus.WATING_APPROVE"
+              class="bg-tag-bg-01 text-tag-text-01"
             >
-              Đang chờ duyệt
+              Chờ duyệt
             </a-tag>
 
             <a-tag
               :bordered="false"
-              v-else-if="record.status === 'draft'"
-              color="black"
+              v-if="record.status === PostStatus.DRAFT"
+              class="bg-tag-bg-08 text-tag-text-08"
             >
               Bản nháp
             </a-tag>
             <a-tag
               :bordered="false"
-              v-else-if="record.status === 'published'"
-              color="green"
+              v-if="record.status === PostStatus.PUBLISHED"
+              class="bg-tag-bg-09 text-tag-text-09"
             >
-              Công khai
+              Đang hoạt động
             </a-tag>
 
             <a-tag
               :bordered="false"
-              v-else-if="record.status === 'hidden'"
-              color="#B2B6BB"
+              v-if="record.status === PostStatus.HIDDEN"
+              class="bg-tag-bg-07 text-tag-text-07"
             >
               Đã ẩn
             </a-tag>
 
             <a-tag
               :bordered="false"
-              v-else-if="record.status === 'deleted'"
-              color="red"
+              v-if="record.status === PostStatus.DELETED"
+              class="bg-tag-bg-06 text-tag-text-06"
             >
               Đã xóa
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-if="record.status === PostStatus.APPROVE_CANCELED"
+              class="bg-tag-bg-11 text-tag-text-11"
+            >
+              Từ chối
             </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-2">
-              <a-tooltip placement="top">
-                <template #title>
-                  <span>Xem chi tiết</span>
-                </template>
-                <button
-                  @click="showModal"
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                >
-                  <div class="flex">
-                    <UIcon
-                      class="group-hover:text-[#212122]"
-                      name="i-icon-park-outline-eyes"
-                    />
-
-                    <a-modal v-model:open="open" title="Sửa" width="70%">
-                      <div class="flex justify-between gap-4">
-                        <div class="grow">
-                          <h1 class="font-bold text-xl">Bài viết số 1</h1>
-                        </div>
-                      </div>
-                      <div
-                        class="flex border border-transparent border-b-gray-300 pb-2"
-                      >
-                        <div class="w-1/5">
-                          <h4 class="font-bold">Tên người viết</h4>
-                        </div>
-                        <div class="w-4/5">Huỳnh Tuấn Kiệt</div>
-                      </div>
-                    </a-modal>
-                  </div>
-                </button>
-              </a-tooltip>
-
               <a-tooltip placement="top" color="black ">
                 <template #title>
                   <span>Khôi phục</span>
@@ -171,10 +146,11 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script  setup>
 import { Modal } from "ant-design-vue";
+import { PostStatus } from "~/types/admin/post";
 const postStore = usePostStore();
-const generalPostStore = useGeneralPostStore(); 
+const generalPostStore = useGeneralPostStore();
 const current = ref(1);
 useAsyncData(
   async () => {
@@ -189,20 +165,20 @@ useAsyncData(
   }
 );
 
-const onRecover = async (id: string) => {
+const onRecover = async (id) => {
   await generalPostStore.updatePost({ id: id, post: { status: "published" } });
   await postStore.getAllPost({
     page: current.value,
     status: "deleted",
   });
 };
-const showRecoverConfirm = (id: string) => {
+const showRecoverConfirm = (id) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
+    title: "Bạn có chắc chắn muốn khôi phục bài viết này?",
+    content: "Bài viết sẽ được khôi phục và hiển thị trên tất cả bài viết",
+    okText: "Khôi phục",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onRecover(id);
     },
@@ -259,8 +235,5 @@ const columns = [
   },
 ];
 
-const open = ref<boolean>(false);
-const showModal = () => {
-  open.value = true;
-};
+
 </script>

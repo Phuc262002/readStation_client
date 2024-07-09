@@ -226,7 +226,7 @@ const onSubmit = async () => {
       return message.error("Vui lòng chọn hình thức thanh toán");
     }
     const data = await orderStore.getOrderPayment({
-      id: id,
+      id: orderStore.order.id,
       body: {
         payment_portal: payment_portal.value,
       },

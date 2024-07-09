@@ -35,6 +35,7 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
+                <a-menu-item @click="statusValue({ value: '', label: 'Tất cả' })">Tất cả</a-menu-item>
                 <a-menu-item
                   @click="statusValue({ value: 'active', label: 'Hoạt động' })"
                   >Hoạt động</a-menu-item
@@ -46,7 +47,7 @@
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+              {{ queryStatus.label ? queryStatus.label : "Tất cả" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -176,7 +177,7 @@
 <script setup>
 import { Modal } from "ant-design-vue";
 import { PublishingCompanyStatus } from "~/types/admin/publishingCompany";
-const baseStore = useBaseStore();
+
 const openModalEdit = ref(false);
 const openModalAdd = ref(false);
 const publishingCompanyId = ref(0);

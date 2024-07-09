@@ -2,7 +2,7 @@
     <div>
         <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
             <div class="grow">
-                <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả hóa đơn</h5>
+                <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả phiếu nhập hàng</h5>
             </div>
             <CommonBreadcrumAdmin />
         </div>
@@ -12,7 +12,7 @@
                 <div class="w-1/4 h-[600px] bg-white  flex flex-col p-5 gap-5 rounded-lg">
                     <div class="flex flex-col gap-4">
                         <div class="flex flex-col">
-                            <h1 class="text-xl font-bold">Danh sách hóa đơn</h1>
+                            <h1 class="text-xl font-bold">Danh sách phiếu nhập hàng</h1>
                         </div>
                         <div class="flex items-center gap-2">
                             <div class="relative grow">
@@ -42,7 +42,7 @@
                     <div class="h-full overflow-auto">
                         <div v-for="(items, index) in inVoiceEnter?.getAllInvoiceEnterAdmin?.envoiceEnters"
                             :key="index">
-                            <button class=" p-5 border-t w-full hover:bg-gray-200">
+                            <button class=" p-5 border-t w-full hover:bg-gray-200" @click="inVoiceEnterId(items?.id)">
                                 <div class="flex flex-col gap-2">
                                     <div class="flex justify-between items-center">
                                         <h1 class="text-base font-semibold">#{{ items?.invoice_code }}</h1>
@@ -53,57 +53,34 @@
                                         <h1 class="text-base font-semibold">{{ items?.user?.fullname }}</h1>
                                     </div>
                                     <div class="flex justify-between items-center">
-                                        <h1 class="text-base text-gray-500">{{ items?.total }}đ</h1>
+                                        <h1 class="text-base text-gray-500"> {{ new Intl.NumberFormat("vi-VN", {
+                                            style: "currency",
+                                            currency: "VND",
+                                        }).format(items?.total) }}</h1>
                                         <span class="text-base text-gray-500">{{
-                                            $dayjs(items?.invoice_date).format("DD/MM/YYYY")}}</span>
+                                            $dayjs(items?.invoice_date).format("DD/MM/YYYY") }}</span>
                                     </div>
                                 </div>
                             </button>
                         </div>
                     </div>
                 </div>
-                <div class="w-3/4  bg-white h-auto rounded-lg">
+                <div class="w-3/4 bg-white h-auto rounded-lg">
                     <div class="flex flex-col p-5 gap-4">
                         <div>
                             <div class="flex flex-col gap-5 md:items-center md:flex-row">
                                 <div class="grow">
-                                    <h6 class="mb-1 text-xl font-bold">#TW15090257</h6>
+                                    <h6 class="mb-1 text-xl font-bold">#{{
+                                        inVoiceEnter?.getOneInvoiceEnterAdmin?.invoice_code }}</h6>
                                     <ul class="flex items-center gap-3">
-                                        <li class="text-slate-500 dark:text-zink-200 text-sm">Ngày tạo: 20/03/2024</li>
-                                        <li class="text-slate-500 dark:text-zink-200 text-sm">Ngày nhận: 22/06/2024</li>
+                                        <li class="text-slate-500 dark:text-zink-200 text-sm">Ngày tạo: {{
+                                            $dayjs(inVoiceEnter?.getOneInvoiceEnterAdmin?.invoice_date).format("DD/MM/YYYY")
+                                            }}
+                                        </li>
+                                        <li class="text-slate-500 dark:text-zink-200 text-sm">Ngày nhận: 22/06/2024
+                                        </li>
                                     </ul>
                                 </div>
-                                <!-- <div class="flex items-center gap-2">
-                                    <button type="button"
-                                        class=" flex  gap-2 items-center w-full bg-orange-500 p-2 rounded-lg text-white">
-                                        <UIcon name="i-material-symbols-edit-document-outline" class="text-xl" /><span
-                                            class="align-middle">Lưu và tải</span>
-                                    </button>
-                                    <a-dropdown>
-                                        <a class="ant-dropdown-link" @click.prevent>
-                                            <button
-                                                class="flex items-center justify-center rounded-lg w-10 h-10 dropdown-toggle p-0 text-slate-500 btn bg-slate-100 hover:text-white hover:bg-slate-600 focus:text-white focus:bg-slate-600 focus:ring focus:ring-slate-100 active:text-white active:bg-slate-600 active:ring active:ring-slate-100 dark:bg-slate-500/20 dark:text-slate-400 dark:hover:bg-slate-500 dark:hover:text-white dark:focus:bg-slate-500 dark:focus:text-white dark:active:bg-slate-500 dark:active:text-white dark:ring-slate-400/20"
-                                                id="categoryNotes1" data-bs-toggle="dropdown">
-                                                <UIcon name="i-material-symbols-more-horiz" class="text-2xl" />
-                                            </button>
-
-                                        </a>
-                                        <template #overlay>
-                                            <a-menu>
-                                                <NuxtLink>
-                                                    <a-menu-item>
-                                                        <a href="" class="w-6">Sửa</a>
-                                                    </a-menu-item>
-                                                </NuxtLink>
-                                                <NuxtLink>
-                                                    <a-menu-item>
-                                                        <a href="" class="w-40">Xóa</a>
-                                                    </a-menu-item>
-                                                </NuxtLink>
-                                            </a-menu>
-                                        </template>
-                                    </a-dropdown>
-                                </div> -->
                             </div>
                         </div>
                         <div class="bg-gray-100 h-auto rounded-lg p-8 flex flex-col gap-3">
@@ -115,26 +92,31 @@
                                     </div>
                                     <h5 class="mt-4 mb-1 text-xl font-bold">Read Sation</h5>
 
-                                </div><!--end col-->
+                                </div>
                                 <div class="text-left  xl:col-start-10 xl:col-span-5">
-                                    <p class="mb-1 text-slate-500 dark:text-zink-200">161B Lý Chính Thắng, Phường Võ Thị
+                                    <p class="mb-1 text-slate-500 dark:text-zink-200">161B Lý Chính Thắng, Phường Võ
+                                        Thị
                                         Sáu, Quận 3 , TP. HCM
                                     </p>
-                                    <p class="mb-1  text-slate-500 dark:text-zink-200">(84.028) 39316289 - 39316211 -
+                                    <p class="mb-1  text-slate-500 dark:text-zink-200">(84.028) 39316289 - 39316211
+                                        -
                                         39317849</p>
                                     <p class="mb-1  text-slate-500 dark:text-zink-200">(84.028) 38437450</p>
-                                    <p class="mb-1  text-slate-500 dark:text-zink-200">hopthubandoc@nxbtre.com.vn</p>
+                                    <p class="mb-1  text-slate-500 dark:text-zink-200">hopthubandoc@nxbtre.com.vn
+                                    </p>
 
-                                </div><!--end col-->
+                                </div>
                             </div>
                             <div class=" flex justify-between items-center gap-5 mt-5 px-6">
                                 <div class="flex flex-col gap-1 items-center">
-                                    <h1 class="text-sm font-bold">Hóa đơn số</h1>
-                                    <span class="text-gray-500">#TW15090254</span>
+                                    <h1 class="text-sm font-bold">Tên hóa đơn</h1>
+                                    <span class="text-gray-500">{{ inVoiceEnter?.getOneInvoiceEnterAdmin?.invoice_name
+                                        }}</span>
                                 </div>
                                 <div class="flex flex-col gap-1 items-center">
-                                    <h1 class="text-sm font-bold">Ngày tạo</h1>
-                                    <span class="text-gray-500">20/03/2024</span>
+                                    <h1 class="text-sm font-bold">Nhà cung cấp</h1>
+                                    <span class="text-gray-500">{{ inVoiceEnter?.getOneInvoiceEnterAdmin?.supplier?.name
+                                        }}</span>
                                 </div>
                                 <div class="flex flex-col gap-1 items-center">
                                     <span class="text-sm font-bold">Trạng thái</span>
@@ -144,7 +126,10 @@
                                 </div>
                                 <div class="flex flex-col gap-1 items-center">
                                     <h1 class="text-sm font-bold">Tổng tiền</h1>
-                                    <span class="text-gray-500">1.5000.000đ</span>
+                                    <span class="text-gray-500">{{ new Intl.NumberFormat("vi-VN", {
+                                        style: "currency",
+                                        currency: "VND",
+                                    }).format(inVoiceEnter?.getOneInvoiceEnterAdmin?.total) }}</span>
                                 </div>
 
                             </div>
@@ -154,22 +139,24 @@
                                         hàng
                                     </p>
                                     <h6 class="mb-1 text-base font-bold">Huỳnh Tuấn Kiệt</h6>
-                                    <p class="mb-1 text-slate-500 dark:text-zink-200">Lô 42, đường số 3, Công viên phần
+                                    <p class="mb-1 text-slate-500 dark:text-zink-200">Lô 42, đường số 3, Công viên
+                                        phần
                                         mềm Quang Trung,
                                         phường Tân Chánh Hiệp, quận 12, TP HCM</p>
                                     <p class="mb-1 text-slate-500 dark:text-zink-200">0987654321</p>
-                                </div><!--end col-->
+                                </div>
                                 <div>
                                     <p class="mb-2 text-sm uppercase text-slate-500 dark:text-zink-200">Địa chỉ giao
                                         hàng
                                     </p>
                                     <h6 class="mb-1 text-base font-bold">Nguyễn Hoàng Phúc</h6>
-                                    <p class="mb-1 text-slate-500 dark:text-zink-200">98 Phan Văn Hớn, Tân Thới Nhất,
+                                    <p class="mb-1 text-slate-500 dark:text-zink-200">98 Phan Văn Hớn, Tân Thới
+                                        Nhất,
                                         Quận 12, Thành phố Hồ Chí
                                         Minh, Việt Nam</p>
                                     <p class="mb-1 text-slate-500 dark:text-zink-200">0987654321</p>
-                                </div><!--end col-->
-                            </div><!--end grid-->
+                                </div>
+                            </div>
 
                             <div class="mt-6 overflow-x-auto">
                                 <table class="w-full whitespace-nowrap">
@@ -189,73 +176,34 @@
                                                 Tổng cộng</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody
+                                        v-for="(items, index) in inVoiceEnter?.getOneInvoiceEnterAdmin?.invoice_enter_details ">
                                         <tr>
                                             <td
                                                 class="px-3.5 py-2.5 text-left  border-b border-slate-200 dark:border-zink-500">
-                                                <h6 class="mb-1 text-sm font-bold">Cho Tôi Xin Một Vé Đi Tuổi Thơ
+                                                <h6 class="mb-1 text-sm font-bold">{{ items?.book_detail?.book?.title }}
                                                 </h6>
                                             </td>
                                             <td
                                                 class="px-3.5 py-2.5 text-center  border-b border-slate-200 dark:border-zink-500 font-semibold">
-                                                100.000đ</td>
+                                                {{
+                                                    new Intl.NumberFormat("vi-VN", {
+                                                        style: "currency",
+                                                        currency: "VND",
+                                                    }).format(items?.book_price)
+                                                }}</td>
                                             <td
                                                 class="px-3.5 py-2.5 text-center  border-b border-slate-200 dark:border-zink-500 font-semibold">
-                                                10</td>
+                                                {{ items?.book_quantity }}</td>
                                             <td
                                                 class="px-3.5 py-2.5 text-center  border-b border-slate-200 dark:border-zink-500 font-semibold">
-                                                1.000.000đ</td>
-                                        </tr>
-                                        <tr>
+                                                {{ new Intl.NumberFormat("vi-VN", {
+                                                    style: "currency",
+                                                    currency: "VND",
+                                                }).format(items?.book_price *
+                                                    items?.book_quantity)
+                                                }}</td>
 
-                                            <td
-                                                class="px-3.5 py-2.5 text-left  border-b border-slate-200 dark:border-zink-500">
-                                                <h6 class="mb-1 text-sm font-bold">Bồ Câu Không Đưa Thư
-                                                </h6>
-                                            </td>
-                                            <td
-                                                class="px-3.5 py-2.5 text-center  border-b border-slate-200 dark:border-zink-500 font-semibold">
-                                                150.000đ</td>
-                                            <td
-                                                class="px-3.5 py-2.5 text-center  border-b border-slate-200 dark:border-zink-500 font-semibold">
-                                                15</td>
-                                            <td
-                                                class="px-3.5 py-2.5 text-center  border-b border-slate-200 dark:border-zink-500 font-semibold">
-                                                2.250.000đ</td>
-                                        </tr>
-                                        <tr>
-
-                                            <td
-                                                class="px-3.5 py-2.5 text-left  border-b border-slate-200 dark:border-zink-500">
-                                                <h6 class="mb-1 text-sm font-bold">Còn Chút Gì Để Nhớ
-                                                </h6>
-                                            </td>
-                                            <td
-                                                class="px-3.5 py-2.5 text-center  border-b border-slate-200 dark:border-zink-500 font-semibold">
-                                                200.000đ</td>
-                                            <td
-                                                class="px-3.5 py-2.5 text-center  border-b border-slate-200 dark:border-zink-500 font-semibold">
-                                                20</td>
-                                            <td
-                                                class="px-3.5 py-2.5 text-center  border-b border-slate-200 dark:border-zink-500 font-semibold">
-                                                4.000.000đ</td>
-                                        </tr>
-                                        <tr>
-
-                                            <td
-                                                class="px-3.5 py-2.5 text-left  border-b border-slate-200 dark:border-zink-500">
-                                                <h6 class="mb-1 text-sm font-bold">Lá Nằm Trong Lá
-                                                </h6>
-                                            </td>
-                                            <td
-                                                class="px-3.5 py-2.5 text-center  border-b border-slate-200 dark:border-zink-500 font-semibold">
-                                                250.000đ</td>
-                                            <td
-                                                class="px-3.5 py-2.5 text-center  border-b border-slate-200 dark:border-zink-500 font-semibold">
-                                                25</td>
-                                            <td
-                                                class="px-3.5 py-2.5 text-center  border-b border-slate-200 dark:border-zink-500 font-semibold">
-                                                6.250.000đ</td>
                                         </tr>
                                     </tbody>
                                     <tbody class="before:block before:h-3">
@@ -267,7 +215,10 @@
                                             </td>
                                             <td
                                                 class=" font-bold text-base border-b border-slate-200 px-3.5 py-2.5  dark:border-zink-500">
-                                                13.500.000 đ
+                                                {{ new Intl.NumberFormat("vi-VN", {
+                                                    style: "currency",
+                                                    currency: "VND",
+                                                }).format(total) }}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -275,28 +226,31 @@
                             </div>
 
                             <div class="my-5">
-                                <p class="mb-2 text-sm text-slate-500 dark:text-zink-200 uppercase">Chi tiết thanh toán
+                                <p class="mb-2 text-sm text-slate-500 dark:text-zink-200 uppercase">Chi tiết thanh
+                                    toán
                                 </p>
                                 <p class="mb-1 text-slate-500 dark:text-zink-200">Phương thức thanh toán: VISA</p>
                                 <p class="mb-1 text-slate-500 dark:text-zink-200">Chủ thẻ: Huỳnh Tuấn Kiệt</p>
-                                <p class="mb-1 text-slate-500 dark:text-zink-200">Card Number: xxxx xxxx xxxx 1402</p>
+                                <p class="mb-1 text-slate-500 dark:text-zink-200">Card Number: xxxx xxxx xxxx 1402
+                                </p>
                                 <p class="mb-0 text-slate-500 dark:text-zink-200">Tổng tiền: 13.500.0006</p>
                             </div>
 
                             <div
                                 class="px-4 py-3 text-sm border rounded-md border-sky-200 text-sky-500 bg-sky-50 dark:bg-sky-400/20 dark:border-sky-500/50">
-                                <span class="font-bold">Ghi chú:</span> Tất cả các tài khoản phải được thanh toán trong
+                                <span class="font-bold">Ghi chú:</span> Tất cả các tài khoản phải được thanh toán
+                                trong
                                 vòng 7 ngày kể từ ngày
-                                nhận được hóa đơn. Được thanh toán bằng séc hoặc thẻ tín dụng hoặc thanh toán trực tiếp
+                                nhận được hóa đơn. Được thanh toán bằng séc hoặc thẻ tín dụng hoặc thanh toán trực
+                                tiếp
                                 trực tuyến. Nếu tài
-                                khoản không được thanh toán trong vòng 7 ngày, các chi tiết tín dụng được cung cấp để
+                                khoản không được thanh toán trong vòng 7 ngày, các chi tiết tín dụng được cung cấp
+                                để
                                 xác nhận công việc đã thực
                                 hiện sẽ bị tính phí trích dẫn đã thỏa thuận nêu trên.
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
 
@@ -309,4 +263,15 @@ const inVoiceEnter = useInvoiceEnterStore();
 useAsyncData(async () => {
     await inVoiceEnter.getAllInvoiceEnter({});
 });
+const inVoiceEnterId = async (id) => {
+    useAsyncData(async () => {
+        await inVoiceEnter.getOneInvoiceEnter(id);
+    });
+}
+const total = computed(() => {
+    return inVoiceEnter?.getOneInvoiceEnterAdmin?.invoice_enter_details?.reduce((acc, item) => {
+        return acc + item.book_price * item.book_quantity;
+    }, 0);
+});
+
 </script>

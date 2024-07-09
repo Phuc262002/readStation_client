@@ -272,11 +272,10 @@ const onDelete = async (id) => {
 };
 const showDeleteConfirm = (id) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
+    title: "Bạn có chắc chắn muốn xóa bài viết này?",
+    okText: "Xóa",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onDelete(id);
     },
