@@ -348,6 +348,7 @@ const resErrors = ref({});
 const payment_method = ref("online");
 const delivery_method = ref("shipper");
 const shipping_method_id = ref();
+const paymentPortal = ref("payos");
 const options = ref([]);
 const shippingValue = ref({});
 const depositFee = ref(0);
@@ -422,14 +423,16 @@ const payCart = async () => {
   const newArr = cartStore.carts.map((item) => {
     return {
       book_details_id: item.id,
-      service_fee: parseFloat(item.price) * 0.1,
-      deposit_fee: parseFloat(item.price) * (item.hire_percent / 100),
+      service_fee: parseFloat(item.price) * 0.2,
+      deposit_fee: parseFloat(item.price),
     };
   });
+  const paymentPortal = payment_method.value === "online" ? "payos" : null;
 
   const resData = await orderStore.createOrder({
     payment_method: payment_method.value,
     delivery_method: delivery_method.value,
+    payment_portal: paymentPortal,
     user_note: userNote.value,
     discount: authStore?.authUser?.user?.discount,
     shipping_method_id: shipping_method_id.value,
@@ -441,12 +444,24 @@ const payCart = async () => {
     delivery_info: newInfo,
   });
   // console.log("resData", resData);
-  if (resData?.data?._rawValue?.status == true) {
+  if (
+    resData?.data?._rawValue?.status == true &&
+    payment_method.value === "cash"
+  ) {
     message.success({
       content: "Đặt hàng thành công",
     });
     cartStore.carts = [];
-    navigateTo("/products");
+    navigateTo("/account/order");
+  } else if (
+    resData?.data?._rawValue?.status == true &&
+    payment_method.value === "online"
+  ) {
+    message.success({
+      content: "Đặt hàng thành công",
+    });
+    cartStore.carts = [];
+    navigateTo("/account/order/checkout/payment/DH860865");
   } else if (resData?.data?._rawValue?.status == false) {
     message.error(resData?.data?._rawValue?.errors);
   } else {

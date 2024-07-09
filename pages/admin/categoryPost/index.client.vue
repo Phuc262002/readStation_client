@@ -4,7 +4,6 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Danh mục bài viết</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[260px] w-full rounded-lg p-5">
@@ -32,6 +31,7 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
+                <a-menu-item @click="statusValue({ value: '', label: 'Tất cả' })">Tất cả</a-menu-item>
                 <a-menu-item
                   @click="statusValue({ value: 'active', label: 'Hoạt động' })"
                   >Hoạt động</a-menu-item
@@ -43,7 +43,7 @@
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+              {{ queryStatus.label ? queryStatus.label : "Tất cả" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -91,7 +91,7 @@
           <template v-else-if="column.key === 'status'">
             <a-tag
               :bordered="false"
-              v-if="record.status === 'active'"
+              v-if="record.status === CategoryStatus.ACTIVE"
               class="bg-tag-bg-09 text-tag-text-09"
             >
               Công khai
@@ -99,7 +99,7 @@
 
             <a-tag
               :bordered="false"
-              v-if="record.status === 'inactive'"
+              v-if="record.status === CategoryStatus.INACTIVE"
               class="bg-tag-bg-07 text-tag-text-07"
             >
               Đang ẩn
@@ -107,7 +107,7 @@
 
             <a-tag
               :bordered="false"
-              v-if="record.status === 'deleted'"
+              v-if="record.status === CategoryStatus.DELETED"
               class="bg-tag-bg-06 text-tag-text-06"
             >
               Đã xóa
@@ -165,12 +165,13 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 import { ref } from "vue";
 import { Modal } from "ant-design-vue";
-const openModalEdit = ref<boolean>(false);
-const openModalAdd = ref<boolean>(false);
-const categoryId = ref<number>();
+import { CategoryStatus } from "~/types/admin/category";
+const openModalEdit = ref(false);
+const openModalAdd = ref(false);
+const categoryId = ref();
 const categoryStore = useCategoryStore();
 const current = ref(1);
 const valueSearch = ref("");
@@ -178,7 +179,7 @@ const queryStatus = ref({
   value: "",
   label: "",
 });
-const statusValue = ({ value, label }: any) => {
+const statusValue = ({ value, label }) => {
   queryStatus.value.value = value;
   queryStatus.value.label = label;
 };
@@ -197,20 +198,20 @@ useAsyncData(
   }
 );
 
-const onDelete = async (id: string) => {
+const onDelete = async (id) => {
   await categoryStore.deleteCategory(id);
   await categoryStore.getAllCategory({
     type: "post",
   });
 };
 
-const showDeleteConfirm = (id: string) => {
+const showDeleteConfirm = (id) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
+    title: "Bạn có chắc chắn muốn xóa danh mục này?",
+
+    okText: "Xóa",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onDelete(id);
     },
@@ -258,7 +259,7 @@ const CloseModalEdit = () => {
 const showModalAdd = () => {
   openModalAdd.value = true;
 };
-const showModalEdit = (id: number) => {
+const showModalEdit = (id) => {
   openModalEdit.value = true;
   categoryId.value = id;
 };

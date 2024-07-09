@@ -27,12 +27,29 @@ export const usePostStore = defineStore("post-store", {
           }${status ? `&status=${status}` : ""}${type ? `&type=${type}` : ""}`
         );
         this.postsAdmin = data.data._value?.data;
-
         return data;
       } catch (error) {
         console.log(error);
       } finally {
         this.isLoading = false;
+      }
+    },
+    async updatePost({ id, post }: any) {
+      try {
+        this.isSubmitting = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/admin/posts/update/${id}`,
+          {
+            method: "PUT",
+            body: JSON.stringify(post),
+          }
+        );
+
+        return data;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.isSubmitting = false;
       }
     },
   },
