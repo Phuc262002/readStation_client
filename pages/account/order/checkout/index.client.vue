@@ -362,7 +362,16 @@ useAsyncData(async () => {
     value: item.id,
     label: item.method,
   }));
-  console.log("options.value", options.value);
+
+  // Set default value for shipping_method_id
+  if (options.value.length > 0) {
+    shipping_method_id.value = options.value[0].value;
+    shippingValue.value = shippingMethodStore?.shippings.find(
+      (item) => item.id === shipping_method_id.value
+    );
+    cartStore.addShipFee(shippingValue.value.fee);
+  }
+  // console.log("options.value", options.value);
 });
 const userNote = ref();
 // phí cọc
@@ -461,7 +470,11 @@ const payCart = async () => {
       content: "Đặt hàng thành công",
     });
     cartStore.carts = [];
-    navigateTo("/account/order/checkout/payment/DH860865");
+    navigateTo(
+      "/account/order/checkout/payment/" +
+        resData?.data?._rawValue?.data.order_code
+    );
+    // console.log("first", resData?.data?._rawValue?.data.order_code);
   } else if (resData?.data?._rawValue?.status == false) {
     message.error(resData?.data?._rawValue?.errors);
   } else {
