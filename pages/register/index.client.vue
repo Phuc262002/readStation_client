@@ -11,14 +11,23 @@
         class="md:w-1/2 w-full min-h-[90vh] flex flex-col items-center justify-center"
       >
         <div>
+          <div class="pb-8 w-fit mx-auto">
+            <NuxtLink to="/">
+              <img
+                src="../../assets/images/Read Station.svg"
+                class="w-[230px] justify-center"
+                alt=""
+              />
+            </NuxtLink>
+          </div>
           <div class="w-full">
             <h2 class="text-2xl font-extrabold text-gray-900">
               Đăng ký tài khoản
             </h2>
             <p class="mt-2">Đăng ký để bắt đầu thuê sách.</p>
           </div>
-          <div class="">
-            <div class="bg-white py-8">
+          <div class="mt-8">
+            <div class="bg-white">
               <form class="space-y-6" @submit="onSubmit">
                 <div class="space-y-2">
                   <a-alert
