@@ -44,7 +44,8 @@
                             <span class="text-base col-span-3"
                                 v-if="orderStore?.getOneOrderAdmin?.data?.payment_method === 'cash'">Tiền mặt</span>
                             <span class="text-base col-span-3"
-                                v-if="orderStore?.getOneOrderAdmin?.data?.payment_method === 'online'">Chuyển khoản</span>
+                                v-if="orderStore?.getOneOrderAdmin?.data?.payment_method === 'online'">Chuyển
+                                khoản</span>
                         </div>
                     </div>
                 </div>
@@ -54,6 +55,10 @@
                 <div class="flex gap-2 items-center">
                     <h1 class="text-base font-bold">Thông tin đơn hàng</h1>
                     <span>
+                        <a-tag :bordered="false" v-if="orderStore?.getOneOrderAdmin?.data?.status === 'wating_payment'"
+                            class="bg-tag-bg-01 text-tag-text-01">
+                            Chờ thanh toán
+                        </a-tag>
                         <span v-if="orderStore?.getOneOrderAdmin?.data?.status === 'pending'"
                             class="text-tag-text-01 bg-tag-bg-01 p-2 rounded-lg flex justify-center items-center">Đang
                             xử lý</span>
@@ -175,6 +180,14 @@
             </div>
             <div class="w-full p-5 bg-white rounded-lg flex flex-col gap-5">
                 <h1 class="text-base font-bold">Thông tin sách thuê</h1>
+                <div v-if="orderStore?.getOneOrderAdmin?.data?.status === 'active'">
+                    <div class='w-full bg-[white] rounded-lg flex flex-col gap-2'>
+                        <span class="text-tag-text-06">Lưu ý: :</span>
+                        <span class="text-tag-text-06 pl-5">1. Thời gian gia hạn sẽ được cộng dồn </span>
+                        <span class="text-tag-text-06 pl-5">2. Gia hạn riêng lẻ từng sách sẽ tính là 1 lần gia hạn. Nếu
+                            bạn muốn gia hạn toàn bộ trong 1 lần hãy chọn “ Gia hạn toàn bộ ” ở trên.</span>
+                    </div>
+                </div>
                 <div v-for="(items, index) in orderStore?.getOneOrderAdmin?.data?.loan_order_details" :key=index>
                     <div class="border-t-2 border-gray-200 p-5 space-y-3">
                         <div class="flex gap-2 items-center">
@@ -262,6 +275,12 @@
                                     </div>
                                 </div>
                             </div>
+
+                        </div>
+                        <div class="flex justify-end gap-2"
+                            v-if="orderStore?.getOneOrderAdmin?.data?.status === 'active'">
+                            <a-button @click="showReturnBook">Trả sách</a-button>
+                            <a-button type="primary">Gia hạn</a-button>
                         </div>
                         <div class="flex justify-end" v-if="items?.status === 'extended'">
                             <div class="flex gap-2">
@@ -279,6 +298,12 @@
                     </div>
                 </div>
                 <form>
+                    <div v-if="orderStore?.getOneOrderAdmin?.data?.status === 'wating_payment'">
+                        <div class="flex justify-end gap-2">
+                            <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                            <a-button type="primary" @click="setStatus('pending')">Đã thanh toán</a-button>
+                        </div>
+                    </div>
                     <div v-if="orderStore?.getOneOrderAdmin?.data?.status === 'pending'">
                         <div class="flex justify-end gap-2">
                             <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
@@ -375,8 +400,7 @@ const openModalReturnBook = ref<boolean>(false);
 const route = useRoute()
 const orderId = route.params.id;
 const orderStore = useOrderStore();
-const setStatus = (status) => {
-    console.log('id', orderId);
+const setStatus = (status: string) => {
     orderStore.updateOrderStatus({
         id: orderId, body: {
             status: status,

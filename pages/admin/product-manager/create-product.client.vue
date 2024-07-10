@@ -146,7 +146,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-4 gap-4">
+                            <!-- <div class="grid grid-cols-4 gap-4">
                                 <div class="flex flex-col gap-2 ">
                                     <label class="text-sm font-semibold" for="">Tỉnh/ Thành phố</label>
                                     <a-select size="large" v-model:value="inforUser.province.ProvinceName" show-search
@@ -179,7 +179,7 @@
                                     <label for="">Địa chỉ cụ thể</label>
                                     <a-input class="h-11" :value="inforUser.address_detail" readonly />
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="flex flex-col gap-5 mt-4">
@@ -338,7 +338,7 @@ const showOneUser = async (id) => {
         inforUser.value = data?.data?._rawValue?.data
     } catch (error) {
         console.log(error)
-    }   
+    }
     valueSearchUser.value = '';
 }
 
@@ -400,14 +400,13 @@ const onSubmit = async () => {
         }
         valueOrder.order_details.push(orderDetail);
     });
-    // console.log(valueOrder)
     try {
         await orderStore.creatOrder(valueOrder)
-        message.success("Thêm thành công");
     } catch (error) {
         message.error("Thêm thất bại");
     }
 }
+
 
 const columns = [
     {
