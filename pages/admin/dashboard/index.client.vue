@@ -42,7 +42,7 @@
           class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
         >
           <div class="flex items-center text-sm font-medium p-4">
-            <a-tag :bordered="false" class=" bg-tag-bg-04 text-tag-text-04">
+            <a-tag :bordered="false" class="bg-tag-bg-04 text-tag-text-04">
               <UIcon class="text-lg w-8 h-8" name="i-bi-box-arrow-in-down"
             /></a-tag>
 
@@ -179,6 +179,10 @@
           </div>
         </div>
       </div>
+    </div>
+    <div>
+      123
+      <HighchartHigh />
     </div>
   </div>
 </template>

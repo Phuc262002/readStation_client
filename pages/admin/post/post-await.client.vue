@@ -110,6 +110,17 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-2">
+              <a-tooltip placement="top" color="black">
+                <template #title>
+                  <span>Xem chi tiết</span>
+                </template>
+                <button
+                  @click="showModalDetail(record.id)"
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
+                >
+                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
+                </button>
+              </a-tooltip>
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
@@ -159,6 +170,11 @@
         :status="status"
         :id="postAwaitId"
       />
+      <PostAdminDetail
+        :openModalDetail="openModalDetail"
+        :openModal="CloseModalDetail"
+        :postDetailId="postDetailId"
+      />
       <div class="mt-4 flex justify-end">
         <a-pagination
           v-model:current="current"
@@ -175,7 +191,9 @@ import { Modal } from "ant-design-vue";
 import { PostStatus } from "~/types/admin/post";
 const postStore = usePostStore();
 const openModalConfirm = ref(false);
+const openModalDetail = ref(false);
 const postAwaitId = ref("");
+const postDetailId = ref();
 const status = ref("");
 const current = ref(1);
 useAsyncData(
@@ -213,18 +231,11 @@ const showRecoverConfirm = (id) => {
     },
   });
 };
-// const onCancel = async (id) => {
-//   await postStore.updatePost({ id: id, post: { status: "approve_canceled" } });
-//   await postStore.getAllPost({
-//     page: current.value,
-//     status: "wating_approve",
-//   });
-// };
+
 const showCancelConfirm = (id) => {
   openModalConfirm.value = true;
   postAwaitId.value = id;
   status.value = "approve_canceled";
-  
 };
 const CloseModalConfirm = () => {
   openModalConfirm.value = false;
@@ -263,4 +274,13 @@ const columns = [
     key: "action",
   },
 ];
+const CloseModalDetail = () => {
+  openModalDetail.value = false;
+ 
+};
+const showModalDetail = (id) => {
+  openModalDetail.value = true;
+  postDetailId.value = id;
+
+};
 </script>

@@ -74,9 +74,9 @@
           <span class="flex items-center gap-2">
             <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
-              icon="material-symbols-light:order-approve-outline-sharp"
-              width="32"
-              height="32"
+              icon="system-uicons:box"
+              width="1.2rem"
+              height="1.2rem"
             />
             <span>Quản lý đơn hàng</span>
           </span>
