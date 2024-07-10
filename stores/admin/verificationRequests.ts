@@ -58,7 +58,7 @@ export const useVerificationRequestsStore = defineStore(
           const data: any = await useCustomFetch(
             `/api/v1/admin/verification-requests/update/${id}`,
             {
-              method: "PATCH",
+              method: "PUT",
               body: JSON.stringify(body),
             }
           );

@@ -33,8 +33,8 @@
               <a-menu class="">
                 <a-menu-item @click="statusValue({ value: '', label: 'Tất cả' })">Tất cả</a-menu-item>
                 <a-menu-item
-                  @click="statusValue({ value: 'active', label: 'Hoạt động' })"
-                  >Hoạt động</a-menu-item
+                  @click="statusValue({ value: 'active', label: 'Công khai' })"
+                  >Công khai</a-menu-item
                 >
                 <a-menu-item
                   @click="statusValue({ value: 'inactive', label: 'Đang ẩn' })"

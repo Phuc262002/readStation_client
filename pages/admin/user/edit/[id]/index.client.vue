@@ -110,6 +110,22 @@
               </div>
               <div>
                 <div class="flex flex-col gap-2">
+                  <label class="text-sm font-semibold" for="">Trạng thái</label>
+                  <a-select
+              size="large"
+              v-model:value="user.status"
+              show-search
+              placeholder="Trạng thái"
+              :options="optionsStatus"
+              :filter-option="filterOption"
+              @focus="handleFocus"
+              @blur="handleBlur"
+              @change="handleChange"
+            ></a-select>
+                </div>
+              </div>
+              <div>
+                <div class="flex flex-col gap-2">
                   <label class="text-sm font-semibold" for="">Công việc</label>
                   <a-input
                     v-model:value="user.job"
@@ -367,7 +383,13 @@ const user = ref({
   place_of_study: "",
   gender: "",
   avatar: "",
+  status: "",
 });
+const optionsStatus = ref([
+  { value: "active", label: "Hoạt động" },
+  { value: "banned", label: "Vô hiệu hóa" },
+
+]);
 
 const address = ref({
   province: "",
@@ -378,6 +400,7 @@ const address = ref({
 useAsyncData(async () => {
   await userStore.getOneUser(userId);
   user.value.gender = userStore.user.gender;
+  user.value.status = userStore.user.status;
   user.value.role_id = userStore.user.role.id;
   role.value = userStore.user.role.name;
   user.value.fullname = userStore.user.fullname;
@@ -602,6 +625,7 @@ const handleSubmit = async () => {
         ? `${address.value.street}, ${address.value.ward}, ${address.value.district}, ${address.value.province}`
         : null,
     phone: user.value.phone,
+    status: user.value.status,
     avatar: imageInfo.value?.url || user.value.avatar,
   };
 

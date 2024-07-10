@@ -4,7 +4,9 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả bài viết</h5>
+        <h5 class="text-xl text-[#1e293b] font-semibold">
+          Tất cả bài viết chờ duyệt
+        </h5>
       </div>
       <CommonBreadcrumAdmin />
     </div>
@@ -59,34 +61,55 @@
             />
           </template>
           <template v-else-if="column.key === 'status'">
-            <span>
-              <a-tag
-                :bordered="false"
-                :color="record.status === 'active' ? 'green' : 'volcano'"
-              >
-                Đang chờ duyệt
-              </a-tag>
-            </span>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === PostStatus.WATING_APPROVE"
+              class="bg-tag-bg-01 text-tag-text-01"
+            >
+              Chờ duyệt
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-if="record.status === PostStatus.DRAFT"
+              class="bg-tag-bg-08 text-tag-text-08"
+            >
+              Bản nháp
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === PostStatus.PUBLISHED"
+              class="bg-tag-bg-09 text-tag-text-09"
+            >
+              Đang hoạt động
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-if="record.status === PostStatus.HIDDEN"
+              class="bg-tag-bg-07 text-tag-text-07"
+            >
+              Đã ẩn
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-if="record.status === PostStatus.DELETED"
+              class="bg-tag-bg-06 text-tag-text-06"
+            >
+              Đã xóa
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-if="record.status === PostStatus.APPROVE_CANCELED"
+              class="bg-tag-bg-11 text-tag-text-11"
+            >
+              Từ chối
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-2">
-              <a-tooltip placement="top">
-                <template #title>
-                  <span>Xem chi tiết</span>
-                </template>
-                <button
-                  @click="showModalDetail(record.id)"
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                >
-                  <div class="flex">
-                    <UIcon
-                      class="group-hover:text-[#212122]"
-                      name="i-icon-park-outline-eyes"
-                    />
-                  </div>
-                </button>
-              </a-tooltip>
-
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
@@ -130,42 +153,52 @@
           </template>
         </template>
       </a-table>
-      <PostAdminDetail
-        :postDetailId="postDetailId"
-        :openModalDetail="openModalDetail"
-        :openModal="CloseModalDetail"
+      <PostAdminConfirm
+        :openModalConfirm="openModalConfirm"
+        :openModal="CloseModalConfirm"
+        :status="status"
+        :id="postAwaitId"
       />
-      <!-- <div class="mt-4 flex justify-end">
+      <div class="mt-4 flex justify-end">
         <a-pagination
           v-model:current="current"
           :total="postStore?.postsAdmin?.totalResults"
           :pageSize="postStore?.postsAdmin?.pageSize"
           show-less-items
         />
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 import { Modal } from "ant-design-vue";
+import { PostStatus } from "~/types/admin/post";
 const postStore = usePostStore();
-const openModalDetail = ref(false);
-const postDetailId = ref("");
+const openModalConfirm = ref(false);
+const postAwaitId = ref("");
+const status = ref("");
 const current = ref(1);
-useAsyncData(async () => {
-  await postStore.getAllPost({
-    status: "wating_approve",
-  });
-});
+useAsyncData(
+  async () => {
+    await postStore.getAllPost({
+      page: current.value,
+      status: "wating_approve",
+    });
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
 
-const onRecover = async (id: string) => {
+const onRecover = async (id) => {
   await postStore.updatePost({ id: id, post: { status: "published" } });
   await postStore.getAllPost({
     page: current.value,
     status: "wating_approve",
   });
 };
-const showRecoverConfirm = (id: string) => {
+const showRecoverConfirm = (id) => {
   Modal.confirm({
     title: "Are you sure delete this task?",
     content: "Some descriptions",
@@ -180,28 +213,23 @@ const showRecoverConfirm = (id: string) => {
     },
   });
 };
-const onCancel = async (id: string) => {
-  await postStore.updatePost({ id: id, post: { status: "approve_canceled" } });
-  await postStore.getAllPost({
-    page: current.value,
-    status: "wating_approve",
-  });
+// const onCancel = async (id) => {
+//   await postStore.updatePost({ id: id, post: { status: "approve_canceled" } });
+//   await postStore.getAllPost({
+//     page: current.value,
+//     status: "wating_approve",
+//   });
+// };
+const showCancelConfirm = (id) => {
+  openModalConfirm.value = true;
+  postAwaitId.value = id;
+  status.value = "approve_canceled";
+  
 };
-const showCancelConfirm = (id: string) => {
-  Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
-    okType: "danger",
-    cancelText: "No",
-    onOk() {
-      onCancel(id);
-    },
-    onCancel() {
-      console.log("Cancel");
-    },
-  });
+const CloseModalConfirm = () => {
+  openModalConfirm.value = false;
 };
+
 const columns = [
   {
     name: "title",
@@ -235,15 +263,4 @@ const columns = [
     key: "action",
   },
 ];
-const CloseModalDetail = () => {
-  openModalDetail.value = false;
-};
-const showModalDetail = (id) => {
-  openModalDetail.value = true;
-  postDetailId.value = id;
-};
-const open = ref<boolean>(false);
-const showModal = () => {
-  open.value = true;
-};
 </script>

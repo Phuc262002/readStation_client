@@ -9,16 +9,130 @@
         </h5>
       </div>
     </div>
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4"
+    >
+      <div class="flex flex-col">
+        <div
+          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
+        >
+          <div class="flex items-center text-sm font-medium p-4">
+            <a-tag :bordered="false" class="bg-tag-bg-04 text-tag-text-04">
+              <UIcon class="text-lg w-10 h-10" name="i-grommet-icons-cubes"
+            /></a-tag>
+
+            <div class="text-tag-text-04">
+              <p class="font-normal text-base">Tất cả</p>
+              <p class="font-bold text-xl">
+                {{ userStore?.userDashboard?.totalUser }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div
+          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
+        >
+          <div class="flex items-center text-sm font-medium p-4">
+            <a-tag :bordered="false" class="bg-tag-bg-04 text-tag-text-04">
+              <UIcon class="text-lg w-10 h-10" name="i-grommet-icons-cubes"
+            /></a-tag>
+
+            <div class="text-tag-text-04">
+              <p class="font-normal text-base">Quản trị viên</p>
+              <p class="font-bold text-xl">
+                {{ userStore?.userDashboard?.totalAdmin }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div
+          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
+        >
+          <div class="flex items-center text-sm font-medium p-4">
+            <a-tag :bordered="false" class="bg-tag-bg-04 text-tag-text-03">
+              <UIcon class="text-lg w-10 h-10" name="i-bi-box-arrow-in-down"
+            /></a-tag>
+
+            <div class="text-tag-text-03">
+              <p class="font-normal text-base">Thủ thư</p>
+              <p class="font-bold text-xl">
+                {{ userStore?.userDashboard?.totalManager }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div
+          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
+        >
+          <div class="flex items-center text-sm font-medium p-4">
+            <a-tag :bordered="false" class="bg-tag-bg-02 text-tag-text-02">
+              <UIcon class="text-lg w-10 h-10" name="i-iconoir-user"
+            /></a-tag>
+
+            <div class="text-tag-text-02">
+              <p class="font-normal text-base">Khách hàng</p>
+              <p class="font-bold text-xl">
+                {{ userStore?.userDashboard?.totalUserUnverified }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div
+          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
+        >
+          <div class="flex items-center text-sm font-medium p-4">
+            <a-tag :bordered="false" class="bg-tag-bg-01 text-tag-text-01">
+              <UIcon
+                class="text-lg w-10 h-10"
+                name="i-ph-user-circle-check-thin"
+            /></a-tag>
+
+            <div class="text-tag-text-01">
+              <p class="font-normal text-base">HS/SV</p>
+              <p class="font-bold text-xl">
+                {{ userStore?.userDashboard?.totalStudent }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div
+          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
+        >
+          <div class="flex items-center text-sm font-medium p-4">
+            <a-tag :bordered="false" class="bg-tag-bg-11 text-tag-text-11">
+              <UIcon class="text-lg w-10 h-10" name="i-bi-bookshelf"
+            /></a-tag>
+
+            <div class="text-tag-text-11">
+              <p class="font-normal text-base">KH đã xác thực</p>
+              <p class="font-bold text-xl">
+                {{ userStore?.userDashboard?.totalUserVerified }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Đây là phần code mẫu body -->
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
       <div class="flex justify-between pb-4">
-        <div class="w-1/2 flex items-center gap-2">
-          <div class="relative w-2/3 md:block hidden">
+        <div class="flex items-center gap-2">
+          <div class="md:block hidden">
             <div class="flex">
               <a-input
                 placeholder="Nhập thông tin liên hệ để tìm kiếm"
-                class="h-10"
+                class="h-10 w-[400px]"
                 v-model:value="valueSearch"
               >
                 <template #prefix>
@@ -26,24 +140,30 @@
                 </template>
               </a-input>
             </div>
-            <div
-              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-            >
-              <UIcon class="text-gray-500" name="i-material-symbols-search" />
-            </div>
           </div>
 
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
-                <a-menu-item @click="statusValue({ value: '', label: 'Tất cả' })">Tất cả</a-menu-item>
                 <a-menu-item
-                  @click="statusValue({ value: 'active', label: 'Đang hoạt động' })"
+                  @click="statusValue({ value: '', label: 'Tất cả' })"
+                  >Tất cả</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'active', label: 'Đang hoạt động' })
+                  "
                   >Đang hoạt động</a-menu-item
                 >
                 <a-menu-item
                   @click="statusValue({ value: 'inactive', label: 'Đã chặn' })"
                   >Đã chặn</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'banned', label: 'Vô hiệu hóa' })
+                  "
+                  >Vô hiệu hóa</a-menu-item
                 >
               </a-menu>
             </template>
@@ -119,10 +239,6 @@
             >
               Thủ thư
             </a-tag>
-            
-
-         
-           
           </template>
           <template v-else-if="column.key === 'google_id'">
             <IconTick v-if="record.google_id" />
@@ -159,6 +275,13 @@
             >
               Đã xóa
             </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === UserStatus.BANNED"
+              class="bg-tag-bg-10 text-tag-text-10"
+            >
+              Vô hiệu hóa
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
@@ -186,16 +309,21 @@
                 <template #overlay>
                   <a-menu>
                     <NuxtLink :to="`/admin/user/edit/${record.id}`">
-                      <a-menu-item key="2" class="p-4">
-                        <span class="flex items-center gap-2">
-                          <UIcon
-                            class="group-hover:text-[green]"
-                            name="i-material-symbols-edit-outline"
-                          />
+                      <a-menu-item key="1" class="p-4">
+                        <button class="flex items-center gap-2">
                           <span>Sửa</span>
-                        </span>
+                        </button>
                       </a-menu-item>
                     </NuxtLink>
+
+                    <a-menu-item key="2" class="p-4">
+                      <button
+                        @click="showBannedConfirm(record.id)"
+                        class="flex items-center gap-2"
+                      >
+                        <span>Chặn</span>
+                      </button>
+                    </a-menu-item>
                   </a-menu>
                 </template>
               </a-dropdown>
@@ -203,6 +331,12 @@
           </template>
         </template>
       </a-table>
+      <UserDashboardConfirm
+        :openModalConfirm="openModalConfirm"
+        :openModal="CloseModalConfirm"
+        :status="status"
+        :id="userDashboard"
+      />
       <div class="mt-4 flex justify-end">
         <a-pagination
           v-model:current="current"
@@ -211,6 +345,7 @@
           show-less-items
         />
       </div>
+      <
       <UserAdminDetail
         :openModalDetail="openModalDetail"
         :openModal="CloseModalDetail"
@@ -225,8 +360,11 @@ import { UserStatus } from "~/types/admin/user";
 import { UserRole } from "~/types/admin/user";
 const current = ref(1);
 const userStore = useUserStore();
+const openModalConfirm = ref(false);
 const userDetailId = ref();
+const userDashboard = ref();
 const openModalDetail = ref(false);
+const status = ref("");
 const valueSearch = ref("");
 const queryStatus = ref({
   value: "",
@@ -249,6 +387,25 @@ useAsyncData(
     watch: [current, valueSearch, queryStatus.value],
   }
 );
+useAsyncData(async () => {
+  await userStore.getDashboardUser({});
+});
+// const onBanned = async (id) => {
+//   await userStore.updateUser({ id: id, user: { status: "banned" } });
+//   await userStore.getUser({
+//     page: current.value,
+//     status: "banned",
+//   });
+// };
+const showBannedConfirm = (id) => {
+  openModalConfirm.value = true;
+  userDashboard.value = id;
+  status.value = "banned";
+
+};
+const CloseModalConfirm = () => {
+  openModalConfirm.value = false;
+};
 
 const columns = [
   {

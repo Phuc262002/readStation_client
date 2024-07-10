@@ -32,7 +32,7 @@
     >
     trước khi bình luận nhé!
   </p>
-  
+
   <a-comment
     v-if="commentStore.comment?.comments?.length > 0"
     v-for="comment in commentStore.comment?.comments"
@@ -134,11 +134,7 @@
           <a-textarea v-model:value="showEditComment.content" :rows="4" />
         </a-form-item>
         <a-form-item>
-          <a-button
-            class="mr-2"
-            type="default"
-            @click="handleCloseEditComment"
-          >
+          <a-button class="mr-2" type="default" @click="handleCloseEditComment">
             Hủy
           </a-button>
           <a-button
@@ -255,7 +251,6 @@
           <a-form-item>
             <a-button
               class="mr-2"
-             
               type="default"
               @click="handleCloseEditComment"
             >
@@ -346,7 +341,6 @@
             <a-form-item>
               <a-button
                 class="mr-2"
-               
                 type="default"
                 @click="handleCloseEditComment"
               >
@@ -400,7 +394,6 @@
   <p class="text-center mb-5 font-semibold" v-else>
     Bài viết này hiện chưa có bình luận nào. Hãy là người đầu tiên bình luận.
   </p>
-  
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
@@ -511,7 +504,7 @@ const updateComment = async () => {
   showEditComment.value.comment_hash = null;
 };
 const deleteComment = async (comment_id: any) => {
-  await comentGeneralStore.deleteComment({ comment_id });
+  await comentGeneralStore.deleteComment(comment_id);
   await commentStore.getComment({ post_id: postStore.post?.id });
 };
 </script>

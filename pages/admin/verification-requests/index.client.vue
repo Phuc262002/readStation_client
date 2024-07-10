@@ -35,9 +35,14 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
-                <a-menu-item @click="statusValue({ value: '', label: 'Tất cả' })">Tất cả</a-menu-item>
                 <a-menu-item
-                  @click="statusValue({ value: 'pending', label: 'Chờ xác thực' })"
+                  @click="statusValue({ value: '', label: 'Tất cả' })"
+                  >Tất cả</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'pending', label: 'Chờ xác thực' })
+                  "
                   >Chờ duyệt</a-menu-item
                 >
                 <a-menu-item
@@ -52,6 +57,45 @@
             </template>
             <a-button size="large" class="flex gap-3 items-center">
               {{ queryStatus.label ? queryStatus.label : "Tất cả" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
+
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item
+                  @click="
+                    verificationCardTypeValue({ value: '', label: 'Tất cả' })
+                  "
+                  >Tất cả</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    verificationCardTypeValue({
+                      value: 'student_card',
+                      label: 'Thẻ sinh viên',
+                    })
+                  "
+                  >Thẻ sinh viên</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    verificationCardTypeValue({
+                      value: 'citizen_card',
+                      label: 'CCCD',
+                    })
+                  "
+                  >CCCD</a-menu-item
+                >
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{
+                queryVerificationCardType.label
+                  ? queryVerificationCardType.label
+                  : "Tất cả"
+              }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -181,9 +225,18 @@ const queryStatus = ref({
   value: "",
   label: "",
 });
+const queryVerificationCardType = ref({
+  value: "",
+  label: "",
+});
 const statusValue = ({ value, label }) => {
   queryStatus.value.value = value;
   queryStatus.value.label = label;
+};
+
+const verificationCardTypeValue = ({ value, label }) => {
+  queryVerificationCardType.value.value = value;
+  queryVerificationCardType.value.label = label;
 };
 useAsyncData(
   async () => {
@@ -191,11 +244,17 @@ useAsyncData(
       page: current.value,
       search: valueSearch.value,
       status: queryStatus.value.value,
+      verification_card_type: queryVerificationCardType.value.value,
     });
   },
   {
     immediate: true,
-    watch: [current, valueSearch, queryStatus.value],
+    watch: [
+      current,
+      valueSearch,
+      queryStatus.value,
+      queryVerificationCardType.value,
+    ],
   }
 );
 

@@ -5,6 +5,7 @@ export const useUserStore = defineStore("user-store", {
     return {
       userAdmin: [],
       user: {},
+      userDashboard: {},
       isLoading: false,
       isSubmitting: false,
     };
@@ -44,6 +45,19 @@ export const useUserStore = defineStore("user-store", {
         this.isLoading = false;
       }
     },
+    async getDashboardUser() {
+      try {
+        this.isLoading = true;
+        const data: any = await useCustomFetch(`/api/v1/admin/users/static`);
+        this.userDashboard = data.data._value?.data;
+        return data;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
     async createUser(user: any) {
       try {
         this.isSubmitting = true;
