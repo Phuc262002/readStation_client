@@ -11,154 +11,156 @@
         class="md:w-1/2 w-full min-h-[90vh] flex flex-col items-center justify-center"
       >
         <div>
-          <div class="py-10 w-fit mx-auto">
-            <img
-              src="../../assets/images/logo_header.svg"
-              class="w-[280px] h-[40px] justify-center"
-              alt=""
-            />
-          </div>
-          <div class="w-full">
+          <NuxtLink to="/">
+            <div class="w-fit mx-auto">
+              <img
+                src="../../assets/images/Read Station.svg"
+                class="w-[230px] justify-center"
+                alt=""
+              />
+            </div>
+          </NuxtLink>
+          <div class="w-full mt-8">
             <h2 class="text-2xl font-extrabold text-gray-900">
               Chào mừng bạn 👋
             </h2>
             <p class="mt-2">Đăng nhập để bắt đầu trải nghiệm.</p>
           </div>
 
-          <div class="">
-            <div class="bg-white py-8">
-              <form class="space-y-6" @submit="onSubmit">
-                <div class="space-y-6">
-                  <div>
-                    <a-alert
-                      v-if="resErrors"
-                      v-for="(error, index) in resErrors"
-                      :message="error"
-                      type="error"
-                      show-icon
+          <div class="bg-white mt-8">
+            <form @submit="onSubmit">
+              <div class="space-y-6">
+                <div>
+                  <a-alert
+                    v-if="resErrors"
+                    v-for="(error, index) in resErrors"
+                    :message="error"
+                    type="error"
+                    show-icon
+                  >
+                    <template
+                      #action
+                      v-if="error[0] === 'Email chưa được xác thực'"
                     >
-                      <template
-                        #action
-                        v-if="error[0] === 'Email chưa được xác thực'"
+                      <a-button
+                        size="small"
+                        type="primary"
+                        @click="verifyEmail"
                       >
-                        <NuxtLink :to="`/verify-code?email=${email.value}`">
-                          <a-button size="small" type="primary">
-                            Xác thực
-                          </a-button>
-                        </NuxtLink>
-                      </template>
-                    </a-alert>
-                  </div>
-                  <div>
-                    <label
-                      for="email"
-                      class="flex text-sm font-medium text-gray-700 gap-1"
-                    >
-                      <span>Email</span><span class="text-red-600">*</span>
-                    </label>
-                    <div class="mt-1">
-                      <a-input
-                        class="w-[388px] h-[45px]"
-                        :status="errors.email ? 'error' : ''"
-                        id="email"
-                        v-bind="email"
-                        name="email"
-                        type="email"
-                        placeholder="Nhập Email"
-                      />
-                    </div>
-                    <small class="my-2 text-red-500">
-                      {{ errors.email }}
-                    </small>
-                  </div>
-
-                  <div>
-                    <label
-                      for="password"
-                      class="flex text-sm font-medium text-gray-700 gap-1"
-                    >
-                      <span> Mật khẩu</span>
-                      <span class="text-red-600">*</span>
-                    </label>
-                    <div class="mt-1">
-                      <a-input-password
-                        :status="errors.password ? 'error' : ''"
-                        id="password"
-                        v-bind="password"
-                        name="password"
-                        type="password"
-                        placeholder="Nhập mật khẩu"
-                        class="w-[388px] h-[45px]"
-                      />
-                    </div>
-
-                    <small class="mt-2 text-red-500">
-                      {{ errors.password }}
-                    </small>
-                  </div>
-                </div>
-
-                <div class="float-end font-medium text-indigo-600 mt-3 mb-6">
-                  <NuxtLink to="/forgot-password" class="text-sm" type="button">
-                    Bạn quên mật khẩu?
-                  </NuxtLink>
+                        Xác thực
+                      </a-button>
+                    </template>
+                  </a-alert>
                 </div>
                 <div>
-                  <a-button
-                    html-type="submit"
-                    class="w-full bg-rtprimary h-[45px] !text-white hover:bg-rtsecondary text-base border-none"
-                    :loading="isSubmitting"
+                  <label
+                    for="email"
+                    class="flex text-sm font-medium text-gray-700 gap-1"
                   >
-                    <span>Đăng nhập</span>
-                  </a-button>
-                  <div
-                    class="relative flex items-center justify-between text-center pt-5"
-                  >
-                    <hr class="solid w-[169px] border-t-2" />
-                    <p class="">hoặc</p>
-                    <hr class="solid w-[169px] border-t-2" />
-                  </div>
-
-                  <div class="pt-5 flex justify-center">
-                    <GoogleSignInButton
-                      width="389px"
-                      style="text-align: center"
-                      @success="handleLoginSuccess"
-                      @error="handleLoginError"
-                      :one-tap="!authStore.isLogged"
+                    <span>Email</span><span class="text-red-600">*</span>
+                  </label>
+                  <div class="mt-1">
+                    <a-input
+                      class="w-[388px] h-[45px]"
+                      :status="errors.email ? 'error' : ''"
+                      id="email"
+                      v-bind="email"
+                      name="email"
+                      type="email"
+                      placeholder="Nhập Email"
                     />
                   </div>
+                  <small class="my-2 text-red-500">
+                    {{ errors.email }}
+                  </small>
                 </div>
 
                 <div>
-                  <p class="text-center text-sm text-gray-600">
-                    Bạn không có tài khoản?
-                    <NuxtLink
-                      to="/register"
-                      class="font-medium text-sm text-indigo-600 hover:text-indigo-500"
-                    >
-                      Đăng ký
-                    </NuxtLink>
-                  </p>
-                </div>
-              </form>
-              <div class="max-w-[388px] text-center pt-6">
-                <span>
-                  Bằng việc đăng nhập, bạn đọc và đồng ý với
-                  <NuxtLink to="/privacy-policy"
-                    ><span class="border-b-2">
-                      điều khoản sử dụng
-                    </span></NuxtLink
+                  <label
+                    for="password"
+                    class="flex text-sm font-medium text-gray-700 gap-1"
                   >
-                  và
-                  <span class="border-b-2">
-                    <NuxtLink to="/privacy-policy">
-                      Chính sách bảo mật thông tin cá nhân của
-                    </NuxtLink>
-                  </span>
-                  ReadStation
-                </span>
+                    <span> Mật khẩu</span>
+                    <span class="text-red-600">*</span>
+                  </label>
+                  <div class="mt-1">
+                    <a-input-password
+                      :status="errors.password ? 'error' : ''"
+                      id="password"
+                      v-bind="password"
+                      name="password"
+                      type="password"
+                      placeholder="Nhập mật khẩu"
+                      class="w-[388px] h-[45px]"
+                    />
+                  </div>
+
+                  <small class="mt-2 text-red-500">
+                    {{ errors.password }}
+                  </small>
+                </div>
               </div>
+
+              <div class="float-end font-medium text-indigo-600 mt-6">
+                <NuxtLink to="/forgot-password" class="text-sm" type="button">
+                  Bạn quên mật khẩu?
+                </NuxtLink>
+              </div>
+              <div>
+                <a-button
+                  html-type="submit"
+                  class="w-full bg-rtprimary h-[45px] !text-white hover:bg-rtsecondary text-base border-none"
+                  :loading="isSubmitting"
+                >
+                  <span>Đăng nhập</span>
+                </a-button>
+                <div
+                  class="relative flex items-center justify-between text-center pt-5"
+                >
+                  <hr class="solid w-[169px] border-t-2" />
+                  <p class="">hoặc</p>
+                  <hr class="solid w-[169px] border-t-2" />
+                </div>
+
+                <div class="pt-5 flex justify-center">
+                  <GoogleSignInButton
+                    width="389px"
+                    style="text-align: center"
+                    @success="handleLoginSuccess"
+                    @error="handleLoginError"
+                    :one-tap="!authStore.isLogged"
+                  />
+                </div>
+              </div>
+
+              <div class="mt-6">
+                <p class="text-center text-sm text-gray-600">
+                  Bạn không có tài khoản?
+                  <NuxtLink
+                    to="/register"
+                    class="font-medium text-sm text-indigo-600 hover:text-indigo-500"
+                  >
+                    Đăng ký
+                  </NuxtLink>
+                </p>
+              </div>
+            </form>
+            <div class="max-w-[388px] text-center pt-6">
+              <span>
+                Bằng việc đăng nhập, bạn đọc và đồng ý với
+                <NuxtLink to="/privacy-policy"
+                  ><span class="border-b-2">
+                    điều khoản sử dụng
+                  </span></NuxtLink
+                >
+                và
+                <span class="border-b-2">
+                  <NuxtLink to="/privacy-policy">
+                    Chính sách bảo mật thông tin cá nhân của
+                  </NuxtLink>
+                </span>
+                ReadStation
+              </span>
             </div>
           </div>
         </div>
@@ -189,6 +191,23 @@ import {
 const props = defineProps({
   name: String,
 });
+
+const verifyEmail = async () => {
+  const resData = await authStore.resendOtp({
+    email: email.value.value,
+  });
+  if (resData?.data?._rawValue?.status == true) {
+    message.success({
+      content: "Gửi mã OTP thành công",
+    });
+    navigateTo(`/verify-code?email=${email.value.value}`);
+  } else {
+    resErrors.value = resData.error.value.data?.errors;
+    message.error({
+      content: "Gửi mã OTP không thành công",
+    });
+  }
+};
 
 // Create the form
 const { defineInputBinds, handleSubmit, errors } = useForm({

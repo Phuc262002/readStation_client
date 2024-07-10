@@ -83,7 +83,7 @@ const handleRentNow = () => {
         });
         return;
       }
-      if (cartStore?.carts.length < 2) {
+      if (cartStore?.carts.length < 3) {
         if (bookToAdd) {
           cartStore.addToCart(bookStore?.book);
           message.success({
@@ -98,7 +98,7 @@ const handleRentNow = () => {
         }
       } else {
         message.error({
-          content: "Thêm sản phẩm thất bại. Đơn hàng tối đa 2 quyển!",
+          content: "Thêm sản phẩm thất bại. Đơn hàng tối đa 3 quyển!",
         });
       }
     }
@@ -119,7 +119,7 @@ const addToCart = () => {
         });
         return;
       }
-      if (cartStore?.carts.length < 2) {
+      if (cartStore?.carts.length < 3) {
         if (bookToAdd) {
           cartStore.addToCart(bookStore?.book);
           message.success({
@@ -132,7 +132,7 @@ const addToCart = () => {
         }
       } else {
         message.error({
-          content: "Thêm sản phẩm thất bại. Đơn hàng tối đa 2 quyển!",
+          content: "Thêm sản phẩm thất bại. Đơn hàng tối đa 3 quyển!",
         });
       }
     }

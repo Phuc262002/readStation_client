@@ -8,7 +8,7 @@
           Tất cả phương thức vận chuyển
         </h5>
       </div>
-      <CommonBreadcrumAdmin />
+
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
@@ -36,7 +36,10 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
-                <a-menu-item @click="statusValue({ value: '', label: 'Tất cả' })">Tất cả</a-menu-item>
+                <a-menu-item
+                  @click="statusValue({ value: '', label: 'Tất cả' })"
+                  >Tất cả</a-menu-item
+                >
                 <a-menu-item
                   @click="statusValue({ value: 'active', label: 'Công khai' })"
                   >Công khai</a-menu-item
@@ -210,11 +213,11 @@ const onDelete = async (id) => {
 
 const showDeleteConfirm = (id) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
+    title: "Bạn có chắc chắn muốn xóa phương thức vận chuyển này không?",
+
+    okText: "Xóa",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onDelete(id);
     },

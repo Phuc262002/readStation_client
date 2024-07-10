@@ -59,38 +59,12 @@
     </div>
   </div>
 </template>
-<style scope>
-.otp-input {
-  width: 50px;
-  height: 50px;
-  padding: 5px;
-  margin: 0 7px;
-  font-size: 20px;
-  border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  text-align: center;
-}
-/* Background colour of an input field with value */
-.otp-input.is-complete {
-  background-color: #e4e4e4;
-}
-.otp-input::-webkit-inner-spin-button,
-.otp-input::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-input::placeholder {
-  font-size: 15px;
-  text-align: center;
-  font-weight: 600;
-}
-</style>
+
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-// import { NuxtLink } from "#build/components";
 import VOtpInput from "vue3-otp-input";
 const authStore = useAuthStore();
 const isSubmitting = ref(false);
@@ -192,3 +166,29 @@ const onSubmit = handleSubmit(async (values) => {
   }
 });
 </script>
+<style scope>
+.otp-input {
+  width: 50px;
+  height: 50px;
+  padding: 5px;
+  margin: 0 7px;
+  font-size: 20px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+/* Background colour of an input field with value */
+.otp-input.is-complete {
+  background-color: #e4e4e4;
+}
+.otp-input::-webkit-inner-spin-button,
+.otp-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input::placeholder {
+  font-size: 15px;
+  text-align: center;
+  font-weight: 600;
+}
+</style>

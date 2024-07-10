@@ -358,13 +358,15 @@
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
+import Search from "~/components/Common/Search.vue";
+
 const publishingCompanyStore = usePublishingCompanyPublicStore();
 const bookstore = useBookPublicStore();
 const categoryStore = usePublicCategoryStore();
 const authorStore = useAuthorPublicStore();
-
+const route = useRoute();
+const bookFromQuery = ref(route.query.search);
 const dataAuthor = ref({});
 const dataBooks = ref({});
 const isShow = ref([]);
@@ -374,6 +376,170 @@ const filter = ref({
   author_id: null,
   publishing_company_id: null,
   rating: null,
+});
+
+watch(
+  () => route.query.search,
+  (newSearch) => {
+    bookFromQuery.value = newSearch;
+    fetchBooks();
+  }
+);
+
+onMounted(() => {
+  // fetchBooks();
+});
+const sortOptions = [
+  {
+    label: "Mới nhất",
+    value: "asc",
+  },
+  {
+    label: "Cũ nhất",
+    value: "desc",
+  },
+  {
+    label: "Phổ biến",
+    value: "popular",
+  },
+];
+const handleIsShow = (section) => {
+  if (isShow.value.includes(section)) {
+    isShow.value = [...isShow.value].filter((item) => item !== section);
+  } else {
+    isShow.value = [...isShow.value, section];
+  }
+};
+
+const dataCompanies = ref({});
+const current = ref(1);
+
+const isLoading = ref(false);
+
+const fetchBooks = async () => {
+  try {
+    await bookstore.getAllBooks({
+      page: current.value,
+      pageSize: 12,
+      sort: filter.value.sort,
+      category_id: filter.value.category_id,
+      author_id: filter.value.author_id,
+      publishing_company_id: filter.value.publishing_company_id,
+      rating: filter.value.rating,
+      search: bookFromQuery.value,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+useAsyncData(
+  async () => {
+    try {
+      await fetchBooks();
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  {
+    immediate: true,
+    watch: [current, filter.value, filter.value.sort],
+  }
+);
+
+const handleCheckbox = ({ type, id }: any) => {
+  switch (type) {
+    case "category_id":
+      filter.value.category_id = id;
+      break;
+    case "author_id":
+      filter.value.author_id = id;
+      break;
+    case "publishing_company_id":
+      filter.value.publishing_company_id = id;
+      break;
+    case "rating":
+      filter.value.rating = id;
+      break;
+    default:
+      break;
+  }
+};
+const handleSortChange = (value: string) => {
+  filter.value.sort = value;
+  // console.log("aaa", filter.value);
+};
+
+useAsyncData(async () => {
+  isLoading.value = true;
+  try {
+    await authorStore.getAllAuthorClient({});
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
+});
+
+useAsyncData(async () => {
+  isLoading.value = true;
+  try {
+    await categoryStore.getAllCategoryClient({
+      type: "book",
+    });
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
+});
+
+useAsyncData(async () => {
+  isLoading.value = true;
+  try {
+    const response =
+      await publishingCompanyStore.getAllPublishingCompanyClient();
+    dataCompanies.value = response?.data?._rawValue?.data;
+    // console.log("aaabb", dataCompanies);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
+});
+</script>
+<style scoped>
+:deep(.ant-select-selector) {
+  border-radius: 200px !important;
+}
+</style>
+<!-- <script setup lang="ts">
+import Search from "~/components/Common/Search.vue";
+
+const publishingCompanyStore = usePublishingCompanyPublicStore();
+const bookstore = useBookPublicStore();
+const categoryStore = usePublicCategoryStore();
+const authorStore = useAuthorPublicStore();
+const route = useRoute();
+const bookFromQuery = route.query.search;
+const dataAuthor = ref({});
+const dataBooks = ref({});
+const isShow = ref([]);
+const filter = ref({
+  sort: "asc",
+  category_id: null,
+  author_id: null,
+  publishing_company_id: null,
+  rating: null,
+});
+// watch(
+//   () => route.query.search,
+//   (newSearch) => {
+//     bookFromQuery.value = newSearch;
+//   }
+// );
+onMounted(() => {
+  // fetchBooks();
 });
 const sortOptions = [
   {
@@ -413,6 +579,7 @@ useAsyncData(
         author_id: filter.value.author_id,
         publishing_company_id: filter.value.publishing_company_id,
         rating: filter.value.rating,
+        search: bookFromQuery,
       });
     } catch (error) {
       console.error(error);
@@ -420,7 +587,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current, filter.value, filter.value.sort],
+    watch: [current, filter.value, filter.value.sort, bookFromQuery],
   }
 );
 
@@ -451,7 +618,6 @@ useAsyncData(async () => {
   isLoading.value = true;
   try {
     await authorStore.getAllAuthorClient({});
-    console.log("object111", dataAuthor.value);
   } catch (error) {
     console.error(error);
   } finally {
@@ -485,7 +651,7 @@ useAsyncData(async () => {
     isLoading.value = false;
   }
 });
-</script>
+</script> -->
 <style scoped>
 :deep(.ant-select-selector) {
   border-radius: 200px !important;

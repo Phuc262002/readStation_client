@@ -7,21 +7,19 @@
     </div>
 
     <!-- Đây là phần code mẫu body -->
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-    >
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       <div class="flex flex-col">
         <div
           class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
         >
-          <div class="flex items-center text-sm font-medium p-4">
+          <div class="flex items-center text-sm font-medium w-full p-4">
             <a-tag :bordered="false" class="bg-tag-bg-03 text-tag-text-03">
               <UIcon class="text-lg w-10 h-10" name="i-grommet-icons-cubes"
             /></a-tag>
 
-            <div class="text-tag-text-03">
-              <p class="font-normal text-base">Doanh thu</p>
-              <p class="font-bold text-xl">
+            <div class="flex-1 text-tag-text-03 ">
+              <p class="font-semibold text-base">Doanh thu</p>
+              <p class="font-bold text-2xl text-right">
                 {{
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",

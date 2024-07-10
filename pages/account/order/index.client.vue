@@ -108,7 +108,7 @@
           <template v-if="column.key === 'payment_method'">
             <span
               class="flex justify-center"
-              v-if="record?.payment_method === 'wallet'"
+              v-if="record?.payment_method === 'online'"
             >
               Chuyển khoản
             </span>
@@ -122,6 +122,12 @@
           <!--  -->
           <template v-if="column.key === 'status'">
             <span class="flex justify-center">
+              <a-tag
+                v-if="record?.status === 'wating_payment'"
+                class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg"
+              >
+                Chờ thanh toán
+              </a-tag>
               <a-tag
                 v-if="record?.status === 'pending'"
                 class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg"
@@ -226,7 +232,10 @@
                 </template>
                 <button
                   @click="showCancelConfirm(record.id)"
-                  v-if="record.status === 'pending'"
+                  v-if="
+                    record.status === 'pending' ||
+                    record.status === 'wating_payment'
+                  "
                   class="bg-rtgray-50 p-2 rounded-lg flex items-center justify-center"
                 >
                   <UIcon

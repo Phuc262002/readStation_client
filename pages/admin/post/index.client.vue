@@ -33,7 +33,10 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
-                <a-menu-item @click="statusValue({ value: '', label: 'Tất cả' })">Tất cả</a-menu-item>
+                <a-menu-item
+                  @click="statusValue({ value: '', label: 'Tất cả' })"
+                  >Tất cả</a-menu-item
+                >
                 <a-menu-item
                   @click="
                     statusValue({ value: 'published', label: 'Đang hoạt động' })
@@ -67,9 +70,29 @@
               <DownOutlined />
             </a-button>
           </a-dropdown>
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <div>
+                <a-menu>
+                  <a-menu-item>
+                    <div @click="categoryValue({ id: null, label: ' Tất cả' })">
+                      Tất cả
+                    </div>
+                  </a-menu-item>
+                  <a-menu-item v-for="(items, index) in categoryStore?.categoriesAdmin?.categories" :key="index">
+                    <div @click="categoryValue({ id: items?.id, label: items?.name })">{{ items.name }}</div>
+                  </a-menu-item>
+                </a-menu>
+              </div>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ categoryQuery.label ? categoryQuery.label : " Tất cả" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
         <NuxtLink to="/admin/post/add-post" class="">
-          <a-button type="primary">Thêm bài viết</a-button>
+          <a-button size="large" type="primary">Thêm bài viết</a-button>
         </NuxtLink>
       </div>
 
@@ -239,7 +262,7 @@ import { PostStatus } from "~/types/admin/post";
 
 const postGeneralStore = useGeneralPostStore();
 const postStore = usePostStore();
-
+const categoryStore = useCategoryStore();
 const postDetailId = ref();
 const openModalDetail = ref(false);
 const current = ref(1);
@@ -248,24 +271,39 @@ const queryStatus = ref({
   value: "",
   label: "",
 });
+const categoryQuery = ref({
+  id: "",
+  label: "",
+});
+const categoryValue = ({ id, label }) => {
+  categoryQuery.value.id = id;
+  categoryQuery.value.label = label;
+};
 const statusValue = ({ value, label }) => {
   queryStatus.value.value = value;
   queryStatus.value.label = label;
 };
+
 useAsyncData(
   async () => {
     await postStore.getAllPost({
       page: current.value,
+      category_id: categoryQuery.value.id,
       search: valueSearch.value,
       status: queryStatus.value.value,
     });
   },
   {
     immediate: true,
-    watch: [current, valueSearch, queryStatus.value],
+    watch: [current, valueSearch, queryStatus.value, categoryQuery.value],
   }
 );
-
+useAsyncData(async () => {
+  await categoryStore.getAllCategory({
+    type: 'post'
+  });
+},
+);
 const onDelete = async (id) => {
   await postGeneralStore.deletePost(id);
   await postStore.getAllPost({});
