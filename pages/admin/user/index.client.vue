@@ -192,7 +192,7 @@
                   @click="
                     roleValue({ value: 'user', label: 'Người dùng' })
                   "
-                  >HSSV</a-menu-item
+                  >Người dùng</a-menu-item
                 >
                 <a-menu-item
                   @click="roleValue({ value: 'student', label: 'HSSV' })"
@@ -451,6 +451,7 @@ useAsyncData(
   async () => {
     await roleStore.getRole({
       role: queryrole.value.value,
+      
     });
   },
 

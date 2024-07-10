@@ -1,0 +1,125 @@
+<template>
+  <div class="space-y-5">
+    <h3 class="font-bold mb-5">Lịch sử giao dịch</h3>
+    <div class="w-full bg-white rounded-lg shadow-md shadow-gray-300 p-5">
+      <span class="py-5">Lịch sử giao dịch (30 ngày gần nhất)</span>
+      <a-table
+        :columns="columns"
+        :data-source="trangsactionStore?.transaction?.transactions"
+        class="mt-5"
+        :pagination="false"
+        :loading="trangsactionStore?.isLoading"
+      >
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'amount'">
+            <span>
+              {{
+                new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(record?.amount)
+              }}
+            </span>
+          </template>
+          <template v-if="column.key === 'transaction_type'">
+            <a-tag
+              :bordered="false"
+              v-if="record.transaction_type === 'payment'"
+              class="text-tag-text-09 bg-tag-bg-09"
+            >
+              Thanh toán
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-if="record.transaction_type === 'refund'"
+              class="text-tag-text-06 bg-tag-bg-06"
+            >
+              Hoàn tiền
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-if="record.transaction_type === 'extend'"
+              class="text-tag-text-06 bg-tag-bg-06"
+            >
+              Gia hạn
+            </a-tag>
+          </template>
+
+          <template v-if="column.key === 'transaction_method'">
+            <span v-if="record.transaction_method === 'offline'">
+              Tiền mặt
+            </span>
+            <span v-else-if="record.transaction_method === 'online'">
+              Chuyển khoản
+            </span>
+          </template>
+
+          <template v-if="column.key === 'created_at'">
+            <span>
+              {{ $dayjs(record?.created_at).format("DD/MM/YYYY - HH:MM") }}
+            </span>
+          </template>
+        </template>
+      </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="trangsactionStore?.transaction?.totalResults"
+          :pageSize="trangsactionStore?.transaction?.pageSize"
+          show-less-items
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+const trangsactionStore = useTransactionStore();
+const current = ref(1);
+useAsyncData(
+  async () => {
+    await trangsactionStore.getTransaction({
+      page: current.value,
+    });
+  },
+  {
+    immediate: true,
+    watch: current,
+  }
+);
+const columns = [
+  {
+    title: "Mã giao dịch",
+    dataIndex: "transaction_code",
+    key: "transaction_code",
+  },
+  {
+    title: "Số tiền",
+    dataIndex: "amount",
+    key: "amount",
+  },
+  {
+    title: "Mô tả",
+    key: "description",
+    dataIndex: "description",
+  },
+  {
+    title: "Loại giao dịch",
+    dataIndex: "transaction_type",
+    key: "transaction_type",
+  },
+  {
+    title: "Hình thức ",
+    dataIndex: "transaction_method",
+    key: "transaction_method",
+  },
+
+  {
+    title: "Thời gian",
+    key: "created_at",
+    dataIndex: "created_at",
+  },
+];
+</script>

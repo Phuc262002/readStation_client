@@ -110,32 +110,32 @@
         <template #title>
           <span class="flex items-center gap-2">
             <UIcon name="i-tabler-credit-card-pay" class="text-base" />
-            <span>Quản lý ví</span>
+            <span>Quản lý số dư</span>
           </span>
         </template>
         <a-menu-item key="8">
-          <NuxtLink to="/account/wallet" class="flex items-center gap-2">
-            Thông tin ví
+          <NuxtLink to="/account/balce" class="flex items-center gap-2">
+            Thông tin số dư
           </NuxtLink>
         </a-menu-item>
 
         <a-menu-item key="9">
           <NuxtLink
-            to="/account/wallet/transaction-history"
+            to="/account/balce/transaction-history"
             class="flex items-center gap-2"
           >
             Lịch sử giao dịch
           </NuxtLink>
         </a-menu-item>
 
-        <a-menu-item key="10">
+        <!-- <a-menu-item key="10">
           <NuxtLink
             to="/account/wallet/withdraw-money"
             class="flex items-center gap-2"
           >
             Rút tiền
           </NuxtLink>
-        </a-menu-item>
+        </a-menu-item> -->
       </a-sub-menu>
 
       <a-menu-item key="11">
