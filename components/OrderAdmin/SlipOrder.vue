@@ -54,12 +54,6 @@ watch(
         open.value = value;
     }
 );
-watch(
-  () => props.bookDetailId,
-  (newVal) => {
-    bookDetailId.value = newVal;
-  }
-);
 const handleClose = () => {
     open.value = false;
     props.CloseModal();
@@ -72,18 +66,4 @@ const queryStatus = ref({
     value: "",
     label: ""
 });
-
-const orderStore = useOrderStore();
-const onSubmit = async () => {
-    const valueReturnEachBook = {
-        condition: "",
-        actual_return_condition: "",
-        fine_amount: 0
-    };
-    try {
-        await orderStore.retrunEachBook({})
-    } catch (error) {
-
-    }
-}
 </script>

@@ -91,6 +91,11 @@
           @click="navigateTo('/admin/product-manager/create-product')"
           >Thêm đơn hàng</a-menu-item
         >
+        <a-menu-item
+          key="61"
+          @click="navigateTo('/admin/product-manager/book-return-slip')"
+          >Phiếu trả sách</a-menu-item
+        >
       </a-sub-menu>
       <a-sub-menu key="sub2">
         <template #title>
