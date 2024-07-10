@@ -100,7 +100,7 @@
             <div class="w-1/2 flex items-center gap-2">
               <div class="relative w-2/3 md:block hidden">
                 <div class="flex">
-                  <a-input placeholder="Nhập thông tin cá nhân" class="h-10" v-model:value="valueSearch">
+                  <a-input placeholder="Nhập thông tin cá nhân" class="h-10" v-model:value="valueSearch"  allow-clear>
                     <template #prefix>
                       <SearchOutlined />
                     </template>
@@ -215,6 +215,9 @@
                 <temolate v-else-if="column.dataIndex === 'payment_method'">
                   <div v-if="record.payment_method === 'cash'">
                     <span>Tiền mặt</span>
+                  </div>
+                  <div v-else-if="record.payment_method === 'online'">
+                    <span>Chuyển khoản</span>
                   </div>
                 </temolate>
                 <template v-else-if="column.key === 'action'">

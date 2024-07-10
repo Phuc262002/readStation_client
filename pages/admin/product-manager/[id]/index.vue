@@ -43,6 +43,8 @@
                             <span class="text-base font-bold col-span-1">Phương thức thanh toán: </span>
                             <span class="text-base col-span-3"
                                 v-if="orderStore?.getOneOrderAdmin?.data?.payment_method === 'cash'">Tiền mặt</span>
+                            <span class="text-base col-span-3"
+                                v-if="orderStore?.getOneOrderAdmin?.data?.payment_method === 'online'">Chuyển khoản</span>
                         </div>
                     </div>
                 </div>

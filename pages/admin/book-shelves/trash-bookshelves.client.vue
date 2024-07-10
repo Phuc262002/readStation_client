@@ -102,6 +102,9 @@ const onRecover = async (id) => {
       status: 'active'
     }
   });
+  await bookShelves.getAllShelves({
+    status: "deleted"
+  })
 }
 
 const columns = [
