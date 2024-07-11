@@ -11,9 +11,7 @@
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4"
     >
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium w-full p-4 gap-2">
             <a-tag
               :bordered="false"
@@ -38,9 +36,7 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium w-full gap-2 p-4">
             <a-tag
               :bordered="false"
@@ -57,9 +53,7 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium w-full gap-2 p-4">
             <a-tag
               :bordered="false"
@@ -76,9 +70,7 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium w-full gap-2 p-4">
             <a-tag
               :bordered="false"
@@ -97,9 +89,7 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium w-full gap-2 p-4">
             <a-tag
               :bordered="false"
@@ -116,9 +106,7 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium w-full gap-2 p-4">
             <a-tag
               :bordered="false"
@@ -160,7 +148,8 @@
                 <!-- {{
                     new Intl.NumberFormat("vi-VN", {
                       style: "currency",
-                      currency: "VND",
+                      currency: "VND",7\
+                      
                     }).format(dashboardStore?.dashboardAdmin?.revenue)
                   }} -->
               </p>
@@ -188,6 +177,9 @@
         </div>
       </div>
       <div class="p-5">
+        <a-space direction="vertical" :size="12">
+          <a-range-picker v-model:value="value1" />
+        </a-space>
         <HighchartHigh />
       </div>
     </div>

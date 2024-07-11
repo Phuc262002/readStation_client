@@ -25,17 +25,18 @@
       :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
     >
       <a-menu-item key="1" @click="navigateTo('/admin')">
-        <UIcon
-          name="i-streamline-dashboard-3"
+        <Icon
           :class="props.collapsed && 'anticon anticon-desktop'"
+          icon="hugeicons:dashboard-square-02"
+          class="text-2xl"
         />
-        <!-- <Icon icon="ion:book-outline" width="32" height="32" /> -->
         <span>Dashboards</span>
       </a-menu-item>
       <a-menu-item key="541" @click="navigateTo('/admin/dashboard')">
-        <UIcon
-          name="i-streamline-dashboard-3"
+        <Icon
           :class="props.collapsed && 'anticon anticon-desktop'"
+          icon="solar:chart-linear"
+          class="text-2xl"
         />
         <span>Thống kê</span>
       </a-menu-item>
@@ -44,9 +45,10 @@
         key="545"
         @click="navigateTo('/admin/verification-requests')"
       >
-        <UIcon
-          name="i-streamline-dashboard-3"
+        <Icon
           :class="props.collapsed && 'anticon anticon-desktop'"
+          icon="hugeicons:user-check-02"
+          class="text-2xl"
         />
         <span>Chờ xác thực</span>
       </a-menu-item>
@@ -54,9 +56,10 @@
       <a-sub-menu key="sub1">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-ant-design-user-outlined"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="solar:users-group-rounded-broken"
+              class="text-2xl"
             />
             <span>Quản lý người dùng</span>
           </span>
@@ -74,9 +77,8 @@
           <span class="flex items-center gap-2">
             <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
-              icon="system-uicons:box"
-              width="1.2rem"
-              height="1.2rem"
+              icon="solar:box-minimalistic-outline"
+              class="text-2xl"
             />
             <span>Quản lý đơn hàng</span>
           </span>
@@ -100,10 +102,12 @@
       <a-sub-menu key="sub2">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-streamline-interface-content-book-open-content-books-book-open"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="solar:book-minimalistic-line-duotone"
+              class="text-2xl"
             />
+
             <span>Quản lý sách</span>
           </span>
         </template>
@@ -125,9 +129,10 @@
       <a-sub-menu key="sub5">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-material-symbols-light-post-outline"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="hugeicons:quill-write-02"
+              class="text-2xl"
             />
             <span>Quản lý bài viết</span>
           </span>
@@ -148,9 +153,10 @@
       <a-sub-menu key="sub40">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-material-symbols-mode-comment-outline-rounded"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="fluent:comment-32-regular"
+              class="text-2xl"
             />
             <span>Quản lý bình luận</span>
           </span>
@@ -162,10 +168,12 @@
       <a-sub-menu key="sub6">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-material-symbols-light-book-4-outline-rounded"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="streamline:shelf"
+              class="text-2xl"
             />
+
             <span>Quản lý tủ sách</span>
           </span>
         </template>
@@ -181,9 +189,10 @@
       <a-sub-menu key="sub7">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-bi-bookshelf"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="bi:bookshelf"
+              class="text-2xl"
             />
             <span>Quản lý kệ sách</span>
           </span>
@@ -200,9 +209,10 @@
       <a-sub-menu key="sub8">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-iconamoon-category-thin"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="iconamoon:category-light"
+              class="text-2xl"
             />
             <span>Danh mục sản phẩm</span>
           </span>
@@ -219,9 +229,10 @@
       <a-sub-menu key="sub55">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-iconamoon-category-thin"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="iconamoon:category-light"
+              class="text-2xl"
             />
             <span>Danh mục bài viết</span>
           </span>
@@ -239,10 +250,12 @@
       <a-sub-menu key="sub9">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-ant-design-user-outlined"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="mingcute:user-star-line"
+              class="text-2xl"
             />
+
             <span>Quản lý tác giả</span>
           </span>
         </template>
@@ -262,9 +275,9 @@
             <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
               icon="hugeicons:shipping-truck-01"
-              width="32"
-              height="32"
+              class="text-2xl"
             />
+
             <span>Phương thức vận chuyển </span>
           </span>
         </template>
@@ -281,9 +294,10 @@
       <a-sub-menu key="sub10">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-ant-design-user-outlined"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="ion:business-outline"
+              class="text-2xl"
             />
             <span>Quản lý nhà xuất bản</span>
           </span>
@@ -303,11 +317,12 @@
       <a-sub-menu key="sub13">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-ant-design-user-outlined"
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="tabler:building-warehouse"
+              class="text-2xl"
             />
-            <span>Quản lý nhà cung cấp</span>
+            <span class="font-semibold">Quản lý nhà cung cấp</span>
           </span>
         </template>
         <a-menu-item key="37" @click="navigateTo('/admin/supplier')"
@@ -322,9 +337,10 @@
       <a-sub-menu key="sub11">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon
-              name="i-material-symbols-light-order-approve-outline-sharp "
+            <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
+              icon="solar:reorder-outline"
+              class="text-2xl"
             />
             <span>Hóa đơn nhập hàng</span>
           </span>
