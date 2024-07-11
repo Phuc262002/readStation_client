@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div
+      v-if="isSubmitting"
+      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
+    >
+      <a-spin size="large" class="absolute top-1/2 left-1/2" />
+    </div>
     <a-modal
       v-model:open="props.openModalGive"
       :footer="null"
@@ -69,7 +75,7 @@
             </div>
           </div>
         </div>
-        <form action="">
+        <form @submit.prevent="onSubmit">
           <div class="text-sm space-y-5" v-if="value === 2">
             <div class="flex gap-5">
               <div class="w-1/2">
@@ -99,7 +105,7 @@
             </div>
             <div class="flex gap-5">
               <div class="w-1/2">
-                <label class="font-bold"> Tỉnh/Thành phố </label>
+                <label class="font-bold"> Tỉnh/ Thành phố </label>
                 <div class="mt-2">
                   <a-select
                     v-model:value="province_id"
@@ -222,7 +228,11 @@
           <div class="flex justify-end gap-2">
             <a-button class="h-10" @click="handleCloseGive"> Hủy </a-button>
 
-            <a-button class="h-10 bg-orange-500 !text-white border-none">
+            <a-button
+              class="h-10 bg-orange-500 !text-white border-none"
+              :loading="isSubmitting"
+              html-type="submit"
+            >
               Xác nhận
             </a-button>
           </div>
@@ -254,18 +264,8 @@ useAsyncData(async () => {
     );
     cartStore.addShipFee(shippingValue.value.fee);
   }
-  // console.log("options.value", options.value);
 });
-// phí vận chuyển
-const calcShippingFee = () => {
-  shippingFee.value = cartStore.shippingFee;
-};
-// watch(
-//   () => delivery_method.value,
-//   () => {
-//     calcShippingFee();
-//   }
-// );
+
 const value = ref(1);
 const user = ref({
   fullname: authStore?.authUser?.user?.fullname,
@@ -278,13 +278,44 @@ const address = ref({
   street: "",
 });
 
-const ward_id = ref(undefined);
-const district_id = ref(undefined);
 const province_id = ref(undefined);
+const district_id = ref(undefined);
+const ward_id = ref(undefined);
 
 const optionsProvines = ref([]);
 const optionsDistricts = ref([]);
 const optionsWards = ref([]);
+
+const onSubmit = async () => {
+  const pickup_info = {
+    fullname: authStore?.authUser?.user?.fullname,
+    phone: authStore?.authUser?.user?.phone,
+    address:
+      address.value.province &&
+      address.value.district &&
+      address.value.ward &&
+      address.value.street
+        ? `${address.value.street}, ${address.value.ward}, ${address.value.district}, ${address.value.province}`
+        : null,
+  };
+
+  const resData = await orderStore.returnBook({
+    id: props.bookDetail?.id,
+    body: {
+      return_method: "pickup",
+      pickup_info: pickup_info,
+    },
+  });
+  if (resData?.data?._rawValue?.status == true) {
+    message.success({
+      content: "Trả sách thành công",
+    });
+  } else {
+    message.error({
+      content: "Trả sách thất bại",
+    });
+  }
+};
 
 useAsyncData(async () => {
   await baseStore.getProvinces();

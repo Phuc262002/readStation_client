@@ -102,5 +102,22 @@ export const useOrderClientStore = defineStore("order-client-store", {
         this.isSubmitting = false;
       }
     },
+    async returnBook({ id, body }: any) {
+      try {
+        this.isSubmitting = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/account/orders/return-each-book/${id}`,
+          {
+            method: "POST",
+            body: JSON.stringify(body),
+          }
+        );
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        this.isSubmitting = false;
+      }
+    },
   },
 });
