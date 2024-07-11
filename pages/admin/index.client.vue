@@ -11,9 +11,7 @@
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium w-full p-4 gap-2">
             <a-tag
               :bordered="false"
@@ -37,11 +35,12 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium w-full p-4 gap-2">
-            <a-tag :bordered="false" class="flex items-center p-2 bg-tag-bg-04 text-tag-text-04">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-2 bg-tag-bg-04 text-tag-text-04"
+            >
               <UIcon class="text-lg w-10 h-10" name="i-bi-box-arrow-in-down"
             /></a-tag>
 
@@ -55,11 +54,12 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium w-full p-4 gap-2">
-            <a-tag :bordered="false" class="flex items-center p-2 bg-tag-bg-01 text-tag-text-01">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-2 bg-tag-bg-01 text-tag-text-01"
+            >
               <UIcon class="text-lg w-10 h-10" name="i-iconoir-user"
             /></a-tag>
 
@@ -73,11 +73,12 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm w-full font-medium p-4 gap-2">
-            <a-tag :bordered="false" class="flex items-center p-2 bg-tag-bg-03 text-tag-text-03">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-2 bg-tag-bg-03 text-tag-text-03"
+            >
               <UIcon
                 class="text-lg w-10 h-10"
                 name="i-ph-user-circle-check-thin"
@@ -93,11 +94,12 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm w-full font-medium p-4 gap-2">
-            <a-tag :bordered="false" class="flex items-center p-2 bg-tag-bg-10 text-tag-text-10">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-2 bg-tag-bg-10 text-tag-text-10"
+            >
               <UIcon class="text-lg w-10 h-10" name="i-bi-bookshelf"
             /></a-tag>
 
@@ -111,11 +113,12 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm w-full font-medium p-4 gap-2">
-            <a-tag :bordered="false" class="flex items-center p-2 bg-tag-bg-11 text-tag-text-11">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-2 bg-tag-bg-11 text-tag-text-11"
+            >
               <UIcon
                 class="text-lg w-10 h-10"
                 name="i-material-symbols-light-book-4-outline"
@@ -131,11 +134,12 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm w-full font-medium p-4 gap-2">
-            <a-tag :bordered="false" class="flex items-center p-2 bg-tag-bg-05 text-tag-text-05">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-2 bg-tag-bg-05 text-tag-text-05"
+            >
               <UIcon class="text-lg w-10 h-10" name="i-ion-book-outline"
             /></a-tag>
 
@@ -149,11 +153,12 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm w-full font-medium p-4 gap-2">
-            <a-tag :bordered="false" class="flex items-center p-2 bg-tag-bg-06 text-tag-text-06">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-2 bg-tag-bg-06 text-tag-text-06"
+            >
               <UIcon
                 class="text-lg w-10 h-10"
                 name="i-hugeicons-quill-write-02"
@@ -410,11 +415,13 @@
       <div class="bg-white w-full shadow-md rounded-md space-y-2 p-5">
         <div class="text-xl font-semibold space-y-2">Hóa đơn nhập hàng</div>
         <div class="max-h-[400px] overflow-auto pr-4">
-          <DashboardBill
-            v-for="bill in dashboardStore.dashboardInvoice"
-            :key="bill.id"
-            :dashboard="bill"
-          />
+          <NuxtLink to="/admin/manager-bill/">
+            <DashboardBill
+              v-for="bill in dashboardStore.dashboardInvoice"
+              :key="bill.id"
+              :dashboard="bill"
+            />
+          </NuxtLink>
         </div>
       </div>
     </div>

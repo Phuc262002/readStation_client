@@ -10,85 +10,118 @@ export default {
     return {
       chartOptions: {
         title: {
-          text: "Growth of Internet Users Worldwide (logarithmic scale)",
+          text: "Sales of petroleum products March, Norway",
+          align: "left",
         },
-
-        accessibility: {
-          point: {
-            valueDescriptionFormat:
-              "{xDescription}{separator}{value} million(s)",
-          },
-        },
-
         xAxis: {
-          title: {
-            text: "Year",
-          },
-          categories: [1995, 2000, 2005, 2010, 2015, 2020, 2023],
+          categories: [
+            "Tháng 1",
+            "Tháng 2",
+            "Tháng 3",
+            "Tháng 4",
+            "Tháng 5",
+            "Tháng 6",
+            "Tháng 7",
+            "Tháng 8",
+            "Tháng 9",
+            "Tháng 10",
+            "Tháng 11",
+            "Tháng 12",
+          ],
         },
-
-        yAxis: {
-          type: "logarithmic",
-          title: {
-            text: "Number of Internet Users (in millions)",
-          },
-        },
-
-        tooltip: {
-          headerFormat: "<b>{series.name}</b><br />",
-          
-          pointFormat: "{point.y} million(s)",
-        },
-
-        series: [
+        yAxis: [
           {
-            name: "Internet Users",
-            keys: ["y", "color"],
-            data: [
-              [16, "#0000ff"],
-              [361, "#8d0073"],
-              [1018, "#ba0046"],
-              [2025, "#d60028"],
-              [3192, "#eb0014"],
-              [4673, "#fb0004"],
-              [5200, "#ff0000"],
-            ],
-            color: {
-              linearGradient: {
-                x1: 0,
-                x2: 0,
-                y1: 1,
-                y2: 0,
-              },
-              stops: [
-                [0, "#0000ff"],
-                [1, "#ff0000"],
-              ],
+            min: 0,
+            title: {
+              text: "Đơn hàng",
             },
           },
           {
-            name: "Internet Users",
-            keys: ["y", "color"],
+            title: {
+              text: "Doanh thu (Đv:Nghìn Đồng)",
+            },
+            opposite: true,
+          },
+        ],
+        tooltip: {
+          valueSuffix: " đơn",
+        },
+        plotOptions: {
+          series: {
+            borderRadius: "25%",
+          },
+        },
+        series: [
+          {
+            type: "column",
+            name: "Tổng đơn",
             data: [
-              [16, "#0000ff"],
-              [200, "#8d0073"],
-              [1018, "#ba0046"],
-              [2025, "#d60028"],
-              [3192, "#eb0014"],
-              [4673, "#fb0004"],
-              [5200, "#ff0000"],
+              59, 83, 65, 228, 184, 59, 83, 65, 228, 184, 220, 256, 59, 83, 65,
+              228, 184, 59, 83, 65, 228, 184, 220, 256, 65, 228,
             ],
-            color: {
-              linearGradient: {
-                x1: 0,
-                x2: 0,
-                y1: 1,
-                y2: 0,
+            color: "#007FFF",
+          },
+          {
+            type: "column",
+            name: "Hoàn thành",
+            data: [24, 79, 72, 240, 167],
+            color: "#389E0D",
+          },
+          {
+            type: "column",
+            name: "Hủy",
+            data: [58, 88, 75, 250, 176],
+            color: "#F44336",
+          },
+          {
+            type: "spline",
+            step: "center",
+            name: "Doanh thu",
+            data: [47, 83.33, 70.66, 239.33, 175.66],
+            yAxis: 1,
+            tooltip: {
+              valueSuffix: " đ",
+            },
+            marker: {
+              lineWidth: 2,
+              lineColor: "#2196F3",
+              fillColor: "white",
+            },
+          },
+          {
+            type: "pie",
+            name: "Total",
+            data: [
+              {
+                name: "2020",
+                y: 619,
+                color: "red",
+                dataLabels: {
+                  enabled: true,
+                  distance: -50,
+                  format: "{point.total} M",
+                  style: {
+                    fontSize: "15px",
+                  },
+                },
               },
-              stops: [
-                [0, "#0000ff"],
-                [1, "#ff0000"],
-              ],
+              {
+                name: "2021",
+                y: 586,
+                color: "red", // 2021 color
+              },
+              {
+                name: "2022",
+                y: 647,
+                color: "red", // 2022 color
+              },
+            ],
+            center: [900, 0],
+            size: 100,
+            innerSize: "70%",
+            showInLegend: false,
+            dataLabels: {
+              enabled: false,
             },
           },
         ],

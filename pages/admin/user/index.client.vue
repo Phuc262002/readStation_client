@@ -155,8 +155,10 @@
             <template #overlay>
               <a-menu class="">
                 <a-menu-item
-                  @click="statusValue({ value: '', label: 'Tất cả' })"
-                  >Tất cả</a-menu-item
+                  @click="
+                    statusValue({ value: '', label: 'Tất cả trạng thái' })
+                  "
+                  >Tất cả trạng thái</a-menu-item
                 >
                 <a-menu-item
                   @click="
@@ -177,7 +179,7 @@
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ queryStatus.label ? queryStatus.label : "Tất cả" }}
+              {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -185,13 +187,11 @@
             <template #overlay>
               <a-menu class="">
                 <a-menu-item
-                  @click="roleValue({ value: '', label: 'Tất cả' })"
-                  >Tất cả</a-menu-item
+                  @click="roleValue({ value: '', label: 'Tất cả vai trò' })"
+                  >Tất cả vai trò</a-menu-item
                 >
                 <a-menu-item
-                  @click="
-                    roleValue({ value: 'user', label: 'Người dùng' })
-                  "
+                  @click="roleValue({ value: 'user', label: 'Người dùng' })"
                   >Người dùng</a-menu-item
                 >
                 <a-menu-item
@@ -199,21 +199,17 @@
                   >HSSV</a-menu-item
                 >
                 <a-menu-item
-                  @click="
-                    roleValue({ value: 'manager', label: 'Thủ thư' })
-                  "
+                  @click="roleValue({ value: 'manager', label: 'Thủ thư' })"
                   >Thủ thư</a-menu-item
                 >
                 <a-menu-item
-                  @click="
-                    statusValue({ value: 'admin', label: 'Quản trị' })
-                  "
+                  @click="statusValue({ value: 'admin', label: 'Quản trị' })"
                   >Quản trị</a-menu-item
                 >
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ queryrole.label ? queryrole.label : "Tất cả" }}
+              {{ queryrole.label ? queryrole.label : "Tất cả vai trò" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -451,7 +447,6 @@ useAsyncData(
   async () => {
     await roleStore.getRole({
       role: queryrole.value.value,
-      
     });
   },
 
