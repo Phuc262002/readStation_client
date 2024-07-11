@@ -70,6 +70,39 @@
               <DownOutlined />
             </a-button>
           </a-dropdown>
+
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item @click="typeValue({ value: '', label: 'Tất cả' })"
+                  >Tất cả</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    typeValue({
+                      value: 'member',
+                      label: 'bài viết của thành viên',
+                    })
+                  "
+                  >bài viết của thành viên</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    typeValue({
+                      value: 'manager',
+                      label: 'bài viết của thư viện',
+                    })
+                  "
+                  >bài viết của thư viện</a-menu-item
+                >
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryType.label ? queryType.label : "Tất cả" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
+
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <div>
@@ -79,8 +112,18 @@
                       Tất cả
                     </div>
                   </a-menu-item>
-                  <a-menu-item v-for="(items, index) in categoryStore?.categoriesAdmin?.categories" :key="index">
-                    <div @click="categoryValue({ id: items?.id, label: items?.name })">{{ items.name }}</div>
+                  <a-menu-item
+                    v-for="(items, index) in categoryStore?.categoriesAdmin
+                      ?.categories"
+                    :key="index"
+                  >
+                    <div
+                      @click="
+                        categoryValue({ id: items?.id, label: items?.name })
+                      "
+                    >
+                      {{ items.name }}
+                    </div>
                   </a-menu-item>
                 </a-menu>
               </div>
@@ -267,6 +310,10 @@ const postDetailId = ref();
 const openModalDetail = ref(false);
 const current = ref(1);
 const valueSearch = ref("");
+const queryType = ref({
+  value: "",
+  label: "",
+});
 const queryStatus = ref({
   value: "",
   label: "",
@@ -278,6 +325,10 @@ const categoryQuery = ref({
 const categoryValue = ({ id, label }) => {
   categoryQuery.value.id = id;
   categoryQuery.value.label = label;
+};
+const typeValue = ({ value, label }) => {
+  queryType.value.value = value;
+  queryType.value.label = label;
 };
 const statusValue = ({ value, label }) => {
   queryStatus.value.value = value;
@@ -291,19 +342,26 @@ useAsyncData(
       category_id: categoryQuery.value.id,
       search: valueSearch.value,
       status: queryStatus.value.value,
+      type: queryType.value.value,
     });
+    console.log("🚀 ~ queryType.value.value:", queryType.value.value);
   },
   {
     immediate: true,
-    watch: [current, valueSearch, queryStatus.value, categoryQuery.value],
+    watch: [
+      current,
+      valueSearch,
+      queryStatus.value,
+      categoryQuery.value,
+      queryType.value,
+    ],
   }
 );
 useAsyncData(async () => {
   await categoryStore.getAllCategory({
-    type: 'post'
+    type: "post",
   });
-},
-);
+});
 const onDelete = async (id) => {
   await postGeneralStore.deletePost(id);
   await postStore.getAllPost({});

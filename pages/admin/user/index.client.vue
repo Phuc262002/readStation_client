@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="space-y-5">
     <div
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
@@ -35,7 +35,10 @@
           class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
         >
           <div class="flex items-center text-sm font-medium p-4">
-            <a-tag :bordered="false" class="bg-tag-bg-04 text-tag-text-04">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-1 bg-tag-bg-04 text-tag-text-04"
+            >
               <UIcon class="text-lg w-10 h-10" name="i-grommet-icons-cubes"
             /></a-tag>
 
@@ -52,8 +55,11 @@
         <div
           class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
         >
-          <div class="flex items-center text-sm font-medium p-4">
-            <a-tag :bordered="false" class="bg-tag-bg-04 text-tag-text-03">
+          <div class="flex items-center text-sm font-medium p-4 gap-2">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-2 bg-tag-bg-04 text-tag-text-03"
+            >
               <UIcon class="text-lg w-10 h-10" name="i-bi-box-arrow-in-down"
             /></a-tag>
 
@@ -109,7 +115,10 @@
           class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
         >
           <div class="flex items-center text-sm font-medium p-4">
-            <a-tag :bordered="false" class="bg-tag-bg-11 text-tag-text-11">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-1 bg-tag-bg-11 text-tag-text-11"
+            >
               <UIcon class="text-lg w-10 h-10" name="i-bi-bookshelf"
             /></a-tag>
 
@@ -169,6 +178,42 @@
             </template>
             <a-button size="large" class="flex gap-3 items-center">
               {{ queryStatus.label ? queryStatus.label : "Tất cả" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item
+                  @click="roleValue({ value: '', label: 'Tất cả' })"
+                  >Tất cả</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    roleValue({ value: 'user', label: 'Người dùng' })
+                  "
+                  >Người dùng</a-menu-item
+                >
+                <a-menu-item
+                  @click="roleValue({ value: 'student', label: 'HSSV' })"
+                  >HSSV</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    roleValue({ value: 'manager', label: 'Thủ thư' })
+                  "
+                  >Thủ thư</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'admin', label: 'Quản trị' })
+                  "
+                  >Quản trị</a-menu-item
+                >
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryrole.label ? queryrole.label : "Tất cả" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -345,7 +390,7 @@
           show-less-items
         />
       </div>
-      <
+
       <UserAdminDetail
         :openModalDetail="openModalDetail"
         :openModal="CloseModalDetail"
@@ -360,16 +405,25 @@ import { UserStatus } from "~/types/admin/user";
 import { UserRole } from "~/types/admin/user";
 const current = ref(1);
 const userStore = useUserStore();
+const roleStore = useRoleStore();
 const openModalConfirm = ref(false);
 const userDetailId = ref();
 const userDashboard = ref();
 const openModalDetail = ref(false);
 const status = ref("");
+const queryrole = ref({
+  value: "",
+  label: "",
+});
 const valueSearch = ref("");
 const queryStatus = ref({
   value: "",
   label: "",
 });
+const roleValue = ({ value, label }) => {
+  queryrole.value.value = value;
+  queryrole.value.label = label;
+};
 const statusValue = ({ value, label }) => {
   queryStatus.value.value = value;
   queryStatus.value.label = label;
@@ -388,20 +442,29 @@ useAsyncData(
   }
 );
 useAsyncData(async () => {
-  await userStore.getDashboardUser({});
+  await userStore.getDashboardUser({
+    page: current.value,
+  });
 });
-// const onBanned = async (id) => {
-//   await userStore.updateUser({ id: id, user: { status: "banned" } });
-//   await userStore.getUser({
-//     page: current.value,
-//     status: "banned",
-//   });
-// };
+
+useAsyncData(
+  async () => {
+    await roleStore.getRole({
+      role: queryrole.value.value,
+      
+    });
+  },
+
+  {
+    immediate: true,
+    watch: [queryrole.value],
+  }
+);
+
 const showBannedConfirm = (id) => {
   openModalConfirm.value = true;
   userDashboard.value = id;
   status.value = "banned";
-
 };
 const CloseModalConfirm = () => {
   openModalConfirm.value = false;

@@ -61,5 +61,17 @@ export const useOrderStore = defineStore("order-store", {
       this.isSubmitting = false;
       return data;
     },
+    async retrunEachBook({ id, valueRetunEachBook }: any) {
+      this.isSubmitting = true;
+      const data: any = await useCustomFetch(
+        `/api/v1/admin/orders/return-each-book/${id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(valueRetunEachBook),
+        }
+      );
+      this.isSubmitting = false;
+      return data;
+    },
   },
 });

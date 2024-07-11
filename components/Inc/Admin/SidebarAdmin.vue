@@ -74,9 +74,9 @@
           <span class="flex items-center gap-2">
             <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
-              icon="material-symbols-light:order-approve-outline-sharp"
-              width="32"
-              height="32"
+              icon="system-uicons:box"
+              width="1.2rem"
+              height="1.2rem"
             />
             <span>Quản lý đơn hàng</span>
           </span>
@@ -90,6 +90,11 @@
           key="11"
           @click="navigateTo('/admin/product-manager/create-product')"
           >Thêm đơn hàng</a-menu-item
+        >
+        <a-menu-item
+          key="61"
+          @click="navigateTo('/admin/product-manager/book-return-slip')"
+          >Phiếu trả sách</a-menu-item
         >
       </a-sub-menu>
       <a-sub-menu key="sub2">

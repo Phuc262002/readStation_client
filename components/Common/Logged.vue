@@ -71,11 +71,11 @@
               </span>
             </a-menu-item>
           </nuxt-link>
-          <nuxt-link to="/account/wallet">
+          <nuxt-link to="/account/balce">
             <a-menu-item key="4"
               ><span class="flex items-center gap-2">
                 <UIcon name="i-ph-wallet-light" />
-                <span>Quản lý ví</span>
+                <span>Quản lý số dư</span>
               </span></a-menu-item
             >
           </nuxt-link>

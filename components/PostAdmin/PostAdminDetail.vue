@@ -38,7 +38,48 @@
           <div class="grid grid-cols-4">
             <span class="text-base col-span-1">Trạng thái: </span>
             <span class="text-base col-span-3">
-              {{ postStore.post?.status }}
+              <a-tag
+                :bordered="false"
+                v-if="postStore.post?.status === PostStatus.WATING_APPROVE"
+                class="bg-tag-bg-01 text-tag-text-01"
+              >
+                Chờ duyệt
+              </a-tag>
+              <a-tag
+                :bordered="false"
+                v-if="postStore.post?.status === PostStatus.DRAFT"
+                class="bg-tag-bg-08 text-tag-text-08"
+              >
+                Bản nháp
+              </a-tag>
+              <a-tag
+                :bordered="false"
+                v-if="postStore.post?.status === PostStatus.PUBLISHED"
+                class="bg-tag-bg-09 text-tag-text-09"
+              >
+                Đang hoạt động
+              </a-tag>
+              <a-tag
+                :bordered="false"
+                v-if="postStore.post?.status === PostStatus.HIDDEN"
+                class="bg-tag-bg-07 text-tag-text-07"
+              >
+                Đã ẩn
+              </a-tag>
+              <a-tag
+                :bordered="false"
+                v-if="postStore.post?.status === PostStatus.DELETED"
+                class="bg-tag-bg-06 text-tag-text-06"
+              >
+                Đã xóa
+              </a-tag>
+              <a-tag
+                :bordered="false"
+                v-if="postStore.post?.status === PostStatus.APPROVE_CANCELED"
+                class="bg-tag-bg-11 text-tag-text-11"
+              >
+                Từ chối
+              </a-tag>
             </span>
           </div>
           <div class="grid grid-cols-4">
@@ -70,9 +111,7 @@
             <span class="text-base col-span-1">Ngày đăng: </span>
             <span class="text-base col-span-3">
               {{
-                dayjs(postStore.post?.created_at).format(
-                  " DD/MM/YYYY HH:mm:ss"
-                )
+                dayjs(postStore.post?.created_at).format(" DD/MM/YYYY HH:mm:ss")
               }}
             </span>
           </div>
@@ -90,7 +129,11 @@
     </div>
 
     <div class="flex justify-end items-end gap-2">
-      <a-button @click="handleClose" html-type="submit" class="mt-4"
+      <a-button
+        v-if="props.status === 'wating_approve'"
+        @click="handleClose"
+        html-type="submit"
+        class="mt-4"
         >Đóng</a-button
       >
     </div>
@@ -124,7 +167,7 @@ watch(
 );
 useAsyncData(
   async () => {
-   if (postDetailId.value) {
+    if (postDetailId.value) {
       await postStore.getOnePost(postDetailId.value);
     }
   },

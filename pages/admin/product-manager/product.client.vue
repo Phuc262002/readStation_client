@@ -110,7 +110,6 @@
                   <UIcon class="text-gray-500" name="i-material-symbols-search" />
                 </div>
               </div>
-
                 <a-dropdown :trigger="['click']">
                   <template #overlay>
                     <a-menu>
@@ -167,6 +166,9 @@
                 </template>
                 <template v-if="column.dataIndex === 'status'">
                   <span>
+                    <a-tag :bordered="false" v-if="record.status === 'wating_payment'" class="bg-tag-bg-01 text-tag-text-01">
+                      Chờ thanh toán
+                    </a-tag>
                     <a-tag :bordered="false" v-if="record.status === 'pending'" class="bg-tag-bg-01 text-tag-text-01">
                       Đang xử lý
                     </a-tag>
@@ -212,14 +214,14 @@
                     </a-tag>
                   </span>
                 </template>
-                <temolate v-else-if="column.dataIndex === 'payment_method'">
+                <template v-else-if="column.dataIndex === 'payment_method'">
                   <div v-if="record.payment_method === 'cash'">
                     <span>Tiền mặt</span>
                   </div>
                   <div v-else-if="record.payment_method === 'online'">
                     <span>Chuyển khoản</span>
                   </div>
-                </temolate>
+                </template>
                 <template v-else-if="column.key === 'action'">
                   <div class="flex text-[16px] gap-4">
                     <NuxtLink :to="`/admin/product-manager/${record.id}`">
