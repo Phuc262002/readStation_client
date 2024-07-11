@@ -66,7 +66,7 @@ export const useOrderStore = defineStore("order-store", {
       const data: any = await useCustomFetch(
         `/api/v1/admin/orders/return-each-book/${id}`,
         {
-          method: "PUT",
+          method: "POST",
           body: JSON.stringify(valueRetunEachBook),
         }
       );
