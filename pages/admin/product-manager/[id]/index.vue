@@ -279,13 +279,13 @@
                         </div>
                         <div class="flex justify-end gap-2"
                             v-if="orderStore?.getOneOrderAdmin?.data?.status === 'active'">
-                            <a-button @click="showReturnBook">Trả sách</a-button>
+                            <a-button @click="showReturnBook(items)">Trả sách</a-button>
                             <a-button type="primary">Gia hạn</a-button>
                         </div>
                         <div class="flex justify-end" v-if="items?.status === 'extended'">
                             <div class="flex gap-2">
-                                <a-button class="border-orange-400 text-orange-500" @click="showReturnBook">Trả
-                                    sách</a-button>
+                                <a-button class="border-orange-400 text-orange-500"
+                                    @click="showReturnBook">Trảsách</a-button>
                                 <a-button type="primary" @click="showModalExtend">Gia hạn</a-button>
                             </div>
                         </div>
@@ -383,7 +383,9 @@
                 </form>
                 <OrderCanceled :openModal="openModalAdd" :CloseModal="CloseModalAdd" :orderId="orderId" />
                 <OrderExtended :openModal="openModalExtend" :CloseModal="CloseModalExtend" />
-                <OrderReturnBook :openModal="openModalReturnBook" :CloseModal="CloseReturnBook" />
+                <OrderReturnBook :openModal="openModalReturnBook" :CloseModal="CloseReturnBook"
+                    :loan_order_detail="loan_order_detail" />
+
             </div>
         </div>
     </div>
@@ -410,6 +412,8 @@ const setStatus = (status: string) => {
 useAsyncData(async () => {
     await orderStore.getOneOrder(orderId);
 });
+const loan_order_detail = ref()
+console.log(loan_order_detail.value)
 const showModalAdd = () => {
     openModalAdd.value = true;
 };
@@ -423,9 +427,12 @@ const showModalExtend = () => {
 const CloseModalExtend = () => {
     openModalExtend.value = false;
 };
-const showReturnBook = () => {
+const showReturnBook = (items: any) => {
+    // console.log("🚀 ~ showReturnBook ~ items:", items)
+    loan_order_detail.value = items
     openModalReturnBook.value = true;
 };
+
 const CloseReturnBook = () => {
     openModalReturnBook.value = false;
 };
