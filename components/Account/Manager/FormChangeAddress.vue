@@ -82,7 +82,7 @@
         </div>
         <div class="flex gap-2">
           <div class="w-1/2 pb-4">
-            <label class="text-sm font-bold"> Xã/ Phường/ Thị trấn </label>
+            <label class="text-sm font-bold"> Phường/ Xã/ Thị trấn </label>
             <div class="mt-1">
               <a-select
                 v-model:value="ward_id"

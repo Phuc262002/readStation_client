@@ -41,9 +41,9 @@
         <a-button
           :class="[
             'flex items-center gap-2 h-10 rounded-lg border-none shadow-none',
-            filter === 'hiring' ? 'bg-orange-500 !text-white' : '',
+            filter === 'active' ? 'bg-orange-500 !text-white' : '',
           ]"
-          @click="handleCheckStatus('hiring')"
+          @click="handleCheckStatus('active')"
         >
           <img src="../../../assets/images/icon-rent.svg" alt="" />
           <span>Đang thuê</span>
@@ -141,22 +141,28 @@
                 Đã xác nhận
               </a-tag>
               <a-tag
-                v-else-if="record?.status === 'ready_for_pickup'"
-                class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg"
+                v-else-if="
+                  orderStore?.order?.status === 'ready_for_pickup' &&
+                  orderStore?.order?.delivery_method === 'pickup'
+                "
+                class="text-tag-text-14 bg-tag-bg-14 border-none py-1 px-3 rounded-lg"
               >
                 Đơn hàng sẵn sàng
               </a-tag>
               <a-tag
-                v-else-if="record?.status === 'preparing_shipment'"
-                class="text-tag-text-07 bg-tag-bg-07 border-none py-1 px-3 rounded-lg"
+                v-else-if="
+                  orderStore?.order?.status === 'preparing_shipment' &&
+                  orderStore?.order?.delivery_method === 'shipper'
+                "
+                class="text-tag-text-15 bg-tag-bg-15 border-none py-1 px-3 rounded-lg"
               >
-                Đang chuẩn bị
+                Chờ giao hàng
               </a-tag>
               <a-tag
                 v-else-if="record?.status === 'in_transit'"
-                class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
+                class="text-tag-text-03 bg-tag-bg-03 border-none py-1 px-3 rounded-lg"
               >
-                Đang vận chuyển
+                Đang giao
               </a-tag>
               <a-tag
                 v-else-if="record?.status === 'extended'"
@@ -166,7 +172,7 @@
               </a-tag>
               <a-tag
                 v-else-if="record?.status === 'active'"
-                class="text-tag-text-09 bg-tag-bg-09 border-none py-1 px-3 rounded-lg"
+                class="text-tag-text-04 bg-tag-bg-04 border-none py-1 px-3 rounded-lg"
               >
                 Đang thuê
               </a-tag>
@@ -174,7 +180,7 @@
                 v-else-if="record?.status === 'returning'"
                 class="text-tag-text-13 bg-tag-bg-13 border-none py-1 px-3 rounded-lg"
               >
-                Đang trả sách
+                Đang gia hạn
               </a-tag>
               <a-tag
                 v-else-if="record?.status === 'completed'"
@@ -186,7 +192,7 @@
                 v-else-if="record?.status === 'canceled'"
                 class="text-tag-text-07 bg-tag-bg-07 border-none py-1 px-3 rounded-lg"
               >
-                Đã hủy
+                Từ chối
               </a-tag>
               <a-tag
                 v-else-if="record?.status === 'overdue'"
@@ -201,7 +207,16 @@
               {{ record?.extension_dates }}
             </span>
           </template>
-
+          <template v-if="column.key === 'total_deposit_fee'">
+            <span class="flex justify-center">
+              {{
+                new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(record?.total_deposit_fee)
+              }}
+            </span>
+          </template>
           <!--  -->
           <template v-if="column.key === 'max_extensions'">
             <span class="flex justify-center">
@@ -248,7 +263,11 @@
           </template>
         </template>
       </a-table>
-      <div class="mt-4 flex justify-end">
+      <div class="mt-4 flex justify-between items-center">
+        <span class="text-sm text-orange-600">
+          Lưu ý: Tiền cọc thuê sách sẽ được hoàn trả 100% nếu không có phụ phí
+          phát sinh</span
+        >
         <a-pagination
           v-model:current="current"
           :total="orderStore?.orders?.totalResults"
@@ -335,9 +354,9 @@ const columns = [
     key: "status",
   },
   {
-    title: "Gia hạn",
-    dataIndex: "extension_dates",
-    key: "extension_dates",
+    title: "Tiền cọc thuê sách",
+    dataIndex: "total_deposit_fee",
+    key: "total_deposit_fee",
   },
   {
     title: "Số lần gia hạn",

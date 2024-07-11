@@ -13,19 +13,19 @@
             <div class="grid grid-cols-4">
               <span class="col-span-1 font-bold">Tên khách hàng:</span>
               <span class="col-span-3">
-                {{ orderStore?.order?.delivery_info?.fullname }}
+                {{ orderStore?.order?.user?.fullname }}
               </span>
             </div>
             <div class="grid grid-cols-4">
               <span class="col-span-1 font-bold">Email:</span>
               <span class="col-span-3">
-                {{ authStore?.authUser?.user?.email }}
+                {{ orderStore?.order?.user?.email }}
               </span>
             </div>
             <div class="grid grid-cols-4">
               <span class="col-span-1 font-bold">Số điện thoại:</span>
               <span class="col-span-3">
-                {{ orderStore?.order?.delivery_info?.phone }}
+                {{ orderStore?.order?.user?.phone }}
               </span>
             </div>
           </div>
@@ -33,14 +33,14 @@
             <div class="grid grid-cols-4">
               <span class="col-span-2 font-bold">Địa chỉ nhận sách:</span>
               <span class="col-span-2">
-                {{ orderStore?.order?.delivery_info?.address }}
+                {{ orderStore?.order?.user?.address_detail }}
               </span>
             </div>
             <div class="grid grid-cols-4">
               <span class="col-span-2 font-bold">Phương thức thanh toán:</span>
               <span
                 class="col-span-2"
-                v-if="orderStore?.order?.payment_method === 'wallet'"
+                v-if="orderStore?.order?.payment_method === 'online'"
               >
                 Chuyển khoản
               </span>
@@ -61,8 +61,26 @@
     >
       <div>
         <h3 class="font-bold border-b border-rtgray-50 pb-5 flex gap-5">
-          Thông tin đơn hàng
+          <div class="flex gap-3">
+            <span>Thông tin đơn hàng</span>
+            <a-popover trigger="hover" placement="topLeft">
+              <template #content>
+                <span class="text-sm text-orange-600">
+                  * Tiền cọc thuê sách sẽ được hoàn trả 100% nếu không có phụ
+                  phí phát sinh
+                </span>
+              </template>
+              <UI class="i-ph-warning-circle text-orange-500 w-3" />
+            </a-popover>
+          </div>
+
           <span class="flex justify-center">
+            <a-tag
+              v-if="orderStore?.order?.status === 'wating_payment'"
+              class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg"
+            >
+              Chờ thanh toán
+            </a-tag>
             <a-tag
               v-if="orderStore?.order?.status === 'pending'"
               class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg"
@@ -76,22 +94,28 @@
               Đã xác nhận
             </a-tag>
             <a-tag
-              v-else-if="orderStore?.order?.status === 'ready_for_pickup'"
-              class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg"
+              v-else-if="
+                orderStore?.order?.status === 'ready_for_pickup' &&
+                orderStore?.order?.delivery_method === 'pickup'
+              "
+              class="text-tag-text-14 bg-tag-bg-14 border-none py-1 px-3 rounded-lg"
             >
               Đơn hàng sẵn sàng
             </a-tag>
             <a-tag
-              v-else-if="orderStore?.order?.status === 'preparing_shipment'"
-              class="text-tag-text-07 bg-tag-bg-07 border-none py-1 px-3 rounded-lg"
+              v-else-if="
+                orderStore?.order?.status === 'preparing_shipment' &&
+                orderStore?.order?.delivery_method === 'shipper'
+              "
+              class="text-tag-text-15 bg-tag-bg-15 border-none py-1 px-3 rounded-lg"
             >
-              Đang chuẩn bị
+              Chờ giao hàng
             </a-tag>
             <a-tag
               v-else-if="orderStore?.order?.status === 'in_transit'"
-              class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
+              class="text-tag-text-03 bg-tag-bg-03 border-none py-1 px-3 rounded-lg"
             >
-              Đang vận chuyển
+              Đang giao
             </a-tag>
             <a-tag
               v-else-if="orderStore?.order?.status === 'extended'"
@@ -101,7 +125,7 @@
             </a-tag>
             <a-tag
               v-else-if="orderStore?.order?.status === 'active'"
-              class="text-tag-text-09 bg-tag-bg-09 border-none py-1 px-3 rounded-lg"
+              class="text-tag-text-04 bg-tag-bg-04 border-none py-1 px-3 rounded-lg"
             >
               Đang thuê
             </a-tag>
@@ -109,7 +133,7 @@
               v-else-if="orderStore?.order?.status === 'returning'"
               class="text-tag-text-13 bg-tag-bg-13 border-none py-1 px-3 rounded-lg"
             >
-              Đang trả sách
+              Đang gia hạn
             </a-tag>
             <a-tag
               v-else-if="orderStore?.order?.status === 'completed'"
@@ -140,32 +164,85 @@
               </span>
             </div>
             <div class="grid grid-cols-4">
+              <span class="col-span-2 font-bold">Ưu đãi:</span>
+              <span class="col-span-2">
+                Giảm giá 50% các loại phí thuê sách cho HS/SV
+              </span>
+            </div>
+            <div class="grid grid-cols-4">
               <span class="col-span-2 font-bold">Ngày đặt sách:</span>
               <span class="col-span-2">
-                {{ $dayjs(orderStore?.order?.created_at).format("DD/MM/YYYY") }}
+                {{
+                  $dayjs(orderStore?.order?.created_at).format(
+                    "DD/MM/YYYY - HH:MM"
+                  )
+                }}
               </span>
             </div>
-            <div class="grid grid-cols-4">
+            <div
+              class="grid grid-cols-4"
+              v-if="
+                orderStore?.order?.status === 'active' ||
+                orderStore?.order?.status === 'overdue' ||
+                orderStore?.order?.status === 'returning'
+              "
+            >
               <span class="col-span-2 font-bold">Ngày nhận sách:</span>
-              <span class="col-span-2">Chưa có thông tin</span>
-            </div>
-            <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Ngày trả dự kiến:</span>
-              <span class="col-span-2"> Chưa có thông tin </span>
-            </div>
-            <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Ngày trả thực tế:</span>
-              <span class="col-span-2">Chưa có thông tin</span>
-            </div>
-            <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Số lần gia hạn:</span>
               <span class="col-span-2">
-                {{ orderStore?.order?.current_extensions }} /
-                {{ orderStore?.order?.max_extensions }}
+                {{
+                  $dayjs(orderStore?.order?.created_at).format(
+                    "DD/MM/YYYY - HH:MM"
+                  )
+                }}
               </span>
             </div>
+            <div
+              class="grid grid-cols-4"
+              v-if="
+                orderStore?.order?.status === 'active' ||
+                orderStore?.order?.status === 'overdue' ||
+                orderStore?.order?.status === 'returning'
+              "
+            >
+              <span class="col-span-2 font-bold">Ngày trả dự kiến:</span>
+              <span class="col-span-2">
+                {{
+                  $dayjs(orderStore?.order?.created_at).format(
+                    "DD/MM/YYYY - HH:MM"
+                  )
+                }}
+              </span>
+            </div>
+            <div
+              class="grid grid-cols-4"
+              v-if="
+                orderStore?.order?.status === 'active' ||
+                orderStore?.order?.status === 'overdue' ||
+                orderStore?.order?.status === 'returning'
+              "
+            >
+              <span class="col-span-2 font-bold">Ngày trả thực tế:</span>
+              <span class="col-span-2">
+                {{
+                  $dayjs(orderStore?.order?.created_at).format(
+                    "DD/MM/YYYY - HH:MM"
+                  )
+                }}
+              </span>
+            </div>
+            <div
+              class="grid grid-cols-4"
+              v-if="
+                orderStore?.order?.status === 'active' ||
+                orderStore?.order?.status === 'overdue' ||
+                orderStore?.order?.status === 'returning'
+              "
+            >
+              <span class="col-span-2 font-bold">Số lần gia hạn:</span>
+              <span class="col-span-2"> 0 / 3 </span>
+            </div>
             <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Hình thức vận chuyển:</span>
+              <span class="col-span-2 font-bold">Hình thức giao sách:</span>
               <span
                 class="col-span-2"
                 v-if="orderStore?.order?.delivery_method === 'pickup'"
@@ -179,11 +256,18 @@
                 Nhận sách tại nhà
               </span>
             </div>
+            <div
+              class="grid grid-cols-4"
+              v-if="orderStore?.order?.status === 'canceled'"
+            >
+              <span class="col-span-2 font-bold">Lý do bị từ chối:</span>
+              <span class="col-span-2"> Quá thời gian thanh toán </span>
+            </div>
           </div>
           <!--  -->
           <div class="w-1/2 space-y-3 pl-5">
             <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Tiền cọc:</span>
+              <span class="col-span-2 font-bold">Tồng tiền cọc thuê sách:</span>
               <span class="col-span-2">
                 {{
                   new Intl.NumberFormat("vi-VN", {
@@ -215,16 +299,10 @@
                 }}
               </span>
             </div>
-            <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Tổng tiền nhận:</span>
-              <span class="col-span-2">
-                {{ orderStore?.order?.total_fine_fee }}
-              </span>
-            </div>
 
             <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Tổng cộng:</span>
-              <span class="col-span-2">
+              <span class="col-span-2 font-bold">Số tiền cần thanh toán:</span>
+              <span class="col-span-2 text-orange-400">
                 {{
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
@@ -232,10 +310,6 @@
                   }).format(orderStore?.order?.total_all_fee)
                 }}
               </span>
-            </div>
-            <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Số tiền trả lại:</span>
-              <span class="col-span-2"> Chưa cập nhật </span>
             </div>
           </div>
         </div>
@@ -259,10 +333,17 @@
           <h3 class="font-bold mb-1">Thông tin sách thuê</h3>
           <span
             class="text-xs text-tag-text-06"
-            v-if="orderStore?.order?.status === 'hiring'"
+            v-if="orderStore?.order?.status === 'active'"
           >
-            Lưu ý: Gia hạn riêng lẻ từng sách sẽ tính là 1 lần gia hạn. Nếu bạn
-            muốn gia hạn toàn bộ trong 1 lần hãy chọn “ Gia hạn toàn bộ ” ở trên
+            Lưu ý:
+            <ul>
+              <li>- Thời gian gia hạn sẽ được cộng dồn</li>
+              <li>
+                - Gia hạn riêng lẻ từng sách sẽ tính là 1 lần gia hạn. Nếu bạn
+                muốn gia hạn toàn bộ trong 1 lần hãy chọn “ Gia hạn toàn bộ ” ở
+                trên
+              </li>
+            </ul>
           </span>
         </div>
 
@@ -297,28 +378,40 @@
                     {{ order?.book_details?.book?.category?.name }}
                   </span>
                 </div>
-                <div class="grid grid-cols-6">
-                  <span class="col-span-3 font-bold">Số lần gia hạn:</span>
-                  <span class="col-span-3"> 0 / 3 </span>
+                <div
+                  class="grid grid-cols-4"
+                  v-if="
+                    orderStore?.order?.status === 'active' ||
+                    orderStore?.order?.status === 'overdue' ||
+                    orderStore?.order?.status === 'returning'
+                  "
+                >
+                  <span class="col-span-2 font-bold">Số lần gia hạn:</span>
+                  <span class="col-span-2"> 0 / 3 </span>
                 </div>
-                <div class="grid grid-cols-6">
-                  <span class="col-span-3 font-bold">Ngày trả dự kiến:</span>
-                  <span class="col-span-3"> Chưa cập nhật </span>
-                </div>
-                <div class="grid grid-cols-6">
-                  <span class="col-span-3 font-bold">Ngày trả thực tế:</span>
-                  <span class="col-span-3"> Chưa cập nhật </span>
-                </div>
-                <div class="grid grid-cols-6">
-                  <span class="col-span-3 font-bold">Hình thức trả sách:</span>
-                  <span class="col-span-3"> Chưa cập nhật </span>
+                <div
+                  class="grid grid-cols-4"
+                  v-if="
+                    orderStore?.order?.status === 'active' ||
+                    orderStore?.order?.status === 'overdue' ||
+                    orderStore?.order?.status === 'returning'
+                  "
+                >
+                  <span class="col-span-2 font-bold">Ngày trả thực tế:</span>
+                  <span class="col-span-2">
+                    {{
+                      $dayjs(orderStore?.order?.created_at).format(
+                        "DD/MM/YYYY - HH:MM"
+                      )
+                    }}
+                  </span>
                 </div>
               </div>
             </div>
             <!--  -->
             <div class="w-1/2 space-y-3 pl-5 text-sm">
               <div class="grid grid-cols-4">
-                <span class="col-span-2 font-bold">Tiền cọc:</span>
+                <span class="col-span-2 font-bold">Tiền cọc sách:</span>
                 <span class="col-span-2">
                   {{
                     new Intl.NumberFormat("vi-VN", {
@@ -327,10 +420,6 @@
                     }).format(order?.book_details?.price)
                   }}
                 </span>
-              </div>
-              <div class="grid grid-cols-4">
-                <span class="col-span-2 font-bold">Phần trăm cọc:</span>
-                <span class="col-span-2"> 20 % </span>
               </div>
               <div class="grid grid-cols-4">
                 <span class="col-span-2 font-bold">Phí dịch vụ:</span>
@@ -363,7 +452,9 @@
             class="flex justify-end pt-4 gap-2"
             v-if="orderStore?.order?.status === 'active'"
           >
-            <a-button class="h-10" @click="showModalGive"> Trả sách </a-button>
+            <a-button class="h-10" @click="showModalGive(order)">
+              Trả sách
+            </a-button>
 
             <a-button
               class="h-10 bg-orange-500 !text-white border-none"
@@ -380,7 +471,9 @@
         <NuxtLink
           to="/account/order"
           v-if="
+            orderStore?.order?.status === 'wating_payment' ||
             orderStore?.order?.status === 'pending' ||
+            orderStore?.order?.status === 'ready_for_pickup' ||
             orderStore?.order?.status === 'canceled' ||
             orderStore?.order?.status === 'approved' ||
             orderStore?.order?.status === 'preparing_shipment' ||
@@ -390,11 +483,20 @@
           <a-button class="h-10"> Trở về </a-button>
         </NuxtLink>
         <a-button
-          class="h-10 bg-orange-500 !text-white border-none"
-          v-if="orderStore?.order?.status === 'pending'"
+          class="h-10 !text-orange-400 border border-orange-400"
+          v-if="
+            orderStore?.order?.status === 'pending' ||
+            orderStore?.order?.status === 'wating_payment'
+          "
           @click="showCancelConfirm(orderStore?.order?.id)"
         >
-          Hủy đơn
+          Hủy thuê
+        </a-button>
+        <a-button
+          class="h-10 bg-orange-500 !text-white border-none"
+          v-if="orderStore?.order?.status === 'wating_payment'"
+        >
+          Thanh toán
         </a-button>
       </div>
     </div>
@@ -405,6 +507,7 @@
     <AccountOrderGiveBook
       :openModalGive="openModalGive"
       :closeModalGive="closeModalGive"
+      :bookDetail="bookDetail"
     />
   </div>
 </template>
@@ -413,6 +516,7 @@ const orderStore = useOrderClientStore();
 const authStore = useAuthStore();
 const route = useRoute();
 const id = route.params.id;
+const bookDetail = ref();
 const onCancelOrderDetail = async (id: any) => {
   await orderStore.cancelOrder(id);
 };
@@ -425,6 +529,7 @@ const showCancelConfirm = (id: any) => {
     cancelText: "Hủy",
     onOk() {
       onCancelOrderDetail(id);
+      navigateTo("/account/order");
     },
     onCancel() {
       console.log("Cancel");
@@ -443,8 +548,10 @@ const closeModalExtend = () => {
 
 // Modal Give
 const openModalGive = ref(false);
-const showModalGive = () => {
+const showModalGive = (order: any) => {
   openModalGive.value = true;
+  bookDetail.value = order;
+  console.log("id book", order);
 };
 const closeModalGive = () => {
   openModalGive.value = false;
