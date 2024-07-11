@@ -359,8 +359,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import Search from "~/components/Common/Search.vue";
-
 const publishingCompanyStore = usePublishingCompanyPublicStore();
 const bookstore = useBookPublicStore();
 const categoryStore = usePublicCategoryStore();
