@@ -11,7 +11,7 @@ export const useUserStore = defineStore("user-store", {
   },
   persist: true,
   actions: {
-    async getUser({ page, pageSize, search, status }: any) {
+    async getUser({ page, pageSize, search, status, role_id }: any) {
       try {
         this.isLoading = true;
         const data: any = await useCustomFetch(
@@ -19,7 +19,7 @@ export const useUserStore = defineStore("user-store", {
             pageSize ? `&pageSize=${pageSize}` : ""
           }${search ? `&search=${search}` : ""}${
             status ? `&status=${status}` : ""
-          }`
+          } ${role_id ? `&role_id=${role_id}` : ""}`
         );
         this.userAdmin = data.data._value?.data;
 

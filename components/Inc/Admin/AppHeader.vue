@@ -1,6 +1,6 @@
 <template>
   <a-layout-header
-    class="!bg-white !px-6 flex items-center right-0 justify-between fixed h-[4.375rem] transition-all ease-linear"
+    class="!bg-white !px-6 flex items-center right-0 justify-between fixed h-[4.375rem] transition-all ease-linear z-10"
     :class="props.collapsedValue ? 'left-20' : 'left-[theme(padding.sidebar)]'"
   >
     <div>

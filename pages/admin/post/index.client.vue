@@ -238,7 +238,10 @@
                   @click="showModalDetail(record.id)"
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
+                  <Icon
+                    icon="heroicons:eye"
+                    class="group-hover:text-[#212122]"
+                  />
                 </button>
               </a-tooltip>
 
@@ -246,38 +249,36 @@
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
+                  <Icon
+                    icon="humbleicons:dots-horizontal"
                     class="group-hover:text-[#131313]"
-                    name="i-solar-menu-dots-bold"
                   />
                 </button>
                 <template #overlay>
-                  <a-menu>
+                  <a-menu class="space-y-1">
                     <NuxtLink :to="`/admin/post/edit/${record.id}`">
-                      <a-menu-item key="2" class="p-4">
+                      <a-menu-item key="2" class="p-4 hover:!bg-tag-bg-02">
                         <span class="flex items-center gap-2">
-                          <UIcon
-                            class="text-lg"
-                            name="i-material-symbols-edit-outline"
+                          <Icon
+                            icon="fluent:edit-48-regular"
+                            class="text-lg text-tag-text-02"
                           />
-                          <span>Sửa</span>
+                          <span class="text-tag-text-02 font-bold">Sửa</span>
                         </span>
                       </a-menu-item>
                     </NuxtLink>
 
-                    <a-menu-item key="3" class="p-4">
-                      <span>
-                        <button
-                          @click="showDeleteConfirm(record?.id)"
-                          class="flex items-center gap-1"
-                        >
-                          <UIcon
-                            class="text-lg"
-                            name="i-material-symbols-delete-outline"
-                          />
-                          <span>Xóa</span>
-                        </button>
-                      </span>
+                    <a-menu-item key="3" class="p-4 hover:!bg-tag-bg-06">
+                      <button
+                        @click="showDeleteConfirm(record?.id)"
+                        class="flex items-center gap-2"
+                      >
+                        <Icon
+                          icon="hugeicons:delete-01"
+                          class="text-lg font-bold text-tag-text-06"
+                        />
+                        <span class="text-tag-text-06 font-bold">Xóa</span>
+                      </button>
                     </a-menu-item>
                   </a-menu>
                 </template>
@@ -305,7 +306,7 @@
 <script setup>
 import { Modal } from "ant-design-vue";
 import { PostStatus } from "~/types/admin/post";
-
+import { Icon } from "@iconify/vue";
 const postGeneralStore = useGeneralPostStore();
 const postStore = usePostStore();
 const categoryStore = useCategoryStore();

@@ -29,7 +29,7 @@ export const useShippingMethodsStore = defineStore("shippingMethods-store", {
     },
     async getOneShippingMethod(id: any) {
       try {
-        this.isSubmitting = true;
+        this.isLoading = true;
         const data: any = await useCustomFetch(
           `/api/v1/admin/shipping-methods/${id}`
         );
@@ -38,7 +38,7 @@ export const useShippingMethodsStore = defineStore("shippingMethods-store", {
       } catch (error) {
         console.log(error);
       } finally {
-        this.isSubmitting = false;
+        this.isLoading = false;
       }
     },
     async createShippingMethod(shippingMethod: any) {

@@ -8,7 +8,6 @@
           Tất cả phương thức vận chuyển
         </h5>
       </div>
-
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
@@ -32,7 +31,9 @@
             <template #overlay>
               <a-menu class="">
                 <a-menu-item
-                  @click="statusValue({ value: '', label: 'Tất cả trạng thái' })"
+                  @click="
+                    statusValue({ value: '', label: 'Tất cả trạng thái' })
+                  "
                   >Tất cả trạng thái</a-menu-item
                 >
                 <a-menu-item
@@ -79,6 +80,7 @@
             <a-image class="rounded-md" :width="100" :src="record.logo" />
           </template>
           <template v-if="column.key === 'location'">
+            
             <ul>
               <li v-for="item in record.location" :key="item">
                 {{ item }}
@@ -135,10 +137,7 @@
                   @click="showModalEdit(record?.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
-                    class="text-lg"
-                    name="i-material-symbols-edit-outline"
-                  />
+                  <Icon icon="fluent:edit-48-regular" class="text-lg" />
                 </button>
               </a-tooltip>
               <a-tooltip placement="top">
@@ -150,10 +149,7 @@
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                   s
                 >
-                  <UIcon
-                    class="text-lg"
-                    name="i-material-symbols-delete-outline"
-                  />
+                  <Icon icon="hugeicons:delete-01" class="text-lg" />
                 </button>
               </a-tooltip>
             </div>
@@ -173,6 +169,7 @@
 </template>
 <script setup>
 import { Modal } from "ant-design-vue";
+import { Icon } from "@iconify/vue";
 import { ShippingMethodsStatus } from "~/types/admin/shippingMethods";
 const openModalAdd = ref(false);
 const openModalEdit = ref(false);
