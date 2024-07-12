@@ -73,5 +73,27 @@ export const useOrderStore = defineStore("order-store", {
       this.isSubmitting = false;
       return data;
     },
+    async extensionAllBook({ id }: any) {
+      this.isSubmitting = true;
+      const data: any = await useCustomFetch(
+        `/api/v1/admin/orders/extension-all/${id}`,
+        {
+          method: "POST",
+        }
+      );
+      this.isSubmitting = false;
+      return data;
+    },
+    async extensionOneBook({ id }: any) {
+      this.isSubmitting = true;
+      const data: any = await useCustomFetch(
+        `/api/v1/admin/orders/extension-each-book/${id}`,
+        {
+          method: "POST",
+        }
+      );
+      this.isSubmitting = false;
+      return data;
+    },
   },
 });
