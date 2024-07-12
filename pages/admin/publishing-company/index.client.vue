@@ -30,7 +30,12 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
-                <a-menu-item @click="statusValue({ value: '', label: 'Tất cả trạng thái' })">Tất cả trạng thái</a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({ value: '', label: 'Tất cả trạng thái' })
+                  "
+                  >Tất cả trạng thái</a-menu-item
+                >
                 <a-menu-item
                   @click="statusValue({ value: 'active', label: 'Hoạt động' })"
                   >Hoạt động</a-menu-item
@@ -131,10 +136,7 @@
                   @click="showModalEdit(record?.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
-                    class="text-lg"
-                    name="i-material-symbols-edit-outline"
-                  />
+                  <Icon icon="fluent:edit-48-regular" class="text-lg" />
                 </button>
               </a-tooltip>
               <a-tooltip placement="top">
@@ -146,10 +148,7 @@
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                   s
                 >
-                  <UIcon
-                    class="text-lg"
-                    name="i-material-symbols-delete-outline"
-                  />
+                  <Icon icon="hugeicons:delete-01" class="text-lg" />
                 </button>
               </a-tooltip>
             </div>
@@ -171,6 +170,7 @@
 </template>
 <script setup>
 import { Modal } from "ant-design-vue";
+import { Icon } from "@iconify/vue";
 import { PublishingCompanyStatus } from "~/types/admin/publishingCompany";
 
 const openModalEdit = ref(false);
@@ -211,7 +211,7 @@ const onDelete = async (id) => {
 const showDeleteConfirm = (id) => {
   Modal.confirm({
     title: "Bạn có chắc chắn muốn xóa nhà xuất bản này không?",
-  
+
     okText: "Xóa",
     okType: "danger",
     cancelText: "Hủy",

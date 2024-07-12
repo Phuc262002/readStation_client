@@ -30,7 +30,9 @@
             <template #overlay>
               <a-menu class="">
                 <a-menu-item
-                  @click="statusValue({ value: '', label: 'Tất cả trạng thái' })"
+                  @click="
+                    statusValue({ value: '', label: 'Tất cả trạng thái' })
+                  "
                   >Tất cả trạng thái</a-menu-item
                 >
                 <a-menu-item
@@ -123,20 +125,18 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <NuxtLink :to="`book-case/${record.id}`">
-                <a-tooltip placement="top">
+              <NuxtLink class="hover:text-black" :to="`book-case/${record.id}`">
+                <a-tooltip placement="top" color="black">
                   <template #title>
                     <span>Xem chi tiết</span>
                   </template>
                   <button
-                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                    class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                   >
-                    <div>
-                      <UIcon
-                        class="group-hover:text-[#212122]"
-                        name="i-icon-park-outline-eyes"
-                      />
-                    </div>
+                    <Icon
+                      icon="heroicons:eye"
+                      class="group-hover:text-[#212122]"
+                    />
                   </button>
                 </a-tooltip>
               </NuxtLink>
@@ -150,32 +150,32 @@
                   />
                 </button>
                 <template #overlay>
-                  <a-menu>
+                  <a-menu class="space-y-1">
                     <NuxtLink>
-                      <a-menu-item key="2" class="p-4">
+                      <a-menu-item key="2" class="p-4 hover:!bg-tag-bg-02">
                         <button
-                          class="flex items-center gap-1 text-blue-400"
+                          class="flex items-center gap-2"
                           @click="showModalEdit(record?.id)"
                         >
-                          <UIcon
-                            class="group-hover:text-[green]"
-                            name="i-material-symbols-edit-outline"
+                          <Icon
+                            icon="fluent:edit-48-regular"
+                            class="text-lg text-tag-text-02"
                           />
-                          <span>Sửa</span>
+                          <span class="text-tag-text-02 font-bold">Sửa</span>
                         </button>
                       </a-menu-item>
                     </NuxtLink>
-                    <a-menu-item key="3" class="p-4">
+                    <a-menu-item key="3" class="p-4 hover:!bg-tag-bg-06">
                       <span>
                         <button
-                          class="flex items-center gap-1 text-blue-400"
+                          class="flex items-center gap-2"
                           @click="showDeleteConfirm(record?.id)"
                         >
-                          <UIcon
-                            class="group-hover:text-[red] text-lg"
-                            name="i-material-symbols-delete-outline"
+                          <Icon
+                            icon="hugeicons:delete-01"
+                            class="text-lg font-bold text-tag-text-06"
                           />
-                          <span>Xóa</span>
+                          <span class="text-tag-text-06 font-bold">Xóa</span>
                         </button>
                       </span>
                     </a-menu-item>
@@ -199,6 +199,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
+import { Icon } from "@iconify/vue";
 import { Modal } from "ant-design-vue";
 import { BookCaseStatus } from "~/types/admin/bookCase";
 import { LoadingOutlined } from "@ant-design/icons-vue";

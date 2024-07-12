@@ -17,8 +17,8 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-03 text-tag-text-03"
             >
-              <UIcon class="text-lg w-10 h-10" name="i-grommet-icons-cubes"
-            /></a-tag>
+              <Icon icon="mdi-light:credit-card" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-03">
               <p class="font-normal text-base">Doanh thu</p>
@@ -42,8 +42,8 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-04 text-tag-text-04"
             >
-              <UIcon class="text-lg w-8 h-8" name="i-bi-box-arrow-in-down"
-            /></a-tag>
+              <Icon icon="mdi-light:credit-card" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-04">
               <p class="font-normal text-base">Chuyển khoản</p>
@@ -59,8 +59,8 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-05 text-tag-text-05"
             >
-              <UIcon class="text-lg w-10 h-10" name="i-iconoir-user"
-            /></a-tag>
+              <Icon icon="la:cash-register" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-05">
               <p class="font-normal text-base">Tiền mặt</p>
@@ -76,10 +76,8 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-11 text-tag-text-11"
             >
-              <UIcon
-                class="text-lg w-10 h-10"
-                name="i-ph-user-circle-check-thin"
-            /></a-tag>
+              <Icon icon="lucide:book-up" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-11">
               <p class="font-normal text-base">Phí dịch vụ</p>
@@ -95,8 +93,8 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-12 text-tag-text-12"
             >
-              <UIcon class="text-lg w-10 h-10" name="i-bi-bookshelf"
-            /></a-tag>
+              <Icon icon="tabler:player-track-next" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-12">
               <p class="font-normal text-base">Phí gia hạn</p>
@@ -112,10 +110,8 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-11 text-tag-text-11"
             >
-              <UIcon
-                class="text-lg w-10 h-10"
-                name="i-material-symbols-light-book-4-outline"
-            /></a-tag>
+              <Icon icon="ph:warning-thin" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-11">
               <p class="font-normal text-base">Số lượng kệ sách</p>
@@ -185,4 +181,6 @@
     </div>
   </div>
 </template>
-<script setup></script>
+<script setup>
+import { Icon } from "@iconify/vue";
+</script>

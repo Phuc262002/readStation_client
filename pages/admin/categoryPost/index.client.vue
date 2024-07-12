@@ -26,7 +26,12 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
-                <a-menu-item @click="statusValue({ value: '', label: 'Tất cả trạng thái' })">Tất cả trạng thái</a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({ value: '', label: 'Tất cả trạng thái' })
+                  "
+                  >Tất cả trạng thái</a-menu-item
+                >
                 <a-menu-item
                   @click="statusValue({ value: 'active', label: 'Công khai' })"
                   >Công khai</a-menu-item
@@ -111,12 +116,6 @@
 
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <!-- <a-tooltip placement="top"  color="gold">
-                <template #title>
-                  <span>Xem chi tiết</span>
-                </template>
-                <span class="group hover:bg-[#faad14]/20 flex items-center justify-center w-6 h-6 rounded-md"><UIcon class="group-hover:text-[#faad14]" name="i-icon-park-outline-eyes" /></span>
-              </a-tooltip> -->
               <a-tooltip placement="top">
                 <template #title>
                   <span>Sửa</span>
@@ -125,10 +124,7 @@
                   @click="showModalEdit(record?.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
-                    class="text-lg"
-                    name="i-material-symbols-edit-outline"
-                  />
+                  <Icon icon="fluent:edit-48-regular" class="text-lg" />
                 </button>
               </a-tooltip>
               <a-tooltip placement="top">
@@ -139,10 +135,7 @@
                   @click="showDeleteConfirm(record?.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
-                    class="text-lg"
-                    name="i-material-symbols-delete-outline"
-                  />
+                  <Icon icon="hugeicons:delete-01" class="text-lg" />
                 </button>
               </a-tooltip>
             </div>
@@ -162,6 +155,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
+import { Icon } from "@iconify/vue";
 import { Modal } from "ant-design-vue";
 import { CategoryStatus } from "~/types/admin/category";
 const openModalEdit = ref(false);

@@ -278,8 +278,7 @@ watch(
 );
 useAsyncData(
   async () => {
-    console.log(userDetailId.value);
-    await userStore.getOneUser(userDetailId.value);
+    if (userDetailId.value) await userStore.getOneUser(userDetailId.value);
   },
   {
     watch: [userDetailId],
