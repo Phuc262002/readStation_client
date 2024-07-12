@@ -49,12 +49,6 @@
             Quản lý tài khoản
           </NuxtLink>
         </a-menu-item>
-
-        <a-menu-item key="3">
-          <NuxtLink class="font-semibold" to="/account/manager/account-setting">
-            Cài đặt tài khoản
-          </NuxtLink>
-        </a-menu-item>
       </a-sub-menu>
 
       <a-sub-menu key="sub2">
