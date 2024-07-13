@@ -137,6 +137,37 @@
           </NuxtLink>
         </a-menu-item> -->
       </a-sub-menu>
+      <a-sub-menu key="sub4">
+        <template #title>
+          <span class="flex items-center gap-2">
+            <UIcon name="i-tabler-credit-card-pay" class="text-base" />
+            <span>Xác thực tài khoản</span>
+          </span>
+        </template>
+        <a-menu-item key="8">
+          <NuxtLink to="/account/verify/verify-account" class="flex items-center gap-2">
+            Xác thực CMT/CCCD
+          </NuxtLink>
+        </a-menu-item>
+
+        <a-menu-item key="9">
+          <NuxtLink
+            to="/account/verify/verify-student"
+            class="flex items-center gap-2"
+          >
+            Xác thực sinh viên
+          </NuxtLink>
+        </a-menu-item>
+
+        <!-- <a-menu-item key="10">
+          <NuxtLink
+            to="/account/wallet/withdraw-money"
+            class="flex items-center gap-2"
+          >
+            Rút tiền
+          </NuxtLink>
+        </a-menu-item> -->
+      </a-sub-menu>
 
       <a-menu-item key="11">
         <NuxtLink to="/account/order" class="flex items-center gap-2">
