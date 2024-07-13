@@ -11,17 +11,19 @@
       />
       <div class="grid grid-cols-8 justify-items-center">
         <div class="col-start-2 col-span-6 text-center text-xl">
-          Chương trình ưu đãi tại Read Station. Khi Quý khách xác thực chứng
-          minh thư/ căn cước công dân (CMT/CCCD), Quý khách sẽ nhận được ưu đãi
-          giảm giá 50% phí cọc thuê sách.
+          Chúng tôi xin thông báo về chương trình ưu đãi đặc biệt dành cho các
+          học sinh/sinh viên (HS/SV). Khi Quý khách xác thực tài khoản HS/SV của mình,
+          Quý khách sẽ nhận được ưu đãi giảm giá 50% cho các dịch vụ của Read
+          Station.
         </div>
       </div>
-      <NuxtLink to="/account/post/create-post">
-        <a-button class="bg-orange-500 border-none text-white rounded-lg h-10 px-32">
+      <NuxtLink to="/account/verify/camera-student">
+        <a-button
+          class="bg-orange-500 border-none !text-white rounded-lg h-10 px-32"
+        >
           Xác thực ngay
         </a-button>
       </NuxtLink>
     </div>
-    
   </div>
 </template>

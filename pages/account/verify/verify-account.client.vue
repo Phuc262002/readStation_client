@@ -17,7 +17,7 @@
         </div>
       </div>
 
-      <NuxtLink to="/account/verify/camera">
+      <NuxtLink to="/account/verify/camera-account">
         <a-button class="bg-orange-500 border-none !text-white rounded-lg h-10 px-32">
           Xác thực ngay
         </a-button>

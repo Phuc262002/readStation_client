@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="space-y-5">
+    <h3 class="font-bold mb-5">Xác thực HS/SV</h3>
     <div
       class="flex flex-col space-y-5 items-center bg-white shadow-md rounded-md pb-10 min-h-[700px] pt-10"
     >
@@ -25,8 +26,11 @@
       </div>
       <div v-if="showInputs">
         <form @submit.prevent="submitData">
+          <div class="grid grid-cols-3 gap-4 text-center pb-5">
+            <div class="col-start-2 text-lg font-semibold">Xác nhận lại thông tin của bạn</div>
+          </div>
           <div class="grid grid-cols-2 gap-4">
-            <div class="">
+            <div class="flex flex-col gap-2">
               <label class="text-sm font-semibold" for="">Họ và Tên</label>
               <a-input
                 type="text"
@@ -36,7 +40,7 @@
                 required
               />
             </div>
-            <div class="">
+            <div class="flex flex-col gap-2">
               <label class="text-sm font-semibold" for="">Số CMT/CCCD</label>
               <a-input
                 type="text"
@@ -46,7 +50,7 @@
                 required
               />
             </div>
-            <div class="">
+            <div class="flex flex-col gap-2">
               <label class="text-sm font-semibold" for="">Ngày cấp</label>
               <a-input
                 type="date"
@@ -56,7 +60,7 @@
                 required
               />
             </div>
-            <div class="">
+            <div class="flex flex-col gap-2">
               <label class="text-sm font-semibold" for="">Nơi cấp</label>
               <a-input
                 type="text"
@@ -67,7 +71,11 @@
               />
             </div>
           </div>
-          <button html-type="submit">Submit</button>
+          <div class="flex justify-center items-center mt-4">
+            <button html-type="submit" class="bg-orange-500 border-none text-white rounded-lg h-10 px-32">
+              Xác nhận
+            </button>
+          </div>
         </form>
       </div>
     </div>
@@ -76,6 +84,9 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { message } from "ant-design-vue"; // Import message for error handling
+import { useBaseStore } from "../../../stores/base/baseStore";
+import { useRouter } from 'vue-router'; // Import useRouter from vue-router
 
 export default defineComponent({
   data() {
@@ -129,7 +140,10 @@ export default defineComponent({
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
             const photoData = canvas.toDataURL("image/png");
             this.photos.push(photoData);
-            console.log(`Photo ${this.photos.length === 1 ? "front" : "back"} captured:`, photoData); // Log the photo
+            console.log(
+              `Photo ${this.photos.length === 1 ? "front" : "back"} captured:`,
+              photoData
+            ); // Log the photo
           }
           if (this.photos.length === 2) {
             this.showInputs = true; // Hiển thị các ô input sau khi đã chụp đủ 2 ảnh
@@ -143,12 +157,18 @@ export default defineComponent({
       this.photos.splice(index, 1);
       this.showInputs = false; // Ẩn các ô input khi xóa ảnh để chụp lại
     },
-    submitData() {
+    async submitData() {
       console.log("Họ và Tên:", this.hoTen);
       console.log("Số CMT/CCCD:", this.soCMT);
       console.log("Ngày cấp:", this.ngayCap);
       console.log("Nơi cấp:", this.noiCap);
       console.log("Photos:", this.photos); // Log the photos array
+
+      // Example of sending the formData using fetch
+      for (const photo of this.photos) {
+        await this.onSubmit(photo);
+      }
+
       // Reset dữ liệu sau khi đã xử lý
       this.hoTen = "";
       this.soCMT = "";
@@ -156,10 +176,43 @@ export default defineComponent({
       this.noiCap = "";
       this.photos = [];
       this.showInputs = false;
+      this.router.push('./confirm-account'); // Navigate to the home route
+    },
+    
+    async onSubmit(imgBase64: string) {
+      const baseStore = useBaseStore();
+      const file = this.DataURIToBlob(imgBase64);
+      const formData = new FormData();
+      formData.append("image", file);
+
+      try {
+        const dataUpload = await baseStore.uploadImg(formData);
+        console.log("Upload success:", dataUpload.data._rawValue.data);
+      } catch (error) {
+        message.error("Upload ảnh thất bại");
+      }
+    },
+    DataURIToBlob(dataURI: string) {
+      const splitDataURI = dataURI.split(",");
+      const byteString =
+        splitDataURI[0].indexOf("base64") >= 0
+          ? atob(splitDataURI[1])
+          : decodeURI(splitDataURI[1]);
+      const mimeString = splitDataURI[0].split(":")[1].split(";")[0];
+
+      const ia = new Uint8Array(byteString.length);
+      for (let i = 0; i < byteString.length; i++)
+        ia[i] = byteString.charCodeAt(i);
+
+      return new Blob([ia], { type: mimeString });
     },
   },
   beforeUnmount() {
     this.stopCamera();
+  },
+  setup() {
+    const router = useRouter(); // Initialize router
+    return { router };
   },
 });
 </script>
