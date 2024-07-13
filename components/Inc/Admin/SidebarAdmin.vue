@@ -354,6 +354,14 @@
           >Thêm hóa đơn</a-menu-item
         >
       </a-sub-menu>
+      <a-menu-item key="32" @click="navigateTo('/admin/image')">
+        <Icon
+          :class="props.collapsed && 'anticon anticon-desktop'"
+          icon="radix-icons:image"
+          class="text-2xl"
+        />
+        <span>Quản lý ảnh</span>
+      </a-menu-item>
     </a-menu>
   </a-layout-sider>
 </template>
