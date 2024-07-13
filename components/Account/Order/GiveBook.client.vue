@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div
+      v-if="isSubmitting"
+      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
+    >
+      <a-spin size="large" class="absolute top-1/2 left-1/2" />
+    </div>
     <a-modal
       v-model:open="props.openModalGive"
       :footer="null"
@@ -11,15 +17,22 @@
           Bạn muốn trả sách "{{ props.bookDetail?.book_details?.book?.title }}"
           ?
         </h3>
-        <a-radio-group v-model:value="value" class="flex gap-5">
-          <a-radio :value="1" class="w-1/2 p-5 border rounded-lg">
+        <a-radio-group v-model:value="return_method" class="flex gap-5">
+          <a-radio value="library" class="w-1/2 p-5 border rounded-lg">
             Trả sách trực tiếp tại thư viện
           </a-radio>
-          <a-radio :value="2" class="w-1/2 p-5 border rounded-lg">
+          <a-radio
+            value="pickup"
+            @click="renderInfor"
+            class="w-1/2 p-5 border rounded-lg"
+          >
             Giao sách đến thư viện
           </a-radio>
         </a-radio-group>
-        <div class="text-base grid grid-cols-12" v-if="value === 1">
+        <div
+          class="text-base grid grid-cols-12"
+          v-if="return_method === 'library'"
+        >
           <p class="font-bold col-span-3">Địa chỉ thư viện:</p>
           <p class="col-span-9">
             Lô 42, đường số 3, Công viên phần mềm Quang Trung, phường Tân Chánh
@@ -51,7 +64,7 @@
               <span class="col-span-3 font-bold">Ngày thuê sách:</span>
               <span class="col-span-3">
                 {{
-                  $dayjs(props.bookDetail?.created_at).format(
+                  $dayjs(props.bookDetail?.loan_date).format(
                     "DD/MM/YYYY - HH:MM"
                   )
                 }}
@@ -69,8 +82,8 @@
             </div>
           </div>
         </div>
-        <form action="">
-          <div class="text-sm space-y-5" v-if="value === 2">
+        <form @submit.prevent="onSubmit">
+          <div class="text-sm space-y-5" v-if="return_method === 'pickup'">
             <div class="flex gap-5">
               <div class="w-1/2">
                 <label class="font-bold"> Tên của bạn </label>
@@ -99,19 +112,19 @@
             </div>
             <div class="flex gap-5">
               <div class="w-1/2">
-                <label class="font-bold"> Tỉnh/Thành phố </label>
+                <label class="font-bold"> Tỉnh/ Thành phố </label>
                 <div class="mt-2">
                   <a-select
+                    class="w-full"
+                    size="large"
                     v-model:value="province_id"
-                    :options="optionsProvines"
+                    show-search
+                    placeholder="Tỉnh/Thành phố"
+                    :options="optionsPronvines"
                     @focus="handleFocus"
                     @blur="handleBlur"
                     @change="handleChangeProvince"
                     :loading="baseStore.isLoading"
-                    class="w-full"
-                    size="large"
-                    show-search
-                    placeholder="Tỉnh/Thành phố"
                   >
                   </a-select>
                 </div>
@@ -120,7 +133,11 @@
                 <label class="font-bold"> Quận/ Huyện </label>
                 <div class="mt-2">
                   <a-select
+                    class="w-full"
+                    size="large"
                     v-model:value="district_id"
+                    show-search
+                    placeholder="Quận/Huyện"
                     :options="optionsDistricts"
                     :filter-option="filterOption"
                     @focus="handleFocus"
@@ -128,10 +145,6 @@
                     @change="handleChangeDistrict"
                     :disabled="!province_id"
                     :loading="baseStore.isLoading"
-                    class="w-full"
-                    size="large"
-                    show-search
-                    placeholder="Quận/ Huyện"
                   >
                   </a-select>
                 </div>
@@ -142,7 +155,11 @@
                 <label class="font-bold"> Phường/ Xã </label>
                 <div class="mt-2">
                   <a-select
+                    class="w-full"
+                    size="large"
                     v-model:value="ward_id"
+                    show-search
+                    placeholder="Phường/Xã"
                     :options="optionsWards"
                     :filter-option="filterOption"
                     @focus="handleFocus"
@@ -150,10 +167,6 @@
                     @change="handleChangeWard"
                     :disabled="!district_id"
                     :loading="baseStore.isLoading"
-                    class="w-full"
-                    size="large"
-                    show-search
-                    placeholder="Xã/ Phường/ Thị trấn"
                   >
                   </a-select>
                 </div>
@@ -163,11 +176,9 @@
                 <div class="mt-2">
                   <a-input
                     v-model:value="address.street"
+                    class="border p-2 rounded-md"
+                    placeholder="Đường"
                     :disabled="!ward_id"
-                    size="large"
-                    class="w-full"
-                    placeholder="Nhập đường"
-                    required
                   />
                 </div>
               </div>
@@ -175,10 +186,10 @@
             <div class="">
               <label class="font-bold"> Địa chỉ lấy sách </label>
               <div class="mt-2">
-                <a-textarea
+                <a-input
                   readonly
-                  size="large"
                   :value="`${address.street}, ${address.ward}, ${address.district}, ${address.province}`"
+                  size="large"
                 />
               </div>
             </div>
@@ -222,7 +233,11 @@
           <div class="flex justify-end gap-2">
             <a-button class="h-10" @click="handleCloseGive"> Hủy </a-button>
 
-            <a-button class="h-10 bg-orange-500 !text-white border-none">
+            <a-button
+              class="h-10 bg-orange-500 !text-white border-none"
+              :loading="isSubmitting"
+              html-type="submit"
+            >
               Xác nhận
             </a-button>
           </div>
@@ -239,14 +254,16 @@ const shipping_method_id = ref();
 const options = ref([]);
 const cartStore = useCartStore();
 const shippingValue = ref({});
+const return_method = ref("library");
 const shippingMethodStore = useShippingMethodPublicStore();
+const shippingFee = ref(0);
 useAsyncData(async () => {
   await shippingMethodStore.getAllShipping();
   options.value = shippingMethodStore?.shippings.map((item) => ({
     value: item.id,
     label: item.method,
   }));
-  // Set default value for shipping_method_id
+
   if (options.value.length > 0) {
     shipping_method_id.value = options.value[0].value;
     shippingValue.value = shippingMethodStore?.shippings.find(
@@ -254,22 +271,12 @@ useAsyncData(async () => {
     );
     cartStore.addShipFee(shippingValue.value.fee);
   }
-  // console.log("options.value", options.value);
 });
-// phí vận chuyển
-const calcShippingFee = () => {
-  shippingFee.value = cartStore.shippingFee;
-};
-// watch(
-//   () => delivery_method.value,
-//   () => {
-//     calcShippingFee();
-//   }
-// );
-const value = ref(1);
+
 const user = ref({
-  fullname: authStore?.authUser?.user?.fullname,
-  phone: authStore?.authUser?.user?.phone,
+  // authStore?.authUser?.user?.fullname
+  fullname: "",
+  phone: "",
 });
 const address = ref({
   province: "",
@@ -278,17 +285,74 @@ const address = ref({
   street: "",
 });
 
-const ward_id = ref(undefined);
-const district_id = ref(undefined);
+// phí vận chuyển
+const calcShippingFee = () => {
+  shippingFee.value =
+    return_method.value === "library" ? 0 : cartStore.shippingFee;
+};
+watch(
+  () => cartStore.shippingFee,
+  () => {
+    calcShippingFee();
+  }
+);
 const province_id = ref(undefined);
+const district_id = ref(undefined);
+const ward_id = ref(undefined);
 
-const optionsProvines = ref([]);
+const optionsPronvines = ref([]);
 const optionsDistricts = ref([]);
 const optionsWards = ref([]);
 
+const renderInfor = () => {
+  user.value.fullname = authStore?.authUser?.user?.fullname;
+  user.value.phone = authStore?.authUser?.user?.phone;
+  address.value.province = authStore?.authUser?.user?.province?.ProvinceName;
+  address.value.district = authStore?.authUser?.user?.district?.DistrictName;
+  address.value.ward = authStore?.authUser?.user?.ward?.WardName;
+  address.value.street = authStore?.authUser?.user?.street;
+  province_id.value = authStore?.authUser?.user?.province?.id;
+  district_id.value = authStore?.authUser?.user?.district?.id;
+  ward_id.value = authStore?.authUser?.user?.ward?.id;
+};
+
+const onSubmit = async () => {
+  const pickup_info = {
+    fullname: user.value.fullname,
+    phone: user.value.phone,
+    address:
+      address.value.province &&
+      address.value.district &&
+      address.value.ward &&
+      address.value.street
+        ? `${address.value.street}, ${address.value.ward}, ${address.value.district}, ${address.value.province}`
+        : null,
+  };
+  const pickupInfo = return_method.value === "library" ? null : pickup_info;
+  const resData = await orderStore.returnBook({
+    id: props.bookDetail?.id,
+    body: {
+      return_method: return_method.value,
+      shipping_method_id: shipping_method_id.value,
+      total_shipping_fee: parseFloat(shippingFee.value),
+      pickup_info: pickupInfo,
+    },
+  });
+  console.log("resData", resData);
+  if (resData?.data?._rawValue?.status == true) {
+    message.success({
+      content: "Trả sách thành công",
+    });
+  } else {
+    message.error({
+      content: "Trả sách thất bại",
+    });
+  }
+};
+
 useAsyncData(async () => {
   await baseStore.getProvinces();
-  optionsProvines.value = baseStore.province.map((item) => {
+  optionsPronvines.value = baseStore.province.map((item) => {
     return {
       value: item.id,
       label: item.ProvinceName,
@@ -333,7 +397,9 @@ const handleChangeProvince = (value) => {
   district_id.value = undefined;
   ward_id.value = undefined;
   address.value.street = "";
-  address.value.province = optionsProvines.value.find(
+  address.value.district = "";
+  address.value.ward = "";
+  address.value.province = optionsPronvines.value.find(
     (item) => item.value === value
   ).label;
 };
@@ -341,6 +407,7 @@ const handleChangeDistrict = (value) => {
   district_id.value = value;
   ward_id.value = undefined;
   address.value.street = "";
+  address.value.ward = "";
   address.value.district = optionsDistricts.value.find(
     (item) => item.value === value
   ).label;

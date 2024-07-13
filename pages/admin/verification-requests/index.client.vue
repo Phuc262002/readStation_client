@@ -13,11 +13,11 @@
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
       <div class="flex justify-between pb-4">
         <div class="w-1/2 flex items-center gap-2">
-          <div class="relative w-2/3 md:block hidden">
+          <div class="md:block hidden">
             <div class="flex">
               <a-input
-                placeholder="Nhập mã kệ để tìm kiếm"
-                class="h-10"
+                placeholder="Nhập"
+                class="h-10 w-[400px]"
                 v-model:value="valueSearch"
               >
                 <template #prefix>
@@ -25,19 +25,16 @@
                 </template>
               </a-input>
             </div>
-            <div
-              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-            >
-              <UIcon class="text-gray-500" name="i-material-symbols-search" />
-            </div>
           </div>
 
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
                 <a-menu-item
-                  @click="statusValue({ value: '', label: 'Tất cả' })"
-                  >Tất cả</a-menu-item
+                  @click="
+                    statusValue({ value: '', label: 'Tất cả trạng thái' })
+                  "
+                  >Tất cả trạng thái</a-menu-item
                 >
                 <a-menu-item
                   @click="
@@ -56,7 +53,7 @@
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ queryStatus.label ? queryStatus.label : "Tất cả" }}
+              {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -66,9 +63,12 @@
               <a-menu class="">
                 <a-menu-item
                   @click="
-                    verificationCardTypeValue({ value: '', label: 'Tất cả' })
+                    verificationCardTypeValue({
+                      value: '',
+                      label: 'Tất cả loại xác thức',
+                    })
                   "
-                  >Tất cả</a-menu-item
+                  >Tất cả loại xác thức</a-menu-item
                 >
                 <a-menu-item
                   @click="
@@ -94,7 +94,7 @@
               {{
                 queryVerificationCardType.label
                   ? queryVerificationCardType.label
-                  : "Tất cả"
+                  : "Tất cả loại xác thức"
               }}
               <DownOutlined />
             </a-button>

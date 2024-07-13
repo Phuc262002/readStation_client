@@ -7,23 +7,9 @@
         </div>
         <div class="flex flex-col gap-2 mt-4">
             <label class="text-base">Tình trạng sách</label>
-            <a-dropdown :trigger="['click']">
-                <template #overlay>
-                    <a-menu class="">
-                        <a-menu-item @click="statusValue({ value: 'excellent', label: 'Xuất sắc' })">Xuất
-                            sắc</a-menu-item>
-                        <a-menu-item @click="statusValue({ value: 'good', label: 'Tốt' })">Tốt</a-menu-item>
-                        <a-menu-item @click="statusValue({ value: 'average', label: 'Trung bình' })">Trung
-                            bình</a-menu-item>
-                        <a-menu-item @click="statusValue({ value: 'bad', label: 'Kém' })">Kém</a-menu-item>
-                        <a-menu-item @click="statusValue({ value: 'damaged', label: 'Hư hỏng' })">Hư hỏng</a-menu-item>
-                        <a-menu-item @click="statusValue({ value: 'lost', label: 'Mất' })">Mất</a-menu-item>
-                    </a-menu>
-                </template>
-                <a-button size="large" class="flex gap-3 items-center">
-                    {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
-                </a-button>
-            </a-dropdown>
+            <a-select show-search placeholder="Trạng thái"
+                size="large" :options="options" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
+                @change="handleChange"></a-select>
         </div>
         <div class="flex flex-col gap-2 mt-4">
             <label class="text-base">Chi tiết</label>
@@ -66,4 +52,42 @@ const queryStatus = ref({
     value: "",
     label: ""
 });
+const options = ref([
+  {
+    value: "excellent",
+    label: "Xuất sắc",
+  },
+  {
+    value: "good",
+    label: "Tốt",
+  },
+  {
+    value: "fair",
+    label: "Trung bình",
+  },
+  {
+    value: "poor",
+    label: "Kém",
+  },
+  {
+    value: "damaged",
+    label: "Hư hỏng",
+  },
+  {
+    value: "lost",
+    label: "Mất",
+  },
+]);
+const handleChange = (value) => {
+  console.log(`selected ${value}`);
+};
+const handleBlur = () => {
+  console.log("blur");
+};
+const handleFocus = () => {
+  console.log("focus");
+};
+const filterOption = (input, option) => {
+  return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+};
 </script>

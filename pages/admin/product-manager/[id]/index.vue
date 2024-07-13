@@ -30,8 +30,16 @@
                         </div>
                         <div class="grid grid-cols-3">
                             <span class="text-base font-bold col-span-1">Số điện thoại:</span>
-                            <span class="text-base col-span-2">{{ orderStore?.getOneOrderAdmin?.data?.user?.phone
-                                }}</span>
+                            <span class="text-base col-span-2">{{ orderStore?.getOneOrderAdmin?.data?.user?.phone ?
+                                orderStore.getOneOrderAdmin.data.user.phone : "Chưa có thông tin" }}</span>
+                        </div>
+                        <div class="grid grid-cols-3">
+                            <span class="text-base font-bold col-span-1">Vai trò</span>
+                            <span class="text-base col-span-2">
+                                <div class="p-1 w-14 text-center rounded-lg text-tag-text-01 bg-tag-bg-01">
+                                    HS/SV
+                                </div>
+                            </span>
                         </div>
                     </div>
                     <div class="md:col-span-3 space-y-3 ml-5">
@@ -134,7 +142,7 @@
                     </div>
                     <div class="md:col-span-3 space-y-3 ml-5">
                         <div class="grid grid-cols-4">
-                            <span class="text-base font-bold col-span-1">Tiền cọc:</span>
+                            <span class="text-base font-bold col-span-1">Tổng tiền cọc thuê sách:</span>
                             <span class="text-base col-span-3">chưa có dữ liệu</span>
                         </div>
                         <div class="grid grid-cols-4">
@@ -146,15 +154,15 @@
                             <span class="text-base col-span-3">Chưa có dữ liệu</span>
                         </div>
                         <div class="grid grid-cols-4">
-                            <span class="text-base font-bold col-span-1">Phí gia hạn:</span>
+                            <span class="text-base font-bold col-span-1">Tổng phí gia hạn:</span>
                             <span class="text-base col-span-3">Chưa có dữ liệu</span>
                         </div>
                         <div class="grid grid-cols-4">
-                            <span class="text-base font-bold col-span-1">Phí trễ hạn:</span>
+                            <span class="text-base font-bold col-span-1">Tổng phí trễ hạn:</span>
                             <span class="text-base col-span-3">Chưa có dữ liệu</span>
                         </div>
                         <div class="grid grid-cols-4">
-                            <span class="text-base font-bold col-span-1">Phí giao trả sách:</span>
+                            <span class="text-base font-bold col-span-1">Tổng phí giao trả sách:</span>
                             <span class="text-base col-span-3">Chưa có dữ liệu</span>
                         </div>
                         <div class="grid grid-cols-4">
@@ -162,11 +170,7 @@
                             <span class="text-base col-span-3">Chưa có dữ liệu</span>
                         </div>
                         <div class="grid grid-cols-4">
-                            <span class="text-base font-bold col-span-1">Tổng cộng:</span>
-                            <span class="text-base col-span-3">Chưa có dữ liệu</span>
-                        </div>
-                        <div class="grid grid-cols-4">
-                            <span class="text-base font-bold col-span-1">Số tiền trả lại:</span>
+                            <span class="text-base font-bold col-span-1">Tiền cọc trả lại:</span>
                             <span class="text-base col-span-3">Chưa có dữ liệu</span>
                         </div>
                     </div>
@@ -174,7 +178,9 @@
                 <div class="flex justify-end" v-if="orderStore?.getOneOrderAdmin?.data?.status === 'active'">
                     <div class="flex gap-2">
                         <a-button class="border-orange-400 text-orange-500">Trả sách</a-button>
-                        <a-button type="primary">Giao hạn toàn bộ</a-button>
+                        <a-button type="primary"
+                            @click="showModalExtendsionAll(orderStore?.getOneOrderAdmin?.data?.loan_order_details)">Giao
+                            hạn toàn bộ</a-button>
                     </div>
                 </div>
             </div>
@@ -250,7 +256,7 @@
                                         <span class="text-base col-span-1">Chưa có dữ liệu</span>
                                     </div>
                                     <div class="grid grid-cols-3">
-                                        <span class="text-base font-bold col-span-2">Phầm trăm cọc:</span>
+                                        <span class="text-base font-bold col-span-2">Phí dịch vụ:</span>
                                         <span class="text-base col-span-1">20%</span>
                                     </div>
                                     <div class="grid grid-cols-3">
@@ -269,24 +275,20 @@
                                         <span class="text-base font-bold col-span-2">Phí giao trả sách:</span>
                                         <span class="text-base col-span-1">Chưa có dữ liệu</span>
                                     </div>
-                                    <div class="grid grid-cols-3">
-                                        <span class="text-base font-bold col-span-2 ">Tổng tiền</span>
-                                        <span class="text-base col-span-1">120.000 đ</span>
-                                    </div>
                                 </div>
                             </div>
 
                         </div>
                         <div class="flex justify-end gap-2"
                             v-if="orderStore?.getOneOrderAdmin?.data?.status === 'active'">
-                            <a-button @click="showReturnBook">Trả sách</a-button>
-                            <a-button type="primary">Gia hạn</a-button>
+                            <a-button @click="showReturnBook(items)">Trả sách</a-button>
+                            <a-button type="primary" @click="showModalExtend(items)">Gia hạn</a-button>
                         </div>
                         <div class="flex justify-end" v-if="items?.status === 'extended'">
                             <div class="flex gap-2">
                                 <a-button class="border-orange-400 text-orange-500" @click="showReturnBook">Trả
                                     sách</a-button>
-                                <a-button type="primary" @click="showModalExtend">Gia hạn</a-button>
+                                <a-button type="primary" @click="showModalExtend(items)">Gia hạn</a-button>
                             </div>
                         </div>
                         <div class="flex justify-end" v-else-if="items?.status === 'overdue'">
@@ -381,22 +383,24 @@
                         </div>
                     </div>
                 </form>
-                <OrderCanceled :openModal="openModalAdd" :CloseModal="CloseModalAdd" :orderId="orderId" />
-                <OrderExtended :openModal="openModalExtend" :CloseModal="CloseModalExtend" />
-                <OrderReturnBook :openModal="openModalReturnBook" :CloseModal="CloseReturnBook" />
+                <OrderAdminOrderCanceled :openModal="openModalAdd" :CloseModal="CloseModalAdd" :orderId="orderId" />
+                <OrderAdminOrderExtendsionAll :openModal="openModalExtendsionAll" :CloseModal="CloseModalExtendsionAll"
+                    :data="extendsionBooks" :id="orderId"/>
+                <OrderAdminOrderExtended :openModal="openModalExtend" :CloseModal="CloseModalExtend"
+                    :items="extendsionBook" />
+                <OrderAdminOrderReturnBook :openModal="openModalReturnBook" :CloseModal="CloseReturnBook"
+                    :loan_order_detail="loan_order_detail" />
+
             </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import OrderCanceled from '~/components/OrderAdmin/OrderCanceled.vue';
-import OrderExtended from '~/components/OrderAdmin/OrderExtended.vue';
-import OrderReturnBook from '~/components/OrderAdmin/OrderReturnBook.vue';
-
 const openModalAdd = ref<boolean>(false);
 const openModalExtend = ref<boolean>(false);
 const openModalReturnBook = ref<boolean>(false);
+const openModalExtendsionAll = ref<boolean>(false)
 const route = useRoute()
 const orderId = route.params.id;
 const orderStore = useOrderStore();
@@ -410,22 +414,36 @@ const setStatus = (status: string) => {
 useAsyncData(async () => {
     await orderStore.getOneOrder(orderId);
 });
+const loan_order_detail = ref()
+const extendsionBook = ref()
+const extendsionBooks = ref([])
 const showModalAdd = () => {
     openModalAdd.value = true;
 };
 const CloseModalAdd = () => {
     openModalAdd.value = false;
 };
-
-const showModalExtend = () => {
+const showModalExtendsionAll = (hi) => {
+    extendsionBooks.value = hi
+    openModalExtendsionAll.value = true;
+}
+const CloseModalExtendsionAll = () => {
+    openModalExtendsionAll.value = false;
+}
+const showModalExtend = (items) => {
+    console.log(items)
+    extendsionBook.value = items;
     openModalExtend.value = true;
 };
 const CloseModalExtend = () => {
     openModalExtend.value = false;
 };
-const showReturnBook = () => {
+const showReturnBook = (items: any) => {
+    // console.log("🚀 ~ showReturnBook ~ items:", items)
+    loan_order_detail.value = items
     openModalReturnBook.value = true;
 };
+
 const CloseReturnBook = () => {
     openModalReturnBook.value = false;
 };

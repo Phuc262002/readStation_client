@@ -14,38 +14,31 @@
     >
       <div class="flex flex-col">
         <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
+          class="flex items-center text-base h-[90px] bg-white shadow-md rounded-md"
         >
-          <div class="flex items-center text-sm font-medium p-4">
-            <a-tag :bordered="false" class="bg-tag-bg-04 text-tag-text-04">
-              <UIcon class="text-lg w-10 h-10" name="i-grommet-icons-cubes"
-            /></a-tag>
-
-            <div class="text-tag-text-04">
-              <p class="font-normal text-base">Tất cả</p>
-              <p class="font-bold text-xl">
-                {{ userStore?.userDashboard?.totalUser }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
-        >
-          <div class="flex items-center text-sm font-medium p-4">
+          <div class="flex items-center text-sm w-full gap-2 font-medium p-4">
             <a-tag
               :bordered="false"
-              class="flex items-center p-1 bg-tag-bg-04 text-tag-text-04"
+              class="flex items-center p-2 bg-tag-bg-04 text-tag-text-04"
             >
               <UIcon class="text-lg w-10 h-10" name="i-grommet-icons-cubes"
             /></a-tag>
 
-            <div class="text-tag-text-04">
-              <p class="font-normal text-base">Quản trị viên</p>
-              <p class="font-bold text-xl">
-                {{ userStore?.userDashboard?.totalAdmin }}
+            <div class="flex-1 text-tag-text-04">
+              <p class="font-normal text-base">Tất cả</p>
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="userStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>
+                  {{
+                    new Intl.NumberFormat().format(
+                      userStore?.userDashboard?.totalUser
+                    )
+                  }}
+                </span>
               </p>
             </div>
           </div>
@@ -53,9 +46,41 @@
       </div>
       <div class="flex flex-col">
         <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
+          class="flex items-center text-base h-[90px] bg-white shadow-md rounded-md"
         >
-          <div class="flex items-center text-sm font-medium p-4 gap-2">
+          <div class="flex items-center text-sm w-full gap-2 font-medium p-4">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-2 bg-tag-bg-04 text-tag-text-04"
+            >
+              <UIcon class="text-lg w-10 h-10" name="i-grommet-icons-cubes"
+            /></a-tag>
+
+            <div class="flex-1 text-tag-text-04">
+              <p class="font-normal text-base">Quản trị viên</p>
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="userStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>
+                  {{
+                    new Intl.NumberFormat().format(
+                      userStore?.userDashboard?.totalAdmin
+                    )
+                  }}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div
+          class="flex items-center text-base h-[90px] bg-white shadow-md rounded-md"
+        >
+          <div class="flex items-center text-sm w-full font-medium p-4 gap-2">
             <a-tag
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-04 text-tag-text-03"
@@ -63,10 +88,21 @@
               <UIcon class="text-lg w-10 h-10" name="i-bi-box-arrow-in-down"
             /></a-tag>
 
-            <div class="text-tag-text-03">
+            <div class="flex-1 text-tag-text-03">
               <p class="font-normal text-base">Thủ thư</p>
-              <p class="font-bold text-xl">
-                {{ userStore?.userDashboard?.totalManager }}
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="userStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>
+                  {{
+                    new Intl.NumberFormat().format(
+                      userStore?.userDashboard?.totalManager
+                    )
+                  }}
+                </span>
               </p>
             </div>
           </div>
@@ -74,17 +110,31 @@
       </div>
       <div class="flex flex-col">
         <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
+          class="flex items-center text-base h-[90px] bg-white shadow-md rounded-md"
         >
-          <div class="flex items-center text-sm font-medium p-4">
-            <a-tag :bordered="false" class="bg-tag-bg-02 text-tag-text-02">
+          <div class="flex items-center text-sm w-full gap-2 font-medium p-4">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-2 bg-tag-bg-02 text-tag-text-02"
+            >
               <UIcon class="text-lg w-10 h-10" name="i-iconoir-user"
             /></a-tag>
 
-            <div class="text-tag-text-02">
+            <div class="flex-1 text-tag-text-02">
               <p class="font-normal text-base">Khách hàng</p>
-              <p class="font-bold text-xl">
-                {{ userStore?.userDashboard?.totalUserUnverified }}
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="userStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>
+                  {{
+                    new Intl.NumberFormat().format(
+                      userStore?.userDashboard?.totalUserUnverified
+                    )
+                  }}
+                </span>
               </p>
             </div>
           </div>
@@ -92,19 +142,33 @@
       </div>
       <div class="flex flex-col">
         <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
+          class="flex items-center text-base h-[90px] bg-white shadow-md rounded-md"
         >
-          <div class="flex items-center text-sm font-medium p-4">
-            <a-tag :bordered="false" class="bg-tag-bg-01 text-tag-text-01">
+          <div class="flex items-center text-sm w-full gap-2 font-medium p-4">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-2 bg-tag-bg-01 text-tag-text-01"
+            >
               <UIcon
                 class="text-lg w-10 h-10"
                 name="i-ph-user-circle-check-thin"
             /></a-tag>
 
-            <div class="text-tag-text-01">
+            <div class="flex-1 text-tag-text-01">
               <p class="font-normal text-base">HS/SV</p>
-              <p class="font-bold text-xl">
-                {{ userStore?.userDashboard?.totalStudent }}
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="userStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>
+                  {{
+                    new Intl.NumberFormat().format(
+                      userStore?.userDashboard?.totalStudent
+                    )
+                  }}
+                </span>
               </p>
             </div>
           </div>
@@ -112,20 +176,31 @@
       </div>
       <div class="flex flex-col">
         <div
-          class="flex items-center text-base h-[90px] cursor-pointer bg-white shadow-md rounded-md"
+          class="flex items-center text-base h-[90px] bg-white shadow-md rounded-md"
         >
-          <div class="flex items-center text-sm font-medium p-4">
+          <div class="flex items-center text-sm w-full gap-2 font-medium p-4">
             <a-tag
               :bordered="false"
-              class="flex items-center p-1 bg-tag-bg-11 text-tag-text-11"
+              class="flex items-center p-2 bg-tag-bg-11 text-tag-text-11"
             >
               <UIcon class="text-lg w-10 h-10" name="i-bi-bookshelf"
             /></a-tag>
 
-            <div class="text-tag-text-11">
+            <div class="flex-1 text-tag-text-11">
               <p class="font-normal text-base">KH đã xác thực</p>
-              <p class="font-bold text-xl">
-                {{ userStore?.userDashboard?.totalUserVerified }}
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="userStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>
+                  {{
+                    new Intl.NumberFormat().format(
+                      userStore?.userDashboard?.totalUserVerified
+                    )
+                  }}
+                </span>
               </p>
             </div>
           </div>
@@ -155,8 +230,10 @@
             <template #overlay>
               <a-menu class="">
                 <a-menu-item
-                  @click="statusValue({ value: '', label: 'Tất cả' })"
-                  >Tất cả</a-menu-item
+                  @click="
+                    statusValue({ value: '', label: 'Tất cả trạng thái' })
+                  "
+                  >Tất cả trạng thái</a-menu-item
                 >
                 <a-menu-item
                   @click="
@@ -177,7 +254,7 @@
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ queryStatus.label ? queryStatus.label : "Tất cả" }}
+              {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -185,35 +262,24 @@
             <template #overlay>
               <a-menu class="">
                 <a-menu-item
-                  @click="roleValue({ value: '', label: 'Tất cả' })"
-                  >Tất cả</a-menu-item
+                  @click="roleValue({ value: '', label: 'Tất cả vai trò' })"
+                  >Tất cả vai trò</a-menu-item
                 >
+
                 <a-menu-item
-                  @click="
-                    roleValue({ value: 'user', label: 'Người dùng' })
-                  "
-                  >Người dùng</a-menu-item
+                  v-for="role in roleStore.roleAdmin"
+                  :key="role?.id"
+                  @click="roleValue({ value: role?.id, label: role?.name })"
                 >
-                <a-menu-item
-                  @click="roleValue({ value: 'student', label: 'HSSV' })"
-                  >HSSV</a-menu-item
-                >
-                <a-menu-item
-                  @click="
-                    roleValue({ value: 'manager', label: 'Thủ thư' })
-                  "
-                  >Thủ thư</a-menu-item
-                >
-                <a-menu-item
-                  @click="
-                    statusValue({ value: 'admin', label: 'Quản trị' })
-                  "
-                  >Quản trị</a-menu-item
-                >
+                  <span v-if="role.name === 'user'"> Khách hàng</span>
+                  <span v-if="role.name === 'admin'"> Quản trị</span>
+                  <span v-if="role.name === 'student'"> Sinh viên</span>
+                  <span v-if="role.name === 'manager'"> Thủ thư</span>
+                </a-menu-item>
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ queryrole.label ? queryrole.label : "Tất cả" }}
+              {{ queryrole.label ? queryrole.label : "Tất cả vai trò" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -289,9 +355,10 @@
             <IconTick v-if="record.google_id" />
             <IconMul v-else />
           </template>
-          <template v-else-if="column.key === 'has_wallet'">
-            <IconTick v-if="record.has_wallet" />
-            <IconMul v-else />
+          <template v-else-if="column.key === 'balance_holding'">
+            <span>
+              {{ record.balance_holding }}
+            </span>
           </template>
           <template v-else-if="column.key === 'citizen_identity_card'">
             <IconTick v-if="record.citizen_identity_card" />
@@ -336,9 +403,12 @@
                 </template>
                 <button
                   @click="showModalDetail(record.id)"
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
+                  <Icon
+                    icon="heroicons:eye"
+                    class="group-hover:text-[#212122]"
+                  />
                 </button>
               </a-tooltip>
 
@@ -346,17 +416,21 @@
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
+                  <Icon
+                    icon="humbleicons:dots-horizontal"
                     class="group-hover:text-[#131313]"
-                    name="i-solar-menu-dots-bold"
                   />
                 </button>
                 <template #overlay>
-                  <a-menu>
+                  <a-menu class="space-y-1">
                     <NuxtLink :to="`/admin/user/edit/${record.id}`">
-                      <a-menu-item key="1" class="p-4">
+                      <a-menu-item key="1" class="p-4 hover:!bg-tag-bg-02">
                         <button class="flex items-center gap-2">
-                          <span>Sửa</span>
+                          <Icon
+                            icon="fluent:edit-48-regular"
+                            class="text-lg text-tag-text-02"
+                          />
+                          <span class="text-tag-text-02 font-bold">Sửa</span>
                         </button>
                       </a-menu-item>
                     </NuxtLink>
@@ -366,7 +440,11 @@
                         @click="showBannedConfirm(record.id)"
                         class="flex items-center gap-2"
                       >
-                        <span>Chặn</span>
+                        <Icon
+                          icon="gridicons:block"
+                          class="text-lg font-bold text-tag-text-06"
+                        />
+                        <span class="text-tag-text-06 font-bold">Chặn</span>
                       </button>
                     </a-menu-item>
                   </a-menu>
@@ -403,6 +481,7 @@
 <script setup>
 import { UserStatus } from "~/types/admin/user";
 import { UserRole } from "~/types/admin/user";
+import { Icon } from "@iconify/vue";
 const current = ref(1);
 const userStore = useUserStore();
 const roleStore = useRoleStore();
@@ -410,6 +489,7 @@ const openModalConfirm = ref(false);
 const userDetailId = ref();
 const userDashboard = ref();
 const openModalDetail = ref(false);
+
 const status = ref("");
 const queryrole = ref({
   value: "",
@@ -422,7 +502,24 @@ const queryStatus = ref({
 });
 const roleValue = ({ value, label }) => {
   queryrole.value.value = value;
-  queryrole.value.label = label;
+
+  switch (label) {
+    case "user":
+      queryrole.value.label = "Khách hàng";
+      break;
+    case "admin":
+      queryrole.value.label = "Quản trị";
+      break;
+    case "student":
+      queryrole.value.label = "Sinh viên";
+      break;
+    case "manager":
+      queryrole.value.label = "Thủ thư";
+      break;
+    default:
+      queryrole.value.label = "Tất cả vai trò";
+      break;
+  }
 };
 const statusValue = ({ value, label }) => {
   queryStatus.value.value = value;
@@ -434,11 +531,12 @@ useAsyncData(
       page: current.value,
       search: valueSearch.value,
       status: queryStatus.value.value,
+      role_id: queryrole.value.value,
     });
   },
   {
     immediate: true,
-    watch: [current, valueSearch, queryStatus.value],
+    watch: [current, valueSearch, queryStatus.value, queryrole.value],
   }
 );
 useAsyncData(async () => {
@@ -449,9 +547,8 @@ useAsyncData(async () => {
 
 useAsyncData(
   async () => {
-    await roleStore.getRole({
-      role: queryrole.value.value,
-      
+    await roleStore.getAllRole({
+      role_id: queryrole.value.value,
     });
   },
 
@@ -491,8 +588,8 @@ const columns = [
   },
   {
     title: "Ví tài khoản",
-    dataIndex: "has_wallet",
-    key: "has_wallet",
+    dataIndex: "balance_holding",
+    key: "balance_holding",
   },
   {
     title: "Vai trò",

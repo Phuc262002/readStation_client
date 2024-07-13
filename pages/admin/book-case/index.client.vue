@@ -12,11 +12,11 @@
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
         <div class="w-1/2 flex items-center gap-2">
-          <div class="relative w-2/3 md:block hidden">
+          <div class="md:block hidden">
             <div class="flex">
               <a-input
-                placeholder="Nhập mã kệ để tìm kiếm"
-                class="h-10"
+                placeholder="Nhập mã tủ sách để tìm kiếm"
+                class="h-10 w-[400px]"
                 v-model:value="valueSearch"
               >
                 <template #prefix>
@@ -24,23 +24,23 @@
                 </template>
               </a-input>
             </div>
-            <div
-              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-            >
-              <UIcon class="text-gray-500" name="i-material-symbols-search" />
-            </div>
           </div>
 
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
                 <a-menu-item
-                  @click="statusValue({ value: '', label: 'Tất cả' })"
-                  >Tất cả</a-menu-item
+                  @click="
+                    statusValue({ value: '', label: 'Tất cả trạng thái' })
+                  "
+                  >Tất cả trạng thái</a-menu-item
                 >
                 <a-menu-item
-                  @click="statusValue({ value: 'active', label: ' Đang hoạt động' })"
-                  > Đang hoạt động</a-menu-item
+                  @click="
+                    statusValue({ value: 'active', label: ' Đang hoạt động' })
+                  "
+                >
+                  Đang hoạt động</a-menu-item
                 >
                 <a-menu-item
                   @click="statusValue({ value: 'inactive', label: 'Đang ẩn' })"
@@ -49,7 +49,7 @@
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ queryStatus.label ? queryStatus.label : "Tất cả" }}
+              {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -125,20 +125,18 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <NuxtLink :to="`book-case/${record.id}`">
-                <a-tooltip placement="top">
+              <NuxtLink class="hover:text-black" :to="`book-case/${record.id}`">
+                <a-tooltip placement="top" color="black">
                   <template #title>
                     <span>Xem chi tiết</span>
                   </template>
                   <button
-                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                    class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                   >
-                    <div>
-                      <UIcon
-                        class="group-hover:text-[#212122]"
-                        name="i-icon-park-outline-eyes"
-                      />
-                    </div>
+                    <Icon
+                      icon="heroicons:eye"
+                      class="group-hover:text-[#212122]"
+                    />
                   </button>
                 </a-tooltip>
               </NuxtLink>
@@ -152,32 +150,32 @@
                   />
                 </button>
                 <template #overlay>
-                  <a-menu>
+                  <a-menu class="space-y-1">
                     <NuxtLink>
-                      <a-menu-item key="2" class="p-4">
+                      <a-menu-item key="2" class="p-4 hover:!bg-tag-bg-02">
                         <button
-                          class="flex items-center gap-1 text-blue-400"
+                          class="flex items-center gap-2"
                           @click="showModalEdit(record?.id)"
                         >
-                          <UIcon
-                            class="group-hover:text-[green]"
-                            name="i-material-symbols-edit-outline"
+                          <Icon
+                            icon="fluent:edit-48-regular"
+                            class="text-lg text-tag-text-02"
                           />
-                          <span>Sửa</span>
+                          <span class="text-tag-text-02 font-bold">Sửa</span>
                         </button>
                       </a-menu-item>
                     </NuxtLink>
-                    <a-menu-item key="3" class="p-4">
+                    <a-menu-item key="3" class="p-4 hover:!bg-tag-bg-06">
                       <span>
                         <button
-                          class="flex items-center gap-1 text-blue-400"
+                          class="flex items-center gap-2"
                           @click="showDeleteConfirm(record?.id)"
                         >
-                          <UIcon
-                            class="group-hover:text-[red] text-lg"
-                            name="i-material-symbols-delete-outline"
+                          <Icon
+                            icon="hugeicons:delete-01"
+                            class="text-lg font-bold text-tag-text-06"
                           />
-                          <span>Xóa</span>
+                          <span class="text-tag-text-06 font-bold">Xóa</span>
                         </button>
                       </span>
                     </a-menu-item>
@@ -201,8 +199,9 @@
 </template>
 <script setup>
 import { ref } from "vue";
+import { Icon } from "@iconify/vue";
 import { Modal } from "ant-design-vue";
-import {BookCaseStatus} from "~/types/admin/bookCase";
+import { BookCaseStatus } from "~/types/admin/bookCase";
 import { LoadingOutlined } from "@ant-design/icons-vue";
 import { h } from "vue";
 const openModalEdit = ref(false);

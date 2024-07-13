@@ -11,16 +11,14 @@
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4"
     >
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium w-full p-4 gap-2">
             <a-tag
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-03 text-tag-text-03"
             >
-              <UIcon class="text-lg w-10 h-10" name="i-grommet-icons-cubes"
-            /></a-tag>
+              <Icon icon="mdi-light:credit-card" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-03">
               <p class="font-normal text-base">Doanh thu</p>
@@ -38,16 +36,14 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium w-full gap-2 p-4">
             <a-tag
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-04 text-tag-text-04"
             >
-              <UIcon class="text-lg w-8 h-8" name="i-bi-box-arrow-in-down"
-            /></a-tag>
+              <Icon icon="mdi-light:credit-card" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-04">
               <p class="font-normal text-base">Chuyển khoản</p>
@@ -57,16 +53,14 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium w-full gap-2 p-4">
             <a-tag
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-05 text-tag-text-05"
             >
-              <UIcon class="text-lg w-10 h-10" name="i-iconoir-user"
-            /></a-tag>
+              <Icon icon="la:cash-register" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-05">
               <p class="font-normal text-base">Tiền mặt</p>
@@ -76,18 +70,14 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium w-full gap-2 p-4">
             <a-tag
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-11 text-tag-text-11"
             >
-              <UIcon
-                class="text-lg w-10 h-10"
-                name="i-ph-user-circle-check-thin"
-            /></a-tag>
+              <Icon icon="lucide:book-up" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-11">
               <p class="font-normal text-base">Phí dịch vụ</p>
@@ -97,16 +87,14 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium w-full gap-2 p-4">
             <a-tag
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-12 text-tag-text-12"
             >
-              <UIcon class="text-lg w-10 h-10" name="i-bi-bookshelf"
-            /></a-tag>
+              <Icon icon="tabler:player-track-next" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-12">
               <p class="font-normal text-base">Phí gia hạn</p>
@@ -116,18 +104,14 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white  rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm font-medium w-full gap-2 p-4">
             <a-tag
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-11 text-tag-text-11"
             >
-              <UIcon
-                class="text-lg w-10 h-10"
-                name="i-material-symbols-light-book-4-outline"
-            /></a-tag>
+              <Icon icon="ph:warning-thin" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-11">
               <p class="font-normal text-base">Số lượng kệ sách</p>
@@ -160,7 +144,8 @@
                 <!-- {{
                     new Intl.NumberFormat("vi-VN", {
                       style: "currency",
-                      currency: "VND",
+                      currency: "VND",7\
+                      
                     }).format(dashboardStore?.dashboardAdmin?.revenue)
                   }} -->
               </p>
@@ -188,9 +173,14 @@
         </div>
       </div>
       <div class="p-5">
+        <a-space direction="vertical" :size="12">
+          <a-range-picker v-model:value="value1" />
+        </a-space>
         <HighchartHigh />
       </div>
     </div>
   </div>
 </template>
-<script setup></script>
+<script setup>
+import { Icon } from "@iconify/vue";
+</script>

@@ -121,7 +121,7 @@
               v-else-if="orderStore?.order?.status === 'extended'"
               class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
             >
-              Quá hạn
+              Đang gia hạn
             </a-tag>
             <a-tag
               v-else-if="orderStore?.order?.status === 'active'"
@@ -133,7 +133,7 @@
               v-else-if="orderStore?.order?.status === 'returning'"
               class="text-tag-text-13 bg-tag-bg-13 border-none py-1 px-3 rounded-lg"
             >
-              Đang gia hạn
+              Đang trả sách
             </a-tag>
             <a-tag
               v-else-if="orderStore?.order?.status === 'completed'"
@@ -352,10 +352,38 @@
           v-for="(order, index) in orderStore?.order?.loan_order_details"
           :key="index"
         >
-          <h3 class="font-bold">
-            {{ order?.book_details?.book?.title }} -
-            {{ order?.book_details?.book_version }}
-          </h3>
+          <div class="flex gap-3">
+            <h3 class="font-bold">
+              {{ order?.book_details?.book?.title }} -
+              {{ order?.book_details?.book_version }}
+            </h3>
+            <div>
+              <a-tag
+                v-if="order?.status === 'returning'"
+                class="text-tag-text-13 bg-tag-bg-13 border-none py-1 px-3 rounded-lg"
+              >
+                Đang trả sách
+              </a-tag>
+              <a-tag
+                v-else-if="order?.status === 'completed'"
+                class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg"
+              >
+                Đã trả sách
+              </a-tag>
+              <a-tag
+                v-else-if="order?.status === 'overdue'"
+                class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
+              >
+                Quá hạn
+              </a-tag>
+              <a-tag
+                v-else-if="order?.status === 'extended'"
+                class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
+              >
+                Đang gia hạn
+              </a-tag>
+            </div>
+          </div>
           <div class="flex mt-3">
             <div class="w-1/2 grid grid-cols-12 border-r border-rtgray-50">
               <div class="col-span-4">
@@ -452,11 +480,16 @@
             class="flex justify-end pt-4 gap-2"
             v-if="orderStore?.order?.status === 'active'"
           >
-            <a-button class="h-10" @click="showModalGive(order)">
+            <a-button
+              class="h-10"
+              @click="showModalGive(order)"
+              v-if="order?.status === 'active'"
+            >
               Trả sách
             </a-button>
 
             <a-button
+              v-if="order?.status === 'active'"
               class="h-10 bg-orange-500 !text-white border-none"
               @click="showModalExtend"
             >
@@ -471,6 +504,7 @@
         <NuxtLink
           to="/account/order"
           v-if="
+            orderStore?.order?.status === 'active' ||
             orderStore?.order?.status === 'wating_payment' ||
             orderStore?.order?.status === 'pending' ||
             orderStore?.order?.status === 'ready_for_pickup' ||
