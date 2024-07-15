@@ -114,8 +114,8 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-11">
-              <p class="font-normal text-base">Số lượng kệ sách</p>
-              <p class="font-bold text-2xl text-right">kệ sách</p>
+              <p class="font-normal text-base">Phí quá hạn</p>
+              <p class="font-bold text-2xl text-right">10000</p>
             </div>
           </div>
         </div>

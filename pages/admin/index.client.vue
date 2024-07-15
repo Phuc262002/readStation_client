@@ -255,6 +255,12 @@
         </div>
       </div>
     </div>
+    <div class="p-5">
+          <a-space class="flex" direction="vertical" :size="12">
+            <a-range-picker v-model:value="value1" />
+          </a-space>
+          <HighchartHigh />
+        </div>
     <div class="w-full min-h-[360px] bg-[white] rounded-lg p-5">
       <div class="flex flex-col gap-5">
         <div class="flex justify-between items-center">
@@ -275,6 +281,7 @@
             <a-button type="primary" size="large">Thêm đơn hàng</a-button>
           </div>
         </div>
+        
         <div class="flex gap-4 text-white">
           <a-button
             :class="[
@@ -297,6 +304,7 @@
             <span>Quá hạn</span>
           </a-button>
         </div>
+        
         <div>
           <a-table
             :columns="columns"
@@ -481,7 +489,7 @@
         </div>
       </div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div class="bg-white w-full shadow-md rounded-md space-y-2 p-5">
         <div class="text-xl font-semibold">Sách được thuê nhiều</div>
         <div class="max-h-[400px] overflow-auto pr-4">
@@ -505,6 +513,25 @@
           </NuxtLink>
         </div>
       </div>
+
+      <div class="bg-white w-full shadow-md rounded-md space-y-2 p-5">
+        <div class="flex justify-between items-end font-semibold">
+          <div class="text-xl">Lịch sử giao dịch gần đây</div>
+          <NuxtLink to="/admin/history-transaction">
+            <div class="underline text-sm cursor-pointer hover:text-orange-400">
+              Xem tất cả
+            </div>
+          </NuxtLink>
+        </div>
+        <div class="max-h-[400px] overflow-auto pr-4">
+          <TransactionHistory
+            v-for="history in transactionAdminStore.transactionAdmin
+              .transactions"
+            :key="history.id"
+            :transactions="history"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -512,6 +539,7 @@
 import { Icon } from "@iconify/vue";
 const dashboardStore = useDashboardStore();
 const orderStore = useOrderStore();
+const transactionAdminStore = useTransactionAdminStore();
 const filter = ref("pending");
 const valueSearch = ref("");
 useAsyncData(
@@ -536,6 +564,11 @@ useAsyncData(async () => {
 
 useAsyncData(async () => {
   await dashboardStore.getInvoiceDashboard();
+});
+useAsyncData(async () => {
+  await transactionAdminStore.getAllTransaction({
+    sort: "inMonth",
+  });
 });
 const handleCheckStatus = (status) => {
   filter.value = status;

@@ -334,7 +334,7 @@
           >Thùng rác</a-menu-item
         >
       </a-sub-menu>
-      <a-sub-menu key="sub11">
+      <a-sub-menu key="sub46">
         <template #title>
           <span class="flex items-center gap-2">
             <Icon
@@ -342,18 +342,21 @@
               icon="solar:reorder-outline"
               class="text-2xl"
             />
-            <span>Hóa đơn nhập hàng</span>
+            <span>Quản lý lịch sử giao dịch</span>
           </span>
         </template>
-        <a-menu-item key="28" @click="navigateTo('/admin/manager-bill')"
-          >Tất cả hóa đơn</a-menu-item
-        >
-        <a-menu-item
-          key="29"
-          @click="navigateTo('/admin/manager-bill/create-bill')"
-          >Thêm hóa đơn</a-menu-item
+        <a-menu-item key="28" @click="navigateTo('/admin/history-transaction')"
+          >Tất cả lịch sử giao dịch</a-menu-item
         >
       </a-sub-menu>
+      <a-menu-item key="32" @click="navigateTo('/admin/image')">
+        <Icon
+          :class="props.collapsed && 'anticon anticon-desktop'"
+          icon="radix-icons:image"
+          class="text-2xl"
+        />
+        <span>Quản lý ảnh</span>
+      </a-menu-item>
     </a-menu>
   </a-layout-sider>
 </template>
