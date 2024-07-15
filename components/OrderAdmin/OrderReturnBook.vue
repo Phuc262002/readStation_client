@@ -116,7 +116,7 @@ const onSubmit = async () => {
       id: props.loan_order_detail?.id,
       valueRetunEachBook: valueReturnEachBook.value,
     });
-    open.value = false;
+    handleClose();
   } catch (error) {}
 };
 const handleChange = (value) => {

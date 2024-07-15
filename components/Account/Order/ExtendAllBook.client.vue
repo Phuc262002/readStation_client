@@ -7,16 +7,13 @@
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
     </div>
     <a-modal
-      v-model:open="props.openModalExtend"
+      v-model:open="props.openExtendAll"
       :footer="null"
       width="50%"
-      :onCancel="handleCloseExtend"
+      :onCancel="handleCloseExtendAll"
     >
       <form @submit.prevent="onSubmit" class="mt-5 space-y-5">
-        <h3 class="font-bold text-base">
-          Bạn muốn gia hạn sách
-          {{ props.bookExtendDetail?.book_details?.book?.title }}
-        </h3>
+        <h3 class="font-bold text-base">Bạn muốn gia hạn "Toàn bộ sách" ?</h3>
         <a-radio-group v-model:value="extended_method" class="flex gap-5 my-5">
           <a-radio value="cash" class="w-1/2 p-5 border rounded-lg">
             Gia hạn tại thư viện
@@ -26,10 +23,13 @@
           </a-radio>
         </a-radio-group>
 
-        <div class="grid grid-cols-12 px-5">
+        <div
+          class="grid grid-cols-12 px-5"
+          v-for="(order, index) in orderStore?.order?.loan_order_details"
+        >
           <div class="col-span-4">
             <img
-              :src="props.bookExtendDetail?.book_details?.poster"
+              :src="order?.book_details?.poster"
               alt=""
               class="w-[114px] h-[176px] shadow-lg shadow-gray-500"
             />
@@ -38,32 +38,26 @@
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Tên sách:</span>
               <span class="col-span-3">
-                {{ props.bookExtendDetail?.book_details?.book?.title }}
+                {{ order?.book_details?.book?.title }}
               </span>
             </div>
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Tác giả:</span>
               <span class="col-span-3">
-                {{ props.bookExtendDetail?.book_details?.book?.author?.author }}
+                {{ order?.book_details?.book?.author?.author }}
               </span>
             </div>
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Ngày thuê:</span>
               <span class="col-span-3">
-                {{
-                  $dayjs(props.bookExtendDetail?.loan_date).format(
-                    "DD/MM/YYYY - HH:MM"
-                  )
-                }}
+                {{ $dayjs(order?.loan_date).format("DD/MM/YYYY - HH:MM") }}
               </span>
             </div>
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Ngày hết hạn cũ:</span>
               <span class="col-span-3">
                 {{
-                  $dayjs(props.bookExtendDetail?.original_due_date).format(
-                    "DD/MM/YYYY - HH:MM"
-                  )
+                  $dayjs(order?.original_due_date).format("DD/MM/YYYY - HH:MM")
                 }}
               </span>
             </div>
@@ -71,7 +65,7 @@
               <span class="col-span-3 font-bold">Ngày hết hạn mới:</span>
               <span class="col-span-3">
                 {{
-                  $dayjs(props.bookExtendDetail?.original_due_date)
+                  $dayjs(order?.original_due_date)
                     .add(5, "day")
                     .format("DD/MM/YYYY - HH:MM")
                 }}
@@ -88,13 +82,10 @@
           gia hạn thời gian thuê sách
         </p>
         <p class="text-tag-text-06">
-          Xin lưu ý rằng quý khách cần trả sách đúng hạn để tránh các khoản phí
-          phạt. Nếu có bất kỳ thắc mắc nào hoặc cần thêm thông tin, xin vui lòng
-          liên hệ với chúng tôi qua địa chỉ email của thư viện hoặc gọi đến số
-          điện thoại 0987654321 để được hỗ trợ
+          Lưu ý: Quý khách cần trả sách đúng hạn để tránh các khoản phí phạt.
         </p>
         <div class="flex justify-end gap-2">
-          <a-button class="h-10" @click="handleCloseExtend"> Hủy </a-button>
+          <a-button class="h-10" @click="handleCloseExtendAll"> Hủy </a-button>
 
           <a-button
             :loading="orderStore?.isSubmitting"
@@ -111,14 +102,14 @@
 <script setup lang="ts">
 const orderStore = useOrderClientStore();
 const extended_method = ref("cash");
+
 const onSubmit = async () => {
-  const resData = await orderStore.extensionBook({
-    id: props.bookExtendDetail?.id,
+  const resData = await orderStore.extensionAllBook({
+    id: orderStore?.order?.id,
     body: {
       extended_method: extended_method.value,
     },
   });
-  console.log("resData", resData);
 
   if (
     resData?.data?._rawValue?.status == true &&
@@ -143,29 +134,13 @@ const onSubmit = async () => {
     });
   }
 };
-
 const props = defineProps({
-  openModalExtend: Boolean,
-  closeModalExtend: Function,
-  bookExtendDetail: Object,
+  openExtendAll: Boolean,
+  closeExtendAll: Function,
 });
-const open = ref(props.openModalExtend);
-const bookDetailId = ref(props.bookExtendDetail?.id);
+const open = ref(props.openExtendAll);
 
-watch(
-  () => props.openModalExtend,
-  (newValue) => {
-    open.value = newValue;
-  }
-);
-watch(
-  () => props.bookExtendDetail?.id,
-  (newValue) => {
-    bookDetailId.value = newValue;
-  }
-);
-
-const handleCloseExtend = async () => {
-  props.closeModalExtend();
+const handleCloseExtendAll = async () => {
+  props.closeExtendAll();
 };
 </script>
