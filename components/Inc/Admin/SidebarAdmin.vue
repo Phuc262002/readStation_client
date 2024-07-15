@@ -32,14 +32,6 @@
         />
         <span>Dashboards</span>
       </a-menu-item>
-      <a-menu-item key="541" @click="navigateTo('/admin/dashboard')">
-        <Icon
-          :class="props.collapsed && 'anticon anticon-desktop'"
-          icon="solar:chart-linear"
-          class="text-2xl"
-        />
-        <span>Thống kê</span>
-      </a-menu-item>
 
       <a-menu-item
         key="545"
@@ -334,21 +326,35 @@
           >Thùng rác</a-menu-item
         >
       </a-sub-menu>
-      <a-sub-menu key="sub46">
+      <a-sub-menu key="sub11">
         <template #title>
           <span class="flex items-center gap-2">
             <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
-              icon="solar:reorder-outline"
+              icon="icon-park-outline:bill"
               class="text-2xl"
             />
-            <span>Quản lý lịch sử giao dịch</span>
+            <span>Hóa đơn nhập hàng</span>
           </span>
         </template>
-        <a-menu-item key="28" @click="navigateTo('/admin/history-transaction')"
-          >Tất cả lịch sử giao dịch</a-menu-item
+        <a-menu-item key="28" @click="navigateTo('/admin/manager-bill')"
+          >Tất cả hóa đơn</a-menu-item
+        >
+        <a-menu-item
+          key="29"
+          @click="navigateTo('/admin/manager-bill/create-bill')"
+          >Thêm hóa đơn</a-menu-item
         >
       </a-sub-menu>
+
+      <a-menu-item key="46" @click="navigateTo('/admin/history-transaction')">
+        <Icon
+          :class="props.collapsed && 'anticon anticon-desktop'"
+          icon="hugeicons:bitcoin-transaction"
+          class="text-2xl"
+        />
+        <span>Tất cả lịch sử giao dịch</span>
+      </a-menu-item>
       <a-menu-item key="32" @click="navigateTo('/admin/image')">
         <Icon
           :class="props.collapsed && 'anticon anticon-desktop'"

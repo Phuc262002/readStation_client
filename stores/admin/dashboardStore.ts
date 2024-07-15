@@ -6,6 +6,8 @@ export const useDashboardStore = defineStore("dashboard-store", {
       dashboardAdmin: [],
       dashboardBook: [],
       dashboardInvoice: [],
+      dashboradStaticUser: [],
+      dashboradStaticColumnOrder: [],
       isLoading: false,
       isSubmitting: false,
     };
@@ -48,6 +50,36 @@ export const useDashboardStore = defineStore("dashboard-store", {
           `/api/v1/admin/dashboard/invoice-enter-by-month`
         );
         this.dashboardInvoice = data.data._value?.data;
+
+        return data;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async getStaticUser() {
+      try {
+        this.isLoading = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/admin/dashboard/statistic-pie-user`
+        );
+        this.dashboradStaticUser = data.data._value?.data;
+
+        return data;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async getStaticColumnOrder({ sort }: any) {
+      try {
+        this.isLoading = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/admin/dashboard/statistic-column-order?sort=${sort}`
+        );
+        this.dashboradStaticColumnOrder = data.data._value?.data;
 
         return data;
       } catch (error) {

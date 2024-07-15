@@ -1,5 +1,6 @@
 <template>
   <div class="space-y-1 cursor-pointer hover:bg-[#f1f1f1] p-2 hover:rounded-md">
+   
     <div class="flex justify-between">
       <p>{{ props.dashboard?.invoice_code }}</p>
       <a-tag
