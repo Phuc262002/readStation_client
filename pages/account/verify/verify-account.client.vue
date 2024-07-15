@@ -5,8 +5,8 @@
       class="flex flex-col space-y-10 items-center bg-white shadow-md rounded-md pb-10"
     >
       <img
-        class="w-full h-[450px] object-fill"
-        src="/assets/images/discount.svg"
+        class="w-full h-[550px] object-fill"
+        src="/assets/images/discount-account.png"
         alt=""
       />
       <div class="grid grid-cols-8 justify-items-center">
