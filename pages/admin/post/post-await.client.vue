@@ -118,43 +118,45 @@
                   @click="showModalDetail(record.id)"
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
+                  <Icon
+                    icon="heroicons:eye"
+                    class="group-hover:text-[#212122]"
+                  />
                 </button>
               </a-tooltip>
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
+                  <Icon
+                    icon="humbleicons:dots-horizontal"
                     class="group-hover:text-[#131313]"
-                    name="i-solar-menu-dots-bold"
                   />
                 </button>
                 <template #overlay>
-                  <a-menu>
-                    <a-menu-item key="2" class="p-4">
-                      <button
-                        @click="showRecoverConfirm(record.id)"
-                        class="flex items-center gap-2"
-                      >
-                        <UIcon
-                          class="group-hover:text-[green]"
-                          name="i-teenyicons-tick-outline"
+                  <a-menu class="space-y-1">
+                    <a-menu-item key="2" class="p-4 hover:!bg-tag-bg-02">
+                      <span class="flex items-center gap-2">
+                        <Icon
+                          icon="charm:circle-tick"
+                          class="text-lg text-tag-text-02"
                         />
-                        <span>Chấp nhận</span>
-                      </button>
+                        <span class="text-tag-text-02 font-bold"
+                          >Chấp nhận</span
+                        >
+                      </span>
                     </a-menu-item>
 
-                    <a-menu-item key="3" class="p-4">
+                    <a-menu-item key="3" class="p-4 hover:!bg-tag-bg-06">
                       <button
                         @click="showCancelConfirm(record.id)"
                         class="flex items-center gap-1"
                       >
-                        <UIcon
-                          class="group-hover:text-[red] text-lg"
-                          name="i-material-symbols-close"
+                        <Icon
+                          icon="ic:outline-cancel"
+                          class="text-lg font-bold text-tag-text-06"
                         />
-                        <span>Từ chối</span>
+                        <span class="text-tag-text-06 font-bold">Từ chối</span>
                       </button>
                     </a-menu-item>
                   </a-menu>
@@ -188,6 +190,7 @@
 </template>
 <script setup>
 import { Modal } from "ant-design-vue";
+import { Icon } from "@iconify/vue";
 import { PostStatus } from "~/types/admin/post";
 const postStore = usePostStore();
 const openModalConfirm = ref(false);
@@ -276,11 +279,9 @@ const columns = [
 ];
 const CloseModalDetail = () => {
   openModalDetail.value = false;
- 
 };
 const showModalDetail = (id) => {
   openModalDetail.value = true;
   postDetailId.value = id;
-
 };
 </script>

@@ -129,8 +129,9 @@
     </div>
 
     <div class="flex justify-end items-end gap-2">
+      {{ props.status }}
       <a-button
-        v-if="props.status === 'wating_approve'"
+        v-if="props.status === PostStatus.WATING_APPROVE"
         @click="handleClose"
         html-type="submit"
         class="mt-4"

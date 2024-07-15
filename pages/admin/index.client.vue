@@ -17,18 +17,22 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-03 text-tag-text-03"
             >
-              <UIcon class="text-lg w-10 h-10" name="i-grommet-icons-cubes"
-            /></a-tag>
-
+              <Icon icon="ion:business-outline" class="text-lg w-10 h-10" />
+            </a-tag>
             <div class="flex-1 text-tag-text-03">
               <p class="font-semibold text-base">Doanh thu</p>
-              <p class="font-bold text-2xl text-right">
-                {{
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="dashboardStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>{{
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
                   }).format(dashboardStore?.dashboardAdmin?.revenue)
-                }}
+                }}</span>
               </p>
             </div>
           </div>
@@ -41,13 +45,24 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-04 text-tag-text-04"
             >
-              <UIcon class="text-lg w-10 h-10" name="i-bi-box-arrow-in-down"
-            /></a-tag>
+              <Icon icon="bi:box-arrow-in-down" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-04">
               <p class="font-semibold text-base">Nhập hàng</p>
-              <p class="font-bold text-2xl text-right">
-                {{ dashboardStore?.dashboardAdmin?.invoiceEnter }}
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="dashboardStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>
+                  {{
+                    new Intl.NumberFormat().format(
+                      dashboardStore?.dashboardAdmin?.invoiceEnter
+                    )
+                  }}
+                </span>
               </p>
             </div>
           </div>
@@ -60,13 +75,24 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-01 text-tag-text-01"
             >
-              <UIcon class="text-lg w-10 h-10" name="i-iconoir-user"
-            /></a-tag>
+              <Icon icon="iconoir-user" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-01">
               <p class="font-semibold text-base">Tổng khách hàng</p>
-              <p class="font-bold text-2xl text-right">
-                {{ dashboardStore?.dashboardAdmin?.user }}
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="dashboardStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>
+                  {{
+                    new Intl.NumberFormat().format(
+                      dashboardStore?.dashboardAdmin?.user
+                    )
+                  }}
+                </span>
               </p>
             </div>
           </div>
@@ -79,15 +105,27 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-03 text-tag-text-03"
             >
-              <UIcon
+              <Icon
+                icon="ph-user-circle-check-thin"
                 class="text-lg w-10 h-10"
-                name="i-ph-user-circle-check-thin"
-            /></a-tag>
+              />
+            </a-tag>
 
-            <div class="text-tag-text-03">
+            <div class="flex-1 text-tag-text-03">
               <p class="font-semibold text-base">Khách hàng đã kích hoạt</p>
-              <p class="font-bold text-2xl text-right">
-                {{ dashboardStore?.dashboardAdmin?.userActiveWallet }}
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="dashboardStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>
+                  {{
+                    new Intl.NumberFormat().format(
+                      dashboardStore?.dashboardAdmin?.userActiveWallet
+                    )
+                  }}
+                </span>
               </p>
             </div>
           </div>
@@ -100,13 +138,24 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-10 text-tag-text-10"
             >
-              <UIcon class="text-lg w-10 h-10" name="i-bi-bookshelf"
-            /></a-tag>
+              <Icon icon="streamline:shelf" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-10">
               <p class="font-semibold text-base">Số lượng tủ sách</p>
-              <p class="font-bold text-2xl text-right">
-                {{ dashboardStore?.dashboardAdmin?.bookcase }}
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="dashboardStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>
+                  {{
+                    new Intl.NumberFormat().format(
+                      dashboardStore?.dashboardAdmin?.bookcase
+                    )
+                  }}</span
+                >
               </p>
             </div>
           </div>
@@ -119,15 +168,24 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-11 text-tag-text-11"
             >
-              <UIcon
-                class="text-lg w-10 h-10"
-                name="i-material-symbols-light-book-4-outline"
-            /></a-tag>
+              <Icon icon="bi-bookshelf" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-11">
               <p class="font-semibold text-base">Số lượng kệ sách</p>
-              <p class="font-bold text-2xl text-right">
-                {{ dashboardStore?.dashboardAdmin?.shelve }}
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="dashboardStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>
+                  {{
+                    new Intl.NumberFormat().format(
+                      dashboardStore?.dashboardAdmin?.shelve
+                    )
+                  }}</span
+                >
               </p>
             </div>
           </div>
@@ -140,13 +198,27 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-05 text-tag-text-05"
             >
-              <UIcon class="text-lg w-10 h-10" name="i-ion-book-outline"
-            /></a-tag>
+              <Icon
+                icon="solar:book-minimalistic-line-duotone"
+                class="text-lg w-10 h-10"
+              />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-05">
               <p class="font-semibold text-base">Số lượng sách</p>
-              <p class="font-bold text-2xl text-right">
-                {{ dashboardStore?.dashboardAdmin?.book }}
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="dashboardStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else
+                  >{{
+                    new Intl.NumberFormat().format(
+                      dashboardStore?.dashboardAdmin?.book
+                    )
+                  }}
+                </span>
               </p>
             </div>
           </div>
@@ -159,21 +231,36 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-06 text-tag-text-06"
             >
-              <UIcon
-                class="text-lg w-10 h-10"
-                name="i-hugeicons-quill-write-02"
-            /></a-tag>
+              <Icon icon="hugeicons-quill-write-02" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-06">
               <p class="font-semibold text-base">Số lượng bài viết</p>
-              <p class="font-bold text-2xl text-right">
-                {{ dashboardStore?.dashboardAdmin?.post }}
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="dashboardStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>
+                  {{
+                    new Intl.NumberFormat().format(
+                      dashboardStore?.dashboardAdmin?.post
+                    )
+                  }}
+                </span>
               </p>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="p-5">
+          <a-space class="flex" direction="vertical" :size="12">
+            <a-range-picker v-model:value="value1" />
+          </a-space>
+          <HighchartHigh />
+        </div>
     <div class="w-full min-h-[360px] bg-[white] rounded-lg p-5">
       <div class="flex flex-col gap-5">
         <div class="flex justify-between items-center">
@@ -194,6 +281,7 @@
             <a-button type="primary" size="large">Thêm đơn hàng</a-button>
           </div>
         </div>
+        
         <div class="flex gap-4 text-white">
           <a-button
             :class="[
@@ -216,6 +304,7 @@
             <span>Quá hạn</span>
           </a-button>
         </div>
+        
         <div>
           <a-table
             :columns="columns"
@@ -337,9 +426,9 @@
                         class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                       >
                         <div>
-                          <UIcon
+                          <Icon
+                            icon="solar:eye-outline"
                             class="group-hover:text-[#212122]"
-                            name="i-icon-park-outline-eyes"
                           />
                         </div>
                       </button>
@@ -400,7 +489,7 @@
         </div>
       </div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div class="bg-white w-full shadow-md rounded-md space-y-2 p-5">
         <div class="text-xl font-semibold">Sách được thuê nhiều</div>
         <div class="max-h-[400px] overflow-auto pr-4">
@@ -424,12 +513,33 @@
           </NuxtLink>
         </div>
       </div>
+
+      <div class="bg-white w-full shadow-md rounded-md space-y-2 p-5">
+        <div class="flex justify-between items-end font-semibold">
+          <div class="text-xl">Lịch sử giao dịch gần đây</div>
+          <NuxtLink to="/admin/history-transaction">
+            <div class="underline text-sm cursor-pointer hover:text-orange-400">
+              Xem tất cả
+            </div>
+          </NuxtLink>
+        </div>
+        <div class="max-h-[400px] overflow-auto pr-4">
+          <TransactionHistory
+            v-for="history in transactionAdminStore.transactionAdmin
+              .transactions"
+            :key="history.id"
+            :transactions="history"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script setup>
+import { Icon } from "@iconify/vue";
 const dashboardStore = useDashboardStore();
 const orderStore = useOrderStore();
+const transactionAdminStore = useTransactionAdminStore();
 const filter = ref("pending");
 const valueSearch = ref("");
 useAsyncData(
@@ -454,6 +564,11 @@ useAsyncData(async () => {
 
 useAsyncData(async () => {
   await dashboardStore.getInvoiceDashboard();
+});
+useAsyncData(async () => {
+  await transactionAdminStore.getAllTransaction({
+    sort: "inMonth",
+  });
 });
 const handleCheckStatus = (status) => {
   filter.value = status;

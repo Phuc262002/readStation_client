@@ -29,7 +29,12 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
-                <a-menu-item @click="statusValue({ value: '', label: 'Tất cả trạng thái' })">Tất cả trạng thái</a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({ value: '', label: 'Tất cả trạng thái' })
+                  "
+                  >Tất cả trạng thái</a-menu-item
+                >
                 <a-menu-item
                   @click="
                     statusValue({ value: 'published', label: 'Công khai' })
@@ -37,18 +42,13 @@
                   >Công khai</a-menu-item
                 >
                 <a-menu-item
-                  @click="
-                    statusValue({ value: 'banned', label: 'Bị chặn' })
-                  "
+                  @click="statusValue({ value: 'banned', label: 'Bị chặn' })"
                   >Bị chặn</a-menu-item
                 >
                 <a-menu-item
-                  @click="
-                    statusValue({ value: 'hidden', label: 'Đang ẩn' })
-                  "
+                  @click="statusValue({ value: 'hidden', label: 'Đang ẩn' })"
                   >Đang ẩn</a-menu-item
                 >
-                
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
@@ -126,41 +126,48 @@
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
                 >
-                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
+                  <Icon
+                    icon="heroicons:eye"
+                    class="group-hover:text-[#212122]"
+                  />
                 </button>
               </a-tooltip>
+              
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
+                  <Icon
+                    icon="humbleicons:dots-horizontal"
                     class="group-hover:text-[#131313]"
-                    name="i-solar-menu-dots-bold"
                   />
                 </button>
                 <template #overlay>
-                  <a-menu>
-                    <a-menu-item key="2" class="p-4">
+                  <a-menu class="space-y-1">
+                    <a-menu-item key="2" class="p-4 hover:!bg-tag-bg-07">
                       <button
                         @click="showRecoverConfirm(record?.id)"
                         class="flex items-center gap-2"
                       >
-                        <UIcon class="text-lg" name="i-mdi-eye-off-outline" />
-                        <span>Ẩn</span>
+                        <Icon
+                          icon="bitcoin-icons:hidden-filled"
+                          class="text-lg text-tag-text-07"
+                        />
+                        <span class="text-tag-text-07 font-bold">Ẩn</span>
                       </button>
                     </a-menu-item>
 
-                    <a-menu-item key="3" class="p-4">
+                    <a-menu-item key="3" class="p-4 hover:!bg-tag-bg-06">
                       <span>
                         <button
                           @click="showDeleteConfirm(record?.id)"
-                          class="flex items-center gap-1"
+                          class="flex items-center gap-2"
                         >
-                          <UIcon
-                            class="text-lg"
-                            name="i-material-symbols-close-rounded"
+                          <Icon
+                            icon="ic:outline-cancel"
+                            class="text-lg font-bold text-tag-text-06"
                           />
-                          <span>Hủy</span>
+                          <span class="text-tag-text-06 font-bold">Hủy</span>
                         </button>
                       </span>
                     </a-menu-item>
@@ -184,6 +191,7 @@
 </template>
 <script setup>
 import { Modal } from "ant-design-vue";
+import { Icon } from "@iconify/vue";
 import { CommentStatus } from "~/types/admin/comment";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";

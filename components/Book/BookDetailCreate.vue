@@ -33,89 +33,84 @@
               </div>
             </div>
           </div>
-          <!-- <div class="flex flex-col gap-2">
-            <label for="">Nổi bật</label>
-            <a-tooltip placement="top" color="blue">
-              <template #title>
-                <span>Nổi bật</span>
-              </template>
-              <span class="group flex items-center justify-center cursor-pointer w-8 h-8 rounded-md">
-                <a-space direction="vertical">
-                  <a-switch>
-                    <template #checkedChildren><check-outlined /></template>
-                    <template #unCheckedChildren><close-outlined /></template>
-                  </a-switch>
-                </a-space>
-              </span>
-            </a-tooltip>
-          </div> -->
           <div class="flex flex-col gap-2">
             <label class="text-sm font-semibold" for="">Sku</label>
-            <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Mã sách"/>
+            <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Mã sách"
+              v-model:value="valueBookDetail.sku_origin" />
           </div>
           <div class="grid grid-rows-3 gap-5 ">
             <div class="grid grid-cols-4 gap-10">
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Phiên bản sách</label>
-                <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Phiên bản sách" />
+                <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Phiên bản sách"
+                  v-model:value="valueBookDetail.book_version" />
               </div>
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Số lượng</label>
-                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Số lượng" />
+                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Số lượng"
+                  v-model:value="valueBookDetail.stock" />
               </div>
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Giá</label>
-                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Giá" />
+                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Giá"
+                  v-model:value="valueBookDetail.price" />
               </div>
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Tiền cọc</label>
-                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Tiền cọc" />
+                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Tiền cọc"
+                  v-model:value="valueBookDetail.hire_percent" />
               </div>
             </div>
             <div class="grid grid-cols-4 gap-10">
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Loại bìa</label>
                 <a-select show-search size="large" placeholder="Loại bìa" :options="optionsCardboard"
-                  :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
-                  @change="handleChange"></a-select>
+                  v-model:value="valueBookDetail.cardboard" :filter-option="filterOption" @focus="handleFocus"
+                  @blur="handleBlur" @change="handleChange"></a-select>
               </div>
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Số trang</label>
-                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Số trang" />
+                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Số trang"
+                  v-model:value="valueBookDetail.total_page" />
               </div>
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Kích thước sách</label>
-                <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Kích thước sách" />
+                <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Kích thước sách"
+                  v-model:value="valueBookDetail.book_size" />
               </div>
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Ngôn ngữ</label>
-                <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Ngôn ngữ" />
+                <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Ngôn ngữ"
+                  v-model:value="valueBookDetail.language" />
               </div>
             </div>
             <div class="grid grid-cols-4 gap-10">
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Người biên dịch</label>
-                <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Người biên dịch" />
+                <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Người biên dịch"
+                  v-model:value="valueBookDetail.translator" />
               </div>
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Ngày phát hành</label>
-                <a-input type="date" class="border p-2 rounded-md h-10" placeholder="Ngày phát hành" />
+                <a-input type="date" class="border p-2 rounded-md h-10" placeholder="Ngày phát hành"
+                  v-model:value="valueBookDetail.publish_date" />
               </div>
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Công ty phát hành</label>
-                <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Công ty phát hành" />
+                <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Công ty phát hành"
+                  v-model:value="valueBookDetail.issuing_company" />
               </div>
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Nhà xuất bản</label>
                 <a-select size="large" show-search placeholder="Nhà xuất bản" :options="optionsPublishingcompany"
-                  :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
-                  @change="handleChange"></a-select>
+                  v-model:value="valueBookDetail.publishing_company_id" :filter-option="filterOption"
+                  @focus="handleFocus" @blur="handleBlur" @change="handleChange"></a-select>
               </div>
             </div>
           </div>
         </div>
         <div class="flex justify-end items-end gap-2">
-          <a-button  @click="handleClose" >Hủy</a-button>
+          <a-button @click="handleClose">Hủy</a-button>
           <a-button type="primary" html-type="submit" class="mt-4"
             :loading="DetailBookStore.isSubmitting">Thêm</a-button>
         </div>
@@ -130,6 +125,7 @@ const imageInfo = ref("");
 const props = defineProps({
   openModalAdd: Boolean,
   openModal: Function,
+  book_id: Number,
 });
 const open = ref(props.openModalAdd);
 watch(
@@ -210,7 +206,11 @@ const valueBookDetail = ref({
   book_id: "",
   sku_origin: "",
   poster: "",
-  images: [],
+  images: [
+    "https://www.vinaprint.vn/wp-content/uploads/2023/01/poster-ra-mat-sach-2.jpeg",
+    "https://www.vinaprint.vn/wp-content/uploads/2023/01/poster-ra-mat-sach-2.jpeg",
+    "https://www.vinaprint.vn/wp-content/uploads/2023/01/poster-ra-mat-sach-2.jpeg",
+  ],
   book_version: "",
   price: "",
   hire_percent: "",
@@ -222,9 +222,31 @@ const valueBookDetail = ref({
   total_page: "",
   translator: "",
   language: "",
-  book_size: ""
+  book_size: "",
 });
 const onSubmit = async () => {
-  alert(JSON.stringify(valueBookDetail.value));
+  try {
+    await DetailBookStore.createBookDetail({ 
+      book_id: props.book_id,
+      sku_origin: valueBookDetail.value.sku_origin,
+      poster: imageInfo.value?.url,
+      images: valueBookDetail.value.images,
+      book_version: valueBookDetail.value.book_version,
+      price: valueBookDetail.value.price,
+      hire_percent: valueBookDetail.value.hire_percent,
+      stock: valueBookDetail.value.stock,
+      publish_date: valueBookDetail.value.publish_date,
+      publishing_company_id: valueBookDetail.value.publishing_company_id,
+      issuing_company: valueBookDetail.value.issuing_company,
+      language: valueBookDetail.value.language,
+      book_size: valueBookDetail.value.book_size,
+      cardboard: valueBookDetail.value.cardboard,
+      total_page: valueBookDetail.value.total_page,
+      translator: valueBookDetail.value.translator,
+    });
+  } catch (error) {
+    console.error(error);
+
+  }
 };
 </script>

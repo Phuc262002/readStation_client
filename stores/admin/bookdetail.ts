@@ -6,7 +6,7 @@ export const useBookDetailStore = defineStore("bookdetail-store", {
       isSubmitting: false,
       isLoading: false,
       getAllBookdetailAdmin: [],
-      getOneBookDetailAdmin: [],
+      getOneBookDetailAdmin: {},
     };
   },
   actions: {
@@ -45,6 +45,18 @@ export const useBookDetailStore = defineStore("bookdetail-store", {
         method: "POST",
         body: JSON.stringify(valueBookDetail),
       });
+      this.isSubmitting = false;
+      return data;
+    },
+    async updateBookDetail({ id, valueBookDetail }: any) {
+      this.isSubmitting = true;
+      const data = await useCustomFetch(
+        `/api/v1/admin/book-details/update/${id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(valueBookDetail),
+        }
+      );
       this.isSubmitting = false;
       return data;
     },

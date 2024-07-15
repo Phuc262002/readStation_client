@@ -61,7 +61,6 @@ const props = defineProps({
 
 const open = ref(props.openModal);
 const loan_order_detail_id = ref(props.loan_order_detail?.id);
-console.log(loan_order_detail_id);
 watch(
   () => props.openModal,
   (value) => {
@@ -117,6 +116,7 @@ const onSubmit = async () => {
       id: props.loan_order_detail?.id,
       valueRetunEachBook: valueReturnEachBook.value,
     });
+    handleClose();
   } catch (error) {}
 };
 const handleChange = (value) => {

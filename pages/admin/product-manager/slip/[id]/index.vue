@@ -1,6 +1,7 @@
 <template>
 
-    <h1 class="text-xl text-[#1e293b] font-bold p-3">Phiếu trả của đơn hàng #0488D7D3C7</h1>
+    <h1 class="text-xl text-[#1e293b] font-bold p-3">Phiếu trả của đơn hàng
+        {{ returnHistoryStore?.ReturnLoanDetail?.loan_order_detail?.loan_order?.order_code }}</h1>
     <div class="flex flex-col gap-5">
         <div class="w-full p-5 flex flex-col gap-4 bg-[white] rounded-lg">
             <h1 class="text-base font-bold">Thông tin khách hàng</h1>
@@ -9,15 +10,21 @@
                 <div class="md:col-span-2 space-y-3 border-gray-200">
                     <div class="grid grid-cols-3">
                         <span class="text-base font-bold col-span-1">Tên khách hàng:</span>
-                        <span class="text-base col-span-2">Tôn Thất An Khương</span>
+                        <span class="text-base col-span-2">
+                            {{ returnHistoryStore?.ReturnLoanDetail?.loan_order_detail?.loan_order?.user?.fullname
+                            }}</span>
                     </div>
                     <div class="grid grid-cols-3">
                         <span class="text-base font-bold col-span-1">Email:</span>
-                        <span class="text-base col-span-2">trung.tranquanggg@gmail.com</span>
+                        <span class="text-base col-span-2">
+                            {{ returnHistoryStore?.ReturnLoanDetail?.loan_order_detail?.loan_order?.user?.email
+                            }}</span>
                     </div>
                     <div class="grid grid-cols-3">
                         <span class="text-base font-bold col-span-1">Số điện thoại:</span>
-                        <span class="text-base col-span-2">0563783914</span>
+                        <span class="text-base col-span-2">
+                            {{ returnHistoryStore?.ReturnLoanDetail?.loan_order_detail?.loan_order?.user?.phone
+                            }}</span>
                     </div>
                 </div>
             </div>
@@ -30,16 +37,21 @@
                 <div class="md:col-span-2 space-y-3 border-r border-gray-200">
                     <div class="grid grid-cols-3">
                         <span class="text-base font-bold col-span-1">Ngày khách trả sách:</span>
-                        <span class="text-base col-span-2">10/06/2024 - 15:30</span>
+                        <span class="text-base col-span-2">{{
+                            $dayjs(returnHistoryStore?.ReturnLoanDetail?.return_date).format("DD/MM/YYYY - HH:mm")
+                            }}</span>
                     </div>
                     <div class="grid grid-cols-3">
                         <span class="text-base font-bold col-span-1">Hình thức trả sách:</span>
-                        <span class="text-base col-span-2">Giao trả đến thư viện</span>
+                        <span class="text-base col-span-2"
+                            v-if="returnHistoryStore?.ReturnLoanDetail?.return_method === 'library'">Trả tại thư
+                            viện</span>
+                        <span class="text-base col-span-2"
+                            v-if="returnHistoryStore?.ReturnLoanDetail?.return_method === 'pickup'">Giao trả đến thư viện</span>
                     </div>
                     <div class="grid grid-cols-3">
                         <span class="text-base font-bold col-span-1">Địa chỉ lấy sách:</span>
-                        <span class="text-base col-span-2">161B Lý Chính Thắng, Phường Võ Thị Sáu, Quận 3 , TP.
-                            HCM</span>
+                        <span class="text-base col-span-2">{{ returnHistoryStore?.ReturnLoanDetail?.pickup_info?.address }}</span>
                     </div>
                     <div class="grid grid-cols-3">
                         <span class="text-base font-bold col-span-1">Ngày lấy sách:</span>
@@ -136,11 +148,22 @@
 </template>
 <script setup lang="ts">
 import SlipOrder from '~/components/OrderAdmin/SlipOrder.vue';
-const openModalSlip = ref < boolean > (false);
+const openModalSlip = ref<boolean>(false);
+const route = useRoute();
+const id = route.params.id;
 const showSlip = () => {
     openModalSlip.value = true;
 };
 const CloseSlip = () => {
     openModalSlip.value = false;
 };
+const returnHistoryStore = useReturnHistoryStore();
+useAsyncData(async () => {
+    try {
+        await returnHistoryStore.getOneReturnHistory(id);
+    } catch (error) {
+        console.log(error)
+    }
+});
+
 </script>

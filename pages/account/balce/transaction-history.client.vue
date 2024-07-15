@@ -2,7 +2,7 @@
   <div class="space-y-5">
     <h3 class="font-bold mb-5">Lịch sử giao dịch</h3>
     <div class="w-full bg-white rounded-lg shadow-md shadow-gray-300 p-5">
-      <span class="py-5">Lịch sử giao dịch (30 ngày gần nhất)</span>
+      <span class="py-5">Các giao dịch bạn đã thực hiện</span>
       <a-table
         :columns="columns"
         :data-source="trangsactionStore?.transaction?.transactions"
@@ -61,6 +61,43 @@
               {{ $dayjs(record?.created_at).format("DD/MM/YYYY - HH:MM") }}
             </span>
           </template>
+          <template v-else-if="column.key === 'status'">
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'pending'"
+              class="bg-tag-bg-09 text-tag-text-09"
+            >
+              Đang chờ
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'holding'"
+              class="bg-tag-bg-06 text-tag-text-06"
+            >
+              Đang giữ
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'completed'"
+              class="bg-tag-bg-07 text-tag-text-07"
+            >
+              Hoàn thành
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'failed'"
+              class="bg-tag-bg-07 text-tag-text-07"
+            >
+              Thất bại
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'canceled'"
+              class="bg-tag-bg-07 text-tag-text-07"
+            >
+              Đã hủy
+            </a-tag>
+          </template>
         </template>
       </a-table>
       <div class="mt-4 flex justify-end">
@@ -114,6 +151,11 @@ const columns = [
     title: "Hình thức ",
     dataIndex: "transaction_method",
     key: "transaction_method",
+  },
+  {
+    title: "Trạng thái",
+    key: "status",
+    dataIndex: "status",
   },
 
   {

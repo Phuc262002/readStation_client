@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 <template>
   <div>
     <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
@@ -20,26 +21,32 @@
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
-        <a-table :columns="columns" :data-source="data">
+        <a-table :columns="columns" :data-source="returnHistoryStore?.ReturnHistoryAdmin?.returnHistory">
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'sku'">
-              <a>{{ record.sku }}</a>
+              <a>{{ record.loan_order_detail?.loan_order?.order_code }}</a>
             </template>
-            <template v-if="column.key === 'user'">
+            <template v-if="column.key === 'loan_order_detail'">
               <div class="flex justify-start gap-4 items-center">
-                <a-avatar
-                  src="https://inkythuatso.com/uploads/thumbnails/800/2023/03/1-hinh-anh-ngay-moi-hanh-phuc-sieu-cute-inkythuatso-09-13-35-50.jpg"
-                  :size="40" />
+                <a-avatar :src="record.loan_order_detail?.loan_order?.user?.avatar" :size="40" />
                 <div class="flex flex-col gap-1">
                   <span class="text-base">
-                    {{ record.user }}
+                    {{ record.loan_order_detail?.loan_order?.user?.fullname }}
                   </span>
-                  <span class="text-base">0123455</span>
+                  <span class="text-base"> {{ record.loan_order_detail?.loan_order?.user?.phone ?
+                    record.loan_order_detail?.loan_order?.user?.phone : '' }}</span>
                 </div>
               </div>
             </template>
+            <template v-if="column.key === 'return_date'">
+              <span>{{ $dayjs(record.return_date).format('DD/MM/YYYY') }}</span>
+            </template>
+            <template v-if="column.key === 'return_method'">
+              <span v-if="record?.return_method === 'library'">Giao trả tại thư viện</span>
+              <span v-if="record?.return_method === 'pickup'">Giao trả đến thư viện</span>
+            </template>
             <template v-if="column.key === 'action'">
-              <NuxtLink :to="`/admin/product-manager/slip/${record.id}`">
+              <NuxtLink :to="`/admin/product-manager/slip/${record?.id}`">
                 <a-tooltip placement="top">
                   <template #title>
                     <span>Xem chi tiết</span>
@@ -61,6 +68,11 @@
   </div>
 </template>
 <script setup>
+const returnHistoryStore = useReturnHistoryStore();
+useAsyncData(async () => {
+  await returnHistoryStore.getAllReturnHistory({});
+});
+
 const columns = [
   {
     title: 'Mã đơn hàng',
@@ -69,8 +81,8 @@ const columns = [
   },
   {
     title: 'Thông tin cá nhân',
-    dataIndex: 'user',
-    key: 'user',
+    dataIndex: 'loan_order_detail',
+    key: 'loan_order_detail',
   },
   {
     title: 'Ngày thuê',
@@ -90,7 +102,7 @@ const columns = [
 ];
 const data = [
   {
-    id:1,
+    id: 1,
     sku: '#0488D7D3C7',
     user: 'Nguyễn Văn A',
     return_date: '20/10/2021',
