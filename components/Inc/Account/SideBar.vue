@@ -37,20 +37,12 @@
       class="!border-0 dark:!bg-[#6c819b] dark:!text-white overflow-auto h-5/6 border rounded-2xl"
       :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
     >
-      <a-sub-menu key="sub1">
-        <template #title>
-          <span class="flex items-center gap-2">
-            <Icon icon="mingcute:user-security-line" class="text-xl" />
-            <span class="font-semibold">Thông tin cá nhân</span>
-          </span>
-        </template>
-        <a-menu-item key="2">
-          <NuxtLink to="/account" class="flex items-center gap-2 font-semibold">
-            Quản lý tài khoản
-          </NuxtLink>
-        </a-menu-item>
-      </a-sub-menu>
-
+      <a-menu-item key="2" class="flex items-center gap-2">
+        <NuxtLink to="/account" class="flex items-center gap-2 font-semibold">
+          <Icon icon="mingcute:user-security-line" class="text-xl" />
+          <span>Quản lý tài khoản</span>
+        </NuxtLink>
+      </a-menu-item>
       <a-sub-menu key="sub2">
         <template #title>
           <span class="flex items-center gap-2">

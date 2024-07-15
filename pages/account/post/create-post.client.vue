@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div
+      v-if="postStore?.isSubmitting"
+      class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default"
+    >
+      <a-spin size="large" class="absolute top-1/2 left-1/2" />
+    </div>
     <h2 class="font-bold pb-5">Bài viết mới</h2>
     <div
       class="w-2/3 w-full bg-white rounded-lg shadow-md shadow-gray-300 p-5 text-sm"
@@ -74,6 +80,7 @@
           </a-button>
           <a-button
             html-type="submit"
+            :loading="postStore?.isSubmitting"
             class="h-10 text-base bg-orange-500 border-none !text-white"
           >
             Thêm bài viết

@@ -104,7 +104,10 @@
                   class="col-span-6 rounded-lg h-[90px] h-full"
                 >
                   <div class="flex items-center justify-start gap-8">
-                    <img src="../../../assets/images/pay-wallet.svg" alt="" />
+                    <img
+                      src="../../../../assets/images/pay-wallet.svg"
+                      alt=""
+                    />
                     <span>Thanh toán Online</span>
                   </div>
                 </a-radio-button>
@@ -114,7 +117,10 @@
                   v-if="delivery_method === 'pickup'"
                 >
                   <div class="flex items-center justify-start gap-8 h-full">
-                    <img src="../../../assets/images/pay-libary.svg" alt="" />
+                    <img
+                      src="../../../../assets/images/pay-libary.svg"
+                      alt=""
+                    />
                     <span>Thanh toán tại thư viện</span>
                   </div>
                 </a-radio-button>
@@ -535,5 +541,18 @@ const columns = ref([
 <style scoped>
 ::v-deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
   resize: none;
+}
+::v-deep(
+    :where(.css-dev-only-do-not-override-1mvo6uw).ant-radio-button-wrapper:not(
+        :first-child
+      )::before
+  ) {
+  background-color: initial;
+  /* border: 1px solid #d9d9d9; */
+}
+::v-deep(
+    :where(.css-dev-only-do-not-override-1mvo6uw).ant-radio-button-wrapper
+  ) {
+  border-inline-start-width: 1px;
 }
 </style>
