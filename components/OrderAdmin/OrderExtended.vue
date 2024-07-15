@@ -49,7 +49,6 @@
                     <a-button type="primary" html-type="submit">Xác nhận</a-button>
                 </div>
             </div>
-            {{ props.items?.id }}
         </form>
 
     </a-modal>
@@ -68,18 +67,19 @@ watch(
     }
 );
 watch(
-  () => props.extensionBookId,
-  (newVal) => {
-    extensionBookId.value = newVal;
-  }
+    () => props.extensionBookId,
+    (newVal) => {
+        extensionBookId.value = newVal;
+    }
 );
 const handleClose = () => {
     props.CloseModal();
 };
 const orderStore = useOrderStore();
-const onSubmit = async() => {
+const onSubmit = async () => {
     try {
-        await orderStore.extensionAllBook({id: props.items?.id})
+        await orderStore.extensionOneBook({ id: props.items?.id })
+        handleClose()
     } catch (error) {
         console.log(error)
     }
