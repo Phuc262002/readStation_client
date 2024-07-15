@@ -1,5 +1,11 @@
 <template>
   <div class="w-full">
+    <div
+      v-if="bookStore.isLoading"
+      class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default"
+    >
+      <a-spin size="large" class="absolute top-1/2 left-1/2" />
+    </div>
     <div class="p-5 bg-white border-2 rounded-lg">
       <div class="flex flex-col items-center">
         <div class="mb-8 w-full h-[370px] flex justify-center">
@@ -51,9 +57,15 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { ref } from "vue";
 const bookStore = useBookPublicStore();
+const selectedImage = ref(null);
+// const visible = ref(false);
 
-const visible = ref(false);
-const selectedImage = ref(bookStore.book?.poster);
+watchEffect(() => {
+  if (bookStore?.book) {
+    selectedImage.value = bookStore?.book?.poster;
+  }
+});
+
 const swiperInstance = ref();
 
 function onSwiper(swiper) {

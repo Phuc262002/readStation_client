@@ -1,14 +1,17 @@
 <template>
   <div class="space-y-5 pt-4">
     <div class="flex flex-col gap-2 md:flex-row md:items-center print:hidden">
-      <div class="grow">
+      <div class="grow flex justify-between">
         <h5 class="text-xl text-[#1e293b] font-semibold">Thông tin chung</h5>
+        <a-space direction="vertical" :size="12">
+          <a-range-picker v-model:value="value1" />
+        </a-space>
       </div>
     </div>
 
     <!-- Đây là phần code mẫu body -->
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4"
     >
       <div class="flex flex-col">
         <div class="flex items-center text-base h-[90px] bg-white rounded-md">
@@ -49,7 +52,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-04">
-              <p class="font-semibold text-base">Nhập hàng</p>
+              <p class="font-semibold text-base">Phiếu nhập hàng</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="dashboardStore.isLoading"
@@ -254,6 +257,41 @@
           </div>
         </div>
       </div>
+      <div class="flex flex-col">
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
+          <div class="flex items-center text-sm w-full font-medium p-4 gap-2">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-2 bg-tag-bg-06 text-tag-text-06"
+            >
+              <Icon icon="hugeicons-quill-write-02" class="text-lg w-10 h-10" />
+            </a-tag>
+
+            <div class="flex-1 text-tag-text-06">
+              <p class="font-semibold text-base">Số phiếu trả</p>
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="dashboardStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>
+                  {{
+                    new Intl.NumberFormat().format(
+                      dashboardStore?.dashboardAdmin?.returnHistory
+                    )
+                  }}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+     
+    </div>
+    <div class="grid grid-cols-3 gap-4">
+      <HighchartHigh />
+      <HighchartHigh1 />
     </div>
     <div class="w-full min-h-[360px] bg-[white] rounded-lg p-5">
       <div class="flex flex-col gap-5">
@@ -275,6 +313,7 @@
             <a-button type="primary" size="large">Thêm đơn hàng</a-button>
           </div>
         </div>
+
         <div class="flex gap-4 text-white">
           <a-button
             :class="[
@@ -297,6 +336,7 @@
             <span>Quá hạn</span>
           </a-button>
         </div>
+
         <div>
           <a-table
             :columns="columns"
@@ -481,10 +521,22 @@
         </div>
       </div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="bg-white w-full shadow-md rounded-md space-y-2 p-5">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="bg-white w-full rounded-md space-y-2 p-5 relative">
         <div class="text-xl font-semibold">Sách được thuê nhiều</div>
         <div class="max-h-[400px] overflow-auto pr-4">
+          <div v-if="dashboardStore.dashboardBook === 0"
+            class="flex justify-center flex-col items-center gap-2 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
+          >
+            <div>
+              <Icon
+                
+                icon="uil:file-search-alt"
+                class="text-[80px] text-gray-300"
+              />
+            </div>
+            <h1 class="text-[#7b7b7b] font-semibold">Chưa có dữ liệu</h1>
+          </div>
           <DashboardBook
             v-for="book in dashboardStore.dashboardBook"
             :key="book.id"
@@ -493,9 +545,21 @@
         </div>
       </div>
 
-      <div class="bg-white w-full shadow-md rounded-md space-y-2 p-5">
+      <div class="bg-white w-full rounded-md space-y-2 p-5 relative">
         <div class="text-xl font-semibold space-y-2">Hóa đơn nhập hàng</div>
         <div class="max-h-[400px] overflow-auto pr-4">
+          <div  v-if="dashboardStore.dashboardInvoice.length === 0"
+            class="flex justify-center flex-col items-center gap-2 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
+          >
+            <div>
+              <Icon
+               
+                icon="uil:file-search-alt"
+                class="text-[80px] text-gray-300"
+              />
+            </div>
+            <h1 class="text-[#7b7b7b] font-semibold">Chưa có dữ liệu</h1>
+          </div>
           <NuxtLink to="/admin/manager-bill/">
             <DashboardBill
               v-for="bill in dashboardStore.dashboardInvoice"
@@ -505,6 +569,37 @@
           </NuxtLink>
         </div>
       </div>
+
+      <div class="bg-white w-full rounded-md space-y-2 p-5 relative">
+        <div class="flex justify-between items-end font-semibold">
+          <div class="text-xl">Lịch sử giao dịch gần đây</div>
+          <div  v-if="transactionAdminStore.transactionAdmin.length === 0"
+            class="flex justify-center flex-col items-center gap-2 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
+          >
+            <div>
+              <Icon
+               
+                icon="uil:file-search-alt"
+                class="text-[80px] text-gray-300"
+              />
+            </div>
+            <h1 class="text-[#7b7b7b] font-semibold">Chưa có dữ liệu</h1>
+          </div>
+          <NuxtLink to="/admin/history-transaction">
+            <div class="underline text-sm cursor-pointer hover:text-orange-400">
+              Xem tất cả
+            </div>
+          </NuxtLink>
+        </div>
+        <div class="max-h-[400px] overflow-auto pr-4">
+          <TransactionHistory
+            v-for="history in transactionAdminStore.transactionAdmin
+              .transactions"
+            :key="history.id"
+            :transactions="history"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -512,6 +607,7 @@
 import { Icon } from "@iconify/vue";
 const dashboardStore = useDashboardStore();
 const orderStore = useOrderStore();
+const transactionAdminStore = useTransactionAdminStore();
 const filter = ref("pending");
 const valueSearch = ref("");
 useAsyncData(
@@ -536,6 +632,11 @@ useAsyncData(async () => {
 
 useAsyncData(async () => {
   await dashboardStore.getInvoiceDashboard();
+});
+useAsyncData(async () => {
+  await transactionAdminStore.getAllTransaction({
+    sort: "inMonth",
+  });
 });
 const handleCheckStatus = (status) => {
   filter.value = status;

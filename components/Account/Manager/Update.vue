@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div
+      v-if="authStore?.isSubmitting"
+      class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default"
+    >
+      <a-spin size="large" class="absolute top-1/2 left-1/2" />
+    </div>
     <div class="flex justify-between mb-5">
       <div class="flex items-center justify-between gap-2">
         <UIcon name="i-material-symbols-person-check-outline" />
@@ -50,9 +56,15 @@
               <a-radio value="female">Nữ</a-radio>
             </a-radio-group>
 
-            <span v-else>{{
-              authStore?.authUser?.user?.gender === "female" ? "Nữ" : "Nam"
-            }}</span>
+            <span v-else>
+              {{
+                authStore?.authUser?.user?.gender === "female"
+                  ? "Nữ"
+                  : authStore?.authUser?.user?.gender === "male"
+                  ? "Nam"
+                  : ""
+              }}
+            </span>
           </div>
         </div>
 
@@ -102,9 +114,13 @@
               value-format="DD-MM-YYYY"
               placeholder="Chọn ngày, tháng, năm sinh"
             />
-            <span v-else>{{
-              $dayjs(authStore?.authUser?.user?.dob).format("DD/MM/YYYY")
-            }}</span>
+            <span v-else>
+              {{
+                authStore?.authUser?.user?.dob
+                  ? $dayjs(authStore?.authUser?.user?.dob).format("DD/MM/YYYY")
+                  : ""
+              }}
+            </span>
           </a-form-item>
         </div>
 
@@ -214,9 +230,9 @@
             Địa chỉ cụ thể
           </span>
           <div class="w-1/2 text-left">
-            <a-input
+            <a-textarea
               readonly
-              :value="`${address.street}, ${address.ward}, ${address.district}, ${address.province}`"
+              :value="formattedAddress"
               size="large"
               v-if="isShow"
             />
@@ -224,21 +240,24 @@
           </div>
         </div>
         <div
-          class="w-full flex items-center justify-end gap-4 pt-5"
+          class="w-full flex items-center justify-end gap-2 pt-5"
           v-if="isShow"
         >
           <a-button
             type="primary"
             class="bg-white border border-rtgray-50 !text-black h-10 hover:!bg-rtgray-50"
             @click="handleCancel"
-            >Hủy</a-button
           >
+            Hủy
+          </a-button>
 
           <a-button
             html-type="submit"
+            :loading="authStore?.isSubmitting"
             class="!text-white bg-rtprimary h-10 border-none hover:bg-rtsecondary"
-            >Lưu thay đổi</a-button
           >
+            Lưu thay đổi
+          </a-button>
         </div>
       </div>
     </form>
@@ -276,6 +295,15 @@ const optionsPronvines = ref([]);
 const optionsDistricts = ref([]);
 const optionsWards = ref([]);
 
+const formattedAddress = computed(() => {
+  const { province, district, ward, street } = address.value;
+  if (province || district || ward) {
+    return `${street || ""}, ${ward || ""}, ${district || ""}, ${
+      province || ""
+    }`;
+  }
+  return "";
+});
 // Submit handler
 const onSubmit = async () => {
   const resData = await authStore.updateProfile({
@@ -289,13 +317,7 @@ const onSubmit = async () => {
     district_id: district_id.value,
     ward_id: ward_id.value,
     street: address.value.street,
-    address_detail:
-      address.value.province &&
-      address.value.district &&
-      address.value.ward &&
-      address.value.street
-        ? `${address.value.street}, ${address.value.ward}, ${address.value.district}, ${address.value.province}`
-        : null,
+    address_detail: formattedAddress.value,
   });
   if (resData?.data?._rawValue?.status == true) {
     message.success({
@@ -416,3 +438,14 @@ const filterOption = (input, option) => {
   return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 4;
 };
 </script>
+<style scoped>
+:deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
+  resize: none;
+}
+:deep(
+    :where(.css-dev-only-do-not-override-1mvo6uw).ant-form-item
+      .ant-form-item-control-input-content
+  ) {
+  color: black;
+}
+</style>

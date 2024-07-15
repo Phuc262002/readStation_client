@@ -90,7 +90,7 @@
             <a-tag
               :bordered="false"
               v-if="record.status === 'pending'"
-              class="bg-tag-bg-09 text-tag-text-09"
+              class="bg-tag-bg-01 text-tag-text-01"
             >
               Đang chờ
             </a-tag>
@@ -104,7 +104,7 @@
             <a-tag
               :bordered="false"
               v-if="record.status === 'completed'"
-              class="bg-tag-bg-07 text-tag-text-07"
+              class="bg-tag-bg-09 text-tag-text-09"
             >
               Hoàn thành
             </a-tag>

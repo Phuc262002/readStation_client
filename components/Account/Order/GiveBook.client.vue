@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="isSubmitting"
+      v-if="orderStore?.isSubmitting"
       class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
     >
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
@@ -235,7 +235,7 @@
 
             <a-button
               class="h-10 bg-orange-500 !text-white border-none"
-              :loading="isSubmitting"
+              :loading="orderStore?.isSubmitting"
               html-type="submit"
             >
               Xác nhận
@@ -274,7 +274,6 @@ useAsyncData(async () => {
 });
 
 const user = ref({
-  // authStore?.authUser?.user?.fullname
   fullname: "",
   phone: "",
 });
@@ -343,6 +342,7 @@ const onSubmit = async () => {
     message.success({
       content: "Trả sách thành công",
     });
+    navigateTo("//account/order/" + resData?.data?._rawValue?.id);
   } else {
     message.error({
       content: "Trả sách thất bại",

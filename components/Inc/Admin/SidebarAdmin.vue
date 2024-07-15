@@ -32,14 +32,6 @@
         />
         <span>Dashboards</span>
       </a-menu-item>
-      <a-menu-item key="541" @click="navigateTo('/admin/dashboard')">
-        <Icon
-          :class="props.collapsed && 'anticon anticon-desktop'"
-          icon="solar:chart-linear"
-          class="text-2xl"
-        />
-        <span>Thống kê</span>
-      </a-menu-item>
 
       <a-menu-item
         key="545"
@@ -339,7 +331,7 @@
           <span class="flex items-center gap-2">
             <Icon
               :class="props.collapsed && 'anticon anticon-desktop'"
-              icon="solar:reorder-outline"
+              icon="icon-park-outline:bill"
               class="text-2xl"
             />
             <span>Hóa đơn nhập hàng</span>
@@ -354,6 +346,15 @@
           >Thêm hóa đơn</a-menu-item
         >
       </a-sub-menu>
+
+      <a-menu-item key="46" @click="navigateTo('/admin/history-transaction')">
+        <Icon
+          :class="props.collapsed && 'anticon anticon-desktop'"
+          icon="hugeicons:bitcoin-transaction"
+          class="text-2xl"
+        />
+        <span>Tất cả lịch sử giao dịch</span>
+      </a-menu-item>
       <a-menu-item key="32" @click="navigateTo('/admin/image')">
         <Icon
           :class="props.collapsed && 'anticon anticon-desktop'"

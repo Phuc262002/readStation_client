@@ -1,14 +1,23 @@
 <template>
-  <div class="space-y-5">
-    <h3 class="font-bold mb-5">Lịch sử giao dịch</h3>
-    <div class="w-full bg-white rounded-lg shadow-md shadow-gray-300 p-5">
-      <span class="py-5">Các giao dịch bạn đã thực hiện</span>
+  <div>
+    <div
+      class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
+    >
+      <div class="grow">
+        <h5 class="text-xl text-[#1e293b] font-semibold">
+          Tất cả lịch sử giao dịch
+        </h5>
+      </div>
+    </div>
+
+    <!-- Đây là phần code mẫu body -->
+    <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
       <a-table
         :columns="columns"
-        :data-source="trangsactionStore?.transaction?.transactions"
+        :data-source="transactionAdminStore?.transactionAdmin?.transactions"
         class="mt-5"
         :pagination="false"
-        :loading="trangsactionStore?.isLoading"
+        :loading="transactionAdminStore?.isLoading"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'amount'">
@@ -65,7 +74,7 @@
             <a-tag
               :bordered="false"
               v-if="record.status === 'pending'"
-              class="bg-tag-bg-09 text-tag-text-09"
+              class="bg-tag-bg-01 text-tag-text-01"
             >
               Đang chờ
             </a-tag>
@@ -79,7 +88,7 @@
             <a-tag
               :bordered="false"
               v-if="record.status === 'completed'"
-              class="bg-tag-bg-07 text-tag-text-07"
+              class="bg-tag-bg-09 text-tag-text-09"
             >
               Hoàn thành
             </a-tag>
@@ -103,21 +112,20 @@
       <div class="mt-4 flex justify-end">
         <a-pagination
           v-model:current="current"
-          :total="trangsactionStore?.transaction?.totalResults"
-          :pageSize="trangsactionStore?.transaction?.pageSize"
+          :total="transactionAdminStore?.transactionAdmin?.totalResults"
+          :pageSize="transactionAdminStore?.transactionAdmin?.pageSize"
           show-less-items
         />
       </div>
     </div>
   </div>
 </template>
-
 <script setup>
-const trangsactionStore = useTransactionStore();
 const current = ref(1);
+const transactionAdminStore = useTransactionAdminStore();
 useAsyncData(
   async () => {
-    await trangsactionStore.getTransaction({
+    await transactionAdminStore.getAllTransaction({
       page: current.value,
     });
   },
