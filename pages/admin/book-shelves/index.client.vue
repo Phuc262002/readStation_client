@@ -88,7 +88,7 @@
       </div>
 
       <a-table :columns="columns" :data-source="shelvesValue?.adminBookSheleves?.shelves"
-        :loading="shelvesValue.isLoading" :pagination="false" >
+        :loading="shelvesValue.isLoading" :pagination="false">
         <template #bodyCell="{ column, record, index }">
           <template v-if="column.key === 'bookshelf_code'">
             <a>
@@ -127,37 +127,47 @@
                   <button
                     class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                     <div>
-                      <UIcon class="group-hover:text-[#212122]" name="i-icon-park-outline-eyes" />
+                      <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
                     </div>
                   </button>
                 </a-tooltip>
               </NuxtLink>
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
-                  <UIcon class="group-hover:text-[#131313]" name="i-solar-menu-dots-bold" />
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                >
+                  <UIcon
+                    class="group-hover:text-[#131313]"
+                    name="i-solar-menu-dots-bold"
+                  />
                 </button>
                 <template #overlay>
-                  <a-menu>
+                  <a-menu class="space-y-1">
                     <NuxtLink>
-                      <a-menu-item key="2" class="p-4">
-                        <button class="flex items-center gap-1 text-blue-400" @click="showModalEdit(record?.id)">
-                          <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
-                          <span>Sửa</span>
+                      <a-menu-item key="1" class="p-4 hover:!bg-tag-bg-02">
+                        <button class="flex items-center gap-2" @click="showModalEdit(record?.id)">
+                          <Icon
+                            icon="fluent:edit-48-regular"
+                            class="text-lg text-tag-text-02"
+                          />
+                          <span class="text-tag-text-02 font-bold">Sửa</span>
                         </button>
                       </a-menu-item>
                     </NuxtLink>
-                    <a-menu-item key="3" class="p-4">
-                      <span>
-                        <button class="flex items-center gap-1 text-blue-400" @click="showDeleteConfirm(record?.id)">
-                          <UIcon class="group-hover:text-[red] text-lg" name="i-material-symbols-delete-outline" />
-                          <span>Xóa</span>
-                        </button>
-                      </span>
+
+                    <a-menu-item key="2" class="p-4">
+                      <button
+                         @click="showDeleteConfirm(record?.id)"
+                        class="flex items-center gap-2"
+                      >
+                        <Icon icon="hugeicons:delete-01" class="text-lg text-tag-text-06" /> 
+                        <span class="text-tag-text-06 font-bold">Xóa</span>
+                      </button>
                     </a-menu-item>
                   </a-menu>
                 </template>
               </a-dropdown>
+
             </div>
           </template>
         </template>
@@ -170,6 +180,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { Icon } from "@iconify/vue";
 import { ref } from "vue";
 import { Modal } from "ant-design-vue";
 import { LoadingOutlined } from "@ant-design/icons-vue";
@@ -248,8 +259,7 @@ const onDelete = async (id: string) => {
 };
 const showDeleteConfirm = (id: string) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
+    title: "Bạn có chắc xóa kệ này không?",
     okText: "Yes",
     okType: "danger",
     cancelText: "No",

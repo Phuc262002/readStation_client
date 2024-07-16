@@ -27,7 +27,7 @@ import { h } from 'vue';
                                 name="i-material-symbols-draft-orders-outline-rounded" />
                         </div>
                         <div>
-                            <a-button class="flex justify-center gap-2" type="primary" size="large">
+                            <a-button class="flex justify-center gap-2 items-center" type="primary" size="large" @click="showModal">
                                 <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
                                 <span class="text-white">Chỉnh sửa</span>
                             </a-button>
@@ -70,6 +70,7 @@ import { h } from 'vue';
                         </div>
                     </div>
                 </div>
+                <BookEdit :openModalBook="openModalBook" :openModal="CloseModal"/>
                 <div>
                     <a-button class="flex justify-center items-center gap-2" type="primary" size="large"
                         @click="showModalAdd">
@@ -171,7 +172,14 @@ import { h } from 'vue';
 <script setup lang="ts">
 const openModalAdd = ref<boolean>(false);
 const openModalEdit = ref<boolean>(false);
+const openModalBook = ref<boolean>(false);
 const itemBookDetail = ref()
+const showModal = () => {
+    openModalBook.value = true;
+};
+const CloseModal = () => {
+    openModalBook.value = false;
+};
 const showModalAdd = () => {
     openModalAdd.value = true;
 };
@@ -181,7 +189,6 @@ const CloseModalAdd = () => {
 const showModalEdit = (id) => {
     itemBookDetail.value = id;
     openModalEdit.value = true;
-    console.log('id', id)
 };
 const CloseModalEdit = () => {
     openModalEdit.value = false;
