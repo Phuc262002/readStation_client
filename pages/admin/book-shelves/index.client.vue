@@ -260,9 +260,9 @@ const onDelete = async (id: string) => {
 const showDeleteConfirm = (id: string) => {
   Modal.confirm({
     title: "Bạn có chắc xóa kệ này không?",
-    okText: "Yes",
+    okText: "Có",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onDelete(id);
     },
