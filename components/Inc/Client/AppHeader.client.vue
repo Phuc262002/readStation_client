@@ -65,7 +65,7 @@
           <div class="relative w-1/4 md:block hidden h-10">
             <a-input-search
               v-model:value="value"
-              placeholder="Nhập tên sách cần tìm "
+              placeholder="Tìm kiếm... "
               enter-button="Tìm kiếm"
               @search="onSearch"
               class="flex items-center h-full"
