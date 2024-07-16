@@ -2,10 +2,10 @@
   <div class="space-y-5 pt-4">
     <div class="flex flex-col gap-2 md:flex-row md:items-center print:hidden">
       <div class="grow flex justify-between">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Thông tin chung</h5>
-        <a-space direction="vertical" :size="12">
+        <h5 class="text-xl text-[#1e293b] font-bold">Thông tin chung</h5>
+        <!-- <a-space direction="vertical" :size="12">
           <a-range-picker v-model:value="value1" />
-        </a-space>
+        </a-space> -->
       </div>
     </div>
 
@@ -322,7 +322,7 @@
             ]"
             @click="handleCheckStatus('')"
           >
-            <UIcon class="" name="i-nonicons-loading-16" />
+            <Icon icon="icon-park-outline:transaction-order" />
             <span>Đơn hàng gần đây</span>
           </a-button>
 
@@ -333,7 +333,7 @@
             ]"
             @click="handleCheckStatus('pending')"
           >
-            <UIcon class="" name="i-nonicons-loading-16" />
+            <Icon icon="nonicons-loading-16" />
             <span>Đang xử lý</span>
           </a-button>
           <a-button
@@ -343,7 +343,7 @@
             ]"
             @click="handleCheckStatus('overdue')"
           >
-            <UIcon name="i-ph-warning-light" />
+            <Icon icon="ph-warning-light" />
             <span>Quá hạn</span>
           </a-button>
         </div>
@@ -370,10 +370,18 @@
                 <span>{{ record.loan_order_details.length }} quyển</span>
               </template>
               <template v-else-if="column.dataIndex === 'receipt_date'">
-                <span>{{ $dayjs(record.loan_date).format("DD/MM/YYYY") }}</span>
+                <span v-if="record.loan_date">{{ $dayjs(record.loan_date).format("DD/MM/YYYY") }}</span>
+                <span v-else> Chưa có ngày</span>
               </template>
               <template v-if="column.dataIndex === 'status'">
                 <span>
+                  <a-tag
+                    :bordered="false"
+                    v-if="record.status === 'wating_payment'"
+                    class="bg-tag-bg-01 text-tag-text-01"
+                  >
+                    Chờ thanh toán
+                  </a-tag>
                   <a-tag
                     :bordered="false"
                     v-if="record.status === 'pending'"
@@ -453,11 +461,14 @@
                   </a-tag>
                 </span>
               </template>
-              <temolate v-else-if="column.dataIndex === 'payment_method'">
+              <template v-else-if="column.dataIndex === 'payment_method'">
                 <div v-if="record.payment_method === 'cash'">
                   <span>Tiền mặt</span>
                 </div>
-              </temolate>
+                <div v-else-if="record.payment_method === 'online'">
+                  <span>Chuyển khoản</span>
+                </div>
+              </template>
               <template v-else-if="column.key === 'action'">
                 <div class="flex text-[16px] gap-4">
                   <NuxtLink :to="`/admin/product-manager/${record.id}`">
@@ -476,7 +487,7 @@
                         </div>
                       </button>
                     </a-tooltip>
-                  </NuxtLink>    
+                  </NuxtLink>
                 </div>
               </template>
             </template>
@@ -510,11 +521,13 @@
             </div>
             <h1 class="text-[#7b7b7b] font-semibold">Chưa có dữ liệu</h1>
           </div>
-          <DashboardBook
-            v-for="book in dashboardStore.dashboardBook"
-            :key="book.id"
-            :dashboard="book"
-          />
+          <NuxtLink to="/admin/book">
+            <DashboardBook
+              v-for="book in dashboardStore.dashboardBook"
+              :key="book.id"
+              :dashboard="book"
+            />
+          </NuxtLink>
         </div>
       </div>
 
@@ -533,7 +546,7 @@
             </div>
             <h1 class="text-[#7b7b7b] font-semibold">Chưa có dữ liệu</h1>
           </div>
-          <NuxtLink to="/admin/manager-bill/">
+          <NuxtLink to="/admin/manager-bill">
             <DashboardBill
               v-for="bill in dashboardStore.dashboardInvoice"
               :key="bill.id"

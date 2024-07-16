@@ -4,7 +4,7 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">
+        <h5 class="text-xl text-[#1e293b] font-bold">
           Cập nhập thông tin người dùng
         </h5>
       </div>
@@ -29,7 +29,7 @@
                   >Quản thư</a-radio
                 >
                 <a-radio :value="2">Học sinh</a-radio>
-                <a-radio :value="4">Admin</a-radio>
+                <!-- <a-radio :value="4">Admin</a-radio> -->
               </a-radio-group>
             </div>
           </div>
