@@ -126,24 +126,6 @@
                 </a-radio-button>
               </a-radio-group>
             </div>
-            <div
-              class="mt-5 flex justify-between text-sm"
-              v-if="delivery_method === 'shipper'"
-            >
-              <span>Bạn muốn giao đến địa chỉ khác?</span>
-              <span
-                type="primary"
-                @click="showModal"
-                class="cursor-pointer text-orange-600"
-              >
-                Thay đổi địa chỉ nhận hàng?
-              </span>
-
-              <AccountManagerFormChangeAddress
-                :openModalForm="openModalForm"
-                :openModal="closeModal"
-              />
-            </div>
           </div>
         </div>
       </div>
@@ -168,9 +150,15 @@
                     <span
                       type="primary"
                       @click="showModal"
-                      class="cursor-pointer text-sm text-orange-600"
-                      >Thay đổi địa chỉ?</span
+                      class="cursor-pointer text-xl text-orange-600"
                     >
+                      <a-tooltip placement="top">
+                        <template #title>
+                          <span>Thay đổi địa chỉ ?</span>
+                        </template>
+                        <Icon icon="lucide:edit" />
+                      </a-tooltip>
+                    </span>
                   </div>
                 </div>
 
@@ -345,6 +333,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
 const authStore = useAuthStore();
 const orderStore = useOrderClientStore();
 const cartStore = useCartStore();
@@ -539,6 +528,9 @@ const columns = ref([
 ]);
 </script>
 <style scoped>
+::deep(img, svg, video, canvas, audio, iframe, embed, object) {
+  outline: initial;
+}
 ::v-deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
   resize: none;
 }

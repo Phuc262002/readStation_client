@@ -70,7 +70,7 @@
                   phí phát sinh
                 </span>
               </template>
-              <UI class="i-ph-warning-circle text-orange-500 w-3" />
+              <Icon class="text-orange-600" icon="ic:outline-info" />
             </a-popover>
           </div>
 
@@ -595,12 +595,16 @@
         >
           Hủy thuê
         </a-button>
-        <a-button
-          class="h-10 bg-orange-500 !text-white border-none"
-          v-if="orderStore?.order?.status === 'wating_payment'"
+        <NuxtLink
+          :to="`/account/order/checkout/payment/${orderStore?.order?.order_code}`"
         >
-          Thanh toán
-        </a-button>
+          <a-button
+            class="h-10 bg-orange-500 !text-white border-none"
+            v-if="orderStore?.order?.status === 'wating_payment'"
+          >
+            Thanh toán
+          </a-button>
+        </NuxtLink>
       </div>
     </div>
     <AccountOrderHistoryExtendBook
@@ -624,6 +628,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
 const orderStore = useOrderClientStore();
 const authStore = useAuthStore();
 const route = useRoute();

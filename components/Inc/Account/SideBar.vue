@@ -40,18 +40,21 @@
       <a-menu-item key="2" class="flex items-center gap-2">
         <NuxtLink to="/account" class="flex items-center gap-2 font-semibold">
           <Icon icon="mingcute:user-security-line" class="text-xl" />
-          <span>Quản lý tài khoản</span>
+          <span class="font-bold">Quản lý tài khoản</span>
         </NuxtLink>
       </a-menu-item>
       <a-sub-menu key="sub2">
         <template #title>
           <span class="flex items-center gap-2">
             <Icon icon="hugeicons:quill-write-02" class="text-xl" />
-            <span class="font-semibold">Đóng góp bài viết</span>
+            <span class="font-bold">Đóng góp bài viết</span>
           </span>
         </template>
         <a-menu-item key="4">
-          <NuxtLink to="/account/post" class="flex items-center gap-2">
+          <NuxtLink
+            to="/account/post"
+            class="flex items-center gap-2 font-semibold"
+          >
             Bài viết của bạn
           </NuxtLink>
         </a-menu-item>
@@ -59,7 +62,7 @@
         <a-menu-item key="5">
           <NuxtLink
             to="/account/post/rep-comment"
-            class="flex items-center gap-2"
+            class="flex items-center gap-2 font-semibold"
           >
             Bình luận bài viết của bạn
           </NuxtLink>
@@ -68,7 +71,7 @@
         <a-menu-item key="6">
           <NuxtLink
             to="/account/post/your-comment"
-            class="flex items-center gap-2"
+            class="flex items-center gap-2 font-semibold"
           >
             Bài viết đã bình luận
           </NuxtLink>
@@ -85,7 +88,7 @@
         <a-menu-item key="7">
           <span class="flex items-center gap-2">
             <Icon icon="tabler:settings-code" class="text-xl" />
-            <span class="font-semibold">Quản trị Website</span>
+            <span class="font-bold">Quản trị Website</span>
           </span></a-menu-item
         >
       </NuxtLink>
@@ -94,11 +97,14 @@
         <template #title>
           <span class="flex items-center gap-2">
             <Icon icon="f7:money-dollar-circle" class="text-xl" />
-            <span class="font-semibold">Quản lý số dư</span>
+            <span class="font-bold">Quản lý số dư</span>
           </span>
         </template>
         <a-menu-item key="8">
-          <NuxtLink to="/account/balce" class="flex items-center gap-2">
+          <NuxtLink
+            to="/account/balce"
+            class="flex items-center gap-2 font-semibold"
+          >
             Thông tin số dư
           </NuxtLink>
         </a-menu-item>
@@ -106,7 +112,7 @@
         <a-menu-item key="9">
           <NuxtLink
             to="/account/balce/transaction-history"
-            class="flex items-center gap-2"
+            class="flex items-center gap-2 font-semibold"
           >
             Lịch sử giao dịch
           </NuxtLink>
@@ -116,11 +122,14 @@
         <template #title>
           <span class="flex items-center gap-2">
             <UIcon name="i-tabler-credit-card-pay" class="text-base" />
-            <span>Xác thực tài khoản</span>
+            <span class="font-bold">Xác thực tài khoản</span>
           </span>
         </template>
         <a-menu-item key="8">
-          <NuxtLink to="/account/verify/verify-account" class="flex items-center gap-2">
+          <NuxtLink
+            to="/account/verify/verify-account"
+            class="flex items-center gap-2 font-semibold"
+          >
             Xác thực CMT/CCCD
           </NuxtLink>
         </a-menu-item>
@@ -128,26 +137,17 @@
         <a-menu-item key="9">
           <NuxtLink
             to="/account/verify/verify-student"
-            class="flex items-center gap-2"
+            class="flex items-center gap-2 font-semibold"
           >
             Xác thực sinh viên
           </NuxtLink>
         </a-menu-item>
-
-        <!-- <a-menu-item key="10">
-          <NuxtLink
-            to="/account/wallet/withdraw-money"
-            class="flex items-center gap-2"
-          >
-            Rút tiền
-          </NuxtLink>
-        </a-menu-item> -->
       </a-sub-menu>
 
       <a-menu-item key="11">
         <NuxtLink to="/account/order" class="flex items-center gap-2">
           <Icon icon="solar:box-minimalistic-outline" class="text-xl" />
-          <span class="font-semibold">Quản lý đơn hàng</span>
+          <span class="font-bold">Quản lý đơn hàng</span>
         </NuxtLink>
       </a-menu-item>
 
@@ -157,14 +157,14 @@
           class="flex items-center gap-2"
         >
           <Icon icon="teenyicons:password-outline" class="text-xl" />
-          <span class="font-semibold">Đổi mật khẩu</span>
+          <span class="font-bold">Đổi mật khẩu</span>
         </NuxtLink>
       </a-menu-item>
 
       <a-menu-item key="13" @click="logout">
         <NuxtLink to="/" class="flex items-center gap-2">
           <Icon icon="humbleicons:logout" class="text-xl" />
-          <span class="font-semibold">Đăng xuất</span>
+          <span class="font-bold">Đăng xuất</span>
         </NuxtLink>
       </a-menu-item>
     </a-menu>
