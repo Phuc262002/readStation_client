@@ -147,7 +147,7 @@
                 <button
                   @click="showDeleteConfirm(record?.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                  s
+                  
                 >
                   <Icon icon="hugeicons:delete-01" class="text-lg" />
                 </button>

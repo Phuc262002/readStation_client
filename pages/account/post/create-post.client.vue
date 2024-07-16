@@ -75,15 +75,20 @@
           <NuxtLink to="/account/post">
             <a-button class="h-10 text-base">Hủy</a-button>
           </NuxtLink>
-          <a-button class="h-10 text-base !text-orange-500 border-orange-500">
+          <a-button
+            @click="status = 'draft'"
+            html-type="submit"
+            class="h-10 text-base !text-orange-500 border-orange-500"
+          >
             Lưu nháp
           </a-button>
           <a-button
+            @click="status = 'published'"
             html-type="submit"
             :loading="postStore?.isSubmitting"
             class="h-10 text-base bg-orange-500 border-none !text-white"
           >
-            Thêm bài viết
+            Đăng bài
           </a-button>
         </div>
       </form>
@@ -94,8 +99,8 @@
 const fileList = ref([]);
 const categoryStore = useCategoryPublicStore();
 const postStore = useGeneralPostStore();
-const current = ref(1);
 const options = ref([]);
+const status = ref("published");
 
 const baseStore = useBaseStore();
 const imageInfo = ref("");
@@ -106,10 +111,6 @@ const post = ref({
   summary: "",
   image: "",
 });
-
-// useAsyncData(async () => {
-//   await postStore?.ge;
-// });
 
 // Get Category
 useAsyncData(async () => {
@@ -134,6 +135,7 @@ const onSubmit = async () => {
       content: post.value?.content,
       summary: post.value?.summary,
       image: imageInfo.value?.url,
+      status: status.value,
     });
     message.success("Thêm bài viết thành công");
     navigateTo("/account/post");

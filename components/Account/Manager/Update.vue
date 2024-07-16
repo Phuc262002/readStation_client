@@ -26,7 +26,7 @@
         class="flex flex-col bg-white shadow-md shadow-gray-300 rounded-md p-4"
       >
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center">Họ tên</span>
+          <span class="w-1/2 h-8 flex items-center font-semibold">Họ tên</span>
           <div class="w-1/2 text-left">
             <a-input
               size="large"
@@ -43,7 +43,9 @@
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center">Giới tính</span>
+          <span class="w-1/2 h-8 flex items-center font-semibold"
+            >Giới tính</span
+          >
           <div class="w-1/2 text-left">
             <a-radio-group
               type="gender"
@@ -69,7 +71,7 @@
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <div class="w-1/2 flex gap-1 h-8 flex items-center">
+          <div class="w-1/2 gap-1 h-8 flex items-center font-semibold">
             <span>Số điện thoại</span>
             <span class="text-red-600">*</span>
           </div>
@@ -87,7 +89,7 @@
           </div>
         </div>
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center">Email</span>
+          <span class="w-1/2 h-8 flex items-center font-semibold">Email</span>
           <div class="w-1/2 text-left">
             <a-input
               size="large"
@@ -102,7 +104,9 @@
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center">Ngày sinh</span>
+          <span class="w-1/2 h-8 flex items-center font-semibold"
+            >Ngày sinh</span
+          >
           <a-form-item class="w-1/2 text-left mb-0">
             <a-input
               size="large"
@@ -125,7 +129,9 @@
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center">Công việc</span>
+          <span class="w-1/2 h-8 flex items-center font-semibold"
+            >Công việc</span
+          >
           <div class="w-1/2 text-left">
             <a-input
               size="large"
@@ -139,7 +145,9 @@
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center">Tỉnh/ Thành Phố</span>
+          <span class="w-1/2 h-8 flex items-center font-semibold"
+            >Tỉnh/ Thành Phố</span
+          >
           <div class="w-1/2 text-left">
             <a-select
               v-if="isShow"
@@ -162,7 +170,9 @@
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center">Quận/ Huyện</span>
+          <span class="w-1/2 h-8 flex items-center font-semibold"
+            >Quận/ Huyện</span
+          >
           <div class="w-1/2 text-left">
             <a-select
               v-if="isShow"
@@ -187,7 +197,9 @@
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center">Xã/ Phường/ Thị trấn</span>
+          <span class="w-1/2 h-8 flex items-center font-semibold"
+            >Xã/ Phường/ Thị trấn</span
+          >
           <div class="w-1/2 text-left">
             <a-select
               v-if="isShow"
@@ -210,9 +222,7 @@
         </div>
         <!--  -->
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center flex items-center">
-            Đường
-          </span>
+          <span class="w-1/2 h-8 flex items-center font-semibold"> Đường </span>
           <div class="w-1/2 text-left">
             <a-input
               v-model:value="address.street"
@@ -226,7 +236,7 @@
         </div>
         <!--  -->
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center flex items-center">
+          <span class="w-1/2 h-8 flex items-center font-semibold">
             Địa chỉ cụ thể
           </span>
           <div class="w-1/2 text-left">
@@ -243,18 +253,13 @@
           class="w-full flex items-center justify-end gap-2 pt-5"
           v-if="isShow"
         >
-          <a-button
-            type="primary"
-            class="bg-white border border-rtgray-50 !text-black h-10 hover:!bg-rtgray-50"
-            @click="handleCancel"
-          >
-            Hủy
-          </a-button>
+          <a-button size="large" @click="handleCancel"> Hủy </a-button>
 
           <a-button
+            type="primary"
+            size="large"
             html-type="submit"
             :loading="authStore?.isSubmitting"
-            class="!text-white bg-rtprimary h-10 border-none hover:bg-rtsecondary"
           >
             Lưu thay đổi
           </a-button>

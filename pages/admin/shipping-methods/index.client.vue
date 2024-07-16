@@ -55,7 +55,7 @@
 
         <div class="">
           <a-button @click="showModalAdd" type="primary" size="large"
-            >Thêm phương thức thanh toán</a-button
+            >Thêm phương thức vận chuyển</a-button
           >
         </div>
       </div>
@@ -80,7 +80,6 @@
             <a-image class="rounded-md" :width="100" :src="record.logo" />
           </template>
           <template v-if="column.key === 'location'">
-            
             <ul>
               <li v-for="item in record.location" :key="item">
                 {{ item }}
@@ -220,6 +219,11 @@ const showDeleteConfirm = (id) => {
 };
 const columns = [
   {
+    title: "Phương thức vận chuyển",
+    dataIndex: "method",
+    key: "method",
+  },
+  {
     title: "Logo",
     dataIndex: "logo",
     key: "logo",
@@ -229,11 +233,7 @@ const columns = [
     dataIndex: "location",
     key: "location",
   },
-  {
-    title: "Phương thức vận chuyển",
-    dataIndex: "method",
-    key: "method",
-  },
+
   {
     title: "Phí vận chuyển",
     dataIndex: "fee",

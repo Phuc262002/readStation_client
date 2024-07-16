@@ -2,74 +2,125 @@
   <div>
     <h2 class="text-sm font-bold pb-5">Danh sách đơn hàng</h2>
     <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">
-      <div class="relative w-1/4 md:block hidden">
-        <div class="flex">
-          <input
-            type="text"
-            class="w-full h-10 border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-            placeholder="Tìm kiếm..."
-          />
-        </div>
-        <div
-          class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-        >
-          <UIcon class="text-gray-500" name="i-material-symbols-search" />
+      <div class="relative w-2/4 md:block hidden mb-5">
+        <div class="flex gap-3">
+          <a-input
+            v-model:value="value"
+            placeholder="Nhập mã đơn hàng để tìm kiếm"
+            enter-button
+            class="h-10"
+            @search="onSearch"
+          >
+            <template #prefix>
+              <SearchOutlined />
+            </template>
+          </a-input>
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu>
+                <a-menu-item
+                  @click="statusValue({ value: '', label: 'Tất cả' })"
+                >
+                  Tất cả
+                </a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({
+                      value: 'wating_payment',
+                      label: 'Chờ thanh toán',
+                    })
+                  "
+                >
+                  Chờ thanh toán
+                </a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'pending', label: 'Đang xử lý' })
+                  "
+                >
+                  Đang xử lý
+                </a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'approved', label: 'Đã xác nhận' })
+                  "
+                >
+                  Đã xác nhận
+                </a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({
+                      value: 'ready_for_pickup',
+                      label: 'Đơn hàng sẵn sàn',
+                    })
+                  "
+                >
+                  Đơn hàng sẵn sàng
+                </a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({
+                      value: 'preparing_shipment',
+                      label: 'Chuẩn bị giao hàng',
+                    })
+                  "
+                >
+                  Chuẩn bị giao hàng
+                </a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'in_transit', label: 'Đang giao' })
+                  "
+                >
+                  Đang giao
+                </a-menu-item>
+                <a-menu-item
+                  @click="statusValue({ value: 'extended', label: 'Gia hạn' })"
+                >
+                  Gia hạn
+                </a-menu-item>
+                <a-menu-item
+                  @click="statusValue({ value: 'active', label: 'Đang thuê' })"
+                >
+                  Đang thuê
+                </a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({
+                      value: 'returning',
+                      label: ' Đang trả sách',
+                    })
+                  "
+                >
+                  Đang trả sách
+                </a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'completed', label: 'Hoàn thành' })
+                  "
+                >
+                  Hoàn thành
+                </a-menu-item>
+                <a-menu-item
+                  @click="statusValue({ value: 'canceled', label: 'Đã hủy' })"
+                >
+                  Đã hủy
+                </a-menu-item>
+                <a-menu-item
+                  @click="statusValue({ value: 'overdue', label: 'Quá hạn' })"
+                >
+                  Quá hạn
+                </a-menu-item>
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ filter.label ? filter.label : "Tất cả" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
       </div>
-      <!--  -->
-      <div class="flex gap-3 text-white py-5">
-        <a-button
-          :class="[
-            'flex items-center gap-2 h-10 rounded-lg border-none shadow-none',
-            filter === null ? 'bg-orange-500 !text-white' : '',
-          ]"
-          @click="handleCheckStatus(null)"
-        >
-          <img src="../../../assets/images/icon-blog.svg" alt="" />
-          <span>Tất cả đơn hàng</span>
-        </a-button>
-        <a-button
-          :class="[
-            'flex items-center gap-2 h-10 rounded-lg border-none shadow-none',
-            filter === 'pending' ? 'bg-orange-500 !text-white' : '',
-          ]"
-          @click="handleCheckStatus('pending')"
-        >
-          <img src="../../../assets/images/icon-shipping.svg" alt="" />
-          <span>Chờ xử lý</span>
-        </a-button>
-        <a-button
-          :class="[
-            'flex items-center gap-2 h-10 rounded-lg border-none shadow-none',
-            filter === 'active' ? 'bg-orange-500 !text-white' : '',
-          ]"
-          @click="handleCheckStatus('active')"
-        >
-          <img src="../../../assets/images/icon-rent.svg" alt="" />
-          <span>Đang thuê</span>
-        </a-button>
-        <a-button
-          :class="[
-            'flex items-center gap-2 h-10 rounded-lg border-none shadow-none',
-            filter === 'completed' ? 'bg-orange-500 !text-white' : '',
-          ]"
-          @click="handleCheckStatus('completed')"
-        >
-          <img src="../../../assets/images/icon-return.svg" alt="" />
-          <span>Đã giao</span>
-        </a-button>
-        <a-button
-          :class="[
-            'flex items-center gap-2 h-10 rounded-lg border-none shadow-none',
-            filter === 'canceled' ? 'bg-orange-500 !text-white' : '',
-          ]"
-          @click="handleCheckStatus('canceled')"
-        >
-          <img src="../../../assets/images/icon-cancel.svg" alt="" />
-          <span>Đã hủy</span>
-        </a-button>
-      </div>
-      <!--  -->
+
       <a-table
         :columns="columns"
         :data-source="orderStore?.orders?.orders"
@@ -142,8 +193,8 @@
               </a-tag>
               <a-tag
                 v-else-if="
-                  orderStore?.order?.status === 'ready_for_pickup' &&
-                  orderStore?.order?.delivery_method === 'pickup'
+                  record?.status === 'ready_for_pickup' &&
+                  record?.delivery_method === 'pickup'
                 "
                 class="text-tag-text-14 bg-tag-bg-14 border-none py-1 px-3 rounded-lg"
               >
@@ -151,8 +202,8 @@
               </a-tag>
               <a-tag
                 v-else-if="
-                  orderStore?.order?.status === 'preparing_shipment' &&
-                  orderStore?.order?.delivery_method === 'shipper'
+                  record?.status === 'preparing_shipment' &&
+                  record?.delivery_method === 'shipper'
                 "
                 class="text-tag-text-15 bg-tag-bg-15 border-none py-1 px-3 rounded-lg"
               >
@@ -166,9 +217,9 @@
               </a-tag>
               <a-tag
                 v-else-if="record?.status === 'extended'"
-                class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
+                class="text-tag-text-12 bg-tag-bg-12 border-none py-1 px-3 rounded-lg"
               >
-                Quá hạn
+                Gia hạn
               </a-tag>
               <a-tag
                 v-else-if="record?.status === 'active'"
@@ -192,7 +243,7 @@
                 v-else-if="record?.status === 'canceled'"
                 class="text-tag-text-07 bg-tag-bg-07 border-none py-1 px-3 rounded-lg"
               >
-                Từ chối
+                Đã hủy
               </a-tag>
               <a-tag
                 v-else-if="record?.status === 'overdue'"
@@ -213,7 +264,7 @@
                 new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
-                }).format(record?.total_deposit_fee)
+                }).format(record?.total_all_fee)
               }}
             </span>
           </template>
@@ -281,7 +332,14 @@
 <script setup lang="ts">
 const orderStore = useOrderClientStore();
 const current = ref(1);
-const filter = ref(null);
+const filter = ref({
+  value: "",
+  label: "",
+});
+const statusValue = ({ value, label }) => {
+  filter.value.value = value;
+  filter.value.label = label;
+};
 const onCancelOrder = async (id: any) => {
   await orderStore.cancelOrder(id);
   getDataOrder();
@@ -306,7 +364,7 @@ const getDataOrder = async () => {
   try {
     await orderStore.getAllOrder({
       page: current.value,
-      status: filter.value,
+      status: filter.value.value,
     });
   } catch (error) {
     console.error(error);
@@ -318,7 +376,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current, filter],
+    watch: [current, filter.value],
   }
 );
 
@@ -326,7 +384,13 @@ useAsyncData(
 const handleCheckStatus = (status) => {
   filter.value = status;
 };
+const focus = () => {
+  console.log("focus");
+};
 
+const handleChange = (value: string) => {
+  console.log(`selected ${value}`);
+};
 const columns = [
   {
     title: "Mã đơn hàng",
@@ -369,3 +433,15 @@ const columns = [
   },
 ];
 </script>
+<style scoped>
+:deep(
+    :where(.css-dev-only-do-not-override-1mvo6uw).ant-input-search
+      > .ant-input-group
+      > .ant-input-group-addon:last-child
+      .ant-input-search-button
+  ) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

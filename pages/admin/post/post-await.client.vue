@@ -8,24 +8,61 @@
           Tất cả bài viết chờ duyệt
         </h5>
       </div>
-  
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <input
-              type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..."
-            />
+        <div class="w-1/2 flex items-center gap-2">
+          <div class="md:block hidden">
+            <div class="flex">
+              <a-input
+                placeholder="Nhập tên bài viết để tìm kiếm"
+                class="h-10 w-[400px]"
+                v-model:value="valueSearch"
+              >
+                <template #prefix>
+                  <SearchOutlined />
+                </template>
+              </a-input>
+            </div>
           </div>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
+
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <div>
+                <a-menu>
+                  <a-menu-item>
+                    <div
+                      @click="
+                        categoryValue({ id: null, label: ' Tất cả danh mục' })
+                      "
+                    >
+                      Tất cả danh mục
+                    </div>
+                  </a-menu-item>
+                  <a-menu-item
+                    v-for="(items, index) in categoryStore?.categoriesAdmin
+                      ?.categories"
+                    :key="index"
+                  >
+                    <div
+                      @click="
+                        categoryValue({ id: items?.id, label: items?.name })
+                      "
+                    >
+                      {{ items.name }}
+                    </div>
+                  </a-menu-item>
+                </a-menu>
+              </div>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{
+                categoryQuery.label ? categoryQuery.label : " Tất cả danh mục"
+              }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
       </div>
 
@@ -35,13 +72,13 @@
         :data-source="postStore?.postsAdmin.posts"
         :pagination="false"
       >
-        <template #headerCell="{ column }">
+       
+      <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
-            <span> Tên bài viết </span>
+            <a>
+              {{ record.title }}
+            </a>
           </template>
-        </template>
-
-        <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
             <a>
               {{ record.title }}
@@ -52,11 +89,19 @@
               {{ record.category.name }}
             </span>
           </template>
+          <template v-if="column.key === 'user_id'">
+            <span>
+              {{ record.user.fullname }}
+            </span>
+          </template>
+          <template v-if="column.key === 'view'">
+            <span> {{ record.view }} lượt xem </span>
+          </template>
           <template v-else-if="column.key === 'image'">
             <a-image
               class="rounded-md"
-              :width="100"
-              :height="100"
+              :width="70"
+              :height="70"
               :src="record.image"
             />
           </template>
@@ -200,18 +245,30 @@ const openModalConfirm = ref(false);
 const openModalDetail = ref(false);
 const postAwaitId = ref("");
 const postDetailId = ref();
+const categoryStore = useCategoryStore();
 const status = ref("");
 const current = ref(1);
+const valueSearch = ref("");
+const categoryQuery = ref({
+  id: "",
+  label: "",
+});
+const categoryValue = ({ id, label }) => {
+  categoryQuery.value.id = id;
+  categoryQuery.value.label = label;
+};
 useAsyncData(
   async () => {
     await postStore.getAllPost({
       page: current.value,
+      search: valueSearch.value,
+      category_id: categoryQuery.value.id,
       status: "wating_approve",
     });
   },
   {
     immediate: true,
-    watch: [current],
+    watch: [current, categoryQuery.value, valueSearch],
   }
 );
 
@@ -254,21 +311,32 @@ const columns = [
     key: "image",
   },
   {
-    name: "title",
-    dataIndex: "name",
-    key: "name",
+    title: "Tên bài viết",
+    dataIndex: "title",
+    key: "title",
     width: "250px",
   },
+  // {
+  //   title: "Tiêu đề",
+  //   dataIndex: "summary",
+  //   key: "summary",
+  //   width: "200px",
+  // },
+  {
+    title: "Người đăng",
+    dataIndex: "user_id",
+    key: "user_id",
+  },
+
   {
     title: "Danh mục",
     dataIndex: "category_id",
     key: "category_id",
   },
-
   {
-    title: "Nội dung ngắn",
-    dataIndex: "summary",
-    key: "summary",
+    title: "Lượt xem",
+    dataIndex: "view",
+    key: "view",
   },
 
   {

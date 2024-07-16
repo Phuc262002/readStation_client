@@ -1,100 +1,108 @@
 <template>
   <div>
+    <div
+      v-if="postStore.isLoading"
+      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
+    >
+      <a-spin size="large" class="absolute top-1/2 left-1/2" />
+    </div>
     <h2 class="text-sm font-bold pb-5">Bài viết của bạn</h2>
     <div class="bg-white rounded-lg shadow-md shadow-gray-300 p-5">
       <div class="relative w-1/4 md:block hidden">
-        <div class="flex">
-          <input
-            type="text"
-            class="w-full h-10 border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-            placeholder="Tìm kiếm..."
-          />
-        </div>
-        <div
-          class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+        <a-input
+          v-model:value="value"
+          placeholder="Nhập tên bài viết để tìm kiếm"
+          enter-button
+          class="h-10"
+          @search="onSearch"
         >
-          <UIcon class="text-gray-500" name="i-material-symbols-search" />
-        </div>
+          <template #prefix>
+            <SearchOutlined />
+          </template>
+        </a-input>
       </div>
       <!--  -->
       <div class="flex items-center justify-between py-5">
-        <div class="flex gap-3">
+        <div class="flex gap-2">
           <a-button
+            :loading="postStore.isLoading"
+            html-type="submit"
             :class="[
-              'flex items-center justify-center rounded-lg h-10 border-none shadow-none gap-3',
+              'flex items-center justify-center rounded-lg h-10 border-none shadow-none gap-2',
               filter === null ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus(null)"
           >
-            <img src="../../../assets/images/icon-blog.svg" alt="" />
-            <span>Tất cả bài viết</span>
+            <Icon icon="material-symbols:file-copy-outline" />
+            <span class="font-bold">Tất cả bài viết</span>
           </a-button>
 
           <!--  -->
           <a-button
             :class="[
-              'flex items-center justify-center rounded-lg h-10 border-none shadow-none gap-3',
+              'flex items-center justify-center rounded-lg h-10 border-none shadow-none gap-2',
               filter === 'published' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('published')"
           >
-            <img src="../../../assets/images/icon-public.svg" alt="" />
-            <span>Công khai</span>
+            <Icon icon="teenyicons:file-tick-outline" />
+            <span class="font-bold">Công khai</span>
           </a-button>
 
           <!--  -->
           <a-button
             :class="[
-              'flex items-center rounded-lg h-10 border-none shadow-none gap-3',
+              'flex items-center rounded-lg h-10 border-none shadow-none gap-2',
               filter === 'wating_approve' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('wating_approve')"
           >
-            <img src="../../../assets/images/icon-wait-accept.svg" alt="" />
-            <span>Chờ duyệt</span>
+            <Icon icon="nonicons:loading-16" />
+            <span class="font-bold">Chờ duyệt</span>
           </a-button>
 
           <!--  -->
           <a-button
             :class="[
-              'flex items-center rounded-lg h-10 border-none shadow-none gap-3',
+              'flex items-center rounded-lg h-10 border-none shadow-none gap-2',
               filter === 'draft' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('draft')"
           >
-            <img src="../../../assets/images/icon-draft.svg" alt="" />
-            <span>Nháp</span>
+            <Icon icon="material-symbols:draft-outline" />
+            <span class="font-bold">Nháp</span>
           </a-button>
 
           <!--  -->
           <a-button
             :class="[
-              'flex items-center rounded-lg h-10 border-none shadow-none gap-3',
+              'flex items-center rounded-lg h-10 border-none shadow-none gap-2',
               filter === 'approve_canceled' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('approve_canceled')"
           >
-            <img src="../../../assets/images/icon-draft.svg" alt="" />
-            <span>Bị từ chối</span>
+            <Icon icon="carbon:rule-cancelled" />
+            <span class="font-bold">Bị từ chối</span>
           </a-button>
 
           <!--  -->
           <a-button
             :class="[
-              'flex items-center rounded-lg h-10 border-none shadow-none gap-3',
+              'flex items-center rounded-lg h-10 border-none shadow-none gap-2',
               filter === 'hidden' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('hidden')"
           >
-            <img src="../../../assets/images/icon-draft.svg" alt="" />
-            <span>Đang ẩn</span>
+            <Icon icon="uil:eye-slash" />
+            <span class="font-bold">Đang ẩn</span>
           </a-button>
         </div>
         <NuxtLink to="/account/post/create-post"
           ><a-button
             class="bg-orange-500 border-none !text-white rounded-lg h-10"
-            >Bài viết mới</a-button
-          ></NuxtLink
+          >
+            Bài viết mới
+          </a-button></NuxtLink
         >
       </div>
       <!--  -->
@@ -230,6 +238,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
 const postStore = usePostClientStore();
 const postGeneralStore = useGeneralPostStore();
 const current = ref(1);
@@ -293,6 +302,12 @@ const showDeleteConfirm = (id: any) => {
     },
   });
 };
+const value = ref<string>("");
+
+const onSearch = (searchValue: string) => {
+  console.log("use value", searchValue);
+  console.log("or use this.value", value.value);
+};
 const columns = [
   {
     title: "Ảnh bìa",
@@ -326,3 +341,15 @@ const columns = [
   },
 ];
 </script>
+<style scoped>
+:deep(
+    :where(.css-dev-only-do-not-override-1mvo6uw).ant-input-search
+      > .ant-input-group
+      > .ant-input-group-addon:last-child
+      .ant-input-search-button
+  ) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

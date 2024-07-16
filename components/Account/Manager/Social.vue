@@ -10,23 +10,29 @@
       >
         <div class="flex items-center justify-between border-b pb-2">
           <span>Loại tài khoản</span>
-          <span> {{ authStore?.authUser?.user?.role?.name }} </span>
+          <span>
+            <a-tag :bordered="false" color="purple" class="font-bold">
+              {{ authStore?.authUser?.user?.role?.name }}
+            </a-tag>
+          </span>
         </div>
         <div class="flex items-center justify-between border-b pb-2">
           <span>Xác minh</span>
           <span>
-            {{
-              authStore?.authUser?.user?.user_verified_at === null
-                ? "Chưa xác thực"
-                : "Đã xác thực"
-            }}
+            <a-tag
+              v-if="authStore?.authUser?.user?.user_verified_at === null"
+              color="red"
+            >
+              Chưa xác thực
+            </a-tag>
+            <a-tag v-else color="green">Đã xác thực</a-tag>
           </span>
         </div>
         <div class="flex items-center justify-between">
           <span>Ngày mở tài khoản</span>
           <span>
             {{
-              $dayjs(authStore?.authUser?.user?.created_at).format("DD-MM-YYYY")
+              $dayjs(authStore?.authUser?.user?.created_at).format("DD/MM/YYYY")
             }}
           </span>
         </div>
