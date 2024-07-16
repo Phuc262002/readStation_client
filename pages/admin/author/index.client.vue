@@ -86,7 +86,7 @@
 
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top">
+              <!-- <a-tooltip placement="top">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
@@ -96,7 +96,7 @@
                     <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
                   </div>
                 </button>
-              </a-tooltip>
+              </a-tooltip> -->
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
@@ -173,9 +173,9 @@ const onDelete = async (id: string) => {
 const showDeleteConfirm = (id: string) => {
   Modal.confirm({
     title: "Bạn có chắc muốn xóa tác giả này không ?",
-    okText: "Yes",
+    okText: "Có",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onDelete(id);
     },

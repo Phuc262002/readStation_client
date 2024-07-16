@@ -84,7 +84,7 @@ const showRecoverConfirm = (id) => {
     title: "Bạn có muốn khôi phục tác giả này ?",
     okText: "Có",
     okType: "danger",
-    cancelText: "Không",
+    cancelText: "Hủy",
     onOk() {
       onRecover(id);
     },

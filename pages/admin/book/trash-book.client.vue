@@ -140,7 +140,7 @@ const showRecoverConfirm = (id: string) => {
     title: "Bạn có muốn khôi phục sách này ?",
     okText: "Có",
     okType: "danger",
-    cancelText: "Không",
+    cancelText: "Hủy",
     onOk() {
       onRecover(id);
     },
