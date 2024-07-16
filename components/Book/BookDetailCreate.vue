@@ -128,6 +128,9 @@ const props = defineProps({
   book_id: Number,
 });
 const open = ref(props.openModalAdd);
+const route = useRoute()
+const bookID = route.params.id
+const bookStore = useBookStore();
 watch(
   () => props.openModalAdd,
   (newVal) => {
@@ -226,7 +229,7 @@ const valueBookDetail = ref({
 });
 const onSubmit = async () => {
   try {
-    await DetailBookStore.createBookDetail({ 
+    await DetailBookStore.createBookDetail({
       book_id: props.book_id,
       sku_origin: valueBookDetail.value.sku_origin,
       poster: imageInfo.value?.url,
@@ -244,6 +247,10 @@ const onSubmit = async () => {
       total_page: valueBookDetail.value.total_page,
       translator: valueBookDetail.value.translator,
     });
+    handleClose()
+    useAsyncData(async () => {
+    await bookStore.getOneBookAdmin(bookID);
+  });
   } catch (error) {
     console.error(error);
 

@@ -45,6 +45,17 @@ import dayjs from 'dayjs';
               <span v-if="record?.return_method === 'library'">Giao trả tại thư viện</span>
               <span v-if="record?.return_method === 'pickup'">Giao trả đến thư viện</span>
             </template>
+            <template v-if="column.key === 'processed_by'">
+                <span>{{ record?.processed_by?.fullname ? record?.processed_by?.fullname : 'Chưa được xử lý'}}</span>
+            </template>
+            <template v-if="column.key === 'status'">
+              <span v-if="record?.status === 'completed'">
+                <a-tag :bordered="false"  class="bg-tag-bg-05 text-tag-text-05">Hoàn thành</a-tag>
+              </span>
+              <span v-if="record?.status === 'pending'">
+                <a-tag :bordered="false" class="bg-tag-bg-01 text-tag-text-01">Đang xử lý</a-tag>
+              </span>
+            </template>
             <template v-if="column.key === 'action'">
               <NuxtLink :to="`/admin/product-manager/slip/${record?.id}`">
                 <a-tooltip placement="top">
@@ -85,7 +96,7 @@ const columns = [
     key: 'loan_order_detail',
   },
   {
-    title: 'Ngày thuê',
+    title: 'Ngày tạo phiếu',
     dataIndex: 'return_date',
     key: 'return_date',
   },
@@ -95,18 +106,19 @@ const columns = [
     key: 'return_method',
   },
   {
+    title: 'Người xử lý',
+    dataIndex: 'processed_by',
+    key: 'processed_by',
+  },
+  {
+    title: 'Trạng thái phiếu',
+    dataIndex: 'status',
+    key: 'status',
+  },
+  {
     title: 'Thao tác',
     dataIndex: 'action',
     key: 'action',
   }
-];
-const data = [
-  {
-    id: 1,
-    sku: '#0488D7D3C7',
-    user: 'Nguyễn Văn A',
-    return_date: '20/10/2021',
-    return_method: 'Giao trả sách',
-  },
 ];
 </script>

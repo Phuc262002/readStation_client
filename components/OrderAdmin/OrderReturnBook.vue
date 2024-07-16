@@ -68,7 +68,7 @@ watch(
   }
 );
 watch(
-  () => props.loan_order_detail_id,
+  () => props.loan_order_detail,
   (newVal) => {
     loan_order_detail_id.value = newVal;
   }

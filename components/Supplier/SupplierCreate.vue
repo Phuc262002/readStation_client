@@ -58,11 +58,11 @@ const valueSupplier = ref({
   address: "",
 });
 
-const onSubmit = () => {
+const onSubmit = async () => {
   try {
     supplierStore.createSupplier(valueSupplier.value);
-    open.value = false;
-    props.openModal();
+    handleClose();
+    await supplierStore.getAllSupplier({});
   } catch (error) {
     console.log(error);
   }
