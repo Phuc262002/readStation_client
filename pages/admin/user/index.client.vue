@@ -26,7 +26,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-04">
-              <p class="font-normal text-base">Tất cả</p>
+              <p class="font-bold text-base">Tất cả</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="userStore.isLoading"
@@ -56,7 +56,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-04">
-              <p class="font-normal text-base">Quản trị viên</p>
+              <p class="font-bold text-base">Quản trị viên</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="userStore.isLoading"
@@ -75,7 +75,7 @@
           </div>
         </div>
       </div>
-    
+
       <div class="flex flex-col">
         <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm w-full gap-2 font-medium p-4">
@@ -87,7 +87,7 @@
             /></a-tag>
 
             <div class="flex-1 text-tag-text-02">
-              <p class="font-normal text-base">Khách hàng</p>
+              <p class="font-bold text-base">Khách hàng</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="userStore.isLoading"
@@ -117,7 +117,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-01">
-              <p class="font-normal text-base">HS/SV</p>
+              <p class="font-bold text-base">HS/SV</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="userStore.isLoading"
@@ -136,7 +136,6 @@
           </div>
         </div>
       </div>
-     
     </div>
 
     <!-- Đây là phần code mẫu body -->
@@ -272,8 +271,6 @@
             >
               Sinh viên
             </a-tag>
-
-           
           </template>
           <template v-else-if="column.key === 'google_id'">
             <IconTick v-if="record.google_id" />
@@ -364,7 +361,11 @@
                       </a-menu-item>
                     </NuxtLink>
 
-                    <a-menu-item key="2" class="p-4">
+                    <a-menu-item
+                      v-if="record.status === UserStatus.ACTIVE"
+                      key="2"
+                      class="p-4"
+                    >
                       <button
                         @click="showBannedConfirm(record.id)"
                         class="flex items-center gap-2"
@@ -373,7 +374,23 @@
                           icon="gridicons:block"
                           class="text-lg font-bold text-tag-text-06"
                         />
-                        <span class="text-tag-text-06 font-bold">Chặn</span>
+                        <span class="text-tag-text-06 font-bold"
+                          >Vô hiệu hóa</span
+                        >
+                      </button>
+                    </a-menu-item>
+                    <a-menu-item v-else key="3" class="p-4">
+                      <button
+                        @click="showDeleteConfirm(record.id)"
+                        class="flex items-center gap-2"
+                      >
+                        <Icon
+                          icon="charm:tick"
+                          class="text-lg font-bold text-tag-text-09"
+                        />
+                        <span class="text-tag-text-09 font-bold"
+                          >Hoạt động</span
+                        >
                       </button>
                     </a-menu-item>
                   </a-menu>
@@ -411,6 +428,7 @@
 import { UserStatus } from "~/types/admin/user";
 import { UserRole } from "~/types/admin/user";
 import { Icon } from "@iconify/vue";
+import { Modal } from "ant-design-vue";
 const current = ref(1);
 const userStore = useUserStore();
 const roleStore = useRoleStore();
@@ -442,7 +460,7 @@ const roleValue = ({ value, label }) => {
     case "student":
       queryrole.value.label = "Sinh viên";
       break;
-  
+
     default:
       queryrole.value.label = "Tất cả vai trò";
       break;
@@ -484,7 +502,30 @@ useAsyncData(
     watch: [queryrole.value],
   }
 );
+const showDeleteConfirm = (id) => {
+  Modal.confirm({
+    title: "Bạn có chắn muốn khôi phục người dùng này không?",
 
+    okText: "Khôi phục",
+    okType: "danger",
+    cancelText: "Hủy",
+    onOk() {
+      onActiveConfirm(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+};
+const onActiveConfirm = async (id) => {
+  userStore.updateUser({
+    id: id,
+    user: {
+      status: "active",
+    },
+  });
+  await userStore.getUser({});
+};
 const showBannedConfirm = (id) => {
   openModalConfirm.value = true;
   userDashboard.value = id;

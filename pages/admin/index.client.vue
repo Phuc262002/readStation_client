@@ -359,10 +359,12 @@
               <template v-if="column.dataIndex === 'user'">
                 <div class="flex justify-start gap-2">
                   <div>
-                    <a-avatar :src="record.user.avatar" />
+                    <a-avatar :size="48" :src="record.user.avatar" />
                   </div>
-                  <div class="flex flex-col gap-1">
-                    <span>{{ record.user.fullname }}</span>
+
+                  <div>
+                    <p class="p-0">{{ record.user.fullname }}</p>
+                    <p class="p-0">{{ record.user.email }}</p>
                   </div>
                 </div>
               </template>
@@ -370,8 +372,10 @@
                 <span>{{ record.loan_order_details.length }} quyển</span>
               </template>
               <template v-else-if="column.dataIndex === 'receipt_date'">
-                <span v-if="record.loan_date">{{ $dayjs(record.loan_date).format("DD/MM/YYYY") }}</span>
-                <span v-else> Chưa có ngày</span>
+                <span v-if="record.loan_date">{{
+                  $dayjs(record.loan_date).format("DD/MM/YYYY")
+                }}</span>
+              
               </template>
               <template v-if="column.dataIndex === 'status'">
                 <span>

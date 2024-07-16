@@ -75,9 +75,9 @@
           <!-- Cart && Account -->
           <div class="md:flex justify-center items-center hidden">
             <div class="flex justify-center items-center gap-2 mr-4">
-              <div class="text-center">
+              <!-- <div class="text-center">
                 <CommonThemeSelect />
-              </div>
+              </div> -->
               <CommonLogged v-if="authStore.isLogged" />
               <NuxtLink to="/login" v-else>
                 <button class="w-32 hover:bg-gray-100 hover:rounded-xl h-10">

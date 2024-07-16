@@ -91,18 +91,17 @@
                 <button @click="showModal"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                   <div>
-                    <UIcon class="group-hover:text-[#212122]" name="i-icon-park-outline-eyes" />
+                    <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
                   </div>
                 </button>
               </a-tooltip>
-
-              <a-tooltip placement="top" color="red">
+              <a-tooltip placement="top">
                 <template #title>
                   <span>Xóa</span>
                 </template>
                 <button @click.prevent="showConfirm(record?.book?.id)"
-                  class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md">
-                  <UIcon class="group-hover:text-[red]" name="i-material-symbols-delete-outline" />
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                  <Icon icon="hugeicons:delete-01" class="text-lg" />
                 </button>
               </a-tooltip>
             </div>
@@ -116,6 +115,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { Icon } from "@iconify/vue";
 const route = useRoute()
 const openModalAdd = ref<boolean>(false);
 const openModalEdit = ref<boolean>(false);
@@ -124,6 +124,7 @@ const showModal = () => {
   open.value = true;
 };
 const detailShelvesId = route.params.id;
+
 const bookShelves = useShelvesStore();
 useAsyncData(async () => {
   await bookShelves.getOneShelves(detailShelvesId);

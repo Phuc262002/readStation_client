@@ -24,7 +24,9 @@
           </p>
         </div>
         <div>
-          <a-button size="large" type="primary">Đổi tên tủ</a-button>
+          <a-button @click="showModalEdit" size="large" type="primary"
+            >Đổi tên tủ</a-button
+          >
         </div>
       </div>
     </div>
@@ -46,7 +48,9 @@
           </div>
         </div>
         <div class="">
-          <a-button size="large" type="primary" @click="showModalAdd">Thêm Kệ</a-button>
+          <a-button size="large" type="primary" @click="showModalAdd"
+            >Thêm Kệ</a-button
+          >
           <BookCaseSearch
             :openModalAdd="openModalAdd"
             :openModal="CloseModalAdd"
@@ -122,16 +126,22 @@
           </template>
         </template>
       </a-table>
+      <BookCaseEdit
+        :openModalEdit="openModalEdit"
+        :openModal="CloseModalEdit"
+        :bookCaseId="detailBookCaseId"
+      />
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 import { Modal } from "ant-design-vue";
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
 const route = useRoute();
 const open = ref(false);
-const openModalAdd = ref<boolean>(false);
+const openModalEdit = ref(false);
+const openModalAdd = ref(false);
 const detailBookCaseId = route.params.id;
 const bookCaseStore = useBookcaseStore();
 const bookShelves = useShelvesStore();
@@ -147,7 +157,10 @@ const updateDetailCase = async (id) => {
       bookcase_id: null,
     };
     await bookShelves.updateShelves({ id: id, valueUpdateShelves: idCase });
-  } catch (error) {}
+    await bookCaseStore.getOneBookcase(detailBookCaseId);
+  } catch (error) {
+
+  }
 };
 const showConfirm = (id) => {
   Modal.confirm({
@@ -171,6 +184,12 @@ const showModalAdd = () => {
 };
 const CloseModalAdd = () => {
   openModalAdd.value = false;
+};
+const showModalEdit = () => {
+  openModalEdit.value = true;
+};
+const CloseModalEdit = () => {
+  openModalEdit.value = false;
 };
 const columns = [
   {
