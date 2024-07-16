@@ -4,9 +4,7 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-bold">
-          Tài khoản chờ duyệt
-        </h5>
+        <h5 class="text-xl text-[#1e293b] font-bold">Tài khoản chờ duyệt</h5>
       </div>
     </div>
 
@@ -126,10 +124,10 @@
               </div>
               <div>
                 <p class="p-0">
-                  {{ record.user_request?.email }}
+                  {{ record.user_request?.citizen_identity_card?.citizen_name }}
                 </p>
                 <p class="p-0">
-                  {{ record.user_request?.citizen_identity_card?.citizen_name }}
+                  {{ record.user_request?.email }}
                 </p>
               </div>
             </div>

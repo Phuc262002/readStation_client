@@ -10,7 +10,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-04">
-              <p class="font-normal text-base">Tổng đơn</p>
+              <p class="font-bold text-base">Tổng đơn</p>
               <p class="font-bold text-2xl float-right">
                 <Icon v-if="orderStore.isLoading" icon="svg-spinners:3-dots-scale" class="text-3xl" />
                 <span v-else>
@@ -33,7 +33,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-04">
-              <p class="font-normal text-base">Đang thuê</p>
+              <p class="font-bold text-base">Đang thuê</p>
               <p class="font-bold text-2xl float-right">
                 <Icon v-if="orderStore.isLoading" icon="svg-spinners:3-dots-scale" class="text-3xl" />
                 <span v-else>
@@ -56,7 +56,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-05">
-              <p class="font-normal text-base">Hoàn thành</p>
+              <p class="font-bold text-base">Hoàn thành</p>
               <p class="font-bold text-2xl float-right">
                 <Icon v-if="orderStore.isLoading" icon="svg-spinners:3-dots-scale" class="text-3xl" />
                 <span v-else>
@@ -79,7 +79,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-06">
-              <p class="font-normal text-base">Quá hạn</p>
+              <p class="font-bold text-base">Quá hạn</p>
               <p class="font-bold text-2xl float-right">
                 <Icon v-if="orderStore.isLoading" icon="svg-spinners:3-dots-scale" class="text-3xl" />
                 <span v-else>
@@ -102,7 +102,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-01">
-              <p class="font-normal text-base">Đang xử lý</p>
+              <p class="font-bold text-base">Đang xử lý</p>
               <p class="font-bold text-2xl float-right">
                 <Icon v-if="orderStore.isLoading" icon="svg-spinners:3-dots-scale" class="text-3xl" />
                 <span v-else>
@@ -125,7 +125,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-11">
-              <p class="font-normal text-base">Đã xác nhận</p>
+              <p class="font-bold text-base">Đã xác nhận</p>
               <p class="font-bold text-2xl float-right">
                 <Icon v-if="orderStore.isLoading" icon="svg-spinners:3-dots-scale" class="text-3xl" />
                 <span v-else>
@@ -148,7 +148,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-03">
-              <p class="font-normal text-base">Đang giao</p>
+              <p class="font-bold text-base">Đang giao</p>
               <p class="font-bold text-2xl float-right">
                 <Icon v-if="orderStore.isLoading" icon="svg-spinners:3-dots-scale" class="text-3xl" />
                 <span v-else>
@@ -171,7 +171,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-07">
-              <p class="font-normal text-base">Đã hủy</p>
+              <p class="font-bold text-base">Đã hủy</p>
               <p class="font-bold text-2xl float-right">
                 <Icon v-if="orderStore.isLoading" icon="svg-spinners:3-dots-scale" class="text-3xl" />
                 <span v-else>
@@ -272,7 +272,7 @@
                     <div>
                       <a-avatar :src="record.user.avatar" />
                     </div>
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col ">
                       <span>{{ record.user.fullname }}</span>
                       <span>{{ record.user.email }}</span>
                     </div>

@@ -26,7 +26,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-04">
-              <p class="font-normal text-base">Tất cả</p>
+              <p class=" font-bold text-base">Tất cả</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="userStore.isLoading"
@@ -56,7 +56,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-04">
-              <p class="font-normal text-base">Quản trị viên</p>
+              <p class="font-bold text-base">Quản trị viên</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="userStore.isLoading"
@@ -87,7 +87,7 @@
             /></a-tag>
 
             <div class="flex-1 text-tag-text-02">
-              <p class="font-normal text-base">Khách hàng</p>
+              <p class="font-bold text-base">Khách hàng</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="userStore.isLoading"
@@ -117,7 +117,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-01">
-              <p class="font-normal text-base">HS/SV</p>
+              <p class="font-bold text-base">HS/SV</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="userStore.isLoading"
