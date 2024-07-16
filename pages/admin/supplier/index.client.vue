@@ -4,7 +4,6 @@
             <div class="grow">
                 <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả nhà cung cấp</h5>
             </div>
-            <CommonBreadcrumAdmin />
         </div>
 
         <!-- Đây là phần code mẫu body -->
