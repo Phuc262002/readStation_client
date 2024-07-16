@@ -6,7 +6,6 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả tủ sách</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
@@ -120,7 +119,8 @@ const onRecover = async (id) => {
 const showRecoverConfirm = (id) => {
   Modal.confirm({
     title: "Bạn có chắc chắn muốn khôi phục",
-    content: "Khi đã khôi phục, tủ sách sẽ hiển thị trở lại trong danh sách tủ sách.",
+    content:
+      "Khi đã khôi phục, tủ sách sẽ hiển thị trở lại trong danh sách tủ sách.",
     okText: "Khôi phục",
     okType: "danger",
     cancelText: "Hủy",

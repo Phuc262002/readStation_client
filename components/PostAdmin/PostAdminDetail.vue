@@ -1,7 +1,6 @@
 <template>
   <a-modal
     v-model:open="open"
-    title="Bài viết chi tiết"
     width="70%"
     :footer="null"
     :onCancel="handleClose"
@@ -15,7 +14,7 @@
     <div v-else class="space-y-5">
       <div class="flex justify-between gap-4">
         <div class="grow">
-          <h1 class="font-bold text-xl">Bài viết số 1</h1>
+          <h1 class="font-bold text-2xl">Chi tiết bài viết &#x2018{{  postStore.post?.title }}&#x2019 </h1>
         </div>
       </div>
 
@@ -24,19 +23,19 @@
           class="md:col-span-1 space-y-3 md:border-r md:border-gray-200 md:pr-5"
         >
           <div class="grid grid-cols-4">
-            <span class="text-base col-span-1">Tiêu đề: </span>
+            <span class="text-base col-span-1 font-bold">Tiêu đề: </span>
             <span class="text-base col-span-3">{{
               postStore.post?.title
             }}</span>
           </div>
           <div class="grid grid-cols-4">
-            <span class="text-base col-span-1">Danh mục: </span>
+            <span class="text-base col-span-1 font-bold">Danh mục: </span>
             <span class="text-base col-span-3">{{
               postStore.post?.category?.name
             }}</span>
           </div>
           <div class="grid grid-cols-4">
-            <span class="text-base col-span-1">Trạng thái: </span>
+            <span class="text-base col-span-1 font-bold">Trạng thái: </span>
             <span class="text-base col-span-3">
               <a-tag
                 :bordered="false"
@@ -83,7 +82,7 @@
             </span>
           </div>
           <div class="grid grid-cols-4">
-            <span class="text-base col-span-1">Ảnh bìa: </span>
+            <span class="text-base col-span-1 font-bold">Ảnh bìa: </span>
             <span class="text-base col-span-3">
               <a-image
                 class="rounded-md !h-[160px] !w-full"
@@ -94,21 +93,21 @@
           </div>
         </div>
 
-        <div class="md:col-span-1 space-y-3">
+        <div class="md:col-span-1 space-y-3 ">
           <div class="grid grid-cols-4">
-            <span class="text-base col-span-1">Người đăng: </span>
+            <span class="text-base col-span-1 font-bold">Người đăng: </span>
             <span class="text-base col-span-3">
               {{ postStore.post?.user?.fullname }}
             </span>
           </div>
           <div class="grid grid-cols-4">
-            <span class="text-base col-span-1">Lượt xem: </span>
+            <span class="text-base col-span-1 font-bold">Lượt xem: </span>
             <span class="text-base col-span-3">
               {{ postStore.post?.view }}
             </span>
           </div>
           <div class="grid grid-cols-4">
-            <span class="text-base col-span-1">Ngày đăng: </span>
+            <span class="text-base col-span-1 font-bold">Ngày đăng: </span>
             <span class="text-base col-span-3">
               {{
                 dayjs(postStore.post?.created_at).format(" DD/MM/YYYY HH:mm:ss")

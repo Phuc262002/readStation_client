@@ -52,6 +52,7 @@
           <a-button
             class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary"
             @click="showModalAdd"
+            size="large"
             >Thêm danh mục bài viết</a-button
           >
 

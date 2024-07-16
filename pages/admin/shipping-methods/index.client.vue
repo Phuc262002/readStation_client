@@ -54,7 +54,7 @@
         </div>
 
         <div class="">
-          <a-button @click="showModalAdd" type="primary"
+          <a-button @click="showModalAdd" type="primary" size="large"
             >Thêm phương thức thanh toán</a-button
           >
         </div>

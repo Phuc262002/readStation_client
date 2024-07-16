@@ -30,7 +30,7 @@
           icon="hugeicons:dashboard-square-02"
           class="text-2xl"
         />
-        <span>Dashboards</span>
+        <span class="font-bold">Dashboards</span>
       </a-menu-item>
 
       <a-menu-item
@@ -42,7 +42,7 @@
           icon="hugeicons:user-check-02"
           class="text-2xl"
         />
-        <span>Chờ xác thực</span>
+        <span class="font-bold">Chờ xác thực</span>
       </a-menu-item>
 
       <a-sub-menu key="sub1">
@@ -53,7 +53,7 @@
               icon="solar:users-group-rounded-broken"
               class="text-2xl"
             />
-            <span>Quản lý người dùng</span>
+            <span class="font-bold">Quản lý người dùng</span>
           </span>
         </template>
         <a-menu-item key="4" @click="navigateTo('/admin/user')"
@@ -72,7 +72,7 @@
               icon="solar:box-minimalistic-outline"
               class="text-2xl"
             />
-            <span>Quản lý đơn hàng</span>
+            <span class="font-bold">Quản lý đơn hàng</span>
           </span>
         </template>
         <a-menu-item
@@ -100,7 +100,7 @@
               class="text-2xl"
             />
 
-            <span>Quản lý sách</span>
+            <span class="font-bold">Quản lý sách</span>
           </span>
         </template>
         <a-menu-item key="9" @click="navigateTo('/admin/book')"
@@ -126,7 +126,7 @@
               icon="hugeicons:quill-write-02"
               class="text-2xl"
             />
-            <span>Quản lý bài viết</span>
+            <span class="font-bold">Quản lý bài viết</span>
           </span>
         </template>
         <a-menu-item key="40" @click="navigateTo('/admin/post')"
@@ -150,7 +150,7 @@
               icon="fluent:comment-32-regular"
               class="text-2xl"
             />
-            <span>Quản lý bình luận</span>
+            <span class="font-bold">Quản lý bình luận</span>
           </span>
         </template>
         <a-menu-item key="42" @click="navigateTo('/admin/comment')"
@@ -166,7 +166,7 @@
               class="text-2xl"
             />
 
-            <span>Quản lý tủ sách</span>
+            <span class="font-bold">Quản lý tủ sách</span>
           </span>
         </template>
         <a-menu-item key="17" @click="navigateTo('/admin/book-case')"
@@ -186,7 +186,7 @@
               icon="bi:bookshelf"
               class="text-2xl"
             />
-            <span>Quản lý kệ sách</span>
+            <span class="font-bold">Quản lý kệ sách</span>
           </span>
         </template>
         <a-menu-item key="19" @click="navigateTo('/admin/book-shelves')"
@@ -206,7 +206,7 @@
               icon="iconamoon:category-light"
               class="text-2xl"
             />
-            <span>Danh mục sản phẩm</span>
+            <span class="font-bold">Danh mục sản phẩm</span>
           </span>
         </template>
         <a-menu-item key="20" @click="navigateTo('/admin/categoryBook')"
@@ -226,7 +226,7 @@
               icon="iconamoon:category-light"
               class="text-2xl"
             />
-            <span>Danh mục bài viết</span>
+            <span class="font-bold">Danh mục bài viết</span>
           </span>
         </template>
         <a-menu-item key="77" @click="navigateTo('/admin/categoryPost')">
@@ -248,7 +248,7 @@
               class="text-2xl"
             />
 
-            <span>Quản lý tác giả</span>
+            <span class="font-bold">Quản lý tác giả</span>
           </span>
         </template>
         <a-menu-item key="23" @click="navigateTo('/admin/author')"
@@ -270,7 +270,7 @@
               class="text-2xl"
             />
 
-            <span>Phương thức vận chuyển </span>
+            <span class="font-bold">Phương thức vận chuyển </span>
           </span>
         </template>
         <a-menu-item key="36" @click="navigateTo('/admin/shipping-methods')"
@@ -291,7 +291,7 @@
               icon="ion:business-outline"
               class="text-2xl"
             />
-            <span>Quản lý nhà xuất bản</span>
+            <span class="font-bold">Quản lý nhà xuất bản</span>
           </span>
         </template>
         <a-menu-item key="49" @click="navigateTo('/admin/publishing-company')"
@@ -314,7 +314,7 @@
               icon="tabler:building-warehouse"
               class="text-2xl"
             />
-            <span class="font-semibold">Quản lý nhà cung cấp</span>
+            <span class="font-bold">Quản lý nhà cung cấp</span>
           </span>
         </template>
         <a-menu-item key="37" @click="navigateTo('/admin/supplier')"
@@ -334,7 +334,7 @@
               icon="icon-park-outline:bill"
               class="text-2xl"
             />
-            <span>Hóa đơn nhập hàng</span>
+            <span class="font-bold">Hóa đơn nhập hàng</span>
           </span>
         </template>
         <a-menu-item key="28" @click="navigateTo('/admin/manager-bill')"
@@ -353,7 +353,7 @@
           icon="hugeicons:bitcoin-transaction"
           class="text-2xl"
         />
-        <span>Tất cả lịch sử giao dịch</span>
+        <span class="font-bold">Tất cả lịch sử giao dịch</span>
       </a-menu-item>
       <a-menu-item key="32" @click="navigateTo('/admin/image')">
         <Icon
@@ -361,7 +361,7 @@
           icon="radix-icons:image"
           class="text-2xl"
         />
-        <span>Quản lý ảnh</span>
+        <span class="font-bold">Quản lý ảnh</span>
       </a-menu-item>
     </a-menu>
   </a-layout-sider>

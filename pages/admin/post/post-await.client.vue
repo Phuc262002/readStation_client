@@ -136,7 +136,10 @@
                 <template #overlay>
                   <a-menu class="space-y-1">
                     <a-menu-item key="2" class="p-4 hover:!bg-tag-bg-02">
-                      <span class="flex items-center gap-2">
+                      <button
+                        @click="showRecoverConfirm(record.id)"
+                        class="flex items-center gap-2"
+                      >
                         <Icon
                           icon="charm:circle-tick"
                           class="text-lg text-tag-text-02"
@@ -144,13 +147,13 @@
                         <span class="text-tag-text-02 font-bold"
                           >Chấp nhận</span
                         >
-                      </span>
+                      </button>
                     </a-menu-item>
 
                     <a-menu-item key="3" class="p-4 hover:!bg-tag-bg-06">
                       <button
                         @click="showCancelConfirm(record.id)"
-                        class="flex items-center gap-1"
+                        class="flex items-center gap-2"
                       >
                         <Icon
                           icon="ic:outline-cancel"
@@ -221,11 +224,11 @@ const onRecover = async (id) => {
 };
 const showRecoverConfirm = (id) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
+    title: "Ban có chắc chắn muốn duyệt bài viết này?",
+    content: "Bài viết sẽ được duyệt và hiển thị trên tất cả bài viết",
+    okText: "Duyệt",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onRecover(id);
     },
@@ -246,6 +249,11 @@ const CloseModalConfirm = () => {
 
 const columns = [
   {
+    title: "Hình ảnh",
+    dataIndex: "image",
+    key: "image",
+  },
+  {
     name: "title",
     dataIndex: "name",
     key: "name",
@@ -256,11 +264,7 @@ const columns = [
     dataIndex: "category_id",
     key: "category_id",
   },
-  {
-    title: "Hình ảnh",
-    dataIndex: "image",
-    key: "image",
-  },
+
   {
     title: "Nội dung ngắn",
     dataIndex: "summary",

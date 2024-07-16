@@ -286,7 +286,7 @@
         </div>
 
         <NuxtLink to="/admin/user/create-user" class="">
-          <a-button type="primary">Thêm người dùng</a-button>
+          <a-button size="large" type="primary">Thêm người dùng</a-button>
         </NuxtLink>
       </div>
       <a-table

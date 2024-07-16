@@ -6,7 +6,7 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Thêm bài viết</h5>
       </div>
-      <CommonBreadcrumAdmin />
+ 
     </div>
     <div v-if="errors" class="space-y-2 mb-4">
       <a-alert
