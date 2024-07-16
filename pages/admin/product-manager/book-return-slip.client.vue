@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
       <div class="flex flex-col gap-4">
         <div class="relative w-1/4 md:block hidden">
           <div class="flex">
-            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
+            <a-input placeholder="Nhập mã đơn hàng để tìm kiếm" class="h-10">
               <template #prefix>
                 <SearchOutlined />
               </template>

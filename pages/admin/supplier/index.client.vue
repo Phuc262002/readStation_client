@@ -13,7 +13,7 @@
                 <div class="w-1/2 flex items-center gap-2">
                     <div class="relative w-2/3 md:block hidden">
                         <div class="flex">
-                            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10" v-model:value="valueSearch">
+                            <a-input placeholder="Nhập nhà cung cấp để tìm kiếm" class="h-10" v-model:value="valueSearch">
                                 <template #prefix>
                                     <SearchOutlined />
                                 </template>

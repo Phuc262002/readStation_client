@@ -267,7 +267,7 @@
               <div class="relative w-2/3 md:block hidden">
                 <div class="flex">
                   <a-input
-                    placeholder="Nhập thông tin cá nhân"
+                    placeholder="Nhập mã đơn hàng, tên khách hàng để tìm kiếm"
                     class="h-10"
                     v-model:value="valueSearch"
                     allow-clear

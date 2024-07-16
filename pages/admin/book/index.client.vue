@@ -14,7 +14,7 @@
           <div class="relative w-1/2 md:block hidden">
             <div class="flex">
               <a-input
-                placeholder="Nhập mã kệ để tìm kiếm"
+                placeholder="Nhập tên sách để tìm kiếm"
                 class="h-10"
                 v-model:value="valueSearch"
               >
@@ -318,8 +318,7 @@ const onDelete = async (id: string) => {
 
 const showDeleteConfirm = (id: string) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
+    title: "Bạn có chắc xóa sách này không ?",
     okText: "Yes",
     okType: "danger",
     cancelText: "No",
