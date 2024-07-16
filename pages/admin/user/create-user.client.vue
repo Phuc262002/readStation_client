@@ -6,7 +6,6 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Tạo người dùng</h5>
       </div>
-
     </div>
 
     <!-- Đây là phần code mẫu body -->
@@ -163,12 +162,22 @@
               <div>
                 <div class="flex flex-col gap-2">
                   <label class="text-sm font-semibold" for="">Nơi cấp</label>
-                  <a-input
+                  <a-auto-complete
                     v-model:value="user.place_of_issue"
-                    type="text"
-                    class="border p-2 rounded-md"
-                    placeholder="Nơi cấp"
-                  />
+                    :options="[
+                      {
+                        value:
+                          'CỤC TRƯỞNG CỤC CẢNH SÁT QUẢN LÝ HÀNH CHÍNH VỀ TRẬT TỰ XÃ HỘI',
+                      },
+                    ]"
+                    :allow-clear="true"
+                  >
+                    <a-input
+                      placeholder="Nơi cấp"
+                      style="height: 40px"
+                      class="p-2 rounded-md"
+                    />
+                  </a-auto-complete>
                 </div>
               </div>
             </div>
@@ -368,8 +377,7 @@ const user = ref({
   citizen_name: "",
   citizen_code: "",
   date_of_issue: "",
-  place_of_issue:
-    "CỤC TRƯỞNG CỤC CẢNH SÁT QUẢN LÝ HÀNH CHÍNH VỀ TRẬT TỰ XÃ HỘI",
+  place_of_issue: "",
   student_name: "",
   student_code: "",
   student_card_expired: "",
