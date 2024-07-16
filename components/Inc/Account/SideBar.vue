@@ -98,7 +98,7 @@
           </span>
         </template>
         <a-menu-item key="8">
-          <NuxtLink to="/account/balce" class="flex items-center gap-2">
+          <NuxtLink to="/account/balance" class="flex items-center gap-2">
             Thông tin số dư
           </NuxtLink>
         </a-menu-item>

@@ -16,9 +16,9 @@
       />
     </div>
     <div class="flex items-center gap-2">
-      <div>
+      <!-- <div>
         <CommonThemeSelect />
-      </div>
+      </div> -->
       <div class="pr-10">
         <CommonLogged />
       </div>

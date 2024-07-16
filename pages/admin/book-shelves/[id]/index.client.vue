@@ -124,6 +124,7 @@ const showModal = () => {
   open.value = true;
 };
 const detailShelvesId = route.params.id;
+
 const bookShelves = useShelvesStore();
 useAsyncData(async () => {
   await bookShelves.getOneShelves(detailShelvesId);

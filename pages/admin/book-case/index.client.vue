@@ -152,20 +152,19 @@
                 </button>
                 <template #overlay>
                   <a-menu class="space-y-1">
-                    <NuxtLink>
-                      <a-menu-item key="2" class="p-4 hover:!bg-tag-bg-02">
-                        <button
-                          class="flex items-center gap-2"
-                          @click="showModalEdit(record?.id)"
-                        >
-                          <Icon
-                            icon="fluent:edit-48-regular"
-                            class="text-lg text-tag-text-02"
-                          />
-                          <span class="text-tag-text-02 font-bold">Sửa</span>
-                        </button>
-                      </a-menu-item>
-                    </NuxtLink>
+                    <a-menu-item key="2" class="p-4 hover:!bg-tag-bg-02">
+                      <button
+                        class="flex items-center gap-2"
+                        @click="showModalEdit(record?.id)"
+                      >
+                        <Icon
+                          icon="fluent:edit-48-regular"
+                          class="text-lg text-tag-text-02"
+                        />
+                        <span class="text-tag-text-02 font-bold">Sửa</span>
+                      </button>
+                    </a-menu-item>
+
                     <a-menu-item key="3" class="p-4 hover:!bg-tag-bg-06">
                       <span>
                         <button
