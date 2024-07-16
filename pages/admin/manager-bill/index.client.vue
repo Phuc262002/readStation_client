@@ -4,7 +4,6 @@
             <div class="grow">
                 <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả phiếu nhập hàng</h5>
             </div>
-            <CommonBreadcrumAdmin />
         </div>
 
         <div class=" w-full rounded-lg shadow-sm">

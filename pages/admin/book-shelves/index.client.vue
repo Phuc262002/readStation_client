@@ -4,7 +4,6 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả kệ sách</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
@@ -260,9 +259,9 @@ const onDelete = async (id: string) => {
 const showDeleteConfirm = (id: string) => {
   Modal.confirm({
     title: "Bạn có chắc xóa kệ này không?",
-    okText: "Yes",
+    okText: "Có",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onDelete(id);
     },

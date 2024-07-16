@@ -65,7 +65,7 @@ const showRecoverConfirm = (id) => {
     title: "Bạn có muốn khôi phục nhà cung cấp này ?",
     okText: "Có",
     okType: "danger",
-    cancelText: "Không",
+    cancelText: "Hủy",
     onOk() {
       onRecover(id);
     },

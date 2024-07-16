@@ -18,7 +18,7 @@
                             </div>
                         </a-menu-item>
                         <a-menu-item v-else v-for="(items, index) in bookStore?.adminBooks?.books" :key="index">
-                            <div class="flex justify-start gap-5 items-center"  v-if="bookStore?.adminBooks?.books"
+                            <div class="flex justify-start gap-5 items-center" v-if="bookStore?.adminBooks?.books"
                                 @click="showConfirm(items.id)">
                                 <div>
                                     <img class="rounded-lg w-20 h-28" :src="items?.book_detail[0]?.poster" alt="">
@@ -63,6 +63,9 @@ watch(
 const showConfirm = (id) => {
     Modal.confirm({
         title: 'Bạn có muốn thêm sách này vào kệ không?',
+        okText: "Có",
+        okType: "danger",
+        cancelText: "Hủy",
         onOk() {
             updateDetailShelves(id);
             handleClose();
@@ -88,7 +91,7 @@ const updateDetailShelves = async (id) => {
         const idShelves = {
             shelve_id: shelvesStore?.adminGetOneBookShelve?.id,
         }
-        await bookStore.updateBook({ id: id, value: idShelves})
+        await bookStore.updateBook({ id: id, value: idShelves })
         await bookShelves.getOneShelves(detailShelvesId);
     } catch (error) {
         console.log("🚀 ~ updateDetailShelves ~ error", error)
