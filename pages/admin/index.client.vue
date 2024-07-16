@@ -265,7 +265,7 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-09 text-tag-text-09"
             >
-              <Icon  icon="solar:bill-check-outline" class="text-lg w-10 h-10" />
+              <Icon icon="solar:bill-check-outline" class="text-lg w-10 h-10" />
             </a-tag>
 
             <div class="flex-1 text-tag-text-09">
@@ -476,47 +476,7 @@
                         </div>
                       </button>
                     </a-tooltip>
-                  </NuxtLink>
-                  <a-dropdown :trigger="['click']" placement="bottom">
-                    <button
-                      class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                    >
-                      <UIcon
-                        class="group-hover:text-[#131313]"
-                        name="i-solar-menu-dots-bold"
-                      />
-                    </button>
-                    <template #overlay>
-                      <a-menu>
-                        <NuxtLink>
-                          <a-menu-item key="2" class="p-4">
-                            <button
-                              class="flex items-center gap-1 text-blue-400"
-                            >
-                              <UIcon
-                                class="group-hover:text-[green]"
-                                name="i-material-symbols-edit-outline"
-                              />
-                              <span>Sửa</span>
-                            </button>
-                          </a-menu-item>
-                        </NuxtLink>
-                        <a-menu-item key="3" class="p-4">
-                          <span>
-                            <button
-                              class="flex items-center gap-1 text-blue-400"
-                            >
-                              <UIcon
-                                class="group-hover:text-[red] text-lg"
-                                name="i-material-symbols-delete-outline"
-                              />
-                              <span>Xóa</span>
-                            </button>
-                          </span>
-                        </a-menu-item>
-                      </a-menu>
-                    </template>
-                  </a-dropdown>
+                  </NuxtLink>    
                 </div>
               </template>
             </template>
@@ -533,7 +493,9 @@
       </div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="bg-white w-full rounded-md space-y-2 p-5 relative min-h-[350px]">
+      <div
+        class="bg-white w-full rounded-md space-y-2 p-5 relative min-h-[350px]"
+      >
         <div class="text-xl font-semibold">Sách được thuê nhiều</div>
         <div class="max-h-[400px] overflow-auto pr-4">
           <div

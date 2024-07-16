@@ -6,7 +6,6 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Chỉnh sửa bài viết</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
     <div
       v-if="postGeneralStore.isLoading"
@@ -102,7 +101,7 @@
         </div>
 
         <div class="flex items-end gap-2 pt-4">
-          <a-button danger> Hủy</a-button>
+          <a-button @click="handClose" danger> Hủy</a-button>
           <a-button
             type="primary"
             html-type="submit"
@@ -225,6 +224,9 @@ const updatePost = async () => {
   }
 };
 
+const handClose = () => {
+  navigateTo("/admin/post");
+};
 const handleChange = (value) => {
   console.log(`selected ${value}`);
 };

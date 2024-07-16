@@ -77,7 +77,7 @@
         </template>
         <a-menu-item
           key="12"
-          @click="navigateTo('/admin/product-manager/product')"
+          @click="navigateTo('/admin/product-manager')"
           >Tất cả đơn hàng</a-menu-item
         >
         <a-menu-item

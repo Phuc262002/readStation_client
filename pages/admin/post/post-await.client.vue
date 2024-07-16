@@ -8,7 +8,7 @@
           Tất cả bài viết chờ duyệt
         </h5>
       </div>
-      <CommonBreadcrumAdmin />
+  
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">

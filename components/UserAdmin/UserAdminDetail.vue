@@ -92,6 +92,19 @@
                     <IconMul v-else />
                   </span>
                 </div>
+                <div class="grid grid-cols-5">
+                  <span class="text-base col-span-3 font-bold"
+                    >Số dư:
+                  </span>
+                  <span class="text-base col-span-2">
+                    {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(userStore?.user?.balance_holding)
+                }}
+                  </span>
+                </div>
 
                 <div class="grid grid-cols-5">
                   <span class="text-base col-span-3 font-bold"
