@@ -11,7 +11,7 @@
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
         <div class="w-1/2 flex items-center gap-2">
-          <div class="md:block hidden">
+          <!-- <div class="md:block hidden">
             <div class="flex">
               <a-input
                 placeholder="Nhập"
@@ -23,7 +23,7 @@
                 </template>
               </a-input>
             </div>
-          </div>
+          </div> -->
 
           <a-dropdown :trigger="['click']">
             <template #overlay>
@@ -143,7 +143,11 @@
                 </button>
                 <template #overlay>
                   <a-menu class="space-y-1">
-                    <a-menu-item key="2" class="p-4 hover:!bg-tag-bg-07">
+                    <a-menu-item
+                      v-if="record.status === CommentStatus.PUBLISHED"
+                      key="1"
+                      class="p-4 hover:!bg-tag-bg-07"
+                    >
                       <button
                         @click="showRecoverConfirm(record?.id)"
                         class="flex items-center gap-2"
@@ -155,6 +159,20 @@
                         <span class="text-tag-text-07 font-bold">Ẩn</span>
                       </button>
                     </a-menu-item>
+                    <a-menu-item v-else key="2" class="p-4 hover:!bg-tag-bg-09">
+                      <button
+                        @click="showPublishedConfirm(record?.id)"
+                        class="flex items-center gap-2"
+                      >
+                        <Icon
+                          icon="charm:tick"
+                          class="text-lg text-tag-text-09"
+                        />
+                        <span class="text-tag-text-09 font-bold"
+                          >Hoạt động</span
+                        >
+                      </button>
+                    </a-menu-item>
 
                     <a-menu-item key="3" class="p-4 hover:!bg-tag-bg-06">
                       <span>
@@ -163,10 +181,10 @@
                           class="flex items-center gap-2"
                         >
                           <Icon
-                            icon="ic:outline-cancel"
+                            icon="hugeicons:delete-01"
                             class="text-lg font-bold text-tag-text-06"
                           />
-                          <span class="text-tag-text-06 font-bold">Hủy</span>
+                          <span class="text-tag-text-06 font-bold">Xóa</span>
                         </button>
                       </span>
                     </a-menu-item>
@@ -223,11 +241,11 @@ useAsyncData(
 );
 const showDeleteConfirm = (comment_id) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
+    title: "Bạn có chắc chắn muốn xóa bình luận này?",
+    content: "Hành động này không thể hoàn tác",
+    okText: "Xóa",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onDelete(comment_id);
     },
@@ -236,8 +254,30 @@ const showDeleteConfirm = (comment_id) => {
     },
   });
 };
-const onDelete = async (comment_id) => {
-  await commentGeneralStore.deleteComment({ comment_id: comment_id });
+const showPublishedConfirm = (id) => {
+  Modal.confirm({
+    title: "Bạn có chắc chắn muốn khôi phục bình luận này?",
+    content: "Hành động này không thể hoàn tác",
+    okText: "Khôi phục",
+    okType: "danger",
+    cancelText: "Hủy",
+    onOk() {
+      onPublishedDelete(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+};
+const onPublishedDelete = async (id) => {
+  await commentGeneralStore.updateComment({
+    comment_id: id,
+    status: "published",
+  });
+  await commentStore.getAllComment({});
+};
+const onDelete = async (id) => {
+  await commentGeneralStore.deleteComment(id);
   await commentStore.getAllComment({});
 };
 
@@ -250,11 +290,11 @@ const onRecover = async (comment_id) => {
 };
 const showRecoverConfirm = (id) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
+    title: "Bạn có chắc chắn muốn ẩn bình luận này?",
+    content: "Hành động này không thể hoàn tác",
+    okText: "Ẩn",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onRecover(id);
     },
