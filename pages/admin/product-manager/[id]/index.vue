@@ -196,13 +196,17 @@
                 <div v-for="(items, index) in orderStore?.getOneOrderAdmin?.data?.loan_order_details" :key=index>
                     <div class="border-t-2 border-gray-200 p-5 space-y-3">
                         <div class="flex gap-2 items-center">
-                            <h1 class="text-base font-bold">{{ items?.book_details?.book?.title }} - {{
+                            <h1 class="text-base font-bold">{{ items?.book_details?.book?.title }} - Phiên bản năm {{
                                 items?.book_details.book_version }} </h1>
                             <span v-if="items?.status === 'active'"
-                                class="bg-tag-bg-04 text-tag-text-04 p-2 rounded-lg flex justify-center items-center">Đang thuê</span>
+                                class="bg-tag-bg-04 text-tag-text-04 p-2 rounded-lg flex justify-center items-center">Đang
+                                thuê</span>
                             <span v-else-if="items?.status === 'extended'"
-                                class="text-tag-text-13 bg-tag-bg-13 p-2 rounded-lg flex justify-center items-center">
+                                class="text-tag-text-12 bg-tag-bg-12 p-2 rounded-lg flex justify-center items-center">
                                 Gia hạn</span>
+                            <span v-else-if="items?.status === 'returning'"
+                                class="text-tag-text-13 bg-tag-bg-13 p-2 rounded-lg flex justify-center items-center">
+                                Đang trả sách</span>
                             <span v-else-if="items?.status === 'completed'"
                                 class="text-tag-text-05 bg-tag-bg-05 p-2 rounded-lg flex justify-center items-center">
                                 Hoàn
@@ -225,7 +229,7 @@
                                     </div>
                                     <div class="grid grid-cols-2">
                                         <span class="text-base font-bold">Số lần gia hạn:</span>
-                                        <span class="text-base ">0/3 </span>
+                                        <span class="text-base ">0/3</span>
                                     </div>
                                     <div class="grid grid-cols-2">
                                         <span class="text-base font-bold">Ngày trả dự kiến:</span>
@@ -277,8 +281,7 @@
                             </div>
 
                         </div>
-                        <div class="flex justify-end gap-2"
-                            v-if="items?.status == 'active'">
+                        <div class="flex justify-end gap-2" v-if="items?.status == 'active'">
                             <a-button @click="showReturnBook(items)">Trả sách</a-button>
                             <a-button type="primary" @click="showModalExtend(items)">Gia hạn</a-button>
                         </div>
@@ -300,13 +303,13 @@
                 <form>
                     <div v-if="orderStore?.getOneOrderAdmin?.data?.status === 'wating_payment'">
                         <div class="flex justify-end gap-2">
-                            <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                            <NuxtLink :to="`/admin/product-manager`"> <a-button>Trở về</a-button> </NuxtLink>
                             <a-button type="primary" @click="setStatus('pending')">Đã thanh toán</a-button>
                         </div>
                     </div>
                     <div v-if="orderStore?.getOneOrderAdmin?.data?.status === 'pending'">
                         <div class="flex justify-end gap-2">
-                            <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                            <NuxtLink :to="`/admin/product-manager`"> <a-button>Trở về</a-button> </NuxtLink>
                             <a-button class="border border-orange-400 text-orange-500"
                                 @click="showModalAdd">Hủy</a-button>
                             <a-button type="primary" @click="setStatus('approved')">Xác
@@ -316,7 +319,7 @@
                     <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'approved'">
                         <div v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'shipper'">
                             <div class="flex justify-end gap-2">
-                                <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button>
+                                <NuxtLink :to="`/admin/product-manager`"> <a-button>Trở về</a-button>
                                 </NuxtLink>
                                 <a-button type="primary" @click="setStatus('preparing_shipment')">Chuẩn bị giao
                                     hàng</a-button>
@@ -325,9 +328,9 @@
                         </div>
                         <div v-else-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'pickup'">
                             <div class="flex justify-end gap-2">
-                                <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button>
+                                <NuxtLink :to="`/admin/product-manager`"> <a-button>Trở về</a-button>
                                 </NuxtLink>
-                                <NuxtLink :to="`/admin/product-manager/product`">
+                                <NuxtLink :to="`/admin/product-manager`">
                                     <a-button type="primary" @click="setStatus('ready_for_pickup')">Đơn hàng sẵn
                                         sàng</a-button>
                                 </NuxtLink>
@@ -337,52 +340,52 @@
                     </div>
                     <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'ready_for_pickup'">
                         <div class="flex justify-end gap-2">
-                            <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
-                            <NuxtLink :to="`/admin/product-manager/product`">
+                            <NuxtLink :to="`/admin/product-manager`"> <a-button>Trở về</a-button> </NuxtLink>
+                            <NuxtLink :to="`/admin/product-manager`">
                                 <a-button type="primary" @click="setStatus('active')">Đã giao</a-button>
                             </NuxtLink>
                         </div>
                     </div>
                     <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'preparing_shipment'">
                         <div class="flex justify-end gap-2">
-                            <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                            <NuxtLink :to="`/admin/product-manager`"> <a-button>Trở về</a-button> </NuxtLink>
                             <a-button type="primary" @click="setStatus('in_transit')">Đang giao</a-button>
                         </div>
                     </div>
                     <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'in_transit'">
                         <div class="flex justify-end gap-2">
-                            <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                            <NuxtLink :to="`/admin/product-manager`"> <a-button>Trở về</a-button> </NuxtLink>
                             <a-button type="primary" @click="setStatus('active')">Đã giao</a-button>
                         </div>
                     </div>
                     <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'extended'">
                         <div class="flex justify-end gap-2">
-                            <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                            <NuxtLink :to="`/admin/product-manager`"> <a-button>Trở về</a-button> </NuxtLink>
                         </div>
                     </div>
                     <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'active'">
                         <div class="flex justify-end gap-2">
-                            <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                            <NuxtLink :to="`/admin/product-manager`"> <a-button>Trở về</a-button> </NuxtLink>
                         </div>
                     </div>
                     <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'returning'">
                         <div class="flex justify-end gap-2">
-                            <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                            <NuxtLink :to="`/admin/product-manager`"> <a-button>Trở về</a-button> </NuxtLink>
                         </div>
                     </div>
                     <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'completed'">
                         <div class="flex justify-end gap-2">
-                            <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                            <NuxtLink :to="`/admin/product-manager`"> <a-button>Trở về</a-button> </NuxtLink>
                         </div>
                     </div>
                     <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'canceled'">
                         <div class="flex justify-end gap-2">
-                            <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                            <NuxtLink :to="`/admin/product-manager`"> <a-button>Trở về</a-button> </NuxtLink>
                         </div>
                     </div>
                     <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'overdue'">
                         <div class="flex justify-end gap-2">
-                            <NuxtLink :to="`/admin/product-manager/product`"> <a-button>Trở về</a-button> </NuxtLink>
+                            <NuxtLink :to="`/admin/product-manager`"> <a-button>Trở về</a-button> </NuxtLink>
                         </div>
                     </div>
                 </form>
@@ -434,7 +437,6 @@ const CloseModalExtendsionAll = () => {
     openModalExtendsionAll.value = false;
 }
 const showModalExtend = (items) => {
-    console.log(items)
     extendsionBook.value = items;
     openModalExtend.value = true;
 };
@@ -442,7 +444,6 @@ const CloseModalExtend = () => {
     openModalExtend.value = false;
 };
 const showReturnBook = (items: any) => {
-    // console.log("🚀 ~ showReturnBook ~ items:", items)
     loan_order_detail.value = items
     openModalReturnBook.value = true;
 };

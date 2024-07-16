@@ -39,6 +39,12 @@
 import { ref } from 'vue';
 import { Modal } from 'ant-design-vue';
 const shelvesStore = useShelvesStore();
+const valueSearch = ref('');
+const route = useRoute()
+const categoryId = ref(shelvesStore?.adminGetOneBookShelve?.category?.id);
+const bookStore = useBookStore();
+const detailShelvesId = route.params.id;
+const bookShelves = useShelvesStore();
 const handleClose = () => {
     valueSearch.value = '';
     props.openModal();
@@ -68,9 +74,7 @@ const showConfirm = (id) => {
     });
 };
 
-const valueSearch = ref('');
-const categoryId = ref(shelvesStore?.adminGetOneBookShelve?.category?.id);
-const bookStore = useBookStore();
+
 useAsyncData(async () => {
     await bookStore.getAdminBooks({
         search: valueSearch.value,
@@ -85,6 +89,7 @@ const updateDetailShelves = async (id) => {
             shelve_id: shelvesStore?.adminGetOneBookShelve?.id,
         }
         await bookStore.updateBook({ id: id, value: idShelves})
+        await bookShelves.getOneShelves(detailShelvesId);
     } catch (error) {
         console.log("🚀 ~ updateDetailShelves ~ error", error)
     }

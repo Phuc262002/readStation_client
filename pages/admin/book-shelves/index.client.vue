@@ -88,7 +88,7 @@
       </div>
 
       <a-table :columns="columns" :data-source="shelvesValue?.adminBookSheleves?.shelves"
-        :loading="shelvesValue.isLoading">
+        :loading="shelvesValue.isLoading" :pagination="false" >
         <template #bodyCell="{ column, record, index }">
           <template v-if="column.key === 'bookshelf_code'">
             <a>
@@ -162,6 +162,10 @@
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination v-model:current="current" :total="shelvesValue?.adminBookSheleves?.totalResults"
+          :pageSize="shelvesValue?.adminBookSheleves?.pageSize" show-less-items />
+      </div>
     </div>
   </div>
 </template>
@@ -173,6 +177,7 @@ import { h } from "vue";
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const shelvesId = ref<number>();
+const current = ref(1);
 const valueSearch = ref("");
 const queryStatus = ref({
   value: "",
@@ -220,6 +225,7 @@ const shelvesValue = useShelvesStore();
 const getData = async () => {
   try {
     const data = await shelvesValue.getAllShelves({
+      page: current.value,
       search: valueSearch.value,
       category_id: categoryQuery.value.id,
       bookcase_id: bookcaseQuery.value.id,
@@ -234,7 +240,7 @@ useAsyncData(async () => {
   await getData();
 }, {
   immediate: true,
-  watch: [valueSearch, categoryQuery.value, bookcaseQuery.value, queryStatus.value]
+  watch: [valueSearch, categoryQuery.value, bookcaseQuery.value, queryStatus.value, current]
 });
 const onDelete = async (id: string) => {
   await shelvesValue.deleteShelves(id);

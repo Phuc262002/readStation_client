@@ -149,7 +149,7 @@ import { h } from 'vue';
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Ngày phát hành: </span>
-                                    <span class="text-base">{{ items?.publish_date }}</span>
+                                    <span class="text-base">{{ $dayjs(items?.publish_date).format("DD-MM-YYYY") }}</span>
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Công ty phát hành: </span>
@@ -163,7 +163,7 @@ import { h } from 'vue';
                         </div>
                     </div>
                 </div>
-                <BookDetailEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit" :book_detail="itemBookDetail" />
+                <BookDetailEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit" :bookDetailId="itemBookDetail" />
             </div>
         </div>
     </div>
@@ -179,8 +179,9 @@ const CloseModalAdd = () => {
     openModalAdd.value = false;
 };
 const showModalEdit = (id) => {
-    itemBookDetail.value = id
+    itemBookDetail.value = id;
     openModalEdit.value = true;
+    console.log('id', id)
 };
 const CloseModalEdit = () => {
     openModalEdit.value = false;

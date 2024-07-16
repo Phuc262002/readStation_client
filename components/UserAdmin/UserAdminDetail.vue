@@ -28,45 +28,42 @@
               <span class="text-base col-span-1 font-bold">Vai trò: </span>
               <span class="text-base col-span-2">
                 <a-tag
-              :bordered="false"
-              v-if=" userStore?.user?.role?.name === UserRole.ADMIN"
-              class="bg-tag-bg-04 text-tag-text-04"
-            >
-              Quản trị
-            </a-tag>
+                  :bordered="false"
+                  v-if="userStore?.user?.role?.name === UserRole.ADMIN"
+                  class="bg-tag-bg-04 text-tag-text-04"
+                >
+                  Quản trị
+                </a-tag>
 
-            <a-tag
-              :bordered="false"
-              v-if=" userStore?.user?.role?.name === UserRole.USER"
-              class="bg-tag-bg-02 text-tag-text-02"
-            >
-              Khách hàng
-            </a-tag>
+                <a-tag
+                  :bordered="false"
+                  v-if="userStore?.user?.role?.name === UserRole.USER"
+                  class="bg-tag-bg-02 text-tag-text-02"
+                >
+                  Khách hàng
+                </a-tag>
 
-            <a-tag
-              :bordered="false"
-              v-if=" userStore?.user?.role?.name === UserRole.STUDENT"
-              class="bg-tag-bg-01 text-tag-text-01"
-            >
-              Sinh viên
-            </a-tag>
+                <a-tag
+                  :bordered="false"
+                  v-if="userStore?.user?.role?.name === UserRole.STUDENT"
+                  class="bg-tag-bg-01 text-tag-text-01"
+                >
+                  Sinh viên
+                </a-tag>
 
-            <a-tag
-              :bordered="false"
-              v-if=" userStore?.user?.role?.name === UserRole.MANAGER"
-              class="bg-tag-bg-03 text-tag-text-03"
-            >
-              Thủ thư
-            </a-tag>
-               
+                <a-tag
+                  :bordered="false"
+                  v-if="userStore?.user?.role?.name === UserRole.MANAGER"
+                  class="bg-tag-bg-03 text-tag-text-03"
+                >
+                  Thủ thư
+                </a-tag>
               </span>
             </div>
             <div class="grid grid-cols-3">
               <span class="text-base col-span-1 font-bold">Đăng nhập: </span>
               <span class="text-base">
-                {{
-                userStore?.user?.google_id ? "Google" : "Thông thường"
-              }}
+                {{ userStore?.user?.google_id ? "Google" : "Thông thường" }}
               </span>
             </div>
             <div class="grid grid-cols-3">
@@ -93,6 +90,19 @@
                   <span class="text-base col-span-2">
                     <IconTick v-if="userStore?.user?.email_verified_at" />
                     <IconMul v-else />
+                  </span>
+                </div>
+                <div class="grid grid-cols-5">
+                  <span class="text-base col-span-3 font-bold"
+                    >Số dư:
+                  </span>
+                  <span class="text-base col-span-2">
+                    {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(userStore?.user?.balance_holding)
+                }}
                   </span>
                 </div>
 
@@ -125,15 +135,12 @@
                   </span>
                 </div>
               </div>
-              <div class="col-span-2 grid justify-items-end">
-                <a-button type="primary" class="" @click="handleClose">
-                  Khóa tài khoản
-                </a-button>
-              </div>
+             
             </div>
           </div>
         </div>
       </div>
+   
       <div class="grid md:grid-cols-2 gap-5">
         <div
           class="md:col-span-1 space-y-3 md:border-r md:border-gray-200 md:pr-5"
@@ -215,19 +222,19 @@
           <div class="grid grid-cols-6">
             <span class="text-base col-span-2 font-bold">Tỉnh/Thành phố: </span>
             <span class="text-base col-span-4">
-              {{ userStore.user?.province }}
+              {{ userStore.user?.province?.ProvinceName }}
             </span>
           </div>
           <div class="grid grid-cols-6">
             <span class="text-base col-span-2 font-bold">Quận/Huyện: </span>
             <span class="text-base col-span-4">
-              {{ userStore.user?.district }}
+              {{ userStore.user?.district?.DistrictName }}
             </span>
           </div>
           <div class="grid grid-cols-6">
             <span class="text-base col-span-2 font-bold">Phường/Xã: </span>
             <span class="text-base col-span-4">
-              {{ userStore.user?.ward }}
+              {{ userStore.user?.ward?.WardName }}
             </span>
           </div>
           <div class="grid grid-cols-6">

@@ -4,7 +4,7 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">
+        <h5 class="text-xl text-[#1e293b] font-bold">
           Cập nhập thông tin người dùng
         </h5>
       </div>
@@ -29,7 +29,7 @@
                   >Quản thư</a-radio
                 >
                 <a-radio :value="2">Học sinh</a-radio>
-                <a-radio :value="4">Admin</a-radio>
+                <!-- <a-radio :value="4">Admin</a-radio> -->
               </a-radio-group>
             </div>
           </div>
@@ -112,16 +112,16 @@
                 <div class="flex flex-col gap-2">
                   <label class="text-sm font-semibold" for="">Trạng thái</label>
                   <a-select
-              size="large"
-              v-model:value="user.status"
-              show-search
-              placeholder="Trạng thái"
-              :options="optionsStatus"
-              :filter-option="filterOption"
-              @focus="handleFocus"
-              @blur="handleBlur"
-              @change="handleChange"
-            ></a-select>
+                    size="large"
+                    v-model:value="user.status"
+                    show-search
+                    placeholder="Trạng thái"
+                    :options="optionsStatus"
+                    :filter-option="filterOption"
+                    @focus="handleFocus"
+                    @blur="handleBlur"
+                    @change="handleChange"
+                  ></a-select>
                 </div>
               </div>
               <div>
@@ -176,13 +176,22 @@
               <div>
                 <div class="flex flex-col gap-2">
                   <label class="text-sm font-semibold" for="">Nơi cấp</label>
-                  <a-input
+                  <a-auto-complete
                     v-model:value="user.place_of_issue"
-                    type="text"
-                    class="border p-2 rounded-md"
-                    placeholder="Nơi cấp"
-                    readonly
-                  />
+                    :options="[
+                      {
+                        value:
+                          'CỤC TRƯỞNG CỤC CẢNH SÁT QUẢN LÝ HÀNH CHÍNH VỀ TRẬT TỰ XÃ HỘI',
+                      },
+                    ]"
+                    :allow-clear="true"
+                  >
+                    <a-input
+                      placeholder="Nơi cấp"
+                      style="height: 40px"
+                      class="p-2 rounded-md"
+                    />
+                  </a-auto-complete>
                 </div>
               </div>
             </div>
@@ -301,7 +310,7 @@
                 <label for="">Địa chỉ cụ thể</label>
                 <a-input
                   class="h-11"
-                  :value="`${address.street}, ${address.ward}, ${address.district}, ${address.province}`"
+                  :value="`${ address.street || address.ward ||  address.district || address.province ? `${address.street}, ${address.ward}, ${address.district}, ${address.province}` : ''}`"
                   readonly
                 />
               </div>
@@ -388,7 +397,6 @@ const user = ref({
 const optionsStatus = ref([
   { value: "active", label: "Hoạt động" },
   { value: "banned", label: "Vô hiệu hóa" },
-
 ]);
 
 const address = ref({

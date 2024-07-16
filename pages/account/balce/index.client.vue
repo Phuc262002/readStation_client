@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-5">
-    <h3 class="font-bold mb-5">Thông tin ví</h3>
+    <h3 class="font-bold mb-5">Thông số dư</h3>
 
     <div
       class="flex items-center text-base h-[90px] bg-white shadow-md rounded-md p-5"

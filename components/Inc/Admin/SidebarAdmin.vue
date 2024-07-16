@@ -77,7 +77,7 @@
         </template>
         <a-menu-item
           key="12"
-          @click="navigateTo('/admin/product-manager/product')"
+          @click="navigateTo('/admin/product-manager')"
           >Tất cả đơn hàng</a-menu-item
         >
         <a-menu-item
@@ -334,16 +334,16 @@
               icon="icon-park-outline:bill"
               class="text-2xl"
             />
-            <span class="font-bold">Hóa đơn nhập hàng</span>
+            <span class="font-bold">Phiếu nhập hàng</span>
           </span>
         </template>
         <a-menu-item key="28" @click="navigateTo('/admin/manager-bill')"
-          >Tất cả hóa đơn</a-menu-item
+          >Tất cả phiếu nhập hàng</a-menu-item
         >
         <a-menu-item
           key="29"
           @click="navigateTo('/admin/manager-bill/create-bill')"
-          >Thêm hóa đơn</a-menu-item
+          >Thêm phiếu nhập hàng</a-menu-item
         >
       </a-sub-menu>
 

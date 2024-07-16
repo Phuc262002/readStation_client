@@ -2,10 +2,10 @@
   <div class="space-y-5 pt-4">
     <div class="flex flex-col gap-2 md:flex-row md:items-center print:hidden">
       <div class="grow flex justify-between">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Thông tin chung</h5>
-        <a-space direction="vertical" :size="12">
+        <h5 class="text-xl text-[#1e293b] font-bold">Thông tin chung</h5>
+        <!-- <a-space direction="vertical" :size="12">
           <a-range-picker v-model:value="value1" />
-        </a-space>
+        </a-space> -->
       </div>
     </div>
 
@@ -26,7 +26,7 @@
               <p class="font-semibold text-base">Doanh thu</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -48,14 +48,14 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-04 text-tag-text-04"
             >
-              <Icon icon="bi:box-arrow-in-down" class="text-lg w-10 h-10" />
+              <Icon icon="icon-park-outline:bill" class="text-lg w-10 h-10" />
             </a-tag>
 
             <div class="flex-1 text-tag-text-04">
               <p class="font-semibold text-base">Phiếu nhập hàng</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -78,17 +78,21 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-01 text-tag-text-01"
             >
-              <Icon icon="iconoir-user" class="text-lg w-10 h-10" />
+              <Icon
+                icon="solar:users-group-rounded-broken"
+                class="text-lg w-10 h-10"
+              />
             </a-tag>
 
             <div class="flex-1 text-tag-text-01">
               <p class="font-semibold text-base">Tổng khách hàng</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
                   icon="svg-spinners:3-dots-scale"
+                  v-if="isLoading"
                   class="text-3xl"
                 />
+
                 <span v-else>
                   {{
                     new Intl.NumberFormat().format(
@@ -108,17 +112,14 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-03 text-tag-text-03"
             >
-              <Icon
-                icon="ph-user-circle-check-thin"
-                class="text-lg w-10 h-10"
-              />
+              <Icon icon="hugeicons:user-check-02" class="text-lg w-10 h-10" />
             </a-tag>
 
             <div class="flex-1 text-tag-text-03">
               <p class="font-semibold text-base">Khách hàng đã kích hoạt</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -148,7 +149,7 @@
               <p class="font-semibold text-base">Số lượng tủ sách</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -178,7 +179,7 @@
               <p class="font-semibold text-base">Số lượng kệ sách</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -211,7 +212,7 @@
               <p class="font-semibold text-base">Số lượng sách</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -241,7 +242,7 @@
               <p class="font-semibold text-base">Số lượng bài viết</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -262,16 +263,16 @@
           <div class="flex items-center text-sm w-full font-medium p-4 gap-2">
             <a-tag
               :bordered="false"
-              class="flex items-center p-2 bg-tag-bg-06 text-tag-text-06"
+              class="flex items-center p-2 bg-tag-bg-09 text-tag-text-09"
             >
-              <Icon icon="hugeicons-quill-write-02" class="text-lg w-10 h-10" />
+              <Icon icon="solar:bill-check-outline" class="text-lg w-10 h-10" />
             </a-tag>
 
-            <div class="flex-1 text-tag-text-06">
+            <div class="flex-1 text-tag-text-09">
               <p class="font-semibold text-base">Số phiếu trả</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -287,7 +288,6 @@
           </div>
         </div>
       </div>
-     
     </div>
     <div class="grid grid-cols-3 gap-4">
       <HighchartHigh />
@@ -318,21 +318,32 @@
           <a-button
             :class="[
               'flex justify-center items-center gap-2 h-10 border-none shadow-none',
+              filter === '' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus('')"
+          >
+            <Icon icon="icon-park-outline:transaction-order" />
+            <span>Đơn hàng gần đây</span>
+          </a-button>
+
+          <a-button
+            :class="[
+              'flex justify-center items-center gap-2 h-10 border-none shadow-none',
               filter === 'pending' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('pending')"
           >
-            <UIcon class="" name="i-nonicons-loading-16" />
+            <Icon icon="nonicons-loading-16" />
             <span>Đang xử lý</span>
           </a-button>
           <a-button
             :class="[
               'flex justify-center items-center gap-2  h-10 border-none shadow-none',
-              filter === 'out_of_date' ? 'bg-orange-500 !text-white' : '',
+              filter === 'overdue' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('overdue')"
           >
-            <UIcon name="i-ph-warning-light" />
+            <Icon icon="ph-warning-light" />
             <span>Quá hạn</span>
           </a-button>
         </div>
@@ -359,10 +370,18 @@
                 <span>{{ record.loan_order_details.length }} quyển</span>
               </template>
               <template v-else-if="column.dataIndex === 'receipt_date'">
-                <span>{{ $dayjs(record.loan_date).format("DD/MM/YYYY") }}</span>
+                <span v-if="record.loan_date">{{ $dayjs(record.loan_date).format("DD/MM/YYYY") }}</span>
+                <span v-else> Chưa có ngày</span>
               </template>
               <template v-if="column.dataIndex === 'status'">
                 <span>
+                  <a-tag
+                    :bordered="false"
+                    v-if="record.status === 'wating_payment'"
+                    class="bg-tag-bg-01 text-tag-text-01"
+                  >
+                    Chờ thanh toán
+                  </a-tag>
                   <a-tag
                     :bordered="false"
                     v-if="record.status === 'pending'"
@@ -442,11 +461,14 @@
                   </a-tag>
                 </span>
               </template>
-              <temolate v-else-if="column.dataIndex === 'payment_method'">
+              <template v-else-if="column.dataIndex === 'payment_method'">
                 <div v-if="record.payment_method === 'cash'">
                   <span>Tiền mặt</span>
                 </div>
-              </temolate>
+                <div v-else-if="record.payment_method === 'online'">
+                  <span>Chuyển khoản</span>
+                </div>
+              </template>
               <template v-else-if="column.key === 'action'">
                 <div class="flex text-[16px] gap-4">
                   <NuxtLink :to="`/admin/product-manager/${record.id}`">
@@ -466,46 +488,6 @@
                       </button>
                     </a-tooltip>
                   </NuxtLink>
-                  <a-dropdown :trigger="['click']" placement="bottom">
-                    <button
-                      class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                    >
-                      <UIcon
-                        class="group-hover:text-[#131313]"
-                        name="i-solar-menu-dots-bold"
-                      />
-                    </button>
-                    <template #overlay>
-                      <a-menu>
-                        <NuxtLink>
-                          <a-menu-item key="2" class="p-4">
-                            <button
-                              class="flex items-center gap-1 text-blue-400"
-                            >
-                              <UIcon
-                                class="group-hover:text-[green]"
-                                name="i-material-symbols-edit-outline"
-                              />
-                              <span>Sửa</span>
-                            </button>
-                          </a-menu-item>
-                        </NuxtLink>
-                        <a-menu-item key="3" class="p-4">
-                          <span>
-                            <button
-                              class="flex items-center gap-1 text-blue-400"
-                            >
-                              <UIcon
-                                class="group-hover:text-[red] text-lg"
-                                name="i-material-symbols-delete-outline"
-                              />
-                              <span>Xóa</span>
-                            </button>
-                          </span>
-                        </a-menu-item>
-                      </a-menu>
-                    </template>
-                  </a-dropdown>
                 </div>
               </template>
             </template>
@@ -522,45 +504,49 @@
       </div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="bg-white w-full rounded-md space-y-2 p-5 relative">
+      <div
+        class="bg-white w-full rounded-md space-y-2 p-5 relative min-h-[350px]"
+      >
         <div class="text-xl font-semibold">Sách được thuê nhiều</div>
         <div class="max-h-[400px] overflow-auto pr-4">
-          <div v-if="dashboardStore.dashboardBook === 0"
+          <div
+            v-if="dashboardStore.dashboardBook.length === 0"
             class="flex justify-center flex-col items-center gap-2 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
           >
             <div>
               <Icon
-                
                 icon="uil:file-search-alt"
                 class="text-[80px] text-gray-300"
               />
             </div>
             <h1 class="text-[#7b7b7b] font-semibold">Chưa có dữ liệu</h1>
           </div>
-          <DashboardBook
-            v-for="book in dashboardStore.dashboardBook"
-            :key="book.id"
-            :dashboard="book"
-          />
+          <NuxtLink to="/admin/book">
+            <DashboardBook
+              v-for="book in dashboardStore.dashboardBook"
+              :key="book.id"
+              :dashboard="book"
+            />
+          </NuxtLink>
         </div>
       </div>
 
       <div class="bg-white w-full rounded-md space-y-2 p-5 relative">
         <div class="text-xl font-semibold space-y-2">Hóa đơn nhập hàng</div>
         <div class="max-h-[400px] overflow-auto pr-4">
-          <div  v-if="dashboardStore.dashboardInvoice.length === 0"
+          <div
+            v-if="dashboardStore.dashboardInvoice.length === 0"
             class="flex justify-center flex-col items-center gap-2 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
           >
             <div>
               <Icon
-               
                 icon="uil:file-search-alt"
                 class="text-[80px] text-gray-300"
               />
             </div>
             <h1 class="text-[#7b7b7b] font-semibold">Chưa có dữ liệu</h1>
           </div>
-          <NuxtLink to="/admin/manager-bill/">
+          <NuxtLink to="/admin/manager-bill">
             <DashboardBill
               v-for="bill in dashboardStore.dashboardInvoice"
               :key="bill.id"
@@ -573,12 +559,12 @@
       <div class="bg-white w-full rounded-md space-y-2 p-5 relative">
         <div class="flex justify-between items-end font-semibold">
           <div class="text-xl">Lịch sử giao dịch gần đây</div>
-          <div  v-if="transactionAdminStore.transactionAdmin.length === 0"
+          <div
+            v-if="transactionAdminStore.transactionAdmin.length === 0"
             class="flex justify-center flex-col items-center gap-2 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
           >
             <div>
               <Icon
-               
                 icon="uil:file-search-alt"
                 class="text-[80px] text-gray-300"
               />
@@ -608,14 +594,17 @@ import { Icon } from "@iconify/vue";
 const dashboardStore = useDashboardStore();
 const orderStore = useOrderStore();
 const transactionAdminStore = useTransactionAdminStore();
-const filter = ref("pending");
+const isLoading = ref(false);
+const filter = ref("");
 const valueSearch = ref("");
 useAsyncData(
   async () => {
+    isLoading.value = true;
     await orderStore.getAllOrder({
       status: filter.value,
       search: valueSearch.value,
     });
+    isLoading.value = false;
   },
   {
     immediate: true,

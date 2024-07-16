@@ -2,9 +2,8 @@
   <div>
     <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả sách đã xóa</h5>
+        <h5 class="text-xl text-[#1e293b] font-bold">Tất cả sách đã xóa</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
@@ -12,7 +11,7 @@
         <div class="w-2/3 flex items-center gap-2">
           <div class="relative w-1/2 md:block hidden">
             <div class="flex">
-              <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10" v-model:value="valueSearch">
+              <a-input placeholder="Nhập tên sách để tìm kiếm" class="h-10" v-model:value="valueSearch">
                 <template #prefix>
                   <SearchOutlined />
                 </template>
