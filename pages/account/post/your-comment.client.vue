@@ -1,94 +1,140 @@
 <template>
   <div>
-    <div class="flex flex-col space-y-5 items-center bg-white shadow-md rounded-md pb-10 min-h-[700px] pt-10">
-      <video
-        ref="video"
-        v-if="cameraOn"
-        class="rounded-lg w-[1/2]"
-        autoplay
-        playsinline
-      ></video>
-      <button @click="toggleCamera">
-        {{ cameraOn ? "Tắt máy ảnh" : "Bật máy ảnh" }}
-      </button>
-      <button @click="capturePhoto" :disabled="!cameraOn">Chụp ảnh</button>
-      <div v-if="photos.length" class="flex space-x-10">
-        <div v-for="(photo, index) in photos" :key="index" class="text-center">
-          <p>{{ index === 0 ? "Hình mặt trước" : "Hình mặt sau" }}</p>
-          <img :src="photo" class="rounded-lg w-[1/2]" />
-          <button @click="deletePhoto(index)" class="text-tag-text-06">
-            Xóa
-          </button>
-        </div>
+    <h3 class="font-bold">Bài viết đã bình luận</h3>
+
+    <div class="p-5 bg-white mt-5 shadow-lg rounded-xl">
+      <a-table
+        :columns="columns"
+        :data-source="commentStore?.comments?.comments"
+        :pagination="false"
+      >
+        <template #headerCell="{ column }">
+          <template v-if="column.key === 'name'">
+            <span> Bài viết </span>
+          </template>
+        </template>
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'title'">
+            <a>
+              {{ record.post?.title }}
+            </a>
+          </template>
+          <!--  -->
+          <template v-if="column.key === 'created_at'">
+            <a>
+              {{ $dayjs(record.post?.created_at).format("DD/MM/YYYY - HH:MM") }}
+            </a>
+          </template>
+          <!--  -->
+          <template v-if="column.key === 'action'">
+            <div class="flex text-[16px] gap-4">
+              <NuxtLink :to="`/post/${record?.post?.slug}`">
+                <a-tooltip placement="top">
+                  <template #title>
+                    <span>Xem chi tiết</span>
+                  </template>
+                  <button
+                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                  >
+                    <div class="flex items-center">
+                      <UIcon
+                        class="group-hover:text-[#212122]"
+                        name="i-icon-park-outline-eyes"
+                      />
+                    </div>
+                  </button>
+                </a-tooltip>
+              </NuxtLink>
+              <a-tooltip placement="top">
+                <template #title>
+                  <span>Hủy</span>
+                </template>
+                <button
+                  @click="showDeleteConfirm(record.id)"
+                  class="bg-rtgray-50 p-2 rounded-lg flex items-center justify-center"
+                >
+                  <UIcon
+                    class="group-hover:text-black"
+                    name="i-material-symbols-close-rounded"
+                  />
+                </button>
+              </a-tooltip>
+            </div>
+          </template>
+          <!--  -->
+        </template>
+      </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="commentStore?.comments?.totalResults"
+          :pageSize="commentStore?.comments?.pageSize"
+          show-less-items
+        />
       </div>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      cameraOn: false,
-      photos: [],
-      stream: null,
-    };
-  },
-  methods: {
-    async toggleCamera() {
-      this.cameraOn = !this.cameraOn;
-      if (this.cameraOn) {
-        await this.startCamera();
-      } else {
-        this.stopCamera();
-      }
-    },
-    async startCamera() {
-      try {
-        this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        this.$refs.video.srcObject = this.stream;
-      } catch (error) {
-        console.error("Error accessing camera: ", error);
-      }
-    },
-    stopCamera() {
-      if (this.stream) {
-        this.stream.getTracks().forEach((track) => track.stop());
-        this.stream = null;
-      }
-    },
-    capturePhoto() {
-      if (this.photos.length < 2 && this.cameraOn) {
-        const video = this.$refs.video;
-        const canvas = document.createElement("canvas");
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        const context = canvas.getContext("2d");
-        if (context) {
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
-          this.photos.push(canvas.toDataURL("image/png"));
-        }
-      } else {
-        alert("Bạn chỉ có thể chụp tối đa 2 ảnh và phải bật máy ảnh trước.");
-      }
-    },
-    deletePhoto(index) {
-      this.photos.splice(index, 1);
-    },
-  },
-  beforeDestroy() {
-    this.stopCamera();
-  },
-  beforeUnmount() {
-    this.stopCamera();
-  },
+<script setup lang="ts">
+const commentStore = useCommentClientStore();
+const generalCommentStore = useGeneralCommentStore();
+const current = ref(1);
+// Delete
+const onDelete = async (id: any) => {
+  await generalCommentStore.deleteComment(id);
+  getData();
 };
-</script>
+const showDeleteConfirm = (id: any) => {
+  Modal.confirm({
+    title: "Bạn đang muốn xóa bình luận?",
+    content: "Sau khi xóa sẽ không khôi phục lại",
+    okText: "Đồng ý",
+    okType: "danger",
+    cancelText: "Hủy",
+    onOk() {
+      onDelete(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+};
+// Get Data
+const getData = async (id: any) => {
+  await commentStore.getAllComment({
+    page: current.value,
+  });
+};
+useAsyncData(
+  async () => {
+    await getData();
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
 
-<style>
-img {
-  width: 100%;
-  max-width: 400px;
-  margin: 10px 0;
-}
-</style>
+const columns = [
+  {
+    title: "Bài viết",
+    dataIndex: "title",
+    key: "title",
+    width: "400px",
+  },
+  {
+    title: "Nội dung bình luận",
+    dataIndex: "content",
+    key: "content",
+  },
+  {
+    title: "Thời gian bình luận",
+    key: "created_at",
+    dataIndex: "created_at",
+  },
+  {
+    title: "Thao tác",
+    key: "action",
+  },
+];
+</script>

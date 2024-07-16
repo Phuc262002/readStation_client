@@ -6,7 +6,7 @@
     >
       <img
         class="w-auto h-[450px] object-fill"
-        src="/assets/images/discount-student.svg"
+        src="/assets/images/discount-student.png"
         alt=""
       />
       <div class="grid grid-cols-8 justify-items-center">
