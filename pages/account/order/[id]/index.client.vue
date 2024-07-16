@@ -265,63 +265,82 @@
             </div>
           </div>
           <!--  -->
-          <div class="w-1/2 space-y-3 pl-5">
-            <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Tồng tiền cọc thuê sách:</span>
-              <span class="col-span-2">
-                {{
-                  new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(orderStore?.order?.total_deposit_fee)
-                }}
-              </span>
-            </div>
-            <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Phí vận chuyển:</span>
-              <span class="col-span-2">
-                {{
-                  new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(orderStore?.order?.total_shipping_fee)
-                }}
-              </span>
-            </div>
-            <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Phí dịch vụ:</span>
-              <span class="col-span-2">
-                {{
-                  new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(orderStore?.order?.total_service_fee)
-                }}
-              </span>
-            </div>
+          <div class="w-1/2 pl-5 grid grid-cols-12">
+            <div class="space-y-3 col-span-8">
+              <div class="grid grid-cols-4">
+                <span class="col-span-2 font-bold"
+                  >Tồng tiền cọc thuê sách:</span
+                >
+                <span class="col-span-2">
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(orderStore?.order?.total_deposit_fee)
+                  }}
+                </span>
+              </div>
+              <div class="grid grid-cols-4">
+                <span class="col-span-2 font-bold">Phí vận chuyển:</span>
+                <span class="col-span-2">
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(orderStore?.order?.total_shipping_fee)
+                  }}
+                </span>
+              </div>
+              <div class="grid grid-cols-4">
+                <span class="col-span-2 font-bold">Phí dịch vụ:</span>
+                <span class="col-span-2">
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(orderStore?.order?.total_service_fee)
+                  }}
+                </span>
+              </div>
 
-            <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Số tiền cần thanh toán:</span>
-              <span class="col-span-2 text-orange-400">
-                {{
-                  new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(orderStore?.order?.total_all_fee)
-                }}
-              </span>
+              <div class="grid grid-cols-4">
+                <span class="col-span-2 font-bold">
+                  Số tiền cần thanh toán:
+                </span>
+                <span class="col-span-2 text-orange-400">
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(orderStore?.order?.total_all_fee)
+                  }}
+                </span>
+              </div>
             </div>
+            <a-button
+              @click="showHistoryExtend"
+              v-if="
+                orderStore?.order?.status === 'active' ||
+                orderStore?.order?.status === 'extended'
+              "
+              class="text-sm text-orange-400 text-right col-span-4 border-none shadow-none"
+            >
+              Lịch sử gia hạn
+            </a-button>
           </div>
         </div>
       </div>
-      <div
-        class="flex justify-end pt-4 gap-2"
-        v-if="orderStore?.order?.status === 'hiring'"
-      >
-        <NuxtLink to="/account/order">
-          <a-button class="h-10"> Trả sách </a-button>
-        </NuxtLink>
-        <a-button class="h-10 bg-orange-500 !text-white border-none">
+
+      <div class="flex justify-end pt-4 gap-2">
+        <a-button
+          @click="showExtendAll"
+          v-if="
+            orderStore?.order?.status === 'active' ||
+            $dayjs(new Date()).format('YYYY-MM-DD') ===
+              $dayjs(orderStore?.order?.current_due_date).format('YYYY-MM-DD')
+          "
+          class="h-10 bg-orange-500 !text-white border-none"
+        >
           Gia hạn toàn bộ
         </a-button>
       </div>
@@ -409,6 +428,7 @@
                 <div
                   class="grid grid-cols-4"
                   v-if="
+                    orderStore?.order?.status === 'extended' ||
                     orderStore?.order?.status === 'active' ||
                     orderStore?.order?.status === 'overdue' ||
                     orderStore?.order?.status === 'returning'
@@ -420,6 +440,7 @@
                 <div
                   class="grid grid-cols-4"
                   v-if="
+                    orderStore?.order?.status === 'extended' ||
                     orderStore?.order?.status === 'active' ||
                     orderStore?.order?.status === 'overdue' ||
                     orderStore?.order?.status === 'returning'
@@ -476,24 +497,43 @@
               </div>
             </div>
           </div>
+
           <div
             class="flex justify-end pt-4 gap-2"
-            v-if="orderStore?.order?.status === 'active'"
+            v-if="
+              order?.status === 'active' ||
+              $dayjs(new Date()).format('YYYY-MM-DD') ===
+                $dayjs(order?.current_due_date).format('YYYY-MM-DD')
+            "
           >
             <a-button
               class="h-10"
               @click="showModalGive(order)"
-              v-if="order?.status === 'active'"
+              v-if="
+                order?.status === 'active' ||
+                $dayjs(new Date()).format('YYYY-MM-DD') ===
+                  $dayjs(order?.current_due_date).format('YYYY-MM-DD')
+              "
             >
               Trả sách
             </a-button>
 
             <a-button
-              v-if="order?.status === 'active'"
+              v-if="
+                order?.status === 'active' ||
+                $dayjs(new Date()).format('YYYY-MM-DD') ===
+                  $dayjs(order?.current_due_date).format('YYYY-MM-DD')
+              "
               class="h-10 bg-orange-500 !text-white border-none"
-              @click="showModalExtend"
+              @click="showModalExtend(order)"
             >
               Gia hạn lần 1
+            </a-button>
+            <a-button
+              v-if="order?.status === 'completed'"
+              class="h-10 bg-orange-500 !text-white border-none"
+            >
+              Đánh giá sách
             </a-button>
           </div>
         </div>
@@ -534,9 +574,18 @@
         </a-button>
       </div>
     </div>
+    <AccountOrderHistoryExtendBook
+      :openHistoryExtend="openHistoryExtend"
+      :closeHistoryExtend="closeHistoryExtend"
+    />
+    <AccountOrderExtendAllBook
+      :openExtendAll="openExtendAll"
+      :closeExtendAll="closeExtendAll"
+    />
     <AccountOrderExtendBook
       :openModalExtend="openModalExtend"
       :closeModalExtend="closeModalExtend"
+      :bookExtendDetail="bookExtendDetail"
     />
     <AccountOrderGiveBook
       :openModalGive="openModalGive"
@@ -551,6 +600,7 @@ const authStore = useAuthStore();
 const route = useRoute();
 const id = route.params.id;
 const bookDetail = ref();
+const bookExtendDetail = ref();
 const onCancelOrderDetail = async (id: any) => {
   await orderStore.cancelOrder(id);
 };
@@ -570,11 +620,29 @@ const showCancelConfirm = (id: any) => {
     },
   });
 };
+// Modal History Extend
+const openHistoryExtend = ref(false);
+const showHistoryExtend = () => {
+  openHistoryExtend.value = true;
+};
+const closeHistoryExtend = () => {
+  openHistoryExtend.value = false;
+};
+// Modal Extend All
+const openExtendAll = ref(false);
+const showExtendAll = () => {
+  openExtendAll.value = true;
+};
+const closeExtendAll = () => {
+  openExtendAll.value = false;
+};
 
 // Modal Extend
 const openModalExtend = ref(false);
-const showModalExtend = () => {
+const showModalExtend = (order: any) => {
   openModalExtend.value = true;
+  bookExtendDetail.value = order;
+  console.log("id book ex", order);
 };
 const closeModalExtend = () => {
   openModalExtend.value = false;
@@ -585,18 +653,13 @@ const openModalGive = ref(false);
 const showModalGive = (order: any) => {
   openModalGive.value = true;
   bookDetail.value = order;
-  console.log("id book", order);
 };
 const closeModalGive = () => {
   openModalGive.value = false;
 };
 
 useAsyncData(async () => {
-  try {
-    await orderStore.getOneOrder(id);
-  } catch (error) {
-    console.log("error", error);
-  }
+  await orderStore.getOneOrder(id);
 });
 useAsyncData(async () => {
   await authStore.getProfile();

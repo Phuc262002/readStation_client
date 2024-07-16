@@ -24,7 +24,7 @@
           </p>
         </div>
         <div>
-          <a-button type="primary">Đổi tên tủ</a-button>
+          <a-button size="large" type="primary">Đổi tên tủ</a-button>
         </div>
       </div>
     </div>
@@ -46,7 +46,7 @@
           </div>
         </div>
         <div class="">
-          <a-button type="primary" @click="showModalAdd">Thêm Kệ</a-button>
+          <a-button size="large" type="primary" @click="showModalAdd">Thêm Kệ</a-button>
           <BookCaseSearch
             :openModalAdd="openModalAdd"
             :openModal="CloseModalAdd"

@@ -5,6 +5,9 @@
     <div class="flex justify-center items-start">
       <div class="space-y-2">
         <p>
+          #{{ props?.transactions?.transaction_code }}
+        </p>
+        <p>
           {{ props?.transactions?.user?.fullname }}
         </p>
         <p>

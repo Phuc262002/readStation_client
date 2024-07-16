@@ -13,16 +13,17 @@
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4"
     >
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white shadow-md rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm w-full gap-2 font-medium p-4">
             <a-tag
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-04 text-tag-text-04"
             >
-              <UIcon class="text-lg w-10 h-10" name="i-grommet-icons-cubes"
-            /></a-tag>
+              <Icon
+                icon="solar:users-group-rounded-outline"
+                class="text-lg w-10 h-10"
+              />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-04">
               <p class="font-normal text-base">Tất cả</p>
@@ -45,16 +46,14 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white shadow-md rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm w-full gap-2 font-medium p-4">
             <a-tag
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-04 text-tag-text-04"
             >
-              <UIcon class="text-lg w-10 h-10" name="i-grommet-icons-cubes"
-            /></a-tag>
+              <Icon icon="la:users-cog" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-04">
               <p class="font-normal text-base">Quản trị viên</p>
@@ -77,16 +76,17 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white shadow-md rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm w-full font-medium p-4 gap-2">
             <a-tag
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-04 text-tag-text-03"
             >
-              <UIcon class="text-lg w-10 h-10" name="i-bi-box-arrow-in-down"
-            /></a-tag>
+              <Icon
+                icon="icon-park-outline:user-business"
+                class="text-lg w-10 h-10"
+              />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-03">
               <p class="font-normal text-base">Thủ thư</p>
@@ -109,9 +109,7 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white shadow-md rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm w-full gap-2 font-medium p-4">
             <a-tag
               :bordered="false"
@@ -141,18 +139,14 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white shadow-md rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm w-full gap-2 font-medium p-4">
             <a-tag
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-01 text-tag-text-01"
             >
-              <UIcon
-                class="text-lg w-10 h-10"
-                name="i-ph-user-circle-check-thin"
-            /></a-tag>
+              <Icon icon="ph:student" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-01">
               <p class="font-normal text-base">HS/SV</p>
@@ -175,23 +169,21 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <div
-          class="flex items-center text-base h-[90px] bg-white shadow-md rounded-md"
-        >
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm w-full gap-2 font-medium p-4">
             <a-tag
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-11 text-tag-text-11"
             >
-              <UIcon class="text-lg w-10 h-10" name="i-bi-bookshelf"
-            /></a-tag>
+              <Icon icon="mdi:user-check-outline" class="text-lg w-10 h-10" />
+            </a-tag>
 
             <div class="flex-1 text-tag-text-11">
               <p class="font-normal text-base">KH đã xác thực</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="userStore.isLoading"
-                  icon="svg-spinners:3-dots-scale"
+                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
                 <span v-else>
@@ -286,7 +278,7 @@
         </div>
 
         <NuxtLink to="/admin/user/create-user" class="">
-          <a-button type="primary">Thêm người dùng</a-button>
+          <a-button size="large" type="primary">Thêm người dùng</a-button>
         </NuxtLink>
       </div>
       <a-table
@@ -357,7 +349,12 @@
           </template>
           <template v-else-if="column.key === 'balance_holding'">
             <span>
-              {{ record.balance_holding }}
+              {{
+                new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(record.balance_holding)
+              }}
             </span>
           </template>
           <template v-else-if="column.key === 'citizen_identity_card'">
@@ -587,7 +584,7 @@ const columns = [
     width: "200px",
   },
   {
-    title: "Ví tài khoản",
+    title: "Số dư",
     dataIndex: "balance_holding",
     key: "balance_holding",
   },

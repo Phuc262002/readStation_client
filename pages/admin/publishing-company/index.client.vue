@@ -56,6 +56,7 @@
           <a-button
             class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary"
             @click="showModalAdd"
+            size="large"
             >Thêm nhà xuất bản</a-button
           >
         </div>

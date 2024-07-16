@@ -239,7 +239,7 @@ const onSubmit = handleSubmit(async (values) => {
       message.success({
         content: "Đăng nhập thành công",
       });
-      navigateTo("/account");
+      navigateTo("/");
     } else {
       resErrors.value = resData.error.value.data.errors;
       message.error({
@@ -265,7 +265,7 @@ const handleLoginSuccess = async (response: CredentialResponse) => {
       message.success({
         content: "Đăng nhập thành công",
       });
-      navigateTo("/account");
+      navigateTo("/");
     } else {
       resErrors.value = resData.error.value.data.errors;
       message.error({

@@ -52,6 +52,7 @@
           <a-button
             class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary"
             @click="showModalAdd"
+            size="large"
             >Thêm danh mục sản phẩm</a-button
           >
           <CategoryBookAdd
@@ -205,6 +206,11 @@ const showDeleteConfirm = (id) => {
 };
 
 const columns = [
+{
+    title: "Hình ảnh",
+    dataIndex: "image",
+    key: "image",
+  },
   {
     title: "Tên danh mục",
     dataIndex: "name",
@@ -215,11 +221,7 @@ const columns = [
     dataIndex: "description",
     key: "description",
   },
-  {
-    title: "Hình ảnh",
-    dataIndex: "image",
-    key: "image",
-  },
+ 
   {
     title: "Nổi bật",
     dataIndex: "is_featured",

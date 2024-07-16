@@ -5,7 +5,7 @@ export const useBookPublicStore = defineStore("book-public-store", {
     return {
       books: [],
       book: {},
-      isLoading: false,
+      isLoading: true,
       isSubmitting: false,
     };
   },
@@ -42,9 +42,16 @@ export const useBookPublicStore = defineStore("book-public-store", {
       }
     },
     async getOneBook(slug: string) {
-      const data: any = await useCustomFetch(`/api/v1/public/books/${slug}`);
-      this.book = data.data._value?.data;
-      return data;
+      try {
+        this.isLoading = true;
+        const data: any = await useCustomFetch(`/api/v1/public/books/${slug}`);
+        this.book = data.data._value?.data;
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        this.isLoading = false;
+      }
     },
   },
 });
