@@ -8,6 +8,7 @@ export const useDashboardStore = defineStore("dashboard-store", {
       dashboardInvoice: [],
       dashboradStaticUser: [],
       dashboradStaticColumnOrder: [],
+      dashboradStatusOrder: [],
       isLoading: false,
       isSubmitting: false,
     };
@@ -79,7 +80,9 @@ export const useDashboardStore = defineStore("dashboard-store", {
         const data: any = await useCustomFetch(
           `/api/v1/admin/dashboard/statistic-column-order?sort=${sort}`
         );
-        this.dashboradStaticColumnOrder = data.data._value?.data;
+        this.dashboradStaticColumnOrder = data.data._value?.data.dataChart;
+        this.dashboradStatusOrder = data.data._value?.data.static;
+
 
         return data;
       } catch (error) {

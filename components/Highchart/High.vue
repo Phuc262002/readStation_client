@@ -8,7 +8,7 @@
           @click="filter = 'all'"
           :class="
             filter === 'all'
-              ? 'bg-tag-bg-11 text-tag-text-11'
+              ? 'bg-tag-bg-03 text-tag-text-03'
               : 'bg-tag-bg-07 text-tag-text-07'
           "
           class="cursor-pointer"
@@ -17,10 +17,10 @@
         </a-tag>
         <a-tag
           :bordered="false"
-            @click="filter = '1m'"
+          @click="filter = '1m'"
           :class="
             filter === '1m'
-              ? 'bg-tag-bg-11 text-tag-text-11'
+              ? 'bg-tag-bg-03 text-tag-text-03'
               : 'bg-tag-bg-07 text-tag-text-07'
           "
           class="cursor-pointer"
@@ -29,10 +29,10 @@
         </a-tag>
         <a-tag
           :bordered="false"
-           @click="filter = '3m'"
+          @click="filter = '3m'"
           :class="
             filter === '3m'
-              ? 'bg-tag-bg-11 text-tag-text-11'
+              ? 'bg-tag-bg-03 text-tag-text-03'
               : 'bg-tag-bg-07 text-tag-text-07'
           "
           class="cursor-pointer"
@@ -41,10 +41,10 @@
         </a-tag>
         <a-tag
           :bordered="false"
-           @click="filter = '6m'"
+          @click="filter = '6m'"
           :class="
             filter === '6m'
-              ? 'bg-tag-bg-11 text-tag-text-11'
+              ? 'bg-tag-bg-03 text-tag-text-03'
               : 'bg-tag-bg-07 text-tag-text-07'
           "
           class="cursor-pointer"
@@ -53,10 +53,10 @@
         </a-tag>
         <a-tag
           :bordered="false"
-           @click="filter = '9m'"
+          @click="filter = '9m'"
           :class="
             filter === '9m'
-              ? 'bg-tag-bg-11 text-tag-text-11'
+              ? 'bg-tag-bg-03 text-tag-text-03'
               : 'bg-tag-bg-07 text-tag-text-07'
           "
           class="cursor-pointer"
@@ -65,10 +65,10 @@
         </a-tag>
         <a-tag
           :bordered="false"
-           @click="filter = '1y'"
+          @click="filter = '1y'"
           :class="
             filter === '1y'
-              ? 'bg-tag-bg-11 text-tag-text-11'
+              ? 'bg-tag-bg-03 text-tag-text-03'
               : 'bg-tag-bg-07 text-tag-text-07'
           "
           class="cursor-pointer"
@@ -77,22 +77,72 @@
         </a-tag>
       </div>
     </div>
-    <div class="grid grid-cols-4 gap-4 bg-[#f9fbfc] border-dashed border-y">
+    <div class="grid grid-cols-6 gap-4 bg-[#f9fbfc] border-dashed border-y">
       <div class="border-dashed border-r p-4">
-        <h3 class="text-center">100</h3>
-        <p class="text-center">Đơn hàng</p>
+        <h3 class="text-center font-bold text-2xl text-[#495057]">
+          <Icon
+            v-if="isLoading"
+            icon="svg-spinners:3-dots-scale"
+            class=" block mx-auto text-3xl"
+          />
+          <span v-else>{{ dashboardStore.dashboradStatusOrder?.total }}</span>
+        </h3>
+        <p class="text-center font-bold text-[#878a99]">Tổng đơn</p>
       </div>
       <div class="border-dashed border-r p-4">
-        <h3 class="text-center">12</h3>
-        <p class="text-center">Gia hạn</p>
+        <h3 class="text-center font-bold text-2xl text-[#495057]">
+          <Icon
+            v-if="isLoading"
+            icon="svg-spinners:3-dots-scale"
+            class=" block mx-auto text-3xl"
+          />
+         <span v-else> {{ dashboardStore.dashboradStatusOrder?.pending }}</span>
+        </h3>
+        <p class="text-center font-bold text-[#878a99]">Đang xử lý</p>
       </div>
       <div class="border-dashed border-r p-4">
-        <h3 class="text-center">12</h3>
-        <p class="text-center">Quá hạn</p>
+        <h3 class="text-center font-bold text-2xl text-[#495057]">
+          <Icon
+            v-if="isLoading"
+            icon="svg-spinners:3-dots-scale"
+            class=" block mx-auto text-3xl"
+          />
+         <span v-else> {{ dashboardStore.dashboradStatusOrder?.active }}</span>
+        </h3>
+        <p class="text-center font-bold text-[#878a99]">Đang thuê</p>
+      </div>
+      <div class="border-dashed border-r p-4">
+        <h3 class="text-center font-bold text-2xl text-[#495057]">
+          <Icon
+            v-if="isLoading"
+            icon="svg-spinners:3-dots-scale"
+            class=" block mx-auto text-3xl"
+          />
+        <span v-else>  {{ dashboardStore.dashboradStatusOrder?.overdue }}</span>
+        </h3>
+        <p class="text-center font-bold text-[#878a99]">Quá hạn</p>
+      </div>
+      <div class="border-dashed border-r p-4">
+        <h3 class="text-center font-bold text-2xl text-[#495057]">
+          <Icon
+            v-if="isLoading"
+            icon="svg-spinners:3-dots-scale"
+            class=" block mx-auto text-3xl"
+          />
+         <span v-else> {{ dashboardStore.dashboradStatusOrder?.completed }}</span>
+        </h3>
+        <p class="text-center font-bold text-[#878a99]">Hoàn thành</p>
       </div>
       <div class="p-4">
-        <h3 class="text-center">1</h3>
-        <p class="text-center">1asds</p>
+        <h3 class="text-center font-bold text-2xl text-[#495057]">
+          <Icon
+            v-if="isLoading"
+            icon="svg-spinners:3-dots-scale"
+            class=" block mx-auto text-3xl"
+          />
+          <span v-else>{{ dashboardStore.dashboradStatusOrder?.canceled }}</span>
+        </h3>
+        <p class="text-center font-bold text-[#878a99]">Đã hủy</p>
       </div>
     </div>
 
@@ -103,14 +153,17 @@
 </template>
 
 <script setup>
+import { Icon } from "@iconify/vue";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 const dashboardStore = useDashboardStore();
 const chartOptions = ref({});
+const isLoading = ref(false);
 const filter = ref("all");
 useAsyncData(
   async () => {
+    isLoading.value = true;
     await dashboardStore.getStaticColumnOrder({
       sort: filter.value,
     });
@@ -196,6 +249,7 @@ useAsyncData(
         },
       ],
     };
+    isLoading.value = false;
   },
   {
     immediate: true,

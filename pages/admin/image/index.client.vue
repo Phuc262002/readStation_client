@@ -20,7 +20,7 @@
       class="bg-white min-h-[360px] w-full rounded-lg p-5 gap-2 grid-cols-5 grid"
     >
       <div
-        v-for="(image, index) in generalImageStore.image?.resources"
+        v-for="(image, index) in generalImageStore.image"
         :key="image.id || index"
         class="relative rounded-2xl overflow-hidden"
       >

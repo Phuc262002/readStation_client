@@ -191,7 +191,7 @@
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="userStore.isLoading"
-                  icon="svg-spinners:3-dots-scale"
+                  icon="tdesign:user-checked-1"
                   class="text-3xl"
                 />
                 <span v-else>

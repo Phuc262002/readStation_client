@@ -26,7 +26,7 @@
               <p class="font-semibold text-base">Doanh thu</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -48,14 +48,14 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-04 text-tag-text-04"
             >
-              <Icon icon="bi:box-arrow-in-down" class="text-lg w-10 h-10" />
+              <Icon icon="icon-park-outline:bill" class="text-lg w-10 h-10" />
             </a-tag>
 
             <div class="flex-1 text-tag-text-04">
               <p class="font-semibold text-base">Phiếu nhập hàng</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -78,17 +78,21 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-01 text-tag-text-01"
             >
-              <Icon icon="iconoir-user" class="text-lg w-10 h-10" />
+              <Icon
+                icon="solar:users-group-rounded-broken"
+                class="text-lg w-10 h-10"
+              />
             </a-tag>
 
             <div class="flex-1 text-tag-text-01">
               <p class="font-semibold text-base">Tổng khách hàng</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
                   icon="svg-spinners:3-dots-scale"
+                  v-if="isLoading"
                   class="text-3xl"
                 />
+
                 <span v-else>
                   {{
                     new Intl.NumberFormat().format(
@@ -108,17 +112,14 @@
               :bordered="false"
               class="flex items-center p-2 bg-tag-bg-03 text-tag-text-03"
             >
-              <Icon
-                icon="ph-user-circle-check-thin"
-                class="text-lg w-10 h-10"
-              />
+              <Icon icon="hugeicons:user-check-02" class="text-lg w-10 h-10" />
             </a-tag>
 
             <div class="flex-1 text-tag-text-03">
               <p class="font-semibold text-base">Khách hàng đã kích hoạt</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -148,7 +149,7 @@
               <p class="font-semibold text-base">Số lượng tủ sách</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -178,7 +179,7 @@
               <p class="font-semibold text-base">Số lượng kệ sách</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -211,7 +212,7 @@
               <p class="font-semibold text-base">Số lượng sách</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -241,7 +242,7 @@
               <p class="font-semibold text-base">Số lượng bài viết</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -262,16 +263,16 @@
           <div class="flex items-center text-sm w-full font-medium p-4 gap-2">
             <a-tag
               :bordered="false"
-              class="flex items-center p-2 bg-tag-bg-06 text-tag-text-06"
+              class="flex items-center p-2 bg-tag-bg-09 text-tag-text-09"
             >
-              <Icon icon="hugeicons-quill-write-02" class="text-lg w-10 h-10" />
+              <Icon  icon="solar:bill-check-outline" class="text-lg w-10 h-10" />
             </a-tag>
 
-            <div class="flex-1 text-tag-text-06">
+            <div class="flex-1 text-tag-text-09">
               <p class="font-semibold text-base">Số phiếu trả</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="dashboardStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -287,7 +288,6 @@
           </div>
         </div>
       </div>
-     
     </div>
     <div class="grid grid-cols-3 gap-4">
       <HighchartHigh />
@@ -318,6 +318,17 @@
           <a-button
             :class="[
               'flex justify-center items-center gap-2 h-10 border-none shadow-none',
+              filter === '' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus('')"
+          >
+            <UIcon class="" name="i-nonicons-loading-16" />
+            <span>Đơn hàng gần đây</span>
+          </a-button>
+
+          <a-button
+            :class="[
+              'flex justify-center items-center gap-2 h-10 border-none shadow-none',
               filter === 'pending' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('pending')"
@@ -328,7 +339,7 @@
           <a-button
             :class="[
               'flex justify-center items-center gap-2  h-10 border-none shadow-none',
-              filter === 'out_of_date' ? 'bg-orange-500 !text-white' : '',
+              filter === 'overdue' ? 'bg-orange-500 !text-white' : '',
             ]"
             @click="handleCheckStatus('overdue')"
           >
@@ -522,15 +533,15 @@
       </div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="bg-white w-full rounded-md space-y-2 p-5 relative">
+      <div class="bg-white w-full rounded-md space-y-2 p-5 relative min-h-[350px]">
         <div class="text-xl font-semibold">Sách được thuê nhiều</div>
         <div class="max-h-[400px] overflow-auto pr-4">
-          <div v-if="dashboardStore.dashboardBook === 0"
+          <div
+            v-if="dashboardStore.dashboardBook.length === 0"
             class="flex justify-center flex-col items-center gap-2 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
           >
             <div>
               <Icon
-                
                 icon="uil:file-search-alt"
                 class="text-[80px] text-gray-300"
               />
@@ -548,12 +559,12 @@
       <div class="bg-white w-full rounded-md space-y-2 p-5 relative">
         <div class="text-xl font-semibold space-y-2">Hóa đơn nhập hàng</div>
         <div class="max-h-[400px] overflow-auto pr-4">
-          <div  v-if="dashboardStore.dashboardInvoice.length === 0"
+          <div
+            v-if="dashboardStore.dashboardInvoice.length === 0"
             class="flex justify-center flex-col items-center gap-2 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
           >
             <div>
               <Icon
-               
                 icon="uil:file-search-alt"
                 class="text-[80px] text-gray-300"
               />
@@ -573,12 +584,12 @@
       <div class="bg-white w-full rounded-md space-y-2 p-5 relative">
         <div class="flex justify-between items-end font-semibold">
           <div class="text-xl">Lịch sử giao dịch gần đây</div>
-          <div  v-if="transactionAdminStore.transactionAdmin.length === 0"
+          <div
+            v-if="transactionAdminStore.transactionAdmin.length === 0"
             class="flex justify-center flex-col items-center gap-2 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
           >
             <div>
               <Icon
-               
                 icon="uil:file-search-alt"
                 class="text-[80px] text-gray-300"
               />
@@ -608,14 +619,17 @@ import { Icon } from "@iconify/vue";
 const dashboardStore = useDashboardStore();
 const orderStore = useOrderStore();
 const transactionAdminStore = useTransactionAdminStore();
-const filter = ref("pending");
+const isLoading = ref(false);
+const filter = ref("");
 const valueSearch = ref("");
 useAsyncData(
   async () => {
+    isLoading.value = true;
     await orderStore.getAllOrder({
       status: filter.value,
       search: valueSearch.value,
     });
+    isLoading.value = false;
   },
   {
     immediate: true,
