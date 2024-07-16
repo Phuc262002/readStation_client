@@ -7,22 +7,7 @@
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
-      <div class="flex justify-between pb-4">
-        <div class="w-2/3 flex items-center gap-2">
-          <div class="relative w-1/2 md:block hidden">
-            <div class="flex">
-              <a-input placeholder="Nhập tên sách để tìm kiếm" class="h-10" v-model:value="valueSearch">
-                <template #prefix>
-                  <SearchOutlined />
-                </template>
-              </a-input>
-            </div>
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <UIcon class="text-gray-500" name="i-material-symbols-search" />
-            </div>
-          </div>
-        </div>
-      </div>
+
       <a-table :columns="columns" :data-source="allAdminBooks?.adminBooks?.books" :loading="allAdminBooks.isLoading"
         :pagination="false">
         <template #headerCell="{ column }">
@@ -67,22 +52,13 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top">
-                <template #title>
-                  <span>Sửa</span>
-                </template>
-                <button
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
-                  <UIcon class="text-lg" name="i-material-symbols-edit-outline" />
-                </button>
-              </a-tooltip>
               <a-tooltip placement="top" color="black ">
                 <template #title>
                   <span>Khôi phục</span>
                 </template>
                 <button @click="showRecoverConfirm(record?.id)" class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8
                     rounded-md">
-                  <UIcon class="text-lg" name="i-material-symbols-autorenew-rounded" />
+                    <Icon icon="ic:round-settings-backup-restore" class="text-lg" />
                 </button>
               </a-tooltip>
             </div>
@@ -97,6 +73,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { Icon } from "@iconify/vue";
 import { ref } from "vue";
 const valueSearch = ref("");
 // const queryStatus = ref({
