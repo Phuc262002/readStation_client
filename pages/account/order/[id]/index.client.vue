@@ -119,7 +119,7 @@
             </a-tag>
             <a-tag
               v-else-if="orderStore?.order?.status === 'extended'"
-              class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
+              class="text-tag-text-12 bg-tag-bg-12 border-none py-1 px-3 rounded-lg"
             >
               Đang gia hạn
             </a-tag>
@@ -398,7 +398,7 @@
               </a-tag>
               <a-tag
                 v-else-if="order?.status === 'extended'"
-                class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
+                class="text-tag-text-12 bg-tag-bg-12 border-none py-1 px-3 rounded-lg"
               >
                 Đang gia hạn
               </a-tag>

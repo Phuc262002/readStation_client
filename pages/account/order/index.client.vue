@@ -282,11 +282,11 @@
                     <span>Xem chi tiết</span>
                   </template>
                   <button
-                    class="bg-rtgray-50 p-2 rounded-lg flex items-center justify-center"
+                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] p-2 rounded-md flex items-center justify-center"
                   >
-                    <UIcon
-                      class="group-hover:text-black"
-                      name="i-icon-park-outline-eyes"
+                    <Icon
+                      icon="heroicons:eye"
+                      class="group-hover:text-[#212122]"
                     />
                   </button>
                 </a-tooltip>
@@ -302,7 +302,7 @@
                     record.status === 'pending' ||
                     record.status === 'wating_payment'
                   "
-                  class="bg-rtgray-50 p-2 rounded-lg flex items-center justify-center"
+                  class="hover:bg-[#131313]/20 bg-[#e4e1e1] p-2 rounded-md flex items-center justify-center"
                 >
                   <UIcon
                     class="group-hover:text-black"
@@ -330,6 +330,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
 const orderStore = useOrderClientStore();
 const current = ref(1);
 const filter = ref({

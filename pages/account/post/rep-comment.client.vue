@@ -38,9 +38,9 @@
                     class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                   >
                     <div class="flex items-center">
-                      <UIcon
+                      <Icon
+                        icon="heroicons:eye"
                         class="group-hover:text-[#212122]"
-                        name="i-icon-park-outline-eyes"
                       />
                     </div>
                   </button>
@@ -53,7 +53,7 @@
                 </template>
                 <button
                   @click="showDeleteConfirm(record.id)"
-                  class="bg-rtgray-50 p-2 rounded-lg flex items-center justify-center"
+                  class="hover:bg-[#131313]/20 bg-[#e4e1e1] p-2 rounded-lg flex items-center justify-center"
                 >
                   <UIcon
                     class="group-hover:text-black"
@@ -77,6 +77,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
 const commentStore = useCommentClientStore();
 const generalCommentStore = useGeneralCommentStore();
 const current = ref(1);
