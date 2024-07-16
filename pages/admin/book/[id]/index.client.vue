@@ -1,3 +1,4 @@
+import { h } from 'vue';
 <template>
     <div>
         <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
@@ -26,7 +27,7 @@
                                 name="i-material-symbols-draft-orders-outline-rounded" />
                         </div>
                         <div>
-                            <a-button class="flex justify-center gap-2" type="primary" size="large">
+                            <a-button class="flex justify-center gap-2 items-center" type="primary" size="large" @click="showModal">
                                 <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
                                 <span class="text-white">Chỉnh sửa</span>
                             </a-button>
@@ -59,7 +60,8 @@
                         <div class="md:col-span-2 space-y-3">
                             <div class="grid grid-cols-4">
                                 <span class="text-base font-bold col-span-1">Mô tả: </span>
-                                <span class="text-base col-span-3">{{ bookStore?.OneBookAdmin?.description_summary }}</span>
+                                <span class="text-base col-span-3">{{ bookStore?.OneBookAdmin?.description_summary
+                                    }}</span>
                             </div>
                             <div class="grid grid-cols-4">
                                 <span class="text-base font-bold col-span-1">Mô tả chi tiết:</span>
@@ -68,6 +70,7 @@
                         </div>
                     </div>
                 </div>
+                <BookEdit :openModalBook="openModalBook" :openModal="CloseModal"/>
                 <div>
                     <a-button class="flex justify-center items-center gap-2" type="primary" size="large"
                         @click="showModalAdd">
@@ -75,88 +78,93 @@
                         <span class="text-white">Thêm phiên bản</span>
                     </a-button>
                 </div>
-                <BookDetailCreate :openModalAdd="openModalAdd" :openModal="CloseModalAdd" />
+                <BookDetailCreate :openModalAdd="openModalAdd" :openModal="CloseModalAdd" :book_id="bookID" />
+                <!-- Phiên bản 2024 -->
                 <div class="grid grid-cols-2 gap-5">
-                    <!-- Phiên bản 2024 -->
-                    <div>
-                        <div class="bg-[white] rounded-lg h-auto flex flex-col gap-3 p-4"
-                            v-for="(items, index) in bookStore?.OneBookAdmin?.book_detail" :key="index">
-                            <div class="flex justify-between">
-                                <h1 class="text-base font-bold">Phiên bản {{ items.book_version }} </h1>
-                                <a-button @click="showModalEdit(items?.id)"
-                                    class="flex justify-center items-center gap-1 bg-[#344054]" type="primary"
-                                    size="large">
-                                    <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
-                                    <span class="text-white text-base">Chỉnh sửa</span>
-                                </a-button>
-
-                            </div>
-                            <div class="border border-gray-200"></div>
-                            <div class="grid grid-cols-2">
-                                <div class="py-10 px-5">
-                                    <div class="flex justify-center items-center gap-4">
-                                        <img class="w-28 h-44" :src="items.poster" alt="">
-                                        <div class="flex-flex-col items-start">
-                                            <div class="p-2" v-for="(image, index) in items?.images" :key="index">
-                                                <img class="w-12 h-20" :src="image" alt="">
-                                            </div>
+                    <div class="bg-[white] rounded-lg h-auto flex flex-col gap-3 p-4"
+                        v-for="(items, index) in bookStore?.OneBookAdmin?.book_detail" :key="index">
+                        <div class="flex justify-between">
+                            <h1 class="text-base font-bold">Phiên bản {{ items.book_version }} </h1>
+                            <a-button @click="showModalEdit(items?.id)"
+                                class="flex justify-center items-center gap-1 bg-[#344054]" type="primary" size="large">
+                                <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
+                                <span class="text-white text-base">Chỉnh sửa</span>
+                            </a-button>
+                        </div>
+                        <div class="border border-gray-200"></div>
+                        <div class="grid grid-cols-2">
+                            <div class="py-10 px-5">
+                                <div class="flex justify-center items-center gap-4">
+                                    <img class="w-28 h-44" :src="items.poster" alt="">
+                                    <div class="flex-flex-col items-start">
+                                        <div class="p-2" v-for="(image, index) in items?.images" :key="index">
+                                            <img class="w-12 h-20" :src="image" alt="">
                                         </div>
                                     </div>
-
                                 </div>
-                                <div class="md:col-span-1 space-y-3 space-x-5 border-l border-gray-200">
-                                    <div></div>
-                                    <div class="grid grid-cols-2 space-x-5">
-                                        <span class="font-bold text-base">Số lượng: </span>
-                                        <span class="text-base">{{ items?.stock }}</span>
-                                    </div>
-                                    <div class="grid grid-cols-2 space-x-5">
-                                        <span class="font-bold text-base">Giá: </span>
-                                        <span class="text-base">{{ items?.price }}</span>
-                                    </div>
-                                    <div class="grid grid-cols-2 space-x-5">
-                                        <span class="font-bold text-base">Tiền cọc: </span>
-                                        <span class="text-base">{{ items.hire_percent }}%</span>
-                                    </div>
-                                    <div class="grid grid-cols-2 space-x-5">
-                                        <span class="font-bold text-base">Loại bìa: </span>
-                                        <span class="text-base">{{ items?.cardboard }}</span>
-                                    </div>
-                                    <div class="grid grid-cols-2 space-x-5">
-                                        <span class="font-bold text-base">Số trang: </span>
-                                        <span class="text-base">{{ items?.total_page }}</span>
-                                    </div>
-                                    <div class="grid grid-cols-2 space-x-5">
-                                        <span class="font-bold text-base">Kích thước: </span>
-                                        <span class="text-base">{{ items?.book_size }} cm</span>
-                                    </div>
-                                    <div class="grid grid-cols-2 space-x-5">
-                                        <span class="font-bold text-base">Ngôn ngữ: </span>
-                                        <span class="text-base">{{ items?.language }}</span>
-                                    </div>
-                                    <div class="grid grid-cols-2 space-x-5">
-                                        <span class="font-bold text-base">Người dịch: </span>
-                                        <span class="text-base">{{ items?.translator }}</span>
-                                    </div>
-                                    <div class="grid grid-cols-2 space-x-5">
-                                        <span class="font-bold text-base">Ngày phát hành: </span>
-                                        <span class="text-base">{{ items?.publish_date }}</span>
-                                    </div>
-                                    <div class="grid grid-cols-2 space-x-5">
-                                        <span class="font-bold text-base">Công ty phát hành: </span>
-                                        <span class="text-base">{{ items?.publishing_company?.name }}</span>
-                                    </div>
-                                    <div class="grid grid-cols-2 space-x-5">
-                                        <span class="font-bold text-base">Đánh giá: </span>
-                                        <span class="text-base">4.8</span>
-                                    </div>
+                            </div>
+                            <div class="md:col-span-1 space-y-3 space-x-5 border-l border-gray-200">
+                                <div></div>
+                                <div class="grid grid-cols-2 space-x-5">
+                                    <span class="font-bold text-base">Số lượng: </span>
+                                    <span class="text-base">{{ items?.stock }}</span>
+                                </div>
+                                <div class="grid grid-cols-2 space-x-5">
+                                    <span class="font-bold text-base">Giá: </span>
+                                    <span class="text-base"> {{
+                                        new Intl.NumberFormat("vi-VN", {
+                                            style: "currency",
+                                            currency: "VND",
+                                        }).format(items?.price)
+                                    }}</span>
+                                </div>
+                                <div class="grid grid-cols-2 space-x-5">
+                                    <span class="font-bold text-base">Tiền cọc: </span>
+                                    <span class="text-base"> {{
+                                        new Intl.NumberFormat("vi-VN", {
+                                            style: "currency",
+                                            currency: "VND",
+                                        }).format(items?.hire_percent)
+                                    }}</span>
+                                </div>
+                                <div class="grid grid-cols-2 space-x-5">
+                                    <span class="font-bold text-base">Loại bìa: </span>
+                                    <span class="text-base" v-if="items?.cardboard === 'soft'">Bìa mềm</span>
+                                    <span class="text-base" v-if="items?.cardboard === 'hard'">Bìa cứng</span>
+                                </div>
+                                <div class="grid grid-cols-2 space-x-5">
+                                    <span class="font-bold text-base">Số trang: </span>
+                                    <span class="text-base">{{ items?.total_page }}</span>
+                                </div>
+                                <div class="grid grid-cols-2 space-x-5">
+                                    <span class="font-bold text-base">Kích thước: </span>
+                                    <span class="text-base">{{ items?.book_size }} cm</span>
+                                </div>
+                                <div class="grid grid-cols-2 space-x-5">
+                                    <span class="font-bold text-base">Ngôn ngữ: </span>
+                                    <span class="text-base">{{ items?.language }}</span>
+                                </div>
+                                <div class="grid grid-cols-2 space-x-5">
+                                    <span class="font-bold text-base">Người dịch: </span>
+                                    <span class="text-base">{{ items?.translator }}</span>
+                                </div>
+                                <div class="grid grid-cols-2 space-x-5">
+                                    <span class="font-bold text-base">Ngày phát hành: </span>
+                                    <span class="text-base">{{ $dayjs(items?.publish_date).format("DD-MM-YYYY") }}</span>
+                                </div>
+                                <div class="grid grid-cols-2 space-x-5">
+                                    <span class="font-bold text-base">Công ty phát hành: </span>
+                                    <span class="text-base">{{ items?.publishing_company?.name }}</span>
+                                </div>
+                                <div class="grid grid-cols-2 space-x-5">
+                                    <span class="font-bold text-base">Đánh giá: </span>
+                                    <span class="text-base">4.8</span>
                                 </div>
                             </div>
                         </div>
-                        <BookDetailEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit"
-                            :bookDetailId="bookDetailId" />
                     </div>
                 </div>
+                <BookDetailEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit" :bookDetailId="itemBookDetail" />
             </div>
         </div>
     </div>
@@ -164,16 +172,23 @@
 <script setup lang="ts">
 const openModalAdd = ref<boolean>(false);
 const openModalEdit = ref<boolean>(false);
-const bookDetailId = ref<number>();
+const openModalBook = ref<boolean>(false);
+const itemBookDetail = ref()
+const showModal = () => {
+    openModalBook.value = true;
+};
+const CloseModal = () => {
+    openModalBook.value = false;
+};
 const showModalAdd = () => {
     openModalAdd.value = true;
 };
 const CloseModalAdd = () => {
     openModalAdd.value = false;
 };
-const showModalEdit = (id: number) => {
+const showModalEdit = (id) => {
+    itemBookDetail.value = id;
     openModalEdit.value = true;
-    bookDetailId.value = id;
 };
 const CloseModalEdit = () => {
     openModalEdit.value = false;

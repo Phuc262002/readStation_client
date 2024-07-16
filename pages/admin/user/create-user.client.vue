@@ -4,9 +4,8 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Tạo người dùng</h5>
+        <h5 class="text-xl text-[#1e293b] font-bold">Tạo người dùng</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <!-- Đây là phần code mẫu body -->
@@ -16,22 +15,25 @@
           <div class="flex flex-col gap-2">
             <label class="text-sm font-semibold">Vai trò</label>
             <div class="flex justify-start gap-4">
-              <a-checkbox
-                @click="setRole('Customer')"
-                :checked="role === 'Customer'"
-                >Khách hàng</a-checkbox
+              <a-radio-group
+                @change="handleChangeRoleId"
+                v-model:value="role_id"
+                name="role_id"
               >
-              <a-checkbox
-                v-if="authStore.authUser?.user?.role?.name === 'admin'"
-                @click="setRole('Manager')"
-                :checked="role === 'Manager'"
-                >Quản thư</a-checkbox
-              >
-              <a-checkbox
-                @click="setRole('Student')"
-                :checked="role === 'Student'"
-                >Học sinh</a-checkbox
-              >
+                <a-radio :value="1">Khách hàng</a-radio>
+                <a-radio
+                  v-if="authStore.authUser?.user?.role?.name === 'admin'"
+                  :value="3"
+                  >Quản thư</a-radio
+                >
+                <a-radio :value="2">Học sinh</a-radio>
+                <a-radio
+                  :value="4"
+                  v-if="authStore.authUser?.user?.role?.name === 'admin'"
+                >
+                  Admin
+                </a-radio>
+              </a-radio-group>
             </div>
           </div>
 
@@ -68,15 +70,15 @@
                 <div class="flex flex-col gap-2">
                   <label class="text-sm font-semibold">Giới tính</label>
                   <div class="flex justify-start gap-4">
-                    <a-checkbox
+                    <a-radio
                       @click="setGender('male')"
                       :checked="gender === 'male'"
-                      >Nam</a-checkbox
+                      >Nam</a-radio
                     >
-                    <a-checkbox
+                    <a-radio
                       @click="setGender('female')"
                       :checked="gender === 'female'"
-                      >Nữ</a-checkbox
+                      >Nữ</a-radio
                     >
                   </div>
                 </div>
@@ -160,12 +162,22 @@
               <div>
                 <div class="flex flex-col gap-2">
                   <label class="text-sm font-semibold" for="">Nơi cấp</label>
-                  <a-input
+                  <a-auto-complete
                     v-model:value="user.place_of_issue"
-                    type="text"
-                    class="border p-2 rounded-md"
-                    placeholder="Nơi cấp"
-                  />
+                    :options="[
+                      {
+                        value:
+                          'CỤC TRƯỞNG CỤC CẢNH SÁT QUẢN LÝ HÀNH CHÍNH VỀ TRẬT TỰ XÃ HỘI',
+                      },
+                    ]"
+                    :allow-clear="true"
+                  >
+                    <a-input
+                      placeholder="Nơi cấp"
+                      style="height: 40px"
+                      class="p-2 rounded-md"
+                    />
+                  </a-auto-complete>
                 </div>
               </div>
             </div>
@@ -289,7 +301,7 @@
                 <label for="">Địa chỉ cụ thể</label>
                 <a-input
                   class="h-11"
-                  :value="`${address.street}, ${address.ward}, ${address.district}, ${address.province}`"
+                  :value="`${address.street},${address.ward}, ${address.district}, ${address.province}`"
                   readonly
                 />
               </div>
@@ -329,7 +341,12 @@
           </div>
           <div class="flex gap-2">
             <a-button type="default">Hủy</a-button>
-            <a-button html-type="submit" type="primary">Thêm</a-button>
+            <a-button
+              :loading="userStore.isSubmitting"
+              html-type="submit"
+              type="primary"
+              >Thêm</a-button
+            >
           </div>
         </div>
       </form>
@@ -340,14 +357,13 @@
 import { ref } from "vue";
 import { message, Upload } from "ant-design-vue";
 const fileList = ref([]);
-const role = ref("Customer");
-const setRole = (selectedRole) => {
-  role.value = selectedRole;
-};
+
+const role_id = ref(1);
 const gender = ref("male");
 const setGender = (selecteGender) => {
   gender.value = selecteGender;
 };
+
 const authStore = useAuthStore();
 const baseStore = useBaseStore();
 const userStore = useUserStore();
@@ -464,109 +480,121 @@ useAsyncData(
 );
 
 const handleSubmit = async () => {
-  if (
-    user.value.citizen_name ||
-    user.value.citizen_code ||
-    user.value.date_of_issue ||
-    user.value.place_of_issue
-  ) {
+  try {
     if (
-      user.value.citizen_name === "" ||
-      user.value.citizen_code === "" ||
-      user.value.date_of_issue === "" ||
-      user.value.place_of_issue === ""
-    ) {
-      message.error("Vui lòng nhập đầy đủ thông tin CMT/ CCCD");
-      return false;
-    }
-  }
-  if (
-    user.value.student_name ||
-    user.value.student_code ||
-    user.value.student_card_expired ||
-    user.value.place_of_study
-  ) {
-    if (
-      user.value.student_name === "" ||
-      user.value.student_code === "" ||
-      user.value.student_card_expired === "" ||
-      user.value.place_of_study === ""
-    ) {
-      message.error("Vui lòng nhập đầy đủ thông tin sinh viên");
-      return false;
-    }
-  }
-  const roleId =
-    role.value === "Customer" ? 1 : role.value === "Student" ? 2 : 3;
-
-  const userData = {
-    role_id: roleId ? roleId : null,
-    avatar: imageInfo.value ? imageInfo.value.url : null,
-    fullname: user.value.fullname,
-    job: user.value.job ? user.value.job : null,
-    gender: gender.value ? gender.value : null,
-    dob: user.value.dob ? user.value.dob : null,
-    email: user.value.email,
-    citizen_identity_card:
-      user.value.citizen_name &&
-      user.value.citizen_code &&
-      user.value.date_of_issue &&
+      user.value.citizen_name ||
+      user.value.citizen_code ||
+      user.value.date_of_issue ||
       user.value.place_of_issue
-        ? {
-            citizen_name: user.value.citizen_name,
-            citizen_code: user.value.citizen_code,
-            date_of_issue: user.value.date_of_issue,
-            place_of_issue: user.value.place_of_issue,
-          }
-        : null,
-    student_id_card:
-      user.value.student_name &&
-      user.value.student_code &&
-      user.value.student_card_expired &&
-      user.value.place_of_study
-        ? {
-            student_name: user.value.student_name,
-            student_code: user.value.student_code,
-            student_card_expired: user.value.student_card_expired,
-            place_of_study: user.value.place_of_study,
-          }
-        : null,
-    street: address.value.street ? address.value.street : null,
-    province_id: province_id.value ? province_id.value : null,
-    district_id: district_id.value ? district_id.value : null,
-    ward_id: ward_id.value ? ward_id.value : null,
-    address_detail:
-      address.value.street &&
-      address.value.province &&
-      address.value.district &&
-      address.value.ward
-        ? `${address.value.street}, ${address.value.ward}, ${address.value.district}, ${address.value.province}`
-        : null,
-    phone: user.value.phone,
-  };
-
-  Object.entries(userData).forEach(([key, value]) => {
-    if (value === null) {
-      delete userData[key];
+    ) {
+      if (
+        user.value.citizen_name === "" ||
+        user.value.citizen_code === "" ||
+        user.value.date_of_issue === "" ||
+        user.value.place_of_issue === ""
+      ) {
+        message.error("Vui lòng nhập đầy đủ thông tin CMT/ CCCD");
+        return false;
+      }
     }
-  });
+    if (
+      user.value.student_name ||
+      user.value.student_code ||
+      user.value.student_card_expired ||
+      user.value.place_of_study
+    ) {
+      if (
+        user.value.student_name === "" ||
+        user.value.student_code === "" ||
+        user.value.student_card_expired === "" ||
+        user.value.place_of_study === ""
+      ) {
+        message.error("Vui lòng nhập đầy đủ thông tin sinh viên");
+        return false;
+      }
+    }
 
-  await userStore.createUser(userData);
+    const userData = {
+      role_id: role_id.value,
+      avatar: imageInfo.value ? imageInfo.value.url : null,
+      fullname: user.value.fullname,
+      job: user.value.job ? user.value.job : null,
+      gender: gender.value ? gender.value : null,
+      dob: user.value.dob ? user.value.dob : null,
+      email: user.value.email,
+      citizen_identity_card:
+        user.value.citizen_name &&
+        user.value.citizen_code &&
+        user.value.date_of_issue &&
+        user.value.place_of_issue
+          ? {
+              citizen_name: user.value.citizen_name,
+              citizen_code: user.value.citizen_code,
+              date_of_issue: user.value.date_of_issue,
+              place_of_issue: user.value.place_of_issue,
+            }
+          : null,
+      student_id_card:
+        user.value.student_name &&
+        user.value.student_code &&
+        user.value.student_card_expired &&
+        user.value.place_of_study
+          ? {
+              student_name: user.value.student_name,
+              student_code: user.value.student_code,
+              student_card_expired: user.value.student_card_expired,
+              place_of_study: user.value.place_of_study,
+            }
+          : null,
+      street: address.value.street ? address.value.street : null,
+      province_id: province_id.value ? province_id.value : null,
+      district_id: district_id.value ? district_id.value : null,
+      ward_id: ward_id.value ? ward_id.value : null,
+      address_detail:
+        address.value.street &&
+        address.value.province &&
+        address.value.district &&
+        address.value.ward
+          ? `${address.value.street}, ${address.value.ward}, ${address.value.district}, ${address.value.province}`
+          : null,
+      phone: user.value.phone,
+    };
+
+    Object.entries(userData).forEach(([key, value]) => {
+      if (value === null) {
+        delete userData[key];
+      }
+    });
+
+    await userStore.createUser(userData);
+    message.success("Tạo người dùng thành công");
+  } catch (error) {
+    message.error("Tạo người dùng thất bại");
+  }
 };
 const handleChangeProvince = (value) => {
   province_id.value = value;
+  district_id.value = undefined;
+  ward_id.value = undefined;
+  address.value.street = "";
+  address.value.district = "";
+  address.value.ward = "";
   address.value.province = optionsPronvines.value.find(
     (item) => item.value === value
   ).label;
 };
 const handleChangeDistrict = (value) => {
   district_id.value = value;
+  ward_id.value = undefined;
+  address.value.street = "";
+  address.value.ward = "";
   address.value.district = optionsDistricts.value.find(
     (item) => item.value === value
   ).label;
 };
 const handleChangeWard = (value) => {
   ward_id.value = value;
+  address.value.street = "";
   address.value.ward = optionsWards.value.find(
     (item) => item.value === value
   ).label;
@@ -574,5 +602,8 @@ const handleChangeWard = (value) => {
 
 const filterOption = (input, option) => {
   return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+};
+const handleChangeRoleId = (e) => {
+  user.value.role_id = e.target.value;
 };
 </script>

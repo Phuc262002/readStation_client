@@ -1,10 +1,6 @@
 <template>
   <a-layout-sider
-    v-model:collapsed="props.collapsed"
-    :trigger="null"
-    collapsible
-    class="dark:!bg-[#132337] rounded-lg bg-[#f9f9f9] shadow-md shadow-gray-300 !w-fit !max-w-none"
-    :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
+    class="dark:!bg-[#132337] rounded-lg hidden md:block bg-[#f9f9f9] shadow-md shadow-gray-300 !w-fit !min-w-[theme(padding.sidebar)]"
   >
     <div class="text-center">
       <div class="flex items-center justify-center pt-3 relative">
@@ -26,7 +22,9 @@
       />
 
       <div class="mt-[17px] mb-[23px]">
-        <h2 class="font-bold">{{ authStore?.authUser?.user?.fullname }}</h2>
+        <h2 class="font-bold px-5">
+          {{ authStore?.authUser?.user?.fullname }}
+        </h2>
         <a-tag :bordered="false" color="purple" class="font-bold">{{
           authStore?.authUser?.user?.role?.name
         }}</a-tag>
@@ -39,35 +37,24 @@
       class="!border-0 dark:!bg-[#6c819b] dark:!text-white overflow-auto h-5/6 border rounded-2xl"
       :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
     >
-      <a-sub-menu key="sub1">
-        <template #title>
-          <span class="flex items-center gap-2">
-            <UIcon name="i-ant-design-user-outlined" class="text-base" />
-            <span>Thông tin cá nhân</span>
-          </span>
-        </template>
-        <a-menu-item key="2">
-          <NuxtLink to="/account" class="flex items-center gap-2">
-            Quản lý tài khoản
-          </NuxtLink>
-        </a-menu-item>
-
-        <a-menu-item key="3">
-          <NuxtLink to="/account/manager/account-setting">
-            Cài đặt tài khoản
-          </NuxtLink>
-        </a-menu-item>
-      </a-sub-menu>
-
+      <a-menu-item key="2" class="flex items-center gap-2">
+        <NuxtLink to="/account" class="flex items-center gap-2 font-semibold">
+          <Icon icon="mingcute:user-security-line" class="text-xl" />
+          <span class="font-bold">Quản lý tài khoản</span>
+        </NuxtLink>
+      </a-menu-item>
       <a-sub-menu key="sub2">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon name="i-material-symbols-light-post-add" class="text-base" />
-            <span>Đóng góp bài viết</span>
+            <Icon icon="hugeicons:quill-write-02" class="text-xl" />
+            <span class="font-bold">Đóng góp bài viết</span>
           </span>
         </template>
         <a-menu-item key="4">
-          <NuxtLink to="/account/post" class="flex items-center gap-2">
+          <NuxtLink
+            to="/account/post"
+            class="flex items-center gap-2 font-semibold"
+          >
             Bài viết của bạn
           </NuxtLink>
         </a-menu-item>
@@ -75,16 +62,16 @@
         <a-menu-item key="5">
           <NuxtLink
             to="/account/post/rep-comment"
-            class="flex items-center gap-2"
+            class="flex items-center gap-2 font-semibold"
           >
-            Trả lời bình luận
+            Bình luận bài viết của bạn
           </NuxtLink>
         </a-menu-item>
 
         <a-menu-item key="6">
           <NuxtLink
             to="/account/post/your-comment"
-            class="flex items-center gap-2"
+            class="flex items-center gap-2 font-semibold"
           >
             Bài viết đã bình luận
           </NuxtLink>
@@ -100,8 +87,8 @@
       >
         <a-menu-item key="7">
           <span class="flex items-center gap-2">
-            <UIcon name="i-material-symbols-light-webhook-rounded" />
-            <span>Quản trị Website</span>
+            <Icon icon="tabler:settings-code" class="text-xl" />
+            <span class="font-bold">Quản trị Website</span>
           </span></a-menu-item
         >
       </NuxtLink>
@@ -109,39 +96,55 @@
       <a-sub-menu key="sub3">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon name="i-tabler-credit-card-pay" class="text-base" />
-            <span>Quản lý ví</span>
+            <Icon icon="f7:money-dollar-circle" class="text-xl" />
+            <span class="font-bold">Quản lý số dư</span>
           </span>
         </template>
         <a-menu-item key="8">
-          <NuxtLink to="/account/wallet" class="flex items-center gap-2">
-            Thông tin ví
+          <NuxtLink to="/account/balance" class="flex items-center gap-2">
+            Thông tin số dư
           </NuxtLink>
         </a-menu-item>
 
         <a-menu-item key="9">
           <NuxtLink
-            to="/account/wallet/transaction-history"
-            class="flex items-center gap-2"
+            to="/account/balce/transaction-history"
+            class="flex items-center gap-2 font-semibold"
           >
             Lịch sử giao dịch
           </NuxtLink>
         </a-menu-item>
-
-        <a-menu-item key="10">
+      </a-sub-menu>
+      <a-sub-menu key="sub4">
+        <template #title>
+          <span class="flex items-center gap-2">
+            <UIcon name="i-tabler-credit-card-pay" class="text-base" />
+            <span class="font-bold">Xác thực tài khoản</span>
+          </span>
+        </template>
+        <a-menu-item key="8">
           <NuxtLink
-            to="/account/wallet/withdraw-money"
-            class="flex items-center gap-2"
+            to="/account/verify/verify-account"
+            class="flex items-center gap-2 font-semibold"
           >
-            Rút tiền
+            Xác thực CMT/CCCD
+          </NuxtLink>
+        </a-menu-item>
+
+        <a-menu-item key="9">
+          <NuxtLink
+            to="/account/verify/verify-student"
+            class="flex items-center gap-2 font-semibold"
+          >
+            Xác thực sinh viên
           </NuxtLink>
         </a-menu-item>
       </a-sub-menu>
 
       <a-menu-item key="11">
         <NuxtLink to="/account/order" class="flex items-center gap-2">
-          <UIcon name="i-bi-basket" class="text-base" />
-          <span>Quản lý đơn hàng</span>
+          <Icon icon="solar:box-minimalistic-outline" class="text-xl" />
+          <span class="font-bold">Quản lý đơn hàng</span>
         </NuxtLink>
       </a-menu-item>
 
@@ -150,15 +153,15 @@
           to="/account/manager/change-password"
           class="flex items-center gap-2"
         >
-          <UIcon name="i-carbon-password" class="text-base" />
-          <span>Đổi mật khẩu</span>
+          <Icon icon="teenyicons:password-outline" class="text-xl" />
+          <span class="font-bold">Đổi mật khẩu</span>
         </NuxtLink>
       </a-menu-item>
 
       <a-menu-item key="13" @click="logout">
         <NuxtLink to="/" class="flex items-center gap-2">
-          <UIcon name="i-tabler-logout-2" class="text-base" />
-          <span>Đăng xuất</span>
+          <Icon icon="humbleicons:logout" class="text-xl" />
+          <span class="font-bold">Đăng xuất</span>
         </NuxtLink>
       </a-menu-item>
     </a-menu>
@@ -166,6 +169,7 @@
 </template>
 <script setup lang="ts">
 import { useForm } from "vee-validate";
+import { Icon } from "@iconify/vue";
 const props = defineProps<{
   collapsed: boolean;
 }>();

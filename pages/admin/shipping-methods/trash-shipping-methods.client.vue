@@ -4,44 +4,12 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả tác giả</h5>
+        <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả phương thức vận chuyển đã xóa</h5>
       </div>
       <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
-      <div class="flex justify-between pb-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
-              <template #prefix>
-                <SearchOutlined />
-              </template>
-            </a-input>
-          </div>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
-        </div>
-
-        <div class="">
-          <a-button @click="showModalAdd" type="primary"
-            >Thêm phương thức thanh toán</a-button
-          >
-        </div>
-      </div>
-      <ShippingMethodsAdd
-        :openModalAdd="openModalAdd"
-        :openModal="CloseModalAdd"
-      />
-      <ShippingMethodsEdit
-        :openModalEdit="openModalEdit"
-        :openModal="CloseModalEdit"
-        :shippingMethodId="shippingMethodId"
-      />
-
       <a-table
         :columns="columns"
         :data-source="shippingMethodStore.shippingMethodsAdmin?.shippingMethods"
@@ -101,20 +69,7 @@
 
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top">
-                <template #title>
-                  <span>Sửa</span>
-                </template>
-                <button
-                  @click="showModalEdit(record?.id)"
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                >
-                  <UIcon
-                    class="text-lg"
-                    name="i-material-symbols-edit-outline"
-                  />
-                </button>
-              </a-tooltip>
+              
               <a-tooltip placement="top" color="black ">
                 <template #title>
                   <span>Khôi phục</span>
@@ -133,29 +88,32 @@
           </template>
         </template>
       </a-table>
-      <!-- <div class="mt-4 flex justify-end">
+      <div class="mt-4 flex justify-end">
         <a-pagination
           v-model:current="current"
-          :total="AuthorStore?.AuthorAdmin?.totalResults"
-          :pageSize="AuthorStore?.AuthorAdmin?.pageSize"
+          :total="shippingMethodStore?.shippingMethodsAdmin?.totalResults"
+          :pageSize="shippingMethodStore?.shippingMethodsAdmin?.pageSize"
           show-less-items
         />
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script  setup>
 import { Modal } from "ant-design-vue";
-const openModalAdd = ref<boolean>(false);
-const openModalEdit = ref<boolean>(false);
-const shippingMethodId = ref<number>();
+const openModalAdd = ref(false);
+const openModalEdit = ref(false);
+const shippingMethodId = ref();
+const current = ref(1);
+
 const shippingMethodStore = useShippingMethodsStore();
 useAsyncData(async () => {
   shippingMethodStore.getAllShippingMethods({
     status: "deleted",
+
   });
 });
-const onRecover = async (id: string) => {
+const onRecover = async (id) => {
   await shippingMethodStore.deleteShippingMethod({
     id: id,
     shippingMethod: {
@@ -164,16 +122,17 @@ const onRecover = async (id: string) => {
   });
   await shippingMethodStore.getAllShippingMethods({
     status: "deleted",
+    page: current.value,
   });
 };
 
-const showRecoverConfirm = (id: string) => {
+const showRecoverConfirm = (id) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
+    title: "Bạn có chắc chắn muốn khôi phục?",
+    content: "Khi đã khôi phục, phương thức vận chuyển sẽ hiển thị trên trang tất cả phương thức vận chuyển.",
+    okText: "Khôi phục",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onRecover(id);
     },
@@ -222,17 +181,4 @@ const columns = [
   },
 ];
 
-const CloseModalAdd = () => {
-  openModalAdd.value = false;
-};
-const showModalAdd = () => {
-  openModalAdd.value = true;
-};
-const CloseModalEdit = () => {
-  openModalEdit.value = false;
-};
-const showModalEdit = (id: number) => {
-  openModalEdit.value = true;
-  shippingMethodId.value = id;
-};
 </script>

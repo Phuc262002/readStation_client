@@ -17,12 +17,12 @@
             {{ bookShelves?.adminGetOneBookShelve?.book_details.length }} cuốn sách</p>
         </div>
         <div>
-          <a-button class="flex justify-center items-center gap-1" type="primary"
-            @click="showModalEdit">
+          <a-button class="flex justify-center items-center gap-1" type="primary" @click="showModalEdit">
             <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
             <span class="text-white text-base">Chỉnh sửa</span>
           </a-button>
-          <BookShelvesEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit" :shelvesId="bookShelves?.adminGetOneBookShelve?.id" />
+          <BookShelvesEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit"
+            :shelvesId="bookShelves?.adminGetOneBookShelve?.id" />
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@
       <div class="flex justify-between pb-4">
         <div class="relative w-1/4 md:block hidden">
           <div class="flex">
-            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
+            <a-input placeholder="Nhập tên sách để tìm kiếm" class="h-10">
               <template #prefix>
                 <SearchOutlined />
               </template>
@@ -91,39 +91,19 @@
                 <button @click="showModal"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                   <div>
-                    <UIcon class="group-hover:text-[#212122]" name="i-icon-park-outline-eyes" />
+                    <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
                   </div>
                 </button>
               </a-tooltip>
-
-              <a-dropdown :trigger="['click']" placement="bottom">
-                <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
-                  <UIcon class="group-hover:text-[#131313]" name="i-solar-menu-dots-bold" />
-                </button>
-                <template #overlay>
-                  <a-menu>
-                    <NuxtLink>
-                      <a-menu-item key="2" class="p-4">
-                        <span class="flex items-center gap-2 text-blue-400">
-                          <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
-                          <span>Sửa</span>
-                        </span>
-                      </a-menu-item>
-                    </NuxtLink>
-
-                    <a-menu-item key="3" class="p-4">
-                      <span>
-                        <button class="flex items-center gap-1 text-blue-400"
-                          @click.prevent="showConfirm(record?.book?.id)">
-                          <UIcon class="group-hover:text-[red] text-lg" name="i-material-symbols-delete-outline" />
-                          <span>Xóa</span>
-                        </button>
-                      </span>
-                    </a-menu-item>
-                  </a-menu>
+              <a-tooltip placement="top">
+                <template #title>
+                  <span>Xóa</span>
                 </template>
-              </a-dropdown>
+                <button @click.prevent="showConfirm(record?.book?.id)"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                  <Icon icon="hugeicons:delete-01" class="text-lg" />
+                </button>
+              </a-tooltip>
             </div>
           </template>
 
@@ -135,6 +115,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { Icon } from "@iconify/vue";
 const route = useRoute()
 const openModalAdd = ref<boolean>(false);
 const openModalEdit = ref<boolean>(false);
@@ -143,18 +124,19 @@ const showModal = () => {
   open.value = true;
 };
 const detailShelvesId = route.params.id;
+
 const bookShelves = useShelvesStore();
 useAsyncData(async () => {
   await bookShelves.getOneShelves(detailShelvesId);
 });
 const bookStore = useBookStore();
-
 const updateDetailShelves = async (id) => {
   try {
     const idShelves = {
       shelve_id: null
     }
     await bookStore.updateBook({ id: id, value: idShelves })
+    await bookShelves.getOneShelves(detailShelvesId);
   } catch (error) {
     console.log("🚀 ~ updateDetailShelves ~ error", error)
   }
@@ -165,7 +147,6 @@ const showConfirm = (id) => {
     title: 'Bạn có chắc xóa sách này ra khỏi kệ không?',
     onOk() {
       updateDetailShelves(id)
-
     },
     onCancel() {
       console.log('Cancel');

@@ -12,7 +12,7 @@
         <div class="w-1/2 flex items-center gap-2">
           <div class="relative w-2/3 md:block hidden">
             <div class="flex">
-              <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10" v-model:value="valueSearch">
+              <a-input placeholder="Nhập tên tác giả để tìm kiếm" class="h-10" v-model:value="valueSearch">
                 <template #prefix>
                   <SearchOutlined />
                 </template>
@@ -22,21 +22,20 @@
               <UIcon class="text-gray-500" name="i-material-symbols-search" />
             </div>
           </div>
-          <a-button size='large'>
-            <a-dropdown :trigger="['click']">
-              <a class="flex gap-3 items-center" @click.prevent>
-                Trạng thái
-                <DownOutlined />
-              </a>
-              <template #overlay>
-                <a-menu class="">
-                  <a-menu-item @click="statusValue('active')">Hoạt động</a-menu-item>
-                  <a-menu-item @click="statusValue('inactive')">Không hoạt động</a-menu-item>
-                  <a-menu-item @click="statusValue('deleted')">Đã xóa</a-menu-item>
-                </a-menu>
-              </template>
-            </a-dropdown>
-          </a-button>
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item @click="statusValue({ value: '', label: 'Trạng thái' })">Tất cả</a-menu-item>
+                <a-menu-item @click="statusValue({ value: 'active', label: 'Hoạt động' })">Hoạt động</a-menu-item>
+                <a-menu-item @click="statusValue({ value: 'inactive', label: 'Không hoạt động' })">Không hoạt
+                  động</a-menu-item>
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
         <NuxtLink to="author/add-author">
           <div class="">
@@ -94,34 +93,31 @@
                 <button
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                   <div>
-                    <UIcon class="group-hover:text-[#212122]" name="i-icon-park-outline-eyes" />
+                    <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
                   </div>
                 </button>
               </a-tooltip>
-
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                   <UIcon class="group-hover:text-[#131313]" name="i-solar-menu-dots-bold" />
                 </button>
                 <template #overlay>
-                  <a-menu>
+                  <a-menu class="space-y-1">
                     <NuxtLink :to="`author/edit/${record.id}`">
-                      <a-menu-item key="2" class="p-4">
-                        <span class="flex items-center gap-2 text-blue-400">
-                          <UIcon class="group-hover:text-[green]" name="i-material-symbols-edit-outline" />
-                          <span>Sửa</span>
-                        </span>
+                      <a-menu-item key="1" class="p-4 hover:!bg-tag-bg-02">
+                        <button class="flex items-center gap-2">
+                          <Icon icon="fluent:edit-48-regular" class="text-lg text-tag-text-02" />
+                          <span class="text-tag-text-02 font-bold">Sửa</span>
+                        </button>
                       </a-menu-item>
                     </NuxtLink>
 
-                    <a-menu-item key="3" class="p-4">
-                      <span>
-                        <button class="flex items-center gap-1 text-blue-400" @click="showDeleteConfirm(record?.id)">
-                          <UIcon class="group-hover:text-[red] text-lg" name="i-material-symbols-delete-outline" />
-                          <span>Xóa</span>
-                        </button>
-                      </span>
+                    <a-menu-item key="2" class="p-4">
+                      <button @click="showDeleteConfirm(record?.id)" class="flex items-center gap-2">
+                        <Icon icon="hugeicons:delete-01" class="text-lg text-tag-text-06" />
+                        <span class="text-tag-text-06 font-bold">Xóa</span>
+                      </button>
                     </a-menu-item>
                   </a-menu>
                 </template>
@@ -137,21 +133,26 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref } from "vue";
+import { Icon } from "@iconify/vue";
 const AuthorStore = useAuthorStore();
 const current = ref(1);
 const valueSearch = ref("");
-const queryStatus = ref("");
-const statusValue = (value: string) => {
-  queryStatus.value = value;
+const queryStatus = ref({
+  value: "",
+  label: ""
+});
+const statusValue = ({ value, label }) => {
+  queryStatus.value.value = value;
+  queryStatus.value.label = label;
 };
 const getDataAuthor = async () => {
   try {
     await AuthorStore.getAllAuthor({
       page: current.value,
       search: valueSearch.value,
-      status: queryStatus.value,
+      status: queryStatus.value.value,
     });
   } catch (error) {
     console.error(error);
@@ -161,7 +162,7 @@ useAsyncData(async () => {
   await getDataAuthor();
 }, {
   immediate: true,
-  watch: [current, valueSearch, queryStatus],
+  watch: [current, valueSearch, queryStatus.value],
 });
 
 const onDelete = async (id: string) => {
@@ -171,8 +172,7 @@ const onDelete = async (id: string) => {
 
 const showDeleteConfirm = (id: string) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
+    title: "Bạn có chắc muốn xóa tác giả này không ?",
     okText: "Yes",
     okType: "danger",
     cancelText: "No",

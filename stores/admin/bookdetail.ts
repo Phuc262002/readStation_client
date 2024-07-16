@@ -48,5 +48,17 @@ export const useBookDetailStore = defineStore("bookdetail-store", {
       this.isSubmitting = false;
       return data;
     },
+    async updateBookDetail({ id, valueBookDetail }: any) {
+      this.isSubmitting = true;
+      const data = await useCustomFetch(
+        `/api/v1/admin/book-details/update/${id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(valueBookDetail),
+        }
+      );
+      this.isSubmitting = false;
+      return data;
+    },
   },
 });

@@ -2,74 +2,125 @@
   <div>
     <h2 class="text-sm font-bold pb-5">Danh sách đơn hàng</h2>
     <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">
-      <div class="relative w-1/4 md:block hidden">
-        <div class="flex">
-          <input
-            type="text"
-            class="w-full h-10 border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-            placeholder="Tìm kiếm..."
-          />
-        </div>
-        <div
-          class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-        >
-          <UIcon class="text-gray-500" name="i-material-symbols-search" />
+      <div class="relative w-2/4 md:block hidden mb-5">
+        <div class="flex gap-3">
+          <a-input
+            v-model:value="value"
+            placeholder="Nhập mã đơn hàng để tìm kiếm"
+            enter-button
+            class="h-10"
+            @search="onSearch"
+          >
+            <template #prefix>
+              <SearchOutlined />
+            </template>
+          </a-input>
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu>
+                <a-menu-item
+                  @click="statusValue({ value: '', label: 'Tất cả' })"
+                >
+                  Tất cả
+                </a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({
+                      value: 'wating_payment',
+                      label: 'Chờ thanh toán',
+                    })
+                  "
+                >
+                  Chờ thanh toán
+                </a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'pending', label: 'Đang xử lý' })
+                  "
+                >
+                  Đang xử lý
+                </a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'approved', label: 'Đã xác nhận' })
+                  "
+                >
+                  Đã xác nhận
+                </a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({
+                      value: 'ready_for_pickup',
+                      label: 'Đơn hàng sẵn sàn',
+                    })
+                  "
+                >
+                  Đơn hàng sẵn sàng
+                </a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({
+                      value: 'preparing_shipment',
+                      label: 'Chuẩn bị giao hàng',
+                    })
+                  "
+                >
+                  Chuẩn bị giao hàng
+                </a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'in_transit', label: 'Đang giao' })
+                  "
+                >
+                  Đang giao
+                </a-menu-item>
+                <a-menu-item
+                  @click="statusValue({ value: 'extended', label: 'Gia hạn' })"
+                >
+                  Gia hạn
+                </a-menu-item>
+                <a-menu-item
+                  @click="statusValue({ value: 'active', label: 'Đang thuê' })"
+                >
+                  Đang thuê
+                </a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({
+                      value: 'returning',
+                      label: ' Đang trả sách',
+                    })
+                  "
+                >
+                  Đang trả sách
+                </a-menu-item>
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'completed', label: 'Hoàn thành' })
+                  "
+                >
+                  Hoàn thành
+                </a-menu-item>
+                <a-menu-item
+                  @click="statusValue({ value: 'canceled', label: 'Đã hủy' })"
+                >
+                  Đã hủy
+                </a-menu-item>
+                <a-menu-item
+                  @click="statusValue({ value: 'overdue', label: 'Quá hạn' })"
+                >
+                  Quá hạn
+                </a-menu-item>
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ filter.label ? filter.label : "Tất cả" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
       </div>
-      <!--  -->
-      <div class="flex gap-3 text-white py-5">
-        <a-button
-          :class="[
-            'flex items-center gap-2 h-10 rounded-lg border-none shadow-none',
-            filter === null ? 'bg-orange-500 !text-white' : '',
-          ]"
-          @click="handleCheckStatus(null)"
-        >
-          <img src="../../../assets/images/icon-blog.svg" alt="" />
-          <span>Tất cả đơn hàng</span>
-        </a-button>
-        <a-button
-          :class="[
-            'flex items-center gap-2 h-10 rounded-lg border-none shadow-none',
-            filter === 'pending' ? 'bg-orange-500 !text-white' : '',
-          ]"
-          @click="handleCheckStatus('pending')"
-        >
-          <img src="../../../assets/images/icon-shipping.svg" alt="" />
-          <span>Chờ xử lý</span>
-        </a-button>
-        <a-button
-          :class="[
-            'flex items-center gap-2 h-10 rounded-lg border-none shadow-none',
-            filter === 'hiring' ? 'bg-orange-500 !text-white' : '',
-          ]"
-          @click="handleCheckStatus('hiring')"
-        >
-          <img src="../../../assets/images/icon-rent.svg" alt="" />
-          <span>Đang thuê</span>
-        </a-button>
-        <a-button
-          :class="[
-            'flex items-center gap-2 h-10 rounded-lg border-none shadow-none',
-            filter === 'completed' ? 'bg-orange-500 !text-white' : '',
-          ]"
-          @click="handleCheckStatus('completed')"
-        >
-          <img src="../../../assets/images/icon-return.svg" alt="" />
-          <span>Đã giao</span>
-        </a-button>
-        <a-button
-          :class="[
-            'flex items-center gap-2 h-10 rounded-lg border-none shadow-none',
-            filter === 'canceled' ? 'bg-orange-500 !text-white' : '',
-          ]"
-          @click="handleCheckStatus('canceled')"
-        >
-          <img src="../../../assets/images/icon-cancel.svg" alt="" />
-          <span>Đã hủy</span>
-        </a-button>
-      </div>
-      <!--  -->
+
       <a-table
         :columns="columns"
         :data-source="orderStore?.orders?.orders"
@@ -108,7 +159,7 @@
           <template v-if="column.key === 'payment_method'">
             <span
               class="flex justify-center"
-              v-if="record?.payment_method === 'wallet'"
+              v-if="record?.payment_method === 'online'"
             >
               Chuyển khoản
             </span>
@@ -123,30 +174,83 @@
           <template v-if="column.key === 'status'">
             <span class="flex justify-center">
               <a-tag
-                v-if="record.status === 'pending'"
+                v-if="record?.status === 'wating_payment'"
                 class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg"
-                >Đang xử lý</a-tag
               >
+                Chờ thanh toán
+              </a-tag>
               <a-tag
-                v-else-if="record.status === 'hiring'"
+                v-if="record?.status === 'pending'"
+                class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg"
+              >
+                Đang xử lý
+              </a-tag>
+              <a-tag
+                v-else-if="record?.status === 'approved'"
+                class="text-tag-text-02 bg-tag-bg-02 border-none py-1 px-3 rounded-lg"
+              >
+                Đã xác nhận
+              </a-tag>
+              <a-tag
+                v-else-if="
+                  record?.status === 'ready_for_pickup' &&
+                  record?.delivery_method === 'pickup'
+                "
+                class="text-tag-text-14 bg-tag-bg-14 border-none py-1 px-3 rounded-lg"
+              >
+                Đơn hàng sẵn sàng
+              </a-tag>
+              <a-tag
+                v-else-if="
+                  record?.status === 'preparing_shipment' &&
+                  record?.delivery_method === 'shipper'
+                "
+                class="text-tag-text-15 bg-tag-bg-15 border-none py-1 px-3 rounded-lg"
+              >
+                Chờ giao hàng
+              </a-tag>
+              <a-tag
+                v-else-if="record?.status === 'in_transit'"
+                class="text-tag-text-03 bg-tag-bg-03 border-none py-1 px-3 rounded-lg"
+              >
+                Đang giao
+              </a-tag>
+              <a-tag
+                v-else-if="record?.status === 'extended'"
+                class="text-tag-text-12 bg-tag-bg-12 border-none py-1 px-3 rounded-lg"
+              >
+                Gia hạn
+              </a-tag>
+              <a-tag
+                v-else-if="record?.status === 'active'"
                 class="text-tag-text-04 bg-tag-bg-04 border-none py-1 px-3 rounded-lg"
-                >Đang thuê</a-tag
               >
+                Đang thuê
+              </a-tag>
               <a-tag
-                v-else-if="record.status === 'completed'"
+                v-else-if="record?.status === 'returning'"
+                class="text-tag-text-13 bg-tag-bg-13 border-none py-1 px-3 rounded-lg"
+              >
+                Đang gia hạn
+              </a-tag>
+              <a-tag
+                v-else-if="record?.status === 'completed'"
                 class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg"
-                >Hoàn thành</a-tag
               >
+                Hoàn thành
+              </a-tag>
               <a-tag
-                v-else-if="record.status === 'canceled'"
+                v-else-if="record?.status === 'canceled'"
                 class="text-tag-text-07 bg-tag-bg-07 border-none py-1 px-3 rounded-lg"
-                >Đã hủy</a-tag
               >
+                Đã hủy
+              </a-tag>
               <a-tag
-                v-else-if="record.status === 'out_of_date'"
+                v-else-if="record?.status === 'overdue'"
                 class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
-                >Quá hạn</a-tag
               >
+                Quá hạn
+              </a-tag>
             </span>
           </template>
           <template v-if="column.key === 'extension_dates'">
@@ -154,7 +258,16 @@
               {{ record?.extension_dates }}
             </span>
           </template>
-
+          <template v-if="column.key === 'total_deposit_fee'">
+            <span class="flex justify-center">
+              {{
+                new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(record?.total_all_fee)
+              }}
+            </span>
+          </template>
           <!--  -->
           <template v-if="column.key === 'max_extensions'">
             <span class="flex justify-center">
@@ -178,26 +291,34 @@
                   </button>
                 </a-tooltip>
               </NuxtLink>
-              <NuxtLink to="">
-                <a-tooltip placement="top">
-                  <template #title>
-                    <span>Hủy</span>
-                  </template>
-                  <button
-                    class="bg-rtgray-50 p-2 rounded-lg flex items-center justify-center"
-                  >
-                    <UIcon
-                      class="group-hover:text-black"
-                      name="i-material-symbols-close-rounded"
-                    />
-                  </button>
-                </a-tooltip>
-              </NuxtLink>
+
+              <a-tooltip placement="top">
+                <template #title>
+                  <span>Hủy</span>
+                </template>
+                <button
+                  @click="showCancelConfirm(record.id)"
+                  v-if="
+                    record.status === 'pending' ||
+                    record.status === 'wating_payment'
+                  "
+                  class="bg-rtgray-50 p-2 rounded-lg flex items-center justify-center"
+                >
+                  <UIcon
+                    class="group-hover:text-black"
+                    name="i-material-symbols-close-rounded"
+                  />
+                </button>
+              </a-tooltip>
             </div>
           </template>
         </template>
       </a-table>
-      <div class="mt-4 flex justify-end">
+      <div class="mt-4 flex justify-between items-center">
+        <span class="text-sm text-orange-600">
+          Lưu ý: Tiền cọc thuê sách sẽ được hoàn trả 100% nếu không có phụ phí
+          phát sinh</span
+        >
         <a-pagination
           v-model:current="current"
           :total="orderStore?.orders?.totalResults"
@@ -211,23 +332,51 @@
 <script setup lang="ts">
 const orderStore = useOrderClientStore();
 const current = ref(1);
-const filter = ref(null);
-
+const filter = ref({
+  value: "",
+  label: "",
+});
+const statusValue = ({ value, label }) => {
+  filter.value.value = value;
+  filter.value.label = label;
+};
+const onCancelOrder = async (id: any) => {
+  await orderStore.cancelOrder(id);
+  getDataOrder();
+};
+const showCancelConfirm = (id: any) => {
+  Modal.confirm({
+    title: "Bạn đang muốn hủy đơn hàng?",
+    content: "Sau khi hủy sẽ không khôi phục lại",
+    okText: "Đồng ý",
+    okType: "danger",
+    cancelText: "Hủy",
+    onOk() {
+      onCancelOrder(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+};
 // Get All Order
+const getDataOrder = async () => {
+  try {
+    await orderStore.getAllOrder({
+      page: current.value,
+      status: filter.value.value,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
 useAsyncData(
   async () => {
-    try {
-      await orderStore.getAllOrder({
-        page: current.value,
-        status: filter.value,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await getDataOrder();
   },
   {
     immediate: true,
-    watch: [current, filter],
+    watch: [current, filter.value],
   }
 );
 
@@ -235,7 +384,13 @@ useAsyncData(
 const handleCheckStatus = (status) => {
   filter.value = status;
 };
+const focus = () => {
+  console.log("focus");
+};
 
+const handleChange = (value: string) => {
+  console.log(`selected ${value}`);
+};
 const columns = [
   {
     title: "Mã đơn hàng",
@@ -263,9 +418,9 @@ const columns = [
     key: "status",
   },
   {
-    title: "Gia hạn",
-    dataIndex: "extension_dates",
-    key: "extension_dates",
+    title: "Tiền cọc thuê sách",
+    dataIndex: "total_deposit_fee",
+    key: "total_deposit_fee",
   },
   {
     title: "Số lần gia hạn",
@@ -278,3 +433,15 @@ const columns = [
   },
 ];
 </script>
+<style scoped>
+:deep(
+    :where(.css-dev-only-do-not-override-1mvo6uw).ant-input-search
+      > .ant-input-group
+      > .ant-input-group-addon:last-child
+      .ant-input-search-button
+  ) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

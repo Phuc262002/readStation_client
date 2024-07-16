@@ -4,7 +4,7 @@ export const useWalletAdminStore = defineStore("walletAdmin-store", {
   state: () => {
     return {
       adminWallet: [],
-      oneWalletAdmin: [],
+      oneWalletAdmin: {},
       isSubmitting: false,
       isLoading: false,
     };
@@ -44,5 +44,18 @@ export const useWalletAdminStore = defineStore("walletAdmin-store", {
       this.isSubmitting = false;
       return data;
     },
+    async verificationWallet(body: any) { 
+      this.isSubmitting = true;
+      const data: any = await useCustomFetch(
+        `/api/v1/admin/wallet/verification-wallet`,
+        {
+          method: "POST",
+          body: JSON.stringify(body),
+        }
+        
+      );
+      this.isSubmitting = false;
+      return data;
+    }
   },
 });

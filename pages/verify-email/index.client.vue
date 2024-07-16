@@ -29,8 +29,8 @@
               class="text-indigo-400 hover:text-indigo-900 border-none"
               :loading="isSubmitting"
             >
-              Gửi lại</a-button
-            >
+              Gửi lại
+            </a-button>
           </div>
         </form>
       </div>

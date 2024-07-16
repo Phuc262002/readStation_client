@@ -4,29 +4,55 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Danh mục bài viết</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[260px] w-full rounded-lg p-5">
       <div class="flex justify-between pb-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <input
-              type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..."
-            />
+        <div class="w-1/2 flex items-center gap-2">
+          <div class="md:block hidden">
+            <div class="flex">
+              <a-input
+                placeholder="Nhập tên danh mục để tìm kiếm"
+                class="h-10 w-[400px]"
+                v-model:value="valueSearch"
+              >
+                <template #prefix>
+                  <SearchOutlined />
+                </template>
+              </a-input>
+            </div>
           </div>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
+
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item
+                  @click="
+                    statusValue({ value: '', label: 'Tất cả trạng thái' })
+                  "
+                  >Tất cả trạng thái</a-menu-item
+                >
+                <a-menu-item
+                  @click="statusValue({ value: 'active', label: 'Công khai' })"
+                  >Công khai</a-menu-item
+                >
+                <a-menu-item
+                  @click="statusValue({ value: 'inactive', label: 'Đang ẩn' })"
+                  >Đang ẩn</a-menu-item
+                >
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
         <div class="">
           <a-button
             class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary"
             @click="showModalAdd"
+            size="large"
             >Thêm danh mục bài viết</a-button
           >
 
@@ -62,11 +88,11 @@
           <template v-else-if="column.key === 'image'">
             <a-image class="rounded-md" :width="100" :src="record.image" />
           </template>
-          
+
           <template v-else-if="column.key === 'status'">
             <a-tag
               :bordered="false"
-              v-if="record.status === 'active'"
+              v-if="record.status === CategoryStatus.ACTIVE"
               class="bg-tag-bg-09 text-tag-text-09"
             >
               Công khai
@@ -74,7 +100,7 @@
 
             <a-tag
               :bordered="false"
-              v-if="record.status === 'inactive'"
+              v-if="record.status === CategoryStatus.INACTIVE"
               class="bg-tag-bg-07 text-tag-text-07"
             >
               Đang ẩn
@@ -82,7 +108,7 @@
 
             <a-tag
               :bordered="false"
-              v-if="record.status === 'deleted'"
+              v-if="record.status === CategoryStatus.DELETED"
               class="bg-tag-bg-06 text-tag-text-06"
             >
               Đã xóa
@@ -91,13 +117,7 @@
 
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <!-- <a-tooltip placement="top"  color="gold">
-                <template #title>
-                  <span>Xem chi tiết</span>
-                </template>
-                <span class="group hover:bg-[#faad14]/20 flex items-center justify-center w-6 h-6 rounded-md"><UIcon class="group-hover:text-[#faad14]" name="i-icon-park-outline-eyes" /></span>
-              </a-tooltip> -->
-              <a-tooltip placement="top" >
+              <a-tooltip placement="top">
                 <template #title>
                   <span>Sửa</span>
                 </template>
@@ -105,13 +125,10 @@
                   @click="showModalEdit(record?.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
-                    class="text-lg"
-                    name="i-material-symbols-edit-outline"
-                  />
+                  <Icon icon="fluent:edit-48-regular" class="text-lg" />
                 </button>
               </a-tooltip>
-              <a-tooltip placement="top" >
+              <a-tooltip placement="top">
                 <template #title>
                   <span>Xóa</span>
                 </template>
@@ -119,10 +136,7 @@
                   @click="showDeleteConfirm(record?.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
-                    class="text-lg"
-                    name="i-material-symbols-delete-outline"
-                  />
+                  <Icon icon="hugeicons:delete-01" class="text-lg" />
                 </button>
               </a-tooltip>
             </div>
@@ -140,41 +154,54 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 import { ref } from "vue";
+import { Icon } from "@iconify/vue";
 import { Modal } from "ant-design-vue";
-const openModalEdit = ref<boolean>(false);
-const openModalAdd = ref<boolean>(false);
-const categoryId = ref<number>();
+import { CategoryStatus } from "~/types/admin/category";
+const openModalEdit = ref(false);
+const openModalAdd = ref(false);
+const categoryId = ref();
 const categoryStore = useCategoryStore();
 const current = ref(1);
+const valueSearch = ref("");
+const queryStatus = ref({
+  value: "",
+  label: "",
+});
+const statusValue = ({ value, label }) => {
+  queryStatus.value.value = value;
+  queryStatus.value.label = label;
+};
 useAsyncData(
   async () => {
     await categoryStore.getAllCategory({
       page: current.value,
+      search: valueSearch.value,
+      status: queryStatus.value.value,
       type: "post",
     });
   },
   {
     immediate: true,
-    watch: [current],
+    watch: [current, valueSearch, queryStatus.value],
   }
 );
 
-const onDelete = async (id: string) => {
+const onDelete = async (id) => {
   await categoryStore.deleteCategory(id);
   await categoryStore.getAllCategory({
     type: "post",
   });
 };
 
-const showDeleteConfirm = (id: string) => {
+const showDeleteConfirm = (id) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
+    title: "Bạn có chắc chắn muốn xóa danh mục này?",
+
+    okText: "Xóa",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onDelete(id);
     },
@@ -199,7 +226,7 @@ const columns = [
     title: "Nội dung",
     dataIndex: "description",
     key: "description",
-    width:"400px"
+    width: "400px",
   },
   {
     title: "Trạng thái",
@@ -222,7 +249,7 @@ const CloseModalEdit = () => {
 const showModalAdd = () => {
   openModalAdd.value = true;
 };
-const showModalEdit = (id: number) => {
+const showModalEdit = (id) => {
   openModalEdit.value = true;
   categoryId.value = id;
 };

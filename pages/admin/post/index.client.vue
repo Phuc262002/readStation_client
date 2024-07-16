@@ -4,29 +4,141 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả bài viết</h5>
+        <h5 class="text-xl text-[#1e293b] font-bold">Tất cả bài viết</h5>
       </div>
-      
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <input
-              type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..."
-            />
+        <div class="w-1/2 flex items-center gap-2">
+          <div class="md:block hidden">
+            <div class="flex">
+              <a-input
+                placeholder="Nhập tên bài viết để tìm kiếm"
+                class="h-10 w-[400px]"
+                v-model:value="valueSearch"
+              >
+                <template #prefix>
+                  <SearchOutlined />
+                </template>
+              </a-input>
+            </div>
           </div>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
+
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item
+                  @click="
+                    statusValue({ value: '', label: 'Tất cả trạng thái' })
+                  "
+                  >Tất cả trạng thái</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'published', label: 'Đang hoạt động' })
+                  "
+                  >Đang hoạt động</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'wating_approve', label: 'Chờ duyệt' })
+                  "
+                  >Chờ duyệt</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'approve_canceled', label: 'Từ chối' })
+                  "
+                  >Từ chối</a-menu-item
+                >
+                <a-menu-item
+                  @click="statusValue({ value: 'draft', label: 'Bản nháp' })"
+                  >Bản nháp</a-menu-item
+                >
+                <a-menu-item
+                  @click="statusValue({ value: 'hidden', label: 'Đã ẩn' })"
+                  >Đã ẩn</a-menu-item
+                >
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
+
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item @click="typeValue({ value: '', label: 'Tất cả' })"
+                  >Tất cả</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    typeValue({
+                      value: 'member',
+                      label: 'bài viết của thành viên',
+                    })
+                  "
+                  >bài viết của thành viên</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    typeValue({
+                      value: 'manager',
+                      label: 'bài viết của thư viện',
+                    })
+                  "
+                  >bài viết của thư viện</a-menu-item
+                >
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryType.label ? queryType.label : "Tất cả" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
+
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <div>
+                <a-menu>
+                  <a-menu-item>
+                    <div
+                      @click="
+                        categoryValue({ id: null, label: ' Tất cả danh mục' })
+                      "
+                    >
+                      Tất cả danh mục
+                    </div>
+                  </a-menu-item>
+                  <a-menu-item
+                    v-for="(items, index) in categoryStore?.categoriesAdmin
+                      ?.categories"
+                    :key="index"
+                  >
+                    <div
+                      @click="
+                        categoryValue({ id: items?.id, label: items?.name })
+                      "
+                    >
+                      {{ items.name }}
+                    </div>
+                  </a-menu-item>
+                </a-menu>
+              </div>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{
+                categoryQuery.label ? categoryQuery.label : " Tất cả danh mục"
+              }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
         <NuxtLink to="/admin/post/add-post" class="">
-          <a-button type="primary">Thêm bài viết</a-button>
+          <a-button size="large" type="primary">Thêm bài viết</a-button>
         </NuxtLink>
       </div>
 
@@ -74,7 +186,7 @@
               v-if="record.status === PostStatus.WATING_APPROVE"
               class="bg-tag-bg-01 text-tag-text-01"
             >
-              Đang chờ duyệt
+              Chờ duyệt
             </a-tag>
 
             <a-tag
@@ -126,7 +238,10 @@
                   @click="showModalDetail(record.id)"
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
+                  <Icon
+                    icon="heroicons:eye"
+                    class="group-hover:text-[#212122]"
+                  />
                 </button>
               </a-tooltip>
 
@@ -134,38 +249,36 @@
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
+                  <Icon
+                    icon="humbleicons:dots-horizontal"
                     class="group-hover:text-[#131313]"
-                    name="i-solar-menu-dots-bold"
                   />
                 </button>
                 <template #overlay>
-                  <a-menu>
+                  <a-menu class="space-y-1">
                     <NuxtLink :to="`/admin/post/edit/${record.id}`">
-                      <a-menu-item key="2" class="p-4">
-                        <span class="flex items-center gap-2 text-blue-400">
-                          <UIcon
-                            class="group-hover:text-[green]"
-                            name="i-material-symbols-edit-outline"
+                      <a-menu-item key="2" class="p-4 hover:!bg-tag-bg-02">
+                        <span class="flex items-center gap-2">
+                          <Icon
+                            icon="fluent:edit-48-regular"
+                            class="text-lg text-tag-text-02"
                           />
-                          <span>Sửa</span>
+                          <span class="text-tag-text-02 font-bold">Sửa</span>
                         </span>
                       </a-menu-item>
                     </NuxtLink>
 
-                    <a-menu-item key="3" class="p-4">
-                      <span>
-                        <button
-                          @click="showDeleteConfirm(record?.id)"
-                          class="flex items-center gap-1 text-blue-400"
-                        >
-                          <UIcon
-                            class="group-hover:text-[red] text-lg"
-                            name="i-material-symbols-delete-outline"
-                          />
-                          <span>Xóa</span>
-                        </button>
-                      </span>
+                    <a-menu-item key="3" class="p-4 hover:!bg-tag-bg-06">
+                      <button
+                        @click="showDeleteConfirm(record?.id)"
+                        class="flex items-center gap-2"
+                      >
+                        <Icon
+                          icon="hugeicons:delete-01"
+                          class="text-lg font-bold text-tag-text-06"
+                        />
+                        <span class="text-tag-text-06 font-bold">Xóa</span>
+                      </button>
                     </a-menu-item>
                   </a-menu>
                 </template>
@@ -190,39 +303,79 @@
     />
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 import { Modal } from "ant-design-vue";
 import { PostStatus } from "~/types/admin/post";
-
+import { Icon } from "@iconify/vue";
 const postGeneralStore = useGeneralPostStore();
 const postStore = usePostStore();
-
-const postDetailId = ref<number>();
-const openModalDetail = ref<boolean>(false);
+const categoryStore = useCategoryStore();
+const postDetailId = ref();
+const openModalDetail = ref(false);
 const current = ref(1);
+const valueSearch = ref("");
+const queryType = ref({
+  value: "",
+  label: "",
+});
+const queryStatus = ref({
+  value: "",
+  label: "",
+});
+const categoryQuery = ref({
+  id: "",
+  label: "",
+});
+const categoryValue = ({ id, label }) => {
+  categoryQuery.value.id = id;
+  categoryQuery.value.label = label;
+};
+const typeValue = ({ value, label }) => {
+  queryType.value.value = value;
+  queryType.value.label = label;
+};
+const statusValue = ({ value, label }) => {
+  queryStatus.value.value = value;
+  queryStatus.value.label = label;
+};
+
 useAsyncData(
   async () => {
     await postStore.getAllPost({
       page: current.value,
+      category_id: categoryQuery.value.id,
+      search: valueSearch.value,
+      status: queryStatus.value.value,
+      type: queryType.value.value,
     });
+    console.log("🚀 ~ queryType.value.value:", queryType.value.value);
   },
   {
     immediate: true,
-    watch: [current],
+    watch: [
+      current,
+      valueSearch,
+      queryStatus.value,
+      categoryQuery.value,
+      queryType.value,
+    ],
   }
 );
-
-const onDelete = async (id: string) => {
+useAsyncData(async () => {
+  await categoryStore.getAllCategory({
+    type: "post",
+  });
+});
+const onDelete = async (id) => {
   await postGeneralStore.deletePost(id);
   await postStore.getAllPost({});
 };
-const showDeleteConfirm = (id: string) => {
+const showDeleteConfirm = (id) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
+    title: "Bạn có chắc chắn muốn xóa bài viết này?",
+    okText: "Xóa",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onDelete(id);
     },
@@ -282,9 +435,8 @@ const CloseModalDetail = () => {
 const showModalDetail = (id) => {
   openModalDetail.value = true;
   postDetailId.value = id;
-  console.log(id);
 };
-const open = ref<boolean>(false);
+const open = ref(false);
 const showModal = () => {
   open.value = true;
 };

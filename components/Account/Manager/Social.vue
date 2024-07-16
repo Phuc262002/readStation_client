@@ -10,15 +10,31 @@
       >
         <div class="flex items-center justify-between border-b pb-2">
           <span>Loại tài khoản</span>
-          <span>User</span>
+          <span>
+            <a-tag :bordered="false" color="purple" class="font-bold">
+              {{ authStore?.authUser?.user?.role?.name }}
+            </a-tag>
+          </span>
         </div>
         <div class="flex items-center justify-between border-b pb-2">
           <span>Xác minh</span>
-          <span></span>
+          <span>
+            <a-tag
+              v-if="authStore?.authUser?.user?.user_verified_at === null"
+              color="red"
+            >
+              Chưa xác thực
+            </a-tag>
+            <a-tag v-else color="green">Đã xác thực</a-tag>
+          </span>
         </div>
         <div class="flex items-center justify-between">
           <span>Ngày mở tài khoản</span>
-          <span>18.02.2023</span>
+          <span>
+            {{
+              $dayjs(authStore?.authUser?.user?.created_at).format("DD/MM/YYYY")
+            }}
+          </span>
         </div>
       </div>
     </div>
@@ -30,23 +46,35 @@
       <div class="bg-white rounded-md shadow-md shadow-gray-300 p-4">
         <div class="flex items-center justify-between">
           <img
-            src="../../../assets/images/meta-logo.png"
-            class="w-[40px] h-[30px]"
+            src="../../../assets/images/icon-gg.png"
+            class="w-[90px] h-[30px]"
             alt=""
           />
-          <a-button
-            type="dashed"
-            class="border border-indigo-400 text-indigo-400"
-            >Kết nối</a-button
-          >
+          <div>
+            <a-switch :checked="state.mode === 'light'" @change="changeMode" />
+          </div>
         </div>
         <div class="pt-4">
-          <h2 class="font-bold text-base">Meta</h2>
-          <p class="">
-            Meta is FlatForms Ins, which used to be called Faccbool Inc
-          </p>
+          <h2 class="font-semibold text-base">
+            {{
+              authStore?.authUser?.user?.google_id === null
+                ? "Chưa kết nối"
+                : "Đã kết nối"
+            }}
+          </h2>
         </div>
       </div>
     </div>
   </div>
 </template>
+<script setup lang="ts">
+const authStore = useAuthStore();
+const state = reactive({
+  mode: "light" as MenuMode,
+  selectedKeys: ["1"],
+  openKeys: ["sub1"],
+});
+const changeMode = (checked: boolean) => {
+  state.mode = checked ? "light" : "vertical";
+};
+</script>

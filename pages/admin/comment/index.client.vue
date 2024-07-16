@@ -4,26 +4,57 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả bình luận</h5>
+        <h5 class="text-xl text-[#1e293b] font-bold">Tất cả bình luận</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <input
-              type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..."
-            />
-          </div>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
+        <div class="w-1/2 flex items-center gap-2">
+          <!-- <div class="md:block hidden">
+            <div class="flex">
+              <a-input
+                placeholder="Nhập"
+                class="h-10 w-[400px]"
+                v-model:value="valueSearch"
+              >
+                <template #prefix>
+                  <SearchOutlined />
+                </template>
+              </a-input>
+            </div>
+          </div> -->
+
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item
+                  @click="
+                    statusValue({ value: '', label: 'Tất cả trạng thái' })
+                  "
+                  >Tất cả trạng thái</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'published', label: 'Công khai' })
+                  "
+                  >Công khai</a-menu-item
+                >
+                <a-menu-item
+                  @click="statusValue({ value: 'banned', label: 'Bị chặn' })"
+                  >Bị chặn</a-menu-item
+                >
+                <a-menu-item
+                  @click="statusValue({ value: 'hidden', label: 'Đang ẩn' })"
+                  >Đang ẩn</a-menu-item
+                >
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
         <!-- <NuxtLink to="/admin/book-case/add-bookcase" class="">
           <a-button type="primary">Thêm bình luận</a-button>
@@ -33,6 +64,8 @@
       <a-table
         :columns="columns"
         :data-source="commentStore?.commentAdmin?.comments"
+        :loading="commentStore.isLoading"
+        :pagination="false"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'post_id'">
@@ -61,14 +94,27 @@
             </span>
           </template>
           <template v-else-if="column.key === 'status'">
-            <span>
-              <a-tag
-                :bordered="false"
-                :color="record.status === 'active' ? 'green' : 'volcano'"
-              >
-                {{ record.status }}
-              </a-tag>
-            </span>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === CommentStatus.PUBLISHED"
+              class="bg-tag-bg-09 text-tag-text-09"
+            >
+              Công khai
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === CommentStatus.BANNED"
+              class="bg-tag-bg-06 text-tag-text-06"
+            >
+              Bị chặn
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === CommentStatus.HIDDEN"
+              class="bg-tag-bg-07 text-tag-text-07"
+            >
+              Đang ẩn
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
@@ -79,41 +125,66 @@
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
                 >
-                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
+                  <Icon
+                    icon="heroicons:eye"
+                    class="group-hover:text-[#212122]"
+                  />
                 </button>
               </a-tooltip>
+
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
+                  <Icon
+                    icon="humbleicons:dots-horizontal"
                     class="group-hover:text-[#131313]"
-                    name="i-solar-menu-dots-bold"
                   />
                 </button>
                 <template #overlay>
-                  <a-menu>
-                    <a-menu-item key="2" class="p-4">
+                  <a-menu class="space-y-1">
+                    <a-menu-item
+                      v-if="record.status === CommentStatus.PUBLISHED"
+                      key="1"
+                      class="p-4 hover:!bg-tag-bg-07"
+                    >
                       <button
                         @click="showRecoverConfirm(record?.id)"
                         class="flex items-center gap-2"
                       >
-                        <UIcon class="text-lg" name="i-mdi-eye-off-outline" />
-                        <span>Ẩn</span>
+                        <Icon
+                          icon="bitcoin-icons:hidden-filled"
+                          class="text-lg text-tag-text-07"
+                        />
+                        <span class="text-tag-text-07 font-bold">Ẩn</span>
+                      </button>
+                    </a-menu-item>
+                    <a-menu-item v-else key="2" class="p-4 hover:!bg-tag-bg-09">
+                      <button
+                        @click="showPublishedConfirm(record?.id)"
+                        class="flex items-center gap-2"
+                      >
+                        <Icon
+                          icon="charm:tick"
+                          class="text-lg text-tag-text-09"
+                        />
+                        <span class="text-tag-text-09 font-bold"
+                          >Hoạt động</span
+                        >
                       </button>
                     </a-menu-item>
 
-                    <a-menu-item key="3" class="p-4">
+                    <a-menu-item key="3" class="p-4 hover:!bg-tag-bg-06">
                       <span>
                         <button
                           @click="showDeleteConfirm(record?.id)"
-                          class="flex items-center gap-1"
+                          class="flex items-center gap-2"
                         >
-                          <UIcon
-                            class="text-lg"
-                            name="i-material-symbols-close-rounded"
+                          <Icon
+                            icon="hugeicons:delete-01"
+                            class="text-lg font-bold text-tag-text-06"
                           />
-                          <span>Hủy</span>
+                          <span class="text-tag-text-06 font-bold">Xóa</span>
                         </button>
                       </span>
                     </a-menu-item>
@@ -124,27 +195,57 @@
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="commentStore?.commentAdmin?.totalResults"
+          :pageSize="commentStore?.commentAdmin?.pageSize"
+          show-less-items
+        />
+      </div>
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 import { Modal } from "ant-design-vue";
+import { Icon } from "@iconify/vue";
+import { CommentStatus } from "~/types/admin/comment";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
-const open = ref<boolean>(false);
+const open = ref(false);
+const current = ref(1);
+const valueSearch = ref("");
+const queryStatus = ref({
+  value: "",
+  label: "",
+});
+const statusValue = ({ value, label }) => {
+  queryStatus.value.value = value;
+  queryStatus.value.label = label;
+};
 const commentStore = useCommentStore();
 const commentGeneralStore = useGeneralCommentStore();
-useAsyncData(async () => {
-  await commentStore.getAllComment({});
-});
-const showDeleteConfirm = (comment_id: string) => {
+useAsyncData(
+  async () => {
+    await commentStore.getAllComment({
+      page: current.value,
+      search: valueSearch.value,
+      status: queryStatus.value.value,
+    });
+  },
+  {
+    immediate: true,
+    watch: [current, valueSearch, queryStatus.value],
+  }
+);
+const showDeleteConfirm = (comment_id) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
+    title: "Bạn có chắc chắn muốn xóa bình luận này?",
+    content: "Hành động này không thể hoàn tác",
+    okText: "Xóa",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onDelete(comment_id);
     },
@@ -153,25 +254,47 @@ const showDeleteConfirm = (comment_id: string) => {
     },
   });
 };
-const onDelete = async (comment_id: string) => {
-  await commentGeneralStore.deleteComment({ comment_id: comment_id });
+const showPublishedConfirm = (id) => {
+  Modal.confirm({
+    title: "Bạn có chắc chắn muốn khôi phục bình luận này?",
+    content: "Hành động này không thể hoàn tác",
+    okText: "Khôi phục",
+    okType: "danger",
+    cancelText: "Hủy",
+    onOk() {
+      onPublishedDelete(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+};
+const onPublishedDelete = async (id) => {
+  await commentGeneralStore.updateComment({
+    comment_id: id,
+    status: "published",
+  });
+  await commentStore.getAllComment({});
+};
+const onDelete = async (id) => {
+  await commentGeneralStore.deleteComment(id);
   await commentStore.getAllComment({});
 };
 
-const onRecover = async (comment_id: string) => {
+const onRecover = async (comment_id) => {
   await commentGeneralStore.updateComment({
     comment_id: comment_id,
     status: "hidden",
   });
   await commentStore.getAllComment({});
 };
-const showRecoverConfirm = (id: string) => {
+const showRecoverConfirm = (id) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
+    title: "Bạn có chắc chắn muốn ẩn bình luận này?",
+    content: "Hành động này không thể hoàn tác",
+    okText: "Ẩn",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onRecover(id);
     },

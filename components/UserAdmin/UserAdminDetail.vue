@@ -15,7 +15,7 @@
       <div class="flex justify-between gap-4">
         <div class="grow">
           <h1 class="font-bold text-xl">
-            Thông tin khách hàng “ Tôn Thất An Khương“
+            {{ userStore?.user?.fullname }}
           </h1>
         </div>
       </div>
@@ -25,19 +25,49 @@
         <div class="grid md:grid-cols-2 gap-5">
           <div class="md:col-span-1 space-y-3 border-r border-gray-200">
             <div class="grid grid-cols-3">
-              <span class="text-base col-span-1">Vai trò: </span>
-              <span class="text-base col-span-2">{{
-                userStore?.user?.role?.name
-              }}</span>
+              <span class="text-base col-span-1 font-bold">Vai trò: </span>
+              <span class="text-base col-span-2">
+                <a-tag
+                  :bordered="false"
+                  v-if="userStore?.user?.role?.name === UserRole.ADMIN"
+                  class="bg-tag-bg-04 text-tag-text-04"
+                >
+                  Quản trị
+                </a-tag>
+
+                <a-tag
+                  :bordered="false"
+                  v-if="userStore?.user?.role?.name === UserRole.USER"
+                  class="bg-tag-bg-02 text-tag-text-02"
+                >
+                  Khách hàng
+                </a-tag>
+
+                <a-tag
+                  :bordered="false"
+                  v-if="userStore?.user?.role?.name === UserRole.STUDENT"
+                  class="bg-tag-bg-01 text-tag-text-01"
+                >
+                  Sinh viên
+                </a-tag>
+
+                <a-tag
+                  :bordered="false"
+                  v-if="userStore?.user?.role?.name === UserRole.MANAGER"
+                  class="bg-tag-bg-03 text-tag-text-03"
+                >
+                  Thủ thư
+                </a-tag>
+              </span>
             </div>
             <div class="grid grid-cols-3">
-              <span class="text-base col-span-1">Đăng nhập: </span>
-              <span class="text-base">{{
-                userStore?.user?.google_id ? "Google" : "Thông thường"
-              }}</span>
+              <span class="text-base col-span-1 font-bold">Đăng nhập: </span>
+              <span class="text-base">
+                {{ userStore?.user?.google_id ? "Google" : "Thông thường" }}
+              </span>
             </div>
             <div class="grid grid-cols-3">
-              <span class="text-base col-span-1">Ảnh đại diện: </span>
+              <span class="text-base col-span-1 font-bold">Ảnh đại diện: </span>
               <span class="text-base">
                 <a-image
                   class="rounded-md"
@@ -54,21 +84,32 @@
             <div class="grid md:grid-cols-6 gap-5">
               <div class="col-span-4 space-y-3">
                 <div class="grid grid-cols-5">
-                  <span class="text-base col-span-3">Xác thực tài khoản: </span>
+                  <span class="text-base col-span-3 font-bold"
+                    >Xác thực tài khoản:
+                  </span>
                   <span class="text-base col-span-2">
                     <IconTick v-if="userStore?.user?.email_verified_at" />
                     <IconMul v-else />
                   </span>
                 </div>
                 <div class="grid grid-cols-5">
-                  <span class="text-base col-span-3">Ví tài khoản: </span>
+                  <span class="text-base col-span-3 font-bold"
+                    >Số dư:
+                  </span>
                   <span class="text-base col-span-2">
-                    <IconTick v-if="userStore?.user?.has_wallet" />
-                    <IconMul v-else />
+                    {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(userStore?.user?.balance_holding)
+                }}
                   </span>
                 </div>
+
                 <div class="grid grid-cols-5">
-                  <span class="text-base col-span-3">Trạng thái: </span>
+                  <span class="text-base col-span-3 font-bold"
+                    >Trạng thái:
+                  </span>
                   <span class="text-base col-span-2">
                     <a-tag
                       :bordered="false"
@@ -94,50 +135,47 @@
                   </span>
                 </div>
               </div>
-              <div class="col-span-2 grid justify-items-end">
-                <a-button type="primary" class="" @click="handleClose">
-                  Khóa tài khoản
-                </a-button>
-              </div>
+             
             </div>
           </div>
         </div>
       </div>
+   
       <div class="grid md:grid-cols-2 gap-5">
         <div
           class="md:col-span-1 space-y-3 md:border-r md:border-gray-200 md:pr-5"
         >
-          <h1>Thông tin cá nhân</h1>
+          <h1 class="text-2xl font-bold">Thông tin cá nhân</h1>
           <div class="grid grid-cols-6">
-            <span class="text-base col-span-2">Họ và tên: </span>
+            <span class="text-base col-span-2 font-bold">Họ và tên: </span>
             <span class="text-base col-span-4">
               {{ userStore.user?.fullname }}
             </span>
           </div>
           <div class="grid grid-cols-6">
-            <span class="text-base col-span-2">Ngày sinh: </span>
+            <span class="text-base col-span-2 font-bold">Ngày sinh: </span>
             <span class="text-base col-span-4"> 1 </span>
           </div>
           <div class="grid grid-cols-6">
-            <span class="text-base col-span-2">Số điện thoại: </span>
+            <span class="text-base col-span-2 font-bold">Số điện thoại: </span>
             <span class="text-base col-span-4">
               {{ userStore.user?.phone }}
             </span>
           </div>
           <div class="grid grid-cols-6">
-            <span class="text-base col-span-2">Email: </span>
+            <span class="text-base col-span-2 font-bold">Email: </span>
             <span class="text-base col-span-4">
               {{ userStore.user?.email }}
             </span>
           </div>
           <div class="grid grid-cols-6">
-            <span class="text-base col-span-2">Giới tính: </span>
+            <span class="text-base col-span-2 font-bold">Giới tính: </span>
             <span class="text-base col-span-4">
               {{ userStore.user?.gender }}
             </span>
           </div>
           <div class="grid grid-cols-6">
-            <span class="text-base col-span-2">Công việc: </span>
+            <span class="text-base col-span-2 font-bold">Công việc: </span>
             <span class="text-base col-span-4">
               {{ userStore.user?.job }}
             </span>
@@ -145,21 +183,21 @@
         </div>
 
         <div class="md:col-span-1 space-y-3">
-          <h1>Thông tin CMT/CCCD</h1>
+          <h1 class="text-2xl font-bold">Thông tin CMT/CCCD</h1>
           <div class="grid grid-cols-4">
-            <span class="text-base col-span-1">CMT/CCCD: </span>
+            <span class="text-base col-span-1 font-bold">CMT/CCCD: </span>
             <span class="text-base col-span-3">
               {{ userStore.user?.citizen_identity_card?.citizen_code }}
             </span>
           </div>
           <div class="grid grid-cols-4">
-            <span class="text-base col-span-1">Họ tên: </span>
+            <span class="text-base col-span-1 font-bold">Họ tên: </span>
             <span class="text-base col-span-3">
               {{ userStore.user?.citizen_identity_card?.citizen_name }}
             </span>
           </div>
           <div class="grid grid-cols-4">
-            <span class="text-base col-span-1">Ngày cấp: </span>
+            <span class="text-base col-span-1 font-bold">Ngày cấp: </span>
             <span class="text-base col-span-3">
               {{
                 $dayjs(
@@ -169,7 +207,7 @@
             </span>
           </div>
           <div class="grid grid-cols-4">
-            <span class="text-base col-span-1">Nơi cấp: </span>
+            <span class="text-base col-span-1 font-bold">Nơi cấp: </span>
             <span class="text-base col-span-3">
               {{ userStore.user?.citizen_identity_card?.place_of_issue }}
             </span>
@@ -180,33 +218,33 @@
         <div
           class="md:col-span-1 space-y-3 md:border-r md:border-gray-200 md:pr-5"
         >
-          <h1>Địa chỉ</h1>
+          <h1 class="text-2xl font-bold">Địa chỉ</h1>
           <div class="grid grid-cols-6">
-            <span class="text-base col-span-2">Tỉnh/Thành phố: </span>
+            <span class="text-base col-span-2 font-bold">Tỉnh/Thành phố: </span>
             <span class="text-base col-span-4">
-              {{ userStore.user?.province }}
+              {{ userStore.user?.province?.ProvinceName }}
             </span>
           </div>
           <div class="grid grid-cols-6">
-            <span class="text-base col-span-2">Quận/Huyện: </span>
+            <span class="text-base col-span-2 font-bold">Quận/Huyện: </span>
             <span class="text-base col-span-4">
-              {{ userStore.user?.district }}
+              {{ userStore.user?.district?.DistrictName }}
             </span>
           </div>
           <div class="grid grid-cols-6">
-            <span class="text-base col-span-2">Phường/Xã: </span>
+            <span class="text-base col-span-2 font-bold">Phường/Xã: </span>
             <span class="text-base col-span-4">
-              {{ userStore.user?.ward }}
+              {{ userStore.user?.ward?.WardName }}
             </span>
           </div>
           <div class="grid grid-cols-6">
-            <span class="text-base col-span-2">Đường: </span>
+            <span class="text-base col-span-2 font-bold">Đường: </span>
             <span class="text-base col-span-4">
               {{ userStore.user?.street }}
             </span>
           </div>
           <div class="grid grid-cols-6">
-            <span class="text-base col-span-2">Địa chỉ cụ thể: </span>
+            <span class="text-base col-span-2 font-bold">Địa chỉ cụ thể: </span>
             <span class="text-base col-span-4">
               {{ userStore.user?.address_detail }}
             </span>
@@ -214,39 +252,33 @@
         </div>
 
         <div class="md:col-span-1 space-y-3">
-          <h1>Thông tin sinh viên</h1>
+          <h1 class="text-2xl font-bold">Thông tin sinh viên</h1>
           <div class="grid grid-cols-4">
-            <span class="text-base col-span-1">ID sinh viên: </span>
+            <span class="text-base col-span-1 font-bold">ID sinh viên: </span>
             <span class="text-base col-span-3">
               {{ userStore.user?.student_id_card?.student_code }}
             </span>
           </div>
           <div class="grid grid-cols-4">
-            <span class="text-base col-span-1">Họ tên: </span>
+            <span class="text-base col-span-1 font-bold">Họ tên: </span>
             <span class="text-base col-span-3">
               {{ userStore.user?.student_id_card?.student_code }}
             </span>
           </div>
           <div class="grid grid-cols-4">
-            <span class="text-base col-span-1">Thời hạn thẻ: </span>
+            <span class="text-base col-span-1 font-bold">Thời hạn thẻ: </span>
             <span class="text-base col-span-3">
               {{ userStore.user?.student_id_card?.student_card_expired }}
             </span>
           </div>
           <div class="grid grid-cols-4">
-            <span class="text-base col-span-1">Trường: </span>
+            <span class="text-base col-span-1 font-bold">Trường: </span>
             <span class="text-base col-span-3">
               {{ userStore.user?.student_id_card?.place_of_study }}
             </span>
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="flex justify-end items-end gap-2">
-      <a-button @click="handleClose" html-type="submit" class="mt-4"
-        >Đóng</a-button
-      >
     </div>
   </a-modal>
 </template>
@@ -278,8 +310,7 @@ watch(
 );
 useAsyncData(
   async () => {
-    console.log(userDetailId.value);
-    await userStore.getOneUser(userDetailId.value);
+    if (userDetailId.value) await userStore.getOneUser(userDetailId.value);
   },
   {
     watch: [userDetailId],

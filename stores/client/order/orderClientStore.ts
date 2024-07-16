@@ -5,6 +5,7 @@ export const useOrderClientStore = defineStore("order-client-store", {
     return {
       orders: [],
       order: {},
+      cancel: {},
       isLoading: false,
       isSubmitting: false,
     };
@@ -13,7 +14,7 @@ export const useOrderClientStore = defineStore("order-client-store", {
   actions: {
     async getAllOrder({ page, pageSize, status, search }: any) {
       const data: any = await useCustomFetch(
-        `/api/v1/account/order/get-all?${page ? `&page=${page}` : ""}${
+        `/api/v1/account/orders?${page ? `&page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
         }${status ? `&status=${status}` : ""}${
           search ? `$search=${search}` : ""
@@ -25,9 +26,7 @@ export const useOrderClientStore = defineStore("order-client-store", {
     async getOneOrder(id: any) {
       try {
         this.isLoading = true;
-        const data: any = await useCustomFetch(
-          `/api/v1/account/order/get-one/${id}`
-        );
+        const data: any = await useCustomFetch(`/api/v1/account/orders/${id}`);
         this.order = data.data._value?.data;
         return data;
       } catch (error) {
@@ -38,15 +37,120 @@ export const useOrderClientStore = defineStore("order-client-store", {
     },
     async createOrder(body: any) {
       try {
-        const data: any = await useCustomFetch("/api/v1/account/order/create", {
-          method: "POST",
-          body: JSON.stringify(body),
-        });
+        const data: any = await useCustomFetch(
+          "/api/v1/account/orders/create",
+          {
+            method: "POST",
+            body: JSON.stringify(body),
+          }
+        );
         return data;
       } catch (error) {
         console.log("error", error);
       } finally {
         this.isLoading = false;
+      }
+    },
+    async cancelOrder(id: any) {
+      try {
+        this.isLoading = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/account/orders/cancel/${id}`,
+          {
+            method: "PUT",
+          }
+        );
+        this.cancel = data.data._value?.data;
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async getOrderPayment({ id, body }: any) {
+      try {
+        this.isSubmitting = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/account/orders/payment/${id}`,
+          {
+            method: "POST",
+            body: JSON.stringify(body),
+          }
+        );
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        this.isSubmitting = false;
+      }
+    },
+    async cancelOrderPayment({ id, body }: any) {
+      try {
+        this.isSubmitting = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/account/orders/cancel-payment/${id}`,
+          {
+            method: "POST",
+            body: JSON.stringify(body),
+          }
+        );
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        this.isSubmitting = false;
+      }
+    },
+    async returnBook({ id, body }: any) {
+      try {
+        this.isSubmitting = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/account/orders/return-each-book/${id}`,
+          {
+            method: "POST",
+            body: JSON.stringify(body),
+          }
+        );
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        this.isSubmitting = false;
+      }
+    },
+    async extensionAllBook({ id, body }: any) {
+      try {
+        this.isSubmitting = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/account/orders/extension-all/${id}`,
+          {
+            method: "POST",
+            body: JSON.stringify(body),
+          }
+        );
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        this.isSubmitting = false;
+      }
+    },
+    async extensionBook({ id, body }: any) {
+      try {
+        this.isSubmitting = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/account/orders/extension-each-book/${id}`,
+          {
+            method: "POST",
+            body: JSON.stringify(body),
+          }
+        );
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        this.isSubmitting = false;
       }
     },
   },

@@ -2,7 +2,7 @@
     <div>
         <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
             <div class="grow">
-                <h5 class="text-xl text-[#1e293b] font-semibold">Tạo hóa đơn nhật hàng</h5>
+                <h5 class="text-xl text-[#1e293b] font-semibold">Tạo phiếu nhật hàng</h5>
             </div>
             <CommonBreadcrumAdmin />
         </div>
@@ -43,7 +43,7 @@
                         <div class="flex flex-col gap-3">
                             <label class="text-base font-semibold">Tìm kiếm sản phẩm</label>
                             <div class="flex">
-                                <a-dropdown :open="valueSearch ? true : false">
+                                <a-dropdown :open="valueSearch != ''">
                                     <a-input v-model:value="valueSearch" placeholder="Nhập mã kệ để tìm kiếm"
                                         class="h-10" allow-clear @click.prevent>
                                         <template #prefix>
@@ -85,30 +85,39 @@
                             <label class="text-base font-semibold">Sản phẩm đã nhập</label>
                             <a-table :columns="columns" v-model:value="valueInvoiceEnter.invoice_enter_detail"
                                 :data-source="data" :pagination="false">
-                                <template #bodyCell="{ column, text }">
+                                <template #bodyCell="{ column, record }">
                                     <template v-if="column.dataIndex === 'title'">
-                                        <a>{{ text }}</a>
-                                    </template>
-                                    <template v-if="column.dataIndex === 'total'">
-                                        <span>{{ valueInvoiceEnter.total }}</span>
+                                        <a>{{ record?.title }}</a>
                                     </template>
                                     <template v-if="column.dataIndex === 'quantity'">
                                         <div class="flex items-center gap-3">
-                                            <button
+                                            <button @click.prevent="decreaseQuantity(record.quantity)"
                                                 class="border rounded-lg w-10 h-10 flex justify-center items-center text-lg">-</button>
-                                            {{ text }}
-                                            <button
+                                            {{ record.quantity }}
+                                            <button @click.prevent="increaseQuantity(record.quantity)"
                                                 class="border rounded-lg w-10 h-10 flex justify-center items-center text-lg">+</button>
                                         </div>
+                                        <template v-if="column.key === 'price'">
+                                            <div class="flex gap-5 items-center">
+                                                <span>{{ new Intl.NumberFormat("vi-VN", {
+                                                    style: "currency",
+                                                    currency: "VND",
+                                                }).format(record?.price) }}</span>
+                                            </div>
+
+                                        </template>
+                                        <template v-if="column.dataIndex === 'total'">
+                                            <span>{{ re.total }}</span>
+                                        </template>
                                     </template>
                                     <template v-if="column.dataIndex === 'action'">
                                         <a-tooltip placement="top" color="red">
                                             <template #title>
                                                 <span>Xóa</span>
                                             </template>
-                                            <button
-                                                class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
-                                                <UIcon class="group-hover:text-[#212122]"
+                                            <button @click.prevent="showConfimDelete(record?.id)"
+                                                class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md">
+                                                <UIcon class="group-hover:text-[red]"
                                                     name="i-material-symbols-delete-outline" />
                                             </button>
                                         </a-tooltip>
@@ -117,10 +126,12 @@
                             </a-table>
                             <div class="mt-5 flex justify-end gap-2">
                                 <a-button class="border">Hủy</a-button>
-                                <a-button class="border border-orange-400 text-orange-500" html-type="submit" :submitting="invoiceEnter.isSubmitting"
-                                    @click="saveDraft">Lưu
+                                <a-button class="border border-orange-400 text-orange-500" html-type="submit"
+                                    :submitting="invoiceEnter.isSubmitting" @click.prevent="saveDraft">Lưu
                                     nháp</a-button>
-                                <a-button type="primary" html-type="submit" :submitting="invoiceEnter.isSubmitting" @click="saveInvoice">Lưu hóa đơn</a-button>
+                                <a-button type="primary" html-type="submit" :submitting="invoiceEnter.isSubmitting"
+                                    @click.prevent="saveInvoice">Lưu
+                                    hóa đơn</a-button>
                             </div>
                         </div>
                     </div>
@@ -162,27 +173,25 @@ useAsyncData(async () => {
 });
 const showConfirm = (id) => {
     Modal.confirm({
-        title: 'Bạn có chắc muốn thêm nó vào danh sách hóa đơn không ?',
+        title: 'Bạn có chắc muốn thêm sách này vào danh sách nhập hàng không ?',
         onOk() {
             const selectedBook = bookDetailStore?.getAllBookdetailAdmin?.books.find((book) => book?.book?.id === id);
-            if (selectedBook) {
-                const newData = [...data.value];
-                newData.push({
-                    id: selectedBook.book.id,
-                    title: selectedBook.book.title,
-                    sku: selectedBook.sku_origin,
-                    quantity: 1,
-                    price: selectedBook.price,
-                    total: selectedBook.price,
-                });
-                valueInvoiceEnter.value.invoice_enter_detail.push({
-                    book_detail_id: selectedBook.book.id,
-                    book_price: selectedBook.price,
-                    book_quantity: 1
-                });
-                calculateTotal();
-                data.value = newData;
+            const existingBook = data.value.find((item) => item.id === selectedBook?.book?.id);
+            if (!existingBook) {
+                if (selectedBook) {
+                    const newData = [...data.value];
+                    newData.push(selectedBook);
+                    valueInvoiceEnter.value.invoice_enter_detail.push({
+                        book_detail_id: selectedBook.book.id,
+                        book_price: selectedBook.price,
+                        book_quantity: 1
+                    });
+                    data.value = newData;
+                }
+            } else {
+                message.error('Sách đã được thêm');
             }
+            valueSearch.value = ''
         },
         onCancel() {
             console.log('Cancel');
@@ -233,13 +242,13 @@ const saveDraft = () => {
 const saveInvoice = () => {
     valueInvoiceEnter.value.status = 'active'; // Cập nhật trạng thái là active
 };
-const calculateTotal = () => {
-    let total = 0;
-    for (const item of valueInvoiceEnter.value.invoice_enter_detail) {
-        total += item.book_price * item.book_quantity;
-    }
-    valueInvoiceEnter.value.total = total.toString();
+const decreaseQuantity = (quantity) => {
+    alert(1)
 };
+const increaseQuantity = (quantity) => {
+    alert(2)
+};
+
 const valueInvoiceEnter = ref({
     invoice_code: "" || null,
     invoice_name: "",
@@ -280,5 +289,21 @@ const createInvoiceEnter = async () => {
         message.error('Tạo hóa đơn thất bại');
     }
 
+};
+const showConfimDelete = (id) => {
+    Modal.confirm({
+        title: 'Bạn có chắc loại bỏ sách này ra khỏi phiếu nhập hàng?',
+        onOk() {
+            deleteBook(id)
+        },
+        onCancel() {
+            console.log('Cancel');
+        },
+
+    });
+};
+const deleteBook = (id) => {
+    const newData = data.value.filter(item => item.id !== id);
+    data.value = newData;
 };
 </script>

@@ -12,32 +12,8 @@
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
-      <div class="flex justify-between pb-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <input
-              type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..."
-            />
-          </div>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
-        </div>
-       
-      </div>
-      <PublishingCompanyAdd
-        :openModalAdd="openModalAdd"
-        :openModal="CloseModalAdd"
-      />
-      <PublishingCompanyEdit
-        :openModalEdit="openModalEdit"
-        :openModal="CloseModalEdit"
-        :publishingCompanyId="publishingCompanyId"
-      />
+      
+      
       <a-table
         :columns="columns"
         :loading="publishingCompanyStore.isLoading"
@@ -66,64 +42,33 @@
             />
           </template>
           <template v-else-if="column.key === 'status'">
-              <a-tag
-                :bordered="false"
-                v-if="record.status === 'active'"
-                color="green"
-              >
-               Công khai
-              </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === PublishingCompanyStatus.ACTIVE"
+              class="bg-tag-bg-09 text-tag-text-09"
+            >
+              Công khai
+            </a-tag>
 
-              <a-tag
-                :bordered="false"
-                v-else="record.status === 'inactive'"
-                color="red">
-                Đang ẩn
-              </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === PublishingCompanyStatus.INACTIVE"
+              class="bg-tag-bg-07 text-tag-text-07"
+            >
+              Đang ẩn
+            </a-tag>
 
-              <a-tag
-                :bordered="false"
-                v-else="record.status === 'deleted'"
-                color="red">
-                Đã xóa
-              </a-tag>
-
-
+            <a-tag
+              :bordered="false"
+              v-if="record.status === PublishingCompanyStatus.DELETED"
+              class="bg-tag-bg-06 text-tag-text-06"
+            >
+              Đã xóa
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-2">
-              <a-tooltip placement="top">
-                <template #title>
-                  <span>Xem chi tiết</span>
-                </template>
-                <button
-                  @click="showModal"
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                >
-                  <div class="flex">
-                    <UIcon
-                      class="group-hover:text-[#212122]"
-                      name="i-icon-park-outline-eyes"
-                    />
-
-                    <a-modal v-model:open="open" title="Sửa" width="70%">
-                      <div class="flex justify-between gap-4">
-                        <div class="grow">
-                          <h1 class="font-bold text-xl">Bài viết số 1</h1>
-                        </div>
-                      </div>
-                      <div
-                        class="flex border border-transparent border-b-gray-300 pb-2"
-                      >
-                        <div class="w-1/5">
-                          <h4 class="font-bold">Tên người viết</h4>
-                        </div>
-                        <div class="w-4/5">Huỳnh Tuấn Kiệt</div>
-                      </div>
-                    </a-modal>
-                  </div>
-                </button>
-              </a-tooltip>
+             
 
               <a-tooltip placement="top" color="black ">
                 <template #title>
@@ -156,18 +101,15 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 
 import { Modal } from "ant-design-vue";
-const openModalEdit = ref<boolean>(false);
-const openModalAdd = ref<boolean>(false);
-const publishingCompanyId = ref<number>();
+import { PublishingCompanyStatus } from "~/types/admin/publishingCompany";
+
 const publishingCompanyStore = usePublishingCompanyStore();
 const current = ref(1);
-const open = ref<boolean>(false);
-const showModal = () => {
-  open.value = true;
-};
+
+
 useAsyncData(
   async () => {
     await publishingCompanyStore.getAllPublishingCompany({
@@ -181,7 +123,7 @@ useAsyncData(
   }
 );
 
-const onRecover = async (id: string) => {
+const onRecover = async (id) => {
   await publishingCompanyStore.updatePublishingCompany({
     id: id,
     publishingCompany: { status: "active" },
@@ -192,13 +134,13 @@ const onRecover = async (id: string) => {
     });
 };
 
-const showRecoverConfirm = (id: string) => {
+const showRecoverConfirm = (id) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
+    title: "Bạn có chắc chắn muốn khôi phục?",
+    content: "Nhà xuất bản sẽ được khôi phục và hiển thị trên tất cả nhà xuất bản",
+    okText: "Khôi phục",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onRecover(id);
     },
@@ -235,17 +177,5 @@ const columns = [
   },
 ];
 
-const CloseModalAdd = () => {
-  openModalAdd.value = false;
-};
-const CloseModalEdit = () => {
-  openModalEdit.value = false;
-};
-const showModalAdd = () => {
-  openModalAdd.value = true;
-};
-const showModalEdit = (id: number) => {
-  openModalEdit.value = true;
-  publishingCompanyId.value = id;
-};
+
 </script>

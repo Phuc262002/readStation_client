@@ -33,18 +33,10 @@
           <nuxt-link to="/account">
             <a-menu-item key="1">
               <span class="flex items-center gap-2">
-                <UIcon name="i-ant-design-user-outlined" />
-                <span>Quản lý tài khoản </span>
+                <Icon icon="mingcute:user-security-line" class="text-xl" />
+                <span class="font-semibold">Quản lý tài khoản </span>
               </span>
             </a-menu-item>
-          </nuxt-link>
-          <nuxt-link to="/account/manager/account-setting">
-            <a-menu-item key="2">
-              <span class="flex items-center gap-2">
-                <UIcon name="i-material-symbols-light-settings" />
-                <span>Cài đặt</span>
-              </span></a-menu-item
-            >
           </nuxt-link>
           <nuxt-link
             to="/admin"
@@ -55,8 +47,8 @@
           >
             <a-menu-item key="11">
               <span class="flex items-center gap-2">
-                <UIcon name="i-material-symbols-light-webhook-rounded" />
-                <span>Quản trị Website</span>
+                <Icon icon="tabler:settings-code" class="text-xl" />
+                <span class="font-semibold">Quản trị Website</span>
               </span></a-menu-item
             >
           </nuxt-link>
@@ -64,26 +56,24 @@
           <nuxt-link to="/account/order">
             <a-menu-item key="3"
               ><span class="flex items-center gap-2">
-                <UIcon
-                  name="i-material-symbols-light-shopping-bag-outline-sharp"
-                />
-                <span>Quản lý đơn hàng</span>
+                <Icon icon="solar:box-minimalistic-outline" class="text-xl" />
+                <span class="font-semibold">Quản lý đơn hàng</span>
               </span>
             </a-menu-item>
           </nuxt-link>
-          <nuxt-link to="/account/wallet">
+          <nuxt-link to="/account/balce">
             <a-menu-item key="4"
               ><span class="flex items-center gap-2">
-                <UIcon name="i-ph-wallet-light" />
-                <span>Quản lý ví</span>
+                <Icon icon="f7:money-dollar-circle" class="text-xl" />
+                <span class="font-semibold">Quản lý số dư</span>
               </span></a-menu-item
             >
           </nuxt-link>
           <div class="border-solid border border-gray-200 w-full my-2"></div>
           <a-menu-item key="5" @click="logout">
             <span class="flex items-center gap-2">
-              <UIcon name="i-iconoir-log-out" />
-              <span>Đăng xuất</span>
+              <Icon icon="humbleicons:logout" class="text-xl" />
+              <span class="font-semibold">Đăng xuất</span>
             </span>
           </a-menu-item>
         </a-menu>
@@ -92,6 +82,7 @@
   </div>
 </template>
 <script setup>
+import { Icon } from "@iconify/vue";
 const authStore = useAuthStore();
 const logout = async () => {
   await authStore.logout();

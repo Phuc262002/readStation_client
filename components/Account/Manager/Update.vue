@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div
+      v-if="authStore?.isSubmitting"
+      class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default"
+    >
+      <a-spin size="large" class="absolute top-1/2 left-1/2" />
+    </div>
     <div class="flex justify-between mb-5">
       <div class="flex items-center justify-between gap-2">
         <UIcon name="i-material-symbols-person-check-outline" />
@@ -20,7 +26,7 @@
         class="flex flex-col bg-white shadow-md shadow-gray-300 rounded-md p-4"
       >
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center">Họ tên</span>
+          <span class="w-1/2 h-8 flex items-center font-semibold">Họ tên</span>
           <div class="w-1/2 text-left">
             <a-input
               size="large"
@@ -37,7 +43,9 @@
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center">Giới tính</span>
+          <span class="w-1/2 h-8 flex items-center font-semibold"
+            >Giới tính</span
+          >
           <div class="w-1/2 text-left">
             <a-radio-group
               type="gender"
@@ -50,14 +58,20 @@
               <a-radio value="female">Nữ</a-radio>
             </a-radio-group>
 
-            <span v-else>{{
-              authStore?.authUser?.user?.gender === "female" ? "Nữ" : "Nam"
-            }}</span>
+            <span v-else>
+              {{
+                authStore?.authUser?.user?.gender === "female"
+                  ? "Nữ"
+                  : authStore?.authUser?.user?.gender === "male"
+                  ? "Nam"
+                  : ""
+              }}
+            </span>
           </div>
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <div class="w-1/2 flex gap-1 h-8 flex items-center">
+          <div class="w-1/2 gap-1 h-8 flex items-center font-semibold">
             <span>Số điện thoại</span>
             <span class="text-red-600">*</span>
           </div>
@@ -75,7 +89,7 @@
           </div>
         </div>
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center">Email</span>
+          <span class="w-1/2 h-8 flex items-center font-semibold">Email</span>
           <div class="w-1/2 text-left">
             <a-input
               size="large"
@@ -90,7 +104,9 @@
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center">Ngày sinh</span>
+          <span class="w-1/2 h-8 flex items-center font-semibold"
+            >Ngày sinh</span
+          >
           <a-form-item class="w-1/2 text-left mb-0">
             <a-input
               size="large"
@@ -102,14 +118,20 @@
               value-format="DD-MM-YYYY"
               placeholder="Chọn ngày, tháng, năm sinh"
             />
-            <span v-else>{{
-              $dayjs(authStore?.authUser?.user?.dob).format("DD/MM/YYYY")
-            }}</span>
+            <span v-else>
+              {{
+                authStore?.authUser?.user?.dob
+                  ? $dayjs(authStore?.authUser?.user?.dob).format("DD/MM/YYYY")
+                  : ""
+              }}
+            </span>
           </a-form-item>
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center">Công việc</span>
+          <span class="w-1/2 h-8 flex items-center font-semibold"
+            >Công việc</span
+          >
           <div class="w-1/2 text-left">
             <a-input
               size="large"
@@ -123,7 +145,9 @@
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center">Tỉnh/ Thành Phố</span>
+          <span class="w-1/2 h-8 flex items-center font-semibold"
+            >Tỉnh/ Thành Phố</span
+          >
           <div class="w-1/2 text-left">
             <a-select
               v-if="isShow"
@@ -146,7 +170,9 @@
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center">Quận/ Huyện</span>
+          <span class="w-1/2 h-8 flex items-center font-semibold"
+            >Quận/ Huyện</span
+          >
           <div class="w-1/2 text-left">
             <a-select
               v-if="isShow"
@@ -171,7 +197,9 @@
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center">Xã/ Phường/ Thị trấn</span>
+          <span class="w-1/2 h-8 flex items-center font-semibold"
+            >Xã/ Phường/ Thị trấn</span
+          >
           <div class="w-1/2 text-left">
             <a-select
               v-if="isShow"
@@ -194,9 +222,7 @@
         </div>
         <!--  -->
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center flex items-center">
-            Đường
-          </span>
+          <span class="w-1/2 h-8 flex items-center font-semibold"> Đường </span>
           <div class="w-1/2 text-left">
             <a-input
               v-model:value="address.street"
@@ -210,12 +236,13 @@
         </div>
         <!--  -->
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center flex items-center">
+          <span class="w-1/2 h-8 flex items-center font-semibold">
             Địa chỉ cụ thể
           </span>
           <div class="w-1/2 text-left">
-            <a-input
-              :value="`${address.street},${address.ward}, ${address.district}, ${address.province}`"
+            <a-textarea
+              readonly
+              :value="formattedAddress"
               size="large"
               v-if="isShow"
             />
@@ -223,21 +250,19 @@
           </div>
         </div>
         <div
-          class="w-full flex items-center justify-end gap-4 pt-5"
+          class="w-full flex items-center justify-end gap-2 pt-5"
           v-if="isShow"
         >
-          <a-button
-            type="primary"
-            class="bg-white border border-rtgray-50 !text-black h-10 hover:!bg-rtgray-50"
-            @click="handleCancel"
-            >Hủy</a-button
-          >
+          <a-button size="large" @click="handleCancel"> Hủy </a-button>
 
           <a-button
+            type="primary"
+            size="large"
             html-type="submit"
-            class="!text-white bg-rtprimary h-10 border-none hover:bg-rtsecondary"
-            >Lưu thay đổi</a-button
+            :loading="authStore?.isSubmitting"
           >
+            Lưu thay đổi
+          </a-button>
         </div>
       </div>
     </form>
@@ -266,8 +291,8 @@ const address = ref({
   ward: "",
   street: "",
 });
-//get API
 
+//get API
 const ward_id = ref(undefined);
 const district_id = ref(undefined);
 const province_id = ref(undefined);
@@ -275,6 +300,15 @@ const optionsPronvines = ref([]);
 const optionsDistricts = ref([]);
 const optionsWards = ref([]);
 
+const formattedAddress = computed(() => {
+  const { province, district, ward, street } = address.value;
+  if (province || district || ward) {
+    return `${street || ""}, ${ward || ""}, ${district || ""}, ${
+      province || ""
+    }`;
+  }
+  return "";
+});
 // Submit handler
 const onSubmit = async () => {
   const resData = await authStore.updateProfile({
@@ -288,19 +322,12 @@ const onSubmit = async () => {
     district_id: district_id.value,
     ward_id: ward_id.value,
     street: address.value.street,
-    address_detail:
-      address.value.province &&
-      address.value.district &&
-      address.value.ward &&
-      address.value.street
-        ? `${address.value.street}, ${address.value.ward}, ${address.value.district}, ${address.value.province}`
-        : null,
+    address_detail: formattedAddress.value,
   });
   if (resData?.data?._rawValue?.status == true) {
     message.success({
       content: "Chỉnh sửa thành công",
     });
-    await authStore.getProfile();
     isShow.value = false;
     data.value = resData?.data?._rawValue?.data;
   } else {
@@ -369,10 +396,6 @@ const handleChangeEditAcc = () => {
     province_id.value = authStore?.authUser?.user?.province?.id;
     district_id.value = authStore?.authUser?.user?.district?.id;
     ward_id.value = authStore?.authUser?.user?.ward?.id;
-
-    // province_id: province_id.value,
-    // district_id: district_id.value,
-    // ward_id: ward_id.value,
   }
 };
 const handleCancel = () => {
@@ -387,6 +410,8 @@ const handleChangeProvince = (value) => {
   district_id.value = undefined;
   ward_id.value = undefined;
   address.value.street = "";
+  address.value.district = "";
+  address.value.ward = "";
   address.value.province = optionsPronvines.value.find(
     (item) => item.value === value
   ).label;
@@ -395,6 +420,7 @@ const handleChangeDistrict = (value) => {
   district_id.value = value;
   ward_id.value = undefined;
   address.value.street = "";
+  address.value.ward = "";
   address.value.district = optionsDistricts.value.find(
     (item) => item.value === value
   ).label;
@@ -417,3 +443,14 @@ const filterOption = (input, option) => {
   return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 4;
 };
 </script>
+<style scoped>
+:deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
+  resize: none;
+}
+:deep(
+    :where(.css-dev-only-do-not-override-1mvo6uw).ant-form-item
+      .ant-form-item-control-input-content
+  ) {
+  color: black;
+}
+</style>

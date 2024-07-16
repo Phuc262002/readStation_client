@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div
+      v-if="postStore?.isSubmitting"
+      class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default"
+    >
+      <a-spin size="large" class="absolute top-1/2 left-1/2" />
+    </div>
     <h2 class="font-bold pb-5">Bài viết mới</h2>
     <div
       class="w-2/3 w-full bg-white rounded-lg shadow-md shadow-gray-300 p-5 text-sm"
@@ -40,11 +46,11 @@
           />
         </div>
         <div>
-          <p class="pb-2">Tiêu đề bài viết</p>
-          <a-input
+          <p class="pb-2">Mô tả ngắn</p>
+          <a-textarea
             v-model:value="post.summary"
-            placeholder="Tiêu đề"
-            class="h-10"
+            placeholder="Mô tả ngắn"
+            :rows="4"
           />
         </div>
         <div class="w-1/3 w-full">
@@ -66,15 +72,24 @@
           />
         </div>
         <div class="flex justify-end gap-2">
-          <a-button class="h-10 text-base">Hủy</a-button>
-          <a-button class="h-10 text-base !text-orange-500 border-orange-500"
-            >Lưu nháp</a-button
-          >
+          <NuxtLink to="/account/post">
+            <a-button class="h-10 text-base">Hủy</a-button>
+          </NuxtLink>
           <a-button
+            @click="status = 'draft'"
             html-type="submit"
-            class="h-10 text-base bg-orange-500 border-none !text-white"
-            >Lưu</a-button
+            class="h-10 text-base !text-orange-500 border-orange-500"
           >
+            Lưu nháp
+          </a-button>
+          <a-button
+            @click="status = 'published'"
+            html-type="submit"
+            :loading="postStore?.isSubmitting"
+            class="h-10 text-base bg-orange-500 border-none !text-white"
+          >
+            Đăng bài
+          </a-button>
         </div>
       </form>
     </div>
@@ -84,8 +99,9 @@
 const fileList = ref([]);
 const categoryStore = useCategoryPublicStore();
 const postStore = useGeneralPostStore();
-const current = ref(1);
 const options = ref([]);
+const status = ref("published");
+
 const baseStore = useBaseStore();
 const imageInfo = ref("");
 const post = ref({
@@ -95,6 +111,7 @@ const post = ref({
   summary: "",
   image: "",
 });
+
 // Get Category
 useAsyncData(async () => {
   try {
@@ -118,6 +135,7 @@ const onSubmit = async () => {
       content: post.value?.content,
       summary: post.value?.summary,
       image: imageInfo.value?.url,
+      status: status.value,
     });
     message.success("Thêm bài viết thành công");
     navigateTo("/account/post");
@@ -162,3 +180,8 @@ const beforeUpload = (file) => {
   return isImage || Upload.LIST_IGNORE;
 };
 </script>
+<style scoped>
+::v-deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
+  resize: none;
+}
+</style>

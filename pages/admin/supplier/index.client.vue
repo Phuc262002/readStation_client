@@ -13,7 +13,8 @@
                 <div class="w-1/2 flex items-center gap-2">
                     <div class="relative w-2/3 md:block hidden">
                         <div class="flex">
-                            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10" v-model:value="valueSearch">
+                            <a-input placeholder="Nhập nhà cung cấp để tìm kiếm" class="h-10"
+                                v-model:value="valueSearch">
                                 <template #prefix>
                                     <SearchOutlined />
                                 </template>
@@ -23,21 +24,23 @@
                             <UIcon class="text-gray-500" name="i-material-symbols-search" />
                         </div>
                     </div>
-                    <a-button size='large'>
-                        <a-dropdown :trigger="['click']">
-                            <a class="flex gap-3 items-center" @click.prevent>
-                                Trạng thái
-                                <DownOutlined />
-                            </a>
-                            <template #overlay>
-                                <a-menu class="">
-                                    <a-menu-item @click="statusValue('active')">Hoạt động</a-menu-item>
-                                    <a-menu-item @click="statusValue('inactive')">Không hoạt động</a-menu-item>
-                                    <a-menu-item @click="statusValue('deleted')">Đã xóa</a-menu-item>
-                                </a-menu>
-                            </template>
-                        </a-dropdown>
-                    </a-button>
+                    <a-dropdown :trigger="['click']">
+                        <template #overlay>
+                            <a-menu class="">
+                                <a-menu-item @click="statusValue({ value: '', label: 'Trạng thái' })">Tất
+                                    cả</a-menu-item>
+                                <a-menu-item @click="statusValue({ value: 'active', label: 'Hoạt động' })">Hoạt
+                                    động</a-menu-item>
+                                <a-menu-item @click="statusValue({ value: 'inactive', label: 'Không hoạt động' })">Không
+                                    hoạt động</a-menu-item>
+
+                            </a-menu>
+                        </template>
+                        <a-button size="large" class="flex gap-3 items-center">
+                            {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+                            <DownOutlined />
+                        </a-button>
+                    </a-dropdown>
                 </div>
                 <div class="">
                     <a-button @click="showModalAdd"
@@ -49,7 +52,7 @@
             </div>
             <div>
                 <a-table :columns="columns" :data-source="supplierStore?.SupplierAdmin?.suppliers"
-                    :loading="supplierStore.isLoading">
+                    :loading="supplierStore.isLoading" :pagination="false">
                     <template #bodyCell="{ column, record, index }">
                         <template v-if="column.key === 'name'">
                             <a>
@@ -77,38 +80,34 @@
                                     <button
                                         class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                                         <div>
-                                            <UIcon class="group-hover:text-[#212122]" name="i-icon-park-outline-eyes" />
+                                            <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
                                         </div>
                                     </button>
                                 </a-tooltip>
-
                                 <a-dropdown :trigger="['click']" placement="bottom">
                                     <button
                                         class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                                         <UIcon class="group-hover:text-[#131313]" name="i-solar-menu-dots-bold" />
                                     </button>
                                     <template #overlay>
-                                        <a-menu>
-                                            <NuxtLink>
-                                                <a-menu-item key="2" class="p-4">
-                                                    <button @click="showModalEdit(record?.id)"
-                                                        class="flex items-center gap-2 text-blue-400">
-                                                        <UIcon class="group-hover:text-[green]"
-                                                            name="i-material-symbols-edit-outline" />
-                                                        <span>Sửa</span>
-                                                    </button>
-                                                </a-menu-item>
-                                            </NuxtLink>
+                                        <a-menu class="space-y-1">
 
-                                            <a-menu-item key="3" class="p-4">
-                                                <span>
-                                                    <button class="flex items-center gap-1 text-blue-400"
-                                                        @click="showDeleteConfirm(record?.id)">
-                                                        <UIcon class="group-hover:text-[red] text-lg"
-                                                            name="i-material-symbols-delete-outline" />
-                                                        <span>Xóa</span>
-                                                    </button>
-                                                </span>
+                                            <a-menu-item key="1" class="p-4 hover:!bg-tag-bg-02">
+                                                <button class="flex items-center gap-2"
+                                                    @click="showModalEdit(record?.id)">
+                                                    <Icon icon="fluent:edit-48-regular"
+                                                        class="text-lg text-tag-text-02" />
+                                                    <span class="text-tag-text-02 font-bold">Sửa</span>
+                                                </button>
+                                            </a-menu-item>
+
+
+                                            <a-menu-item key="2" class="p-4">
+                                                <button @click="showDeleteConfirm(record?.id)"
+                                                    class="flex items-center gap-2">
+                                                    <Icon icon="hugeicons:delete-01" class="text-lg text-tag-text-06" />
+                                                    <span class="text-tag-text-06 font-bold">Xóa</span>
+                                                </button>
                                             </a-menu-item>
                                         </a-menu>
                                     </template>
@@ -117,12 +116,17 @@
                         </template>
                     </template>
                 </a-table>
+                <div class="mt-4 flex justify-end">
+                    <a-pagination v-model:current="current" :total="supplierStore?.SupplierAdmin?.totalResults"
+                        :pageSize="supplierStore?.SupplierAdmin?.pageSize" show-less-items />
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
+import { Icon } from "@iconify/vue";
 import { Modal } from "ant-design-vue";
 import { LoadingOutlined } from "@ant-design/icons-vue";
 import { h } from "vue";
@@ -130,10 +134,15 @@ const supplierStore = useSupplierStore();
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const supplierId = ref<number>();
+const current = ref(1);
 const valueSearch = ref("");
-const queryStatus = ref("");
-const statusValue = (value: string) => {
-    queryStatus.value = value;
+const queryStatus = ref({
+    value: "",
+    label: ""
+});
+const statusValue = ({ value, label }: any) => {
+    queryStatus.value.value = value;
+    queryStatus.value.label = label;
 };
 const indicator = h(LoadingOutlined, {
     style: {
@@ -143,15 +152,17 @@ const indicator = h(LoadingOutlined, {
 });
 const getData = async () => {
     await supplierStore.getAllSupplier({
+        page: current.value,
         search: valueSearch.value,
-        status : queryStatus.value
+        status: queryStatus.value.value,
+
     });
 };
 useAsyncData(async () => {
     getData();
 }, {
     immediate: true,
-    watch: [valueSearch,queryStatus],
+    watch: [valueSearch, queryStatus.value, current],
 
 });
 const onDelete = async (id: string) => {

@@ -87,12 +87,18 @@
             {{ errors.new_password_confirmation }}
           </small>
         </div>
-        <div class="flex flex-col space-y-7">
-          <div class="flex items-center justify-between">
-            <div class="w-full flex items-center justify-end pt-5">
+
+        <div class="flex flex-col">
+          <div class="text-end font-medium text-indigo-600 mt-6">
+            <NuxtLink to="/forgot-password" class="text-sm" type="button">
+              Bạn quên mật khẩu?
+            </NuxtLink>
+          </div>
+          <div class="flex items-center justify-between mt-2">
+            <div class="w-full flex items-center justify-end gap-2">
               <a-button
                 type="primary"
-                class="bg-white border border-rtgray-50 !text-black h-10 mr-6 hover:!bg-rtgray-50"
+                class="bg-white border border-rtgray-50 !text-black h-10 hover:!bg-rtgray-50"
                 >Hủy</a-button
               >
               <a-button

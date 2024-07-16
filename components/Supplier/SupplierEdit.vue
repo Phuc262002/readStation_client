@@ -76,11 +76,7 @@ const options = ref([
     {
         value: 'inactive',
         label: 'Không hoạt động',
-    },
-    {
-        value: 'deteled',
-        label: 'Đã xóa',
-    },
+    }
 ]);
 const supplierStore = useSupplierStore();
 const valueSupplier = ref({
@@ -113,7 +109,8 @@ const updateSupplier = async () => {
         status: valueSupplier.value?.status,
     }
     await supplierStore.updateSupplier({ id: supplierId.value, valueSupplier: valueUpdateSupplier });
-    props.openModal();
+    handleClose();
+    await supplierStore.getAllSupplier({});
 }
 
 </script>

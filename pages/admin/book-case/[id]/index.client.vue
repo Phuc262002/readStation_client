@@ -24,7 +24,9 @@
           </p>
         </div>
         <div>
-          <a-button type="primary">Đổi tên tủ</a-button>
+          <a-button @click="showModalEdit" size="large" type="primary"
+            >Đổi tên tủ</a-button
+          >
         </div>
       </div>
     </div>
@@ -46,7 +48,9 @@
           </div>
         </div>
         <div class="">
-          <a-button type="primary" @click="showModalAdd">Thêm Kệ</a-button>
+          <a-button size="large" type="primary" @click="showModalAdd"
+            >Thêm Kệ</a-button
+          >
           <BookCaseSearch
             :openModalAdd="openModalAdd"
             :openModal="CloseModalAdd"
@@ -89,34 +93,32 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top">
+              <a-tooltip placement="top" color="black">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
                 <button
                   @click="showModal"
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                 >
-                  <div>
-                    <UIcon
-                      class="group-hover:text-[#212122]"
-                      name="i-icon-park-outline-eyes"
-                    />
-                  </div>
+                  <Icon
+                    icon="heroicons:eye"
+                    class="group-hover:text-[#212122]"
+                  />
                 </button>
               </a-tooltip>
 
-              <a-tooltip placement="top" color="red">
+              <a-tooltip placement="top">
                 <template #title>
                   <span>Xóa</span>
                 </template>
                 <button
                   @click.prevent="showConfirm(record.id)"
-                  class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
-                    class="group-hover:text-[red]"
-                    name="i-material-symbols-delete-outline"
+                  <Icon
+                    icon="hugeicons:delete-01"
+                    class="group-hover:text-[#212122]"
                   />
                 </button>
               </a-tooltip>
@@ -124,15 +126,22 @@
           </template>
         </template>
       </a-table>
+      <BookCaseEdit
+        :openModalEdit="openModalEdit"
+        :openModal="CloseModalEdit"
+        :bookCaseId="detailBookCaseId"
+      />
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 import { Modal } from "ant-design-vue";
 import { ref } from "vue";
+import { Icon } from "@iconify/vue";
 const route = useRoute();
 const open = ref(false);
-const openModalAdd = ref<boolean>(false);
+const openModalEdit = ref(false);
+const openModalAdd = ref(false);
 const detailBookCaseId = route.params.id;
 const bookCaseStore = useBookcaseStore();
 const bookShelves = useShelvesStore();
@@ -148,7 +157,10 @@ const updateDetailCase = async (id) => {
       bookcase_id: null,
     };
     await bookShelves.updateShelves({ id: id, valueUpdateShelves: idCase });
-  } catch (error) {}
+    await bookCaseStore.getOneBookcase(detailBookCaseId);
+  } catch (error) {
+
+  }
 };
 const showConfirm = (id) => {
   Modal.confirm({
@@ -172,6 +184,12 @@ const showModalAdd = () => {
 };
 const CloseModalAdd = () => {
   openModalAdd.value = false;
+};
+const showModalEdit = () => {
+  openModalEdit.value = true;
+};
+const CloseModalEdit = () => {
+  openModalEdit.value = false;
 };
 const columns = [
   {

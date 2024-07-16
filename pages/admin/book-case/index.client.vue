@@ -6,27 +6,57 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả tủ sách</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <input
-              type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..."
-            />
+        <div class="w-1/2 flex items-center gap-2">
+          <div class="md:block hidden">
+            <div class="flex">
+              <a-input
+                placeholder="Nhập mã tủ sách để tìm kiếm"
+                class="h-10 w-[400px]"
+                v-model:value="valueSearch"
+              >
+                <template #prefix>
+                  <SearchOutlined />
+                </template>
+              </a-input>
+            </div>
           </div>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
+
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item
+                  @click="
+                    statusValue({ value: '', label: 'Tất cả trạng thái' })
+                  "
+                  >Tất cả trạng thái</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'active', label: ' Đang hoạt động' })
+                  "
+                >
+                  Đang hoạt động</a-menu-item
+                >
+                <a-menu-item
+                  @click="statusValue({ value: 'inactive', label: 'Đang ẩn' })"
+                  >Đang ẩn</a-menu-item
+                >
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
         <div class="">
-          <a-button type="primary" @click="showModalAdd">Thêm tủ sách</a-button>
+          <a-button size="large" type="primary" @click="showModalAdd"
+            >Thêm tủ sách</a-button
+          >
           <BookCaseCreate
             :openModalAdd="openModalAdd"
             :openModal="CloseModalAdd"
@@ -43,6 +73,7 @@
         :columns="columns"
         :data-source="bookCaseStore?.bookCaseAdmin?.bookcases"
         :loading="bookCaseStore.isLoading"
+        :pagination="false"
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'bookcase_code'">
@@ -68,47 +99,45 @@
               <p>cuốn sách</p>
             </span>
           </template>
-          <template v-if="column.key === 'status'">
+          <template v-else-if="column.key === 'status'">
             <a-tag
               :bordered="false"
-              v-if="record.status === 'active'"
-              color="green"
+              v-if="record.status === BookCaseStatus.ACTIVE"
+              class="bg-tag-bg-09 text-tag-text-09"
             >
-              Công khai
+              Đang hoạt động
             </a-tag>
 
             <a-tag
               :bordered="false"
-              v-else="record.status === 'inactive'"
-              color="red"
+              v-if="record.status === BookCaseStatus.INACTIVE"
+              class="bg-tag-bg-07 text-tag-text-07"
             >
               Đang ẩn
             </a-tag>
 
             <a-tag
               :bordered="false"
-              v-else="record.status === 'deleted'"
-              color="red"
+              v-if="record.status === BookCaseStatus.DELETED"
+              class="bg-tag-bg-06 text-tag-text-06"
             >
               Đã xóa
             </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <NuxtLink :to="`book-case/${record.id}`">
-                <a-tooltip placement="top">
+              <NuxtLink class="hover:text-black" :to="`book-case/${record.id}`">
+                <a-tooltip placement="top" color="black">
                   <template #title>
                     <span>Xem chi tiết</span>
                   </template>
                   <button
-                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                    class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                   >
-                    <div>
-                      <UIcon
-                        class="group-hover:text-[#212122]"
-                        name="i-icon-park-outline-eyes"
-                      />
-                    </div>
+                    <Icon
+                      icon="heroicons:eye"
+                      class="group-hover:text-[#212122]"
+                    />
                   </button>
                 </a-tooltip>
               </NuxtLink>
@@ -122,32 +151,31 @@
                   />
                 </button>
                 <template #overlay>
-                  <a-menu>
-                    <NuxtLink>
-                      <a-menu-item key="2" class="p-4">
-                        <button
-                          class="flex items-center gap-1 text-blue-400"
-                          @click="showModalEdit(record?.id)"
-                        >
-                          <UIcon
-                            class="group-hover:text-[green]"
-                            name="i-material-symbols-edit-outline"
-                          />
-                          <span>Sửa</span>
-                        </button>
-                      </a-menu-item>
-                    </NuxtLink>
-                    <a-menu-item key="3" class="p-4">
+                  <a-menu class="space-y-1">
+                    <a-menu-item key="2" class="p-4 hover:!bg-tag-bg-02">
+                      <button
+                        class="flex items-center gap-2"
+                        @click="showModalEdit(record?.id)"
+                      >
+                        <Icon
+                          icon="fluent:edit-48-regular"
+                          class="text-lg text-tag-text-02"
+                        />
+                        <span class="text-tag-text-02 font-bold">Sửa</span>
+                      </button>
+                    </a-menu-item>
+
+                    <a-menu-item key="3" class="p-4 hover:!bg-tag-bg-06">
                       <span>
                         <button
-                          class="flex items-center gap-1 text-blue-400"
+                          class="flex items-center gap-2"
                           @click="showDeleteConfirm(record?.id)"
                         >
-                          <UIcon
-                            class="group-hover:text-[red] text-lg"
-                            name="i-material-symbols-delete-outline"
+                          <Icon
+                            icon="hugeicons:delete-01"
+                            class="text-lg font-bold text-tag-text-06"
                           />
-                          <span>Xóa</span>
+                          <span class="text-tag-text-06 font-bold">Xóa</span>
                         </button>
                       </span>
                     </a-menu-item>
@@ -158,18 +186,39 @@
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="bookCaseStore?.bookCaseAdmin?.totalResults"
+          :pageSize="bookCaseStore?.bookCaseAdmin?.pageSize"
+          show-less-items
+        />
+      </div>
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 import { ref } from "vue";
+import { Icon } from "@iconify/vue";
 import { Modal } from "ant-design-vue";
-const openModalEdit = ref<boolean>(false);
-const openModalAdd = ref<boolean>(false);
-const bookCaseStore = useBookcaseStore();
-const bookCaseId = ref<number>();
+import { BookCaseStatus } from "~/types/admin/bookCase";
 import { LoadingOutlined } from "@ant-design/icons-vue";
 import { h } from "vue";
+const openModalEdit = ref(false);
+const openModalAdd = ref(false);
+const bookCaseStore = useBookcaseStore();
+const bookCaseId = ref();
+const current = ref(1);
+const valueSearch = ref("");
+const queryStatus = ref({
+  value: "",
+  label: "",
+});
+
+const statusValue = ({ value, label }) => {
+  queryStatus.value.value = value;
+  queryStatus.value.label = label;
+};
 const indicator = h(LoadingOutlined, {
   style: {
     fontSize: "16px",
@@ -177,11 +226,21 @@ const indicator = h(LoadingOutlined, {
   spin: true,
 });
 
-useAsyncData(async () => {
-  await bookCaseStore.getAllBookcases({});
-});
+useAsyncData(
+  async () => {
+    await bookCaseStore.getAllBookcases({
+      page: current.value,
+      search: valueSearch.value,
+      status: queryStatus.value.value,
+    });
+  },
+  {
+    immediate: true,
+    watch: [current, valueSearch, queryStatus.value],
+  }
+);
 
-const onDelete = async (id: string) => {
+const onDelete = async (id) => {
   try {
     await bookCaseStore.deleteBookcase(id);
     await bookCaseStore.getAllBookcases({});
@@ -190,7 +249,7 @@ const onDelete = async (id: string) => {
   }
 };
 
-const showDeleteConfirm = (id: string) => {
+const showDeleteConfirm = (id) => {
   Modal.confirm({
     title: "Are you sure delete this task?",
     content: "Some descriptions",
@@ -214,7 +273,7 @@ const CloseModalEdit = () => {
 const showModalAdd = () => {
   openModalAdd.value = true;
 };
-const showModalEdit = (id: number) => {
+const showModalEdit = (id) => {
   openModalEdit.value = true;
   bookCaseId.value = id;
 };

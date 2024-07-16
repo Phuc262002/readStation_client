@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="space-y-5">
     <div
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
@@ -9,33 +9,220 @@
         </h5>
       </div>
     </div>
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+    >
+      <div class="flex flex-col">
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
+          <div class="flex items-center text-sm w-full gap-2 font-medium p-4">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-2 bg-tag-bg-04 text-tag-text-04"
+            >
+              <Icon
+                icon="solar:users-group-rounded-outline"
+                class="text-lg w-10 h-10"
+              />
+            </a-tag>
+
+            <div class="flex-1 text-tag-text-04">
+              <p class="font-bold text-base">Tất cả</p>
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="userStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>
+                  {{
+                    new Intl.NumberFormat().format(
+                      userStore?.userDashboard?.totalUser
+                    )
+                  }}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
+          <div class="flex items-center text-sm w-full gap-2 font-medium p-4">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-2 bg-tag-bg-04 text-tag-text-04"
+            >
+              <Icon icon="la:users-cog" class="text-lg w-10 h-10" />
+            </a-tag>
+
+            <div class="flex-1 text-tag-text-04">
+              <p class="font-bold text-base">Quản trị viên</p>
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="userStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>
+                  {{
+                    new Intl.NumberFormat().format(
+                      userStore?.userDashboard?.totalAdmin
+                    )
+                  }}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col">
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
+          <div class="flex items-center text-sm w-full gap-2 font-medium p-4">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-2 bg-tag-bg-02 text-tag-text-02"
+            >
+              <UIcon class="text-lg w-10 h-10" name="i-iconoir-user"
+            /></a-tag>
+
+            <div class="flex-1 text-tag-text-02">
+              <p class="font-bold text-base">Khách hàng</p>
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="userStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>
+                  {{
+                    new Intl.NumberFormat().format(
+                      userStore?.userDashboard?.totalGuest
+                    )
+                  }}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
+          <div class="flex items-center text-sm w-full gap-2 font-medium p-4">
+            <a-tag
+              :bordered="false"
+              class="flex items-center p-2 bg-tag-bg-01 text-tag-text-01"
+            >
+              <Icon icon="ph:student" class="text-lg w-10 h-10" />
+            </a-tag>
+
+            <div class="flex-1 text-tag-text-01">
+              <p class="font-bold text-base">HS/SV</p>
+              <p class="font-bold text-2xl float-right">
+                <Icon
+                  v-if="userStore.isLoading"
+                  icon="svg-spinners:3-dots-scale"
+                  class="text-3xl"
+                />
+                <span v-else>
+                  {{
+                    new Intl.NumberFormat().format(
+                      userStore?.userDashboard?.totalStudent
+                    )
+                  }}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Đây là phần code mẫu body -->
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
       <div class="flex justify-between pb-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <input
-              type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..."
-            />
+        <div class="flex items-center gap-2">
+          <div class="md:block hidden">
+            <div class="flex">
+              <a-input
+                placeholder="Nhập thông tin liên hệ để tìm kiếm"
+                class="h-10 w-[400px]"
+                v-model:value="valueSearch"
+              >
+                <template #prefix>
+                  <SearchOutlined />
+                </template>
+              </a-input>
+            </div>
           </div>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
+
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item
+                  @click="
+                    statusValue({ value: '', label: 'Tất cả trạng thái' })
+                  "
+                  >Tất cả trạng thái</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'active', label: 'Đang hoạt động' })
+                  "
+                  >Đang hoạt động</a-menu-item
+                >
+                <a-menu-item
+                  @click="statusValue({ value: 'inactive', label: 'Đã chặn' })"
+                  >Đã chặn</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'banned', label: 'Vô hiệu hóa' })
+                  "
+                  >Vô hiệu hóa</a-menu-item
+                >
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item
+                  @click="roleValue({ value: '', label: 'Tất cả vai trò' })"
+                  >Tất cả vai trò</a-menu-item
+                >
+
+                <a-menu-item
+                  v-for="role in roleStore.roleAdmin"
+                  :key="role?.id"
+                  @click="roleValue({ value: role?.id, label: role?.name })"
+                >
+                  <span v-if="role.name === 'user'"> Khách hàng</span>
+                  <span v-if="role.name === 'admin'"> Quản trị</span>
+                  <span v-if="role.name === 'manager'"> Thủ thư</span>
+                </a-menu-item>
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryrole.label ? queryrole.label : "Tất cả vai trò" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
 
         <NuxtLink to="/admin/user/create-user" class="">
-          <a-button type="primary">Thêm người dùng</a-button>
+          <a-button size="large" type="primary">Thêm người dùng</a-button>
         </NuxtLink>
       </div>
       <a-table
         :columns="columns"
         :data-source="userStore.userAdmin?.users"
         :loading="userStore.isLoading"
+        :pagination="false"
       >
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'avatar'">
@@ -61,32 +248,43 @@
             </span>
           </template>
           <template v-else-if="column.key === 'role'">
-            <a-tag :bordered="false" v-if="record.role.name === UserRole.ADMIN">
-              Quản trị viên
+            <a-tag
+              :bordered="false"
+              v-if="record.role.name === UserRole.ADMIN"
+              class="bg-tag-bg-04 text-tag-text-04"
+            >
+              Quản trị
             </a-tag>
-            <a-tag :bordered="false" v-if="record.role.name === UserRole.USER">
-              Người dùng
+
+            <a-tag
+              :bordered="false"
+              v-if="record.role.name === UserRole.USER"
+              class="bg-tag-bg-02 text-tag-text-02"
+            >
+              Khách hàng
             </a-tag>
+
             <a-tag
               :bordered="false"
               v-if="record.role.name === UserRole.STUDENT"
+              class="bg-tag-bg-01 text-tag-text-01"
             >
               Sinh viên
-            </a-tag>
-            <a-tag
-              :bordered="false"
-              v-if="record.role.name === UserRole.MANAGER"
-            >
-              Thủ thư
             </a-tag>
           </template>
           <template v-else-if="column.key === 'google_id'">
             <IconTick v-if="record.google_id" />
             <IconMul v-else />
           </template>
-          <template v-else-if="column.key === 'has_wallet'">
-            <IconTick v-if="record.has_wallet" />
-            <IconMul v-else />
+          <template v-else-if="column.key === 'balance_holding'">
+            <span>
+              {{
+                new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(record.balance_holding)
+              }}
+            </span>
           </template>
           <template v-else-if="column.key === 'citizen_identity_card'">
             <IconTick v-if="record.citizen_identity_card" />
@@ -97,23 +295,30 @@
             <a-tag
               :bordered="false"
               v-if="record.status === UserStatus.ACTIVE"
-              color="green"
+              class="bg-tag-bg-09 text-tag-text-09"
             >
-              Công khai
+              Đang hoạt động
             </a-tag>
             <a-tag
               :bordered="false"
-              v-else="record.status === UserStatus.INACTIVE"
-              color="yellow"
+              v-if="record.status === UserStatus.INACTIVE"
+              class="bg-tag-bg-07 text-tag-text-07"
             >
-              Đang ẩn
+              Đã chặn
             </a-tag>
             <a-tag
               :bordered="false"
-              v-else="record.status === UserStatus.DELETED"
-              color="red"
+              v-if="record.status === UserStatus.DELETED"
+              class="bg-tag-bg-06 text-tag-text-06"
             >
               Đã xóa
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === UserStatus.BANNED"
+              class="bg-tag-bg-10 text-tag-text-10"
+            >
+              Vô hiệu hóa
             </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
@@ -124,9 +329,12 @@
                 </template>
                 <button
                   @click="showModalDetail(record.id)"
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon class="text-lg" name="i-icon-park-outline-eyes" />
+                  <Icon
+                    icon="heroicons:eye"
+                    class="group-hover:text-[#212122]"
+                  />
                 </button>
               </a-tooltip>
 
@@ -134,38 +342,56 @@
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
+                  <Icon
+                    icon="humbleicons:dots-horizontal"
                     class="group-hover:text-[#131313]"
-                    name="i-solar-menu-dots-bold"
                   />
                 </button>
                 <template #overlay>
-                  <a-menu>
+                  <a-menu class="space-y-1">
                     <NuxtLink :to="`/admin/user/edit/${record.id}`">
-                      <a-menu-item key="2" class="p-4">
-                        <span class="flex items-center gap-2">
-                          <UIcon
-                            class="group-hover:text-[green]"
-                            name="i-material-symbols-edit-outline"
+                      <a-menu-item key="1" class="p-4 hover:!bg-tag-bg-02">
+                        <button class="flex items-center gap-2">
+                          <Icon
+                            icon="fluent:edit-48-regular"
+                            class="text-lg text-tag-text-02"
                           />
-                          <span>Sửa</span>
-                        </span>
+                          <span class="text-tag-text-02 font-bold">Sửa</span>
+                        </button>
                       </a-menu-item>
                     </NuxtLink>
 
-                    <a-menu-item key="3" class="p-4">
-                      <span>
-                        <button
-                          @click="showDeleteConfirm(record?.id)"
-                          class="flex items-center gap-1"
+                    <a-menu-item
+                      v-if="record.status === UserStatus.ACTIVE"
+                      key="2"
+                      class="p-4"
+                    >
+                      <button
+                        @click="showBannedConfirm(record.id)"
+                        class="flex items-center gap-2"
+                      >
+                        <Icon
+                          icon="gridicons:block"
+                          class="text-lg font-bold text-tag-text-06"
+                        />
+                        <span class="text-tag-text-06 font-bold"
+                          >Vô hiệu hóa</span
                         >
-                          <UIcon
-                            class="group-hover:text-[red] text-lg"
-                            name="i-material-symbols-delete-outline"
-                          />
-                          <span>Xóa</span>
-                        </button>
-                      </span>
+                      </button>
+                    </a-menu-item>
+                    <a-menu-item v-else key="3" class="p-4">
+                      <button
+                        @click="showDeleteConfirm(record.id)"
+                        class="flex items-center gap-2"
+                      >
+                        <Icon
+                          icon="charm:tick"
+                          class="text-lg font-bold text-tag-text-09"
+                        />
+                        <span class="text-tag-text-09 font-bold"
+                          >Hoạt động</span
+                        >
+                      </button>
                     </a-menu-item>
                   </a-menu>
                 </template>
@@ -174,6 +400,21 @@
           </template>
         </template>
       </a-table>
+      <UserDashboardConfirm
+        :openModalConfirm="openModalConfirm"
+        :openModal="CloseModalConfirm"
+        :status="status"
+        :id="userDashboard"
+      />
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="userStore?.userAdmin?.totalResults"
+          :pageSize="userStore?.userAdmin?.pageSize"
+          show-less-items
+        />
+      </div>
+
       <UserAdminDetail
         :openModalDetail="openModalDetail"
         :openModal="CloseModalDetail"
@@ -183,31 +424,117 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { UserStatus } from "~/types/admin/user";
 import { UserRole } from "~/types/admin/user";
+import { Icon } from "@iconify/vue";
+import { Modal } from "ant-design-vue";
+const current = ref(1);
 const userStore = useUserStore();
-const userDetailId = ref<string>();
-const openModalDetail = ref<boolean>(false);
+const roleStore = useRoleStore();
+const openModalConfirm = ref(false);
+const userDetailId = ref();
+const userDashboard = ref();
+const openModalDetail = ref(false);
+
+const status = ref("");
+const queryrole = ref({
+  value: "",
+  label: "",
+});
+const valueSearch = ref("");
+const queryStatus = ref({
+  value: "",
+  label: "",
+});
+const roleValue = ({ value, label }) => {
+  queryrole.value.value = value;
+
+  switch (label) {
+    case "user":
+      queryrole.value.label = "Khách hàng";
+      break;
+    case "admin":
+      queryrole.value.label = "Quản trị";
+      break;
+    case "student":
+      queryrole.value.label = "Sinh viên";
+      break;
+
+    default:
+      queryrole.value.label = "Tất cả vai trò";
+      break;
+  }
+};
+const statusValue = ({ value, label }) => {
+  queryStatus.value.value = value;
+  queryStatus.value.label = label;
+};
+useAsyncData(
+  async () => {
+    await userStore.getUser({
+      page: current.value,
+      search: valueSearch.value,
+      status: queryStatus.value.value,
+      role_id: queryrole.value.value,
+    });
+  },
+  {
+    immediate: true,
+    watch: [current, valueSearch, queryStatus.value, queryrole.value],
+  }
+);
 useAsyncData(async () => {
-  await userStore.getUser({});
+  await userStore.getDashboardUser({
+    page: current.value,
+  });
 });
 
-const showDeleteConfirm = (id: string) => {
+useAsyncData(
+  async () => {
+    await roleStore.getAllRole({
+      role_id: queryrole.value.value,
+    });
+  },
+
+  {
+    immediate: true,
+    watch: [queryrole.value],
+  }
+);
+const showDeleteConfirm = (id) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
+    title: "Bạn có chắn muốn khôi phục người dùng này không?",
+
+    okText: "Khôi phục",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
-      onDelete(id);
+      onActiveConfirm(id);
     },
     onCancel() {
       console.log("Cancel");
     },
   });
 };
+const onActiveConfirm = async (id) => {
+  userStore.updateUser({
+    id: id,
+    user: {
+      status: "active",
+    },
+  });
+  await userStore.getUser({});
+};
+const showBannedConfirm = (id) => {
+  openModalConfirm.value = true;
+  userDashboard.value = id;
+  status.value = "banned";
+};
+const CloseModalConfirm = () => {
+  openModalConfirm.value = false;
+};
+
 const columns = [
   {
     title: "Ảnh đại diện",
@@ -228,9 +555,9 @@ const columns = [
     width: "200px",
   },
   {
-    title: "Ví tài khoản",
-    dataIndex: "has_wallet",
-    key: "has_wallet",
+    title: "Số dư",
+    dataIndex: "balance_holding",
+    key: "balance_holding",
   },
   {
     title: "Vai trò",
@@ -265,9 +592,5 @@ const CloseModalDetail = () => {
 const showModalDetail = (id) => {
   openModalDetail.value = true;
   userDetailId.value = id;
-};
-const open = ref<boolean>(false);
-const showModal = () => {
-  open.value = true;
 };
 </script>

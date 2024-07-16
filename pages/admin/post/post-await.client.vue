@@ -4,26 +4,65 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả bài viết</h5>
+        <h5 class="text-xl text-[#1e293b] font-bold">
+          Tất cả bài viết chờ duyệt
+        </h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex justify-between pb-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <input
-              type="text"
-              class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
-              placeholder="Tìm kiếm..."
-            />
+        <div class="w-1/2 flex items-center gap-2">
+          <div class="md:block hidden">
+            <div class="flex">
+              <a-input
+                placeholder="Nhập tên bài viết để tìm kiếm"
+                class="h-10 w-[400px]"
+                v-model:value="valueSearch"
+              >
+                <template #prefix>
+                  <SearchOutlined />
+                </template>
+              </a-input>
+            </div>
           </div>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
+
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <div>
+                <a-menu>
+                  <a-menu-item>
+                    <div
+                      @click="
+                        categoryValue({ id: null, label: ' Tất cả danh mục' })
+                      "
+                    >
+                      Tất cả danh mục
+                    </div>
+                  </a-menu-item>
+                  <a-menu-item
+                    v-for="(items, index) in categoryStore?.categoriesAdmin
+                      ?.categories"
+                    :key="index"
+                  >
+                    <div
+                      @click="
+                        categoryValue({ id: items?.id, label: items?.name })
+                      "
+                    >
+                      {{ items.name }}
+                    </div>
+                  </a-menu-item>
+                </a-menu>
+              </div>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{
+                categoryQuery.label ? categoryQuery.label : " Tất cả danh mục"
+              }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
       </div>
 
@@ -33,13 +72,13 @@
         :data-source="postStore?.postsAdmin.posts"
         :pagination="false"
       >
-        <template #headerCell="{ column }">
+       
+      <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
-            <span> Tên bài viết </span>
+            <a>
+              {{ record.title }}
+            </a>
           </template>
-        </template>
-
-        <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
             <a>
               {{ record.title }}
@@ -50,77 +89,122 @@
               {{ record.category.name }}
             </span>
           </template>
+          <template v-if="column.key === 'user_id'">
+            <span>
+              {{ record.user.fullname }}
+            </span>
+          </template>
+          <template v-if="column.key === 'view'">
+            <span> {{ record.view }} lượt xem </span>
+          </template>
           <template v-else-if="column.key === 'image'">
             <a-image
               class="rounded-md"
-              :width="100"
-              :height="100"
+              :width="70"
+              :height="70"
               :src="record.image"
             />
           </template>
           <template v-else-if="column.key === 'status'">
-            <span>
-              <a-tag
-                :bordered="false"
-                :color="record.status === 'active' ? 'green' : 'volcano'"
-              >
-                Đang chờ duyệt
-              </a-tag>
-            </span>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === PostStatus.WATING_APPROVE"
+              class="bg-tag-bg-01 text-tag-text-01"
+            >
+              Chờ duyệt
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-if="record.status === PostStatus.DRAFT"
+              class="bg-tag-bg-08 text-tag-text-08"
+            >
+              Bản nháp
+            </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === PostStatus.PUBLISHED"
+              class="bg-tag-bg-09 text-tag-text-09"
+            >
+              Đang hoạt động
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-if="record.status === PostStatus.HIDDEN"
+              class="bg-tag-bg-07 text-tag-text-07"
+            >
+              Đã ẩn
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-if="record.status === PostStatus.DELETED"
+              class="bg-tag-bg-06 text-tag-text-06"
+            >
+              Đã xóa
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-if="record.status === PostStatus.APPROVE_CANCELED"
+              class="bg-tag-bg-11 text-tag-text-11"
+            >
+              Từ chối
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-2">
-              <a-tooltip placement="top">
+              <a-tooltip placement="top" color="black">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
                 <button
                   @click="showModalDetail(record.id)"
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                 >
-                  <div class="flex">
-                    <UIcon
-                      class="group-hover:text-[#212122]"
-                      name="i-icon-park-outline-eyes"
-                    />
-                  </div>
+                  <Icon
+                    icon="heroicons:eye"
+                    class="group-hover:text-[#212122]"
+                  />
                 </button>
               </a-tooltip>
-
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
+                  <Icon
+                    icon="humbleicons:dots-horizontal"
                     class="group-hover:text-[#131313]"
-                    name="i-solar-menu-dots-bold"
                   />
                 </button>
                 <template #overlay>
-                  <a-menu>
-                    <a-menu-item key="2" class="p-4">
+                  <a-menu class="space-y-1">
+                    <a-menu-item key="2" class="p-4 hover:!bg-tag-bg-02">
                       <button
                         @click="showRecoverConfirm(record.id)"
                         class="flex items-center gap-2"
                       >
-                        <UIcon
-                          class="group-hover:text-[green]"
-                          name="i-teenyicons-tick-outline"
+                        <Icon
+                          icon="charm:circle-tick"
+                          class="text-lg text-tag-text-02"
                         />
-                        <span>Chấp nhận</span>
+                        <span class="text-tag-text-02 font-bold"
+                          >Chấp nhận</span
+                        >
                       </button>
                     </a-menu-item>
 
-                    <a-menu-item key="3" class="p-4">
+                    <a-menu-item key="3" class="p-4 hover:!bg-tag-bg-06">
                       <button
                         @click="showCancelConfirm(record.id)"
-                        class="flex items-center gap-1"
+                        class="flex items-center gap-2"
                       >
-                        <UIcon
-                          class="group-hover:text-[red] text-lg"
-                          name="i-material-symbols-close"
+                        <Icon
+                          icon="ic:outline-cancel"
+                          class="text-lg font-bold text-tag-text-06"
                         />
-                        <span>Từ chối</span>
+                        <span class="text-tag-text-06 font-bold">Từ chối</span>
                       </button>
                     </a-menu-item>
                   </a-menu>
@@ -130,48 +214,78 @@
           </template>
         </template>
       </a-table>
+      <PostAdminConfirm
+        :openModalConfirm="openModalConfirm"
+        :openModal="CloseModalConfirm"
+        :status="status"
+        :id="postAwaitId"
+      />
       <PostAdminDetail
-        :postDetailId="postDetailId"
         :openModalDetail="openModalDetail"
         :openModal="CloseModalDetail"
+        :postDetailId="postDetailId"
       />
-      <!-- <div class="mt-4 flex justify-end">
+      <div class="mt-4 flex justify-end">
         <a-pagination
           v-model:current="current"
           :total="postStore?.postsAdmin?.totalResults"
           :pageSize="postStore?.postsAdmin?.pageSize"
           show-less-items
         />
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 import { Modal } from "ant-design-vue";
+import { Icon } from "@iconify/vue";
+import { PostStatus } from "~/types/admin/post";
 const postStore = usePostStore();
+const openModalConfirm = ref(false);
 const openModalDetail = ref(false);
-const postDetailId = ref("");
+const postAwaitId = ref("");
+const postDetailId = ref();
+const categoryStore = useCategoryStore();
+const status = ref("");
 const current = ref(1);
-useAsyncData(async () => {
-  await postStore.getAllPost({
-    status: "wating_approve",
-  });
+const valueSearch = ref("");
+const categoryQuery = ref({
+  id: "",
+  label: "",
 });
+const categoryValue = ({ id, label }) => {
+  categoryQuery.value.id = id;
+  categoryQuery.value.label = label;
+};
+useAsyncData(
+  async () => {
+    await postStore.getAllPost({
+      page: current.value,
+      search: valueSearch.value,
+      category_id: categoryQuery.value.id,
+      status: "wating_approve",
+    });
+  },
+  {
+    immediate: true,
+    watch: [current, categoryQuery.value, valueSearch],
+  }
+);
 
-const onRecover = async (id: string) => {
+const onRecover = async (id) => {
   await postStore.updatePost({ id: id, post: { status: "published" } });
   await postStore.getAllPost({
     page: current.value,
     status: "wating_approve",
   });
 };
-const showRecoverConfirm = (id: string) => {
+const showRecoverConfirm = (id) => {
   Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
+    title: "Ban có chắc chắn muốn duyệt bài viết này?",
+    content: "Bài viết sẽ được duyệt và hiển thị trên tất cả bài viết",
+    okText: "Duyệt",
     okType: "danger",
-    cancelText: "No",
+    cancelText: "Hủy",
     onOk() {
       onRecover(id);
     },
@@ -180,49 +294,49 @@ const showRecoverConfirm = (id: string) => {
     },
   });
 };
-const onCancel = async (id: string) => {
-  await postStore.updatePost({ id: id, post: { status: "approve_canceled" } });
-  await postStore.getAllPost({
-    page: current.value,
-    status: "wating_approve",
-  });
+
+const showCancelConfirm = (id) => {
+  openModalConfirm.value = true;
+  postAwaitId.value = id;
+  status.value = "approve_canceled";
 };
-const showCancelConfirm = (id: string) => {
-  Modal.confirm({
-    title: "Are you sure delete this task?",
-    content: "Some descriptions",
-    okText: "Yes",
-    okType: "danger",
-    cancelText: "No",
-    onOk() {
-      onCancel(id);
-    },
-    onCancel() {
-      console.log("Cancel");
-    },
-  });
+const CloseModalConfirm = () => {
+  openModalConfirm.value = false;
 };
+
 const columns = [
-  {
-    name: "title",
-    dataIndex: "name",
-    key: "name",
-    width: "250px",
-  },
-  {
-    title: "Danh mục",
-    dataIndex: "category_id",
-    key: "category_id",
-  },
   {
     title: "Hình ảnh",
     dataIndex: "image",
     key: "image",
   },
   {
-    title: "Nội dung ngắn",
-    dataIndex: "summary",
-    key: "summary",
+    title: "Tên bài viết",
+    dataIndex: "title",
+    key: "title",
+    width: "250px",
+  },
+  // {
+  //   title: "Tiêu đề",
+  //   dataIndex: "summary",
+  //   key: "summary",
+  //   width: "200px",
+  // },
+  {
+    title: "Người đăng",
+    dataIndex: "user_id",
+    key: "user_id",
+  },
+
+  {
+    title: "Danh mục",
+    dataIndex: "category_id",
+    key: "category_id",
+  },
+  {
+    title: "Lượt xem",
+    dataIndex: "view",
+    key: "view",
   },
 
   {
@@ -241,9 +355,5 @@ const CloseModalDetail = () => {
 const showModalDetail = (id) => {
   openModalDetail.value = true;
   postDetailId.value = id;
-};
-const open = ref<boolean>(false);
-const showModal = () => {
-  open.value = true;
 };
 </script>

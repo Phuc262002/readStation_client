@@ -31,17 +31,13 @@
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  }).format(
-                    bookStore?.book?.price *
-                      (bookStore?.book?.hire_percent / 100)
-                  )
+                  }).format(bookStore?.book?.price * (20 / 100))
                 }}
               </span>
             </div>
             <p class="text-xs">
-              <span class="text-red-600 text-base">* </span>Phí thuê sẽ bằng
-              <span> {{ bookStore?.book?.hire_percent }} %</span>
-              giá sách
+              <span class="text-red-600 text-base">* </span> Phí thuê sẽ bằng 20
+              % giá sách
             </p>
           </div>
 
@@ -87,14 +83,14 @@ const handleRentNow = () => {
         });
         return;
       }
-      if (cartStore?.carts.length < 2) {
+      if (cartStore?.carts.length < 3) {
         if (bookToAdd) {
           cartStore.addToCart(bookStore?.book);
           message.success({
             content:
               "Thêm sản phẩm thành công. Chuyển hướng đến trang thanh toán!",
           });
-          navigateTo("/account/manager/checkout");
+          navigateTo("/account/order/checkout");
         } else {
           message.error({
             content: "Thêm sản phẩm thất bại.",
@@ -102,7 +98,7 @@ const handleRentNow = () => {
         }
       } else {
         message.error({
-          content: "Thêm sản phẩm thất bại. Đơn hàng tối đa 2 quyển!",
+          content: "Thêm sản phẩm thất bại. Đơn hàng tối đa 3 quyển!",
         });
       }
     }
@@ -123,7 +119,7 @@ const addToCart = () => {
         });
         return;
       }
-      if (cartStore?.carts.length < 2) {
+      if (cartStore?.carts.length < 3) {
         if (bookToAdd) {
           cartStore.addToCart(bookStore?.book);
           message.success({
@@ -136,7 +132,7 @@ const addToCart = () => {
         }
       } else {
         message.error({
-          content: "Thêm sản phẩm thất bại. Đơn hàng tối đa 2 quyển!",
+          content: "Thêm sản phẩm thất bại. Đơn hàng tối đa 3 quyển!",
         });
       }
     }

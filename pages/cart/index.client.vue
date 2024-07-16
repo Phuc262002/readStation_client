@@ -4,94 +4,80 @@
       <div class="flex justify-between h-auto gap-5">
         <!-- Left -->
         <div class="w-3/4">
-          <div class="bg-white h-auto shadow-lg rounded-lg">
-            <div class="p-5 w-full flex flex-col gap-5">
-              <div class="bg-slate-100 rounded-lg h-12">
-                <div
-                  class="flex justify-between items-center text-base font-semibold p-3 w-full"
-                >
-                  <h1 class="w-2/6">Sản phẩm</h1>
-                  <h1 class="flex justify-center items-center">Giá bìa</h1>
-                  <h1 class="flex justify-center items-center">
-                    Phần trăm cọc
-                  </h1>
-                  <h1 class="flex justify-center items-center">Cọc tạm tính</h1>
-                  <h1 class="flex justify-center items-center">Phí dịch vụ</h1>
-                  <h1 class="flex justify-center items-center">
-                    Tổng tạm tính
-                  </h1>
-                  <h1 class="h-full flex justify-center items-center"></h1>
-                </div>
-              </div>
-              <!--  -->
-              <div
-                class="flex justify-between items-center border-b border-rtgray-50 pb-5"
-                v-for="(cart, index) in cartStore?.carts"
-                :key="index"
-              >
-                <div class="flex justify-start gap-5 w-2/6">
+          <a-table
+            :columns="columns"
+            :data-source="cartStore?.carts"
+            :pagination="false"
+            class="bg-white h-auto shadow-lg rounded-lg"
+          >
+            <template #headerCell="{ column }">
+              <template v-if="column.key === 'name'">
+                <span> Sản phẩm </span>
+              </template>
+            </template>
+
+            <template #bodyCell="{ column, record }">
+              <template v-if="column.key === 'name'">
+                <div class="flex justify-start gap-5">
                   <div class="min-w-[100px] min-h-[100px]">
-                    <img class="w-24 rounded-md" :src="cart?.poster" alt="" />
+                    <img
+                      class="w-24 rounded-md shadow-lg"
+                      :src="record?.poster"
+                      alt=""
+                    />
                   </div>
-                  <div class="flex flex-col gap-2">
+                  <div class="flex flex-col gap-2 font-normal space-y-3">
                     <div class="text-base font-bold">
-                      {{ cart?.book?.title }}
+                      {{ record?.book?.title }}
                     </div>
-                    <div class="text-[14px]">
-                      <div>
-                        <span class="font-bold">Tác giả : </span
-                        ><span>{{ cart?.book?.author?.author }}</span>
+                    <div class="text-[14px] space-y-3">
+                      <div class="grid grid-cols-12 gap-2">
+                        <span class="font-bold col-span-6"> Tác giả: </span>
+                        <span class="col-span-6">
+                          {{ record?.book?.author?.author }}
+                        </span>
                       </div>
-                      <div>
-                        <span class="font-bold">Phiên bản : </span
-                        ><span> {{ cart?.cardboard }}</span>
+                      <div class="grid grid-cols-12 gap-2">
+                        <span class="font-bold col-span-6"> Phiên bản: </span>
+                        <span class="col-span-6"> {{ record?.cardboard }}</span>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="text-base font-bold flex justify-center">
+              </template>
+              <template v-else-if="column.key === 'price'">
+                <span>
                   {{
                     new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(cart?.price)
+                    }).format(record?.price)
                   }}
-                </div>
-                <div class="text-base font-bold flex items-center pl-3">
-                  {{ cart?.hire_percent }}%
-                </div>
-                <div class="w-1/6 text-base font-bold flex justify-center">
+                </span>
+              </template>
+              <template v-else-if="column.key === 'serviceFee'">
+                <span>
                   {{
                     new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(cart?.price * (cart?.hire_percent / 100))
+                    }).format(record?.price * 0.2)
                   }}
-                </div>
-                <div class="text-base font-bold flex justify-center pr-6">
+                </span>
+              </template>
+              <template v-else-if="column.key === 'totalFee'">
+                <span>
                   {{
                     new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(cart?.price * 0.1)
+                    }).format(record?.price * 0.2 + record?.price)
                   }}
-                </div>
-                <div
-                  class="text-base font-bold text-center flex justify-center"
-                >
-                  {{
-                    new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(
-                      parseFloat(cart?.price) * 0.1 +
-                        parseFloat(cart?.price) *
-                          (parseFloat(cart?.hire_percent) / 100)
-                    )
-                  }}
-                </div>
+                </span>
+              </template>
+              <template v-else-if="column.key === 'action'">
                 <a-button
-                  @click="cartStore.deleteItemCart(cart?.id)"
+                  @click="cartStore.deleteItemCart(record?.id)"
                   class="text-center text-2xl text-rtprimary flex justify-center cursor-pointer border-none"
                 >
                   <UIcon
@@ -99,9 +85,9 @@
                     name="i-material-symbols-delete-outline-rounded"
                   />
                 </a-button>
-              </div>
-            </div>
-          </div>
+              </template>
+            </template>
+          </a-table>
         </div>
         <!-- Right -->
         <div class="w-1/4">
@@ -113,8 +99,8 @@
                 <div class="" :key="index">
                   <div class="flex justify-between items-center">
                     <span class="text-sm text-gray-400">Phí cọc</span>
-                    <span class="text-base font-bold"
-                      >{{
+                    <span class="text-base font-bold">
+                      {{
                         new Intl.NumberFormat("vi-VN", {
                           style: "currency",
                           currency: "VND",
@@ -148,12 +134,12 @@
                 <div class="border-solid border border-gray-100 w-full"></div>
                 <div class="flex gap-1">
                   <span class="text-red-600 text-base">* </span>
-                  <span class="text-xs"
-                    >Phí vận chuyển sẽ được tính ở trang thanh toán.</span
-                  >
+                  <span class="text-xs">
+                    Phí vận chuyển (nếu có) sẽ được tính ở trang thanh toán.
+                  </span>
                 </div>
                 <div class="w-full">
-                  <nuxt-link to="/account/manager/checkout">
+                  <nuxt-link to="/account/order/checkout">
                     <button
                       class="bg-rtprimary text-white uppercase text-sm w-full h-8 rounded-lg"
                     >
@@ -162,7 +148,7 @@
                   </nuxt-link>
                 </div>
                 <div class="flex justify-center">
-                  <Nuxt-link to="/shop">
+                  <Nuxt-link to="/products">
                     <button
                       class="flex justify-center text-sm items-center gap-2 hover:text-rtsecondary"
                     >
@@ -191,9 +177,9 @@
         </h2>
         <p class="text-xl pb-4">Hãy thuê thêm sách và quay lại nhé !</p>
         <NuxtLink to="/products">
-          <a-button class="text-base bg-orange-500 !text-white h-10"
-            >Thuê sách ngay</a-button
-          >
+          <a-button class="text-base bg-orange-500 !text-white h-10">
+            Thuê sách ngay
+          </a-button>
         </NuxtLink>
       </div>
     </div>
@@ -201,6 +187,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
+
 const cartStore = useCartStore();
 const depositFee = ref(0);
 const serviceFee = ref(0);
@@ -209,15 +196,14 @@ const totalFee = ref(0);
 // phí cọc
 const calcDepositFee = () => {
   depositFee.value = cartStore?.carts.reduce(
-    (acc, curr) =>
-      acc + (parseFloat(curr.price) * parseFloat(curr.hire_percent)) / 100,
+    (acc, curr) => acc + curr.price,
     0
   );
 };
 // phí dịch vụ
 const calcServiceFee = () => {
   serviceFee.value = cartStore.carts.reduce(
-    (acc, curr) => acc + parseFloat(curr.price) * 0.1,
+    (acc, curr) => acc + parseFloat(curr.price) * 0.2,
     0
   );
 };
@@ -243,4 +229,32 @@ watch(
     calcDepositFee(), calcServiceFee(), calcTotalFee();
   }
 );
+
+const columns = ref([
+  {
+    dataIndex: "Sản phẩm",
+    key: "name",
+    resizable: true,
+    width: 400,
+  },
+  {
+    title: "Tiền cọc thuê sách",
+    dataIndex: "price",
+    key: "price",
+  },
+  {
+    title: "Phí dịch vụ",
+    dataIndex: "serviceFee",
+    key: "serviceFee",
+  },
+  {
+    title: "Tổng",
+    key: "totalFee",
+    dataIndex: "totalFee",
+  },
+  {
+    title: "",
+    key: "action",
+  },
+]);
 </script>

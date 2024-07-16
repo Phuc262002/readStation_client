@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="font-bold">Trả lời bình luận</h3>
+    <h3 class="font-bold">Bình luận bài viết của bạn</h3>
 
     <div class="p-5 bg-white mt-5 shadow-lg rounded-xl">
       <a-table
@@ -27,15 +27,14 @@
             </span>
           </template>
           <!--  -->
-          <template v-else-if="column.key === 'action'">
+          <template v-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <span>
+              <NuxtLink :to="`/post/${record?.post?.slug}`">
                 <a-tooltip placement="top">
                   <template #title>
                     <span>Xem chi tiết</span>
                   </template>
                   <button
-                    @click="showModal(record.id)"
                     class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                   >
                     <div class="flex items-center">
@@ -46,45 +45,22 @@
                     </div>
                   </button>
                 </a-tooltip>
-              </span>
+              </NuxtLink>
 
-              <a-dropdown :trigger="['click']" placement="bottom">
+              <a-tooltip placement="top">
+                <template #title>
+                  <span>Hủy</span>
+                </template>
                 <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                  @click="showDeleteConfirm(record.id)"
+                  class="bg-rtgray-50 p-2 rounded-lg flex items-center justify-center"
                 >
                   <UIcon
-                    class="group-hover:text-[#131313]"
-                    name="i-solar-menu-dots-bold"
+                    class="group-hover:text-black"
+                    name="i-material-symbols-close-rounded"
                   />
                 </button>
-                <template #overlay>
-                  <a-menu>
-                    <NuxtLink to="">
-                      <a-menu-item key="2" class="p-4">
-                        <span class="flex items-center gap-2 text-blue-400">
-                          <UIcon
-                            class="group-hover:text-[green]"
-                            name="i-material-symbols-edit-outline"
-                          />
-                          <span>Sửa</span>
-                        </span>
-                      </a-menu-item>
-                    </NuxtLink>
-
-                    <a-menu-item key="3" class="p-4">
-                      <span>
-                        <button class="flex items-center gap-1 text-blue-400">
-                          <UIcon
-                            class="group-hover:text-[red] text-lg"
-                            name="i-material-symbols-delete-outline"
-                          />
-                          <span>Xóa</span>
-                        </button>
-                      </span>
-                    </a-menu-item>
-                  </a-menu>
-                </template>
-              </a-dropdown>
+              </a-tooltip>
             </div>
           </template>
           <!--  -->
@@ -102,22 +78,45 @@
 </template>
 <script setup lang="ts">
 const commentStore = useCommentClientStore();
+const generalCommentStore = useGeneralCommentStore();
 const current = ref(1);
+// Delete
+const onDelete = async (id: any) => {
+  await generalCommentStore.deleteComment(id);
+  getDataRepComment();
+};
+const showDeleteConfirm = (id: any) => {
+  Modal.confirm({
+    title: "Bạn đang muốn xóa bình luận?",
+    content: "Sau khi xóa sẽ không khôi phục lại",
+    okText: "Đồng ý",
+    okType: "danger",
+    cancelText: "Hủy",
+    onOk() {
+      onDelete(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+};
+
+// Get All
+const getDataRepComment = async () => {
+  await commentStore.getAllRepComment({
+    page: current.value,
+  });
+};
 useAsyncData(
   async () => {
-    try {
-      await commentStore.getAllRepComment({
-        page: current.value,
-      });
-    } catch (error) {
-      console.log("error", error);
-    }
+    await getDataRepComment();
   },
   {
     immediate: true,
     watch: [current],
   }
 );
+
 const columns = [
   {
     title: "Bài viết",

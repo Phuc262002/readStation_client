@@ -22,7 +22,7 @@
         </div>
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            tên tủ sách
+            Tên tủ sách
           </label>
           <div class="mt-1">
             <a-input

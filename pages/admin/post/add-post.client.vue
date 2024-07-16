@@ -4,9 +4,8 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Thêm bài viết</h5>
+        <h5 class="text-xl text-[#1e293b] font-bold">Thêm bài viết</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
     <div v-if="errors" class="space-y-2 mb-4">
       <a-alert
@@ -90,9 +89,12 @@
             @input="(event) => (posts.content = event)"
           />
         </div>
-        <div class="flex items-end gap-4 pt-4">
-          <a-button type="text"> Hủy</a-button>
-          <a-button type="primary" html-type="submit"> Lưu</a-button>
+        <div class="flex justify-end items-end gap-4 pt-4">
+          <a-button @click="() => navigateTo('/admin/post')"> Hủy</a-button>
+          <a-button @click="posts.status = 'draft'" html-type="submit">
+            Lưu nháp</a-button
+          >
+          <a-button type="primary" html-type="submit"> Đăng bài</a-button>
         </div>
       </form>
     </div>
@@ -107,6 +109,15 @@ const fileList = ref([]);
 const imageInfo = ref("");
 const errors = ref({});
 const options = ref([]);
+
+const posts = ref({
+  title: "",
+  content: "",
+  summary: "",
+  image: "",
+  category_id: "",
+  status: "published",
+});
 const uploadFile = async (file) => {
   if (fileList.value.length > 0) {
     fileList.value = [];
@@ -146,13 +157,7 @@ const beforeUpload = (file) => {
   }
   return isImage || Upload.LIST_IGNORE;
 };
-const posts = ref({
-  title: "",
-  content: "",
-  summary: "",
-  image: "",
-  category_id: "",
-});
+
 useAsyncData(async () => {
   await categoryStore.getAllCategory({
     type: "post",
@@ -180,13 +185,14 @@ const onSubmit = async () => {
       message.error("Vui lòng nhập nội dung");
       return;
     }
-    
+
     const data = await postStore.createPost({
       image: imageInfo.value?.url,
       title: posts.value.title,
       content: posts.value.content,
       summary: posts.value.summary,
       category_id: posts.value.category,
+      status: posts.value.status,
     });
     if (data.error?.value?.data) {
       errors.value = data.error.value.data?.errors;

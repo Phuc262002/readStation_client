@@ -1,17 +1,17 @@
-import create from "@ant-design/icons-vue/lib/components/IconFont";
 import { defineStore } from "pinia";
 export const useUserStore = defineStore("user-store", {
   state: () => {
     return {
       userAdmin: [],
       user: {},
+      userDashboard: {},
       isLoading: false,
       isSubmitting: false,
     };
   },
   persist: true,
   actions: {
-    async getUser({ page, pageSize, search, status }: any) {
+    async getUser({ page, pageSize, search, status, role_id }: any) {
       try {
         this.isLoading = true;
         const data: any = await useCustomFetch(
@@ -19,7 +19,7 @@ export const useUserStore = defineStore("user-store", {
             pageSize ? `&pageSize=${pageSize}` : ""
           }${search ? `&search=${search}` : ""}${
             status ? `&status=${status}` : ""
-          }`
+          } ${role_id ? `&role_id=${role_id}` : ""}`
         );
         this.userAdmin = data.data._value?.data;
 
@@ -32,7 +32,7 @@ export const useUserStore = defineStore("user-store", {
     },
     async getOneUser(id: any) {
       try {
-        this.isSubmitting = true;
+        this.isLoading = true;
         const data: any = await useCustomFetch(
           `/api/v1/admin/users/get-one/${id}`
         );
@@ -40,10 +40,23 @@ export const useUserStore = defineStore("user-store", {
         return data;
       } catch (error) {
         console.log(error);
-      }finally {
-        this.isSubmitting = false;
+      } finally {
+        this.isLoading = false;
       }
     },
+    async getDashboardUser() {
+      try {
+        this.isLoading = true;
+        const data: any = await useCustomFetch(`/api/v1/admin/users/static`);
+        this.userDashboard = data.data._value?.data;
+        return data;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
     async createUser(user: any) {
       try {
         this.isSubmitting = true;
@@ -75,44 +88,5 @@ export const useUserStore = defineStore("user-store", {
         this.isSubmitting = false;
       }
     },
-    // async createOrder(body: any) {
-    //   const data: any = await useCustomFetch("/api/v1/account/order/create", {
-    //     method: "POST",
-    //     body: JSON.stringify(body),
-    //   });
-    //   return data;
-    // },
-
-    // async getAllOrder({ page, pageSize, status, search }: any) {
-    //   const data: any = await useCustomFetch(
-    //     `/api/v1/account/order/get-all?${page ? `&page=${page}` : ""}${
-    //       pageSize ? `&pageSize=${pageSize}` : ""
-    //     }${status ? `&status=${status}` : ""}${
-    //       search ? `$search=${search}` : ""
-    //     }`
-    //   );
-    //   this.orders = data.data._value?.data;
-    //   return data;
-    // },
-    // async getAllPost({ page, pageSize, search, status, category_id }: any) {
-    //   const data: any = await useCustomFetch(
-    //     `/api/v1/account/get-posts?${page ? `&page=${page}` : ""}${
-    //       pageSize ? `&pageSize=${pageSize}` : ""
-    //     }${search ? `&search=${search}` : ""}${
-    //       status ? `&status=${status}` : ""
-    //     }${category_id ? `&category_id=${category_id}` : ""}`
-    //   );
-    //   this.posts = data.data._value?.data;
-    //   return data;
-    // },
-    // async getAllComment({ page, pageSize, sort }: any) {
-    //   const data: any = await useCustomFetch(
-    //     `/api/v1/account/get-comments?${page ? `&page=${page}` : ""}${
-    //       pageSize ? `&pageSize=${pageSize}` : ""
-    //     }${sort ? `&sort=${sort}` : ""}`
-    //   );
-    //   this.comments = data.data._value?.data;
-    //   return data;
-    // },
   },
 });

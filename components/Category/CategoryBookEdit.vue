@@ -64,8 +64,8 @@
               style="width: 450px"
               @change="handleChange"
             >
-              <a-select-option value="active">Active</a-select-option>
-              <a-select-option value="inactive">Inactive</a-select-option>
+              <a-select-option value="active">Công khai</a-select-option>
+              <a-select-option value="inactive">Đang ẩn</a-select-option>
             </a-select>
           </div>
         </div>
