@@ -108,7 +108,7 @@
 
         <a-menu-item key="9">
           <NuxtLink
-            to="/account/balce/transaction-history"
+            to="/account/balance/transaction-history"
             class="flex items-center gap-2 font-semibold"
           >
             Lịch sử giao dịch
