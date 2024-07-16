@@ -70,47 +70,28 @@
                                 </a-tag>
                             </span>
                         </template>
+
                         <template v-else-if="column.key === 'action'">
                             <div class="flex text-[16px] gap-4">
-                                <!-- <a-tooltip placement="top">
+                                <a-tooltip placement="top">
                                     <template #title>
-                                        <span>Xem chi tiết</span>
+                                        <span>Sửa</span>
                                     </template>
-                                    <button
+                                    <button  @click="showModalEdit(record?.id)"
                                         class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
-                                        <div>
-                                            <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
-                                        </div>
+                                        <Icon icon="fluent:edit-48-regular" class="text-lg" />
                                     </button>
-                                </a-tooltip> -->
-                                <a-dropdown :trigger="['click']" placement="bottom">
-                                    <button
-                                        class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
-                                        <UIcon class="group-hover:text-[#131313]" name="i-solar-menu-dots-bold" />
-                                    </button>
-                                    <template #overlay>
-                                        <a-menu class="space-y-1">
-
-                                            <a-menu-item key="1" class="p-4 hover:!bg-tag-bg-02">
-                                                <button class="flex items-center gap-2"
-                                                    @click="showModalEdit(record?.id)">
-                                                    <Icon icon="fluent:edit-48-regular"
-                                                        class="text-lg text-tag-text-02" />
-                                                    <span class="text-tag-text-02 font-bold">Sửa</span>
-                                                </button>
-                                            </a-menu-item>
-
-
-                                            <a-menu-item key="2" class="p-4">
-                                                <button @click="showDeleteConfirm(record?.id)"
-                                                    class="flex items-center gap-2">
-                                                    <Icon icon="hugeicons:delete-01" class="text-lg text-tag-text-06" />
-                                                    <span class="text-tag-text-06 font-bold">Xóa</span>
-                                                </button>
-                                            </a-menu-item>
-                                        </a-menu>
+                                </a-tooltip>
+                                <a-tooltip placement="top">
+                                    <template #title>
+                                        <span>Xóa</span>
                                     </template>
-                                </a-dropdown>
+                                    <button @click="showDeleteConfirm(record?.id)"
+                                        class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                                        s>
+                                        <Icon icon="hugeicons:delete-01" class="text-lg" />
+                                    </button>
+                                </a-tooltip>
                             </div>
                         </template>
                     </template>
