@@ -61,7 +61,7 @@
               </span>
             </a-menu-item>
           </nuxt-link>
-          <nuxt-link to="/account/balce">
+          <nuxt-link to="/account/balance">
             <a-menu-item key="4"
               ><span class="flex items-center gap-2">
                 <Icon icon="f7:money-dollar-circle" class="text-xl" />
