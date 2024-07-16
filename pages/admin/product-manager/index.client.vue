@@ -178,7 +178,7 @@
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="orderStore.isLoading"
-                  icon="tdesign:user-checked-1"
+                 icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
                 <span v-else>
@@ -211,7 +211,7 @@
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="orderStore.isLoading"
-                  icon="tdesign:user-checked-1"
+                  icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
                 <span v-else>
@@ -243,7 +243,7 @@
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="orderStore.isLoading"
-                  icon="tdesign:user-checked-1"
+              icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
                 <span v-else>

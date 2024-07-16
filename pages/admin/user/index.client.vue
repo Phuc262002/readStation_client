@@ -10,7 +10,7 @@
       </div>
     </div>
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
       <div class="flex flex-col">
         <div class="flex items-center text-base h-[90px] bg-white rounded-md">
@@ -75,39 +75,7 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-col">
-        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
-          <div class="flex items-center text-sm w-full font-medium p-4 gap-2">
-            <a-tag
-              :bordered="false"
-              class="flex items-center p-2 bg-tag-bg-04 text-tag-text-03"
-            >
-              <Icon
-                icon="icon-park-outline:user-business"
-                class="text-lg w-10 h-10"
-              />
-            </a-tag>
-
-            <div class="flex-1 text-tag-text-03">
-              <p class="font-normal text-base">Thủ thư</p>
-              <p class="font-bold text-2xl float-right">
-                <Icon
-                  v-if="userStore.isLoading"
-                  icon="svg-spinners:3-dots-scale"
-                  class="text-3xl"
-                />
-                <span v-else>
-                  {{
-                    new Intl.NumberFormat().format(
-                      userStore?.userDashboard?.totalManager
-                    )
-                  }}
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+    
       <div class="flex flex-col">
         <div class="flex items-center text-base h-[90px] bg-white rounded-md">
           <div class="flex items-center text-sm w-full gap-2 font-medium p-4">
@@ -129,7 +97,7 @@
                 <span v-else>
                   {{
                     new Intl.NumberFormat().format(
-                      userStore?.userDashboard?.totalUserUnverified
+                      userStore?.userDashboard?.totalGuest
                     )
                   }}
                 </span>
@@ -168,36 +136,7 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-col">
-        <div class="flex items-center text-base h-[90px] bg-white rounded-md">
-          <div class="flex items-center text-sm w-full gap-2 font-medium p-4">
-            <a-tag
-              :bordered="false"
-              class="flex items-center p-2 bg-tag-bg-11 text-tag-text-11"
-            >
-              <Icon icon="mdi:user-check-outline" class="text-lg w-10 h-10" />
-            </a-tag>
-
-            <div class="flex-1 text-tag-text-11">
-              <p class="font-normal text-base">KH đã xác thực</p>
-              <p class="font-bold text-2xl float-right">
-                <Icon
-                  v-if="userStore.isLoading"
-                   icon="svg-spinners:3-dots-scale"
-                  class="text-3xl"
-                />
-                <span v-else>
-                  {{
-                    new Intl.NumberFormat().format(
-                      userStore?.userDashboard?.totalUserVerified
-                    )
-                  }}
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+     
     </div>
 
     <!-- Đây là phần code mẫu body -->
@@ -265,7 +204,6 @@
                 >
                   <span v-if="role.name === 'user'"> Khách hàng</span>
                   <span v-if="role.name === 'admin'"> Quản trị</span>
-                  <span v-if="role.name === 'student'"> Sinh viên</span>
                   <span v-if="role.name === 'manager'"> Thủ thư</span>
                 </a-menu-item>
               </a-menu>
@@ -335,13 +273,7 @@
               Sinh viên
             </a-tag>
 
-            <a-tag
-              :bordered="false"
-              v-if="record.role.name === UserRole.MANAGER"
-              class="bg-tag-bg-03 text-tag-text-03"
-            >
-              Thủ thư
-            </a-tag>
+           
           </template>
           <template v-else-if="column.key === 'google_id'">
             <IconTick v-if="record.google_id" />
@@ -510,9 +442,7 @@ const roleValue = ({ value, label }) => {
     case "student":
       queryrole.value.label = "Sinh viên";
       break;
-    case "manager":
-      queryrole.value.label = "Thủ thư";
-      break;
+  
     default:
       queryrole.value.label = "Tất cả vai trò";
       break;
