@@ -230,6 +230,7 @@
                 }}
               </span>
             </div>
+
             <div
               class="grid grid-cols-4"
               v-if="
@@ -455,6 +456,36 @@
                     }}
                   </span>
                 </div>
+                <div
+                  class="grid grid-cols-4"
+                  v-if="
+                    order?.status === 'returning' ||
+                    order?.status === 'completed'
+                  "
+                >
+                  <span class="col-span-2 font-bold">Hình thức trả sách:</span>
+                  <div
+                    class="col-span-2"
+                    v-for="(items, index) in order?.return_histories"
+                    :key="index"
+                  >
+                    <span v-if="items?.return_method === 'library'">
+                      Giao trả sách trực tiếp đến thư viện
+                    </span>
+                    <span v-else-if="items?.return_method === 'pickup'">
+                      Giao sách đến thư viện
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="grid grid-cols-4"
+                  v-if="order?.status === 'completed'"
+                >
+                  <span class="col-span-2 font-bold">Đánh giá:</span>
+                  <span class="col-span-2">
+                    <a-rate v-model:value="rating" />
+                  </span>
+                </div>
               </div>
             </div>
             <!--  -->
@@ -497,38 +528,48 @@
               </div>
             </div>
           </div>
+          <div class="mt-3 space-y-3" v-if="order?.status === 'completed'">
+            <span class="text-sm font-bold">Đánh giá chi tiết</span>
+            <a-textarea
+              v-model:value="valueRating"
+              placeholder="Nhập nội dung đánh giá sách của bạn"
+              :rows="4"
+            />
+          </div>
 
-          <div
-            class="flex justify-end pt-4 gap-2"
-            v-if="
-              order?.status === 'active' ||
-              $dayjs(new Date()).format('YYYY-MM-DD') ===
-                $dayjs(order?.current_due_date).format('YYYY-MM-DD')
-            "
-          >
-            <a-button
-              class="h-10"
-              @click="showModalGive(order)"
+          <div class="flex justify-end pt-4 gap-2">
+            <div
               v-if="
                 order?.status === 'active' ||
                 $dayjs(new Date()).format('YYYY-MM-DD') ===
                   $dayjs(order?.current_due_date).format('YYYY-MM-DD')
               "
+              class="flex justify-end pt-4 gap-2"
             >
-              Trả sách
-            </a-button>
+              <a-button
+                class="h-10"
+                @click="showModalGive(order)"
+                v-if="
+                  order?.status === 'active' ||
+                  $dayjs(new Date()).format('YYYY-MM-DD') ===
+                    $dayjs(order?.current_due_date).format('YYYY-MM-DD')
+                "
+              >
+                Trả sách
+              </a-button>
 
-            <a-button
-              v-if="
-                order?.status === 'active' ||
-                $dayjs(new Date()).format('YYYY-MM-DD') ===
-                  $dayjs(order?.current_due_date).format('YYYY-MM-DD')
-              "
-              class="h-10 bg-orange-500 !text-white border-none"
-              @click="showModalExtend(order)"
-            >
-              Gia hạn lần 1
-            </a-button>
+              <a-button
+                v-if="
+                  order?.status === 'active' ||
+                  $dayjs(new Date()).format('YYYY-MM-DD') ===
+                    $dayjs(order?.current_due_date).format('YYYY-MM-DD')
+                "
+                class="h-10 bg-orange-500 !text-white border-none"
+                @click="showModalExtend(order)"
+              >
+                Gia hạn lần 1
+              </a-button>
+            </div>
             <a-button
               v-if="order?.status === 'completed'"
               class="h-10 bg-orange-500 !text-white border-none"
@@ -541,19 +582,7 @@
       <!--  -->
 
       <div class="flex justify-end pt-4 gap-2">
-        <NuxtLink
-          to="/account/order"
-          v-if="
-            orderStore?.order?.status === 'active' ||
-            orderStore?.order?.status === 'wating_payment' ||
-            orderStore?.order?.status === 'pending' ||
-            orderStore?.order?.status === 'ready_for_pickup' ||
-            orderStore?.order?.status === 'canceled' ||
-            orderStore?.order?.status === 'approved' ||
-            orderStore?.order?.status === 'preparing_shipment' ||
-            orderStore?.order?.status === 'in_transit'
-          "
-        >
+        <NuxtLink to="/account/order">
           <a-button class="h-10"> Trở về </a-button>
         </NuxtLink>
         <a-button
@@ -601,6 +630,9 @@ const route = useRoute();
 const id = route.params.id;
 const bookDetail = ref();
 const bookExtendDetail = ref();
+const rating = ref<number>(5);
+const valueRating = ref<string>("");
+const isShow = ref(false);
 const onCancelOrderDetail = async (id: any) => {
   await orderStore.cancelOrder(id);
 };
@@ -665,3 +697,8 @@ useAsyncData(async () => {
   await authStore.getProfile();
 });
 </script>
+<style scoped>
+:deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
+  resize: none;
+}
+</style>

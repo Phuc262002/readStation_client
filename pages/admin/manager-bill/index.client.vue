@@ -18,7 +18,7 @@
                             <div class="relative grow">
                                 <div class="relative  md:block hidden">
                                     <div class="flex">
-                                        <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
+                                        <a-input placeholder="Nhập tên phiếu nhập hàng để tìm kiếm" class="h-10">
                                             <template #prefix>
                                                 <SearchOutlined />
                                             </template>
