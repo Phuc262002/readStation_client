@@ -196,13 +196,17 @@
                 <div v-for="(items, index) in orderStore?.getOneOrderAdmin?.data?.loan_order_details" :key=index>
                     <div class="border-t-2 border-gray-200 p-5 space-y-3">
                         <div class="flex gap-2 items-center">
-                            <h1 class="text-base font-bold">{{ items?.book_details?.book?.title }} - {{
+                            <h1 class="text-base font-bold">{{ items?.book_details?.book?.title }} - Phiên bản năm {{
                                 items?.book_details.book_version }} </h1>
                             <span v-if="items?.status === 'active'"
-                                class="bg-tag-bg-04 text-tag-text-04 p-2 rounded-lg flex justify-center items-center">Đang thuê</span>
+                                class="bg-tag-bg-04 text-tag-text-04 p-2 rounded-lg flex justify-center items-center">Đang
+                                thuê</span>
                             <span v-else-if="items?.status === 'extended'"
-                                class="text-tag-text-13 bg-tag-bg-13 p-2 rounded-lg flex justify-center items-center">
+                                class="text-tag-text-12 bg-tag-bg-12 p-2 rounded-lg flex justify-center items-center">
                                 Gia hạn</span>
+                            <span v-else-if="items?.status === 'returning'"
+                                class="text-tag-text-13 bg-tag-bg-13 p-2 rounded-lg flex justify-center items-center">
+                                Đang trả sách</span>
                             <span v-else-if="items?.status === 'completed'"
                                 class="text-tag-text-05 bg-tag-bg-05 p-2 rounded-lg flex justify-center items-center">
                                 Hoàn
@@ -225,7 +229,7 @@
                                     </div>
                                     <div class="grid grid-cols-2">
                                         <span class="text-base font-bold">Số lần gia hạn:</span>
-                                        <span class="text-base ">0/3 </span>
+                                        <span class="text-base ">0/3</span>
                                     </div>
                                     <div class="grid grid-cols-2">
                                         <span class="text-base font-bold">Ngày trả dự kiến:</span>
@@ -277,8 +281,7 @@
                             </div>
 
                         </div>
-                        <div class="flex justify-end gap-2"
-                            v-if="items?.status == 'active'">
+                        <div class="flex justify-end gap-2" v-if="items?.status == 'active'">
                             <a-button @click="showReturnBook(items)">Trả sách</a-button>
                             <a-button type="primary" @click="showModalExtend(items)">Gia hạn</a-button>
                         </div>
@@ -434,7 +437,6 @@ const CloseModalExtendsionAll = () => {
     openModalExtendsionAll.value = false;
 }
 const showModalExtend = (items) => {
-    console.log(items)
     extendsionBook.value = items;
     openModalExtend.value = true;
 };
@@ -442,7 +444,6 @@ const CloseModalExtend = () => {
     openModalExtend.value = false;
 };
 const showReturnBook = (items: any) => {
-    // console.log("🚀 ~ showReturnBook ~ items:", items)
     loan_order_detail.value = items
     openModalReturnBook.value = true;
 };

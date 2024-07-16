@@ -31,7 +31,14 @@
 
         </div>
         <div class="w-full p-5 flex flex-col gap-4 bg-[white] rounded-lg">
-            <h1 class="text-base font-bold">Thông tin phiếu trả</h1>
+            <div class="flex justify-between items-center">
+                <h1 class="text-base font-bold">Thông tin phiếu trả</h1>
+                <div v-if="returnHistoryStore?.ReturnLoanDetail?.status === 'completed'">
+                    <span class="text-tag-text-05 bg-tag-bg-05 p-2 rounded-lg flex justify-center items-center">
+                        Hoàn
+                        thành</span>
+                </div>
+            </div>
             <div class="border border-gray-100"></div>
             <div class="grid md:grid-cols-5">
                 <div class="md:col-span-2 space-y-3 border-r border-gray-200">
@@ -39,19 +46,21 @@
                         <span class="text-base font-bold col-span-1">Ngày khách trả sách:</span>
                         <span class="text-base col-span-2">{{
                             $dayjs(returnHistoryStore?.ReturnLoanDetail?.return_date).format("DD/MM/YYYY - HH:mm")
-                            }}</span>
+                        }}</span>
                     </div>
                     <div class="grid grid-cols-3">
                         <span class="text-base font-bold col-span-1">Hình thức trả sách:</span>
                         <span class="text-base col-span-2"
-                            v-if="returnHistoryStore?.ReturnLoanDetail?.return_method === 'library'">Trả tại thư
+                            v-if="returnHistoryStore?.ReturnLoanDetail?.return_method === 'library'"> Giao trả tại thư
                             viện</span>
                         <span class="text-base col-span-2"
-                            v-if="returnHistoryStore?.ReturnLoanDetail?.return_method === 'pickup'">Giao trả đến thư viện</span>
+                            v-if="returnHistoryStore?.ReturnLoanDetail?.return_method === 'pickup'">Giao trả đến thư
+                            viện</span>
                     </div>
                     <div class="grid grid-cols-3">
                         <span class="text-base font-bold col-span-1">Địa chỉ lấy sách:</span>
-                        <span class="text-base col-span-2">{{ returnHistoryStore?.ReturnLoanDetail?.pickup_info?.address }}</span>
+                        <span class="text-base col-span-2">{{ returnHistoryStore?.ReturnLoanDetail?.pickup_info?.address
+                            }}</span>
                     </div>
                     <div class="grid grid-cols-3">
                         <span class="text-base font-bold col-span-1">Ngày lấy sách:</span>
@@ -80,23 +89,28 @@
                         <span class="text-base col-span-3">Huỳnh Tuấn Kiệt</span>
                     </div>
                 </div>
-                <div class="md:col-span-1 space-y-3 ml-5">
-                    <a-button @click="showSlip" class=" border-orange-500 text-orange-500">Cập nhật tình trạng
+                <div class="md:col-span-1 space-y-3 ml-5"
+                    v-if="returnHistoryStore?.ReturnLoanDetail?.status === 'pending'">
+                    <a-button @click="showSlip(returnHistoryStore?.ReturnLoanDetail)"
+                        class=" border-orange-500 text-orange-500">Cập nhật tình trạng
                         sách</a-button>
                 </div>
             </div>
         </div>
-        <SlipOrder :openModal="openModalSlip" :CloseModal="CloseSlip" />
+        <OrderAdminSlipOrder :openModal="openModalSlip" :CloseModal="CloseSlip" :data="dataReturn" />
         <div class="w-full p-5 flex flex-col gap-4 bg-[white] rounded-lg">
             <h1 class="text-base font-bold">Thông tin sách</h1>
             <div>
                 <div class="border-t-2 border-b-2 border-gray-200 p-5 space-y-3">
                     <div class="flex gap-2 items-center">
-                        <h1 class="text-base font-bold">Cho tôi xin một vé đi tuổi thơ - Phiên bản năm 2024</h1>
+                        <h1 class="text-base font-bold">{{
+                            returnHistoryStore?.ReturnLoanDetail?.loan_order_detail?.book_details?.book?.title }} -
+                            Phiên bản năm {{
+                                returnHistoryStore?.ReturnLoanDetail?.loan_order_detail?.book_details?.book_version }}</h1>
                     </div>
                     <div class="flex gap-5">
                         <img class="w-32 h-48"
-                            src="https://noithatbinhminh.com.vn/wp-content/uploads/2022/08/anh-dep-40.jpg.webp" alt="">
+                            :src="returnHistoryStore?.ReturnLoanDetail?.loan_order_detail?.book_details?.poster" alt="">
                         <div class="grid md:grid-cols-3">
                             <div class="md:col-span-2 space-y-3 border-r border-gray-200">
                                 <div class="grid grid-cols-3">
@@ -109,7 +123,14 @@
                                 </div>
                                 <div class="grid grid-cols-3">
                                     <span class="text-base font-bold">Hình thức trả sách:</span>
-                                    <span class="text-base ">Giao trả đến thư viện</span>
+                                    <span class="text-base col-span-2"
+                                        v-if="returnHistoryStore?.ReturnLoanDetail?.return_method === 'library'"> Giao
+                                        trả tại
+                                        thư
+                                        viện</span>
+                                    <span class="text-base col-span-2"
+                                        v-if="returnHistoryStore?.ReturnLoanDetail?.return_method === 'pickup'">Giao trả
+                                        đến thư viện</span>
                                 </div>
                             </div>
                             <div class="md:col-span-1 space-y-3 ml-5">
@@ -147,11 +168,12 @@
     </div>
 </template>
 <script setup lang="ts">
-import SlipOrder from '~/components/OrderAdmin/SlipOrder.vue';
 const openModalSlip = ref<boolean>(false);
 const route = useRoute();
 const id = route.params.id;
-const showSlip = () => {
+const dataReturn = ref();
+const showSlip = (data) => {
+    dataReturn.value = data;
     openModalSlip.value = true;
 };
 const CloseSlip = () => {

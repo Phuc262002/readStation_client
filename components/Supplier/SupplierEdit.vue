@@ -109,7 +109,8 @@ const updateSupplier = async () => {
         status: valueSupplier.value?.status,
     }
     await supplierStore.updateSupplier({ id: supplierId.value, valueSupplier: valueUpdateSupplier });
-    props.openModal();
+    handleClose();
+    await supplierStore.getAllSupplier({});
 }
 
 </script>

@@ -120,6 +120,10 @@ const onSubmit = async () => {
         category_id: "",
       };
     }
+    handleClose();
+    useAsyncData(async()=>{
+      await shelvesValue.getAllShelves({});
+    })
   } catch (error) {
     console.error(error);
   }

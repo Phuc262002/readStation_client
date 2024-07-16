@@ -129,13 +129,13 @@ useAsyncData(async () => {
   await bookShelves.getOneShelves(detailShelvesId);
 });
 const bookStore = useBookStore();
-
 const updateDetailShelves = async (id) => {
   try {
     const idShelves = {
       shelve_id: null
     }
     await bookStore.updateBook({ id: id, value: idShelves })
+    await bookShelves.getOneShelves(detailShelvesId);
   } catch (error) {
     console.log("🚀 ~ updateDetailShelves ~ error", error)
   }
@@ -146,7 +146,6 @@ const showConfirm = (id) => {
     title: 'Bạn có chắc xóa sách này ra khỏi kệ không?',
     onOk() {
       updateDetailShelves(id)
-
     },
     onCancel() {
       console.log('Cancel');

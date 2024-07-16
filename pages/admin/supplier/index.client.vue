@@ -51,7 +51,7 @@
             </div>
             <div>
                 <a-table :columns="columns" :data-source="supplierStore?.SupplierAdmin?.suppliers"
-                    :loading="supplierStore.isLoading">
+                    :loading="supplierStore.isLoading" :pagination="false">
                     <template #bodyCell="{ column, record, index }">
                         <template v-if="column.key === 'name'">
                             <a>
@@ -119,6 +119,10 @@
                         </template>
                     </template>
                 </a-table>
+                <div class="mt-4 flex justify-end">
+                    <a-pagination v-model:current="current" :total="supplierStore?.SupplierAdmin?.totalResults"
+                        :pageSize="supplierStore?.SupplierAdmin?.pageSize" show-less-items />
+                </div>
             </div>
         </div>
     </div>
@@ -132,6 +136,7 @@ const supplierStore = useSupplierStore();
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const supplierId = ref<number>();
+const current = ref(1);
 const valueSearch = ref("");
 const queryStatus = ref({
     value: "",
@@ -149,6 +154,7 @@ const indicator = h(LoadingOutlined, {
 });
 const getData = async () => {
     await supplierStore.getAllSupplier({
+        page: current.value,
         search: valueSearch.value,
         status: queryStatus.value.value,
 
@@ -158,7 +164,7 @@ useAsyncData(async () => {
     getData();
 }, {
     immediate: true,
-    watch: [valueSearch, queryStatus.value],
+    watch: [valueSearch, queryStatus.value,current],
 
 });
 const onDelete = async (id: string) => {

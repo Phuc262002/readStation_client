@@ -6,7 +6,7 @@ export const useBookDetailStore = defineStore("bookdetail-store", {
       isSubmitting: false,
       isLoading: false,
       getAllBookdetailAdmin: [],
-      getOneBookDetailAdmin: {},
+      getOneBookDetailAdmin: [],
     };
   },
   actions: {

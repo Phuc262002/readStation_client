@@ -68,7 +68,7 @@
           </div>
           <div class="flex justify-end gap-2">
             <a-button> Hủy</a-button>
-            <a-button type="primary" html-type="submit" :loading="AuthorStore.isSubmitting"> Cập nhật</a-button>
+            <a-button type="primary" html-type="submit" :loading="AuthorStore.isSubmitting">Cập nhật</a-button>
           </div>
         </div>
       </form>
