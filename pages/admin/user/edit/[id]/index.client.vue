@@ -23,13 +23,13 @@
                 name="role_id"
               >
                 <a-radio :value="1">Khách hàng</a-radio>
-                <a-radio
+                <!-- <a-radio
                   v-if="authStore.authUser?.user?.role?.name === 'admin'"
                   :value="3"
                   >Quản thư</a-radio
-                >
+                > -->
                 <a-radio :value="2">Học sinh</a-radio>
-                <!-- <a-radio :value="4">Admin</a-radio> -->
+                <a-radio :value="4">Admin</a-radio>
               </a-radio-group>
             </div>
           </div>
@@ -349,7 +349,7 @@
             </div>
           </div>
           <div class="flex gap-4">
-            <a-button type="default">Hủy</a-button>
+            <a-button @click="'/admin/user'" type="default">Hủy</a-button>
             <a-button html-type="submit" type="primary">Cập nhập</a-button>
           </div>
         </div>
