@@ -15,12 +15,12 @@
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Mã nhà xuất bản
+            Tên nhà xuất bản
           </label>
           <div class="mt-1">
             <a-input
               v-model:value="publishingCompany.name"
-              class="w-[450px] h-[45px]"
+              class="w-[450px] h-10"
               placeholder="Nhập mã nhà xuất bản"
               required
             />
@@ -32,9 +32,9 @@
             Mô tả
           </label>
           <div class="mt-1">
-            <a-input
+            <a-textarea
               v-model:value="publishingCompany.description"
-              class="w-[450px] h-[45px]"
+              class="w-[450px] h-10"
               placeholder="Nhập mã nhà xuất bản"
               required
             />

@@ -337,7 +337,7 @@
           >Tất cả pt vận chuyển</a-menu-item
         >
         <a-menu-item
-          key="37"
+          key="39"
           class="font-semibold"
           @click="navigateTo('/admin/shipping-methods/trash-shipping-methods')"
           >Thùng rác</a-menu-item
