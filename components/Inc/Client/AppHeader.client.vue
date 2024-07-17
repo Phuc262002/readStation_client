@@ -10,7 +10,7 @@
             <div class="flex items-center gap-1">
               <img
                 class="h-10"
-                src="../../../assets/images/Read Station.svg"
+                src="/assets/images/logo_header.svg"
                 alt=""
               />
             </div>
