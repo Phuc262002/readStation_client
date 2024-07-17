@@ -523,20 +523,17 @@ const columns = ref([
 ::deep(img, svg, video, canvas, audio, iframe, embed, object) {
   outline: initial;
 }
-::v-deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
+::deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
   resize: none;
 }
-::v-deep(
+::deep(
     :where(.css-dev-only-do-not-override-1mvo6uw).ant-radio-button-wrapper:not(
         :first-child
       )::before
   ) {
   background-color: initial;
-  /* border: 1px solid #d9d9d9; */
 }
-::v-deep(
-    :where(.css-dev-only-do-not-override-1mvo6uw).ant-radio-button-wrapper
-  ) {
+::deep(:where(.css-dev-only-do-not-override-1mvo6uw).ant-radio-button-wrapper) {
   border-inline-start-width: 1px;
 }
 </style>
