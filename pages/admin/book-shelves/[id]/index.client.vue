@@ -84,7 +84,7 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top">
+              <!-- <a-tooltip placement="top">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
@@ -94,7 +94,7 @@
                     <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
                   </div>
                 </button>
-              </a-tooltip>
+              </a-tooltip> -->
               <a-tooltip placement="top">
                 <template #title>
                   <span>Xóa</span>
@@ -145,6 +145,9 @@ const updateDetailShelves = async (id) => {
 const showConfirm = (id) => {
   Modal.confirm({
     title: 'Bạn có chắc xóa sách này ra khỏi kệ không?',
+    okText: "Có",
+    okType: "danger",
+    cancelText: "Hủy",
     onOk() {
       updateDetailShelves(id)
     },

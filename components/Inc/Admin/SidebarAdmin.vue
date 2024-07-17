@@ -56,10 +56,16 @@
             <span class="font-bold">Quản lý người dùng</span>
           </span>
         </template>
-        <a-menu-item class="font-semibold" key="4" @click="navigateTo('/admin/user')"
+        <a-menu-item
+          class="font-semibold"
+          key="4"
+          @click="navigateTo('/admin/user')"
           >Tất cả người dùng</a-menu-item
         >
-        <a-menu-item class="font-semibold" key="3" @click="navigateTo('/admin/user/create-user')"
+        <a-menu-item
+          class="font-semibold"
+          key="3"
+          @click="navigateTo('/admin/user/create-user')"
           >Thêm người dùng</a-menu-item
         >
       </a-sub-menu>
@@ -106,10 +112,16 @@
             <span class="font-bold">Quản lý sách</span>
           </span>
         </template>
-        <a-menu-item  class="font-semibold" key="9" @click="navigateTo('/admin/book')"
+        <a-menu-item
+          class="font-semibold"
+          key="9"
+          @click="navigateTo('/admin/book')"
           >Tất cả sách</a-menu-item
         >
-        <a-menu-item class="font-semibold" key="8" @click="navigateTo('/admin/book/create-book')"
+        <a-menu-item
+          class="font-semibold"
+          key="8"
+          @click="navigateTo('/admin/book/create-book')"
           >Thêm sách</a-menu-item
         >
         <a-menu-item
@@ -133,16 +145,28 @@
             <span class="font-bold">Quản lý bài viết</span>
           </span>
         </template>
-        <a-menu-item class="font-semibold" key="40" @click="navigateTo('/admin/post')"
+        <a-menu-item
+          class="font-semibold"
+          key="40"
+          @click="navigateTo('/admin/post')"
           >Tất cả bài viết</a-menu-item
         >
-        <a-menu-item class="font-semibold" key="13" @click="navigateTo('/admin/post/add-post')"
+        <a-menu-item
+          class="font-semibold"
+          key="13"
+          @click="navigateTo('/admin/post/add-post')"
           >Thêm bài viết</a-menu-item
         >
-        <a-menu-item class="font-semibold" key="14" @click="navigateTo('/admin/post/post-await')"
+        <a-menu-item
+          class="font-semibold"
+          key="14"
+          @click="navigateTo('/admin/post/post-await')"
           >Bài viết chờ duyệt</a-menu-item
         >
-        <a-menu-item class="font-semibold" key="111" @click="navigateTo('/admin/post/trash-post')"
+        <a-menu-item
+          class="font-semibold"
+          key="111"
+          @click="navigateTo('/admin/post/trash-post')"
           >Thùng rác</a-menu-item
         >
       </a-sub-menu>
@@ -157,7 +181,10 @@
             <span class="font-bold">Quản lý bình luận</span>
           </span>
         </template>
-        <a-menu-item class="font-semibold" key="42" @click="navigateTo('/admin/comment')"
+        <a-menu-item
+          class="font-semibold"
+          key="42"
+          @click="navigateTo('/admin/comment')"
           >Tất cả bình luận</a-menu-item
         >
       </a-sub-menu>
@@ -173,7 +200,10 @@
             <span class="font-bold">Quản lý tủ sách</span>
           </span>
         </template>
-        <a-menu-item class="font-semibold" key="17" @click="navigateTo('/admin/book-case')"
+        <a-menu-item
+          class="font-semibold"
+          key="17"
+          @click="navigateTo('/admin/book-case')"
           >Tất cả tủ sách</a-menu-item
         >
         <a-menu-item
@@ -194,7 +224,10 @@
             <span class="font-bold">Quản lý kệ sách</span>
           </span>
         </template>
-        <a-menu-item class="font-semibold" key="19" @click="navigateTo('/admin/book-shelves')"
+        <a-menu-item
+          class="font-semibold"
+          key="19"
+          @click="navigateTo('/admin/book-shelves')"
           >Tất cả kệ sách</a-menu-item
         >
         <a-menu-item
@@ -215,7 +248,10 @@
             <span class="font-bold">Danh mục sản phẩm</span>
           </span>
         </template>
-        <a-menu-item class="font-semibold" key="20" @click="navigateTo('/admin/categoryBook')"
+        <a-menu-item
+          class="font-semibold"
+          key="20"
+          @click="navigateTo('/admin/categoryBook')"
           >Tất cả danh mục sản phẩm</a-menu-item
         >
         <a-menu-item
@@ -236,7 +272,11 @@
             <span class="font-bold">Danh mục bài viết</span>
           </span>
         </template>
-        <a-menu-item class="font-semibold" key="77" @click="navigateTo('/admin/categoryPost')">
+        <a-menu-item
+          class="font-semibold"
+          key="77"
+          @click="navigateTo('/admin/categoryPost')"
+        >
           Tất cả danh mục bài viết</a-menu-item
         >
 
@@ -259,13 +299,22 @@
             <span class="font-bold">Quản lý tác giả</span>
           </span>
         </template>
-        <a-menu-item class="font-semibold" key="23" @click="navigateTo('/admin/author')"
+        <a-menu-item
+          class="font-semibold"
+          key="63"
+          @click="navigateTo('/admin/author')"
           >Tất cả tác giả</a-menu-item
         >
-        <a-menu-item class="font-semibold" key="22" @click="navigateTo('/admin/author/add-author')"
+        <a-menu-item
+          class="font-semibold"
+          key="22"
+          @click="navigateTo('/admin/author/add-author')"
           >Thêm tác giả</a-menu-item
         >
-        <a-menu-item class="font-semibold" key="60" @click="navigateTo('/admin/author/trash-author')"
+        <a-menu-item
+          class="font-semibold"
+          key="60"
+          @click="navigateTo('/admin/author/trash-author')"
           >Thùng rác</a-menu-item
         >
       </a-sub-menu>
@@ -281,11 +330,14 @@
             <span class="font-bold">Phương thức vận chuyển </span>
           </span>
         </template>
-        <a-menu-item class="font-semibold" key="36" @click="navigateTo('/admin/shipping-methods')"
+        <a-menu-item
+          class="font-semibold"
+          key="36"
+          @click="navigateTo('/admin/shipping-methods')"
           >Tất cả pt vận chuyển</a-menu-item
         >
         <a-menu-item
-          key="37"
+          key="39"
           class="font-semibold"
           @click="navigateTo('/admin/shipping-methods/trash-shipping-methods')"
           >Thùng rác</a-menu-item
@@ -303,7 +355,10 @@
             <span class="font-bold">Quản lý nhà xuất bản</span>
           </span>
         </template>
-        <a-menu-item class="font-semibold" key="49" @click="navigateTo('/admin/publishing-company')"
+        <a-menu-item
+          class="font-semibold"
+          key="49"
+          @click="navigateTo('/admin/publishing-company')"
           >Tất cả nhà xuất bản</a-menu-item
         >
 
@@ -323,16 +378,19 @@
               :class="props.collapsed && 'anticon anticon-desktop'"
               icon="tabler:building-warehouse"
               class="text-2xl"
-            />
+            />  
             <span class="font-bold">Quản lý nhà cung cấp</span>
           </span>
         </template>
-        <a-menu-item class="font-semibold" key="37" @click="navigateTo('/admin/supplier')"
+        <a-menu-item
+          class="font-semibold"
+          key="37"
+          @click="navigateTo('/admin/supplier')"
           >Tất cả nhà cung cấp</a-menu-item
         >
         <a-menu-item
-        class="font-semibold"
-          key="38"
+          class="font-semibold"
+          key="48"
           @click="navigateTo('/admin/supplier/trash-supplier')"
           >Thùng rác</a-menu-item
         >
@@ -348,7 +406,10 @@
             <span class="font-bold">Phiếu nhập hàng</span>
           </span>
         </template>
-        <a-menu-item class="font-semibold" key="28" @click="navigateTo('/admin/manager-bill')"
+        <a-menu-item
+          class="font-semibold"
+          key="28"
+          @click="navigateTo('/admin/manager-bill')"
           >Tất cả phiếu nhập hàng</a-menu-item
         >
         <a-menu-item
@@ -367,7 +428,11 @@
         />
         <span class="font-bold">Tất cả lịch sử giao dịch</span>
       </a-menu-item>
-      <a-menu-item class="font-semibold" key="32" @click="navigateTo('/admin/image')">
+      <a-menu-item
+        class="font-semibold"
+        key="32"
+        @click="navigateTo('/admin/image')"
+      >
         <Icon
           :class="props.collapsed && 'anticon anticon-desktop'"
           icon="radix-icons:image"

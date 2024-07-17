@@ -168,9 +168,9 @@
                     class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                   >
                     <div class="flex items-center">
-                      <UIcon
+                      <Icon
+                        icon="heroicons:eye"
                         class="group-hover:text-[#212122]"
-                        name="i-icon-park-outline-eyes"
                       />
                     </div>
                   </button>
@@ -191,9 +191,9 @@
                     <NuxtLink :to="`/account/post/${record?.id}`">
                       <a-menu-item key="2" class="p-4">
                         <span class="flex items-center gap-2 text-blue-400">
-                          <UIcon
-                            class="group-hover:text-[green]"
-                            name="i-material-symbols-edit-outline"
+                          <Icon
+                            icon="fluent:edit-48-regular"
+                            class="text-lg text-tag-text-02"
                           />
                           <span>Sửa</span>
                         </span>

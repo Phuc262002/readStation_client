@@ -87,13 +87,13 @@
                                 :data-source="data" :pagination="false">
                                 <template #bodyCell="{ column, record }">
                                     <template v-if="column.dataIndex === 'title'">
-                                        <a>{{ record?.title }}</a>
+                                        <a>{{ record?.book?.title }}</a>
                                     </template>
                                     <template v-if="column.dataIndex === 'quantity'">
                                         <div class="flex items-center gap-3">
                                             <button @click.prevent="decreaseQuantity(record.quantity)"
                                                 class="border rounded-lg w-10 h-10 flex justify-center items-center text-lg">-</button>
-                                            {{ record.quantity }}
+                                            {{ record?.quantity }}
                                             <button @click.prevent="increaseQuantity(record.quantity)"
                                                 class="border rounded-lg w-10 h-10 flex justify-center items-center text-lg">+</button>
                                         </div>
@@ -107,7 +107,7 @@
 
                                         </template>
                                         <template v-if="column.dataIndex === 'total'">
-                                            <span>{{ re.total }}</span>
+                                            <span>{{ record.total }}</span>
                                         </template>
                                     </template>
                                     <template v-if="column.dataIndex === 'action'">
@@ -174,6 +174,9 @@ useAsyncData(async () => {
 const showConfirm = (id) => {
     Modal.confirm({
         title: 'Bạn có chắc muốn thêm sách này vào danh sách nhập hàng không ?',
+        okText: "Có",
+        okType: "danger",
+        cancelText: "Hủy",
         onOk() {
             const selectedBook = bookDetailStore?.getAllBookdetailAdmin?.books.find((book) => book?.book?.id === id);
             const existingBook = data.value.find((item) => item.id === selectedBook?.book?.id);
@@ -207,8 +210,8 @@ const columns = [
     },
     {
         title: 'Mã sản phẩm',
-        dataIndex: 'sku',
-        key: 'sku',
+        dataIndex: 'sku_origin',
+        key: 'sku_origin',
     },
     {
         title: 'Số lượng',
@@ -261,38 +264,42 @@ const valueInvoiceEnter = ref({
         {
             book_detail_id: "",
             book_price: "",
-            book_quantity: ""
+            book_quantity: 1
         }
     ]
 });
 const createInvoiceEnter = async () => {
-    try {
-        const dataPost = {
-            invoice_code: valueInvoiceEnter.value.invoice_code || null,
-            invoice_name: valueInvoiceEnter.value.invoice_name,
-            total: valueInvoiceEnter.value.total,
-            invoice_description: valueInvoiceEnter.value.invoice_description,
-            supplier_id: valueInvoiceEnter.value.supplier_id,
-            invoice_date: valueInvoiceEnter.value.invoice_date,
-            status: valueInvoiceEnter.value.status,
-            invoice_enter_detail: data.value.map((item) => ({
-                book_detail_id: item.id,
-                book_price: item.price,
-                book_quantity: item.quantity
-            }))
-        };
-        await invoiceEnter.createInvoiceEnter(dataPost);
-        message.success('Tạo hóa đơn thành công');
-        navigateTo('/admin/manager-bill')
-        // alert(JSON.stringify(valueInvoiceEnter.value));
-    } catch (error) {
-        message.error('Tạo hóa đơn thất bại');
-    }
+    alert(1)
+    // try {
+    //     const dataPost = {
+    //         invoice_code: valueInvoiceEnter.value.invoice_code || null,
+    //         invoice_name: valueInvoiceEnter.value.invoice_name,
+    //         total: valueInvoiceEnter.value.total,
+    //         invoice_description: valueInvoiceEnter.value.invoice_description,
+    //         supplier_id: valueInvoiceEnter.value.supplier_id,
+    //         invoice_date: valueInvoiceEnter.value.invoice_date,
+    //         status: valueInvoiceEnter.value.status,
+    //         invoice_enter_detail: data.value.map((item) => ({
+    //             book_detail_id: item.id,
+    //             book_price: item.price,
+    //             book_quantity: item.quantity
+    //         }))
+    //     };
+    //     await invoiceEnter.createInvoiceEnter(dataPost);
+    //     message.success('Tạo hóa đơn thành công');
+    //     navigateTo('/admin/manager-bill')
+    //     // alert(JSON.stringify(valueInvoiceEnter.value));
+    // } catch (error) {
+    //     message.error('Tạo hóa đơn thất bại');
+    // }
 
 };
 const showConfimDelete = (id) => {
     Modal.confirm({
         title: 'Bạn có chắc loại bỏ sách này ra khỏi phiếu nhập hàng?',
+        okText: "Có",
+        okType: "danger",
+        cancelText: "Hủy",
         onOk() {
             deleteBook(id)
         },
