@@ -308,19 +308,6 @@
                   Thanh toán
                 </a-button>
               </div>
-              <div class="flex justify-center">
-                <Nuxt-link to="/products">
-                  <button
-                    class="flex justify-center text-sm items-center gap-2 hover:text-rtsecondary"
-                  >
-                    <UIcon
-                      class="text-xl"
-                      name="i-material-symbols-turn-left-rounded"
-                    />
-                    <h1>Tiếp tục thuê sách</h1>
-                  </button>
-                </Nuxt-link>
-              </div>
             </div>
           </div>
         </div>
@@ -458,7 +445,7 @@ const payCart = async () => {
     cartStore.carts = [];
     navigateTo("/account/order");
   } else if (
-    resData?.data?._rawValue?.status == true &&
+    resData?.data?._rawValue?.status === true &&
     payment_method.value === "online"
   ) {
     message.success({
@@ -469,11 +456,16 @@ const payCart = async () => {
       "/account/order/checkout/payment/" +
         resData?.data?._rawValue?.data.order_code
     );
-    // console.log("first", resData?.data?._rawValue?.data.order_code);
-  } else if (resData?.data?._rawValue?.status == false) {
-    message.error(resData?.data?._rawValue?.errors);
+  } else if (resData?.data?._rawValue?.status === false) {
+    message.error(
+      resData?.data?._rawValue?.errors?.delivery_info?.address?.[0]
+    );
   } else {
     resErrors.value = resData.error.value.data.errors;
+    // console.log(
+    //   "firstwq",
+    //   resData?.data?._rawValue?.errors?.delivery_info.address
+    // );
     message.error({
       content: "Đặt hàng không thành công",
     });
@@ -528,23 +520,20 @@ const columns = ref([
 ]);
 </script>
 <style scoped>
-::deep(img, svg, video, canvas, audio, iframe, embed, object) {
+:deep(img, svg, video, canvas, audio, iframe, embed, object) {
   outline: initial;
 }
-::v-deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
+:deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
   resize: none;
 }
-::v-deep(
+:deep(
     :where(.css-dev-only-do-not-override-1mvo6uw).ant-radio-button-wrapper:not(
         :first-child
       )::before
   ) {
   background-color: initial;
-  /* border: 1px solid #d9d9d9; */
 }
-::v-deep(
-    :where(.css-dev-only-do-not-override-1mvo6uw).ant-radio-button-wrapper
-  ) {
+:deep(:where(.css-dev-only-do-not-override-1mvo6uw).ant-radio-button-wrapper) {
   border-inline-start-width: 1px;
 }
 </style>

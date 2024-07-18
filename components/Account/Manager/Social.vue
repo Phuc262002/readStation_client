@@ -9,7 +9,7 @@
         class="flex-col space-y-2 p-4 bg-white shadow-md shadow-gray-300 rounded-md"
       >
         <div class="flex items-center justify-between border-b pb-2">
-          <span>Loại tài khoản</span>
+          <span class="font-semibold">Loại tài khoản</span>
           <span>
             <a-tag :bordered="false" color="purple" class="font-bold">
               {{ authStore?.authUser?.user?.role?.name }}
@@ -17,19 +17,20 @@
           </span>
         </div>
         <div class="flex items-center justify-between border-b pb-2">
-          <span>Xác minh</span>
+          <span class="font-semibold">Xác minh</span>
           <span>
             <a-tag
+              class="border-none"
               v-if="authStore?.authUser?.user?.user_verified_at === null"
               color="red"
             >
               Chưa xác thực
             </a-tag>
-            <a-tag v-else color="green">Đã xác thực</a-tag>
+            <a-tag v-else class="border-none" color="green">Đã xác thực</a-tag>
           </span>
         </div>
         <div class="flex items-center justify-between">
-          <span>Ngày mở tài khoản</span>
+          <span class="font-semibold">Ngày mở tài khoản</span>
           <span>
             {{
               $dayjs(authStore?.authUser?.user?.created_at).format("DD/MM/YYYY")

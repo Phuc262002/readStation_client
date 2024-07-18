@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="postStore?.isSubmitting"
+      v-if="postStore?.isLoading"
       class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default"
     >
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
@@ -85,7 +85,7 @@
           <a-button
             @click="status = 'published'"
             html-type="submit"
-            :loading="postStore?.isSubmitting"
+            :loading="postStore?.isLoading"
             class="h-10 text-base bg-orange-500 border-none !text-white"
           >
             Đăng bài

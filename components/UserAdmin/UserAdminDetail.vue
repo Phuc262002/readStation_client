@@ -51,13 +51,7 @@
                   Sinh viên
                 </a-tag>
 
-                <a-tag
-                  :bordered="false"
-                  v-if="userStore?.user?.role?.name === UserRole.MANAGER"
-                  class="bg-tag-bg-03 text-tag-text-03"
-                >
-                  Thủ thư
-                </a-tag>
+                
               </span>
             </div>
             <div class="grid grid-cols-3">

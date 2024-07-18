@@ -375,7 +375,6 @@
                 <span v-if="record.loan_date">{{
                   $dayjs(record.loan_date).format("DD/MM/YYYY")
                 }}</span>
-              
               </template>
               <template v-if="column.dataIndex === 'status'">
                 <span>
@@ -601,10 +600,12 @@ const transactionAdminStore = useTransactionAdminStore();
 const isLoading = ref(false);
 const filter = ref("");
 const valueSearch = ref("");
+const current = ref(1);
 useAsyncData(
   async () => {
     isLoading.value = true;
     await orderStore.getAllOrder({
+      current: current.value,
       status: filter.value,
       search: valueSearch.value,
     });
@@ -612,7 +613,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [filter, valueSearch],
+    watch: [filter, current, valueSearch],
   }
 );
 useAsyncData(async () => {

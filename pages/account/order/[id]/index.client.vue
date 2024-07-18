@@ -30,16 +30,16 @@
             </div>
           </div>
           <div class="w-1/2 pl-5 space-y-3">
-            <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Địa chỉ nhận sách:</span>
-              <span class="col-span-2">
+            <div class="grid grid-cols-8">
+              <span class="col-span-3 font-bold">Địa chỉ nhận sách:</span>
+              <span class="col-span-5">
                 {{ orderStore?.order?.user?.address_detail }}
               </span>
             </div>
-            <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Phương thức thanh toán:</span>
+            <div class="grid grid-cols-8">
+              <span class="col-span-3 font-bold">Phương thức thanh toán:</span>
               <span
-                class="col-span-2"
+                class="col-span-5"
                 v-if="orderStore?.order?.payment_method === 'online'"
               >
                 Chuyển khoản
@@ -60,9 +60,9 @@
       class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5 my-5"
     >
       <div>
-        <h3 class="font-bold border-b border-rtgray-50 pb-5 flex gap-5">
+        <h3 class="border-b border-rtgray-50 pb-5 flex gap-5">
           <div class="flex gap-3">
-            <span>Thông tin đơn hàng</span>
+            <span class="font-bold">Thông tin đơn hàng</span>
             <a-popover trigger="hover" placement="topLeft">
               <template #content>
                 <span class="text-sm text-orange-600">
@@ -157,21 +157,21 @@
         </h3>
         <div class="flex py-5 text-sm">
           <div class="w-1/2 border-r border-rtgray-50 space-y-3">
-            <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Số sách thuê:</span>
-              <span class="col-span-2">
+            <div class="grid grid-cols-8">
+              <span class="col-span-3 font-bold">Số sách thuê:</span>
+              <span class="col-span-5">
                 {{ orderStore?.order?.loan_order_details?.length }}
               </span>
             </div>
-            <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Ưu đãi:</span>
-              <span class="col-span-2">
+            <div class="grid grid-cols-8">
+              <span class="col-span-3 font-bold">Ưu đãi:</span>
+              <span class="col-span-5">
                 Giảm giá 50% các loại phí thuê sách cho HS/SV
               </span>
             </div>
-            <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Ngày đặt sách:</span>
-              <span class="col-span-2">
+            <div class="grid grid-cols-8">
+              <span class="col-span-3 font-bold">Ngày đặt sách:</span>
+              <span class="col-span-5">
                 {{
                   $dayjs(orderStore?.order?.created_at).format(
                     "DD/MM/YYYY - HH:MM"
@@ -180,15 +180,15 @@
               </span>
             </div>
             <div
-              class="grid grid-cols-4"
+              class="grid grid-cols-8"
               v-if="
                 orderStore?.order?.status === 'active' ||
                 orderStore?.order?.status === 'overdue' ||
                 orderStore?.order?.status === 'returning'
               "
             >
-              <span class="col-span-2 font-bold">Ngày nhận sách:</span>
-              <span class="col-span-2">
+              <span class="col-span-3 font-bold">Ngày nhận sách:</span>
+              <span class="col-span-5">
                 {{
                   $dayjs(orderStore?.order?.created_at).format(
                     "DD/MM/YYYY - HH:MM"
@@ -197,15 +197,15 @@
               </span>
             </div>
             <div
-              class="grid grid-cols-4"
+              class="grid grid-cols-8"
               v-if="
                 orderStore?.order?.status === 'active' ||
                 orderStore?.order?.status === 'overdue' ||
                 orderStore?.order?.status === 'returning'
               "
             >
-              <span class="col-span-2 font-bold">Ngày trả dự kiến:</span>
-              <span class="col-span-2">
+              <span class="col-span-3 font-bold">Ngày trả dự kiến:</span>
+              <span class="col-span-5">
                 {{
                   $dayjs(orderStore?.order?.created_at).format(
                     "DD/MM/YYYY - HH:MM"
@@ -214,15 +214,15 @@
               </span>
             </div>
             <div
-              class="grid grid-cols-4"
+              class="grid grid-cols-8"
               v-if="
                 orderStore?.order?.status === 'active' ||
                 orderStore?.order?.status === 'overdue' ||
                 orderStore?.order?.status === 'returning'
               "
             >
-              <span class="col-span-2 font-bold">Ngày trả thực tế:</span>
-              <span class="col-span-2">
+              <span class="col-span-3 font-bold">Ngày trả thực tế:</span>
+              <span class="col-span-5">
                 {{
                   $dayjs(orderStore?.order?.created_at).format(
                     "DD/MM/YYYY - HH:MM"
@@ -232,29 +232,29 @@
             </div>
 
             <div
-              class="grid grid-cols-4"
+              class="grid grid-cols-8"
               v-if="
                 orderStore?.order?.status === 'active' ||
                 orderStore?.order?.status === 'overdue' ||
                 orderStore?.order?.status === 'returning'
               "
             >
-              <span class="col-span-2 font-bold">Số lần gia hạn:</span>
-              <span class="col-span-2"> 0 / 3 </span>
+              <span class="col-span-3 font-bold">Số lần gia hạn:</span>
+              <span class="col-span-5"> 0 / 3 </span>
             </div>
-            <div class="grid grid-cols-4">
-              <span class="col-span-2 font-bold">Hình thức giao sách:</span>
+            <div class="grid grid-cols-8">
+              <span class="col-span-3 font-bold">Hình thức giao sách:</span>
               <span
-                class="col-span-2"
+                class="col-span-5"
                 v-if="orderStore?.order?.delivery_method === 'pickup'"
               >
-                Nhận sách tại thư viện
+                Giao sách tại thư viện
               </span>
               <span
                 class="col-span-2"
                 v-else-if="orderStore?.order?.delivery_method === 'shipper'"
               >
-                Nhận sách tại nhà
+                Giao sách tại nhà
               </span>
             </div>
             <div
@@ -374,7 +374,7 @@
         >
           <div class="flex gap-3">
             <h3 class="font-bold">
-              {{ order?.book_details?.book?.title }} -
+              {{ order?.book_details?.book?.title }} - Phiên bản năm
               {{ order?.book_details?.book_version }}
             </h3>
             <div>
