@@ -4,7 +4,6 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Sửa tác giả</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
