@@ -2,9 +2,9 @@
     <div>
         <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
             <div class="grow">
-                <h5 class="text-xl text-[#1e293b] font-semibold">Tạo phiếu nhật hàng</h5>
+                <h5 class="text-xl text-[#1e293b] font-bold">Tạo phiếu nhật hàng</h5>
             </div>
-
+      
         </div>
 
         <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
@@ -133,7 +133,7 @@
                                     :submitting="invoiceEnter.isSubmitting" @click="saveDraft">Lưu
                                     nháp</a-button>
                                 <a-button type="primary" html-type="submit" :submitting="invoiceEnter.isSubmitting"
-                                    @click="saveInvoice">Lưu
+                                    @click.prevent="saveInvoice">Lưu
                                     hóa đơn</a-button>
                             </div>
                         </div>

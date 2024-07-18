@@ -4,9 +4,11 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả phương thức vận chuyển đã xóa</h5>
+        <h5 class="text-xl text-[#1e293b] font-bold">
+          Tất cả phương thức vận chuyển đã xóa
+        </h5>
       </div>
-
+      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
@@ -69,7 +71,6 @@
 
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-4">
-              
               <a-tooltip placement="top" color="black ">
                 <template #title>
                   <span>Khôi phục</span>
@@ -99,7 +100,7 @@
     </div>
   </div>
 </template>
-<script  setup>
+<script setup>
 import { Modal } from "ant-design-vue";
 const openModalAdd = ref(false);
 const openModalEdit = ref(false);
@@ -110,7 +111,6 @@ const shippingMethodStore = useShippingMethodsStore();
 useAsyncData(async () => {
   shippingMethodStore.getAllShippingMethods({
     status: "deleted",
-
   });
 });
 const onRecover = async (id) => {
@@ -129,7 +129,8 @@ const onRecover = async (id) => {
 const showRecoverConfirm = (id) => {
   Modal.confirm({
     title: "Bạn có chắc chắn muốn khôi phục?",
-    content: "Khi đã khôi phục, phương thức vận chuyển sẽ hiển thị trên trang tất cả phương thức vận chuyển.",
+    content:
+      "Khi đã khôi phục, phương thức vận chuyển sẽ hiển thị trên trang tất cả phương thức vận chuyển.",
     okText: "Khôi phục",
     okType: "danger",
     cancelText: "Hủy",
@@ -143,6 +144,11 @@ const showRecoverConfirm = (id) => {
 };
 const columns = [
   {
+    title: "Tên phương thức vận chuyển",
+    dataIndex: "method",
+    key: "method",
+  },
+  {
     title: "Logo",
     dataIndex: "logo",
     key: "logo",
@@ -152,11 +158,7 @@ const columns = [
     dataIndex: "location",
     key: "location",
   },
-  {
-    title: "Phương thức vận chuyển",
-    dataIndex: "method",
-    key: "method",
-  },
+
   {
     title: "Phí vận chuyển",
     dataIndex: "fee",
@@ -180,5 +182,4 @@ const columns = [
     key: "action",
   },
 ];
-
 </script>
