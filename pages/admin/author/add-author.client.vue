@@ -4,7 +4,6 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Thêm tác giả</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
@@ -67,7 +66,7 @@
           </div>
           <div class="flex justify-end gap-2">
             <a-button> Hủy</a-button>
-            <a-button type="primary" html-type="submit" :loading="AuthorStore.isSubmitting"> Lưu</a-button>
+            <a-button type="primary" html-type="submit" :loading="AuthorStore.isSubmitting"> Thêm</a-button>
           </div>
         </div>
 

@@ -219,7 +219,7 @@ const showDeleteConfirm = (id) => {
 };
 const columns = [
   {
-    title: "Phương thức vận chuyển",
+    title: "Tên phương thức vận chuyển",
     dataIndex: "method",
     key: "method",
   },
