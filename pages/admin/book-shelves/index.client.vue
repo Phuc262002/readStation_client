@@ -112,7 +112,7 @@
           <template v-if="column.key === 'status'">
             <span>
               <a-tag :color="record.status === 'active' ? 'green' : 'volcano'" style="border: none">
-                {{ record.status === 'active' ? 'hoạt động' : 'Không hoạt động' }}
+                {{ record.status === 'active' ? 'Đang hoạt động' : 'Không hoạt động' }}
               </a-tag>
             </span>
           </template>

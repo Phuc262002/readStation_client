@@ -122,7 +122,7 @@
             <span class="font-bold">Xác thực tài khoản</span>
           </span>
         </template>
-        <a-menu-item key="8">
+        <a-menu-item key="10">
           <NuxtLink
             to="/account/verify/verify-account"
             class="flex items-center gap-2 font-semibold"
@@ -131,7 +131,7 @@
           </NuxtLink>
         </a-menu-item>
 
-        <a-menu-item key="9">
+        <a-menu-item key="11">
           <NuxtLink
             to="/account/verify/verify-student"
             class="flex items-center gap-2 font-semibold"
@@ -141,14 +141,14 @@
         </a-menu-item>
       </a-sub-menu>
 
-      <a-menu-item key="11">
+      <a-menu-item key="12">
         <NuxtLink to="/account/order" class="flex items-center gap-2">
           <Icon icon="solar:box-minimalistic-outline" class="text-xl" />
           <span class="font-bold">Quản lý đơn hàng</span>
         </NuxtLink>
       </a-menu-item>
 
-      <a-menu-item key="12">
+      <a-menu-item key="13">
         <NuxtLink
           to="/account/manager/change-password"
           class="flex items-center gap-2"
@@ -158,7 +158,7 @@
         </NuxtLink>
       </a-menu-item>
 
-      <a-menu-item key="13" @click="logout">
+      <a-menu-item key="14" @click="logout">
         <NuxtLink to="/" class="flex items-center gap-2">
           <Icon icon="humbleicons:logout" class="text-xl" />
           <span class="font-bold">Đăng xuất</span>
