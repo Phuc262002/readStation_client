@@ -133,33 +133,23 @@
               </NuxtLink>
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                >
-                  <UIcon
-                    class="group-hover:text-[#131313]"
-                    name="i-solar-menu-dots-bold"
-                  />
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                  <UIcon class="group-hover:text-[#131313]" name="i-solar-menu-dots-bold" />
                 </button>
                 <template #overlay>
                   <a-menu class="space-y-1">
                     <NuxtLink>
                       <a-menu-item key="1" class="p-4 hover:!bg-tag-bg-02">
                         <button class="flex items-center gap-2" @click="showModalEdit(record?.id)">
-                          <Icon
-                            icon="fluent:edit-48-regular"
-                            class="text-lg text-tag-text-02"
-                          />
+                          <Icon icon="fluent:edit-48-regular" class="text-lg text-tag-text-02" />
                           <span class="text-tag-text-02 font-bold">Sửa</span>
                         </button>
                       </a-menu-item>
                     </NuxtLink>
 
                     <a-menu-item key="2" class="p-4">
-                      <button
-                         @click="showDeleteConfirm(record?.id)"
-                        class="flex items-center gap-2"
-                      >
-                        <Icon icon="hugeicons:delete-01" class="text-lg text-tag-text-06" /> 
+                      <button @click="showDeleteConfirm(record?.id)" class="flex items-center gap-2">
+                        <Icon icon="hugeicons:delete-01" class="text-lg text-tag-text-06" />
                         <span class="text-tag-text-06 font-bold">Xóa</span>
                       </button>
                     </a-menu-item>
@@ -209,9 +199,13 @@ const categoryQuery = ref({
   label: ""
 });
 useAsyncData(async () => {
-  await categoryStore.getAllCategory({
-    type: 'book'
-  });
+  try {
+    await categoryStore.getAllCategory({
+      type: 'book'
+    });
+  } catch (error) {
+    console.error(error);
+  }
 },
 );
 const categoryValue = ({ id, label }: any) => {
@@ -224,7 +218,11 @@ const bookcaseQuery = ref({
   label: ""
 });
 useAsyncData(async () => {
-  await bookcaseStore.getAllBookcase({});
+  try {
+    await bookcaseStore.getAllBookcase({});
+  } catch (error) {
+    console.error(error);
+  }
 },
 );
 const bookcaseValue = ({ id, label }: any) => {
@@ -253,7 +251,11 @@ useAsyncData(async () => {
   watch: [valueSearch, categoryQuery.value, bookcaseQuery.value, queryStatus.value, current]
 });
 const onDelete = async (id: string) => {
-  await shelvesValue.deleteShelves(id);
+  try {
+    await shelvesValue.deleteShelves(id);
+  } catch (error) {
+    console.error(error);
+  }
   await getData();
 };
 const showDeleteConfirm = (id: string) => {

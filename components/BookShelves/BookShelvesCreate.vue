@@ -121,10 +121,15 @@ const onSubmit = async () => {
       };
     }
     handleClose();
-    useAsyncData(async()=>{
-      await shelvesValue.getAllShelves({});
+    useAsyncData(async () => {
+      try {
+        await shelvesValue.getAllShelves({});
+      } catch (error) {
+        console.error(error);
+      }
     })
   } catch (error) {
+    message.error("Thêm kệ sách thất bại");
     console.error(error);
   }
   props.openModal();

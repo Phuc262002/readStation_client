@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="flex justify-end items-end gap-2">
-                        <a-button @click="handleClose" >Hủy</a-button>
+                        <a-button @click="handleClose">Hủy</a-button>
                         <a-button html-type="submit"
                             class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary mt-4 ">Cập
                             nhật</a-button>
@@ -89,28 +89,40 @@ const valueSupplier = ref({
 
 
 useAsyncData(async () => {
-    const data = await supplierStore.getSupplierById(supplierId.value);
-    valueSupplier.value.name = data.data._value?.data?.name;
-    valueSupplier.value.phone = data.data._value?.data?.phone;
-    valueSupplier.value.email = data.data._value?.data?.email;
-    valueSupplier.value.address = data.data._value?.data?.address;
-    valueSupplier.value.status = data.data._value?.data?.status;
+    try {
+        const data = await supplierStore.getSupplierById(supplierId.value);
+        valueSupplier.value.name = data.data._value?.data?.name;
+        valueSupplier.value.phone = data.data._value?.data?.phone;
+        valueSupplier.value.email = data.data._value?.data?.email;
+        valueSupplier.value.address = data.data._value?.data?.address;
+        valueSupplier.value.status = data.data._value?.data?.status;
+    } catch (error) {
+        console.error(error);
+    }
 }, {
     watch: [supplierId],
     initialCache: false,
 })
-
 const updateSupplier = async () => {
-    const valueUpdateSupplier = {
-        name: valueSupplier.value?.name,
-        phone: valueSupplier.value?.phone,
-        email: valueSupplier.value?.email,
-        address: valueSupplier.value?.address,
-        status: valueSupplier.value?.status,
+    try {
+        const valueUpdateSupplier = {
+            name: valueSupplier.value?.name,
+            phone: valueSupplier.value?.phone,
+            email: valueSupplier.value?.email,
+            address: valueSupplier.value?.address,
+            status: valueSupplier.value?.status,
+        }
+        await supplierStore.updateSupplier({ id: supplierId.value, valueSupplier: valueUpdateSupplier });
+    } catch (error) {
+        message.error("Cập nhật nhà cung cấp thất bại");
+        console.log(error);
     }
-    await supplierStore.updateSupplier({ id: supplierId.value, valueSupplier: valueUpdateSupplier });
     handleClose();
-    await supplierStore.getAllSupplier({});
+    try {
+        await supplierStore.getAllSupplier({});
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 </script>

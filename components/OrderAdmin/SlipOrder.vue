@@ -96,7 +96,8 @@ const onSubmit = async () => {
       dataUpdateReturnHistory: data.value,
     });
   } catch (error) {
-
+    message.error("Cập nhật trả sách thất bại");
+    console.error(error);
   }
 };
 

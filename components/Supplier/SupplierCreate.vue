@@ -64,6 +64,7 @@ const onSubmit = async () => {
     handleClose();
     await supplierStore.getAllSupplier({});
   } catch (error) {
+    message.error("Thêm nhà cung cấp thất bại");
     console.log(error);
   }
 };

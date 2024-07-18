@@ -58,9 +58,14 @@
 import { Icon } from "@iconify/vue";
 const bookShelves = useShelvesStore()
 useAsyncData(async () => {
-  await bookShelves.getAllShelves({
+  try {
+    await bookShelves.getAllShelves({
     status: "deleted"
   })
+  } catch (error) {
+    console.error(error)
+  }
+
 })
 const showRecoverConfirm = (id) => {
   Modal.confirm({

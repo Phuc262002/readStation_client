@@ -240,63 +240,76 @@ const data = ref(
 )
 
 useAsyncData(async () => {
-  const res = await bookDetailStore.getOneBookDetail(idBookDetail.value);
-  data.value.sku_origin = res.data._value?.data?.sku_origin;
-  data.value.book_version = res.data._value?.data?.book_version;
-  data.value.stock = res.data._value?.data?.stock;
-  data.value.price = res.data._value?.data?.price;
-  data.value.hire_percent = res.data._value?.data?.hire_percent;
-  data.value.cardboard = res.data._value?.data?.cardboard;
-  data.value.total_page = res.data._value?.data?.total_page;
-  data.value.book_size = res.data._value?.data?.book_size;
-  data.value.language = res.data._value?.data?.language;
-  data.value.translator = res.data._value?.data?.translator;
-  data.value.publish_date = res.data._value?.data?.publish_date;
-  data.value.issuing_company = res.data._value?.data?.issuing_company;
-  data.value.publishing_company = res.data._value?.data?.publishing_company.id;
-  fileList.value = [
-    {
-      uid: "-1",
-      name: "image.png",
-      status: "done",
-      url: res.data._value?.data?.poster,
-    },
-  ];
+  try {
+    const res = await bookDetailStore.getOneBookDetail(idBookDetail.value);
+    data.value.sku_origin = res.data._value?.data?.sku_origin;
+    data.value.book_version = res.data._value?.data?.book_version;
+    data.value.stock = res.data._value?.data?.stock;
+    data.value.price = res.data._value?.data?.price;
+    data.value.hire_percent = res.data._value?.data?.hire_percent;
+    data.value.cardboard = res.data._value?.data?.cardboard;
+    data.value.total_page = res.data._value?.data?.total_page;
+    data.value.book_size = res.data._value?.data?.book_size;
+    data.value.language = res.data._value?.data?.language;
+    data.value.translator = res.data._value?.data?.translator;
+    data.value.publish_date = res.data._value?.data?.publish_date;
+    data.value.issuing_company = res.data._value?.data?.issuing_company;
+    data.value.publishing_company = res.data._value?.data?.publishing_company.id;
+    fileList.value = [
+      {
+        uid: "-1",
+        name: "image.png",
+        status: "done",
+        url: res.data._value?.data?.poster,
+      },
+    ];
+  } catch (error) {
+    console.error(error);
+  }
+
 }, {
   watch: [idBookDetail, open],
   initialCache: false,
 });
 const onSubmit = async () => {
-  const dataUpdate = {
-    book_id: idBookDetail.value,
-    sku_origin: data.value.sku_origin,
-    poster: imageInfo.value?.url || data.value.poster,
-    images: [
-      "https://www.vinaprint.vn/wp-content/uploads/2023/01/poster-ra-mat-sach-2.jpeg",
-      "https://www.vinaprint.vn/wp-content/uploads/2023/01/poster-ra-mat-sach-2.jpeg",
-      "https://www.vinaprint.vn/wp-content/uploads/2023/01/poster-ra-mat-sach-2.jpeg",
-    ],
-    book_version: data.value.book_version,
-    price: data.value.price,
-    hire_percent: data.value.hire_percent,
-    stock: data.value.stock,
-    publish_date: data.value.publish_date,
-    publishing_company_id: data.value.publishing_company,
-    issuing_company: data.value.issuing_company,
-    cardboard: data.value.cardboard,
-    total_page: data.value.total_page,
-    translator: data.value.translator,
-    language: data.value.language,
-    book_size: data.value.book_size,
-  };
-
-  await bookDetailStore.updateBookDetail({
-    id: idBookDetail.value,
-    valueBookDetail: dataUpdate,
-  });
+  try {
+    const dataUpdate = {
+      book_id: idBookDetail.value,
+      sku_origin: data.value.sku_origin,
+      poster: imageInfo.value?.url || data.value.poster,
+      images: [
+        "https://www.vinaprint.vn/wp-content/uploads/2023/01/poster-ra-mat-sach-2.jpeg",
+        "https://www.vinaprint.vn/wp-content/uploads/2023/01/poster-ra-mat-sach-2.jpeg",
+        "https://www.vinaprint.vn/wp-content/uploads/2023/01/poster-ra-mat-sach-2.jpeg",
+      ],
+      book_version: data.value.book_version,
+      price: data.value.price,
+      hire_percent: data.value.hire_percent,
+      stock: data.value.stock,
+      publish_date: data.value.publish_date,
+      publishing_company_id: data.value.publishing_company,
+      issuing_company: data.value.issuing_company,
+      cardboard: data.value.cardboard,
+      total_page: data.value.total_page,
+      translator: data.value.translator,
+      language: data.value.language,
+      book_size: data.value.book_size,
+    };
+    await bookDetailStore.updateBookDetail({
+      id: idBookDetail.value,
+      valueBookDetail: dataUpdate,
+    });
+  } catch (error) {
+    message.error("Cập nhật sách thất bại");
+    console.error(error);
+  }
   handleClose();
   useAsyncData(async () => {
-    await bookStore.getOneBookAdmin(bookID);
+    try {
+      await bookStore.getOneBookAdmin(bookID);
+    } catch (error) {
+      console.error(error);
+    }
   });
 }
 

@@ -249,9 +249,14 @@ const onSubmit = async () => {
     });
     handleClose()
     useAsyncData(async () => {
-    await bookStore.getOneBookAdmin(bookID);
-  });
+      try {
+        await bookStore.getOneBookAdmin(bookID);
+      } catch (error) {
+        console.error(error);
+      }
+    });
   } catch (error) {
+    message.error("Thêm phiên bản sách thất bại");
     console.error(error);
 
   }

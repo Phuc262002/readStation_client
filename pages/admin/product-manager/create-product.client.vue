@@ -4,7 +4,7 @@
             <div class="grow">
                 <h5 class="text-xl text-[#1e293b] font-bold">Tạo đơn hàng</h5>
             </div>
-           
+
         </div>
 
         <!-- Đây là phần code mẫu body -->
@@ -174,7 +174,7 @@ useAsyncData(async () => {
             search: valueSearchUser.value,
         })
     } catch (error) {
-
+        console.error(error)
     }
 },
     {
@@ -258,7 +258,7 @@ const onSubmit = async () => {
     try {
         await orderStore.creatOrder(valueOrder)
     } catch (error) {
-        message.error("Thêm thất bại");
+        message.error(error);
     }
 }
 
@@ -303,22 +303,31 @@ const address = ref({
     street: "",
 });
 useAsyncData(async () => {
-    const data = await baseStore.getProvinces();
-    provinces.value = data.data._rawValue.data.map((item) => {
-        return {
-            value: item.ProvinceID,
-            label: item.ProvinceName,
-        };
-    });
+    try {
+        const data = await baseStore.getProvinces();
+        provinces.value = data.data._rawValue.data.map((item) => {
+            return {
+                value: item.ProvinceID,
+                label: item.ProvinceName,
+            };
+        });
+    } catch (error) {
+        console.error(error);
+
+    }
 });
 
 useAsyncData(
     async () => {
-        const dataDistricts = await baseStore.getDistricts(valuePronvines._value);
-        districts.value = dataDistricts.data._rawValue.data.map((item) => ({
-            value: item.DistrictID,
-            label: item.DistrictName,
-        }));
+        try {
+            const dataDistricts = await baseStore.getDistricts(valuePronvines._value);
+            districts.value = dataDistricts.data._rawValue.data.map((item) => ({
+                value: item.DistrictID,
+                label: item.DistrictName,
+            }));
+        } catch (error) {
+            console.error(error);
+        }
     },
     {
         watch: valuePronvines,
@@ -327,11 +336,15 @@ useAsyncData(
 
 useAsyncData(
     async () => {
-        const dataWards = await baseStore.getWards(valueDistricts._rawValue);
-        wards.value = dataWards.data._rawValue.data.map((item) => ({
-            value: item.WardCode,
-            label: item.WardName,
-        }));
+        try {
+            const dataWards = await baseStore.getWards(valueDistricts._rawValue);
+            wards.value = dataWards.data._rawValue.data.map((item) => ({
+                value: item.WardCode,
+                label: item.WardName,
+            }));
+        } catch (error) {
+            console.error(error);
+        }
     },
     {
         watch: valueDistricts,
@@ -372,7 +385,12 @@ const showConfirm = (id) => {
     });
 };
 const deleteBook = (id) => {
-    const newData = data.value.filter(item => item.id !== id);
-    data.value = newData;
+    try {
+        const newData = data.value.filter(item => item.id !== id);
+        data.value = newData;
+    } catch (error) {
+        message.error("Xóa sách thất bại");
+        console.error(error);
+    }
 };
 </script>

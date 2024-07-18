@@ -147,7 +147,6 @@ watchEffect(() => {
 });
 const onSubmit = async () => {
   try {
-
     await AuthorStore.createAuthor({
       avatar: imageInfo.value?.url,
       author: ValueAuthor.value.author,

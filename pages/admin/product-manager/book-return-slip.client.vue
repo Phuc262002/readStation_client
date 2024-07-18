@@ -46,11 +46,11 @@ import dayjs from 'dayjs';
               <span v-if="record?.return_method === 'pickup'">Giao trả đến thư viện</span>
             </template>
             <template v-if="column.key === 'processed_by'">
-                <span>{{ record?.processed_by?.fullname ? record?.processed_by?.fullname : 'Chưa được xử lý'}}</span>
+              <span>{{ record?.processed_by?.fullname ? record?.processed_by?.fullname : 'Chưa được xử lý' }}</span>
             </template>
             <template v-if="column.key === 'status'">
               <span v-if="record?.status === 'completed'">
-                <a-tag :bordered="false"  class="bg-tag-bg-05 text-tag-text-05">Hoàn thành</a-tag>
+                <a-tag :bordered="false" class="bg-tag-bg-05 text-tag-text-05">Hoàn thành</a-tag>
               </span>
               <span v-if="record?.status === 'pending'">
                 <a-tag :bordered="false" class="bg-tag-bg-01 text-tag-text-01">Đang xử lý</a-tag>
@@ -81,7 +81,11 @@ import dayjs from 'dayjs';
 <script setup>
 const returnHistoryStore = useReturnHistoryStore();
 useAsyncData(async () => {
-  await returnHistoryStore.getAllReturnHistory({});
+  try {
+    await returnHistoryStore.getAllReturnHistory({});
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 const columns = [
