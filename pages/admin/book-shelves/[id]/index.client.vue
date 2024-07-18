@@ -66,6 +66,16 @@
               <p>{{ record?.book?.author.author }}</p>
             </span>
           </template>
+          <template v-if="column.key === 'price'">
+            <span class="flex justify-start gap-2">
+              <p>{{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(record?.price)
+                }}</p>
+            </span>
+          </template>
           <template v-if="column.key === 'category'">
             <span class="flex justify-start gap-2">
               <p>{{ record?.book?.category.name }}</p>
