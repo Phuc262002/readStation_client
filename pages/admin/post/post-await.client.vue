@@ -345,7 +345,7 @@ const columns = [
     dataIndex: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     key: "action",
   },
 ];

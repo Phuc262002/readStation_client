@@ -285,7 +285,7 @@ const columns = [
         key: "category",
     },
     {
-        title: "Action",
+        title: "Thao tác",
         key: "action",
     },
 ];

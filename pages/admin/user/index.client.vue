@@ -580,7 +580,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Hành động",
+    title: "Thao tác",
     dataIndex: "action",
     key: "action",
   },

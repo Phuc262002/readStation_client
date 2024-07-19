@@ -173,7 +173,7 @@ const columns = [
   },
 
   {
-    title: "Chức năng",
+    title: "Thao tác",
     key: "action",
   },
 ];
