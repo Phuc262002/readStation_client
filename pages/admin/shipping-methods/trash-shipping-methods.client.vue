@@ -78,10 +78,7 @@
                   @click="showRecoverConfirm(record.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
-                    class="text-lg"
-                    name="i-material-symbols-autorenew-rounded"
-                  />
+                <Icon icon="ic:round-settings-backup-restore" class="text-lg" />
                 </button>
               </a-tooltip>
             </div>
@@ -100,6 +97,7 @@
   </div>
 </template>
 <script setup>
+import { Icon } from "@iconify/vue";
 import { Modal } from "ant-design-vue";
 const openModalAdd = ref(false);
 const openModalEdit = ref(false);
