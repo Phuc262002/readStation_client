@@ -165,7 +165,7 @@
           <div class="grid grid-cols-6">
             <span class="text-base col-span-2 font-bold">Giới tính: </span>
             <span class="text-base col-span-4">
-              {{ userStore.user?.gender }}
+              {{ userStore.user?.gender === 'male' ? 'Nam' : 'Nữ' }}
             </span>
           </div>
           <div class="grid grid-cols-6">

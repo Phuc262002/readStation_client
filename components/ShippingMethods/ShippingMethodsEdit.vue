@@ -15,7 +15,7 @@
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-           Tên phương thức vận chuyển
+            Tên phương thức vận chuyển
           </label>
           <div class="mt-1">
             <a-input
@@ -29,7 +29,7 @@
 
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Khu vực  <span class="text-red-500">*</span>
+            Khu vực <span class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <a-select
@@ -45,7 +45,7 @@
         </div>
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Phí vận chuyển  <span class="text-red-500">*</span>
+            Phí vận chuyển <span class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <a-input
@@ -77,7 +77,8 @@
             <a-select
               ref="select"
               v-model:value="shippingMethod.status"
-              style="width: 120px"
+              class="w-full"
+              size="large"
               @change="handleChange"
             >
               <a-select-option value="active">Hoạt động</a-select-option>
@@ -125,7 +126,7 @@
             :loading="shippingMethodStore.isSubmitting"
             html-type="submit"
             class="mt-4"
-            >Lưu</a-button
+            >Cập nhật</a-button
           >
         </div>
       </div>

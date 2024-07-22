@@ -36,7 +36,7 @@
               size="large"
               v-model:value="selectedItems"
               mode="multiple"
-              placeholder="Inserted are removed"
+              placeholder="Chọn khu vực"
               style="width: 100%"
               :options="filteredOptions.map((item) => ({ value: item }))"
               required
@@ -107,7 +107,7 @@
             :loading="shippingMethodStore.isSubmitting"
             html-type="submit"
             class="mt-4"
-            >Lưu</a-button
+            >Thêm</a-button
           >
         </div>
       </div>
