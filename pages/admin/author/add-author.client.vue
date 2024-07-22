@@ -13,7 +13,7 @@
         <div class="grid grid-cols-6 gap-4">
           <div class="flex flex-col gap-3 col-start-1 col-end-3">
             <label class="text-sm font-semibold" for=""
-              >Avatar <span class="text-red-500">*</span></label
+              >Avatar </label
             >
             <ClientOnly>
               <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
@@ -94,11 +94,11 @@
             </div>
           </div>
           <div class="flex flex-col gap-2">
-            <label class="text-sm font-semibold" for="">Nội dung <span class="text-red-500">*</span></label>
+            <label class="text-sm font-semibold" for="">Nội dung </label>
             <CommonCKEditor
               :value="ValueAuthor.description"
               @input="(event) => (ValueAuthor.description = event)"
-              required
+              
             />
           </div>
           <div class="flex justify-end gap-2">

@@ -51,7 +51,7 @@
         </div>
         <div class="pt-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Hình danh mục sản phẩm <span class="text-red-500">*</span>
+            Hình danh mục sản phẩm 
           </label>
           <div class="mt-1">
             <ClientOnly>
@@ -66,7 +66,7 @@
                   @drop="handleDrop"
                   :before-upload="beforeUpload"
                   :remove="(file) => deleteFile(file)"
-                  required
+               
                 >
                   <p class="ant-upload-drag-icon">
                     <inbox-outlined></inbox-outlined>
