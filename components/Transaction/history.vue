@@ -3,7 +3,7 @@
     class="flex justify-between cursor-pointer hover:bg-[#f1f1f1] p-2 hover:rounded-md space-y-2"
   >
     <div class="flex justify-center items-start">
-      <div class="space-y-2">
+      <div >
         <p>
           #{{ props?.transactions?.transaction_code }}
         </p>
