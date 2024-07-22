@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-5">
-    <h3 class="font-bold mb-5">Xác thực HS/SV</h3>
+    <h3 class="font-bold mb-5">Xác thực CMT/CCCD</h3>
     <div
       class="flex flex-col space-y-5 items-center bg-white shadow-md rounded-md pb-10 min-h-[700px] pt-10"
     >
