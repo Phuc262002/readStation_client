@@ -3,7 +3,7 @@
     <div v-if="cartStore?.carts.length > 0">
       <div class="flex justify-between h-auto gap-5">
         <!-- Left -->
-        <div class="w-3/4">
+        <div class="w-3/4 rounded-lg">
           <a-table
             :columns="columns"
             :data-source="cartStore?.carts"

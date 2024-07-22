@@ -3,6 +3,20 @@
     <h2 class="font-bold pb-5">
       Chi tiết đơn hàng <span>{{ orderStore?.order?.order_code }}</span>
     </h2>
+    <div
+      class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5 mb-5 text-tag-text-06"
+      v-if="orderStore?.order?.status === 'overdue'"
+    >
+      <p>
+        Read Station xin thông báo rằng thời hạn trả sách của bạn đã quá hạn. Do
+        đó, chúng tôi sẽ tạm tính phí phạt cho đơn hàng này. Bạn có thể lựa chọn
+        một trong hai phương án sau:
+      </p>
+      <div class="text-sm mt-2 pr-5">
+        <p class="mb-2">1. Tiếp tục gia hạn thời gian thuê sách.</p>
+        <p>2. Trả sách ngay để tránh thêm phí phạt.</p>
+      </div>
+    </div>
     <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">
       <div>
         <h3 class="font-bold border-b border-rtgray-50 pb-5">
@@ -258,11 +272,13 @@
               </span>
             </div>
             <div
-              class="grid grid-cols-4"
+              class="grid grid-cols-8"
               v-if="orderStore?.order?.status === 'canceled'"
             >
-              <span class="col-span-2 font-bold">Lý do bị từ chối:</span>
-              <span class="col-span-2"> Quá thời gian thanh toán </span>
+              <span class="col-span-3 font-bold">Lý do bị từ chối:</span>
+              <span class="col-span-5">
+                {{ orderStore?.order?.reason_cancel }}
+              </span>
             </div>
           </div>
           <!--  -->
@@ -353,7 +369,11 @@
           <h3 class="font-bold mb-1">Thông tin sách thuê</h3>
           <span
             class="text-xs text-tag-text-06"
-            v-if="orderStore?.order?.status === 'active'"
+            v-if="
+              orderStore?.order?.status === 'active' ||
+              orderStore?.order?.status === 'returning' ||
+              orderStore?.order?.status === 'overdue'
+            "
           >
             Lưu ý:
             <ul>
@@ -637,7 +657,6 @@ const bookDetail = ref();
 const bookExtendDetail = ref();
 const rating = ref<number>(5);
 const valueRating = ref<string>("");
-const isShow = ref(false);
 const onCancelOrderDetail = async (id: any) => {
   await orderStore.cancelOrder(id);
 };

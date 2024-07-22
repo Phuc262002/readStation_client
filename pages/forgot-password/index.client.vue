@@ -14,14 +14,19 @@
       <div
         class="flex space-y-3 flex-col justify-center items-center bg-white shadow-lg shadow-gray-500 p-8 w-[400px] rounded-lg"
       >
-        <div class="text-center pb-4">
-          <h2 class="text-2xl text-sky-600 font-bold pb-3">
-            Quên mật khẩu? 🔒
-          </h2>
-          <p>
-            Nhập email của bạn và chúng tôi sẽ gửi cho bạn hướng dẫn đặt lại mật
-            khẩu
-          </p>
+        <div>
+          <NuxtLink to="/" class="mb-10 flex justify-center">
+            <img src="../../assets/images/logo_header.svg" alt="" />
+          </NuxtLink>
+          <div>
+            <h2 class="text-xl text-orange-400 font-bold pb-2">
+              Quên mật khẩu? 🔒
+            </h2>
+            <p>
+              Nhập Email của bạn và chúng tôi sẽ gửi cho bạn hướng dẫn đặt lại
+              mật khẩu
+            </p>
+          </div>
         </div>
         <form @submit="onSubmit" class="w-full space-y-6">
           <div class="space-y-2">

@@ -14,7 +14,7 @@
           <NuxtLink to="/">
             <div class="w-fit mx-auto">
               <img
-                src="../../assets/images/Read Station.svg"
+                src="../../assets/images/logo_header.svg"
                 class="w-[230px] justify-center"
                 alt=""
               />
