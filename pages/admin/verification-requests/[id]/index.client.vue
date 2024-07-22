@@ -19,8 +19,7 @@
         <div class="md:col-span-1 space-y-3 border-r border-gray-200">
           <div class="grid grid-cols-3">
             <span class="text-base col-span-1 font-bold">Vai trò: </span>
-            <span class="text-base col-span-2"
-              >
+            <span class="text-base col-span-2">
               <a-tag
                 :bordered="false"
                 v-if="
@@ -386,6 +385,7 @@
         </label>
         <div class="flex gap-2 mt-1">
           <a-image
+             :width="400"
             :src="
               verificationRequestsStore.oneVerificationRequest
                 ?.verification_card_image?.front
@@ -393,6 +393,7 @@
             alt=""
           />
           <a-image
+           :width="400"
             :src="
               verificationRequestsStore.oneVerificationRequest
                 ?.verification_card_image?.back

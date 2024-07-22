@@ -194,9 +194,9 @@
             <span class="text-base col-span-1 font-bold">Ngày cấp: </span>
             <span class="text-base col-span-3">
               {{
-                $dayjs(
+                  userStore.user?.citizen_identity_card ? $dayjs(
                   userStore.user?.citizen_identity_card?.date_of_issue
-                ).format(" DD/MM/YYYY ")
+                ).format(" DD/MM/YYYY ") : ''
               }}
             </span>
           </div>

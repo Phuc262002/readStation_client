@@ -1,13 +1,13 @@
 <template>
   <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
-    <div class="grid grid-cols-4 gap-4 ">
+    <div class="grid grid-cols-4 gap-4">
       <div class="col-span-3 shadow-md rounded-md p-5 space-y-12">
         <div class="md:col-span-1 space-y-3">
           <!-- <div class="grid grid-cols-1"> -->
           <div class="flex place-content-between">
             <div>
               <div class="text-2xl col-span-1">Hóa đơn số</div>
-              <div class="text-2xl col-span-1">
+              <div class="text-2xl col-span-1 font-bold">
                 #{{ orderStore.order?.order_code }}
               </div>
             </div>
@@ -28,42 +28,45 @@
             </div>
           </div>
         </div>
-        <div class="md:col-span-4 space-y-3">
+        <div class="md:col-span-4">
           <div class="grid grid-cols-12 col-span-1 gap-10">
             <div class="col-span-5 space-y-2">
               <div class="text-xl font-bold col-span-1">
                 Nhà cung cấp dịch vụ:
               </div>
-              <div class="text-base col-span-1">Thư viện Read Station</div>
-              <div class="text-base col-span-1">
-                Tòa nhà QTSC9 (toà T), đường Tô Ký, phường Tân Chánh Hiệp, quận
-                12, TP HCM.
-              </div>
-              <div class="flex gap-2 text-base col-span-1">
-                <div class="flex items-center">
-                  <UIcon class="text-base" name="i-ph-phone-light" />
+              <div class="space-y-1">
+                <div class="text-base col-span-1">Thư viện Read Station</div>
+                <div class="text-base col-span-1">
+                  Tòa nhà QTSC9 (toà T), đường Tô Ký, phường Tân Chánh Hiệp,
+                  quận 12, TP HCM.
                 </div>
-                <span> 0901 660 002 - 0901 660 002 </span>
-              </div>
-              <div class="flex gap-2 text-base col-span-1">
-                <div class="flex items-center">
-                  <UIcon class="text-base" name="i-octicon-mail-24" />
+                <div class="flex gap-2 text-base col-span-1">
+                  <div class="flex items-center">
+                    <UIcon class="text-base" name="i-ph-phone-light" />
+                  </div>
+                  <span> 0901 660 002 - 0901 660 002 </span>
                 </div>
-                <span> caodang@fpt.edu.vn </span>
+                <div class="flex gap-2 text-base col-span-1">
+                  <div class="flex items-center">
+                    <UIcon class="text-base" name="i-octicon-mail-24" />
+                  </div>
+                  <span> caodang@fpt.edu.vn </span>
+                </div>
               </div>
             </div>
-            <div class="col-start-8 col-span-5 space-y-3">
-              <div class="text-xl font-bold col-span-1">
-                Thông tin khách hàng:
-              </div>
-              <div class="text-base col-span-1">
-                {{ orderStore.order?.user?.fullname }}
-              </div>
-              <div class="text-base col-span-1">
-                {{ orderStore.order?.user?.phone }}
-              </div>
-              <div class="text-base col-span-1">
-                {{ orderStore.order?.user?.address_detail }}
+            <div class="col-start-8 col-span-5 space-y-2">
+              <div class="text-xl font-bold">Thông tin khách hàng:</div>
+
+              <div class="space-y-1">
+                <div class="text-base">
+                  {{ orderStore.order?.user?.fullname }}
+                </div>
+                <div class="text-base">
+                  {{ orderStore.order?.user?.phone }}
+                </div>
+                <div class="text-base">
+                  {{ orderStore.order?.user?.address_detail }}
+                </div>
               </div>
             </div>
           </div>
@@ -78,7 +81,9 @@
             v-for="(order, index) in orderStore.order?.loan_order_details"
             :key="order.id || index"
           >
-            <div class="col-span-9 font-bold ">{{ order.book_details?.book?.title }}</div>
+            <div class="col-span-9 font-bold">
+              {{ order.book_details?.book?.title }}
+            </div>
             <div class="col-span-3 font-bold">
               {{
                 new Intl.NumberFormat("vi-VN", {
@@ -90,9 +95,11 @@
           </div>
 
           <div>
-            <div class="grid grid-cols-12 ">
-              <div class="col-start-8 col-span-2 font-bold">Tổng tiền cọc sách:</div>
-              <div class="col-span-3 font-bold">
+            <div class="grid grid-cols-12">
+              <div class="col-start-8 col-span-2 font-bold">
+                Tạm tính:
+              </div>
+              <div class="col-span-3 font-bold ">
                 {{
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
@@ -124,9 +131,11 @@
               </div>
             </div>
           </div>
-          <div class="grid grid-cols-12 text-orange-400 bg-orange-50 py-2 rounded-md">
-            <div class="col-start-8 col-span-2">Tổng tiền cọc sách</div>
-            <div class="col-span-3">
+          <div
+            class="grid grid-cols-12 items-end text-orange-400 bg-orange-50 py-2 rounded-md"
+          >
+            <div class="col-start-8 col-span-2 font-bold ">Tổng tiền cọc sách</div>
+            <div class="col-span-3 font-bold text-2xl">
               {{
                 new Intl.NumberFormat("vi-VN", {
                   style: "currency",
@@ -138,7 +147,7 @@
         </div>
       </div>
 
-      <div class="col-span-1 space-y-5 h-fit rounded-md shadow-md  p-5 ">
+      <div class="col-span-1 space-y-5 h-fit rounded-md shadow-md p-5">
         <div>
           <div class="font-bold text-2xl">Số tiền cần thanh toán</div>
           <div
