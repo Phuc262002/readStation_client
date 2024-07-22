@@ -12,7 +12,7 @@
         </p>
         <p>
           {{
-            dayjs(props?.transactions?.created_at).format(" DD/MM/YYYY - HH:mm")
+            dayjs(props?.transactions?.created_at).format(" DD/MM/YYYY  HH:mm:ss")
           }}
         </p>
         <p class="flex items-center">

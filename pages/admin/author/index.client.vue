@@ -84,7 +84,7 @@
           </template>
 
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <NuxtLink :to="`author/edit/${record.id}`">
                 <a-tooltip placement="top">
                   <template #title>

@@ -473,7 +473,7 @@
                 </div>
               </template>
               <template v-else-if="column.key === 'action'">
-                <div class="flex text-[16px] gap-4">
+                <div class="flex text-[16px] gap-2">
                   <NuxtLink :to="`/admin/product-manager/${record.id}`">
                     <a-tooltip placement="top">
                       <template #title>
@@ -524,7 +524,7 @@
             </div>
             <h1 class="text-[#7b7b7b] font-semibold">Chưa có dữ liệu</h1>
           </div>
-          <NuxtLink to="/admin/book">
+          <NuxtLink class="hover:text-[black]" to="/admin/book">
             <DashboardBook
               v-for="book in dashboardStore.dashboardBook"
               :key="book.id"
@@ -549,7 +549,7 @@
             </div>
             <h1 class="text-[#7b7b7b] font-semibold">Chưa có dữ liệu</h1>
           </div>
-          <NuxtLink to="/admin/manager-bill">
+          <NuxtLink class="hover:text-[black]" to="/admin/manager-bill">
             <DashboardBill
               v-for="bill in dashboardStore.dashboardInvoice"
               :key="bill.id"
