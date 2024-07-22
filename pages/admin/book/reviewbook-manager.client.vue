@@ -62,16 +62,18 @@
             </span>
           </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top">
-                <template #title>
-                  <span>Xem chi tiết</span>
-                </template>
-                <button @click="showModal"
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
-                  <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
-                </button>
-              </a-tooltip>
+            <div class="flex text-[16px] gap-2">
+              <NuxtLink>
+                <a-tooltip placement="top">
+                  <template #title>
+                    <span>Xem chi tiết</span>
+                  </template>
+                  <button
+                    class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                    <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
+                  </button>
+                </a-tooltip>
+              </NuxtLink>
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
@@ -89,7 +91,7 @@
                     </NuxtLink>
 
                     <a-menu-item key="2" class="p-4">
-                      <button @click="showDeleteConfirm(record?.id)" class="flex items-center gap-2">
+                      <button class="flex items-center gap-2">
                         <Icon icon="hugeicons:delete-01" class="text-lg text-tag-text-06" />
                         <span class="text-tag-text-06 font-bold">Xóa</span>
                       </button>
