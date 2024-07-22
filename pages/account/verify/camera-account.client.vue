@@ -11,10 +11,11 @@
         autoplay
         playsinline
       ></video>
+      <img v-if="!cameraOn" src="assets/images/camera.png" alt="">
       <button @click="toggleCamera">
         {{ cameraOn ? "Tắt máy ảnh" : "Bật máy ảnh" }}
       </button>
-      <button @click="capturePhoto" :disabled="!cameraOn">Chụp ảnh</button>
+      <button v-if="cameraOn" @click="capturePhoto" class="bg-tag-text-10  border-none text-white rounded-lg h-10 px-16" >Chụp ảnh</button>
       <div v-if="photos.length" class="flex space-x-10">
         <div v-for="(photo, index) in photos" :key="index" class="text-center">
           <p>{{ index === 0 ? "Hình mặt trước" : "Hình mặt sau" }}</p>
