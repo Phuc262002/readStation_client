@@ -21,50 +21,77 @@
               <UIcon class="text-gray-500" name="i-material-symbols-search" />
             </div>
           </div>
-          <NuxtLink to="/admin/book/create-book" class="">
-            <a-button type="primary">Thêm sách</a-button>
-          </NuxtLink>
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item>Tất cả</a-menu-item>
+                <a-menu-item>Hoạt động</a-menu-item>
+                <a-menu-item>Không hoạt
+                  động</a-menu-item>
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              Số sao
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
-  
-        <a-table :columns="columns" :data-source="data">
-          <template #headerCell="{ column }">
-            <template v-if="column.key === 'sku'">
-              <span> Mã sách</span>
-            </template>
+        <NuxtLink to="/admin/book/create-book" class="">
+          <a-button type="primary" size="large">Thêm sách</a-button>
+        </NuxtLink>
+      </div>
+
+      <a-table :columns="columns" :data-source="data">
+        <template #headerCell="{ column }">
+          <template v-if="column.key === 'title'">
+            <span>Tên sách</span>
           </template>
-  
-          <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'name'">
-              <a>
-                {{ record.name }}
-              </a>
-            </template>
-            <template v-else-if="column.key === 'action'">
-              <div class="flex text-[16px] gap-4">
-                <a-tooltip placement="top" color="gold">
-                  <template #title>
-                    <span>Xem chi tiết</span>
-                  </template>
-                  <span
-                    class="hover:bg-[#faad14]/20 flex items-center justify-center w-6 h-6 rounded-md"
-                    ><UIcon
-                      class="hover:text-[#faad14]"
-                      name="i-icon-park-outline-eyes"
-                  /></span>
-                </a-tooltip>
-                <a-tooltip placement="top" color="green">
-                  <template #title>
-                    <span>Sửa</span>
-                  </template>
-                  <span
-                    class="hover:bg-[green]/20 flex items-center justify-center w-6 h-6 rounded-md"
-                  >
-                    <div>
-                      <button @click="showModal">
-                        <UIcon
-                          class="hover:text-[green]"
-                          name="i-material-symbols-edit-outline"
-                        />
+        </template>
+
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'Assessor'">
+            <div class="flex flex-col gap-2">
+              <span>{{ record.Assessor }}</span>
+              <span>{{ record.phone }}</span>
+              <span>{{ record.email }}</span>
+            </div>
+          </template>
+          <template v-if="column.key === 'rating'">
+            <span>
+              <CommonRating :rating="record.rating" />
+            </span>
+          </template>
+          <template v-else-if="column.key === 'action'">
+            <div class="flex text-[16px] gap-4">
+              <a-tooltip placement="top">
+                <template #title>
+                  <span>Xem chi tiết</span>
+                </template>
+                <button @click="showModal"
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                  <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
+                </button>
+              </a-tooltip>
+              <a-dropdown :trigger="['click']" placement="bottom">
+                <button
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                  <UIcon class="group-hover:text-[#131313]" name="i-solar-menu-dots-bold" />
+                </button>
+                <template #overlay>
+                  <a-menu class="space-y-1">
+                    <NuxtLink>
+                      <a-menu-item key="1" class="p-4 hover:!bg-tag-bg-02">
+                        <button class="flex items-center gap-2">
+                          <Icon icon="fluent:edit-48-regular" class="text-lg text-tag-text-02" />
+                          <span class="text-tag-text-02 font-bold">Sửa</span>
+                        </button>
+                      </a-menu-item>
+                    </NuxtLink>
+
+                    <a-menu-item key="2" class="p-4">
+                      <button @click="showDeleteConfirm(record?.id)" class="flex items-center gap-2">
+                        <Icon icon="hugeicons:delete-01" class="text-lg text-tag-text-06" />
+                        <span class="text-tag-text-06 font-bold">Xóa</span>
                       </button>
                     </a-menu-item>
                   </a-menu>
