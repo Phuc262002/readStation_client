@@ -15,7 +15,7 @@
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Phương thức vận chuyển
+            Tên phương thức vận chuyển <span class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <a-input
@@ -29,22 +29,23 @@
 
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Khu vực
+            Khu vực <span class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <a-select
               size="large"
               v-model:value="selectedItems"
               mode="multiple"
-              placeholder="Inserted are removed"
+              placeholder="Chọn khu vực"
               style="width: 100%"
               :options="filteredOptions.map((item) => ({ value: item }))"
+              required
             ></a-select>
           </div>
         </div>
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Phí vận chuyển
+            Phí vận chuyển <span class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <a-input
@@ -106,7 +107,7 @@
             :loading="shippingMethodStore.isSubmitting"
             html-type="submit"
             class="mt-4"
-            >Lưu</a-button
+            >Thêm</a-button
           >
         </div>
       </div>

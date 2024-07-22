@@ -64,7 +64,7 @@
             </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <a-tooltip placement="top" color="black ">
                 <template #title>
                   <span>Khôi phục</span>
@@ -73,10 +73,7 @@
                   @click="showRecoverConfirm(record.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
-                    class="text-lg"
-                    name="i-material-symbols-autorenew-rounded"
-                  />
+                <Icon icon="ic:round-settings-backup-restore" class="text-lg" />
                 </button>
               </a-tooltip>
             </div>
@@ -88,6 +85,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
+import { Icon } from "@iconify/vue";
 import { Modal } from "ant-design-vue";
 import { BookCaseStatus } from "~/types/admin/bookCase";
 import { LoadingOutlined } from "@ant-design/icons-vue";
@@ -165,7 +163,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     key: "action",
   },
 ];

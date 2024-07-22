@@ -84,7 +84,7 @@
           </template>
 
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <NuxtLink :to="`author/edit/${record.id}`">
                 <a-tooltip placement="top">
                   <template #title>
@@ -150,8 +150,12 @@ useAsyncData(async () => {
 });
 
 const onDelete = async (id: string) => {
-  await AuthorStore.deleteAuthor(id);
-  getDataAuthor()
+  try {
+    await AuthorStore.deleteAuthor(id);
+    getDataAuthor()
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const showDeleteConfirm = (id: string) => {
@@ -195,7 +199,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     dataIndex: "action",
     key: "action",
   },

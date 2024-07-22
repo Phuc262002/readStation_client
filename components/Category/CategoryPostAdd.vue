@@ -9,7 +9,7 @@
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Tên danh mục
+            Tên danh mục <span class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <a-input
@@ -25,7 +25,7 @@
 
         <div>
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Mô tả
+            Mô tả <span class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <a-textarea
@@ -39,7 +39,7 @@
         </div>
         <div class="pt-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Hình danh mục bài viết
+            Hình danh mục bài viết 
           </label>
           <div class="mt-1">
             <ClientOnly>
@@ -54,6 +54,7 @@
                   @drop="handleDrop"
                   :before-upload="beforeUpload"
                   :remove="(file) => deleteFile(file)"
+                 
                 >
                   <p class="ant-upload-drag-icon">
                     <inbox-outlined></inbox-outlined>
@@ -75,7 +76,7 @@
             type="primary"
             html-type="submit"
             class="mt-4"
-            >Lưu</a-button
+            >Thêm</a-button
           >
         </div>
       </div>

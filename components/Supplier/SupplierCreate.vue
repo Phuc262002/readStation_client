@@ -26,7 +26,7 @@
         <div class="flex justify-end items-end gap-2">
           <a-button @click="handleClose" >Hủy</a-button>
           <a-button html-type="submit" :loading="supplierStore.isSubmitting"
-            class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary mt-4 ">Lưu</a-button>
+            class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary mt-4 ">Thêm</a-button>
         </div>
       </div>
     </form>
@@ -64,6 +64,7 @@ const onSubmit = async () => {
     handleClose();
     await supplierStore.getAllSupplier({});
   } catch (error) {
+    message.error("Thêm nhà cung cấp thất bại");
     console.log(error);
   }
 };

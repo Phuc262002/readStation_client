@@ -37,7 +37,7 @@
             </div>
           </div>
           <div class="flex justify-end items-end gap-2">
-            <a-button @click="handleClose" >Hủy</a-button>
+            <a-button @click="handleClose">Hủy</a-button>
             <a-button type="primary" html-type="submit">Cập nhật</a-button>
           </div>
         </div>
@@ -97,26 +97,37 @@ const valueShelves = ref({
 
 
 useAsyncData(async () => {
-  const data = await shelvesStore.getOneShelves(shelvesId.value);
-  valueShelves.value.name = data.data._value?.data?.name;
-  valueShelves.value.description = data.data._value?.data?.description;
-  valueShelves.value.bookshelf_code = data.data._value?.data?.bookshelf_code;
-  valueShelves.value.bookcase_id = data.data._value?.data?.bookcase?.description;
-  valueShelves.value.category_id = data.data._value?.data?.category?.name;
-  valueShelves.value.status = data.data._value?.data?.status;
+  try {
+    const data = await shelvesStore.getOneShelves(shelvesId.value);
+    valueShelves.value.name = data.data._value?.data?.name;
+    valueShelves.value.description = data.data._value?.data?.description;
+    valueShelves.value.bookshelf_code = data.data._value?.data?.bookshelf_code;
+    valueShelves.value.bookcase_id = data.data._value?.data?.bookcase?.description;
+    valueShelves.value.category_id = data.data._value?.data?.category?.name;
+    valueShelves.value.status = data.data._value?.data?.status;
+  } catch (error) {
+    console.error(error);
+  }
 }, {
   watch: [shelvesId],
   initialCache: false,
 })
 
 const updateShelves = async () => {
-  const valueUpdateShelves = {
-    name: valueShelves.value?.name,
-    description: valueShelves.value?.description,
-    bookshelf_code: valueShelves.value?.bookshelf_code,
-    status: valueShelves.value?.status,
+  try {
+    const valueUpdateShelves = {
+      name: valueShelves.value?.name,
+      description: valueShelves.value?.description,
+      bookshelf_code: valueShelves.value?.bookshelf_code,
+      status: valueShelves.value?.status,
+    }
+    await shelvesStore.updateShelves({ id: shelvesId.value, valueUpdateShelves: valueUpdateShelves });
+
+  } catch (error) {
+    message.error("Cập nhật kệ sách thất bại");
+    console.error(error);
   }
-  await shelvesStore.updateShelves({ id: shelvesId.value, valueUpdateShelves: valueUpdateShelves });
+  await shelvesStore.getAllShelves({});
   props.openModal();
 }
 

@@ -116,8 +116,12 @@ const onSubmit = async () => {
       id: props.loan_order_detail?.id,
       valueRetunEachBook: valueReturnEachBook.value,
     });
-    handleClose();
-  } catch (error) {}
+
+  } catch (error) {
+    message.error("Trả sách thất bại");
+    console.error(error);
+  }
+  handleClose();
 };
 const handleChange = (value) => {
   console.log(`selected ${value}`);

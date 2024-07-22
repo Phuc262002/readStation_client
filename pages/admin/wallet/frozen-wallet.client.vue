@@ -6,7 +6,6 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Ví</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
@@ -97,7 +96,7 @@
             </span>
           </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <a-tooltip placement="top" color="black">
                 <template #title>
                   <span>Xem chi tiết</span>

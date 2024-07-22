@@ -117,30 +117,52 @@
             </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top" color="black">
+            <div class="flex text-[16px] gap-2">
+              <a-tooltip
+                v-if="record.status === CommentStatus.PUBLISHED"
+                placement="top"
+                color="black"
+              >
                 <template #title>
-                  <span>Xem chi tiết</span>
+                  <span>Ẩn</span>
                 </template>
                 <button
+                  @click="showRecoverConfirm(record?.id)"
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
                 >
                   <Icon
-                    icon="heroicons:eye"
+                    icon="bitcoin-icons:hidden-filled"
+                    class="group-hover:text-[#212122]"
+                  />
+                </button>
+              </a-tooltip>
+              <a-tooltip v-else placement="top" color="black">
+                <template #title>
+                  <span>Hoạt động</span>
+                </template>
+                <button
+                     @click="showPublishedConfirm(record?.id)"
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
+                >
+                  <Icon icon="charm:tick" class="group-hover:text-[#212122]" />
+                </button>
+              </a-tooltip>
+              <a-tooltip placement="top" color="black">
+                <template #title>
+                  <span>Xóa</span>
+                </template>
+                <button
+                  @click="showDeleteConfirm(record?.id)"
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
+                >
+                  <Icon
+                    icon="hugeicons:delete-01"
                     class="group-hover:text-[#212122]"
                   />
                 </button>
               </a-tooltip>
 
               <a-dropdown :trigger="['click']" placement="bottom">
-                <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                >
-                  <Icon
-                    icon="humbleicons:dots-horizontal"
-                    class="group-hover:text-[#131313]"
-                  />
-                </button>
                 <template #overlay>
                   <a-menu class="space-y-1">
                     <a-menu-item
@@ -184,7 +206,7 @@
                             icon="hugeicons:delete-01"
                             class="text-lg font-bold text-tag-text-06"
                           />
-                          <span class="text-tag-text-06 font-bold">Xóa</span>
+                          <span class="text-tag-text-06 font-bold"></span>
                         </button>
                       </span>
                     </a-menu-item>
@@ -337,7 +359,7 @@ const columns = [
     dataIndex: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     key: "action",
   },
 ];

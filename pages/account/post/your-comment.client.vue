@@ -27,7 +27,7 @@
           </template>
           <!--  -->
           <template v-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <NuxtLink :to="`/post/${record?.post?.slug}`">
                 <a-tooltip placement="top">
                   <template #title>

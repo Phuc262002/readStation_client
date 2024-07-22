@@ -116,7 +116,7 @@
           </template>
 
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <a-tooltip placement="top">
                 <template #title>
                   <span>Sửa</span>
@@ -235,7 +235,7 @@ const columns = [
   },
 
   {
-    title: "Chức năng",
+    title: "Thao tác",
     key: "action",
   },
 ];

@@ -19,8 +19,7 @@
         <div class="md:col-span-1 space-y-3 border-r border-gray-200">
           <div class="grid grid-cols-3">
             <span class="text-base col-span-1 font-bold">Vai trò: </span>
-            <span class="text-base col-span-2"
-              >
+            <span class="text-base col-span-2">
               <a-tag
                 :bordered="false"
                 v-if="
@@ -233,11 +232,11 @@
           verificationRequestsStore.oneVerificationRequest
             ?.verification_card_type === 'citizen_card'
         "
-        class="text-xl text-[#1e293b] font-semibold pb-4"
+        class="text-xl text-[#1e293b] font-bold pb-4"
       >
         Thông tin căn cước
       </div>
-      <div v-else class="text-xl text-[#1e293b] font-semibold pb-4">
+      <div v-else class="text-xl text-[#1e293b] font-bold pb-4">
         Thông tin khách cung cấp
       </div>
       <div
@@ -248,7 +247,7 @@
         class="grid grid-cols-4 gap-4"
       >
         <div class="pb-2">
-          <label for="email" class="block text-sm font-medium text-gray-700">
+          <label for="email" class="block text-sm font-bold text-gray-700">
             Họ tên khai sinh
           </label>
           <div class="mt-1">
@@ -264,14 +263,14 @@
           </div>
         </div>
         <div class="pb-2">
-          <label for="email" class="block text-sm font-medium text-gray-700">
+          <label for="email" class="block text-sm font-bold text-gray-700">
             CMT/CCCD
           </label>
           <div class="mt-1">
             <a-input
               :value="
                 verificationRequestsStore.oneVerificationRequest
-                  ?.verification_card_info?.citizen_name
+                  ?.verification_card_info?.citizen_code
               "
               class="w-full h-10"
               placeholder="Nhập số CMT/CCCD"
@@ -280,7 +279,7 @@
           </div>
         </div>
         <div class="pb-2">
-          <label for="email" class="block text-sm font-medium text-gray-700">
+          <label for="email" class="block text-sm font-bold text-gray-700">
             Ngày cấp
           </label>
           <div class="mt-1">
@@ -296,7 +295,7 @@
           </div>
         </div>
         <div class="pb-2">
-          <label for="email" class="block text-sm font-medium text-gray-700">
+          <label for="email" class="block text-sm font-bold text-gray-700">
             Nơi cấp
           </label>
 
@@ -315,7 +314,7 @@
       </div>
       <div v-else class="grid grid-cols-4 gap-4">
         <div class="pb-2">
-          <label for="email" class="block text-sm font-medium text-gray-700">
+          <label for="email" class="block text-sm font-bold text-gray-700">
             Họ tên khai sinh
           </label>
           <div class="mt-1">
@@ -331,7 +330,7 @@
           </div>
         </div>
         <div class="pb-2">
-          <label for="email" class="block text-sm font-medium text-gray-700">
+          <label for="email" class="block text-sm font-bold text-gray-700">
             Mã số sinh viên
           </label>
           <div class="mt-1">
@@ -347,7 +346,7 @@
           </div>
         </div>
         <div class="pb-2">
-          <label for="email" class="block text-sm font-medium text-gray-700">
+          <label for="email" class="block text-sm font-bold text-gray-700">
             Thời hạn thẻ
           </label>
           <div class="mt-1">
@@ -363,7 +362,7 @@
           </div>
         </div>
         <div class="pb-2">
-          <label for="email" class="block text-sm font-medium text-gray-700">
+          <label for="email" class="block text-sm font-bold text-gray-700">
             Trường
           </label>
 
@@ -381,11 +380,12 @@
         </div>
       </div>
       <div class="pb-2 mt-5">
-        <label class="block text-sm font-medium text-gray-700">
+        <label class="block text-sm font-bold text-gray-700">
           Hình ảnh khách hàng cung cấp
         </label>
         <div class="flex gap-2 mt-1">
           <a-image
+             :width="400"
             :src="
               verificationRequestsStore.oneVerificationRequest
                 ?.verification_card_image?.front
@@ -393,6 +393,7 @@
             alt=""
           />
           <a-image
+           :width="400"
             :src="
               verificationRequestsStore.oneVerificationRequest
                 ?.verification_card_image?.back

@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-5">
-    <h3 class="font-bold mb-5">Xác thực HS/SV</h3>
+    <h3 class="font-bold mb-5">Xác thực CMT/CCCD</h3>
     <div
       class="flex flex-col space-y-5 items-center bg-white shadow-md rounded-md pb-10 min-h-[700px] pt-10"
     >
@@ -11,10 +11,11 @@
         autoplay
         playsinline
       ></video>
-      <button @click="toggleCamera">
+      <img v-if="!cameraOn" src="assets/images/camera.png" alt="">
+      <a-button @click="toggleCamera" class="h-10 text-base !text-orange-500 border-orange-500">
         {{ cameraOn ? "Tắt máy ảnh" : "Bật máy ảnh" }}
-      </button>
-      <button @click="capturePhoto" :disabled="!cameraOn">Chụp ảnh</button>
+      </a-button>
+      <button v-if="cameraOn" @click="capturePhoto" class="bg-tag-text-10  border-none text-white rounded-lg h-10 px-16" >Chụp ảnh</button>
       <div v-if="photos.length" class="flex space-x-10">
         <div v-for="(photo, index) in photos" :key="index" class="text-center">
           <p>{{ index === 0 ? "Hình mặt trước" : "Hình mặt sau" }}</p>

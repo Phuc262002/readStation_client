@@ -66,6 +66,16 @@
               <p>{{ record?.book?.author.author }}</p>
             </span>
           </template>
+          <template v-if="column.key === 'price'">
+            <span class="flex justify-start gap-2">
+              <p>{{
+                new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(record?.price)
+              }}</p>
+            </span>
+          </template>
           <template v-if="column.key === 'category'">
             <span class="flex justify-start gap-2">
               <p>{{ record?.book?.category.name }}</p>
@@ -83,18 +93,18 @@
             </span>
           </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <!-- <a-tooltip placement="top">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
-                <button @click="showModal"
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
-                  <div>
-                    <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
-                  </div>
-                </button>
-              </a-tooltip> -->
+  <button @click="showModal"
+    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+    <div>
+      <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
+    </div>
+  </button>
+  </a-tooltip> -->
               <a-tooltip placement="top">
                 <template #title>
                   <span>Xóa</span>
@@ -127,7 +137,11 @@ const detailShelvesId = route.params.id;
 
 const bookShelves = useShelvesStore();
 useAsyncData(async () => {
-  await bookShelves.getOneShelves(detailShelvesId);
+  try {
+    await bookShelves.getOneShelves(detailShelvesId);
+  } catch (error) {
+    console.error(error);
+  }
 });
 const bookStore = useBookStore();
 const updateDetailShelves = async (id) => {
@@ -138,7 +152,7 @@ const updateDetailShelves = async (id) => {
     await bookStore.updateBook({ id: id, value: idShelves })
     await bookShelves.getOneShelves(detailShelvesId);
   } catch (error) {
-    console.log("🚀 ~ updateDetailShelves ~ error", error)
+    message.error("Xóa sách thất bại");
   }
 }
 
@@ -199,7 +213,7 @@ const columns = [
     key: 'status',
   },
   {
-    title: "Action",
+    title: "Thao tác",
     dataIndex: "action",
     key: "action",
   },

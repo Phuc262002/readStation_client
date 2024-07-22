@@ -3,18 +3,12 @@
     <div class="px-5 py-7 flex flex-col gap-20">
       <div class="text-3xl font-bold">Thể loại</div>
       <div class="grid grid-cols-6 gap-10">
-        <div
-          class="group flex flex-col items-center gap-5 cursor-pointer"
-          v-for="(category, index) in getCategory?.categoryHome"
-          :key="index"
-        >
+        <div class="group flex flex-col items-center gap-5 cursor-pointer"
+          v-for="(category, index) in getCategory?.categoryHome" :key="index">
           <NuxtLink :to="`/products?category=${category.slug}`">
-            <div
-              class="w-40 h-40 border rounded-full relative bg-[##F6F6F6] group-hover:bg-orange-300"
-            >
+            <div class="w-40 h-40 border rounded-full relative bg-[##F6F6F6] group-hover:bg-orange-300">
               <div
-                class="absolute flex justify-center left-4 items-center bottom-9 group-hover:-translate-y-4 transition-transform"
-              >
+                class="absolute flex justify-center left-4 items-center bottom-9 group-hover:-translate-y-4 transition-transform">
                 <img class="w-32 h-38" :src="category?.image" alt="" />
               </div>
             </div>
@@ -29,6 +23,10 @@
 <script setup lang="ts">
 const getCategory = useHomeStore();
 useAsyncData(async () => {
-  await getCategory.getFeauturedCategory();
+  try {
+    await getCategory.getFeauturedCategory();
+  } catch (error) {
+    console.log(error);
+  }
 });
 </script>

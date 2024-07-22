@@ -15,13 +15,13 @@
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Phương thức vận chuyển
+            Tên phương thức vận chuyển
           </label>
           <div class="mt-1">
             <a-input
               v-model:value="shippingMethod.method"
               size="large"
-              placeholder="Nhập phương thức vận chuyển"
+              placeholder="Nhập tên phương thức vận chuyển"
               required
             />
           </div>
@@ -29,7 +29,7 @@
 
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Khu vực
+            Khu vực <span class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <a-select
@@ -39,12 +39,13 @@
               placeholder="Inserted are removed"
               style="width: 100%"
               :options="filteredOptions.map((item) => ({ value: item }))"
+              required
             ></a-select>
           </div>
         </div>
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Phí vận chuyển
+            Phí vận chuyển <span class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <a-input
@@ -76,7 +77,8 @@
             <a-select
               ref="select"
               v-model:value="shippingMethod.status"
-              style="width: 120px"
+              class="w-full"
+              size="large"
               @change="handleChange"
             >
               <a-select-option value="active">Hoạt động</a-select-option>
@@ -124,7 +126,7 @@
             :loading="shippingMethodStore.isSubmitting"
             html-type="submit"
             class="mt-4"
-            >Lưu</a-button
+            >Cập nhật</a-button
           >
         </div>
       </div>

@@ -127,7 +127,7 @@
           </template>
 
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <a-tooltip placement="top">
                 <template #title>
                   <span>Sửa</span>
@@ -219,7 +219,7 @@ const showDeleteConfirm = (id) => {
 };
 const columns = [
   {
-    title: "Phương thức vận chuyển",
+    title: "Tên phương thức vận chuyển",
     dataIndex: "method",
     key: "method",
   },
@@ -252,7 +252,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     dataIndex: "action",
     key: "action",
   },

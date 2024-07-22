@@ -358,7 +358,6 @@ const optionsShelve = ref([]);
 const shelvesValue = useShelvesStore();
 const getDataShelvesValue = async () => {
   try {
-    isLoading.value = true;
     const data = await shelvesValue.getAllShelves({});
     optionsShelve.value = data.data._rawValue.data.shelves.map((shelve) => {
       return {
@@ -368,8 +367,6 @@ const getDataShelvesValue = async () => {
     });
   } catch (error) {
     console.error(error);
-  } finally {
-    isLoading.value = false;
   }
 };
 const optionsCardboard = ref([
@@ -397,8 +394,6 @@ const getDataPublishingcompanyValue = async () => {
       });
   } catch (error) {
     console.error(error);
-  } finally {
-    isLoading.value = false;
   }
 };
 const optionsCategory = ref([]);
@@ -417,15 +412,12 @@ const getDataCategory = async () => {
     );
   } catch (error) {
     console.error(error);
-  } finally {
-    isLoading.value = false;
   }
 };
 const optionsAuthor = ref([]);
 const authorValue = useAuthorStore();
 const getDataAuthor = async () => {
   try {
-    isLoading.value = true;
     const data = await authorValue.getAllAuthor({});
     optionsAuthor.value = data.data._rawValue.data.authors.map((author) => {
       return {
@@ -435,8 +427,6 @@ const getDataAuthor = async () => {
     });
   } catch (error) {
     console.error(error);
-  } finally {
-    isLoading.value = false;
   }
 };
 const createBook = useBookStore();
@@ -546,11 +536,8 @@ const onSubmit = async () => {
       ],
     });
     message.success("Thêm thành công");
-    // navigateTo("/admin/book");
   } catch (error) {
     message.error("Thêm thất bại");
-  } finally {
-    isLoading.value = false;
   }
 };
 

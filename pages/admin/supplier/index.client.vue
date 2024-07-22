@@ -2,7 +2,7 @@
     <div>
         <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
             <div class="grow">
-                <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả nhà cung cấp</h5>
+                <h5 class="text-xl text-[#1e293b] font-bold">Tất cả nhà cung cấp</h5>
             </div>
         </div>
 
@@ -72,7 +72,7 @@
                         </template>
 
                         <template v-else-if="column.key === 'action'">
-                            <div class="flex text-[16px] gap-4">
+                            <div class="flex text-[16px] gap-2">
                                 <a-tooltip placement="top">
                                     <template #title>
                                         <span>Sửa</span>
@@ -206,7 +206,7 @@ const columns = [
         key: 'status',
     },
     {
-        title: 'Action',
+        title: 'Thao tác',
         dataIndex: 'action',
         key: 'action',
     },

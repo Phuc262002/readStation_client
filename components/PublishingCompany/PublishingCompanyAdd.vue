@@ -33,6 +33,7 @@
           </label>
           <div class="mt-1">
             <a-textarea
+              :rows="6"
               v-model:value="publishingCompany.description"
               class="w-[450px] h-10"
               placeholder="Nhập mã nhà xuất bản"
@@ -78,7 +79,7 @@
             :loading="publishingCompanyStore.isSubmitting"
             html-type="submit"
             class="mt-4"
-            >Lưu</a-button
+            >Thêm</a-button
           >
         </div>
       </div>

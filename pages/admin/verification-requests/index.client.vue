@@ -187,7 +187,7 @@
             </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <NuxtLink
                 class="hover:text-black"
                 :to="`/admin/verification-requests/${record.id}`"
@@ -199,10 +199,7 @@
                   <button
                     class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                   >
-                    <UIcon
-                      class="text-lg"
-                      name="i-material-symbols-edit-outline"
-                    />
+                  <Icon icon="fluent:edit-48-regular" class="text-lg" />
                   </button>
                 </a-tooltip>
               </NuxtLink>
@@ -215,6 +212,7 @@
 </template>
 
 <script setup>
+import { Icon } from "@iconify/vue";
 import { VerificationRequestsStatus } from "~/types/admin/verificationRequests";
 const verificationRequestsStore = useVerificationRequestsStore();
 const current = ref(1);
@@ -285,7 +283,7 @@ const columns = [
   },
 
   {
-    title: "Hành động",
+    title: "Thao tác",
     dataIndex: "action",
     key: "action",
   },

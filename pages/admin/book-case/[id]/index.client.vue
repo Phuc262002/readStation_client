@@ -92,8 +92,8 @@
             </span>
           </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top" color="black">
+            <div class="flex text-[16px] gap-2">
+              <!-- <a-tooltip placement="top" color="black">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
@@ -106,8 +106,7 @@
                     class="group-hover:text-[#212122]"
                   />
                 </button>
-              </a-tooltip>
-
+              </a-tooltip> -->
               <a-tooltip placement="top">
                 <template #title>
                   <span>Xóa</span>
@@ -218,7 +217,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     key: "action",
   },
 ];

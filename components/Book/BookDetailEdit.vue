@@ -112,8 +112,7 @@
         </div>
         <div class="flex justify-end items-end gap-2">
           <a-button @click="handleClose" html-type="button">Hủy</a-button>
-          <a-button type="primary" html-type="submit" class="mt-4" :loading="bookDetailStore.isSubmitting">Lưu thay
-            đổi</a-button>
+          <a-button type="primary" html-type="submit" class="mt-4">Lưu thay đổi</a-button>
         </div>
       </form>
     </div>
@@ -130,9 +129,6 @@ const idBookDetail = ref(props.bookDetailId);
 const baseStore = useBaseStore();
 const fileList = ref([]);
 const imageInfo = ref("");
-const route = useRoute()
-const bookID = route.params.id
-const bookStore = useBookStore();
 const open = ref(props.openModalEdit);
 watch(
   () => props.openModalEdit,
@@ -294,10 +290,9 @@ const onSubmit = async () => {
     id: idBookDetail.value,
     valueBookDetail: dataUpdate,
   });
+  await bookDetailStore.getAllBookDetail({});
   handleClose();
-  useAsyncData(async () => {
-    await bookStore.getOneBookAdmin(bookID);
-  });
+  
 }
 
 </script>

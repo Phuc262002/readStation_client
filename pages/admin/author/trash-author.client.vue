@@ -4,7 +4,6 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả tác giả đã xóa</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
@@ -45,14 +44,14 @@
             <IconMul v-else />
           </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <a-tooltip placement="top" color="black ">
                 <template #title>
                   <span>Khôi phục</span>
                 </template>
                 <button @click="showRecoverConfirm(record?.id)" class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8
                     rounded-md">
-                    <Icon icon="ic:round-settings-backup-restore" class="text-lg" />
+                  <Icon icon="ic:round-settings-backup-restore" class="text-lg" />
                 </button>
               </a-tooltip>
             </div>
@@ -71,10 +70,15 @@ import { Icon } from "@iconify/vue";
 const AuthorStore = useAuthorStore();
 const current = ref(1);
 useAsyncData(async () => {
-  await AuthorStore.getAllAuthor({
-    page: current.value,
-    status: "deleted",
-  });
+  try {
+    await AuthorStore.getAllAuthor({
+      page: current.value,
+      status: "deleted",
+    });
+  } catch (error) {
+    console.error(error);
+
+  }
 }, {
   immediate: true,
   watch: [current],
@@ -94,11 +98,15 @@ const showRecoverConfirm = (id) => {
   });
 };
 const onRecover = async (id) => {
-  await AuthorStore.updateAuthor({
-    id: id, valueAuthor: {
-      status: 'active'
-    }
-  });
+  try {
+    await AuthorStore.updateAuthor({
+      id: id, valueAuthor: {
+        status: 'active'
+      }
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
 const columns = [
   {
@@ -127,7 +135,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     dataIndex: "action",
     key: "action",
   },
