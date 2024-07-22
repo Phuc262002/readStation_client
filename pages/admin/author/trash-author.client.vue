@@ -51,7 +51,7 @@
                 </template>
                 <button @click="showRecoverConfirm(record?.id)" class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8
                     rounded-md">
-                    <Icon icon="ic:round-settings-backup-restore" class="text-lg" />
+                  <Icon icon="ic:round-settings-backup-restore" class="text-lg" />
                 </button>
               </a-tooltip>
             </div>
@@ -70,10 +70,15 @@ import { Icon } from "@iconify/vue";
 const AuthorStore = useAuthorStore();
 const current = ref(1);
 useAsyncData(async () => {
-  await AuthorStore.getAllAuthor({
-    page: current.value,
-    status: "deleted",
-  });
+  try {
+    await AuthorStore.getAllAuthor({
+      page: current.value,
+      status: "deleted",
+    });
+  } catch (error) {
+    console.error(error);
+
+  }
 }, {
   immediate: true,
   watch: [current],
@@ -93,11 +98,15 @@ const showRecoverConfirm = (id) => {
   });
 };
 const onRecover = async (id) => {
-  await AuthorStore.updateAuthor({
-    id: id, valueAuthor: {
-      status: 'active'
-    }
-  });
+  try {
+    await AuthorStore.updateAuthor({
+      id: id, valueAuthor: {
+        status: 'active'
+      }
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
 const columns = [
   {
@@ -126,7 +135,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     dataIndex: "action",
     key: "action",
   },

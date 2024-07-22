@@ -4,7 +4,6 @@
             <div class="grow">
                 <h5 class="text-xl text-[#1e293b] font-bold">Tạo phiếu nhật hàng</h5>
             </div>
-            <CommonBreadcrumAdmin />
         </div>
 
         <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
@@ -67,9 +66,9 @@
                                                     <div>
                                                         <img class="rounded-lg w-20 h-28" :src="items?.poster" alt="">
                                                     </div>
-                                                    <div class="text-base font-medium">{{ items?.book?.title }}
+                                                    <div class="text-base font-medium"> {{ items?.book?.title }}
                                                     </div>
-                                                    <div class="text-base font-medium">{{
+                                                    <div class="text-base font-medium"> {{
                                                         items?.book?.author?.author }}
                                                     </div>
                                                 </div>
@@ -87,28 +86,31 @@
                                 :data-source="data" :pagination="false">
                                 <template #bodyCell="{ column, record }">
                                     <template v-if="column.dataIndex === 'title'">
-                                        <a>{{ record?.book?.title }}</a>
+                                        <div class="flex gap-4">
+                                            <a>{{ record?.title }}</a>
+                                        </div>
                                     </template>
                                     <template v-if="column.dataIndex === 'quantity'">
                                         <div class="flex items-center gap-3">
-                                            <button @click.prevent="decreaseQuantity(record.quantity)"
+                                            <button @click="decreaseQuantity(record?.quantity)"
                                                 class="border rounded-lg w-10 h-10 flex justify-center items-center text-lg">-</button>
                                             {{ record?.quantity }}
-                                            <button @click.prevent="increaseQuantity(record.quantity)"
+                                            <button @click="increaseQuantity(record?.quantity)"
                                                 class="border rounded-lg w-10 h-10 flex justify-center items-center text-lg">+</button>
                                         </div>
-                                        <template v-if="column.key === 'price'">
-                                            <div class="flex gap-5 items-center">
-                                                <span>{{ new Intl.NumberFormat("vi-VN", {
-                                                    style: "currency",
-                                                    currency: "VND",
-                                                }).format(record?.price) }}</span>
-                                            </div>
 
-                                        </template>
-                                        <template v-if="column.dataIndex === 'total'">
-                                            <span>{{ record.total }}</span>
-                                        </template>
+                                    </template>
+                                    <template v-if="column.dataIndex === 'price'">
+                                        <div class="flex gap-5 items-center">
+                                            <span>{{ new Intl.NumberFormat("vi-VN", {
+                                                style: "currency",
+                                                currency: "VND",
+                                            }).format(record?.price) }}</span>
+                                        </div>
+
+                                    </template>
+                                    <template v-if="column.dataIndex === 'total'">
+                                        <span>{{ record.total }}</span>
                                     </template>
                                     <template v-if="column.dataIndex === 'action'">
                                         <a-tooltip placement="top" color="red">
@@ -127,11 +129,11 @@
                             <div class="mt-5 flex justify-end gap-2">
                                 <a-button class="border">Hủy</a-button>
                                 <a-button class="border border-orange-400 text-orange-500" html-type="submit"
-                                    :submitting="invoiceEnter.isSubmitting" @click.prevent="saveDraft">Lưu
+                                    :submitting="invoiceEnter.isSubmitting" @click="saveDraft">Lưu
                                     nháp</a-button>
                                 <a-button type="primary" html-type="submit" :submitting="invoiceEnter.isSubmitting"
                                     @click.prevent="saveInvoice">Lưu
-                                    phiếu nhập hàng</a-button>
+                                    hóa đơn</a-button>
                             </div>
                         </div>
                     </div>
@@ -157,17 +159,27 @@ console.log(valueSearch);
 const options = ref([]);
 const supplierStore = useSupplierStore();
 useAsyncData(async () => {
-    await supplierStore.getAllSupplier({});
-    options.value = supplierStore?.SupplierAdmin?.suppliers.map((supplier) => ({
-        value: supplier.id,
-        label: supplier.name,
-    }));
+    try {
+        await supplierStore.getAllSupplier({});
+        options.value = supplierStore?.SupplierAdmin?.suppliers.map((supplier) => ({
+            value: supplier.id,
+            label: supplier.name,
+        }));
+
+    } catch (error) {
+        console.error(error);
+    }
+
 });
 const bookDetailStore = useBookDetailStore();
 useAsyncData(async () => {
-    await bookDetailStore.getAllBookDetail({
-        search: valueSearch.value,
-    });
+    try {
+        await bookDetailStore.getAllBookDetail({
+            search: valueSearch.value,
+        });
+    } catch (error) {
+        console.error(error);
+    }
 }, {
     watch: [valueSearch],
 });
@@ -183,7 +195,15 @@ const showConfirm = (id) => {
             if (!existingBook) {
                 if (selectedBook) {
                     const newData = [...data.value];
-                    newData.push(selectedBook);
+                    newData.push({
+                        id: selectedBook?.book?.id,
+                        title: selectedBook?.book?.title,
+                        book_version: selectedBook?.book_version,
+                        sku_origin: selectedBook?.sku_origin,
+                        quantity: 1,
+                        price: selectedBook?.price,
+                        total: selectedBook.price,
+                    });
                     valueInvoiceEnter.value.invoice_enter_detail.push({
                         book_detail_id: selectedBook.book.id,
                         book_price: selectedBook.price,
@@ -202,6 +222,88 @@ const showConfirm = (id) => {
         class: 'test',
     });
 };;
+
+// const increaseQuantity = (quantity) => {
+//     quantity += 1;
+// };
+// const decreaseQuantity = (quantity) => {
+//     if (quantity > 1) {
+//         quantity -= 1;
+//     }
+// };
+const saveDraft = () => {
+    valueInvoiceEnter.value.status = 'draft'; // Cập nhật trạng thái là draft
+};
+
+const saveInvoice = () => {
+    valueInvoiceEnter.value.status = 'active'; // Cập nhật trạng thái là active
+};
+
+const valueInvoiceEnter = ref({
+    invoice_code: "" || null,
+    invoice_name: "",
+    total: "",
+    invoice_description: "",
+    supplier_id: "",
+    invoice_date: "",
+    status: "",
+    invoice_enter_detail: [
+        {
+            book_detail_id: "",
+            book_price: "",
+            book_quantity: ""
+        }
+    ]
+});
+const createInvoiceEnter = async () => {
+    try {
+        const dataPost = {
+            invoice_code: valueInvoiceEnter.value.invoice_code || null,
+            invoice_name: valueInvoiceEnter.value.invoice_name,
+            total: valueInvoiceEnter.value.total,
+            invoice_description: valueInvoiceEnter.value.invoice_description,
+            supplier_id: valueInvoiceEnter.value.supplier_id,
+            invoice_date: valueInvoiceEnter.value.invoice_date,
+            status: valueInvoiceEnter.value.status,
+            invoice_enter_detail: data.value.map((item) => ({
+                book_detail_id: item.id,
+                book_price: item.price,
+                book_quantity: item.quantity
+            }))
+        };
+        await invoiceEnter.createInvoiceEnter(dataPost);
+        message.success('Tạo hóa đơn thành công');
+        navigateTo('/admin/manager-bill')
+        // alert(JSON.stringify(valueInvoiceEnter.value));
+    } catch (error) {
+        message.error('Tạo hóa đơn thất bại');
+    }
+
+};
+const showConfimDelete = (id) => {
+    Modal.confirm({
+        title: 'Bạn có chắc loại bỏ sách này ra khỏi phiếu nhập hàng?',
+        okText: "Có",
+        okType: "danger",
+        cancelText: "Hủy",
+        onOk() {
+            deleteBook(id)
+        },
+        onCancel() {
+            console.log('Cancel');
+        },
+
+    });
+};
+const deleteBook = (id) => {
+    try {
+        const newData = data.value.filter(item => item.id !== id);
+        data.value = newData;
+    } catch (error) {
+        message.error('Xóa sách thất bại');
+        console.error(error);
+    }
+};
 const columns = [
     {
         title: 'Tên sản phẩm',
@@ -227,7 +329,7 @@ const columns = [
     },
     {
         title: 'Tổng tiền',
-        dataIndex: 'price',
+        dataIndex: 'total',
         key: 'total',
 
     },
@@ -238,79 +340,4 @@ const columns = [
 
     },
 ];
-const saveDraft = () => {
-    valueInvoiceEnter.value.status = 'draft'; // Cập nhật trạng thái là draft
-};
-
-const saveInvoice = () => {
-    valueInvoiceEnter.value.status = 'active'; // Cập nhật trạng thái là active
-};
-const decreaseQuantity = (quantity) => {
-    alert(1)
-};
-const increaseQuantity = (quantity) => {
-    alert(2)
-};
-
-const valueInvoiceEnter = ref({
-    invoice_code: "" || null,
-    invoice_name: "",
-    total: "0",
-    invoice_description: "",
-    supplier_id: "",
-    invoice_date: "",
-    status: "",
-    invoice_enter_detail: [
-        {
-            book_detail_id: "",
-            book_price: "",
-            book_quantity: 1
-        }
-    ]
-});
-const createInvoiceEnter = async () => {
-    alert(1)
-    // try {
-    //     const dataPost = {
-    //         invoice_code: valueInvoiceEnter.value.invoice_code || null,
-    //         invoice_name: valueInvoiceEnter.value.invoice_name,
-    //         total: valueInvoiceEnter.value.total,
-    //         invoice_description: valueInvoiceEnter.value.invoice_description,
-    //         supplier_id: valueInvoiceEnter.value.supplier_id,
-    //         invoice_date: valueInvoiceEnter.value.invoice_date,
-    //         status: valueInvoiceEnter.value.status,
-    //         invoice_enter_detail: data.value.map((item) => ({
-    //             book_detail_id: item.id,
-    //             book_price: item.price,
-    //             book_quantity: item.quantity
-    //         }))
-    //     };
-    //     await invoiceEnter.createInvoiceEnter(dataPost);
-    //     message.success('Tạo hóa đơn thành công');
-    //     navigateTo('/admin/manager-bill')
-    //     // alert(JSON.stringify(valueInvoiceEnter.value));
-    // } catch (error) {
-    //     message.error('Tạo hóa đơn thất bại');
-    // }
-
-};
-const showConfimDelete = (id) => {
-    Modal.confirm({
-        title: 'Bạn có chắc loại bỏ sách này ra khỏi phiếu nhập hàng?',
-        okText: "Có",
-        okType: "danger",
-        cancelText: "Hủy",
-        onOk() {
-            deleteBook(id)
-        },
-        onCancel() {
-            console.log('Cancel');
-        },
-
-    });
-};
-const deleteBook = (id) => {
-    const newData = data.value.filter(item => item.id !== id);
-    data.value = newData;
-};
 </script>

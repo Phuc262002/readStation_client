@@ -411,14 +411,24 @@ const route = useRoute()
 const orderId = route.params.id;
 const orderStore = useOrderStore();
 const setStatus = (status: string) => {
-    orderStore.updateOrderStatus({
+    try {
+        orderStore.updateOrderStatus({
         id: orderId, body: {
             status: status,
         }
     });
+    } catch (error) {
+        message.error('Có lỗi xảy ra')
+        console.error(error)
+    }
 }
 useAsyncData(async () => {
-    await orderStore.getOneOrder(orderId);
+    try {
+        await orderStore.getOneOrder(orderId);
+    } catch (error) {
+        console.error(error);
+    }
+
 });
 const loan_order_detail = ref()
 const extendsionBook = ref()

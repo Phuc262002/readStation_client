@@ -150,8 +150,12 @@ useAsyncData(async () => {
 });
 
 const onDelete = async (id: string) => {
-  await AuthorStore.deleteAuthor(id);
-  getDataAuthor()
+  try {
+    await AuthorStore.deleteAuthor(id);
+    getDataAuthor()
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const showDeleteConfirm = (id: string) => {
@@ -195,7 +199,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     dataIndex: "action",
     key: "action",
   },

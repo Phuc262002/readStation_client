@@ -81,11 +81,11 @@ const handleClose = () => {
 const orderStore = useOrderStore();
 const onSubmit = async () => {
     try {
-        await orderStore.extensionAllBook({id: props.id});
-        props.CloseModal()
+        await orderStore.extensionAllBook({ id: props.id });
     } catch (error) {
+        message.error("Gia hạn thất bại");
         console.log(error)
-
     }
+    handleClose();
 }
 </script>

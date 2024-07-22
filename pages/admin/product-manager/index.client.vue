@@ -284,7 +284,7 @@
                 <template v-else-if="column.dataIndex === 'loan_date'">
                   <span v-if="record.loan_date">{{
                     $dayjs(record.loan_date).format("DD/MM/YYYY")
-                    }}</span>
+                  }}</span>
                   <span v-else></span>
                 </template>
                 <template v-if="column.dataIndex === 'status'">
@@ -405,7 +405,11 @@ useAsyncData(
   }
 );
 useAsyncData(async () => {
-  await orderStore.statisticOrder();
+  try {
+    await orderStore.statisticOrder();
+  } catch (error) {
+    console.error(error);
+  }
 });
 const columns = [
   {
@@ -442,7 +446,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     key: "action",
   },
 ];

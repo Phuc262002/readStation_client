@@ -76,42 +76,6 @@
 import { Icon } from "@iconify/vue";
 import { ref } from "vue";
 const valueSearch = ref("");
-// const queryStatus = ref({
-//   value: "",
-//   label: ""
-// });
-// const statusValue = ({ value, label }: any) => {
-//   queryStatus.value.value = value;
-//   queryStatus.value.label = label;
-// };
-// const categoryStore = useCategoryStore();
-// const categoryQuery = ref({
-//   id: "",
-//   label: ""
-// });
-// useAsyncData(async () => {
-//   await categoryStore.getAllCategory({
-//     type: 'book'
-//   });
-// },
-// );
-// const categoryValue = ({ id, label }: any) => {
-//   categoryQuery.value.id = id;
-//   categoryQuery.value.label = label;
-// };
-// const authorStore = useAuthorStore();
-// const authorQuery = ref({
-//   id: "",
-//   label: ""
-// });
-// useAsyncData(async () => {
-//   await authorStore.getAllAuthor({});
-// },
-// );
-// const authorValue = ({ id, label }: any) => {
-//   authorQuery.value.id = id;
-//   authorQuery.value.label = label;
-// };
 const allAdminBooks = useBookStore();
 const current = ref(1);
 const getAllAdminBooks = async () => {
@@ -193,7 +157,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     dataIndex: "action",
     key: "action",
   },

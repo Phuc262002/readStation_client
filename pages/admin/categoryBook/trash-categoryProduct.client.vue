@@ -173,7 +173,7 @@ const columns = [
     dataIndex: "status",
   },
   {
-    title: "Chức năng",
+    title: "Thao tác",
     key: "action",
   },
 ];

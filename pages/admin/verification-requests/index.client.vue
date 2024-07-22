@@ -285,7 +285,7 @@ const columns = [
   },
 
   {
-    title: "Hành động",
+    title: "Thao tác",
     dataIndex: "action",
     key: "action",
   },
