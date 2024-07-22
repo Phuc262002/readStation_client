@@ -45,8 +45,13 @@
                                 <div class="flex flex-col gap-2">
                                     <div class="flex justify-between items-center">
                                         <h1 class="text-base font-semibold">#{{ items?.invoice_code }}</h1>
-                                        <a-tag class="bg-tag-bg-09 text-tag-text-09 " :bordered="false">Đã thanh
-                                            toán</a-tag>
+                                        <a-tag class="bg-tag-bg-09 text-tag-text-09 " :bordered="false"
+                                            v-if="items?.status === 'active'">Đã
+                                            lưu kho
+                                        </a-tag>
+                                        <a-tag class="bg-tag-bg-01 text-tag-text-01 " :bordered="false"
+                                            v-if="items?.status === 'draft'">Lưu nháp
+                                        </a-tag>
                                     </div>
                                     <div class="flex justify-between items-center">
                                         <h1 class="text-base font-semibold">{{ items?.user?.fullname }}</h1>
@@ -55,7 +60,7 @@
                                         <h1 class="text-base text-gray-500"> {{ new Intl.NumberFormat("vi-VN", {
                                             style: "currency",
                                             currency: "VND",
-                                        }).format(items?.total) }}</h1>
+                                        }).format(total) }}</h1>
                                         <span class="text-base text-gray-500">{{
                                             $dayjs(items?.invoice_date).format("DD/MM/YYYY") }}</span>
                                     </div>
@@ -66,7 +71,7 @@
                 </div>
                 <div class="w-3/4 bg-white h-auto rounded-lg">
                     <div class="flex flex-col p-5 gap-4">
-                        <div>
+                        <div class="flex justify-between">
                             <div class="flex flex-col gap-5 md:items-center md:flex-row">
                                 <div class="grow">
                                     <h6 class="mb-1 text-xl font-bold">#{{
@@ -74,12 +79,16 @@
                                     <ul class="flex items-center gap-3">
                                         <li class="text-slate-500 dark:text-zink-200 text-sm">Ngày tạo: {{
                                             $dayjs(inVoiceEnter?.getOneInvoiceEnterAdmin?.invoice_date).format("DD/MM/YYYY")
-                                            }}
+                                        }}
                                         </li>
                                         <li class="text-slate-500 dark:text-zink-200 text-sm">Ngày nhận: 22/06/2024
                                         </li>
                                     </ul>
                                 </div>
+                            </div>
+                            <div class="space-x-3" v-if="inVoiceEnter?.getOneInvoiceEnterAdmin?.status === 'draft'">
+                                <a-button>Hủy</a-button>
+                                <a-button type="primary">Lưu kho</a-button>
                             </div>
                         </div>
                         <div class="bg-gray-100 h-auto rounded-lg p-8 flex flex-col gap-3">
@@ -89,21 +98,6 @@
                                         class=" w-44 flex items-center justify-center mx-auto rounded-md size-16 bg-slate-100 dark:bg-zink-600 xl:mx-0">
                                         <img src="../../../assets/images/logo_header.svg" alt="" class="w-full">
                                     </div>
-                                    <h5 class="mt-4 mb-1 text-xl font-bold">Read Sation</h5>
-
-                                </div>
-                                <div class="text-left  xl:col-start-10 xl:col-span-5">
-                                    <p class="mb-1 text-slate-500 dark:text-zink-200">161B Lý Chính Thắng, Phường Võ
-                                        Thị
-                                        Sáu, Quận 3 , TP. HCM
-                                    </p>
-                                    <p class="mb-1  text-slate-500 dark:text-zink-200">(84.028) 39316289 - 39316211
-                                        -
-                                        39317849</p>
-                                    <p class="mb-1  text-slate-500 dark:text-zink-200">(84.028) 38437450</p>
-                                    <p class="mb-1  text-slate-500 dark:text-zink-200">hopthubandoc@nxbtre.com.vn
-                                    </p>
-
                                 </div>
                             </div>
                             <div class=" flex justify-between items-center gap-5 mt-5 px-6">
@@ -119,16 +113,18 @@
                                 </div>
                                 <div class="flex flex-col gap-1 items-center">
                                     <span class="text-sm font-bold">Trạng thái</span>
-                                    <span
+                                    <span v-if="inVoiceEnter?.getOneInvoiceEnterAdmin?.status === 'active'"
                                         class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Đã
-                                        thanh toán</span>
+                                        lưu kho </span>
+                                    <span v-if="inVoiceEnter?.getOneInvoiceEnterAdmin?.status === 'draft'"
+                                        class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-yellow-100 border-transparent text-yellow-500 dark:bg-green-500/20 dark:border-transparent">Lưu nháp </span>
                                 </div>
                                 <div class="flex flex-col gap-1 items-center">
                                     <h1 class="text-sm font-bold">Tổng tiền</h1>
-                                    <span class="text-gray-500">{{ new Intl.NumberFormat("vi-VN", {
+                                    <span class="text-gray-500"> {{ new Intl.NumberFormat("vi-VN", {
                                         style: "currency",
                                         currency: "VND",
-                                    }).format(inVoiceEnter?.getOneInvoiceEnterAdmin?.total) }}</span>
+                                    }).format(total) }}</span>
                                 </div>
 
                             </div>
@@ -222,31 +218,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
-
-                            <div class="my-5">
-                                <p class="mb-2 text-sm text-slate-500 dark:text-zink-200 uppercase">Chi tiết thanh
-                                    toán
-                                </p>
-                                <p class="mb-1 text-slate-500 dark:text-zink-200">Phương thức thanh toán: VISA</p>
-                                <p class="mb-1 text-slate-500 dark:text-zink-200">Chủ thẻ: Huỳnh Tuấn Kiệt</p>
-                                <p class="mb-1 text-slate-500 dark:text-zink-200">Card Number: xxxx xxxx xxxx 1402
-                                </p>
-                                <p class="mb-0 text-slate-500 dark:text-zink-200">Tổng tiền: 13.500.0006</p>
-                            </div>
-
-                            <div
-                                class="px-4 py-3 text-sm border rounded-md border-sky-200 text-sky-500 bg-sky-50 dark:bg-sky-400/20 dark:border-sky-500/50">
-                                <span class="font-bold">Ghi chú:</span> Tất cả các tài khoản phải được thanh toán
-                                trong
-                                vòng 7 ngày kể từ ngày
-                                nhận được hóa đơn. Được thanh toán bằng séc hoặc thẻ tín dụng hoặc thanh toán trực
-                                tiếp
-                                trực tuyến. Nếu tài
-                                khoản không được thanh toán trong vòng 7 ngày, các chi tiết tín dụng được cung cấp
-                                để
-                                xác nhận công việc đã thực
-                                hiện sẽ bị tính phí trích dẫn đã thỏa thuận nêu trên.
                             </div>
                         </div>
                     </div>

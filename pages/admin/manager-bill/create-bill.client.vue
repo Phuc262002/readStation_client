@@ -242,7 +242,7 @@ const saveInvoice = () => {
 const valueInvoiceEnter = ref({
     invoice_code: "" || null,
     invoice_name: "",
-    total: "",
+    total: "0",
     invoice_description: "",
     supplier_id: "",
     invoice_date: "",
