@@ -12,7 +12,7 @@
         playsinline
       ></video>
       <img v-if="!cameraOn" src="assets/images/camera.png" alt="">
-      <button @click="toggleCamera">
+      <button @click="toggleCamera" class="h-10 text-base !text-orange-500 border-orange-500">
         {{ cameraOn ? "Tắt máy ảnh" : "Bật máy ảnh" }}
       </button>
       <button v-if="cameraOn" @click="capturePhoto" class="bg-tag-text-10  border-none text-white rounded-lg h-10 px-16" >Chụp ảnh</button>
