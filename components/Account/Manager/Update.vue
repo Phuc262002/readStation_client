@@ -80,10 +80,10 @@
             <a-input
               size="large"
               v-model:value="user.phone"
-              type="phone"
               name="phone"
+              type="number"
+              pattern="[0-9]*"
               v-if="isShow"
-              required
             />
             <span v-else>{{ authStore?.authUser?.user?.phone }}</span>
           </div>
@@ -311,6 +311,13 @@ const formattedAddress = computed(() => {
 });
 // Submit handler
 const onSubmit = async () => {
+  if (!user.value.phone) {
+    console.log("firstuserr");
+    message.error({
+      content: "Vui lòng nhập số điện thoại",
+    });
+    return;
+  }
   const resData = await authStore.updateProfile({
     fullname: user.value.fullname,
     email: user.value.email,

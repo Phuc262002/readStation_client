@@ -10,8 +10,8 @@
           />
         </div>
 
-        <div class="flex flex-col gap-3">
-          <div class="text-xl font-bold hover:text-[#f65d4e] line-clamp">
+        <div class="flex flex-col gap-1">
+          <div class="text-xl font-bold hover:text-[#f65d4e] line-clamp-1">
             {{ props?.book?.book?.original_title }}
           </div>
           <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
@@ -42,14 +42,3 @@ const props = defineProps(["book"]);
 
 console.log(props);
 </script>
-
-<style>
-.line-clamp {
-  display: -webkit-inline-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  height: 60px;
-}
-</style>
