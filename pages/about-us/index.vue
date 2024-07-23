@@ -5,26 +5,26 @@
         class="relative h-[600px] w-full bg-[url('../../assets/images/aboutus.svg')] bg-cover bg-center bg-no-repeat rounded-3xl"
       >
         <div class="absolute bottom-20 left-[320px] font-semibold text-4xl">
-          <h1 class="text-4xl font-bold pb-4">Thuê sách không giới hạn</h1>
+          <h1 class="text-4xl font-bold pb-4">Thuê sách ngay</h1>
           <ul class="text-lg pb-6 space-y-2">
-            <li>Thuê sách không giới hạn ngày trả</li>
-            <li>Tặng 60 ngày thuê cho thành viên mới</li>
-            <li>Bảo lưu vĩnh viễn khi không thuê sách</li>
-            <li>Không phát sinh phụ phí </li>
+            <li>Tiết kiệm chi phí</li>
+            <li>Tiết kiệm không gian</li>
+            <li>Thân thiện với môi trường</li>
+            <li>Dễ dàng tiếp cận nhiều sách hơn</li>
           </ul>
-          <button
-            class="text-lg px-6 py-3 rounded-lg shadow-md bg-orange-500 hover:bg-orange-600 text-white"
-          >
-            Tham gia ngay
-          </button>
+          <NuxtLink to="/products">
+            <button
+              class="text-lg px-6 py-3 rounded-lg shadow-md bg-orange-500 hover:bg-orange-600 text-white"
+            >
+              Tham gia ngay
+            </button>
+          </NuxtLink>
         </div>
       </div>
     </div>
     <div class="md:py-10">
-      <div
-        class=" flex items-center md:items-start  space-x-8"
-      >
-        <div class=" w-1/3">
+      <div class="flex items-center md:items-start space-x-8">
+        <div class="w-1/3">
           <img
             src="https://via.placeholder.com/800x600"
             alt="Car Image"
@@ -42,23 +42,7 @@
             và cửa hàng thường cung cấp dịch vụ khách hàng tốt để hỗ trợ khách
             hàng trong việc chọn sách và đáp ứng nhu cầu đọc sách.
           </div>
-          <div class="space-x-4 py-4">
-            <a
-              href="#"
-              class="bg-[#f3f3f3] text-black text-base px-8 py-3 rounded-lg hover:bg-orange-600 hover:text-white hover:shadow-lg"
-              >Sản phẩm</a
-            >
-            <a
-              href="#"
-              class="bg-[#f3f3f3] text-black text-base px-8 py-3 rounded-lg hover:bg-orange-600 hover:text-white hover:shadow-lg"
-              >Sản phẩm</a
-            >
-            <a
-              href="#"
-              class="bg-[#f3f3f3] text-black text-base px-8 py-3 rounded-lg hover:bg-orange-600 hover:text-white hover:shadow-lg"
-              >Sản phẩm</a
-            >
-          </div>
+
           <div class="text-lg py-4">
             Read Station thường xuyên tổ chức các sự kiện văn hóa như các buổi
             đọc sách, câu chuyện kể, hoặc các hội thảo về văn hóa đọc. Điều này
@@ -70,7 +54,7 @@
           <div class="text-lg py-4">
             <a
               href="#"
-              class="text-base px-8 py-3 rounded-lg bg-orange-500 hover:bg-orange-600 text-white hover:shadow-lg "
+              class="text-base px-8 py-3 rounded-lg bg-orange-500 hover:bg-orange-600 text-white hover:shadow-lg"
               >Tìm hiểu thêm</a
             >
           </div>
@@ -148,6 +132,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { NuxtLink } from "#build/components";
 import { ref } from "vue";
 const activeKey = ref([]);
 const customStyle =

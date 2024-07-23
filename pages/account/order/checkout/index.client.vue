@@ -9,79 +9,80 @@
     <div class="flex justify-between h-auto gap-5">
       <!-- Left -->
       <div class="w-3/4 space-y-5">
-        <a-table
-          :columns="columns"
-          :data-source="cartStore?.carts"
-          :pagination="false"
-          class="bg-white h-auto shadow-lg rounded-lg"
-        >
-          <template #headerCell="{ column }">
-            <template v-if="column.key === 'name'">
-              <span> Sản phẩm </span>
+        <div class="bg-white h-auto shadow-md rounded-lg overflow-hidden p-5">
+          <a-table
+            :columns="columns"
+            :data-source="cartStore?.carts"
+            :pagination="false"
+          >
+            <template #headerCell="{ column }">
+              <template v-if="column.key === 'name'">
+                <span> Sản phẩm </span>
+              </template>
             </template>
-          </template>
 
-          <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'name'">
-              <div class="flex justify-start gap-5">
-                <div class="min-w-[100px] min-h-[100px]">
-                  <img
-                    class="w-24 rounded-md shadow-lg"
-                    :src="record?.poster"
-                    alt=""
-                  />
-                </div>
-                <div class="flex flex-col gap-2 font-normal space-y-3">
-                  <div class="text-base font-bold">
-                    {{ record?.book?.title }}
+            <template #bodyCell="{ column, record }">
+              <template v-if="column.key === 'name'">
+                <div class="flex justify-start gap-5">
+                  <div class="min-w-[100px] min-h-[100px]">
+                    <img
+                      class="w-24 rounded-md shadow-lg"
+                      :src="record?.poster"
+                      alt=""
+                    />
                   </div>
-                  <div class="text-[14px] space-y-3">
-                    <div class="grid grid-cols-12 gap-2">
-                      <span class="font-bold col-span-6"> Tác giả: </span>
-                      <span class="col-span-6">
-                        {{ record?.book?.author?.author }}
-                      </span>
+                  <div class="flex flex-col gap-2 font-normal space-y-3">
+                    <div class="text-base font-bold">
+                      {{ record?.book?.title }}
                     </div>
-                    <div class="grid grid-cols-12 gap-2">
-                      <span class="font-bold col-span-6"> Phiên bản: </span>
-                      <span class="col-span-6"> {{ record?.cardboard }}</span>
+                    <div class="text-[14px] space-y-3">
+                      <div class="grid grid-cols-12 gap-2">
+                        <span class="font-bold col-span-6"> Tác giả: </span>
+                        <span class="col-span-6">
+                          {{ record?.book?.author?.author }}
+                        </span>
+                      </div>
+                      <div class="grid grid-cols-12 gap-2">
+                        <span class="font-bold col-span-6"> Phiên bản: </span>
+                        <span class="col-span-6"> {{ record?.cardboard }}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </template>
+              <template v-else-if="column.key === 'price'">
+                <span>
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(record?.price)
+                  }}
+                </span>
+              </template>
+              <template v-else-if="column.key === 'serviceFee'">
+                <span>
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(record?.price * 0.2)
+                  }}
+                </span>
+              </template>
+              <template v-else-if="column.key === 'totalFee'">
+                <span>
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(record?.price * 0.2 + record?.price)
+                  }}
+                </span>
+              </template>
             </template>
-            <template v-else-if="column.key === 'price'">
-              <span>
-                {{
-                  new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(record?.price)
-                }}
-              </span>
-            </template>
-            <template v-else-if="column.key === 'serviceFee'">
-              <span>
-                {{
-                  new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(record?.price * 0.2)
-                }}
-              </span>
-            </template>
-            <template v-else-if="column.key === 'totalFee'">
-              <span>
-                {{
-                  new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(record?.price * 0.2 + record?.price)
-                }}
-              </span>
-            </template>
-          </template>
-        </a-table>
+          </a-table>
+        </div>
         <div class="">
           <div class="bg-white h-auto p-5 shadow-md rounded-lg">
             <div class="w-full flex flex-col pb-5 font-medium">
@@ -411,6 +412,12 @@ const payCart = async () => {
     phone: authStore?.authUser?.user?.phone,
     address: authStore?.authUser?.user?.address_detail,
   };
+  if (!newInfo.phone || !newInfo.address) {
+    message.error({
+      content: "Vui lòng điền đầy đủ thông tin giao hàng!",
+    });
+    return;
+  }
   const newArr = cartStore.carts.map((item) => {
     return {
       book_details_id: item.id,
@@ -456,18 +463,10 @@ const payCart = async () => {
       "/account/order/checkout/payment/" +
         resData?.data?._rawValue?.data.order_code
     );
-  } else if (resData?.data?._rawValue?.status === false) {
-    message.error(
-      resData?.data?._rawValue?.errors?.delivery_info?.address?.[0]
-    );
   } else {
     resErrors.value = resData.error.value.data.errors;
-    // console.log(
-    //   "firstwq",
-    //   resData?.data?._rawValue?.errors?.delivery_info.address
-    // );
     message.error({
-      content: "Đặt hàng không thành công",
+      content: "Đặt hàng thất bại",
     });
   }
 };
@@ -530,6 +529,7 @@ const columns = ref([
 :deep(.ant-input) {
   resize: none;
 }
+
 :deep(.ant-radio-button-wrapper:not(:first-child)::before) {
   background-color: initial;
 }

@@ -4,94 +4,97 @@
       <div class="flex justify-between h-auto gap-5">
         <!-- Left -->
         <div class="w-3/4">
-          <a-table
-            :columns="columns"
-            :data-source="cartStore?.carts"
-            :pagination="false"
-            class="bg-white h-auto shadow-lg"
-          >
-            <template #headerCell="{ column }">
-              <template v-if="column.key === 'name'">
-                <span> Sản phẩm </span>
+          <div class="bg-white h-auto shadow-md overflow-hidden rounded-lg p-5">
+            <a-table
+              :columns="columns"
+              :data-source="cartStore?.carts"
+              :pagination="false"
+            >
+              <template #headerCell="{ column }">
+                <template v-if="column.key === 'name'">
+                  <span> Sản phẩm </span>
+                </template>
               </template>
-            </template>
 
-            <template #bodyCell="{ column, record }">
-              <template v-if="column.key === 'name'">
-                <div class="flex justify-start gap-5">
-                  <div class="min-w-[100px] min-h-[100px]">
-                    <img
-                      class="w-24 rounded-lg shadow-lg"
-                      :src="record?.poster"
-                      alt=""
+              <template #bodyCell="{ column, record }">
+                <template v-if="column.key === 'name'">
+                  <div class="flex justify-start gap-5">
+                    <div class="min-w-[100px] min-h-[100px]">
+                      <img
+                        class="w-24 rounded-lg shadow-lg"
+                        :src="record?.poster"
+                        alt=""
+                      />
+                    </div>
+                    <div class="flex flex-col gap-2 font-normal space-y-3">
+                      <div class="text-base font-bold">
+                        {{ record?.book?.title }}
+                      </div>
+                      <div class="text-[14px] space-y-3">
+                        <div class="grid grid-cols-12 gap-2">
+                          <span class="font-bold col-span-6"> Tác giả: </span>
+                          <span class="col-span-6">
+                            {{ record?.book?.author?.author }}
+                          </span>
+                        </div>
+                        <div class="grid grid-cols-12 gap-2">
+                          <span class="font-bold col-span-6"> Phiên bản: </span>
+                          <span class="col-span-6">
+                            {{ record?.cardboard }}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+                <template v-else-if="column.key === 'price'">
+                  <span>
+                    {{
+                      new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(record?.price)
+                    }}
+                  </span>
+                </template>
+                <template v-else-if="column.key === 'serviceFee'">
+                  <span>
+                    {{
+                      new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(record?.price * 0.2)
+                    }}
+                  </span>
+                </template>
+                <template v-else-if="column.key === 'totalFee'">
+                  <span>
+                    {{
+                      new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(record?.price * 0.2 + record?.price)
+                    }}
+                  </span>
+                </template>
+                <template v-else-if="column.key === 'action'">
+                  <a-button
+                    @click="cartStore.deleteItemCart(record?.id)"
+                    class="text-center text-2xl text-rtprimary flex justify-center cursor-pointer border-none"
+                  >
+                    <UIcon
+                      class="text-2xl"
+                      name="i-material-symbols-delete-outline-rounded"
                     />
-                  </div>
-                  <div class="flex flex-col gap-2 font-normal space-y-3">
-                    <div class="text-base font-bold">
-                      {{ record?.book?.title }}
-                    </div>
-                    <div class="text-[14px] space-y-3">
-                      <div class="grid grid-cols-12 gap-2">
-                        <span class="font-bold col-span-6"> Tác giả: </span>
-                        <span class="col-span-6">
-                          {{ record?.book?.author?.author }}
-                        </span>
-                      </div>
-                      <div class="grid grid-cols-12 gap-2">
-                        <span class="font-bold col-span-6"> Phiên bản: </span>
-                        <span class="col-span-6"> {{ record?.cardboard }}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  </a-button>
+                </template>
               </template>
-              <template v-else-if="column.key === 'price'">
-                <span>
-                  {{
-                    new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(record?.price)
-                  }}
-                </span>
-              </template>
-              <template v-else-if="column.key === 'serviceFee'">
-                <span>
-                  {{
-                    new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(record?.price * 0.2)
-                  }}
-                </span>
-              </template>
-              <template v-else-if="column.key === 'totalFee'">
-                <span>
-                  {{
-                    new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(record?.price * 0.2 + record?.price)
-                  }}
-                </span>
-              </template>
-              <template v-else-if="column.key === 'action'">
-                <a-button
-                  @click="cartStore.deleteItemCart(record?.id)"
-                  class="text-center text-2xl text-rtprimary flex justify-center cursor-pointer border-none"
-                >
-                  <UIcon
-                    class="text-2xl"
-                    name="i-material-symbols-delete-outline-rounded"
-                  />
-                </a-button>
-              </template>
-            </template>
-          </a-table>
+            </a-table>
+          </div>
         </div>
         <!-- Right -->
         <div class="w-1/4">
-          <div class="bg-white shadow-lg rounded-lg">
+          <div class="bg-white shadow-md rounded-lg">
             <div class="p-6 w-full">
               <div class="flex flex-col gap-5">
                 <div class="text-xl font-semibold">Thông tin đơn hàng</div>
@@ -258,8 +261,3 @@ const columns = ref([
   },
 ]);
 </script>
-<!-- <style scoped>
-:deep(.ant-table) {
-  border-radius: 800px;
-}
-</style> -->

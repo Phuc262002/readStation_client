@@ -159,7 +159,7 @@
               v-else-if="orderStore?.order?.status === 'canceled'"
               class="text-tag-text-07 bg-tag-bg-07 border-none py-1 px-3 rounded-lg"
             >
-              Đã hủy
+              Bị từ chối
             </a-tag>
             <a-tag
               v-else-if="orderStore?.order?.status === 'overdue'"
