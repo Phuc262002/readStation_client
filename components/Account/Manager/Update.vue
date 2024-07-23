@@ -23,7 +23,7 @@
     </div>
     <form @submit.prevent="onSubmit">
       <div
-        class="flex flex-col bg-white shadow-md shadow-gray-300 rounded-md p-4"
+        class="flex flex-col bg-white shadow-md shadow-gray-300 rounded-lg p-4"
       >
         <div class="border-b flex items-center justify-between py-4">
           <span class="w-1/2 h-8 flex items-center font-semibold">Họ tên</span>
@@ -226,7 +226,7 @@
           <div class="w-1/2 text-left">
             <a-input
               v-model:value="address.street"
-              class="border p-2 rounded-md"
+              class="border p-2 rounded-lg"
               placeholder="Đường"
               :disabled="!ward_id"
               v-if="isShow"
@@ -444,13 +444,10 @@ const filterOption = (input, option) => {
 };
 </script>
 <style scoped>
-:deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
+:deep(.ant-input) {
   resize: none;
 }
-:deep(
-    :where(.css-dev-only-do-not-override-1mvo6uw).ant-form-item
-      .ant-form-item-control-input-content
-  ) {
+:deep(.ant-form-item .ant-form-item-control-input-content) {
   color: black;
 }
 </style>

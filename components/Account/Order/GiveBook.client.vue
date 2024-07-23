@@ -176,7 +176,7 @@
                 <div class="mt-2">
                   <a-input
                     v-model:value="address.street"
-                    class="border p-2 rounded-md"
+                    class="border p-2 rounded-lg"
                     placeholder="Đường"
                     :disabled="!ward_id"
                   />
@@ -230,6 +230,7 @@
             hạn trả sách. Mong Quý khách thông cảm và hợp tác để tránh các khoản
             phí không mong muốn.
           </p>
+
           <div class="flex justify-end gap-2">
             <a-button class="h-10" @click="handleCloseGive"> Hủy </a-button>
 
@@ -257,6 +258,9 @@ const shippingValue = ref({});
 const return_method = ref("library");
 const shippingMethodStore = useShippingMethodPublicStore();
 const shippingFee = ref(0);
+const route = useRoute();
+const id = route.params.id;
+
 useAsyncData(async () => {
   await shippingMethodStore.getAllShipping();
   options.value = shippingMethodStore?.shippings.map((item) => ({
@@ -283,6 +287,9 @@ const address = ref({
   ward: "",
   street: "",
 });
+const handleCloseGive = async () => {
+  props.closeModalGive();
+};
 
 // phí vận chuyển
 const calcShippingFee = () => {
@@ -342,7 +349,8 @@ const onSubmit = async () => {
     message.success({
       content: "Trả sách thành công",
     });
-    navigateTo("//account/order/" + resData?.data?._rawValue?.id);
+    handleCloseGive();
+    orderStore.getOneOrder(id);
   } else {
     message.error({
       content: "Trả sách thất bại",
@@ -439,9 +447,6 @@ watch(
   }
 );
 
-const handleCloseGive = async () => {
-  props.closeModalGive();
-};
 const focus = () => {
   console.log("focus");
 };
@@ -456,7 +461,7 @@ const handleChange = (value: string) => {
 };
 </script>
 <style scoped>
-::v-deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
+:deep(.ant-input) {
   resize: none;
 }
 </style>

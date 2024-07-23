@@ -8,7 +8,7 @@
         <div class="flex">
           <input
             type="text"
-            class="w-full border border-gray-300 rounded-md py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
+            class="w-full border border-gray-300 rounded-lg py-2 px-4 pl-10 focus:outline-none focus:border-blue-500"
             placeholder="Tìm kiếm..."
           />
         </div>
@@ -23,32 +23,35 @@
         <a-button
           :type="selectedButton === 'all' ? 'primary' : 'default'"
           @click="selectButton('all')"
-        >Tất cả đơn</a-button>
+          >Tất cả đơn</a-button
+        >
         <a-button
           :type="selectedButton === 'received' ? 'primary' : 'default'"
           @click="selectButton('received')"
-        >Đã nhận</a-button>
+          >Đã nhận</a-button
+        >
         <a-button
           :type="selectedButton === 'pending' ? 'primary' : 'default'"
           @click="selectButton('pending')"
-        >Chờ nhận đơn</a-button>
+          >Chờ nhận đơn</a-button
+        >
         <a-button
           :type="selectedButton === 'cancelled' ? 'primary' : 'default'"
           @click="selectButton('cancelled')"
-        >Đã hủy</a-button>
-        
+          >Đã hủy</a-button
+        >
       </div>
-      
+
       <AccountTableOrder />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 // Tạo một trạng thái để theo dõi button nào đang được chọn
-const selectedButton = ref('all');
+const selectedButton = ref("all");
 
 // Phương thức để thay đổi button được chọn
 const selectButton = (button: string) => {

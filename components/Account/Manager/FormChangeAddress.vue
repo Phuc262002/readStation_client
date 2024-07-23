@@ -289,8 +289,8 @@ const filterOption = (input, option) => {
   return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 4;
 };
 </script>
-<!-- <style scoped>
-:deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
+<style scoped>
+:deep(.ant-input) {
   resize: none;
 }
-</style> -->
+</style>

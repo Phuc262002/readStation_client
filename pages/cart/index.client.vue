@@ -8,7 +8,7 @@
             :columns="columns"
             :data-source="cartStore?.carts"
             :pagination="false"
-            class="bg-white h-auto shadow-lg rounded-lg"
+            class="bg-white h-auto shadow-lg"
           >
             <template #headerCell="{ column }">
               <template v-if="column.key === 'name'">
@@ -21,7 +21,7 @@
                 <div class="flex justify-start gap-5">
                   <div class="min-w-[100px] min-h-[100px]">
                     <img
-                      class="w-24 rounded-md shadow-lg"
+                      class="w-24 rounded-lg shadow-lg"
                       :src="record?.poster"
                       alt=""
                     />
@@ -258,3 +258,8 @@ const columns = ref([
   },
 ]);
 </script>
+<!-- <style scoped>
+:deep(.ant-table) {
+  border-radius: 800px;
+}
+</style> -->

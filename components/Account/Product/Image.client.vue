@@ -39,7 +39,7 @@
                 <img
                   :src="image"
                   alt="Thumbnail Image"
-                  class="rounded-md w-full h-full object-contain"
+                  class="rounded-lg w-full h-full object-contain"
                 />
               </div>
             </swiper-slide>

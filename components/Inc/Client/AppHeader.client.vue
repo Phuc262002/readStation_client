@@ -8,11 +8,7 @@
           <!-- Logo -->
           <NuxtLink to="/">
             <div class="flex items-center gap-1">
-              <img
-                class="h-10"
-                src="/assets/images/logo_header.svg"
-                alt=""
-              />
+              <img class="h-10" src="/assets/images/logo_header.svg" alt="" />
             </div>
           </NuxtLink>
 
@@ -144,7 +140,7 @@ const onSearch = async (searchValue) => {
 };
 </script>
 <style scoped>
-:deep(:where(.css-dev-only-do-not-override-1mvo6uw).ant-btn-primary) {
+:deep(.ant-btn-primary) {
   box-shadow: initial;
 }
 </style>

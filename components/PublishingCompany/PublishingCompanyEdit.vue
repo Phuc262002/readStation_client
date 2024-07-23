@@ -48,9 +48,10 @@
           </label>
           <div class="mt-1">
             <a-select
+              class="w-full"
+              size="large"
               ref="select"
               v-model:value="publishingCompany.status"
-              style="width: 200px"
               @change="handleChange"
             >
               <a-select-option value="active">Hoạt động</a-select-option>

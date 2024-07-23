@@ -434,15 +434,3 @@ const columns = [
   },
 ];
 </script>
-<style scoped>
-:deep(
-    :where(.css-dev-only-do-not-override-1mvo6uw).ant-input-search
-      > .ant-input-group
-      > .ant-input-group-addon:last-child
-      .ant-input-search-button
-  ) {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-</style>

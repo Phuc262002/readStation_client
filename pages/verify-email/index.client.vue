@@ -12,15 +12,21 @@
       class="md:py-10 flex justify-center items-center mx-auto container min-h-[100vh]"
     >
       <div
-        class="flex space-y-3 flex-col justify-center items-center bg-white shadow-lg shadow-gray-500 p-8 w-[400px] rounded-lg"
+        class="flex space-y-3 flex-col justify-center bg-white shadow-cs_01 p-8 w-[400px] rounded-lg"
       >
-        <div class="text-center pb-4">
-          <h2 class="text-2xl text-sky-600 font-bold pb-3">
-            Xác thực Email của bạn ✉️
-          </h2>
-          <p>Mã OTP đã được gửi đến Email của bạn.</p>
-          <p>Vui lòng kiểm tra lại Email !</p>
+        <div>
+          <NuxtLink to="/" class="mb-10 flex justify-center">
+            <img src="../../assets/images/logo_header.svg" alt="" />
+          </NuxtLink>
+          <div>
+            <h2 class="text-xl text-orange-400 font-bold pb-2">
+              Xác thực Email của bạn ✉️
+            </h2>
+            <p>Mã OTP đã được gửi đến Email của bạn.</p>
+            <p>Vui lòng kiểm tra lại Email !</p>
+          </div>
         </div>
+
         <form @submit="onSubmit" class="w-full space-y-6">
           <div class="flex items-center gap-1 justify-center">
             <span>Không nhận được thư ?</span>
