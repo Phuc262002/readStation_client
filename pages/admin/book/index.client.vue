@@ -160,7 +160,7 @@
                   <a-menu class="space-y-1">
                     <NuxtLink>
                       <a-menu-item key="1" class="p-4 hover:!bg-tag-bg-02">
-                        <button class="flex items-center gap-2">
+                        <button class="flex items-center gap-2" @click="showModal">
                           <Icon icon="fluent:edit-48-regular" class="text-lg text-tag-text-02" />
                           <span class="text-tag-text-02 font-bold">Sửa</span>
                         </button>
@@ -178,6 +178,7 @@
               </a-dropdown>
             </div>
           </template>
+
         </template>
       </a-table>
       <div class="mt-4 flex justify-end">
@@ -185,11 +186,13 @@
           :pageSize="allAdminBooks?.adminBooks?.pageSize" show-less-items />
       </div>
     </div>
+    <BookEdit :openModalBook="openModalBook" :openModal="CloseModal"  />
   </div>
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
+const openModalBook = ref<boolean>(false);
 const valueSearch = ref("");
 const queryStatus = ref({
   value: "",
@@ -297,9 +300,11 @@ const cancel = (e: MouseEvent) => {
   console.log(e);
   message.error("Xóa thất bại");
 };
-const open = ref<boolean>(false);
 const showModal = () => {
-  open.value = true;
+  openModalBook.value = true;
+};
+const CloseModal = () => {
+  openModalBook.value = false;
 };
 const columns = [
   {

@@ -80,7 +80,7 @@
 
         </div>
         <div class="">
-          <a-button type="primary" @click="showModalAdd">Thêm kệ sách</a-button>
+          <a-button type="primary" size="large" @click="showModalAdd">Thêm kệ sách</a-button>
           <BookShelvesCreate :openModalAdd="openModalAdd" :openModal="CloseModalAdd" />
           <BookShelvesEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit" :shelvesId="shelvesId" />
         </div>

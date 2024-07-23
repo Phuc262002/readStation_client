@@ -14,8 +14,9 @@
           <div class="mt-1">
             <a-input
               v-model:value="bookCase.bookcase_code"
-              class="w-[450px] h-[45px]"
+              class="w-full"
               placeholder="Nhập mã tủ sách"
+              size="large"
               required
             />
           </div>
@@ -27,7 +28,8 @@
           <div class="mt-1">
             <a-input
               v-model:value="bookCase.name"
-              class="w-[450px] h-[45px]"
+              size="large"
+              class="w-full"
               placeholder="Nhập tên tủ sách"
               required
             />
@@ -42,7 +44,7 @@
             <a-textarea
               v-model:value="bookCase.description"
               :rows="6"
-              class="w-[450px] h-[45px]"
+              class="w-full"
               placeholder="Nhập nội dung"
             />
           </div>
@@ -56,11 +58,12 @@
             <a-select
               ref="select"
               v-model:value="bookCase.status"
-              style="width: 120px"
+              class="w-full"
+              size="large"
               @change="handleChange"
             >
-              <a-select-option value="active">Active</a-select-option>
-              <a-select-option value="inactive">Inactive</a-select-option>
+              <a-select-option value="active">Hoạt động</a-select-option>
+              <a-select-option value="inactive">Không hoạt động</a-select-option>
             </a-select>
           </div>
         </div>
