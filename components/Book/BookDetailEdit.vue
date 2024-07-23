@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model:open="props.openModalEdit" title="Chỉnh sửa sách" :footer="null" :onCancel="handleClose"
+  <a-modal v-model:open="props.openModalEdit" title="Chỉnh sửa phiên bản sách" :footer="null" :onCancel="handleClose"
     style="width: 1200px;">
 
     <div class="flex flex-col gap-5 mt-5">
