@@ -87,7 +87,7 @@
                 </a-collapse-panel>
                 <a-collapse-panel
                   key="2"
-                  header="#2. Trường hợp làm mất sách "
+                  header="#2. Trường hợp làm mất sách, hư sách "
                   :style="customStyle"
                 >
                   <p v-html="text2"></p>
