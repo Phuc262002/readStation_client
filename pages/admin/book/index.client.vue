@@ -24,7 +24,7 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
-                <a-menu-item @click="statusValue({ value: '', label: 'Trạng thái' })">Tất cả</a-menu-item>
+                <a-menu-item @click="statusValue({ value: '', label: 'Trạng thái' })">Tất cả trạng thái</a-menu-item>
                 <a-menu-item @click="statusValue({ value: 'active', label: 'Hoạt động' })">Hoạt động</a-menu-item>
                 <a-menu-item @click="
                   statusValue({ value: 'inactive', label: 'Không hoạt động' })
@@ -32,7 +32,7 @@
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+              {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -41,8 +41,8 @@
               <div>
                 <a-menu>
                   <a-menu-item>
-                    <div @click="authorValue({ id: null, label: 'Tác giả' })">
-                      Tất cả
+                    <div @click="authorValue({ id: null, label: 'Tất cả tác giả' })">
+                      Tất cả tác giả
                     </div>
                   </a-menu-item>
                   <a-menu-item v-for="(items, index) in authorStore?.AuthorAdmin?.authors" :key="index">
@@ -56,7 +56,7 @@
               </div>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ authorQuery.label ? authorQuery.label : "Tác giả" }}
+              {{ authorQuery.label ? authorQuery.label : "Tất cả tác giả" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -66,8 +66,8 @@
               <div>
                 <a-menu>
                   <a-menu-item>
-                    <div @click="categoryValue({ id: null, label: 'Danh mục' })">
-                      Tất cả
+                    <div @click="categoryValue({ id: null, label: 'Tất cả danh mục' })">
+                      Tất cả danh mục
                     </div>
                   </a-menu-item>
                   <a-menu-item v-for="(items, index) in categoryStore?.categoriesAdmin
@@ -82,7 +82,7 @@
               </div>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ categoryQuery.label ? categoryQuery.label : "Danh mục" }}
+              {{ categoryQuery.label ? categoryQuery.label : "Tất cả danh mục" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -160,7 +160,7 @@
                   <a-menu class="space-y-1">
                     <NuxtLink>
                       <a-menu-item key="1" class="p-4 hover:!bg-tag-bg-02">
-                        <button class="flex items-center gap-2">
+                        <button class="flex items-center gap-2" @click="showModal">
                           <Icon icon="fluent:edit-48-regular" class="text-lg text-tag-text-02" />
                           <span class="text-tag-text-02 font-bold">Sửa</span>
                         </button>
@@ -178,6 +178,7 @@
               </a-dropdown>
             </div>
           </template>
+
         </template>
       </a-table>
       <div class="mt-4 flex justify-end">
@@ -185,11 +186,13 @@
           :pageSize="allAdminBooks?.adminBooks?.pageSize" show-less-items />
       </div>
     </div>
+    <BookEdit :openModalBook="openModalBook" :openModal="CloseModal"  />
   </div>
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
+const openModalBook = ref<boolean>(false);
 const valueSearch = ref("");
 const queryStatus = ref({
   value: "",
@@ -297,9 +300,11 @@ const cancel = (e: MouseEvent) => {
   console.log(e);
   message.error("Xóa thất bại");
 };
-const open = ref<boolean>(false);
 const showModal = () => {
-  open.value = true;
+  openModalBook.value = true;
+};
+const CloseModal = () => {
+  openModalBook.value = false;
 };
 const columns = [
   {

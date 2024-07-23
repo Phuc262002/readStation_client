@@ -29,13 +29,13 @@
               <a-input style="height: 40px;" placeholder="Nhập tên kệ sách" v-model:value="valueShelves.category_id"
                 readonly />
             </div>
-            <div class="flex flex-col gap-2">
+          </div>
+          <div class="flex flex-col gap-2">
               <label>Trạng thái</label>
-              <a-select v-model:value="valueShelves.status" show-search placeholder="Trạng thái" style="width: 200px"
+              <a-select v-model:value="valueShelves.status" show-search placeholder="Trạng thái" class="w-full" size="large"
                 :options="options" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
                 @change="handleChange"></a-select>
             </div>
-          </div>
           <div class="flex justify-end items-end gap-2">
             <a-button @click="handleClose">Hủy</a-button>
             <a-button type="primary" html-type="submit">Cập nhật</a-button>
