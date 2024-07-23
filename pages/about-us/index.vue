@@ -87,7 +87,7 @@
                 </a-collapse-panel>
                 <a-collapse-panel
                   key="2"
-                  header="#2. Thuê sách lần đầu"
+                  header="#2. Trường hợp làm mất sách "
                   :style="customStyle"
                 >
                   <p v-html="text2"></p>
@@ -115,13 +115,15 @@ const activeKey = ref([]);
 const customStyle =
   "background: #e9e9e9;border-radius: 4px;margin-bottom: 16px;border: 0;overflow: hidden";
 const text = `Khoản đặt cọc này để hỗ trợ Read Station trong các trường hợp hư hỏng hay mất sách, sẽ được hoàn lại cho bạn sau thời gian trải nghiệm miễn phí`;
-const text2 = `Tận hưởng 60 ngày thuê sách của Read Station miễn phí, chọn quyển sách bạn ưng ý nhất nhé`;
+const text2 = `Trong trường hợp làm thất lạc, không trả sách đúng thời hạn hoặc gây hư hỏng bao gồm rách giấy, gãy bìa, viết hoặc note vào sách. <br/>
+ ReadStation sẽ tính phí phạt bằng 80% giá trị cuốn sách.<br/>
+Trường hợp hư tổn do bên vận chuyển, khi nhận được sách hãy liên hệ gấp với ReadStation để nhận được sự hỗ trợ.
+`;
 const text3 = `Khi đã là bạn đọc tại Read Station, bạn có thể:<br/>
-- Giữ sách và thưởng thức trọn vẹn nội dung không giới hạn ngày trả.<br/>
-- Khi đã đọc xong, bạn có thể đặt mượn quyển tiếp theo, Read Station sẽ chuyển cho bạn quyển mới, đồng thời nhận lại quyển hiện tại. Theo quy định hiện tại, bạn có thể giữ tối đa cùng lúc là 1 quyển.<br/>
+- Giữ sách và thưởng thức trọn vẹn nội dung.<br/>
+- Khi đã đọc xong, bạn có thể trả sách mượn quyển tiếp theo, Read Station sẽ chuyển cho bạn quyển mới, đồng thời nhận lại quyển hiện tại. Theo quy định hiện tại, bạn có thể giữ tối đa cùng lúc là 3 quyển.<br/>
 - Read Station mong bạn ưu tiên hoàn trả lại sách trong mọi trường hợp.<br/>
-- Bạn có thể lưu lại những quyển sách mình thích nhưng chưa đọc ngay thông qua tính năng "Thả tim".<br/>
-- Tùy theo gói thành viên, phí thành viên của bạn sẽ giảm theo số năm bạn tham gia liên tục tại Read Station từ 5-10%/ năm.`;
+`;
 </script>
 
 <style scoped></style>
