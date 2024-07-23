@@ -23,7 +23,7 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
-                <a-menu-item @click="statusValue({ value: '', label: 'Trạng thái' })">Tất cả</a-menu-item>
+                <a-menu-item @click="statusValue({ value: '', label: 'Trạng thái' })">Tất cả trạng thái</a-menu-item>
                 <a-menu-item @click="statusValue({ value: 'active', label: 'Hoạt động' })">Hoạt
                   động</a-menu-item>
                 <a-menu-item @click="statusValue({ value: 'inactive', label: 'Không hoạt động' })">Không
@@ -31,7 +31,7 @@
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+              {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -41,8 +41,8 @@
               <div>
                 <a-menu>
                   <a-menu-item>
-                    <div @click="categoryValue({ id: null, label: 'Danh mục' })">
-                      Tất cả
+                    <div @click="categoryValue({ id: null, label: 'Tất cả danh mục' })">
+                      Tất cả danh mục
                     </div>
                   </a-menu-item>
                   <a-menu-item v-for="(items, index) in categoryStore?.categoriesAdmin?.categories" :key="index">
@@ -52,7 +52,7 @@
               </div>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ categoryQuery.label ? categoryQuery.label : "Danh mục" }}
+              {{ categoryQuery.label ? categoryQuery.label : "Tất cả danh mục" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -62,8 +62,8 @@
               <div>
                 <a-menu>
                   <a-menu-item>
-                    <div @click="bookcaseValue({ id: null, label: 'Tủ sách' })">
-                      Tất cả
+                    <div @click="bookcaseValue({ id: null, label: 'Tất cả tủ sách' })">
+                      Tất cả tủ sách
                     </div>
                   </a-menu-item>
                   <a-menu-item v-for="(items, index) in bookcaseStore?.bookCaseAdmin?.bookcases" :key="index">
@@ -73,7 +73,7 @@
               </div>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ bookcaseQuery.label ? bookcaseQuery.label : "Tủ sách" }}
+              {{ bookcaseQuery.label ? bookcaseQuery.label : "Tất cả tủ sách" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>

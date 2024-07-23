@@ -26,8 +26,8 @@
                     <a-dropdown :trigger="['click']">
                         <template #overlay>
                             <a-menu class="">
-                                <a-menu-item @click="statusValue({ value: '', label: 'Trạng thái' })">Tất
-                                    cả</a-menu-item>
+                                <a-menu-item @click="statusValue({ value: '', label: 'Tất cả trạng thái' })">Tất cả
+                                    trạng thái</a-menu-item>
                                 <a-menu-item @click="statusValue({ value: 'active', label: 'Hoạt động' })">Hoạt
                                     động</a-menu-item>
                                 <a-menu-item @click="statusValue({ value: 'inactive', label: 'Không hoạt động' })">Không
@@ -36,7 +36,7 @@
                             </a-menu>
                         </template>
                         <a-button size="large" class="flex gap-3 items-center">
-                            {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+                            {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
                             <DownOutlined />
                         </a-button>
                     </a-dropdown>
@@ -77,7 +77,7 @@
                                     <template #title>
                                         <span>Sửa</span>
                                     </template>
-                                    <button  @click="showModalEdit(record?.id)"
+                                    <button @click="showModalEdit(record?.id)"
                                         class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                                         <Icon icon="fluent:edit-48-regular" class="text-lg" />
                                     </button>
