@@ -6,7 +6,7 @@
     >
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
     </div>
-    <div class="p-5 bg-white border-2 rounded-lg">
+    <div class="p-5 bg-white border border-rtgray-50 rounded-lg">
       <div class="flex flex-col items-center">
         <div class="mb-8 w-full h-[370px] flex justify-center">
           <a-image
@@ -33,7 +33,7 @@
               :key="index"
             >
               <div
-                class="h-[54px] w-[54px] p-[6px] cursor-pointer border-2 border-gray-200 rounded-lg"
+                class="h-[54px] w-[54px] p-[6px] cursor-pointer border border-rtgray-50 rounded-lg"
                 @click="selectImage(image)"
               >
                 <img
