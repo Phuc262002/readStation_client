@@ -151,21 +151,26 @@ const beforeUpload = (file) => {
 };
 
 const onSubmit = async () => {
-  await publishingCompanyStore.createPublishingCompany({
-    logo_company: imageInfo.value?.url,
-    name: publishingCompany.value.name,
-    description: publishingCompany.value.description,
-  });
-  await publishingCompanyStore.getAllPublishingCompany({});
-  publishingCompany.value = {
-    name: "",
-    description: "",
-    logo_company: "",
-  };
-  if (fileList.value.length > 0) {
-    fileList.value = [];
+ try {
+    const data = {
+      name: publishingCompany.value.name,
+      description: publishingCompany.value.description,
+      logo_company: imageInfo.value?.publicId,
+    };
+    await publishingCompanyStore.createPublishingCompany(data);
+    message.success("Thêm nhà xuất bản thành công");
+    publishingCompany.value = {
+      name: "",
+      description: "",
+      logo_company: "",
+    };
+    if (fileList.value.length > 0) {
+      fileList.value = [];
+    }
+    props.openModal();
+  } catch (error) {
+    message.error("Thêm nhà xuất bản thất bại");
   }
-  props.openModal();
 };
 const handleClose = async () => {
   props.openModal();
