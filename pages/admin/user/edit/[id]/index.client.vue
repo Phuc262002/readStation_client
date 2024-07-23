@@ -348,7 +348,7 @@
               </div>
             </div>
           </div>
-          <div class="flex gap-4">
+          <div class="flex gap-4 justify-end">
             <a-button @click="'/admin/user'" type="default">Hủy</a-button>
             <a-button html-type="submit" type="primary">Cập nhập</a-button>
           </div>

@@ -100,7 +100,7 @@
           />
         </div>
 
-        <div class="flex items-end gap-2 pt-4">
+        <div class="flex justify-end gap-2 pt-4">
           <a-button @click="handClose" danger> Hủy</a-button>
           <a-button
             type="primary"

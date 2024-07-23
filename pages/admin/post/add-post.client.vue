@@ -89,7 +89,7 @@
             @input="(event) => (posts.content = event)"
           />
         </div>
-        <div class="flex justify-end items-end gap-4 pt-4">
+        <div class="flex justify-end items-end gap-2 pt-4">
           <a-button @click="() => navigateTo('/admin/post')"> Hủy</a-button>
           <a-button @click="posts.status = 'draft'" html-type="submit">
             Lưu nháp</a-button

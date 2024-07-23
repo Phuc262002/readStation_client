@@ -16,11 +16,7 @@
         </template>
 
         <template #bodyCell="{ column, record, index }">
-          <template v-if="column.key === '#'">
-            <a>
-              {{ index + 1 }}
-            </a>
-          </template>
+          
           <template v-if="column.key === 'avatar'">
             <div class="flex justify-start gap-4 items-center">
               <a-avatar :src="record.avatar" :size="80" />
@@ -109,11 +105,7 @@ const onRecover = async (id) => {
   }
 }
 const columns = [
-  {
-    title: "#",
-    dataIndex: "#",
-    key: "#",
-  },
+
   {
     title: "Tác giả",
     dataIndex: "avatar",

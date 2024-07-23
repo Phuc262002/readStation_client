@@ -32,6 +32,7 @@
                       @focus="handleFocus"
                       @blur="handleBlur"
                       @change="handleChange"
+                      required
                     ></a-select>
                   </div>
                   <div>
@@ -333,7 +334,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex justify-start gap-2">
+            <div class="flex justify-end gap-2">
               <a-button type="default">Hủy</a-button>
               <a-button
                 type="primary"
