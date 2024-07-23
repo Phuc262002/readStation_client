@@ -54,9 +54,7 @@
             <div>
               <IconTwitter />
             </div>
-            <div>
-              <IconLinkedin />
-            </div>
+            
           </div>
         </div>
 
@@ -146,9 +144,7 @@
             <div>
               <IconTwitter />
             </div>
-            <div>
-              <IconLinkedin />
-            </div>
+           
           </div>
         </div>
         <div class="rounded-lg shadow-md p-5">
