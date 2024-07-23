@@ -12,7 +12,7 @@
       class="md:py-10 flex justify-center items-center mx-auto container min-h-[100vh]"
     >
       <div
-        class="flex space-y-3 flex-col justify-center items-center bg-white shadow-lg shadow-gray-500 p-8 w-[400px] rounded-lg"
+        class="flex space-y-3 flex-col justify-center items-center bg-white shadow-cs_01 p-8 w-[400px] rounded-lg"
       >
         <div>
           <NuxtLink to="/" class="mb-10 flex justify-center">

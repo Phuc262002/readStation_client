@@ -12,7 +12,7 @@
         <a-spin size="large" class="absolute top-1/2 left-1/2" />
       </div>
       <div
-        class="flex space-y-3 flex-col justify-center mx-auto bg-white shadow-lg shadow-gray-500 p-8 w-[400px] rounded-lg"
+        class="flex space-y-3 flex-col justify-center mx-auto bg-white shadow-cs_01 p-8 w-[400px] rounded-lg"
       >
         <div>
           <NuxtLink to="/" class="mb-10 flex justify-center">
