@@ -136,7 +136,7 @@
             to="/account/verify/verify-student"
             class="flex items-center gap-2 font-semibold"
           >
-            Xác thực sinh viên
+            Xác thực HS/SV
           </NuxtLink>
         </a-menu-item>
       </a-sub-menu>
