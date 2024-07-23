@@ -7,12 +7,12 @@
         <div class="absolute bottom-20 left-[320px] font-semibold text-4xl">
           <h1 class="text-4xl font-bold pb-4">Thuê sách ngay</h1>
           <ul class="text-lg pb-6 space-y-2">
-            <li>Tiết kiệm chi phí</li>
-            <li>Tiết kiệm không gian</li>
-            <li>Thân thiện với môi trường</li>
-            <li>Dễ dàng tiếp cận nhiều sách hơn</li>
+            <li>Ưu đãi cho khách hàng xác thực tài khoản</li>
+            <li>Ưu đãi thêm cho học sinh sinh viên khi thuê sách</li>
+            <li>Thế giới sách trong tầm tay bạn</li>
+            <li>Mở ra thế giới sách phong phú chỉ với vài bước đơn giản </li>
           </ul>
-          <NuxtLink to="/products">
+          <NuxtLink to="/login">
             <button
               class="text-lg px-6 py-3 rounded-lg shadow-md bg-orange-500 hover:bg-orange-600 text-white"
             >
@@ -24,14 +24,14 @@
     </div>
     <div class="md:py-10">
       <div class="flex items-center md:items-start space-x-8">
-        <div class="w-1/3">
+        <div class="w-1/3 ">
           <img
-            src="https://via.placeholder.com/800x600"
+            src="/assets/images/book-is-open.jpg"
             alt="Car Image"
-            class="w-full"
+            class="h-[400px] rounded-lg "
           />
         </div>
-        <div class="p-4 w-2/3">
+        <div class="py-6 w-2/3">
           <div class="text-3xl font-bold pb-4">Tổng quan về chúng tôi</div>
           <div class="text-lg pb-4">
             Read Station là điểm đến lý tưởng cho những người yêu sách muốn tận
@@ -43,7 +43,7 @@
             hàng trong việc chọn sách và đáp ứng nhu cầu đọc sách.
           </div>
 
-          <div class="text-lg py-4">
+          <div class="text-lg">
             Read Station thường xuyên tổ chức các sự kiện văn hóa như các buổi
             đọc sách, câu chuyện kể, hoặc các hội thảo về văn hóa đọc. Điều này
             tạo ra một không gian gặp gỡ, giao lưu và chia sẻ đam mê sách giữa
@@ -51,44 +51,20 @@
             đến tương tác xã hội và văn hóa quan trọng đối với cộng đồng đọc
             sách.
           </div>
-          <div class="text-lg py-4">
-            <a
-              href="#"
-              class="text-base px-8 py-3 rounded-lg bg-orange-500 hover:bg-orange-600 text-white hover:shadow-lg"
-              >Tìm hiểu thêm</a
-            >
-          </div>
         </div>
       </div>
     </div>
-
-    <section class="bg-white rounded-3xl p-8">
-      <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-3xl font-bold mb-4">Chức năng gì chưa nhớ nữa</h2>
-        <div class="flex justify-center space-x-4">
-          <div class="bg-white border rounded-lg p-6 w-1/3">
-            <h3 class="font-bold">Chức năng 1</h3>
-          </div>
-          <div class="bg-white border rounded-lg p-6 w-1/3">
-            <h3 class="font-bold">Chức năng 2</h3>
-          </div>
-          <div class="bg-white border rounded-lg p-6 w-1/3">
-            <h3 class="font-bold">Chức năng 3</h3>
-          </div>
-        </div>
-      </div>
-    </section>
     <div class="flex p-4">
-      <div class="w-1/2">
+      <!-- <div class="w-1/2">
         <img
-          src="https://via.placeholder.com/800x600"
-          alt="Car Image"
-          class="w-full"
+          src="/assets/images/book-is-open.jpg"
+          alt="book"
+          class="h-[70%]"
         />
-      </div>
-      <div class="w-1/2">
-        <div class="px-8 py-4">
-          <div class="max-w-4xl mx-auto">
+      </div> -->
+      <div class="w-full">
+        <div class=" py-4">
+          <div class=" ">
             <h2 class="text-3xl font-bold mb-4 text-center">
               Câu hỏi thường gặp
             </h2>
@@ -97,13 +73,14 @@
                 v-model:activeKey="activeKey"
                 :bordered="false"
                 style="background: transparent"
+            
               >
                 <template #expandIcon="{ isActive }">
                   <caret-right-outlined :rotate="isActive ? 90 : 0" />
                 </template>
                 <a-collapse-panel
                   key="1"
-                  header="#1. Thanh toán khoản đặt cọc"
+                  header="#1. Cọc thuê sách"
                   :style="customStyle"
                 >
                   <p v-html="text"></p>
@@ -136,7 +113,7 @@ import type { NuxtLink } from "#build/components";
 import { ref } from "vue";
 const activeKey = ref([]);
 const customStyle =
-  "background: #fff;border-radius: 4px;margin-bottom: 16px;border: 0;overflow: hidden";
+  "background: #e9e9e9;border-radius: 4px;margin-bottom: 16px;border: 0;overflow: hidden";
 const text = `Khoản đặt cọc này để hỗ trợ Read Station trong các trường hợp hư hỏng hay mất sách, sẽ được hoàn lại cho bạn sau thời gian trải nghiệm miễn phí`;
 const text2 = `Tận hưởng 60 ngày thuê sách của Read Station miễn phí, chọn quyển sách bạn ưng ý nhất nhé`;
 const text3 = `Khi đã là bạn đọc tại Read Station, bạn có thể:<br/>
