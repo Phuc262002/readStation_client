@@ -350,6 +350,16 @@
 
       <div class="flex justify-end pt-4 gap-2">
         <a-button
+          v-if="
+            orderStore?.order?.status === 'active' ||
+            $dayjs(new Date()).format('YYYY-MM-DD') ===
+              $dayjs(orderStore?.order?.current_due_date).format('YYYY-MM-DD')
+          "
+          class="h-10 border-orange-400 text-orange-400"
+        >
+          Trả sách toàn bộ
+        </a-button>
+        <a-button
           @click="showExtendAll"
           v-if="
             orderStore?.order?.status === 'active' ||
@@ -722,7 +732,7 @@ useAsyncData(async () => {
 });
 </script>
 <style scoped>
-:deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
+:deep(.ant-input) {
   resize: none;
 }
 </style>

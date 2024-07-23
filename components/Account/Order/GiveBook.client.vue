@@ -176,7 +176,7 @@
                 <div class="mt-2">
                   <a-input
                     v-model:value="address.street"
-                    class="border p-2 rounded-md"
+                    class="border p-2 rounded-lg"
                     placeholder="Đường"
                     :disabled="!ward_id"
                   />
@@ -461,7 +461,7 @@ const handleChange = (value: string) => {
 };
 </script>
 <style scoped>
-:deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
+:deep(.ant-input) {
   resize: none;
 }
 </style>

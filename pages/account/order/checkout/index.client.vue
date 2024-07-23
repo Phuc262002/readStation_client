@@ -523,16 +523,7 @@ const columns = ref([
 :deep(img, svg, video, canvas, audio, iframe, embed, object) {
   outline: initial;
 }
-/* :deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
-  resize: none;
-}
-:deep(
-    :where(.css-dev-only-do-not-override-1mvo6uw).ant-radio-button-wrapper:not(
-        :first-child
-      )::before
-  ) {
-  background-color: initial;
-} */
+
 :deep(.ant-radio-button-wrapper) {
   border-inline-start-width: 1px;
 }

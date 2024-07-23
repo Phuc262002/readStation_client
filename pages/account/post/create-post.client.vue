@@ -181,7 +181,7 @@ const beforeUpload = (file) => {
 };
 </script>
 <style scoped>
-::v-deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
+:deep(.ant-input) {
   resize: none;
 }
 </style>
