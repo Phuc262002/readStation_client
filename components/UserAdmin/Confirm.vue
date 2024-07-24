@@ -13,14 +13,13 @@
             style="font-size: 80px"
           />
           <span class="block text-2xl font-medium text-tag-text-01 my-2">
-            Xác nhận kích hoạt ví
+            Xác thực tài khoản
           </span>
           <span
             for="email"
             class="block text-base font-medium text-tag-text-07 my-2"
           >
-            Lưu ý: Hãy kiểm tra kỹ giữa các thông tin khách hàng cung cấp và
-            hình ảnh khách hàng gửi trước khi xác nhận kích hoạt
+            Bạn có chắc chắn muốn xác thực tài khoản này?
           </span>
         </div>
         <div v-if="props.status === 'rejected'" class="py-2 text-center">
@@ -30,16 +29,14 @@
             style="font-size: 80px"
           />
           <span class="block text-2xl font-medium text-tag-text-01 my-2">
-            Xác nhận kích hoạt ví
+            Từ chối xác thực tài khoản
           </span>
           <span class="block text-base font-medium text-tag-text-07 my-2">
-            Lưu ý: Hãy kiểm tra kỹ giữa các thông tin khách hàng cung cấp và
-            hình ảnh khách hàng gửi trước khi xác nhận kích hoạt
+            Bạn có chắc chắn muốn từ chối xác thực tài khoản này?
           </span>
 
           <span for="email" class="block text-base font-medium mt-5 mb-2">
-            <span class="text-tag-text-06">*</span> Vui lòng nhập lý do cấm sử
-            dụng ví
+            <span class="text-tag-text-06">*</span> Lý do từ chối
           </span>
           <div class="mt-1">
             <a-textarea v-model:value="reason" class="w-full h-10" />

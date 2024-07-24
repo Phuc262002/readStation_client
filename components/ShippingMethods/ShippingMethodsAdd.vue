@@ -257,6 +257,7 @@ const beforeUpload = (file) => {
   return isImage || Upload.LIST_IGNORE;
 };
 const onSubmit = async () => {
+  errors.value = {};
   try {
     const res = await shippingMethodStore.createShippingMethod({
       method: shippingMethod.value.method,

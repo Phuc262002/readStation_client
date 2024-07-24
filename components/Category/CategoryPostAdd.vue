@@ -155,6 +155,7 @@ const beforeUpload = (file) => {
 };
 
 const onSubmit = async () => {
+  errors.value = {};
   try {
     const res = await categoryStore.createCategory({
       image: imageInfo.value?.url,

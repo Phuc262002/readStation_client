@@ -147,13 +147,13 @@
             <span
               v-if="
                 verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.province_id
+                  ?.ward
               "
               class="text-base"
             >
               {{
                 verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.province_id
+                  ?.ward?.district?.province?.ProvinceName
               }}
             </span>
             <span v-else>Chưa có thông tin</span>
@@ -163,13 +163,13 @@
             <span
               v-if="
                 verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.district_id
+                  ?.ward
               "
               class="text-base"
             >
               {{
                 verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.district_id
+                  ?.ward?.district?.DistrictName
               }}
             </span>
             <span v-else>Chưa có thông tin</span>
@@ -179,13 +179,13 @@
             <span
               v-if="
                 verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.ward_id
+                  ?.ward
               "
               class="text-base"
             >
               {{
                 verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.ward_id
+                  ?.ward?.WardName
               }}
             </span>
             <span v-else>Chưa có thông tin</span>
@@ -385,7 +385,7 @@
         </label>
         <div class="flex gap-2 mt-1">
           <a-image
-             :width="400"
+            :width="400"
             :src="
               verificationRequestsStore.oneVerificationRequest
                 ?.verification_card_image?.front
@@ -393,7 +393,7 @@
             alt=""
           />
           <a-image
-           :width="400"
+            :width="400"
             :src="
               verificationRequestsStore.oneVerificationRequest
                 ?.verification_card_image?.back

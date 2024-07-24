@@ -159,6 +159,7 @@ const beforeUpload = (file) => {
 };
 
 const onSubmit = async () => {
+  errors.value = {};
   const data = {
     name: publishingCompany.value.name,
     description: publishingCompany.value.description,
@@ -176,6 +177,7 @@ const onSubmit = async () => {
       if (fileList.value.length > 0) {
         fileList.value = [];
       }
+      await publishingCompanyStore.getAllPublishingCompany({});
       props.openModal();
     } else {
       errors.value = res.error.value.data.errors;

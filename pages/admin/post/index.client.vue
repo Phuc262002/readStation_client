@@ -40,12 +40,12 @@
                   "
                   >Đang hoạt động</a-menu-item
                 >
-                <a-menu-item
+                <!-- <a-menu-item
                   @click="
                     statusValue({ value: 'wating_approve', label: 'Chờ duyệt' })
                   "
                   >Chờ duyệt</a-menu-item
-                >
+                > -->
                 <a-menu-item
                   @click="
                     statusValue({ value: 'approve_canceled', label: 'Từ chối' })
@@ -348,7 +348,6 @@ useAsyncData(
       status: queryStatus.value.value,
       type: queryType.value.value,
     });
-    console.log("🚀 ~ queryType.value.value:", queryType.value.value);
   },
   {
     immediate: true,

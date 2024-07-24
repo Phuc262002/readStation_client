@@ -218,6 +218,7 @@ useAsyncData(
 );
 
 const onUpdate = async () => {
+  errors.value = {};
   const data = {
     name: publishingCompany.value?.name,
     description: publishingCompany.value?.description,
