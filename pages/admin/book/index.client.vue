@@ -186,7 +186,7 @@
           :pageSize="allAdminBooks?.adminBooks?.pageSize" show-less-items />
       </div>
     </div>
-    <BookEdit :openModalBook="openModalBook" :openModal="CloseModal"  />
+    <BookEdit :openModalBook="openModalBook" :openModal="CloseModal" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -267,13 +267,21 @@ useAsyncData(
     ],
   }
 );
+const errors = ref({});
 const onDelete = async (id: string) => {
   try {
-    await allAdminBooks.deleteBook(id);
+    const res = await allAdminBooks.deleteBook(id);
+    if (res.data._rawValue?.status == true) {
+      message.success(res.data._rawValue?.message);
+      getAllAdminBooks();
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
   } catch (error) {
     console.error(error);
   }
-  getAllAdminBooks();
+
 };
 
 const showDeleteConfirm = (id: string) => {

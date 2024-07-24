@@ -285,7 +285,7 @@ const createInvoiceEnter = async () => {
       navigateTo("/admin/manager-bill");
     } else {
       errors.value = res.error.value.data.errors;
-      message.error("Thêm phiếu nhập thất bại");
+      message.error(res.error.value.data.message);
     }
   } catch (error) {
     message.error("Tạo hóa đơn thất bại");

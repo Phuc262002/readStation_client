@@ -160,7 +160,7 @@ const onSubmit = async () => {
       navigateTo("/admin/author");
     } else {
       errors.value = res.error.value.data.errors;
-      message.error("Thêm tác giả thất bại");
+      message.error(res.error.value.data.message);
     }
   } catch (error) {
     message.error("Thêm thất bại");

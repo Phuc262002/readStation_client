@@ -107,9 +107,10 @@
 
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue";
-import { Modal } from "ant-design-vue";
+import { Modal, message } from 'ant-design-vue';
 import { LoadingOutlined } from "@ant-design/icons-vue";
 import { h } from "vue";
+const errors = ref({});
 const supplierStore = useSupplierStore();
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
@@ -146,8 +147,15 @@ useAsyncData(async () => {
 
 });
 const onDelete = async (id: string) => {
-    await supplierStore.deleteSupplier(id);
-    await getData();
+    const res = await supplierStore.deleteSupplier(id);
+    if (res.data._rawValue?.status == true) {
+        message.success(res.data._rawValue?.message);
+        await getData();
+    } else {
+        errors.value = res.error.value.data.errors;
+        message.error(res.error.value.data.message);
+    }
+
 };
 const showDeleteConfirm = (id: string) => {
     Modal.confirm({

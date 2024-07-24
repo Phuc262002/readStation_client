@@ -135,7 +135,7 @@ const updateShelves = async () => {
       props.openModal();
     } else {
       errors.value = res.error.value.data.errors;
-      message.error("Cập nhật kệ sách thất bại");
+      message.error(res.error.value.data.message);
     }
   } catch (error) {
     message.error("Cập nhật kệ sách thất bại");

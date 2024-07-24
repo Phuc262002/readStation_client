@@ -263,7 +263,7 @@ const onSubmit = async () => {
       });
     } else {
       errors.value = res.error.value.data.errors;
-      message.error("Thêm phiên bản sách thất bại");
+      message.error(res.error.value.data.message);
     }
   } catch (error) {
     message.error("Thêm phiên bản sách thất bại");

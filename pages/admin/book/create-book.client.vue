@@ -394,11 +394,12 @@ const onSubmit = async () => {
         },
       ],
     });
+    console.log("🚀 ~ onSubmit ~ res:", res)
     if (res.data._rawValue?.status == true) {
       message.success("Thêm sách thành công");
     } else {
       errors.value = res.error.value.data.errors;
-      message.error("Thêm sách thất bại");
+      message.error(res.error.value.data.message);
     }
   } catch (error) {
     message.error("Thêm thất bại");

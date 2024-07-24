@@ -89,7 +89,7 @@
                                 <UIcon class="text-gray-500" name="i-material-symbols-search" />
                             </div>
                         </div>
-                        <a-table :columns="columns" :data-source="data">
+                        <a-table :columns="columns" :data-source="data" :pagination="false">
                             <template #bodyCell="{ column, record }">
                                 <template v-if="column.key === 'name'">
                                     <a>
@@ -263,8 +263,8 @@ const onSubmit = async () => {
         if (res.data._rawValue?.status == true) {
             message.success("Thêm đơn hàng thành công");
         } else {
-            errors.value = res.error.value.data.errors;
-            message.error("Thêm đơn hàng thất bại");
+            errors.value = res.data._rawValue?.errors;
+            message.error(res.data._rawValue?.errors);
         }
     } catch (error) {
         message.error(error);

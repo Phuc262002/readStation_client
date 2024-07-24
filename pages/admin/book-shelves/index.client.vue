@@ -177,6 +177,7 @@ import { h } from "vue";
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const shelvesId = ref<number>();
+const errors = ref({});
 const current = ref(1);
 const valueSearch = ref("");
 const queryStatus = ref({
@@ -252,7 +253,13 @@ useAsyncData(async () => {
 });
 const onDelete = async (id: string) => {
   try {
-    await shelvesValue.deleteShelves(id);
+    const res = await shelvesValue.deleteShelves(id);
+    if (res.data._rawValue?.status == true) {
+      message.success(res.data._rawValue?.message);
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
   } catch (error) {
     console.error(error);
   }

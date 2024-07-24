@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div
-      class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
-    >
+    <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Sửa tác giả</h5>
       </div>
@@ -12,23 +10,12 @@
       <form @submit.prevent="updateAuthor">
         <div class="grid grid-cols-6 gap-4">
           <div class="flex flex-col gap-3 col-start-1 col-end-3">
-            <label class="text-sm font-semibold" for=""
-              >Avatar </label
-            >
+            <label class="text-sm font-semibold" for="">Avatar </label>
             <ClientOnly>
               <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
-                <a-upload-dragger
-                  v-model:fileList="fileList"
-                  list-type="picture"
-                  name="image"
-                  :multiple="false"
-                  required
-                  :action="(file) => uploadFile(file)"
-                  @change="handleChangeUploadImg"
-                  @drop="handleDrop"
-                  :before-upload="beforeUpload"
-                  :remove="(file) => deleteFile(file)"
-                >
+                <a-upload-dragger v-model:fileList="fileList" list-type="picture" name="image" :multiple="false"
+                  required :action="(file) => uploadFile(file)" @change="handleChangeUploadImg" @drop="handleDrop"
+                  :before-upload="beforeUpload" :remove="(file) => deleteFile(file)">
                   <p class="ant-upload-drag-icon">
                     <inbox-outlined></inbox-outlined>
                   </p>
@@ -43,9 +30,7 @@
               <template #title>
                 <span>Nổi bật</span>
               </template>
-              <span
-                class="group flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
-              >
+              <span class="group flex items-center justify-center cursor-pointer w-8 h-8 rounded-md">
                 <a-space direction="vertical">
                   <a-switch v-model:checked="valueAuthor.is_featured">
                     <template #checkedChildren><check-outlined /></template>
@@ -59,57 +44,30 @@
         <div class="flex flex-col gap-5 mt-5">
           <div class="grid grid-cols-3 gap-4">
             <div class="flex flex-col gap-2">
-              <label class="text-sm font-semibold" for=""
-                >Tên tác giả <span class="text-red-500">*</span></label
-              >
-              <a-input
-                placeholder="Tên tác giả"
-                class="border p-2 rounded-md"
-                v-model:value="valueAuthor.author"
-                required
-              />
+              <label class="text-sm font-semibold" for="">Tên tác giả <span class="text-red-500">*</span></label>
+              <a-input placeholder="Tên tác giả" class="border p-2 rounded-md" v-model:value="valueAuthor.author"
+                required />
             </div>
             <div class="flex flex-col gap-2">
-              <label class="text-sm font-semibold" for=""
-                >Ngày, tháng, năm sinh</label
-              >
-              <a-input
-                placeholder="Ngày, tháng, năm sinh"
-                class="border p-2 rounded-md"
-                type="date"
-                v-model:value="valueAuthor.dob"
-              />
+              <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
+              <a-input placeholder="Ngày, tháng, năm sinh" class="border p-2 rounded-md" type="date"
+                v-model:value="valueAuthor.dob" />
             </div>
             <div class="flex flex-col gap-2">
               <label class="text-sm font-semibold" for="">Trạng thái</label>
-              <a-select
-                size="large"
-                v-model:value="valueAuthor.status"
-                show-search
-                placeholder="Trạng thái"
-                :options="optionsStatus"
-                :filter-option="filterOption"
-                @focus="handleFocus"
-                @blur="handleBlur"
-                @change="handleChange"
-              ></a-select>
+              <a-select size="large" v-model:value="valueAuthor.status" show-search placeholder="Trạng thái"
+                :options="optionsStatus" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
+                @change="handleChange"></a-select>
             </div>
           </div>
           <div class="flex flex-col gap-2">
             <label class="text-sm font-semibold" for="">Nội dung</label>
-            <CommonCKEditor
-              v-model:value="valueAuthor.description"
-              @input="(event) => (ValueAuthor.description = event)"
-            />
+            <CommonCKEditor v-model:value="valueAuthor.description"
+              @input="(event) => (ValueAuthor.description = event)" />
           </div>
           <div class="flex justify-end gap-2">
             <a-button> Hủy</a-button>
-            <a-button
-              type="primary"
-              html-type="submit"
-              :loading="AuthorStore.isSubmitting"
-              >Cập nhật</a-button
-            >
+            <a-button type="primary" html-type="submit" :loading="AuthorStore.isSubmitting">Cập nhật</a-button>
           </div>
         </div>
       </form>
@@ -189,9 +147,14 @@ const updateAuthor = async () => {
       is_featured: valueAuthor.value.is_featured,
       avatar: imageInfo.value?.url || valueAuthor.value.avatar,
     };
-    await AuthorStore.updateAuthor({ id: authorID, valueAuthor: updateValue });
-    message.success("Cập nhật tác giả thành công");
-    navigateTo("/admin/author");
+    const res = await AuthorStore.updateAuthor({ id: authorID, valueAuthor: updateValue });
+    if (res.data._rawValue?.status == true) {
+      message.success("Cập nhật tác giả thành công");
+      navigateTo("/admin/author");
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
   } catch (error) {
     message.error("Cập nhật tác giả thất bại");
   }

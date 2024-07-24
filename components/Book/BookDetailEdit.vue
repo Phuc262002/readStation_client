@@ -299,7 +299,7 @@ const onSubmit = async () => {
       handleClose();
     } else {
       errors.value = res.error.value.data.errors;
-      message.error("Cập nhật phiên bản sách thất bại");
+      message.error(res.error.value.data.message);
     }
 }
 
