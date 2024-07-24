@@ -244,7 +244,7 @@ const onDelete = async (id) => {
   try {
     const res = await bookCaseStore.deleteBookcase(id);
     if (res.data._rawValue?.status == true) {
-      message.success("Xóa tủ sách thành công");
+      message.success(res.data._rawValue?.message);
       await bookCaseStore.getAllBookcases({});
     } else {
       errors.value = res.error.value.data.errors;

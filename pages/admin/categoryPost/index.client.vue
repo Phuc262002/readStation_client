@@ -192,7 +192,7 @@ const onDelete = async (id) => {
   try {
     const res = await categoryStore.deleteCategory(id);
     if (res.data._rawValue?.status == true) {
-      message.success("Khôi phục danh mục thành công");
+      message.success(res.data._rawValue?.message);
       await categoryStore.getAllCategory({
         type: "post",
       });

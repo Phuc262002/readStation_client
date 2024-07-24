@@ -201,7 +201,7 @@ const onDelete = async (id) => {
   try {
     const res = await shippingMethodStore.deleteShippingMethod(id);
     if (res.data._rawValue?.status == true) {
-      message.success("Xóa phương thức vận chuyển thành công");
+      message.success(res.data._rawValue?.message);
       await shippingMethodStore.getAllShippingMethods({});
     } else {
       errors.value = res.error.value.data.errors;
