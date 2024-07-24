@@ -11,6 +11,15 @@
         <UIcon name="i-material-symbols-person-check-outline" />
         <h2 class="text-sm font-bold">Thông tin cơ bản</h2>
       </div>
+      <div v-if="errors" class="space-y-2 mb-4">
+        <a-alert
+          v-for="(error, index) in errors"
+          :key="index"
+          :message="error"
+          type="error"
+          show-icon
+        />
+      </div>
 
       <p
         @click="handleChangeEditAcc"
@@ -84,6 +93,7 @@
               type="number"
               pattern="[0-9]*"
               v-if="isShow"
+              required
             />
             <span v-else>{{ authStore?.authUser?.user?.phone }}</span>
           </div>
@@ -275,7 +285,7 @@ const baseStore = useBaseStore();
 const isShow = ref(false);
 const resErrors = ref({});
 const data = ref(null);
-
+const errors = ref({});
 const user = ref({
   fullname: "",
   email: "",
@@ -311,37 +321,37 @@ const formattedAddress = computed(() => {
 });
 // Submit handler
 const onSubmit = async () => {
-  if (!user.value.phone) {
-    console.log("firstuserr");
-    message.error({
-      content: "Vui lòng nhập số điện thoại",
+  try {
+    // if (!user.value.phone) {
+    //   console.log("firstuserr");
+    //   message.error({
+    //     content: "Vui lòng nhập số điện thoại",
+    //   });
+    //   return;
+    // }
+    const resData = await authStore.updateProfile({
+      fullname: user.value.fullname,
+      email: user.value.email,
+      phone: user.value.phone,
+      gender: user.value.gender,
+      dob: user.value.dob,
+      job: user.value.job,
+      province_id: province_id.value,
+      district_id: district_id.value,
+      ward_id: ward_id.value,
+      street: address.value.street,
+      address_detail: formattedAddress.value,
     });
-    return;
-  }
-  const resData = await authStore.updateProfile({
-    fullname: user.value.fullname,
-    email: user.value.email,
-    phone: user.value.phone,
-    gender: user.value.gender,
-    dob: user.value.dob,
-    job: user.value.job,
-    province_id: province_id.value,
-    district_id: district_id.value,
-    ward_id: ward_id.value,
-    street: address.value.street,
-    address_detail: formattedAddress.value,
-  });
-  if (resData?.data?._rawValue?.status == true) {
-    message.success({
-      content: "Chỉnh sửa thành công",
-    });
-    isShow.value = false;
-    data.value = resData?.data?._rawValue?.data;
-  } else {
-    resErrors.value = resData.error.value.data.errors;
-    message.error({
-      content: "Chỉnh sửa không thành công",
-    });
+    if (resData?.data?._rawValue?.status == true) {
+      message.success("Chỉnh sửa thành công");
+      isShow.value = false;
+      data.value = resData?.data?._rawValue?.data;
+    } else {
+      resErrors.value = resData.error.value.data.errors;
+      message.error("Chỉnh sửa thất bại");
+    }
+  } catch (error) {
+    message.error("Chỉnh sửa thất bại");
   }
 };
 
