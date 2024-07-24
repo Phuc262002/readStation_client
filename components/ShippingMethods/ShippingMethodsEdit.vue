@@ -312,6 +312,7 @@ useAsyncData(
 );
 
 const onUpdate = async () => {
+  errors.value = {};
   const data = {
     method: shippingMethod.value.method,
     location: selectedItems.value,

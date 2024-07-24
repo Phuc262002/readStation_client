@@ -24,7 +24,6 @@
               v-model:value="category.name"
               class="w-full h-10"
               placeholder="Nhập tên danh mục"
-              required
             />
           </div>
         </div>
@@ -168,6 +167,7 @@ const beforeUpload = (file) => {
 };
 
 const onSubmit = async () => {
+  errors.value = {};
   if (category.value.is_featured && !imageInfo.value) {
     message.error("Vui lòng chọn hình ảnh");
     return;

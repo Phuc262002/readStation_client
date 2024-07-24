@@ -137,6 +137,7 @@ useAsyncData(
   }
 );
 const onUpdate = async () => {
+  errors.value = {};
   const data = {
     bookcase_code: bookCase.value?.bookcase_code,
     name: bookCase.value?.name,

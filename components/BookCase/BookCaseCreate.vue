@@ -82,6 +82,7 @@ const bookCase = ref({
   name: "",
 });
 const onSubmit = async () => {
+  errors.value = {};
   try {
     const res = await bookcaseStore.createBookcase({
       bookcase_code: bookCase.value.bookcase_code,

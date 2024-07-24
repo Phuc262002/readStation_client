@@ -159,6 +159,7 @@ const beforeUpload = (file) => {
 };
 
 const onSubmit = async () => {
+  errors.value = {};
   const data = {
     name: publishingCompany.value.name,
     description: publishingCompany.value.description,
