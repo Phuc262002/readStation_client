@@ -50,16 +50,21 @@ export const useOrderStore = defineStore("order-store", {
       return data;
     },
     async creatOrder(valueOrder: any) {
-      this.isSubmitting = true;
-      const data: any = await useCustomFetch(
-        `/api/v1/admin/orders/store-has-user`,
-        {
-          method: "POST",
-          body: JSON.stringify(valueOrder),
-        }
-      );
-      this.isSubmitting = false;
-      return data;
+      try {
+        this.isSubmitting = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/admin/orders/store-has-user`,
+          {
+            method: "POST",
+            body: JSON.stringify(valueOrder),
+          }
+        );
+        return data;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.isSubmitting = false;
+      }
     },
     async retrunEachBook({ id, valueRetunEachBook }: any) {
       this.isSubmitting = true;
