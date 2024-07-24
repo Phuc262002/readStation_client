@@ -2,35 +2,38 @@
   <a-modal v-model:open="props.openModalAdd" title="Thêm kệ sách" :footer="null" :onCancel="handleClose">
     <form @submit.prevent="onSubmit" v-mode:valueCreateShelves>
       <div class="bg-white py-2">
+        <div class="mb-4 space-y-1" v-if="errors">
+          <a-alert v-for="(error, index) in errors" :message="error" type="error" show-icon />
+        </div>
         <div class="grid gap-4 my-3">
           <div class="space-y-4">
             <div class="flex flex-col gap-2">
-              <label for="">Mã kệ</label>
-              <a-input type="text" class="border p-2 rounded-md" placeholder="Nhập mã kệ"
-                v-model:value="valueCreateShelves.bookshelf_code" required />
+              <label for="">Mã kệ </label>
+              <a-input type="text" class="border p-2 rounded-md" placeholder="Nhập mã kệ" size="large"
+                v-model:value="valueCreateShelves.bookshelf_code" />
             </div>
             <div class="flex flex-col gap-2">
-              <label for="">Tên kệ</label>
-              <a-input type="text" class="border p-2 rounded-md" placeholder="Tên kệ"
+              <label for="">Tên kệ <span class="text-red-500">*</span></label>
+              <a-input type="text" class="border p-2 rounded-md" placeholder="Tên kệ" size="large"
                 v-model:value="valueCreateShelves.name" required />
             </div>
             <div class="flex flex-col gap-2">
               <label for="">Mô tả</label>
-              <a-input type="text" class="border p-2 rounded-md" placeholder="Mô tả"
-                v-model:value="valueCreateShelves.description" required />
+              <a-input type="text" class="border p-2 rounded-md" placeholder="Mô tả" size="large"
+                v-model:value="valueCreateShelves.description" />
             </div>
           </div>
           <div class="grid grid-cols-2 gap-5">
             <div class="flex flex-col gap-2">
-              <label for="">Tủ sách</label>
-              <a-select v-model:value="valueCreateShelves.bookcase_id" show-search placeholder="Mã tủ sách"
-                :options="optionsCase" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
+              <label for="">Tủ sách <span class="text-red-500">*</span></label>
+              <a-select v-model:value="valueCreateShelves.bookcase_id" show-search placeholder="Mã tủ sách" required
+                :options="optionsCase" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur" size="large"
                 @change="handleChange"></a-select>
             </div>
             <div class="flex flex-col gap-2">
-              <label for="">Danh mục</label>
-              <a-select v-model:value="valueCreateShelves.category_id" show-search placeholder="Mã danh mục"
-                :options="optionsCategory" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
+              <label for="">Danh mục <span class="text-red-500">*</span></label>
+              <a-select v-model:value="valueCreateShelves.category_id" show-search placeholder="Mã danh mục" required
+                :options="optionsCategory" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur" size="large"
                 @change="handleChange"></a-select>
             </div>
           </div>
@@ -51,6 +54,7 @@ import { ref } from "vue";
 const isLoading = ref(false);
 const bookcaseValue = useBookcaseStore();
 const optionsCase = ref({});
+const errors = ref({});
 const getDataCase = async () => {
   try {
     const data = await bookcaseValue.getAllBookcases({});
@@ -109,9 +113,8 @@ const valueCreateShelves = ref({
 });
 const onSubmit = async () => {
   try {
-    shelvesValue.isSubmitting = true;
-    const data = await shelvesValue.createShelves(valueCreateShelves.value);
-    if (data) {
+    const res = await shelvesValue.createShelves(valueCreateShelves.value);
+    if (res) {
       props.openModal();
       valueCreateShelves.value = {
         description: "",
@@ -120,19 +123,24 @@ const onSubmit = async () => {
         category_id: "",
       };
     }
-    handleClose();
-    useAsyncData(async () => {
-      try {
-        await shelvesValue.getAllShelves({});
-      } catch (error) {
-        console.error(error);
-      }
-    })
+    if (res.data._rawValue?.status == true) {
+      message.success("Thêm kệ sách thành công");
+      useAsyncData(async () => {
+        try {
+          await shelvesValue.getAllShelves({});
+        } catch (error) {
+          console.error(error);
+        }
+      })
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error("Thêm kệ sách thất bại");
+    }
+
   } catch (error) {
     message.error("Thêm kệ sách thất bại");
     console.error(error);
   }
-  props.openModal();
 }
 const handleClose = () => {
   props.openModal();
