@@ -61,25 +61,29 @@ watch(
 );
 const handleClose = () => {
   props.openModal();
+  banned_reason.value = "";
 };
 
 const handleSubmit = async () => {
-  if (props.status === "banned") {
-    if (banned_reason.value === "") {
-      message.error("Vui lòng nhập lý do vô hiệu hóa người dùng");
-      return;
-    }
-    userStore.updateUser({
+  if (banned_reason.value === "") {
+    message.error("Vui lòng nhập lý do vô hiệu hóa người dùng");
+    return;
+  }
+  try {
+    const res = await userStore.updateUser({
       id: props.id,
       user: { status: "banned", banned_reason: banned_reason.value },
     });
-  } else {
-    userStore.updateUser({
-      id: props.id,
-      user: { status: "banned" },
-    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Vô hiệu hóa người dùng thành công");
+      await userStore.getUser({});
+      handleClose();
+    } else {
+      message.error(res.error?.value?.data?.message);
+    }
+  } catch (error) {
+    console.log("🚀 ~ handleSubmit ~ error:", error)
+    message.error(error.message);
   }
-  await userStore.getUser({});
-  props.openModal();
 };
 </script>

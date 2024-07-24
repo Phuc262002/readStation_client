@@ -61,25 +61,34 @@ watch(
 );
 const handleClose = () => {
   props.openModal();
+  reason_cancel.value = "";
 };
 
 const handleSubmit = async () => {
-  if (props.status === "approve_canceled") {
-    if (reason_cancel.value === "") {
-      message.error("Vui lòng nhập lý do từ chối");
-      return;
-    }
-    postStore.updatePost({
-      id: props.id,
-      post: { status: "approve_canceled", reason_cancel: reason_cancel.value },
-    });
-  } else {
-    postStore.updatePost({
-      id: props.id,
-      post: { status: "approve_canceled" },
-    });
+  if (reason_cancel.value === "") {
+    message.error("Vui lòng nhập lý do từ chối");
+    return;
   }
-  await postStore.getAllPost({});
-  props.openModal();
+  try {
+    const res = await postStore.updatePost({
+      id: props.id,
+      post: {
+        status: "approve_canceled",
+        reason_cancel: reason_cancel.value,
+      },
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Từ chối viết thành công");
+      await postStore.getAllPost({
+        status: "wating_approve",
+      });
+      handleClose();
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Từ chối viết thất bại");
+  }
 };
 </script>

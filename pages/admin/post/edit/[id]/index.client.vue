@@ -156,12 +156,12 @@ const { $ckeditor } = useNuxtApp();
 const editor = $ckeditor.classicEditor;
 const options = ref([]);
 const optionsStatus = ref([
-  { value: "wating_approve", label: "Chờ duyệt" },
+  // { value: "wating_approve", label: "Chờ duyệt" },
   { value: "approve_canceled", label: "Từ chối" },
   { value: "draft", label: "Nháp" },
   { value: "published", label: "Công khai" },
   { value: "hidden", label: "Ẩn" },
-  { value: "deleted", label: "Đã xóa" },
+  // { value: "deleted", label: "Đã xóa" },
 ]);
 
 const fileList = ref([]);

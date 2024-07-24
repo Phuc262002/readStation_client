@@ -26,7 +26,7 @@
           <div class="mt-1">
             <a-input
               v-model:value="category.name"
-             class="w-full h-10"
+              class="w-full h-10"
               placeholder="Nhập tên danh mục"
               required
             />
@@ -68,7 +68,7 @@
             <a-select
               ref="select"
               v-model:value="category.status"
-              class="w-full "
+              class="w-full"
               size="large"
               @change="handleChange"
             >
@@ -80,6 +80,7 @@
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
             Hình danh mục sản phẩm
+            <span v-if="category.is_featured" class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <ClientOnly>

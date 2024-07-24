@@ -176,6 +176,7 @@ const onSubmit = async () => {
       if (fileList.value.length > 0) {
         fileList.value = [];
       }
+      await publishingCompanyStore.getAllPublishingCompany({});
       props.openModal();
     } else {
       errors.value = res.error.value.data.errors;
