@@ -11,7 +11,16 @@
     >
       <a-spin size="large" />
     </div>
+   
     <form v-else @submit.prevent="onUpdate">
+      <div class="mb-4 space-y-1" v-if="errors">
+      <a-alert
+        v-for="(error, index) in errors"
+        :message="error"
+        type="error"
+        show-icon
+      />
+    </div>
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
@@ -22,7 +31,6 @@
               v-model:value="publishingCompany.name"
               class="w-[450px] h-[45px]"
               placeholder="Nhập tên nhà xuất bản"
-              required
             />
           </div>
         </div>
@@ -111,6 +119,7 @@ import { message, Upload } from "ant-design-vue";
 const publishingCompanyStore = usePublishingCompanyStore();
 const baseStore = useBaseStore();
 const fileList = ref([]);
+const errors = ref({});
 const imageInfo = ref("");
 const publishingCompany = ref({
   name: "",
@@ -216,12 +225,22 @@ const onUpdate = async () => {
     logo_company: imageInfo.value?.url || publishingCompany.value?.logo_company,
   };
 
-  await publishingCompanyStore.updatePublishingCompany({
-    id: publishingCompanyId.value,
-    publishingCompany: data,
-  });
-  await publishingCompanyStore.getAllPublishingCompany({});
-  handleClose();
+  try {
+    const res = await publishingCompanyStore.updatePublishingCompany({
+      id: publishingCompanyId.value,
+      publishingCompany: data,
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Cập nhật nhà xuất bản thành công");
+      await publishingCompanyStore.getAllPublishingCompany({});
+      handleClose();
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error("Cập nhật nhà xuất bản thất bại");
+    }
+  } catch (error) {
+    message.error("Cập nhật nhà xuất bản thất bại");
+  }
 };
 
 const handleClose = () => {

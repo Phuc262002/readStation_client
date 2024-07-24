@@ -24,10 +24,12 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
-                <a-menu-item>Tất cả</a-menu-item>
-                <a-menu-item>Hoạt động</a-menu-item>
-                <a-menu-item>Không hoạt
-                  động</a-menu-item>
+                <a-menu-item>Tất cả sao</a-menu-item>
+                <a-menu-item><CommonRating :rating="5"/></a-menu-item>
+                <a-menu-item><CommonRating :rating="4"/></a-menu-item>
+                <a-menu-item><CommonRating :rating="3"/></a-menu-item>
+                <a-menu-item><CommonRating :rating="2"/></a-menu-item>
+                <a-menu-item><CommonRating :rating="1"/></a-menu-item>
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
@@ -50,7 +52,7 @@
 
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'Assessor'">
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-1">
               <span>{{ record.Assessor }}</span>
               <span>{{ record.phone }}</span>
               <span>{{ record.email }}</span>
@@ -63,7 +65,7 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-2">
-              <NuxtLink>
+              <NuxtLink :to="`/admin/book/detailreview/${record?.id}`">
                 <a-tooltip placement="top">
                   <template #title>
                     <span>Xem chi tiết</span>
@@ -74,31 +76,6 @@
                   </button>
                 </a-tooltip>
               </NuxtLink>
-              <a-dropdown :trigger="['click']" placement="bottom">
-                <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
-                  <UIcon class="group-hover:text-[#131313]" name="i-solar-menu-dots-bold" />
-                </button>
-                <template #overlay>
-                  <a-menu class="space-y-1">
-                    <NuxtLink>
-                      <a-menu-item key="1" class="p-4 hover:!bg-tag-bg-02">
-                        <button class="flex items-center gap-2">
-                          <Icon icon="fluent:edit-48-regular" class="text-lg text-tag-text-02" />
-                          <span class="text-tag-text-02 font-bold">Sửa</span>
-                        </button>
-                      </a-menu-item>
-                    </NuxtLink>
-
-                    <a-menu-item key="2" class="p-4">
-                      <button class="flex items-center gap-2">
-                        <Icon icon="hugeicons:delete-01" class="text-lg text-tag-text-06" />
-                        <span class="text-tag-text-06 font-bold">Xóa</span>
-                      </button>
-                    </a-menu-item>
-                  </a-menu>
-                </template>
-              </a-dropdown>
             </div>
           </template>
         </template>
@@ -146,6 +123,7 @@ const columns = [
 
 const data = [
   {
+    id: 1,
     title: "Doraemon tập 31 ",
     Assessor: "Trung Tran Quang",
     phone: "0123456789",
@@ -155,6 +133,7 @@ const data = [
     dicription: "Sách rất hay",
   },
   {
+    id: 2,
     title: "Trò Chơi Tâm Lý",
     Assessor: "Ton That An Khuong (FPL HCM)",
     phone: "0123456789",

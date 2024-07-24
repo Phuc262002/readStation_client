@@ -11,6 +11,14 @@
     >
       <a-spin size="large" />
     </div>
+    <div class="space-y-1" v-if="errors">
+      <a-alert
+        v-for="(error, index) in errors"
+        :message="error"
+        type="error"
+        show-icon
+      />
+    </div>
     <form @submit.prevent="onSubmit">
       <div class="bg-white py-2">
         <div class="pb-4">
@@ -20,7 +28,7 @@
           <div class="mt-1">
             <a-input
               v-model:value="publishingCompany.name"
-              class="w-[450px] h-10"
+              class="w-full h-10"
               placeholder="Nhập mã nhà xuất bản"
               required
             />
@@ -35,9 +43,8 @@
             <a-textarea
               :rows="6"
               v-model:value="publishingCompany.description"
-              class="w-[450px] h-10"
+              class="w-full h-10"
               placeholder="Nhập mã nhà xuất bản"
-              required
             />
           </div>
         </div>
@@ -92,6 +99,7 @@ const publishingCompanyStore = usePublishingCompanyStore();
 const baseStore = useBaseStore();
 const fileList = ref([]);
 const imageInfo = ref("");
+const errors = ref({});
 const publishingCompany = ref({
   name: "",
   description: "",
@@ -151,27 +159,33 @@ const beforeUpload = (file) => {
 };
 
 const onSubmit = async () => {
- try {
-    const data = {
-      name: publishingCompany.value.name,
-      description: publishingCompany.value.description,
-      logo_company: imageInfo.value?.publicId,
-    };
-    await publishingCompanyStore.createPublishingCompany(data);
-    message.success("Thêm nhà xuất bản thành công");
-    publishingCompany.value = {
-      name: "",
-      description: "",
-      logo_company: "",
-    };
-    if (fileList.value.length > 0) {
-      fileList.value = [];
+  const data = {
+    name: publishingCompany.value.name,
+    description: publishingCompany.value.description,
+    logo_company: imageInfo.value?.publicId,
+  };
+  try {
+    const res = await publishingCompanyStore.createPublishingCompany(data);
+    if (res.data._rawValue?.status == true) {
+      message.success("Thêm nhà xuất bản thành công");
+      publishingCompany.value = {
+        name: "",
+        description: "",
+        logo_company: "",
+      };
+      if (fileList.value.length > 0) {
+        fileList.value = [];
+      }
+      props.openModal();
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error("Thêm nhà xuất bản thất bại");
     }
-    props.openModal();
   } catch (error) {
     message.error("Thêm nhà xuất bản thất bại");
   }
 };
+
 const handleClose = async () => {
   props.openModal();
   if (fileList.value.length > 0) {
@@ -184,5 +198,6 @@ const handleClose = async () => {
     logo_company: "",
   };
   props.openModal();
+  errors.value = {};
 };
 </script>
