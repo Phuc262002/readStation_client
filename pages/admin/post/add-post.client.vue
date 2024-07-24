@@ -19,7 +19,7 @@
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <form :model="posts" @submit.prevent="onSubmit">
         <div class="flex flex-col gap-2 w-full pb-4">
-          <label class="text-sm font-semibold" for="">Thêm hình ảnh</label>
+          <label class="text-sm font-semibold" for="">Thêm hình ảnh <span class="text-red-500">*</span></label>
           <ClientOnly>
             <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
               <a-upload-dragger
@@ -44,7 +44,7 @@
           </ClientOnly>
         </div>
         <div class="flex flex-col gap-2 w-full pb-4">
-          <label class="text-sm font-semibold" for="">Tên bài viết</label>
+          <label class="text-sm font-semibold" for="">Tên bài viết <span class="text-red-500">*</span></label>
           <a-input
             v-model:value="posts.title"
             size="large"
@@ -57,7 +57,7 @@
 
         <div class="grid grid-cols-2 gap-4 pb-4">
           <div class="flex flex-col gap-2 w-[50%]">
-            <label class="text-sm font-semibold" for="">Danh mục</label>
+            <label class="text-sm font-semibold" for="">Danh mục <span class="text-red-500">*</span></label>
             <a-select
               size="large"
               v-model:value="posts.category"
@@ -73,7 +73,7 @@
           </div>
         </div>
         <div class="flex flex-col gap-2 w-full pb-4">
-          <label class="text-sm font-semibold" for="">Nội dung ngắn</label>
+          <label class="text-sm font-semibold" for="">Nội dung ngắn <span class="text-red-500">*</span></label>
           <a-textarea
             placeholder="Nhập nội dung ngắn"
             v-model:value="posts.summary"
@@ -171,22 +171,7 @@ useAsyncData(async () => {
 
 const onSubmit = async () => {
   try {
-    if (!imageInfo.value?.url) {
-      message.error("Vui lòng chọn ảnh");
-      return;
-    }
-
-    if (!posts.value.category) {
-      message.error("Vui lòng chọn danh mục");
-      return;
-    }
-
-    if (!posts.value.content) {
-      message.error("Vui lòng nhập nội dung");
-      return;
-    }
-
-    const data = await postStore.createPost({
+    const res = await postStore.createPost({
       image: imageInfo.value?.url,
       title: posts.value.title,
       content: posts.value.content,
@@ -194,16 +179,15 @@ const onSubmit = async () => {
       category_id: posts.value.category,
       status: posts.value.status,
     });
-    if (data.error?.value?.data) {
-      errors.value = data.error.value.data?.errors;
+    if (res.data._rawValue?.status == true) {
+      message.success("Thêm bài viết thành công");
+      navigateTo("/admin/post");
+    } else {
+      errors.value = res.error.value.data.errors;
       message.error("Thêm bài viết thất bại");
-      return;
     }
-    message.success("Thêm bài viết thành công");
-    navigateTo("/admin/post");
   } catch (error) {
-    console.log("🚀 ~ onSubmit ~ error:", error);
-    message.error("Thêm thất bại");
+    message.error("Thêm bài viết thất bại");
   }
 };
 

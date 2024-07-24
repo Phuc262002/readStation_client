@@ -189,10 +189,21 @@ useAsyncData(
 );
 
 const onDelete = async (id) => {
-  await categoryStore.deleteCategory(id);
-  await categoryStore.getAllCategory({
-    type: "post",
-  });
+  try {
+    const res = await categoryStore.deleteCategory(id);
+    if (res.data._rawValue?.status == true) {
+      message.success(res.data._rawValue?.message);
+      await categoryStore.getAllCategory({
+        type: "post",
+      });
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Khôi phục danh mục thất bại");
+  }
+
 };
 
 const showDeleteConfirm = (id) => {

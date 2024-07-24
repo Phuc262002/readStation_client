@@ -44,7 +44,6 @@ export const usePostStore = defineStore("post-store", {
             body: JSON.stringify(post),
           }
         );
-
         return data;
       } catch (error) {
         console.log(error);

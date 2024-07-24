@@ -504,9 +504,10 @@ useAsyncData(
 );
 const showDeleteConfirm = (id) => {
   Modal.confirm({
-    title: "Bạn có chắn muốn khôi phục người dùng này không?",
+    title:
+      "Bạn có chắn muốn khôi phục trạng thái hoạt động cho người dùng này không?",
 
-    okText: "Khôi phục",
+    okText: "Hoạt động",
     okType: "danger",
     cancelText: "Hủy",
     onOk() {
@@ -518,13 +519,23 @@ const showDeleteConfirm = (id) => {
   });
 };
 const onActiveConfirm = async (id) => {
-  userStore.updateUser({
-    id: id,
-    user: {
-      status: "active",
-    },
-  });
-  await userStore.getUser({});
+  try {
+    const res = await userStore.updateUser({
+      id: id,
+      user: {
+        status: "active",
+      },
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Khôi phục trạng thái người dùng thành công");
+      await userStore.getUser({});
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Khôi phục trạng thái người dùng thất bại");
+  }
 };
 const showBannedConfirm = (id) => {
   openModalConfirm.value = true;

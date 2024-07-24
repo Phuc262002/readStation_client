@@ -40,12 +40,12 @@
                   "
                   >Đang hoạt động</a-menu-item
                 >
-                <a-menu-item
+                <!-- <a-menu-item
                   @click="
                     statusValue({ value: 'wating_approve', label: 'Chờ duyệt' })
                   "
                   >Chờ duyệt</a-menu-item
-                >
+                > -->
                 <a-menu-item
                   @click="
                     statusValue({ value: 'approve_canceled', label: 'Từ chối' })
@@ -348,7 +348,6 @@ useAsyncData(
       status: queryStatus.value.value,
       type: queryType.value.value,
     });
-    console.log("🚀 ~ queryType.value.value:", queryType.value.value);
   },
   {
     immediate: true,
@@ -367,8 +366,18 @@ useAsyncData(async () => {
   });
 });
 const onDelete = async (id) => {
-  await postGeneralStore.deletePost(id);
-  await postStore.getAllPost({});
+  try {
+    const res = await postGeneralStore.deletePost(id);
+    if (res.data._rawValue?.status == true) {
+      message.success("Xóa bài viết thành công");
+      await postStore.getAllPost({});
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Xóa bài viết thất bại");
+  }
 };
 const showDeleteConfirm = (id) => {
   Modal.confirm({

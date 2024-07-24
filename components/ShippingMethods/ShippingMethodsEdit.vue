@@ -12,6 +12,14 @@
       <a-spin size="large" />
     </div>
     <form v-else @submit.prevent="onUpdate">
+      <div class="mb-4 space-y-1" v-if="errors">
+        <a-alert
+          v-for="(error, index) in errors"
+          :message="error"
+          type="error"
+          show-icon
+        />
+      </div>
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
@@ -65,7 +73,6 @@
               v-model:value="shippingMethod.note"
               size="large"
               placeholder="Nhập ghi chú"
-              required
             />
           </div>
         </div>
@@ -139,6 +146,7 @@ const shippingMethodStore = useShippingMethodsStore();
 const baseStore = useBaseStore();
 const fileList = ref([]);
 const imageInfo = ref("");
+const errors = ref({});
 const shippingMethod = ref({
   method: "",
   location: [" Hồ chí minh", "Hà nội"],
@@ -304,6 +312,7 @@ useAsyncData(
 );
 
 const onUpdate = async () => {
+  errors.value = {};
   const data = {
     method: shippingMethod.value.method,
     location: selectedItems.value,
@@ -312,15 +321,26 @@ const onUpdate = async () => {
     status: shippingMethod.value.status,
     logo: imageInfo.value?.url,
   };
-  await shippingMethodStore.updateShippingMethod({
-    id: shippingMethodId.value,
-    shippingMethod: data,
-  });
-  await shippingMethodStore.getAllShippingMethods({});
-  handleClose();
+  try {
+    const res = await shippingMethodStore.updateShippingMethod({
+      id: shippingMethodId.value,
+      shippingMethod: data,
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Cập nhật phương thức vận chuyển thành công");
+      await shippingMethodStore.getAllShippingMethods({});
+      handleClose();
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Cập nhật phương thức vận chuyển thất bại");
+  }
 };
 
 const handleClose = () => {
   props.openModal();
+  errors.value = {};
 };
 </script>

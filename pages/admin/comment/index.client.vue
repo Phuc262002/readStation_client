@@ -141,7 +141,7 @@
                   <span>Hoạt động</span>
                 </template>
                 <button
-                     @click="showPublishedConfirm(record?.id)"
+                  @click="showPublishedConfirm(record?.id)"
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
                 >
                   <Icon icon="charm:tick" class="group-hover:text-[#212122]" />
@@ -206,7 +206,7 @@
                             icon="hugeicons:delete-01"
                             class="text-lg font-bold text-tag-text-06"
                           />
-                          <span class="text-tag-text-06 font-bold"></span>
+                          <span class="text-tag-text-06 font-bold">Xóa</span>
                         </button>
                       </span>
                     </a-menu-item>
@@ -292,23 +292,53 @@ const showPublishedConfirm = (id) => {
   });
 };
 const onPublishedDelete = async (id) => {
-  await commentGeneralStore.updateComment({
-    comment_id: id,
-    status: "published",
-  });
-  await commentStore.getAllComment({});
+  try {
+    const res = await commentGeneralStore.updateComment({
+      comment_id: id,
+      status: "published",
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Khôi phục bình luận thành công");
+      await commentStore.getAllComment({});
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Khôi phục bình luận thất bại");
+  }
 };
 const onDelete = async (id) => {
-  await commentGeneralStore.deleteComment(id);
-  await commentStore.getAllComment({});
+  try {
+    const res = await commentGeneralStore.deleteComment(id);
+    if (res.data._rawValue?.status == true) {
+      message.success("Xóa bình luận thành công");
+      await commentStore.getAllComment({});
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Xóa bình luận thất bại");
+  }
 };
 
 const onRecover = async (comment_id) => {
-  await commentGeneralStore.updateComment({
-    comment_id: comment_id,
-    status: "hidden",
-  });
-  await commentStore.getAllComment({});
+  try {
+    const res = await commentGeneralStore.updateComment({
+      comment_id: comment_id,
+      status: "hidden",
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Ẩn bình luận thành công");
+      await commentStore.getAllComment({});
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Ẩn bình luận thất bại");
+  }
 };
 const showRecoverConfirm = (id) => {
   Modal.confirm({

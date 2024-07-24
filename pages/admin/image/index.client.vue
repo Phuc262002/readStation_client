@@ -51,6 +51,7 @@ useAsyncData(async () => {
 });
 const onDelete = async (publicId) => {
   await generalImageStore.deleteImage(publicId);
+  message.success("Xóa hình ảnh thành công");
   await generalImageStore.getAllImage({});
 };
 </script>

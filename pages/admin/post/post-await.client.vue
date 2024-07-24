@@ -72,8 +72,7 @@
         :data-source="postStore?.postsAdmin.posts"
         :pagination="false"
       >
-       
-      <template #bodyCell="{ column, record }">
+        <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
             <a>
               {{ record.title }}
@@ -273,11 +272,24 @@ useAsyncData(
 );
 
 const onRecover = async (id) => {
-  await postStore.updatePost({ id: id, post: { status: "published" } });
-  await postStore.getAllPost({
-    page: current.value,
-    status: "wating_approve",
-  });
+  try {
+    const res = await postStore.updatePost({
+      id: id,
+      post: { status: "published" },
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Duyệt bài viết thành công");
+      await postStore.getAllPost({
+        page: current.value,
+        status: "wating_approve",
+      });
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Duyệt bài viết thất bại");
+  }
 };
 const showRecoverConfirm = (id) => {
   Modal.confirm({
@@ -300,6 +312,7 @@ const showCancelConfirm = (id) => {
   postAwaitId.value = id;
   status.value = "approve_canceled";
 };
+
 const CloseModalConfirm = () => {
   openModalConfirm.value = false;
 };
