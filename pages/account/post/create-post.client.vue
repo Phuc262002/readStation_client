@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="postStore?.isLoading"
+      v-if="postStore?.isSubmitting"
       class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default"
     >
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
@@ -10,6 +10,7 @@
     <div
       class="w-2/3 w-full bg-white rounded-lg shadow-md shadow-gray-300 p-5 text-sm"
     >
+      <!-- thông báo lỗi -->
       <div v-if="errors" class="space-y-2 mb-4">
         <a-alert
           v-for="(error, index) in errors"
@@ -92,6 +93,7 @@
           <a-button
             @click="status = 'draft'"
             html-type="submit"
+            :loading="postStore?.isSubmitting"
             class="h-10 text-base !text-orange-500 border-orange-500"
           >
             Lưu nháp
@@ -99,7 +101,7 @@
           <a-button
             @click="status = 'published'"
             html-type="submit"
-            :loading="postStore?.isLoading"
+            :loading="postStore?.isSubmitting"
             class="h-10 text-base bg-orange-500 border-none !text-white"
           >
             Đăng bài
