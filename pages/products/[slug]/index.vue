@@ -90,7 +90,7 @@
           v-for="(book, index) in limitBook"
           :key="book.id || index"
         >
-          <NuxtLink :to="`/products/${book?.book?.slug}`">
+          <NuxtLink :to="`/products/${book?.book?.slug}-${book?.id}`">
             <div class="flex flex-col gap-5 p-3 border rounded-lg">
               <div class="mx-auto">
                 <img
