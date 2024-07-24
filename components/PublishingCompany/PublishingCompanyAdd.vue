@@ -23,14 +23,14 @@
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Tên nhà xuất bản
+            Tên nhà xuất bản <span class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <a-input
               v-model:value="publishingCompany.name"
               class="w-full h-10"
               placeholder="Nhập mã nhà xuất bản"
-              required
+   
             />
           </div>
         </div>
@@ -179,7 +179,7 @@ const onSubmit = async () => {
       props.openModal();
     } else {
       errors.value = res.error.value.data.errors;
-      message.error("Thêm nhà xuất bản thất bại");
+      message.error(res.error.value.data.message);
     }
   } catch (error) {
     message.error("Thêm nhà xuất bản thất bại");

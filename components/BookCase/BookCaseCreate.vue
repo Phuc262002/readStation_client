@@ -6,19 +6,26 @@
     :onCancel="handleClose"
   >
     <form @submit.prevent="onSubmit" v-mode:valueCreateShelves>
+      <div class="mb-4 space-y-1" v-if="errors">
+        <a-alert
+          v-for="(error, index) in errors"
+          :message="error"
+          type="error"
+          show-icon
+        />
+      </div>
       <div class="bg-white py-2">
         <div class="pb-4">
-          <label for="">Mã tủ</label>
+          <label for="">Mã tủ sách</label>
           <a-input
             v-model:value="bookCase.bookcase_code"
             type="text"
             class="border p-2 rounded-md"
             placeholder="Nhập mã tủ sách"
-          
           />
         </div>
         <div class="pb-4">
-          <label for="">Tên tủ</label>
+          <label for="">Tên tủ sách <span class="text-red-500">*</span> </label>
           <a-input
             v-model:value="bookCase.name"
             type="text"
@@ -35,16 +42,12 @@
             type="text"
             class="border p-2 rounded-md"
             placeholder="Nhập mô tả tủ sách"
-            required
           />
         </div>
       </div>
 
       <div class="flex justify-end items-end gap-4">
-        <a-button
-          @click="handleClose"
-          html-type="button"
-          class="mt-4"
+        <a-button @click="handleClose" html-type="button" class="mt-4"
           >Hủy</a-button
         >
         <a-button
@@ -60,6 +63,7 @@
 
 <script setup>
 import { ref } from "vue";
+const errors = ref({});
 const bookcaseStore = useBookcaseStore();
 const props = defineProps({
   openModalAdd: Boolean,
@@ -79,23 +83,30 @@ const bookCase = ref({
 });
 const onSubmit = async () => {
   try {
-    await bookcaseStore.createBookcase({
+    const res = await bookcaseStore.createBookcase({
       bookcase_code: bookCase.value.bookcase_code,
       description: bookCase.value.description,
       name: bookCase.value.name,
     });
-    await bookcaseStore.getAllBookcases({});
-    bookCase.value = {
-      bookcase_code: "",
-      description: "",
-      name: "",
-    };
+    if (res.data._rawValue?.status == true) {
+      message.success("Thêm tủ sách thành công");
+      await bookcaseStore.getAllBookcases({});
+      bookCase.value = {
+        bookcase_code: "",
+        description: "",
+        name: "",
+      };
+      props.openModal();
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
   } catch (error) {
-    console.error(error);
+    message.error("Thêm tủ sách thất bại");
   }
-  props.openModal();
 };
 const handleClose = () => {
   props.openModal();
+  errors.value = {};
 };
 </script>

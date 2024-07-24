@@ -2,9 +2,10 @@
   <div>
     <div class="flex gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Danh mục sản phẩm đã xóa</h5>
+        <h5 class="text-xl text-[#1e293b] font-semibold">
+          Danh mục sản phẩm đã xóa
+        </h5>
       </div>
- 
     </div>
 
     <div class="bg-white min-h-[260px] w-full rounded-lg p-5">
@@ -21,7 +22,6 @@
         </template>
 
         <template #bodyCell="{ column, record }">
-          
           <template v-if="column.key === 'name'">
             <a>
               {{ record.name }}
@@ -69,7 +69,10 @@
                   @click="showRecoverConfirm(record.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                <Icon icon="ic:round-settings-backup-restore" class="text-lg" />
+                  <Icon
+                    icon="ic:round-settings-backup-restore"
+                    class="text-lg"
+                  />
                 </button>
               </a-tooltip>
             </div>
@@ -87,7 +90,7 @@
     </div>
   </div>
 </template>
-<script  setup>
+<script setup>
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
 import { Modal } from "ant-design-vue";
@@ -109,23 +112,34 @@ useAsyncData(
 );
 
 const onRecover = async (id) => {
-  await categoryStore.updateCategory({
-    id: id,
-    category: {
-      status: "active",
-    },
-  });
-  await categoryStore.getAllCategory({
-    page: current.value,
-    type: "book",
-    status: "deleted",
-  });
+  try {
+    const res = await categoryStore.updateCategory({
+      id: id,
+      category: {
+        status: "active",
+      },
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Khôi phục danh mục thành công");
+      await categoryStore.getAllCategory({
+        page: current.value,
+        type: "book",
+        status: "deleted",
+      });
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Khôi phục danh mục thất bại");
+  }
 };
 
 const showRecoverConfirm = (id) => {
   Modal.confirm({
     title: "Bạn có chắc chắn muốn khôi phục?",
-    content: "Danh mục sẽ được khôi phục và hiển thị trên tất cả danh mục sản phẩm",
+    content:
+      "Danh mục sẽ được khôi phục và hiển thị trên tất cả danh mục sản phẩm",
     okText: "Khôi phục",
     okType: "danger",
     cancelText: "Hủy",
@@ -139,7 +153,6 @@ const showRecoverConfirm = (id) => {
 };
 
 const columns = [
-  
   {
     title: "Tên",
     dataIndex: "name",
@@ -175,7 +188,4 @@ const columns = [
     key: "action",
   },
 ];
-
-
-
 </script>

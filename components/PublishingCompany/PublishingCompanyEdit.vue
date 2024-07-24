@@ -11,20 +11,20 @@
     >
       <a-spin size="large" />
     </div>
-   
+
     <form v-else @submit.prevent="onUpdate">
       <div class="mb-4 space-y-1" v-if="errors">
-      <a-alert
-        v-for="(error, index) in errors"
-        :message="error"
-        type="error"
-        show-icon
-      />
-    </div>
+        <a-alert
+          v-for="(error, index) in errors"
+          :message="error"
+          type="error"
+          show-icon
+        />
+      </div>
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Tên nhà xuất bản
+            Tên nhà xuất bản <span class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <a-input
@@ -236,7 +236,7 @@ const onUpdate = async () => {
       handleClose();
     } else {
       errors.value = res.error.value.data.errors;
-      message.error("Cập nhật nhà xuất bản thất bại");
+      message.error(res.error.value.data.message);
     }
   } catch (error) {
     message.error("Cập nhật nhà xuất bản thất bại");
@@ -245,5 +245,6 @@ const onUpdate = async () => {
 
 const handleClose = () => {
   props.openModal();
+  errors.value = {};
 };
 </script>

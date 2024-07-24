@@ -367,8 +367,18 @@ useAsyncData(async () => {
   });
 });
 const onDelete = async (id) => {
-  await postGeneralStore.deletePost(id);
-  await postStore.getAllPost({});
+  try {
+    const res = await postGeneralStore.deletePost(id);
+    if (res.data._rawValue?.status == true) {
+      message.success("Xóa bài viết thành công");
+      await postStore.getAllPost({});
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Xóa bài viết thất bại");
+  }
 };
 const showDeleteConfirm = (id) => {
   Modal.confirm({

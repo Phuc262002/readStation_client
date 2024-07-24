@@ -579,9 +579,10 @@ const handleSubmit = async () => {
 
     if (res.data._rawValue?.status == true) {
       message.success("Tạo người dùng thành công");
+      navigateTo("/admin/user");
     } else {
       errors.value = res.error.value.data.errors;
-      message.error("Tạo người dùng thất bại");
+      message.error(res.error.value.data.message);
     }
   } catch (error) {
     message.error("Tạo người dùng thất bại");

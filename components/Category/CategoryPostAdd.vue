@@ -6,6 +6,14 @@
     :onCancel="handleClose"
   >
     <form @submit.prevent="onSubmit">
+      <div class="mb-4 space-y-1" v-if="errors">
+        <a-alert
+          v-for="(error, index) in errors"
+          :message="error"
+          type="error"
+          show-icon
+        />
+      </div>
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
@@ -14,32 +22,30 @@
           <div class="mt-1">
             <a-input
               v-model:value="category.name"
-              class="w-[450px] h-[45px]"
+              class="w-full h-10"
               placeholder="Nhập tên danh mục"
               required
+
             />
           </div>
         </div>
 
-      
-
         <div>
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Mô tả <span class="text-red-500">*</span>
+            Mô tả
           </label>
           <div class="mt-1">
             <a-textarea
               :rows="6"
               v-model:value="category.description"
-              class="w-[450px] h-[45px]"
               placeholder="Nhập mô tả"
-              required
+       
             />
           </div>
         </div>
         <div class="pt-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Hình danh mục bài viết 
+            Hình danh mục bài viết
           </label>
           <div class="mt-1">
             <ClientOnly>
@@ -54,7 +60,6 @@
                   @drop="handleDrop"
                   :before-upload="beforeUpload"
                   :remove="(file) => deleteFile(file)"
-                 
                 >
                   <p class="ant-upload-drag-icon">
                     <inbox-outlined></inbox-outlined>
@@ -88,6 +93,7 @@ import { message, Upload } from "ant-design-vue";
 const categoryStore = useCategoryStore();
 const fileList = ref([]);
 const imageInfo = ref("");
+const errors = ref({});
 const baseStore = useBaseStore();
 const category = ref({
   image: "",
@@ -149,26 +155,34 @@ const beforeUpload = (file) => {
 };
 
 const onSubmit = async () => {
-  await categoryStore.createCategory({
-    image: imageInfo.value?.url,
-    name: category.value.name,
-    description: category.value.description,
-
-    type: "post",
-  });
-  await categoryStore.getAllCategory({
-    type: "post",
-  });
-  category.value = {
-    name: "",
-    description: "",
-    image: "",
-
-  };
-  if (fileList.value.length > 0) {
-    fileList.value = [];
+  try {
+    const res = await categoryStore.createCategory({
+      image: imageInfo.value?.url,
+      name: category.value.name,
+      description: category.value.description,
+      type: "post",
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Thêm danh mục bài viết thành công");
+      await categoryStore.getAllCategory({
+        type: "post",
+      });
+      category.value = {
+        name: "",
+        description: "",
+        image: "",
+      };
+      if (fileList.value.length > 0) {
+        fileList.value = [];
+      }
+      props.openModal();
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Thêm danh mục bài viết thất bại");
   }
-  props.openModal();
 };
 
 const handleClose = () => {
@@ -181,5 +195,6 @@ const handleClose = () => {
     description: "",
   };
   props.openModal();
+  errors.value = {};
 };
 </script>

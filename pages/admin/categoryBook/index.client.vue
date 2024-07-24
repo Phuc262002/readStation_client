@@ -185,10 +185,21 @@ useAsyncData(
 );
 
 const onDelete = async (id) => {
-  await categoryStore.deleteCategory(id);
-  await categoryStore.getAllCategory({
-    type: "book",
-  });
+  try {
+    const res = await categoryStore.deleteCategory(id);
+    if (res.data._rawValue?.status == true) {
+      message.success("Xóa danh mục thành công");
+      await categoryStore.getAllCategory({
+        type: "book",
+      });
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Xóa danh mục thất bại");
+  }
+
 };
 const showDeleteConfirm = (id) => {
   Modal.confirm({
@@ -206,7 +217,7 @@ const showDeleteConfirm = (id) => {
 };
 
 const columns = [
-{
+  {
     title: "Hình ảnh",
     dataIndex: "image",
     key: "image",
@@ -221,7 +232,7 @@ const columns = [
     dataIndex: "description",
     key: "description",
   },
- 
+
   {
     title: "Nổi bật",
     dataIndex: "is_featured",

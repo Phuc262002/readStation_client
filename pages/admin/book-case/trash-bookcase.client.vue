@@ -73,7 +73,10 @@
                   @click="showRecoverConfirm(record.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                <Icon icon="ic:round-settings-backup-restore" class="text-lg" />
+                  <Icon
+                    icon="ic:round-settings-backup-restore"
+                    class="text-lg"
+                  />
                 </button>
               </a-tooltip>
             </div>
@@ -105,13 +108,23 @@ useAsyncData(async () => {
 });
 
 const onRecover = async (id) => {
-  await bookCaseStore.updateBookcase({
-    id: id,
-    bookcase: { status: "active" },
-  });
-  await bookCaseStore.getAllBookcases({
-    status: "deleted",
-  });
+  try {
+    const res = await bookCaseStore.updateBookcase({
+      id: id,
+      bookcase: { status: "active" },
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Khôi phục thành công");
+      await bookCaseStore.getAllBookcases({
+        status: "deleted",
+      });
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Khôi phục không thành công");
+  }
 };
 
 const showRecoverConfirm = (id) => {

@@ -198,8 +198,18 @@ useAsyncData(
   }
 );
 const onDelete = async (id) => {
-  await shippingMethodStore.deleteShippingMethod(id);
-  await shippingMethodStore.getAllShippingMethods({});
+  try {
+    const res = await shippingMethodStore.deleteShippingMethod(id);
+    if (res.data._rawValue?.status == true) {
+      message.success("Xóa phương thức vận chuyển thành công");
+      await shippingMethodStore.getAllShippingMethods({});
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Xóa phương thức vận chuyển thất bại");
+  }
 };
 
 const showDeleteConfirm = (id) => {
