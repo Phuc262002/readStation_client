@@ -6,140 +6,146 @@
     >
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
     </div>
-    <a-modal
-      v-model:open="props.openModalForm"
-      title="Địa chỉ mới"
-      width="40%"
-      :footer="null"
-      :onCancel="handleClose"
-    >
-      <form @submit.prevent="onSubmit">
-        <div class="flex gap-2">
-          <div class="w-1/2 pb-4">
-            <label class="text-sm font-bold"> Họ tên </label>
+    <div v-if="handleChangeEdit">
+      <a-modal
+        v-model:open="props.openModalForm"
+        title="Thay đổi thông tin giao hàng"
+        width="40%"
+        :footer="null"
+        :onCancel="handleClose"
+      >
+        <form @submit.prevent="onSubmit">
+          <div class="flex gap-2">
+            <div class="w-1/2 pb-4">
+              <label class="text-sm font-bold"> Họ tên </label>
+              <div class="mt-1">
+                <a-input
+                  size="large"
+                  class="w-full"
+                  placeholder="Nhập họ tên"
+                  v-model:value="user.fullname"
+                  required
+                />
+              </div>
+            </div>
+            <div class="w-1/2 pb-4">
+              <label class="text-sm font-bold"> Số điện thoại </label>
+              <div class="mt-1">
+                <a-input
+                  size="large"
+                  class="w-full"
+                  placeholder="Nhập số điện thoại"
+                  v-model:value="user.phone"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <div class="w-1/2 pb-4">
+              <label class="text-sm font-bold"> Tỉnh/ Thành phố </label>
+              <div class="mt-1">
+                <a-select
+                  v-model:value="province_id"
+                  :options="optionsProvines"
+                  @focus="handleFocus"
+                  @blur="handleBlur"
+                  @change="handleChangeProvince"
+                  :loading="baseStore.isLoading"
+                  class="w-full"
+                  size="large"
+                  show-search
+                  placeholder="Tỉnh/Thành phố"
+                >
+                </a-select>
+              </div>
+            </div>
+            <div class="w-1/2 pb-4">
+              <label class="text-sm font-bold"> Quận/ Huyện </label>
+              <div class="mt-1">
+                <a-select
+                  v-model:value="district_id"
+                  :options="optionsDistricts"
+                  :filter-option="filterOption"
+                  @focus="handleFocus"
+                  @blur="handleBlur"
+                  @change="handleChangeDistrict"
+                  :disabled="!province_id"
+                  :loading="baseStore.isLoading"
+                  class="w-full"
+                  size="large"
+                  show-search
+                  placeholder="Quận/ Huyện"
+                >
+                </a-select>
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <div class="w-1/2 pb-4">
+              <label class="text-sm font-bold"> Phường/ Xã/ Thị trấn </label>
+              <div class="mt-1">
+                <a-select
+                  v-model:value="ward_id"
+                  :options="optionsWards"
+                  :filter-option="filterOption"
+                  @focus="handleFocus"
+                  @blur="handleBlur"
+                  @change="handleChangeWard"
+                  :disabled="!district_id"
+                  :loading="baseStore.isLoading"
+                  class="w-full"
+                  size="large"
+                  show-search
+                  placeholder="Xã/ Phường/ Thị trấn"
+                >
+                </a-select>
+              </div>
+            </div>
+            <div class="w-1/2 pb-4">
+              <label class="text-sm font-bold"> Đường </label>
+              <div class="mt-1">
+                <a-input
+                  v-model:value="address.street"
+                  :disabled="!ward_id"
+                  size="large"
+                  class="w-full"
+                  placeholder="Nhập đường"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <div>
+            <label class="text-sm font-bold"> Địa chỉ cụ thể </label>
             <div class="mt-1">
-              <a-input
+              <a-textarea
                 size="large"
-                class="w-full"
-                placeholder="Nhập họ tên"
-                v-model:value="user.fullname"
-                required
+                :value="`${address.street}, ${address.ward}, ${address.district}, ${address.province}`"
               />
             </div>
           </div>
-          <div class="w-1/2 pb-4">
-            <label class="text-sm font-bold"> Số điện thoại </label>
-            <div class="mt-1">
-              <a-input
-                size="large"
-                class="w-full"
-                placeholder="Nhập số điện thoại"
-                v-model:value="user.phone"
-                required
-              />
-            </div>
-          </div>
-        </div>
-        <div class="flex gap-2">
-          <div class="w-1/2 pb-4">
-            <label class="text-sm font-bold"> Tỉnh/ Thành phố </label>
-            <div class="mt-1">
-              <a-select
-                v-model:value="province_id"
-                :options="optionsProvines"
-                @focus="handleFocus"
-                @blur="handleBlur"
-                @change="handleChangeProvince"
-                :loading="baseStore.isLoading"
-                class="w-full"
-                size="large"
-                show-search
-                placeholder="Tỉnh/Thành phố"
-              >
-              </a-select>
-            </div>
-          </div>
-          <div class="w-1/2 pb-4">
-            <label class="text-sm font-bold"> Quận/ Huyện </label>
-            <div class="mt-1">
-              <a-select
-                v-model:value="district_id"
-                :options="optionsDistricts"
-                :filter-option="filterOption"
-                @focus="handleFocus"
-                @blur="handleBlur"
-                @change="handleChangeDistrict"
-                :disabled="!province_id"
-                :loading="baseStore.isLoading"
-                class="w-full"
-                size="large"
-                show-search
-                placeholder="Quận/ Huyện"
-              >
-              </a-select>
-            </div>
-          </div>
-        </div>
-        <div class="flex gap-2">
-          <div class="w-1/2 pb-4">
-            <label class="text-sm font-bold"> Phường/ Xã/ Thị trấn </label>
-            <div class="mt-1">
-              <a-select
-                v-model:value="ward_id"
-                :options="optionsWards"
-                :filter-option="filterOption"
-                @focus="handleFocus"
-                @blur="handleBlur"
-                @change="handleChangeWard"
-                :disabled="!district_id"
-                :loading="baseStore.isLoading"
-                class="w-full"
-                size="large"
-                show-search
-                placeholder="Xã/ Phường/ Thị trấn"
-              >
-              </a-select>
-            </div>
-          </div>
-          <div class="w-1/2 pb-4">
-            <label class="text-sm font-bold"> Đường </label>
-            <div class="mt-1">
-              <a-input
-                v-model:value="address.street"
-                :disabled="!ward_id"
-                size="large"
-                class="w-full"
-                placeholder="Nhập đường"
-                required
-              />
-            </div>
-          </div>
-        </div>
-        <div>
-          <label class="text-sm font-bold"> Địa chỉ cụ thể </label>
-          <div class="mt-1">
-            <a-textarea
-              size="large"
-              :value="`${address.street}, ${address.ward}, ${address.district}, ${address.province}`"
-            />
-          </div>
-        </div>
 
-        <div class="flex justify-end items-end gap-2">
-          <a-button @click="handleClose" danger html-type="button" class="mt-4"
-            >Hủy</a-button
-          >
-          <a-button
-            :loading="isSubmitting"
-            type="primary"
-            html-type="submit"
-            class="mt-4"
-          >
-            Lưu
-          </a-button>
-        </div>
-      </form>
-    </a-modal>
+          <div class="flex justify-end items-end gap-2">
+            <a-button
+              @click="handleClose"
+              danger
+              html-type="button"
+              class="mt-4"
+              >Hủy</a-button
+            >
+            <a-button
+              :loading="isSubmitting"
+              type="primary"
+              html-type="submit"
+              class="mt-4"
+            >
+              Lưu
+            </a-button>
+          </div>
+        </form>
+      </a-modal>
+    </div>
   </div>
 </template>
 
@@ -163,7 +169,14 @@ const province_id = ref(undefined);
 const optionsProvines = ref([]);
 const optionsDistricts = ref([]);
 const optionsWards = ref([]);
-
+// Display infor
+const handleChangeEdit = () => {
+  user.value.fullname = authStore?.authUser?.user?.fullname;
+  user.value.phone = authStore?.authUser?.user?.phone;
+  address.value.province = authStore?.authUser?.user?.province?.ProvinceName;
+  address.value.district = authStore?.authUser?.user?.district?.DistrictName;
+  address.value.ward = authStore?.authUser?.user?.ward?.WardName;
+};
 // Update Profile
 const onSubmit = async () => {
   const resData = await authStore.updateProfile({

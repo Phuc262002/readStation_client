@@ -1,6 +1,6 @@
 <template>
   <div class="py-5 border-b">
-    <NuxtLink :to="`/products/${props?.book?.book?.slug}`">
+    <NuxtLink :to="`/products/${props?.book?.book?.slug}-${props?.book?.id}`">
       <div class="flex flex-col gap-5 px-5 border-x">
         <div class="mx-auto">
           <img
