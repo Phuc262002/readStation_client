@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div
-      class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
-    >
+    <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-bold">Thêm sách</h5>
       </div>
     </div>
-
+    <div class="mb-4 space-y-1" v-if="errors">
+      <a-alert v-for="(error, index) in errors" :message="error" type="error" show-icon />
+    </div>
     <!-- Đây là phần code mẫu body -->
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
       <form :model="valuecreateBook" @submit.prevent="onSubmit">
@@ -19,108 +19,57 @@
               <div class="grid grid-rows-2 gap-5">
                 <div class="grid grid-cols-3 gap-4">
                   <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for=""
-                      >Tác giả <span class="text-red-500">*</span></label
-                    >
-                    <a-select
-                      v-model:value="valuecreateBook.author_id"
-                      show-search
-                      size="large"
-                      placeholder="Mã tác giả"
-                      :options="optionsAuthor"
-                      :filter-option="filterOption"
-                      @focus="handleFocus"
-                      @blur="handleBlur"
-                      @change="handleChange"
-                      required
-                    ></a-select>
+                    <label class="text-sm font-semibold" for="">Tác giả <span class="text-red-500">*</span></label>
+                    <a-select v-model:value="valuecreateBook.author_id" show-search size="large"
+                      placeholder="Mã tác giả" :options="optionsAuthor" :filter-option="filterOption"
+                      @focus="handleFocus" @blur="handleBlur" @change="handleChange" required></a-select>
                   </div>
                   <div>
                     <div class="flex flex-col gap-2">
-                      <label class="text-sm font-semibold" for=""
-                        >Tên sách</label
-                      >
-                      <a-input
-                        type="text"
-                        class="border p-2 rounded-md h-10"
-                        placeholder="Tên sách"
-                        v-model:value="valuecreateBook.title"
-                      />
+                      <label class="text-sm font-semibold" for="">Tên sách <span class="text-red-500">*</span></label>
+                      <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Tên sách" required
+                        v-model:value="valuecreateBook.title" />
                     </div>
                   </div>
                   <div>
                     <div class="flex flex-col gap-2">
-                      <label class="text-sm font-semibold" for=""
-                        >Tên góc</label
-                      >
-                      <a-input
-                        type="text"
-                        class="border p-2 rounded-md h-10"
-                        placeholder="Tên góc"
-                        v-model:value="valuecreateBook.original_title"
-                      />
+                      <label class="text-sm font-semibold" for="">Tên góc <span class="text-red-500">*</span></label>
+                      <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Tên góc" required
+                        v-model:value="valuecreateBook.original_title" />
                     </div>
                   </div>
                 </div>
                 <div class="grid grid-cols-3 gap-4">
                   <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for="">Danh mục</label>
-                    <a-select
-                      v-model:value="valuecreateBook.category_id"
-                      show-search
-                      size="large"
-                      placeholder="Mã danh mục"
-                      :options="optionsCategory"
-                      :filter-option="filterOption"
-                      @focus="handleFocus"
-                      @blur="handleBlur"
-                      @change="handleChange"
-                    ></a-select>
+                    <label class="text-sm font-semibold" for="">Danh mục <span class="text-red-500">*</span></label>
+                    <a-select v-model:value="valuecreateBook.category_id" show-search size="large" required
+                      placeholder="Mã danh mục" :options="optionsCategory" :filter-option="filterOption"
+                      @focus="handleFocus" @blur="handleBlur" @change="handleChange"></a-select>
                   </div>
                   <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold" for="">Kệ sách </label>
-                    <a-select
-                      v-model:value="valuecreateBook.shelve_id"
-                      show-search
-                      size="large"
-                      placeholder="Mã kệ sách"
-                      :options="optionsShelve"
-                      :filter-option="filterOption"
-                      @focus="handleFocus"
-                      @blur="handleBlur"
-                      @change="handleChange"
-                    ></a-select>
+                    <a-select v-model:value="valuecreateBook.shelve_id" show-search size="large"
+                      placeholder="Mã kệ sách" :options="optionsShelve" :filter-option="filterOption"
+                      @focus="handleFocus" @blur="handleBlur" @change="handleChange"></a-select>
                   </div>
                   <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for=""
-                      >Sách nổi bật</label
-                    >
-                    <a-checkbox v-model:checked="valuecreateBook.is_featured"
-                      >Nổi bật</a-checkbox
-                    >
+                    <label class="text-sm font-semibold" for="">Sách nổi bật</label>
+                    <a-checkbox v-model:checked="valuecreateBook.is_featured">Nổi bật</a-checkbox>
                   </div>
                 </div>
               </div>
               <div class="flex w-full">
                 <div class="flex flex-col gap-2 w-full">
-                  <label class="text-sm font-semibold" for="">Mô tả</label>
-                  <a-textarea
-                    class="h-28"
-                    v-model:value="valuecreateBook.description_summary"
-                    placeholder="Mô tả ngắn"
-                    allow-clear
-                  />
+                  <label class="text-sm font-semibold" for="">Mô tả <span class="text-red-500">*</span></label>
+                  <a-textarea class="h-28" v-model:value="valuecreateBook.description_summary" placeholder="Mô tả ngắn"
+                    required allow-clear />
                 </div>
               </div>
               <div class="flex w-full">
                 <div class="flex flex-col gap-2 w-full">
-                  <label class="text-sm font-semibold" for=""
-                    >Mô tả chi tiết</label
-                  >
-                  <CommonCKEditor
-                    :value="valuecreateBook.description"
-                    @input="(event) => (valuecreateBook.description = event)"
-                  />
+                  <label class="text-sm font-semibold" for="">Mô tả chi tiết <span class="text-red-500">*</span></label>
+                  <CommonCKEditor :value="valuecreateBook.description" required
+                    @input="(event) => (valuecreateBook.description = event)" />
                 </div>
               </div>
             </div>
@@ -132,23 +81,12 @@
               <div class="grid grid-rows-1">
                 <div class="grid grid-cols-2 gap-10">
                   <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for="">Poster</label>
+                    <label class="text-sm font-semibold" for="">Poster <span class="text-red-500">*</span></label>
                     <ClientOnly>
-                      <a-spin
-                        tip="Đang xử lý..."
-                        :spinning="baseStore.isSubmitting"
-                      >
-                        <a-upload-dragger
-                          v-model:fileList="fileList"
-                          list-type="picture"
-                          name="image"
-                          :multiple="false"
-                          :action="(file) => uploadFile(file)"
-                          @change="handleChangeImage"
-                          @drop="handleDrop"
-                          :before-upload="beforeUpload"
-                          :remove="(file) => deleteFile(file)"
-                        >
+                      <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
+                        <a-upload-dragger v-model:fileList="fileList" list-type="picture" name="image" :multiple="false"
+                          :action="(file) => uploadFile(file)" @change="handleChangeImage" @drop="handleDrop"
+                          :before-upload="beforeUpload" :remove="(file) => deleteFile(file)">
                           <p class="ant-upload-drag-icon">
                             <inbox-outlined></inbox-outlined>
                           </p>
@@ -163,14 +101,9 @@
                     </ClientOnly>
                   </div>
                   <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for=""
-                      >Hình ảnh chi tiết</label
-                    >
-                    <a-upload
-                      list-type="picture"
-                      :max-count="3"
-                      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                    >
+                    <label class="text-sm font-semibold" for="">Hình ảnh chi tiết</label>
+                    <a-upload list-type="picture" :max-count="3"
+                      action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
                       <a-button class="flex justify-between gap-3 items-center">
                         <upload-outlined></upload-outlined>
                         <h1>Upload hình ảnh chi tiết</h1>
@@ -184,164 +117,88 @@
                 <div>
                   <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold" for="">Sku</label>
-                    <a-input
-                      type="text"
-                      class="border p-2 rounded-md h-10"
-                      placeholder="Mã sách"
-                      v-model:value="valuecreateBook.book_detail.sku_origin"
-                    />
+                    <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Mã sách"
+                      v-model:value="valuecreateBook.book_detail.sku_origin" />
                   </div>
                 </div>
                 <div class="grid grid-cols-4 gap-4">
                   <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for=""
-                      >Phiên bản sách</label
-                    >
-                    <a-input
-                      type="text"
-                      class="border p-2 rounded-md h-10"
-                      placeholder="Phiên bản sách"
-                      v-model:value="valuecreateBook.book_detail.book_version"
-                    />
+                    <label class="text-sm font-semibold" for="">Phiên bản sách <span
+                        class="text-red-500">*</span></label>
+                    <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Phiên bản sách" required
+                      v-model:value="valuecreateBook.book_detail.book_version" />
                   </div>
                   <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for="">Giá</label>
-                    <a-input
-                      type="number"
-                      class="border p-2 rounded-md h-10"
-                      placeholder="Giá"
-                      v-model:value="valuecreateBook.book_detail.price"
-                    />
+                    <label class="text-sm font-semibold" for="">Giá <span class="text-red-500">*</span></label>
+                    <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Giá" required
+                      v-model:value="valuecreateBook.book_detail.price" />
                   </div>
                   <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for="">Tiền cọc</label>
-                    <a-input
-                      type="number"
-                      class="border p-2 rounded-md h-10"
-                      placeholder="Tiền cọc"
-                      v-model:value="valuecreateBook.book_detail.hire_percent"
-                    />
+                    <label class="text-sm font-semibold" for="">Tiền cọc <span class="text-red-500">*</span></label>
+                    <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Tiền cọc" required
+                      v-model:value="valuecreateBook.book_detail.hire_percent" />
                   </div>
                   <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for="">Số lượng</label>
-                    <a-input
-                      type="number"
-                      class="border p-2 rounded-md h-10"
-                      placeholder="Số lượng"
-                      v-model:value="valuecreateBook.book_detail.stock"
-                    />
+                    <label class="text-sm font-semibold" for="">Số lượng <span class="text-red-500">*</span></label>
+                    <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Số lượng" required
+                      v-model:value="valuecreateBook.book_detail.stock" />
                   </div>
                 </div>
                 <div class="grid grid-cols-4 gap-4">
                   <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for=""
-                      >Ngày xuất bản</label
-                    >
-                    <a-input
-                      type="date"
-                      class="border p-2 rounded-md h-10"
-                      placeholder="Ngày xuất bản"
-                      v-model:value="valuecreateBook.book_detail.publish_date"
-                    />
+                    <label class="text-sm font-semibold" for="">Ngày xuất bản <span
+                        class="text-red-500">*</span></label>
+                    <a-input type="date" class="border p-2 rounded-md h-10" placeholder="Ngày xuất bản" required
+                      v-model:value="valuecreateBook.book_detail.publish_date" />
                   </div>
                   <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for=""
-                      >Công ty phát hành</label
-                    >
-                    <a-input
-                      type="text"
-                      class="border p-2 rounded-md h-10"
-                      placeholder="Công ty phát hành"
-                      v-model:value="
-                        valuecreateBook.book_detail.issuing_company
-                      "
-                    />
+                    <label class="text-sm font-semibold" for="">Công ty phát hành <span
+                        class="text-red-500">*</span></label>
+                    <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Công ty phát hành" required
+                      v-model:value="valuecreateBook.book_detail.issuing_company
+                        " />
                   </div>
                   <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for=""
-                      >Người biên dịch</label
-                    >
-                    <a-input
-                      type="text"
-                      class="border p-2 rounded-md h-10"
-                      placeholder="Người biên dịch"
-                      v-model:value="valuecreateBook.book_detail.translator"
-                    />
+                    <label class="text-sm font-semibold" for="">Người biên dịch</label>
+                    <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Người biên dịch"
+                      v-model:value="valuecreateBook.book_detail.translator" />
                   </div>
                   <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for=""
-                      >Nhà xuất bản</label
-                    >
-                    <a-select
-                      v-model:value="
-                        valuecreateBook.book_detail.publishing_company_id
-                      "
-                      size="large"
-                      show-search
-                      placeholder="Nhà xuất bản"
-                      :options="optionsPublishingcompany"
-                      :filter-option="filterOption"
-                      @focus="handleFocus"
-                      @blur="handleBlur"
-                      @change="handleChange"
-                    ></a-select>
+                    <label class="text-sm font-semibold" for="">Nhà xuất bản <span class="text-red-500">*</span></label>
+                    <a-select v-model:value="valuecreateBook.book_detail.publishing_company_id" size="large"
+                      show-search placeholder="Nhà xuất bản" :options="optionsPublishingcompany"
+                      :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur" required
+                      @change="handleChange"></a-select>
                   </div>
                 </div>
                 <div class="grid grid-cols-4 gap-4">
                   <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for="">Số trang</label>
-                    <a-input
-                      type="number"
-                      class="border p-2 rounded-md h-10"
-                      placeholder="Số trang"
-                      v-model:value="valuecreateBook.book_detail.total_page"
-                    />
+                    <label class="text-sm font-semibold" for="">Số trang <span class="text-red-500">*</span></label>
+                    <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Số trang" required
+                      v-model:value="valuecreateBook.book_detail.total_page" />
                   </div>
                   <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for="">Ngôn ngữ</label>
-                    <a-input
-                      type="text"
-                      class="border p-2 rounded-md h-10"
-                      placeholder="Ngôn ngữ"
-                      v-model:value="valuecreateBook.book_detail.language"
-                    />
+                    <label class="text-sm font-semibold" for="">Ngôn ngữ <span class="text-red-500">*</span></label>
+                    <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Ngôn ngữ" required
+                      v-model:value="valuecreateBook.book_detail.language" />
                   </div>
                   <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for=""
-                      >Kích thước sách</label
-                    >
-                    <a-input
-                      type="text"
-                      class="border p-2 rounded-md h-10"
-                      placeholder="Kích thước sách"
-                      v-model:value="valuecreateBook.book_detail.book_size"
-                    />
+                    <label class="text-sm font-semibold" for="">Kích thước sách</label>
+                    <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Kích thước sách"
+                      v-model:value="valuecreateBook.book_detail.book_size" />
                   </div>
                   <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for="">Loại bìa</label>
-                    <a-select
-                      v-model:value="valuecreateBook.book_detail.cardboard"
-                      show-search
-                      size="large"
-                      placeholder="Loại bìa"
-                      :options="optionsCardboard"
-                      :filter-option="filterOption"
-                      @focus="handleFocus"
-                      @blur="handleBlur"
-                      @change="handleChange"
-                    ></a-select>
+                    <label class="text-sm font-semibold" for="">Loại bìa <span class="text-red-500">*</span></label>
+                    <a-select v-model:value="valuecreateBook.book_detail.cardboard" show-search size="large" required
+                      placeholder="Loại bìa" :options="optionsCardboard" :filter-option="filterOption"
+                      @focus="handleFocus" @blur="handleBlur" @change="handleChange"></a-select>
                   </div>
                 </div>
               </div>
             </div>
             <div class="flex justify-end gap-2">
               <a-button type="default">Hủy</a-button>
-              <a-button
-                type="primary"
-                html-type="submit"
-                :loading="createBook.isSubmitting"
-                >Thêm</a-button
-              >
+              <a-button type="primary" html-type="submit" :loading="createBook.isSubmitting">Thêm</a-button>
             </div>
           </div>
         </div>
@@ -356,6 +213,7 @@ const fileList = ref([]);
 const imageInfo = ref("");
 const isLoading = ref(false);
 const optionsShelve = ref([]);
+const errors = ref({});
 const shelvesValue = useShelvesStore();
 const getDataShelvesValue = async () => {
   try {
@@ -501,7 +359,7 @@ const beforeUpload = (file) => {
 
 const onSubmit = async () => {
   try {
-    await createBook.createBook({
+    const res = await createBook.createBook({
       sku: valuecreateBook.value.sku,
       author_id: valuecreateBook.value.author_id,
       title: valuecreateBook.value.title,
@@ -536,7 +394,12 @@ const onSubmit = async () => {
         },
       ],
     });
-    message.success("Thêm thành công");
+    if (res.data._rawValue?.status == true) {
+      message.success("Thêm sách thành công");
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error("Thêm sách thất bại");
+    }
   } catch (error) {
     message.error("Thêm thất bại");
   }

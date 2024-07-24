@@ -407,67 +407,71 @@ watch(
 );
 
 const payCart = async () => {
-  const newInfo = {
-    fullname: authStore?.authUser?.user?.fullname,
-    phone: authStore?.authUser?.user?.phone,
-    address: authStore?.authUser?.user?.address_detail,
-  };
-  if (!newInfo.phone || !newInfo.address) {
-    message.error({
-      content: "Vui lòng điền đầy đủ thông tin giao hàng!",
-    });
-    return;
-  }
-  const newArr = cartStore.carts.map((item) => {
-    return {
-      book_details_id: item.id,
-      service_fee: parseFloat(item.price) * 0.2,
-      deposit_fee: parseFloat(item.price),
+  try {
+    const newInfo = {
+      fullname: authStore?.authUser?.user?.fullname,
+      phone: authStore?.authUser?.user?.phone,
+      address: authStore?.authUser?.user?.address_detail,
     };
-  });
-  const paymentPortal = payment_method.value === "online" ? "payos" : null;
+    if (!newInfo.phone || !newInfo.address) {
+      message.error({
+        content: "Vui lòng điền đầy đủ thông tin giao hàng!",
+      });
+      return;
+    }
+    const newArr = cartStore.carts.map((item) => {
+      return {
+        book_details_id: item.id,
+        service_fee: parseFloat(item.price) * 0.2,
+        deposit_fee: parseFloat(item.price),
+      };
+    });
+    const paymentPortal = payment_method.value === "online" ? "payos" : null;
 
-  const resData = await orderStore.createOrder({
-    payment_method: payment_method.value,
-    delivery_method: delivery_method.value,
-    payment_portal: paymentPortal,
-    user_note: userNote.value,
-    discount: authStore?.authUser?.user?.discount,
-    shipping_method_id: shipping_method_id.value,
-    total_shipping_fee: parseFloat(shippingFee.value),
-    total_service_fee: parseFloat(serviceFee.value),
-    total_deposit_fee: parseFloat(depositFee.value),
-    total_all_fee: parseFloat(totalFee.value),
-    order_details: newArr,
-    delivery_info: newInfo,
-  });
-  // console.log("resData", resData);
-  if (
-    resData?.data?._rawValue?.status == true &&
-    payment_method.value === "cash"
-  ) {
-    message.success({
-      content: "Đặt hàng thành công",
+    const resData = await orderStore.createOrder({
+      payment_method: payment_method.value,
+      delivery_method: delivery_method.value,
+      payment_portal: paymentPortal,
+      user_note: userNote.value,
+      discount: authStore?.authUser?.user?.discount,
+      shipping_method_id: shipping_method_id.value,
+      total_shipping_fee: parseFloat(shippingFee.value),
+      total_service_fee: parseFloat(serviceFee.value),
+      total_deposit_fee: parseFloat(depositFee.value),
+      total_all_fee: parseFloat(totalFee.value),
+      order_details: newArr,
+      delivery_info: newInfo,
     });
-    cartStore.carts = [];
-    navigateTo("/account/order");
-  } else if (
-    resData?.data?._rawValue?.status === true &&
-    payment_method.value === "online"
-  ) {
-    message.success({
-      content: "Đặt hàng thành công",
-    });
-    cartStore.carts = [];
-    navigateTo(
-      "/account/order/checkout/payment/" +
-        resData?.data?._rawValue?.data.order_code
-    );
-  } else {
-    resErrors.value = resData.error.value.data.errors;
-    message.error({
-      content: "Đặt hàng thất bại",
-    });
+    // console.log("resData", resData);
+    if (
+      resData?.data?._rawValue?.status == true &&
+      payment_method.value === "cash"
+    ) {
+      message.success({
+        content: "Đặt hàng thành công",
+      });
+      cartStore.carts = [];
+      navigateTo("/account/order");
+    } else if (
+      resData?.data?._rawValue?.status === true &&
+      payment_method.value === "online"
+    ) {
+      message.success({
+        content: "Đặt hàng thành công",
+      });
+      cartStore.carts = [];
+      navigateTo(
+        "/account/order/checkout/payment/" +
+          resData?.data?._rawValue?.data.order_code
+      );
+    } else {
+      resErrors.value = resData.error.value.data.errors;
+      message.error({
+        content: "Đặt hàng thất bại",
+      });
+    }
+  } catch (error) {
+    message.error("Đặt hàng thất bại");
   }
 };
 

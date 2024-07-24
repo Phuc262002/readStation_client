@@ -193,7 +193,7 @@ const updateAuthor = async () => {
     message.success("Cập nhật tác giả thành công");
     navigateTo("/admin/author");
   } catch (error) {
-    // message.error("Cập nhật tác giả thất bại");
+    message.error("Cập nhật tác giả thất bại");
   }
 };
 

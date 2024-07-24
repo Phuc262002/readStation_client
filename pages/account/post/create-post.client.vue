@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="postStore?.isLoading"
+      v-if="postStore?.isSubmitting"
       class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default"
     >
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
@@ -10,9 +10,20 @@
     <div
       class="w-2/3 w-full bg-white rounded-lg shadow-md shadow-gray-300 p-5 text-sm"
     >
+      <!-- thông báo lỗi -->
+      <div v-if="errors" class="space-y-2 mb-4">
+        <a-alert
+          v-for="(error, index) in errors"
+          :key="index"
+          :message="error"
+          type="error"
+          show-icon
+        />
+      </div>
       <form :model="post" @submit.prevent="onSubmit" class="space-y-5">
         <div>
-          <p class="pb-2">Ảnh bìa</p>
+          <p class="pb-2">Ảnh bìa<span class="text-[red]"> *</span></p>
+
           <ClientOnly>
             <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
               <a-upload-dragger
@@ -37,24 +48,26 @@
         </div>
         <!--  -->
         <div>
-          <p class="pb-2">Tên bài viết</p>
+          <p class="pb-2">Tên bài viết<span class="text-[red]"> *</span></p>
           <a-input
             type="text"
             v-model:value="post.title"
             placeholder="Tên bài viết"
             class="h-10"
+            required
           />
         </div>
         <div>
-          <p class="pb-2">Mô tả ngắn</p>
+          <p class="pb-2">Mô tả ngắn<span class="text-[red]"> *</span></p>
           <a-textarea
             v-model:value="post.summary"
             placeholder="Mô tả ngắn"
             :rows="4"
+            required
           />
         </div>
         <div class="w-1/3 w-full">
-          <p class="pb-2" for="">Danh mục</p>
+          <p class="pb-2" for="">Danh mục <span class="text-[red]"> *</span></p>
           <a-select
             v-model:value="post.category"
             placeholder="Danh mục"
@@ -65,7 +78,9 @@
           </a-select>
         </div>
         <div>
-          <p class="pb-2" for="">Mô tả chi tiết</p>
+          <p class="pb-2" for="">
+            Mô tả chi tiết<span class="text-[red]"> *</span>
+          </p>
           <CommonCKEditor
             :value="post.content"
             @input="(event) => (post.content = event)"
@@ -78,6 +93,7 @@
           <a-button
             @click="status = 'draft'"
             html-type="submit"
+            :loading="postStore?.isSubmitting"
             class="h-10 text-base !text-orange-500 border-orange-500"
           >
             Lưu nháp
@@ -85,7 +101,7 @@
           <a-button
             @click="status = 'published'"
             html-type="submit"
-            :loading="postStore?.isLoading"
+            :loading="postStore?.isSubmitting"
             class="h-10 text-base bg-orange-500 border-none !text-white"
           >
             Đăng bài
@@ -101,7 +117,7 @@ const categoryStore = useCategoryPublicStore();
 const postStore = useGeneralPostStore();
 const options = ref([]);
 const status = ref("published");
-
+const errors = ref({});
 const baseStore = useBaseStore();
 const imageInfo = ref("");
 const post = ref({
@@ -129,7 +145,29 @@ useAsyncData(async () => {
 // Create post
 const onSubmit = async () => {
   try {
-    await postStore.createPost({
+    // if (!imageInfo.value?.url) {
+    //   message.error("Vui lòng chọn ảnh");
+    //   return;
+    // }
+
+    // if (!post.value?.title) {
+    //   message.error("Vui lòng nhập tên bài viết");
+    //   return;
+    // }
+    // if (!post.value?.summary) {
+    //   message.error("Vui lòng nhập mô tả ngắn");
+    //   return;
+    // }
+    // if (!post.value?.category) {
+    //   message.error("Vui lòng chọn danh mục bài viết");
+    //   return;
+    // }
+    // if (!post.value?.content) {
+    //   message.error("Vui lòng nhập nội dung bài viết");
+    //   return;
+    // }
+
+    const res = await postStore.createPost({
       category_id: post.value?.category,
       title: post.value?.title,
       content: post.value?.content,
@@ -137,8 +175,13 @@ const onSubmit = async () => {
       image: imageInfo.value?.url,
       status: status.value,
     });
-    message.success("Thêm bài viết thành công");
-    navigateTo("/account/post");
+    if (res.data._rawValue?.status == true) {
+      message.success("Thêm bài viết thành công");
+      navigateTo("/account/post");
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error("Thêm thất bại");
+    }
   } catch (error) {
     message.error("Thêm thất bại");
   }

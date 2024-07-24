@@ -1,41 +1,47 @@
+
 <template>
   <a-modal v-model:open="props.openModalEdit" title="Sửa kệ sách" :footer="null" :onCancel="handleClose">
     <div class="bg-white py-2">
       <form @submit.prevent="updateShelves">
+        <div class="mb-4 space-y-1" v-if="errors">
+          <a-alert v-for="(error, index) in errors" :message="error" type="error" show-icon />
+        </div>
         <div class="grid grid-row-3 gap-5">
           <div class="grid grid-row-2 gap-4">
             <div class="flex flex-col gap-2">
-              <label>Mã kệ sách</label>
-              <a-input v-model:value="valueShelves.bookshelf_code" style="height: 40px;"
-                placeholder="Nhập mã kệ sách" />
+              <label>Mã kệ sách <span class="text-red-500">*</span></label>
+              <a-input v-model:value="valueShelves.bookshelf_code" style="height: 40px;" size="large"
+                placeholder="Nhập mã kệ sách" required />
             </div>
             <div class="flex flex-col gap-2">
-              <label>Tên kệ</label>
-              <a-input v-model:value="valueShelves.name" style="height: 40px;" placeholder="Nhập tên kệ sách" />
+              <label>Tên kệ <span class="text-red-500">*</span></label>
+              <a-input v-model:value="valueShelves.name" style="height: 40px;" placeholder="Nhập tên kệ sách" required
+                size="large" />
             </div>
             <div class="flex flex-col gap-2">
-              <label>Mô tả</label>
-              <a-input v-model:value="valueShelves.description" style="height: 40px;" placeholder="Nhập tên kệ sách" />
+              <label>Mô tả <span class="text-red-500">*</span></label>
+              <a-input v-model:value="valueShelves.description" style="height: 40px;" placeholder="Nhập tên kệ sách"
+                size="large" />
             </div>
           </div>
           <div class="grid grid-cols-2 gap-4">
             <div class="flex flex-col gap-2">
               <label>Tủ sách</label>
               <a-input style="height: 40px;" placeholder="Nhập tên kệ sách" v-model:value="valueShelves.bookcase_id"
-                readonly />
+                size="large" readonly />
             </div>
             <div class="flex flex-col gap-2">
               <label>Danh mục</label>
               <a-input style="height: 40px;" placeholder="Nhập tên kệ sách" v-model:value="valueShelves.category_id"
-                readonly />
+                size="large" readonly />
             </div>
           </div>
           <div class="flex flex-col gap-2">
-              <label>Trạng thái</label>
-              <a-select v-model:value="valueShelves.status" show-search placeholder="Trạng thái" class="w-full" size="large"
-                :options="options" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
-                @change="handleChange"></a-select>
-            </div>
+            <label>Trạng thái</label>
+            <a-select v-model:value="valueShelves.status" show-search placeholder="Trạng thái" class="w-full"
+              size="large" :options="options" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
+              @change="handleChange"></a-select>
+          </div>
           <div class="flex justify-end items-end gap-2">
             <a-button @click="handleClose">Hủy</a-button>
             <a-button type="primary" html-type="submit">Cập nhật</a-button>
@@ -49,6 +55,7 @@
 </template>
 
 <script setup>
+const errors = ref({});
 const props = defineProps({
   openModalEdit: Boolean,
   openModal: Function,
@@ -121,14 +128,19 @@ const updateShelves = async () => {
       bookshelf_code: valueShelves.value?.bookshelf_code,
       status: valueShelves.value?.status,
     }
-    await shelvesStore.updateShelves({ id: shelvesId.value, valueUpdateShelves: valueUpdateShelves });
-
+    const res = await shelvesStore.updateShelves({ id: shelvesId.value, valueUpdateShelves: valueUpdateShelves });
+    if (res.data._rawValue?.status == true) {
+      message.success("Cập nhật kệ sách thành công");
+      await shelvesStore.getAllShelves({});
+      props.openModal();
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error("Cập nhật kệ sách thất bại");
+    }
   } catch (error) {
     message.error("Cập nhật kệ sách thất bại");
     console.error(error);
   }
-  await shelvesStore.getAllShelves({});
-  props.openModal();
 }
 
 </script>

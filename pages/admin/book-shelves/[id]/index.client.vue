@@ -17,7 +17,7 @@
             {{ bookShelves?.adminGetOneBookShelve?.book_details.length }} cuốn sách</p>
         </div>
         <div>
-          <a-button class="flex justify-center items-center gap-1" type="primary" @click="showModalEdit">
+          <a-button class="flex justify-center items-center gap-1" type="primary" @click="showModalEdit" size="large">
             <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
             <span class="text-white text-base">Chỉnh sửa</span>
           </a-button>
@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="">
-          <a-button type="primary" @click="showModalAdd">Thêm sách</a-button>
+          <a-button type="primary" @click="showModalAdd" size="large">Thêm sách</a-button>
           <CommonSearch :openModalAdd="openModalAdd" :openModal="CloseModalAdd" />
         </div>
       </div>

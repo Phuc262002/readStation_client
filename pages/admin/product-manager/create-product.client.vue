@@ -6,7 +6,9 @@
             </div>
 
         </div>
-
+        <div class="mb-4 space-y-1" v-if="errors">
+            <a-alert v-for="(error, index) in errors" :message="error" type="error" show-icon />
+        </div>
         <!-- Đây là phần code mẫu body -->
         <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
             <div class="flex flex-col gap-10 ">
@@ -161,6 +163,7 @@
 
 <script setup>
 import { ref } from "vue";
+const errors = ref({});
 const orderStore = useOrderStore();
 const gender = ref("male");
 const setGender = (selecteGender) => {
@@ -256,7 +259,13 @@ const onSubmit = async () => {
         valueOrder.order_details.push(orderDetail);
     });
     try {
-        await orderStore.creatOrder(valueOrder)
+        const res = await orderStore.creatOrder(valueOrder)
+        if (res.data._rawValue?.status == true) {
+            message.success("Thêm đơn hàng thành công");
+        } else {
+            errors.value = res.error.value.data.errors;
+            message.error("Thêm đơn hàng thất bại");
+        }
     } catch (error) {
         message.error(error);
     }

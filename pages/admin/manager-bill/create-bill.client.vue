@@ -1,66 +1,43 @@
 <template>
   <div>
-    <div
-      class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
-    >
+    <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-bold">Tạo phiếu nhật hàng</h5>
       </div>
     </div>
-
+    <div class="mb-4 space-y-1" v-if="errors">
+      <a-alert v-for="(error, index) in errors" :message="error" type="error" show-icon />
+    </div>
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <form @submit.prevent="createInvoiceEnter">
         <div class="flex flex-col gap-5">
           <div class="grid grid-cols-4 gap-5">
             <div class="flex flex-col gap-3">
-              <label class="text-base font-semibold" for="">Mã hóa đơn</label>
-              <a-input
-                v-model:value="valueInvoiceEnter.invoice_code"
-                type="text"
-                placeholder="Mã hóa đơn"
-                style="height: 40px"
-              />
+              <label class="text-base font-semibold" for="">Mã hóa đơn </label>
+              <a-input v-model:value="valueInvoiceEnter.invoice_code" type="text" placeholder="Mã hóa đơn"
+                style="height: 40px" />
             </div>
             <div class="flex flex-col gap-3">
-              <label class="text-base font-semibold" for=""
-                >Ngày tạo hóa đơn</label
-              >
-              <a-input
-                v-model:value="valueInvoiceEnter.invoice_date"
-                type="date"
-                placeholder="Ngày tạo hóa đơn"
-                style="height: 40px"
-              />
+              <label class="text-base font-semibold" for="">Ngày tạo hóa đơn <span class="text-red-500">*</span></label>
+              <a-input v-model:value="valueInvoiceEnter.invoice_date" type="date" placeholder="Ngày tạo hóa đơn"
+                style="height: 40px" required />
             </div>
             <div class="flex flex-col gap-3">
-              <label class="text-base font-semibold" for="">Tên hóa đơn</label>
-              <a-input
-                v-model:value="valueInvoiceEnter.invoice_name"
-                type="text"
-                placeholder="Tên hóa đơn"
-                style="height: 40px"
-              />
+              <label class="text-base font-semibold" for="">Tên hóa đơn <span class="text-red-500">*</span></label>
+              <a-input v-model:value="valueInvoiceEnter.invoice_name" type="text" placeholder="Tên hóa đơn"
+                style="height: 40px" required />
             </div>
             <div class="flex flex-col gap-3">
-              <label class="text-base font-semibold" for="">Nhà cung cấp</label>
-              <a-select
-                v-model:value="valueInvoiceEnter.supplier_id"
-                :options="options"
-                size="large"
-                placeholder="Công ty ABC"
-              ></a-select>
+              <label class="text-base font-semibold" for="">Nhà cung cấp <span class="text-red-500">*</span></label>
+              <a-select v-model:value="valueInvoiceEnter.supplier_id" :options="options" size="large"
+                placeholder="Công ty ABC" required></a-select>
             </div>
           </div>
           <div class="grid mt-5">
             <div class="flex flex-col gap-3">
-              <label class="text-base font-semibold" for=""
-                >Mô tả hóa đơn</label
-              >
-              <a-textarea
-                v-model:value="valueInvoiceEnter.invoice_description"
-                rows="4"
-                placeholder="Nhập mô tả hóa đơn"
-              />
+              <label class="text-base font-semibold" for="">Mô tả hóa đơn <span class="text-red-500">*</span></label>
+              <a-textarea required v-model:value="valueInvoiceEnter.invoice_description" rows="4"
+                placeholder="Nhập mô tả hóa đơn" />
             </div>
           </div>
           <div>
@@ -68,13 +45,8 @@
               <label class="text-base font-semibold">Tìm kiếm sản phẩm</label>
               <div class="flex">
                 <a-dropdown :open="valueSearch != ''">
-                  <a-input
-                    v-model:value="valueSearch"
-                    placeholder="Nhập mã kệ để tìm kiếm"
-                    class="h-10"
-                    allow-clear
-                    @click.prevent
-                  >
+                  <a-input v-model:value="valueSearch" placeholder="Nhập mã kệ để tìm kiếm" class="h-10" allow-clear
+                    @click.prevent>
                     <template #prefix>
                       <SearchOutlined />
                     </template>
@@ -86,23 +58,12 @@
                           <a-spin />
                         </div>
                       </a-menu-item>
-                      <a-menu-item
-                        v-else
-                        v-for="(items, index) in bookDetailStore
-                          ?.getAllBookdetailAdmin?.books"
-                        :key="index"
-                      >
-                        <div
-                          class="flex justify-start gap-5 items-center"
-                          v-if="bookDetailStore?.getAllBookdetailAdmin?.books"
-                          @click="showConfirm(items?.book?.id)"
-                        >
+                      <a-menu-item v-else v-for="(items, index) in bookDetailStore
+                        ?.getAllBookdetailAdmin?.books" :key="index">
+                        <div class="flex justify-start gap-5 items-center"
+                          v-if="bookDetailStore?.getAllBookdetailAdmin?.books" @click="showConfirm(items?.book?.id)">
                           <div>
-                            <img
-                              class="rounded-lg w-20 h-28"
-                              :src="items?.poster"
-                              alt=""
-                            />
+                            <img class="rounded-lg w-20 h-28" :src="items?.poster" alt="" />
                           </div>
                           <div class="text-base font-medium">
                             {{ items?.book?.title }}
@@ -121,12 +82,8 @@
           <div class="mt-5">
             <div class="flex flex-col gap-3">
               <label class="text-base font-semibold">Sản phẩm đã nhập</label>
-              <a-table
-                :columns="columns"
-                v-model:value="valueInvoiceEnter.invoice_enter_detail"
-                :data-source="data"
-                :pagination="false"
-              >
+              <a-table :columns="columns" v-model:value="valueInvoiceEnter.invoice_enter_detail" :data-source="data"
+                :pagination="false">
                 <template #bodyCell="{ column, record }">
                   <template v-if="column.dataIndex === 'title'">
                     <div class="flex gap-4">
@@ -135,17 +92,13 @@
                   </template>
                   <template v-if="column.dataIndex === 'quantity'">
                     <div class="flex items-center gap-3">
-                      <button
-                        @click="decreaseQuantity(record?.quantity)"
-                        class="border rounded-lg w-10 h-10 flex justify-center items-center text-lg"
-                      >
+                      <button @click="decreaseQuantity(record?.quantity)"
+                        class="border rounded-lg w-10 h-10 flex justify-center items-center text-lg">
                         -
                       </button>
                       {{ record?.quantity }}
-                      <button
-                        @click="increaseQuantity(record?.quantity)"
-                        class="border rounded-lg w-10 h-10 flex justify-center items-center text-lg"
-                      >
+                      <button @click="increaseQuantity(record?.quantity)"
+                        class="border rounded-lg w-10 h-10 flex justify-center items-center text-lg">
                         +
                       </button>
                     </div>
@@ -168,14 +121,9 @@
                       <template #title>
                         <span>Xóa</span>
                       </template>
-                      <button
-                        @click.prevent="showConfimDelete(record?.id)"
-                        class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
-                      >
-                        <UIcon
-                          class="group-hover:text-[red]"
-                          name="i-material-symbols-delete-outline"
-                        />
+                      <button @click.prevent="showConfimDelete(record?.id)"
+                        class="group hover:bg-[red]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md">
+                        <UIcon class="group-hover:text-[red]" name="i-material-symbols-delete-outline" />
                       </button>
                     </a-tooltip>
                   </template>
@@ -183,20 +131,11 @@
               </a-table>
               <div class="mt-5 flex justify-end gap-2">
                 <a-button class="border">Hủy</a-button>
-                <a-button
-                  class="border border-orange-400 text-orange-500"
-                  html-type="submit"
-                  :submitting="invoiceEnter.isSubmitting"
-                  @click="saveDraft"
-                  >Lưu nháp</a-button
-                >
-                <a-button
-                  type="primary"
-                  html-type="submit"
-                  :submitting="invoiceEnter.isSubmitting"
-                  @click.prevent="saveInvoice"
-                  >Lưu phiếu nhập hàng</a-button
-                >
+                <a-button class="border border-orange-400 text-orange-500" html-type="submit"
+                  :submitting="invoiceEnter.isSubmitting" @click="saveDraft">Lưu nháp</a-button>
+                <a-button type="primary" html-type="submit" :submitting="invoiceEnter.isSubmitting"
+                  @click="saveInvoice">Lưu phiếu
+                  nhập hàng</a-button>
               </div>
             </div>
           </div>
@@ -211,6 +150,7 @@ import { LoadingOutlined } from "@ant-design/icons-vue";
 import { h } from "vue";
 const invoiceEnter = useInvoiceEnterStore();
 const data = ref([]);
+const errors = ref({})
 const indicator = h(LoadingOutlined, {
   style: {
     fontSize: "24px",
@@ -339,10 +279,14 @@ const createInvoiceEnter = async () => {
         book_quantity: item.quantity,
       })),
     };
-    await invoiceEnter.createInvoiceEnter(dataPost);
-    message.success("Tạo hóa đơn thành công");
-    navigateTo("/admin/manager-bill");
-    // alert(JSON.stringify(valueInvoiceEnter.value));
+    const res = await invoiceEnter.createInvoiceEnter(dataPost);
+    if (res.data._rawValue?.status == true) {
+      message.success("Thêm phiếu nhập thành công");
+      navigateTo("/admin/manager-bill");
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error("Thêm phiếu nhập thất bại");
+    }
   } catch (error) {
     message.error("Tạo hóa đơn thất bại");
   }
