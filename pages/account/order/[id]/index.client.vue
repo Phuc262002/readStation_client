@@ -1,5 +1,12 @@
 <template>
   <div>
+    <div
+      v-if="reviewStore?.isSubmitting"
+      class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default"
+    >
+      <a-spin size="large" class="absolute top-1/2 left-1/2" />
+    </div>
+
     <h2 class="font-bold pb-5">
       Chi tiết đơn hàng <span>{{ orderStore?.order?.order_code }}</span>
     </h2>
@@ -397,217 +404,14 @@
           </span>
         </div>
 
-        <div
+        <form
+          @submit.prevent="onSubmit"
           class="pt-5 pb-8 border-b border-rtgray-50"
           v-for="(order, index) in orderStore?.order?.loan_order_details"
           :key="index"
         >
-          <div class="flex gap-3">
-            <h3 class="font-bold">
-              {{ order?.book_details?.book?.title }} - Phiên bản năm
-              {{ order?.book_details?.book_version }}
-            </h3>
-            <div>
-              <a-tag
-                v-if="order?.status === 'returning'"
-                class="text-tag-text-13 bg-tag-bg-13 border-none py-1 px-3 rounded-lg"
-              >
-                Đang trả sách
-              </a-tag>
-              <a-tag
-                v-else-if="order?.status === 'completed'"
-                class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg"
-              >
-                Đã trả sách
-              </a-tag>
-              <a-tag
-                v-else-if="order?.status === 'overdue'"
-                class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
-              >
-                Quá hạn
-              </a-tag>
-              <a-tag
-                v-else-if="order?.status === 'extended'"
-                class="text-tag-text-12 bg-tag-bg-12 border-none py-1 px-3 rounded-lg"
-              >
-                Đang gia hạn
-              </a-tag>
-            </div>
-          </div>
-          <div class="flex mt-3">
-            <div class="w-1/2 grid grid-cols-12 border-r border-rtgray-50">
-              <div class="col-span-4">
-                <img
-                  :src="order?.book_details?.poster"
-                  alt=""
-                  class="w-[114px] h-[176px] shadow-lg shadow-gray-500"
-                />
-              </div>
-              <div class="col-span-8 text-sm space-y-3">
-                <div class="grid grid-cols-6">
-                  <span class="col-span-3 font-bold">Tác giả:</span>
-                  <span class="col-span-3">
-                    {{ order?.book_details?.book?.author?.author }}
-                  </span>
-                </div>
-                <div class="grid grid-cols-6">
-                  <span class="col-span-3 font-bold">Danh mục:</span>
-                  <span class="col-span-3">
-                    {{ order?.book_details?.book?.category?.name }}
-                  </span>
-                </div>
-                <div
-                  class="grid grid-cols-4"
-                  v-if="
-                    orderStore?.order?.status === 'extended' ||
-                    orderStore?.order?.status === 'active' ||
-                    orderStore?.order?.status === 'overdue' ||
-                    orderStore?.order?.status === 'returning'
-                  "
-                >
-                  <span class="col-span-2 font-bold">Số lần gia hạn:</span>
-                  <span class="col-span-2"> 0 / 3 </span>
-                </div>
-                <div
-                  class="grid grid-cols-4"
-                  v-if="
-                    orderStore?.order?.status === 'extended' ||
-                    orderStore?.order?.status === 'active' ||
-                    orderStore?.order?.status === 'overdue' ||
-                    orderStore?.order?.status === 'returning'
-                  "
-                >
-                  <span class="col-span-2 font-bold">Ngày trả thực tế:</span>
-                  <span class="col-span-2">
-                    {{
-                      $dayjs(orderStore?.order?.created_at).format(
-                        "DD/MM/YYYY - HH:MM"
-                      )
-                    }}
-                  </span>
-                </div>
-                <div
-                  class="grid grid-cols-4"
-                  v-if="
-                    order?.status === 'returning' ||
-                    order?.status === 'completed'
-                  "
-                >
-                  <span class="col-span-2 font-bold">Hình thức trả sách:</span>
-                  <div
-                    class="col-span-2"
-                    v-for="(items, index) in order?.return_histories"
-                    :key="index"
-                  >
-                    <span v-if="items?.return_method === 'library'">
-                      Giao trả sách trực tiếp đến thư viện
-                    </span>
-                    <span v-else-if="items?.return_method === 'pickup'">
-                      Giao sách đến thư viện
-                    </span>
-                  </div>
-                </div>
-                <div
-                  class="grid grid-cols-4"
-                  v-if="order?.status === 'completed'"
-                >
-                  <span class="col-span-2 font-bold">Đánh giá:</span>
-                  <span class="col-span-2">
-                    <a-rate v-model:value="rating" />
-                  </span>
-                </div>
-              </div>
-            </div>
-            <!--  -->
-            <div class="w-1/2 space-y-3 pl-5 text-sm">
-              <div class="grid grid-cols-4">
-                <span class="col-span-2 font-bold">Tiền cọc sách:</span>
-                <span class="col-span-2">
-                  {{
-                    new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(order?.book_details?.price)
-                  }}
-                </span>
-              </div>
-              <div class="grid grid-cols-4">
-                <span class="col-span-2 font-bold">Phí dịch vụ:</span>
-                <span class="col-span-2">
-                  {{
-                    new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(order?.book_details?.price * 0.2)
-                  }}
-                </span>
-              </div>
-              <div class="grid grid-cols-4">
-                <span class="col-span-2 font-bold">Tổng tiền:</span>
-                <span class="col-span-2">
-                  {{
-                    new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(
-                      order?.book_details?.price * 0.2 +
-                        order?.book_details?.price
-                    )
-                  }}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="mt-3 space-y-3" v-if="order?.status === 'completed'">
-            <span class="text-sm font-bold">Đánh giá chi tiết</span>
-            <a-textarea
-              v-model:value="valueRating"
-              placeholder="Nhập nội dung đánh giá sách của bạn"
-              :rows="4"
-            />
-          </div>
-
-          <div class="flex justify-end pt-4 gap-2">
-            <div
-              v-if="
-                order?.status === 'active' ||
-                $dayjs(new Date()).format('YYYY-MM-DD') ===
-                  $dayjs(order?.current_due_date).format('YYYY-MM-DD')
-              "
-              class="flex justify-end pt-4 gap-2"
-            >
-              <a-button
-                class="h-10"
-                @click="showModalGive(order)"
-                v-if="
-                  order?.status === 'active' ||
-                  $dayjs(new Date()).format('YYYY-MM-DD') ===
-                    $dayjs(order?.current_due_date).format('YYYY-MM-DD')
-                "
-              >
-                Trả sách
-              </a-button>
-
-              <a-button
-                v-if="
-                  order?.status === 'active' ||
-                  $dayjs(new Date()).format('YYYY-MM-DD') ===
-                    $dayjs(order?.current_due_date).format('YYYY-MM-DD')
-                "
-                class="h-10 bg-orange-500 !text-white border-none"
-                @click="showModalExtend(order)"
-              >
-                Gia hạn lần 1
-              </a-button>
-            </div>
-            <a-button
-              v-if="order?.status === 'completed'"
-              class="h-10 bg-orange-500 !text-white border-none"
-            >
-              Đánh giá sách
-            </a-button>
-          </div>
-        </div>
+          <AccountOrderBookDetail :data="order" />
+        </form>
       </div>
       <!--  -->
 
@@ -645,16 +449,6 @@
       :openExtendAll="openExtendAll"
       :closeExtendAll="closeExtendAll"
     />
-    <AccountOrderExtendBook
-      :openModalExtend="openModalExtend"
-      :closeModalExtend="closeModalExtend"
-      :bookExtendDetail="bookExtendDetail"
-    />
-    <AccountOrderGiveBook
-      :openModalGive="openModalGive"
-      :closeModalGive="closeModalGive"
-      :bookDetail="bookDetail"
-    />
   </div>
 </template>
 <script setup lang="ts">
@@ -663,13 +457,13 @@ const orderStore = useOrderClientStore();
 const authStore = useAuthStore();
 const route = useRoute();
 const id = route.params.id;
-const bookDetail = ref();
-const bookExtendDetail = ref();
 const rating = ref<number>(5);
-const valueRating = ref<string>("");
+const errors = ref({});
+
 const onCancelOrderDetail = async (id: any) => {
   await orderStore.cancelOrder(id);
 };
+
 const showCancelConfirm = (id: any) => {
   Modal.confirm({
     title: "Bạn đang muốn hủy đơn hàng?",
@@ -701,27 +495,6 @@ const showExtendAll = () => {
 };
 const closeExtendAll = () => {
   openExtendAll.value = false;
-};
-
-// Modal Extend
-const openModalExtend = ref(false);
-const showModalExtend = (order: any) => {
-  openModalExtend.value = true;
-  bookExtendDetail.value = order;
-  console.log("id book ex", order);
-};
-const closeModalExtend = () => {
-  openModalExtend.value = false;
-};
-
-// Modal Give
-const openModalGive = ref(false);
-const showModalGive = (order: any) => {
-  openModalGive.value = true;
-  bookDetail.value = order;
-};
-const closeModalGive = () => {
-  openModalGive.value = false;
 };
 
 useAsyncData(async () => {

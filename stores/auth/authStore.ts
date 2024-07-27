@@ -88,11 +88,19 @@ export const useAuthStore = defineStore("auth-store", {
       }
     },
     async resendOtp(body: any) {
-      const data: any = await useCustomFetch("/api/v1/auth/resend-otp", {
-        method: "POST",
-        body: JSON.stringify(body),
-      });
-      return data;
+      try {
+        this.isSubmitting = true;
+        const data: any = await useCustomFetch("/api/v1/auth/resend-otp", {
+          method: "POST",
+          body: JSON.stringify(body),
+        });
+
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        this.isSubmitting = false;
+      }
     },
     async verifyEmail(body: any) {
       const data: any = await useCustomFetch("/api/v1/auth/verify-email", {

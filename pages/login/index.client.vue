@@ -46,7 +46,7 @@
                         size="small"
                         type="primary"
                         @click="verifyEmail"
-                        html-type="submit"
+                        html-type="button"
                         :loading="authStore?.isSubmitting"
                       >
                         Xác thực

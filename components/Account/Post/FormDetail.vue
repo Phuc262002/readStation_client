@@ -109,6 +109,16 @@
         <div class="flex justify-end gap-2">
           <a-button @click="handleClose" class="h-10 rounded-lg">Đóng</a-button>
           <a-button
+            v-if="postStore?.post?.status === 'wating_approve'"
+            @click="status = 'hidden'"
+            html-type="submit"
+            :loading="postStore?.isSubmitting"
+            class="h-10 border-none rounded-lg bg-orange-500 !text-white"
+          >
+            Lưu nháp
+          </a-button>
+          <a-button
+            v-if="postStore?.post?.status === 'published'"
             @click="status = 'hidden'"
             html-type="submit"
             :loading="postStore?.isSubmitting"
