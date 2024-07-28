@@ -29,7 +29,7 @@
               <p class="font-bold text-base">Tất cả</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="userStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -59,7 +59,7 @@
               <p class="font-bold text-base">Quản trị viên</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="userStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -90,7 +90,7 @@
               <p class="font-bold text-base">Khách hàng</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="userStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -120,7 +120,7 @@
               <p class="font-bold text-base">HS/SV</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="userStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -202,8 +202,8 @@
                   @click="roleValue({ value: role?.id, label: role?.name })"
                 >
                   <span v-if="role.name === 'user'"> Khách hàng</span>
+                  <span v-if="role.name === 'student'">Sinh viên</span>
                   <span v-if="role.name === 'admin'"> Quản trị</span>
-                  <span v-if="role.name === 'manager'"> Thủ thư</span>
                 </a-menu-item>
               </a-menu>
             </template>
@@ -436,7 +436,7 @@ const openModalConfirm = ref(false);
 const userDetailId = ref();
 const userDashboard = ref();
 const openModalDetail = ref(false);
-
+const isLoading = ref(false);
 const status = ref("");
 const queryrole = ref({
   value: "",
@@ -485,9 +485,11 @@ useAsyncData(
   }
 );
 useAsyncData(async () => {
+  isLoading.value = true;
   await userStore.getDashboardUser({
     page: current.value,
   });
+  isLoading.value = false;
 });
 
 useAsyncData(

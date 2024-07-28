@@ -362,7 +362,12 @@
           </div>
           <div class="flex gap-4 justify-end">
             <a-button type="default">Hủy</a-button>
-            <a-button html-type="submit" type="primary">Cập nhập</a-button>
+            <a-button
+              :loading="userStore.isSubmitting"
+              html-type="submit"
+              type="primary"
+              >Cập nhập</a-button
+            >
           </div>
         </div>
       </form>
@@ -668,7 +673,6 @@ const handleSubmit = async () => {
   } catch (error) {
     message.error("Cập nhập người dùng thất bại");
   }
-  
 };
 const handleChangeGender = (e) => {
   user.value.gender = e.target.value;

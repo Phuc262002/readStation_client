@@ -102,9 +102,7 @@
 <script setup>
 import { Icon } from "@iconify/vue";
 import { Modal } from "ant-design-vue";
-const openModalAdd = ref(false);
-const openModalEdit = ref(false);
-const shippingMethodId = ref();
+
 const current = ref(1);
 
 const shippingMethodStore = useShippingMethodsStore();
@@ -115,7 +113,7 @@ useAsyncData(async () => {
 });
 const onRecover = async (id) => {
   try {
-    const res = await shippingMethodStore.deleteShippingMethod({
+    const res = await shippingMethodStore.updateShippingMethod({
       id: id,
       shippingMethod: {
         status: "active",

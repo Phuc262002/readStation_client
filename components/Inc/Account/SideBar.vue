@@ -118,7 +118,10 @@
       <a-sub-menu key="sub4">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon name="i-tabler-credit-card-pay" class="text-base" />
+            <Icon
+              icon="material-symbols:verified-user-outline"
+              class="text-xl"
+            />
             <span class="font-bold">Xác thực tài khoản</span>
           </span>
         </template>
