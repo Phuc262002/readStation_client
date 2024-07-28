@@ -14,6 +14,16 @@
         <div class="text-black font-semibold text-lg line-clamp-2">
           {{ props.post?.title }}
         </div>
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-1">
+            <Icon icon="basil:eye-outline" class="text-lg" />
+            {{ props.post?.view }}
+          </div>
+          <div class="flex items-center gap-1">
+            <Icon icon="fa6-regular:comment-dots" class="text-base" />
+            {{ props.post?.countComments }}
+          </div>
+        </div>
         <div class="flex items-center text-base text-[#97989F] gap-5 mt-6">
           <div class="flex items-center gap-5 text-sm font-medium">
             <div >
@@ -28,5 +38,6 @@
   </div>
 </template>
 <script setup>
+import { Icon } from "@iconify/vue";
 const props = defineProps(["post"]);
 </script>

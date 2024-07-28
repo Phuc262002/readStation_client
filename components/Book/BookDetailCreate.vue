@@ -7,9 +7,9 @@
     <div class="flex flex-col gap-5 mt-5">
       <div class="border border-t-2"></div>
       <form @submit.prevent="onSubmit">
-        <div class="flex flex-col gap-5">
+        <div class="flex flex-col gap-4">
           <div class="grid grid-rows-1">
-            <div class="grid grid-cols-2 gap-10">
+            <div class="grid grid-cols-2 gap-4">
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Ảnh chính <span class="text-red-500">*</span></label>
                 <ClientOnly>
@@ -36,12 +36,7 @@
               </div>
             </div>
           </div>
-          <div class="flex flex-col gap-2">
-            <label class="text-sm font-semibold" for="">Sku <span class="text-red-500">*</span></label>
-            <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Mã sách"
-              v-model:value="valueBookDetail.sku_origin" required/>
-          </div>
-          <div class="grid grid-rows-3 gap-5 ">
+          <div class="grid grid-rows-3 gap-4 ">
             <div class="grid grid-cols-4 gap-10">
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Phiên bản sách <span class="text-red-500">*</span></label>
@@ -99,14 +94,15 @@
                   v-model:value="valueBookDetail.publish_date" />
               </div>
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold" for="">Công ty phát hành <span class="text-red-500">*</span></label>
+                <label class="text-sm font-semibold" for="">Công ty phát hành <span
+                    class="text-red-500">*</span></label>
                 <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Công ty phát hành" required
                   v-model:value="valueBookDetail.issuing_company" />
               </div>
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Nhà xuất bản <span class="text-red-500">*</span></label>
-                <a-select size="large" show-search placeholder="Nhà xuất bản" :options="optionsPublishingcompany" required
-                  v-model:value="valueBookDetail.publishing_company_id" :filter-option="filterOption"
+                <a-select size="large" show-search placeholder="Nhà xuất bản" :options="optionsPublishingcompany"
+                  required v-model:value="valueBookDetail.publishing_company_id" :filter-option="filterOption"
                   @focus="handleFocus" @blur="handleBlur" @change="handleChange"></a-select>
               </div>
             </div>
@@ -235,7 +231,6 @@ const onSubmit = async () => {
   try {
     const res = await DetailBookStore.createBookDetail({
       book_id: props.book_id,
-      sku_origin: valueBookDetail.value.sku_origin,
       poster: imageInfo.value?.url,
       images: valueBookDetail.value.images,
       book_version: valueBookDetail.value.book_version,

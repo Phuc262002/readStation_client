@@ -38,7 +38,7 @@
             </div>
             <div class="flex flex-col gap-2">
               <label class="text-sm font-semibold" for="">Trường</label>
-              <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Nơi cấp" v-model:value="place_of_study" required />
+              <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Trường" v-model:value="place_of_study" required />
             </div>
           </div>
           <div class="flex justify-center items-center mt-4">
@@ -73,11 +73,11 @@ export default defineComponent({
   },
   methods: {
     validateStudentName() {
-      const regex = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỀỂữẫựẫỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỲỴÝỶỸửữẫựạảấầẩẫậắằẳẵặẹẻẽềểếễềệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ\s]+$/;
+      const regex = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỀỂỄữẫựẫỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỲỴÝỶỸửữẫựạảấầẩẫậắằẳẵặẹẻẽềểếễềệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ\s]+$/;
       return regex.test(this.student_name);
     },
     validatePlaceOfStudy() {
-      const regex = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỀỂữẫựẫỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỲỴÝỶỸửữẫựạảấầẩẫậắằẳẵặẹẻẽềểếễềệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ\s]+$/;
+      const regex = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỀỄữẫựẫỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỲỴÝỶỸửữẫựạảấầẩẫậắằẳẵặẹẻẽềểếễềệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ\s]+$/;
       return regex.test(this.place_of_study);
     },
     validateStudentCode() {

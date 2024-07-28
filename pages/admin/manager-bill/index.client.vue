@@ -54,6 +54,9 @@
                     <a-tag class="bg-tag-bg-01 text-tag-text-01" :bordered="false" v-if="items?.status === 'draft'">Lưu
                       nháp
                     </a-tag>
+                    <a-tag class="bg-tag-bg-07 text-tag-text-07" :bordered="false"
+                      v-if="items?.status === 'canceled'">Đã hủy
+                    </a-tag>
                   </div>
                   <div class="flex justify-between items-center">
                     <h1 class="text-base font-semibold">
@@ -66,7 +69,7 @@
                         new Intl.NumberFormat("vi-VN", {
                           style: "currency",
                           currency: "VND",
-                        }).format(total)
+                        }).format(items?.total)
                       }}
                     </h1>
                     <span class="text-base text-gray-500">{{
@@ -100,7 +103,7 @@
                 </div>
               </div>
               <div class="space-x-3" v-if="inVoiceEnter?.getOneInvoiceEnterAdmin?.status === 'draft'">
-                <a-button>Hủy</a-button>
+                <a-button @click="setStatus('canceled')">Hủy</a-button>
                 <a-button type="primary" @click="setStatus('active')">Lưu kho</a-button>
               </div>
             </div>
@@ -131,14 +134,20 @@
                   <span v-if="
                     inVoiceEnter?.getOneInvoiceEnterAdmin?.status === 'active'
                   "
-                    class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">Đã
+                    class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-tag-bg-09 border-transparent text-tag-text-09 dark:bg-green-500/20 dark:border-transparent">Đã
                     lưu kho
                   </span>
                   <span v-if="
                     inVoiceEnter?.getOneInvoiceEnterAdmin?.status === 'draft'
                   "
-                    class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-yellow-100 border-transparent text-yellow-500 dark:bg-green-500/20 dark:border-transparent">Lưu
+                    class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-tag-bg-01 border-transparent text-tag-text-01 dark:bg-green-500/20 dark:border-transparent">Lưu
                     nháp
+                  </span>
+                  <span v-if="
+                    inVoiceEnter?.getOneInvoiceEnterAdmin?.status === 'canceled'
+                  "
+                    class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-tag-bg-07 border-transparent text-tag-text-07 dark:bg-green-500/20 dark:border-transparent">Đã
+                    hủy
                   </span>
                 </div>
                 <div class="flex flex-col gap-1 items-center">
@@ -148,7 +157,7 @@
                       new Intl.NumberFormat("vi-VN", {
                         style: "currency",
                         currency: "VND",
-                      }).format(total)
+                      }).format(inVoiceEnter?.getOneInvoiceEnterAdmin?.total)
                     }}</span>
                 </div>
               </div>
@@ -209,7 +218,7 @@
                     <tr>
                       <td class="px-3.5 py-2.5 text-left border-b border-slate-200 dark:border-zink-500">
                         <h6 class="mb-1 text-sm font-bold">
-                          {{ items?.book_detail?.book?.title }}
+                          {{ items?.book_detail?.book?.title }} - Phiên bản năm {{ items?.book_detail?.book_version }}
                         </h6>
                       </td>
                       <td
@@ -247,7 +256,8 @@
                           new Intl.NumberFormat("vi-VN", {
                             style: "currency",
                             currency: "VND",
-                          }).format(total)
+                          }).format(inVoiceEnter
+                          ?.getOneInvoiceEnterAdmin?.total)
                         }}
                       </td>
                     </tr>
@@ -275,7 +285,7 @@ const setStatus = async (status) => {
     message.success("Cập nhật trạng thái phiêu nhập hàng thành công");
   } else {
     errors.value = res.error.value.data.errors;
-    message.success("Cập nhật trạng thái phiêu nhập hàng thất bại");
+    message.error("Cập nhật trạng thái phiêu nhập hàng thất bại");
   }
   await inVoiceEnter.getAllInvoiceEnter({});
 };
@@ -287,12 +297,12 @@ const inVoiceEnterId = async (id) => {
     await inVoiceEnter.getOneInvoiceEnter(id);
   });
 };
-const total = computed(() => {
-  return inVoiceEnter?.getOneInvoiceEnterAdmin?.invoice_enter_details?.reduce(
-    (acc, item) => {
-      return acc + item.book_price * item.book_quantity;
-    },
-    0
-  );
-});
+// const total = computed(() => {
+//   return inVoiceEnter?.getOneInvoiceEnterAdmin?.invoice_enter_details?.reduce(
+//     (acc, item) => {
+//       return acc + item.book_price * item.book_quantity;
+//     },
+//     0
+//   );
+// });
 </script>

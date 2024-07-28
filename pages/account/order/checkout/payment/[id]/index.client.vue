@@ -96,10 +96,8 @@
 
           <div>
             <div class="grid grid-cols-12">
-              <div class="col-start-8 col-span-2 font-bold">
-                Tạm tính:
-              </div>
-              <div class="col-span-3 font-bold ">
+              <div class="col-start-8 col-span-2 font-bold">Tạm tính:</div>
+              <div class="col-span-3 font-bold">
                 {{
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
@@ -134,7 +132,9 @@
           <div
             class="grid grid-cols-12 items-end text-orange-400 bg-orange-50 py-2 rounded-md"
           >
-            <div class="col-start-8 col-span-2 font-bold ">Tổng tiền cọc sách</div>
+            <div class="col-start-8 col-span-2 font-bold">
+              Tổng tiền cọc sách
+            </div>
             <div class="col-span-3 font-bold text-2xl">
               {{
                 new Intl.NumberFormat("vi-VN", {
@@ -221,7 +221,14 @@ useHead({
   ],
 });
 useAsyncData(async () => {
-  await orderStore.getOneOrder(id);
+  const res = await orderStore.getOneOrder(id);
+  if (res.data._rawValue?.status == true) {
+    if (res.data._rawValue.data.status != "wating_payment") {
+      navigateTo("/account/order");
+    }
+  } else {
+    console.log('fail');
+  }
   payment_portal.value = orderStore.order?.transactions[0]?.portal;
 });
 

@@ -183,6 +183,11 @@ const columns = [
     key: 'title',
   },
   {
+    title: 'Phiên bản',
+    dataIndex: 'book_version',
+    key: 'book_version',
+  },
+  {
     title: 'Tác giả',
     dataIndex: 'author',
     key: 'author',
@@ -192,11 +197,7 @@ const columns = [
     dataIndex: 'price',
     key: 'price',
   },
-  {
-    title: 'Phiên bản',
-    dataIndex: 'book_version',
-    key: 'book_version',
-  },
+
   {
     title: 'Danh mục',
     dataIndex: 'category',

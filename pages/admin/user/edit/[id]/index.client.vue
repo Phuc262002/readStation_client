@@ -9,18 +9,24 @@
         </h5>
       </div>
     </div>
-    <div class="mb-4 space-y-1" v-if="errors">
-      <a-alert
-        v-for="(error, index) in errors"
-        :message="error"
-        type="error"
-        show-icon
-      />
+    <div
+      v-if="userStore.isLoading"
+      class="flex justify-center items-center min-h-[50vh]"
+    >
+      <a-spin size="large" />
     </div>
 
     <!-- Đây là phần code mẫu body -->
-    <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
+    <div v-else class="bg-white min-h-[360px] w-full rounded-lg p-5">
       <form @submit.prevent="handleSubmit">
+        <div class="mb-4 space-y-1" v-if="errors">
+          <a-alert
+            v-for="(error, index) in errors"
+            :message="error"
+            type="error"
+            show-icon
+          />
+        </div>
         <div class="flex flex-col gap-0">
           <div class="flex flex-col gap-2">
             <label class="text-sm font-semibold">Vai trò</label>
@@ -362,7 +368,12 @@
           </div>
           <div class="flex gap-4 justify-end">
             <a-button type="default">Hủy</a-button>
-            <a-button html-type="submit" type="primary">Cập nhập</a-button>
+            <a-button
+              :loading="userStore.isSubmitting"
+              html-type="submit"
+              type="primary"
+              >Cập nhập</a-button
+            >
           </div>
         </div>
       </form>
@@ -668,7 +679,6 @@ const handleSubmit = async () => {
   } catch (error) {
     message.error("Cập nhập người dùng thất bại");
   }
-  
 };
 const handleChangeGender = (e) => {
   user.value.gender = e.target.value;
