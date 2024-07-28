@@ -51,9 +51,6 @@
             class="w-[90px] h-[30px]"
             alt=""
           />
-          <div>
-            <a-switch :checked="state.mode === 'light'" @change="changeMode" />
-          </div>
         </div>
         <div class="pt-4">
           <h2 class="font-semibold text-base">

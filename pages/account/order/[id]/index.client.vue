@@ -357,6 +357,7 @@
 
       <div class="flex justify-end pt-4 gap-2">
         <a-button
+          @click="showReturnAll"
           v-if="
             orderStore?.order?.status === 'active' ||
             $dayjs(new Date()).format('YYYY-MM-DD') ===
@@ -441,6 +442,11 @@
         </NuxtLink>
       </div>
     </div>
+
+    <AccountOrderReturnAllBook
+      :openReturnAll="openReturnAll"
+      :closeReturnAll="closeReturnAll"
+    />
     <AccountOrderHistoryExtendBook
       :openHistoryExtend="openHistoryExtend"
       :closeHistoryExtend="closeHistoryExtend"
@@ -480,6 +486,16 @@ const showCancelConfirm = (id: any) => {
     },
   });
 };
+
+// Modal Return All
+const openReturnAll = ref(false);
+const showReturnAll = () => {
+  openReturnAll.value = true;
+};
+const closeReturnAll = () => {
+  openReturnAll.value = false;
+};
+
 // Modal History Extend
 const openHistoryExtend = ref(false);
 const showHistoryExtend = () => {

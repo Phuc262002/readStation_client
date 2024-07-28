@@ -25,16 +25,33 @@
         <p class="mb-3">Lọc theo</p>
         <div class="flex gap-4">
           <a-button class="rounded-xl">Mới nhất</a-button>
-          <a-button class="rounded-xl">5 sao</a-button>
-          <a-button class="rounded-xl">4 sao</a-button>
-          <a-button class="rounded-xl">3 sao</a-button>
-          <a-button class="rounded-xl">2 sao</a-button>
-          <a-button class="rounded-xl">1 sao</a-button>
+          <a-button class="rounded-xl">Cũ nhất</a-button>
+          <a-button
+            :class="[
+              'rounded-xl',
+              rating === '5' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus('5')"
+          >
+            5 sao
+          </a-button>
+          <a-button class="rounded-xl" @click="handleCheckStatus(4)">
+            4 sao
+          </a-button>
+          <a-button class="rounded-xl" @click="handleCheckStatus(3)">
+            3 sao
+          </a-button>
+          <a-button class="rounded-xl" @click="handleCheckStatus(2)">
+            2 sao
+          </a-button>
+          <a-button class="rounded-xl" @click="handleCheckStatus(1)">
+            1 sao
+          </a-button>
         </div>
       </div>
       <div
         class="space-y-5"
-        v-for="(review, index) in bookStore?.book?.rating_comments"
+        v-for="(review, index) in detailReview?.reviews?.bookReviews"
       >
         <div class="flex gap-5 pb-5 border-b border-rtgray-50">
           <div class="">
@@ -104,9 +121,38 @@
 
 <script setup lang="ts">
 const bookStore = useBookPublicStore();
+const detailReview = useBookDetailReviewStore();
 const route = useRoute();
 const slug = route.params.slug;
+const rating = ref("");
 
+const current = ref(1);
+// Get All Book Review
+const getAllReview = async () => {
+  try {
+    await detailReview.getAllReviewBook({
+      book_details_id: bookStore?.book?.id,
+      rating: rating.value,
+      page: current.value,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+useAsyncData(
+  async () => {
+    await getAllReview();
+  },
+  {
+    immediate: true,
+    watch: [current, rating, () => bookStore?.book?.id],
+  }
+);
+// Handle Check Status review
+const handleCheckStatus = (rating) => {
+  rating.value = rating;
+  console.log(rating);
+};
 const limitBook = computed(() => bookStore?.books?.books?.slice(0, 5));
 
 useAsyncData(async () => {

@@ -413,12 +413,12 @@ const payCart = async () => {
       phone: authStore?.authUser?.user?.phone,
       address: authStore?.authUser?.user?.address_detail,
     };
-    if (!newInfo.phone || !newInfo.address) {
-      message.error({
-        content: "Vui lòng điền đầy đủ thông tin giao hàng!",
-      });
-      return;
-    }
+    // if (!newInfo.phone || !newInfo.address) {
+    //   message.error({
+    //     content: "Vui lòng điền đầy đủ thông tin giao hàng!",
+    //   });
+    //   return;
+    // }
     const newArr = cartStore.carts.map((item) => {
       return {
         book_details_id: item.id,

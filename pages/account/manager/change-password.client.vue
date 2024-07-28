@@ -89,12 +89,12 @@
         </div>
 
         <div class="flex flex-col">
-          <div class="text-end font-medium text-indigo-600 mt-6">
+          <div class="text-end font-medium text-indigo-600">
             <NuxtLink to="/forgot-password" class="text-sm" type="button">
               Bạn quên mật khẩu?
             </NuxtLink>
           </div>
-          <div class="flex items-center justify-between mt-2">
+          <div class="flex items-center justify-between mt-3">
             <div class="w-full flex items-center justify-end gap-2">
               <a-button
                 type="primary"
