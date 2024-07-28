@@ -262,7 +262,7 @@ useAsyncData(
       page: current.value,
       search: valueSearch.value,
       category_id: categoryQuery.value.id,
-      status: "wating_approve",
+      status: "handle",
     });
   },
   {

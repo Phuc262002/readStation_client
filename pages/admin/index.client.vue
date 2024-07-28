@@ -309,9 +309,9 @@
               </a-input>
             </div>
           </div>
-          <div>
+          <!-- <div>
             <a-button type="primary" size="large">Thêm đơn hàng</a-button>
-          </div>
+          </div> -->
         </div>
 
         <div class="flex gap-4 text-white">
@@ -598,18 +598,19 @@ const dashboardStore = useDashboardStore();
 const orderStore = useOrderStore();
 const transactionAdminStore = useTransactionAdminStore();
 const isLoading = ref(false);
+const loading = ref(false);
 const filter = ref("");
 const valueSearch = ref("");
 const current = ref(1);
 useAsyncData(
   async () => {
-    isLoading.value = true;
+    loading.value = true;
     await orderStore.getAllOrder({
       current: current.value,
       status: filter.value,
       search: valueSearch.value,
     });
-    isLoading.value = false;
+    loading.value = false;
   },
   {
     immediate: true,
@@ -617,7 +618,9 @@ useAsyncData(
   }
 );
 useAsyncData(async () => {
+  isLoading.value = true;
   await dashboardStore.getAllDashboard();
+  isLoading.value = false;
 });
 
 useAsyncData(async () => {
@@ -649,12 +652,7 @@ const columns = [
     dataIndex: "user",
     key: "user",
   },
-  {
-    title: "Nơi nhận hàng",
-    dataIndex: "address",
-    key: "address",
-    width: 200,
-  },
+
   {
     title: "Ngày thuê",
     dataIndex: "receipt_date",
