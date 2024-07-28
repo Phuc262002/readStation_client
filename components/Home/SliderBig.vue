@@ -1,6 +1,6 @@
 <template>
   <div class="mt-8">
-    <swiper :spaceBetween="30" :pagination="{
+    <swiper :spaceBetween="30" :loop="true" :pagination="{
     clickable: true,
   }" :modules="modules" class="mySwiper">
     <swiper-slide>

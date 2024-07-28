@@ -116,7 +116,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-03">
-              <p class="font-semibold text-base">Khách hàng đã kích hoạt</p>
+              <p class="font-semibold text-base">Khách hàng đã xác thực</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="isLoading"
@@ -126,7 +126,7 @@
                 <span v-else>
                   {{
                     new Intl.NumberFormat().format(
-                      dashboardStore?.dashboardAdmin?.userActiveWallet
+                      dashboardStore?.dashboardAdmin?.userVerified
                     )
                   }}
                 </span>

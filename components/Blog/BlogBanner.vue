@@ -17,6 +17,7 @@
         <p class="text-white font-semibold text-4xl">
           {{ props.post?.title }}
         </p>
+        
         <div class="mt-6">
           <div class="flex items-center text-base text-white gap-5">
             <div class="flex items-center gap-3">
@@ -26,6 +27,16 @@
               <p class="">{{ props.post?.user?.fullname }}</p>
             </div>
             <p>{{ $dayjs(props.post?.created_at).format("DD/MM/YYYY") }}</p>
+            <div class="flex items-center gap-3">
+          <div class="flex items-center gap-1">
+            <Icon icon="basil:eye-outline" class="text-lg" />
+            {{ props.post?.view }}
+          </div>
+          <div class="flex items-center gap-1">
+            <Icon icon="fa6-regular:comment-dots" class="text-base" />
+            {{ props.post?.countComments }}
+          </div>
+        </div>
           </div>
         </div>
       </div>
@@ -33,5 +44,6 @@
   </NuxtLink>
 </template>
 <script setup>
+import { Icon } from "@iconify/vue";
 const props = defineProps(["post"]);
 </script>

@@ -9,18 +9,24 @@
         </h5>
       </div>
     </div>
-    <div class="mb-4 space-y-1" v-if="errors">
-      <a-alert
-        v-for="(error, index) in errors"
-        :message="error"
-        type="error"
-        show-icon
-      />
+    <div
+      v-if="userStore.isLoading"
+      class="flex justify-center items-center min-h-[50vh]"
+    >
+      <a-spin size="large" />
     </div>
 
     <!-- Đây là phần code mẫu body -->
-    <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
+    <div v-else class="bg-white min-h-[360px] w-full rounded-lg p-5">
       <form @submit.prevent="handleSubmit">
+        <div class="mb-4 space-y-1" v-if="errors">
+          <a-alert
+            v-for="(error, index) in errors"
+            :message="error"
+            type="error"
+            show-icon
+          />
+        </div>
         <div class="flex flex-col gap-0">
           <div class="flex flex-col gap-2">
             <label class="text-sm font-semibold">Vai trò</label>
