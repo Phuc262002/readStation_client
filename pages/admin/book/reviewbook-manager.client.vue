@@ -25,15 +25,25 @@
             <template #overlay>
               <a-menu class="">
                 <a-menu-item>Tất cả sao</a-menu-item>
-                <a-menu-item><CommonRating :rating="5"/></a-menu-item>
-                <a-menu-item><CommonRating :rating="4"/></a-menu-item>
-                <a-menu-item><CommonRating :rating="3"/></a-menu-item>
-                <a-menu-item><CommonRating :rating="2"/></a-menu-item>
-                <a-menu-item><CommonRating :rating="1"/></a-menu-item>
+                <a-menu-item>
+                  <CommonRating @click="fitlerRating({ value: 5, label: '5 sao' })" :rating="5" />
+                </a-menu-item>
+                <a-menu-item>
+                  <CommonRating @click="fitlerRating({ value: 4, label: '4 sao' })" :rating="4" />
+                </a-menu-item>
+                <a-menu-item>
+                  <CommonRating @click="fitlerRating({ value: 3, label: '3 sao' })" :rating="3" />
+                </a-menu-item>
+                <a-menu-item>
+                  <CommonRating @click="fitlerRating({ value: 2, label: '2 sao' })" :rating="2" />
+                </a-menu-item>
+                <a-menu-item>
+                  <CommonRating @click="fitlerRating({ value: 1, label: '1 sao' })" :rating="1" />
+                </a-menu-item>
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              Số sao
+              {{ queryRating.label ? queryRating.label : 'Tất cả sao' }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -43,7 +53,8 @@
         </NuxtLink>
       </div>
 
-      <a-table :columns="columns" :data-source="data">
+      <a-table :columns="columns" :data-source="bookreviewStore?.adminBookReviews?.bookReviews"
+        :loading="bookreviewStore.isLoading" :pagination="false">
         <template #headerCell="{ column }">
           <template v-if="column.key === 'title'">
             <span>Tên sách</span>
@@ -51,21 +62,31 @@
         </template>
 
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'Assessor'">
+          <template v-if="column.key === 'title'">
+            <span>{{ record?.book_detail?.book?.title }} - Phiên bản năm {{ record?.book_detail?.book_version   }}</span>
+          </template>
+          <template v-if="column.key === 'user'">
             <div class="flex flex-col gap-1">
-              <span>{{ record.Assessor }}</span>
-              <span>{{ record.phone }}</span>
-              <span>{{ record.email }}</span>
+              <span>{{ record?.user?.fullname }}</span>
+              <span>{{ record?.user?.phone }}</span>
+              <span>{{ record?.user?.email }}</span>
             </div>
+          </template>
+          <template v-if="column.key === 'date'">
+            <span>{{ $dayjs(record?.review_date).format("DD/MM/YYYY - HH:MM") ?
+              $dayjs(record?.review_date).format("DD/MM/YYYY - HH:MM") : '' }}</span>
           </template>
           <template v-if="column.key === 'rating'">
             <span>
               <CommonRating :rating="record.rating" />
             </span>
           </template>
+          <template v-if="column.key === 'reivew_text'">
+            <span>{{ record?.review_text }}</span>
+          </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-2">
-              <NuxtLink :to="`/admin/book/detailreview/${record?.id}`">
+              <NuxtLink :to="`/admin/book/detailreview/${record?.book_detail?.id}`">
                 <a-tooltip placement="top">
                   <template #title>
                     <span>Xem chi tiết</span>
@@ -83,12 +104,29 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 import { Icon } from "@iconify/vue";
-const open = ref<boolean>(false);
-const showModal = () => {
-  open.value = true;
+const bookreviewStore = useBookReviewStore();
+const queryRating = ref({
+  value: "",
+  label: "",
+});
+const fitlerRating = ({ value, label }) => {
+  queryRating.value.value = value;
+  queryRating.value.label = label;
 };
+useAsyncData(async () => {
+  try {
+    await bookreviewStore.getAllBookReviews({
+      rating: queryRating.value?.value,
+    });
+  } catch (error) {
+    message.error("Lỗi tải dữ liệu");
+  }
+}, { 
+  immediate: true,
+  watch:[queryRating.value]
+});
 const columns = [
   {
     name: "Tên sách",
@@ -97,8 +135,8 @@ const columns = [
   },
   {
     title: "Người đánh giá",
-    dataIndex: "Assessor",
-    key: "Assessor",
+    dataIndex: "user",
+    key: "user",
   },
   {
     title: "Thời gian",
@@ -112,8 +150,8 @@ const columns = [
   },
   {
     title: "Nội dung đánh giá",
-    dataIndex: "dicription",
-    key: "dicription",
+    dataIndex: "reivew_text",
+    key: "reivew_text",
   },
   {
     title: "Thao tác",

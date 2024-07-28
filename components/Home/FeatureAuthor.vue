@@ -9,8 +9,10 @@
                         <div class="text-[#999999]" v-html="featureAuthor?.getauthorFeatured[0]?.description"></div>
                     </div>
                     <div class="">
-                        <button class="bg-orange-500 hover:bg-orange-600 w-1/2 h-11 rounded-lg text-white">Xem thêm
-                            sách</button>
+                        <NuxtLink :to="`/products?author=${featureAuthor?.getauthorFeatured[0]?.slug}`">
+                            <a-button type="primary" class="w-1/2 h-11 rounded-lg text-white text-base">Xem thêm
+                                sách</a-button>
+                        </NuxtLink>
                     </div>
                 </div>
                 <div class="md:col-span-1">
@@ -19,8 +21,8 @@
             </div>
             <div class="md:col-span-1">
                 <div class="grid  grid-flow-col gap-10">
-                    <CommonBook v-for="(books, index) in featureAuthor?.getauthorFeatured[0]?.books.slice(0,2)" :data=books
-                        :key="index" />
+                    <CommonBook v-for="(books, index) in featureAuthor?.getauthorFeatured[0]?.books.slice(0, 2)"
+                        :data=books :key="index" />
                 </div>
             </div>
         </div>

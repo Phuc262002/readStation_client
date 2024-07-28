@@ -11,17 +11,7 @@
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <form @submit.prevent="createInvoiceEnter">
         <div class="flex flex-col gap-5">
-          <div class="grid grid-cols-4 gap-5">
-            <div class="flex flex-col gap-3">
-              <label class="text-base font-semibold" for="">Mã hóa đơn </label>
-              <a-input v-model:value="valueInvoiceEnter.invoice_code" type="text" placeholder="Mã hóa đơn"
-                style="height: 40px" />
-            </div>
-            <div class="flex flex-col gap-3">
-              <label class="text-base font-semibold" for="">Ngày tạo hóa đơn <span class="text-red-500">*</span></label>
-              <a-input v-model:value="valueInvoiceEnter.invoice_date" type="date" placeholder="Ngày tạo hóa đơn"
-                style="height: 40px" required />
-            </div>
+          <div class="grid grid-cols-4 gap-4">
             <div class="flex flex-col gap-3">
               <label class="text-base font-semibold" for="">Tên hóa đơn <span class="text-red-500">*</span></label>
               <a-input v-model:value="valueInvoiceEnter.invoice_name" type="text" placeholder="Tên hóa đơn"
@@ -224,11 +214,6 @@ const showConfirm = (id) => {
             price: selectedBook?.price,
             total: selectedBook.price,
           });
-          // valueInvoiceEnter.value.invoice_enter_detail.push({
-          //   book_detail_id: 5,
-          //   book_price: selectedBook?.price,
-          //   book_quantity: 1,
-          // });
           data.value = newData;
         }
       } else {
@@ -294,12 +279,10 @@ const saveInvoice = () => {
 };
 
 const valueInvoiceEnter = ref({
-  invoice_code: "" || null,
   invoice_name: "",
   total: "",
   invoice_description: "",
   supplier_id: "",
-  invoice_date: "",
   status: "",
   invoice_enter_detail: [
     {
@@ -312,12 +295,10 @@ const valueInvoiceEnter = ref({
 const createInvoiceEnter = async () => {
   try {
     const dataPost = {
-      invoice_code: valueInvoiceEnter.value.invoice_code || null,
       invoice_name: valueInvoiceEnter.value.invoice_name,
       total: valueInvoiceEnter.value.total,
       invoice_description: valueInvoiceEnter.value.invoice_description,
       supplier_id: valueInvoiceEnter.value.supplier_id,
-      invoice_date: valueInvoiceEnter.value.invoice_date,
       status: valueInvoiceEnter.value.status,
       invoice_enter_detail: data.value.map((item) => ({
         book_detail_id: item.id,

@@ -2,7 +2,10 @@
     <div class="flex flex-col gap-5">
         <div class="flex flex-col gap-2 pt-4 md:flex-row md:items-center print:hidden">
             <div class="grow">
-                <h5 class="text-xl text-[#1e293b] font-semibold">Đánh giá sách “Doraemon tập 31”</h5>
+                <h5 class="text-xl text-[#1e293b] font-semibold">Đánh giá sách “{{
+                    bookDetailReview.adminGetOneBookReview?.book_details?.book?.title }} -
+                    Phiên bản năm {{ bookDetailReview.adminGetOneBookReview?.book_details?.book_version
+                    }}”</h5>
             </div>
         </div>
         <div class="bg-[white] rounded-lg h-20 w-full">
@@ -14,8 +17,12 @@
                         </button>
                     </div>
                     <div class="flex flex-col gap-1">
-                        <span class="text-gray-500">Sách thiếu nhi</span>
-                        <span class="text-lg font-bold">Doraemon tập 31</span>
+                        <span class="text-gray-500">Sách {{
+                            bookDetailReview.adminGetOneBookReview?.book_details?.book?.category?.name }}</span>
+                        <span class="text-lg font-bold">{{
+                            bookDetailReview.adminGetOneBookReview?.book_details?.book?.title }} -
+                            Phiên bản năm {{ bookDetailReview.adminGetOneBookReview?.book_details?.book_version
+                            }}</span>
                     </div>
                 </div>
             </div>
@@ -31,39 +38,42 @@
             <div class="grid md:grid-cols-3 gap-5">
                 <div class="md:col-span-1 space-y-2 border-r border-gray-200">
                     <div class="grid grid-cols-3">
-                        <span class="font-bold text-base">Tên sách: </span>
-                        <span class="text-base">Doraemon tập 31</span>
+                        <span class="font-bold text-base">Ảnh bìa: </span>
+                        <img class="rounded-lg" :src="bookDetailReview.adminGetOneBookReview?.book_details?.poster" />
                     </div>
                     <div class="grid grid-cols-3">
                         <span class="font-bold text-base">Tác giả: </span>
-                        <span class="text-base">Fujiko Fujio</span>
+                        <span class="text-base">{{
+                            bookDetailReview.adminGetOneBookReview?.book_details?.book?.author?.author }}</span>
                     </div>
                     <div class="grid grid-cols-3">
                         <span class="font-bold text-base">Danh mục: </span>
-                        <span class="text-base">Thiếu nhi</span>
+                        <span class="text-base">{{
+                            bookDetailReview.adminGetOneBookReview?.book_details?.book?.category?.name }}</span>
                     </div>
                     <div class="grid grid-cols-3">
                         <span class="font-bold text-base">Tủ sách: </span>
-                        <span class="text-base">Thiếu nhi</span>
+                        <span class="text-base">Chưa có dữ liệu</span>
                     </div>
                     <div class="grid grid-cols-3">
                         <span class="font-bold text-base">Kệ sách: </span>
-                        <span class="text-base">Thiếu nhi</span>
+                        <span class="text-base">{{
+                            bookDetailReview.adminGetOneBookReview?.book_details?.book?.shelve?.name }}</span>
                     </div>
+
                 </div>
                 <div class="md:col-span-2 space-y-3">
                     <div class="grid grid-cols-4">
                         <span class="text-base font-bold col-span-1">Mô tả: </span>
                         <span class="text-base col-span-3">
-                            Doraemon là loạt truyện tranh dài kỳ của Nhật Bản, nhưng cũng là bộ sách được trẻ em ở nhiều
-                            nước yêu thích.</span>
+                            {{
+                                bookDetailReview.adminGetOneBookReview?.book_details?.book?.description_summary }}</span>
                     </div>
                     <div class="grid grid-cols-4">
                         <span class="text-base font-bold col-span-1">Mô tả chi tiết:</span>
-                        <span class="text-base col-span-3">
-                            Câu chuyện xoay quanh chú mèo máy từ tương lai du hành xuyên thời gian để giúp đỡ cậu học
-                            sinh tên là Nobita Nobi. Cố họa sĩ Fujiko F. Fujio sáng tác bộ truyện này và ra mắt lần đầu
-                            tiên hồi tháng 12.1969</span>
+                        <span class="text-base col-span-3"
+                            v-html="bookDetailReview.adminGetOneBookReview?.book_details?.book?.description">
+                        </span>
                     </div>
                 </div>
             </div>
@@ -97,19 +107,27 @@
                     </a-button>
                 </a-dropdown>
             </div>
-            <a-table :columns="columns" :data-source="data">
+            <a-table :columns="columns" :data-source="bookDetailReview.adminGetOneBookReview?.bookReview"
+                :loading="bookDetailReview.isLoading" :pagination="false">
                 <template #bodyCell="{ column, record }">
-                    <template v-if="column.key === 'Assessor'">
+                    <template v-if="column.key === 'user'">
                         <div class="flex flex-col gap-1">
-                            <span>{{ record.Assessor }}</span>
-                            <span>{{ record.phone }}</span>
-                            <span>{{ record.email }}</span>
+                            <span>{{ record?.user?.fullname }}</span>
+                            <span>{{ record?.user?.phone }}</span>
+                            <span>{{ record?.user?.email }}</span>
                         </div>
+                    </template>
+                    <template v-else-if="column.key === 'date'">
+                        <span>{{ $dayjs(record?.review_date).format("DD/MM/YYYY - HH:MM") ?
+                            $dayjs(record?.review_date).format("DD/MM/YYYY - HH:MM") : '' }}</span>
                     </template>
                     <template v-if="column.key === 'rating'">
                         <span>
                             <CommonRating :rating="record.rating" />
                         </span>
+                    </template>
+                    <template v-if="column.key === 'review_text'">
+                        <span>{{ record?.review_text }}</span>
                     </template>
                     <template v-else-if="column.key === 'action'">
                         <a-tooltip placement="top" color="black">
@@ -129,14 +147,24 @@
 
 </template>
 <script setup>
+
+import { Icon } from "@iconify/vue";
 const route = useRoute();
 const id = route.params.id;
-import { Icon } from "@iconify/vue";
+const bookDetailReview = useBookReviewStore();
+useAsyncData(async () => {
+    try {
+        await bookDetailReview.getOneBookReview(id);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 const columns = [
     {
         title: "Người đánh giá",
-        dataIndex: "Assessor",
-        key: "Assessor",
+        dataIndex: "user",
+        key: "user",
     },
     {
         title: "Thời gian",
@@ -150,8 +178,8 @@ const columns = [
     },
     {
         title: "Nội dung đánh giá",
-        dataIndex: "dicription",
-        key: "dicription",
+        dataIndex: "review_text",
+        key: "review_text",
     },
     {
         title: "Thao tác",
@@ -159,26 +187,5 @@ const columns = [
     },
 ];
 
-const data = [
-    {
-        id: 1,
-        title: "Doraemon tập 31 ",
-        Assessor: "Trung Tran Quang",
-        phone: "0123456789",
-        email: "trung190579@gmail.com",
-        date: "20/7/2024 - 11:00",
-        rating: 5,
-        dicription: "Sách rất hay",
-    },
-    {
-        id: 2,
-        title: "Trò Chơi Tâm Lý",
-        Assessor: "Ton That An Khuong (FPL HCM)",
-        phone: "0123456789",
-        email: "khuongttaps26697@fpt.edu.vn",
-        date: "19/07/2024 - 19:05",
-        rating: 4,
-        dicription: "Sách rất hay",
-    },
-];
+
 </script>

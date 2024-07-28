@@ -57,9 +57,9 @@ import dayjs from 'dayjs';
                                             currency: "VND",
                                         }).format( getFeauturedBooks?.getbookFeatured[0]?.book_detail[0]?.price)
                                         }}</h1>
-                                    <button
-                                        class="bg-orange-500 hover:bg-orange-600 w-1/2 h-11 rounded-lg text-white">Thuê
-                                        Ngay</button>
+                                    <a-button size="large" type="primary"
+                                        class=" w-1/2 rounded-lg text-white">Thuê
+                                        Ngay</a-button>
                                 </div>
                             </div>
                         </div>
