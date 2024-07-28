@@ -13,7 +13,7 @@
           class="border-none absolute bottom-0 left-[calc(50%+25px)] -translate-x-1/2 w-6 h-6 bg-white rounded-full flex items-center justify-center"
           @click="showModal"
         >
-          <AccountManagerChangeAvatar />
+          <CommonAddImg />
         </button>
       </div>
 
@@ -184,10 +184,10 @@ const logout = async () => {
   await authStore.logout();
 };
 
-const showModalEdit = () => {
-  openModalEdit.value = true;
+const showModal = () => {
+  openModal.value = true;
 };
-const closeModalEdit = () => {
-  openModalEdit.value = false;
+const closeModal = () => {
+  openModal.value = false;
 };
 </script>

@@ -5,10 +5,12 @@
     :footer="null"
     :onCancel="handleClose"
   >
-    <div
+  <div
       v-if="categoryStore.isLoading"
       class="flex justify-center items-center min-h-[50vh]"
-    ></div>
+    >
+      <a-spin size="large" />
+    </div>
     <form v-else @submit.prevent="onUpdate">
       <div class="mb-4 space-y-1" v-if="errors">
         <a-alert

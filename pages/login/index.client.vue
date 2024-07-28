@@ -103,12 +103,12 @@
                 </div>
               </div>
 
-              <div class="float-end font-medium text-indigo-600 mt-6">
+              <div class="float-end font-medium text-indigo-600 mt-4 mb-3">
                 <NuxtLink to="/forgot-password" class="text-sm" type="button">
                   Bạn quên mật khẩu?
                 </NuxtLink>
               </div>
-              <div>
+              <div class="">
                 <a-button
                   html-type="submit"
                   :loading="authStore?.isSubmitting"

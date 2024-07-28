@@ -26,6 +26,34 @@
               </a-input>
             </div>
           </div>
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'handle', label: 'Tất cả trạng thái' })
+                  "
+                  >Tất cả trạng thái</a-menu-item
+                >
+
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'wating_approve', label: 'Chờ duyệt' })
+                  "
+                  >Chờ duyệt</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'approve_canceled', label: 'Từ chối' })
+                  "
+                  >Từ chối</a-menu-item>
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
 
           <a-dropdown :trigger="['click']">
             <template #overlay>
@@ -252,9 +280,17 @@ const categoryQuery = ref({
   id: "",
   label: "",
 });
+const queryStatus = ref({
+  value: "handle",
+  label: "",
+});
 const categoryValue = ({ id, label }) => {
   categoryQuery.value.id = id;
   categoryQuery.value.label = label;
+};
+const statusValue = ({ value, label }) => {
+  queryStatus.value.value = value;
+  queryStatus.value.label = label;
 };
 useAsyncData(
   async () => {
@@ -262,15 +298,19 @@ useAsyncData(
       page: current.value,
       search: valueSearch.value,
       category_id: categoryQuery.value.id,
-      status: "handle",
+      status: queryStatus.value.value,
     });
   },
   {
     immediate: true,
-    watch: [current, categoryQuery.value, valueSearch],
+    watch: [current, categoryQuery.value, valueSearch, queryStatus.value],
   }
 );
-
+useAsyncData(async () => {
+  await categoryStore.getAllCategory({
+    type: "post",
+  });
+});
 const onRecover = async (id) => {
   try {
     const res = await postStore.updatePost({

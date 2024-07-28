@@ -365,8 +365,8 @@ const categoryStore = usePublicCategoryStore();
 const authorStore = useAuthorPublicStore();
 const route = useRoute();
 const bookFromQuery = ref(route.query.search);
-const dataAuthor = ref({});
-const dataBooks = ref({});
+const categoryFromQuery = route.query.category;
+console.log("category", categoryFromQuery);
 const isShow = ref([]);
 const filter = ref({
   sort: "asc",
@@ -384,8 +384,19 @@ watch(
   }
 );
 
-onMounted(() => {
-  // fetchBooks();
+onMounted(async () => {
+  await categoryStore.getAllCategoryClient({ type: "book" });
+
+  const matchedCategory = categoryStore?.categories?.categories?.find(
+    (cat) => cat.slug === categoryFromQuery
+  );
+
+  if (matchedCategory) {
+    filter.value.category_id = matchedCategory.id;
+    isShow.value.push("category");
+  }
+
+  fetchBooks();
 });
 const sortOptions = [
   {
@@ -442,6 +453,22 @@ useAsyncData(
   {
     immediate: true,
     watch: [current, filter.value, filter.value.sort],
+  }
+);
+watch(
+  () => route.query.category,
+  (newCategory) => {
+    const matchedCategory = categoryStore?.categories?.categories?.find(
+      (cat) => cat.slug === newCategory
+    );
+
+    if (matchedCategory) {
+      filter.value.category_id = matchedCategory.id;
+    } else {
+      filter.value.category_id = null;
+    }
+
+    fetchBooks();
   }
 );
 

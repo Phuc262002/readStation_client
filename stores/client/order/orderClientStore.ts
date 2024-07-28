@@ -94,11 +94,33 @@ export const useOrderClientStore = defineStore("order-client-store", {
         this.isSubmitting = false;
       }
     },
-    async cancelOrderPayment({ id, body }: any) {
+    async updateOrderPayment({ id, body }: any) {
+      try {
+        this.isSubmitting = true;
+        const res: any = await useCustomFetch(
+          `/api/v1/account/orders/update-payment/${id}`,
+          {
+            method: "POST",
+            body: JSON.stringify(body),
+          }
+        );
+        if (res.data._rawValue?.status == true) {
+          console.log("res", res);
+        } else {
+          navigateTo("/404");
+        }
+        return res;
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        this.isSubmitting = false;
+      }
+    },
+    async returnBook({ id, body }: any) {
       try {
         this.isSubmitting = true;
         const data: any = await useCustomFetch(
-          `/api/v1/account/orders/cancel-payment/${id}`,
+          `/api/v1/account/orders/return-each-book/${id}`,
           {
             method: "POST",
             body: JSON.stringify(body),
@@ -111,11 +133,11 @@ export const useOrderClientStore = defineStore("order-client-store", {
         this.isSubmitting = false;
       }
     },
-    async returnBook({ id, body }: any) {
+    async returnAllBook({ id, body }: any) {
       try {
         this.isSubmitting = true;
         const data: any = await useCustomFetch(
-          `/api/v1/account/orders/return-each-book/${id}`,
+          `/api/v1/account/orders/return-all/${id}`,
           {
             method: "POST",
             body: JSON.stringify(body),
