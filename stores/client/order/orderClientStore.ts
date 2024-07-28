@@ -13,13 +13,22 @@ export const useOrderClientStore = defineStore("order-client-store", {
   persist: true,
   actions: {
     async getAllOrder({ page, pageSize, status, search }: any) {
-      const data: any = await useCustomFetch(
-        `/api/v1/account/orders?${page ? `&page=${page}` : ""}${
-          pageSize ? `&pageSize=${pageSize}` : ""
-        }${status ? `&status=${status}` : ""}${
-          search ? `$search=${search}` : ""
-        }`
-      );
+      const data: any = await useCustomFetch("/api/v1/account/orders", {
+        params: {
+          page: page || undefined,
+          pageSize: pageSize || undefined,
+          status: status || undefined,
+          search: search || undefined,
+        },
+      });
+
+      // const data: any = await useCustomFetch(
+      //   `/api/v1/account/orders?${page ? `&page=${page}` : ""}${
+      //     pageSize ? `&pageSize=${pageSize}` : ""
+      //   }${status ? `&status=${status}` : ""}${
+      //     search ? `&search=${search}` : ""
+      //   }`
+      // );
       this.orders = data.data._value?.data;
       return data;
     },

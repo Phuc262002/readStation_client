@@ -64,21 +64,24 @@
                                     </a-input>
                                     <template #overlay>
                                         <a-menu class="overflow-auto max-h-[400px]">
-                                            <a-menu-item v-if="bookStore.isLoading">
+                                            <a-menu-item v-if="bookDetailStore.isLoading">
                                                 <div class="p-10 flex justify-center">
                                                     <a-spin />
                                                 </div>
                                             </a-menu-item>
-                                            <a-menu-item v-else v-for="(items, index) in bookStore?.adminBooks?.books"
-                                                :key="index">
-                                                <div class="flex justify-start gap-5 items-center"
-                                                    v-if="bookStore?.adminBooks?.books" @click="showBook(items?.id)">
+                                            <a-menu-item v-else v-for="(items, index) in bookDetailStore
+                                                ?.getAllBookdetailAdmin?.books" :key="index">
+                                                <div class="grid grid-cols-5 gap-5 items-center"
+                                                    v-if="bookDetailStore?.getAllBookdetailAdmin?.books"
+                                                    @click="showBook(items.id)">
                                                     <div>
-                                                        <img class="rounded-lg w-20 h-28"
-                                                            :src="items?.book_detail[0]?.poster" alt="">
+                                                        <img class="rounded-lg w-20 h-28" :src="items?.poster" alt="">
                                                     </div>
-                                                    <div class="text-base font-medium">{{ items?.title }}</div>
-                                                    <div class="text-base font-medium">{{ items?.author?.author }}</div>
+                                                    <div class="text-base font-medium">{{ items?.book?.title }}</div>
+                                                    <div class="text-base font-medium">{{ items?.book?.author?.author }}
+                                                    </div>
+                                                    <div class="text-base font-medium">Phiên bản {{ items?.book_version
+                                                        }}</div>
                                                 </div>
                                             </a-menu-item>
                                         </a-menu>
@@ -98,8 +101,11 @@
                                 </template>
                                 <template v-if="column.key === 'title'">
                                     <div class="flex gap-5 items-center">
-                                        <img :src="record?.book_detail[0]?.poster" class="w-24 h-32 rounded-lg" />
-                                        <span>{{ record?.title }}</span>
+                                        <img :src="record?.poster" class="w-24 h-32 rounded-lg" />
+                                        <div class="flex flex-col gap-1">
+                                            <span>{{ record?.book?.title }}</span>
+                                            <span>Phiên bản {{ record?.book_version }}</span>
+                                        </div>
                                     </div>
                                 </template>
                                 <template v-if="column.key === 'price'">
@@ -107,18 +113,18 @@
                                         <span>{{ new Intl.NumberFormat("vi-VN", {
                                             style: "currency",
                                             currency: "VND",
-                                        }).format(record?.book_detail[0].price) }}</span>
+                                        }).format(record?.price) }}</span>
                                     </div>
 
                                 </template>
                                 <template v-if="column.key === 'author'">
                                     <div class="flex gap-5 items-center">
-                                        <span>{{ record?.author?.author }}</span>
+                                        <span>{{ record?.book?.author?.author }}</span>
                                     </div>
                                 </template>
                                 <template v-if="column.key === 'category'">
                                     <div class="flex gap-5 items-center">
-                                        <span>{{ record?.category?.name }}</span>
+                                        <span>{{ record?.book?.category?.name }}</span>
                                     </div>
                                 </template>
                                 <template v-else-if="column.key === 'action'">
@@ -165,10 +171,6 @@
 import { ref } from "vue";
 const errors = ref({});
 const orderStore = useOrderStore();
-const gender = ref("male");
-const setGender = (selecteGender) => {
-    gender.value = selecteGender;
-};
 const valueSearchUser = ref('');
 const userStore = useUserStore()
 useAsyncData(async () => {
@@ -201,10 +203,10 @@ const showOneUser = async (id) => {
 }
 
 const valueSearchBook = ref('');
-const bookStore = useBookStore();
+const bookDetailStore = useBookDetailStore();
 useAsyncData(async () => {
     try {
-        await bookStore.getAdminBooks({
+        await bookDetailStore.getAllBookDetail({
             search: valueSearchBook.value,
         })
     } catch (error) {
@@ -217,9 +219,8 @@ useAsyncData(async () => {
     }
 )
 const data = ref([]);
-console.log(data.value)
 const showBook = async (id) => {
-    const selectedBook = bookStore?.adminBooks?.books?.find((book) => book?.id === id)
+    const selectedBook = bookDetailStore?.getAllBookdetailAdmin?.books.find((book) => book?.id === id);
     const existingBook = data.value.find(item => item.id === selectedBook.id);
     if (!existingBook) {
         if (selectedBook) {

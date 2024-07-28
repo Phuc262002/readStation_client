@@ -176,6 +176,7 @@
                   </a-menu>
                 </template>
               </a-dropdown>
+
             </div>
           </template>
 
@@ -186,8 +187,8 @@
           :pageSize="allAdminBooks?.adminBooks?.pageSize" show-less-items />
       </div>
     </div>
-    <BookEdit :openModalBook="openModalBook" :openModal="CloseModal" />
   </div>
+  <!-- <BookEdit :openModalBook="openModalBook" :openModal="CloseModal" /> -->
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
@@ -272,11 +273,11 @@ const onDelete = async (id: string) => {
   try {
     const res = await allAdminBooks.deleteBook(id);
     if (res.data._rawValue?.status == true) {
-      message.success(res.data._rawValue?.message);
+      message.success('Xóa sách thành công');
       getAllAdminBooks();
     } else {
       errors.value = res.error.value.data.errors;
-      message.error(res.error.value.data.message);
+      message.error('Xóa thất bại');
     }
   } catch (error) {
     console.error(error);

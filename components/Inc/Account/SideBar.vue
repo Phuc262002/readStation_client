@@ -11,15 +11,11 @@
         />
         <button
           class="border-none absolute bottom-0 left-[calc(50%+25px)] -translate-x-1/2 w-6 h-6 bg-white rounded-full flex items-center justify-center"
-          @click="showModalEdit"
+          @click="showModal"
         >
-          <CommonAddImg />
+          <AccountManagerChangeAvatar />
         </button>
       </div>
-      <AvatarEdit
-        :openModalEdit="openModalEdit"
-        :closeModalEdit="closeModalEdit"
-      />
 
       <div class="mt-[17px] mb-[23px]">
         <h2 class="font-bold px-5">
@@ -118,7 +114,10 @@
       <a-sub-menu key="sub4">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon name="i-tabler-credit-card-pay" class="text-base" />
+            <Icon
+              icon="material-symbols:verified-user-outline"
+              class="text-xl"
+            />
             <span class="font-bold">Xác thực tài khoản</span>
           </span>
         </template>
@@ -166,6 +165,7 @@
       </a-menu-item>
     </a-menu>
   </a-layout-sider>
+  <ChangeAvatar :openModal="openModal" :closeModal="closeModal" />
 </template>
 <script setup lang="ts">
 import { useForm } from "vee-validate";
@@ -175,7 +175,7 @@ const props = defineProps<{
 }>();
 const selectedKeys = ref<string[]>(["sub1"]);
 const changeAvatarRef = ref(null);
-const openModalEdit = ref<boolean>(false);
+const openModal = ref<boolean>(false);
 
 //get API
 const data = ref(null);
