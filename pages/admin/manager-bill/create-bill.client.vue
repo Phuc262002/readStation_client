@@ -60,8 +60,8 @@
                       </a-menu-item>
                       <a-menu-item v-else v-for="(items, index) in bookDetailStore
                         ?.getAllBookdetailAdmin?.books" :key="index">
-                        <div class="flex justify-start gap-5 items-center"
-                          v-if="bookDetailStore?.getAllBookdetailAdmin?.books" @click="showConfirm(items?.book?.id)">
+                        <div class="grid grid-cols-5 gap-5 items-center"
+                          v-if="bookDetailStore?.getAllBookdetailAdmin?.books" @click="showConfirm(items?.id)">
                           <div>
                             <img class="rounded-lg w-20 h-28" :src="items?.poster" alt="" />
                           </div>
@@ -71,6 +71,8 @@
                           <div class="text-base font-medium">
                             {{ items?.book?.author?.author }}
                           </div>
+                          <div class="text-base font-medium">Phiên bản {{ items?.book_version
+                            }}</div>
                         </div>
                       </a-menu-item>
                     </a-menu>
@@ -90,14 +92,19 @@
                       <a>{{ record?.title }}</a>
                     </div>
                   </template>
+                  <template v-if="column.dataIndex === 'book_version'">
+                    <div class="flex gap-4">
+                      <span>Phiên bản năm {{ record?.book_version }}</span>
+                    </div>
+                  </template>
                   <template v-if="column.dataIndex === 'quantity'">
                     <div class="flex items-center gap-3">
-                      <button @click="decreaseQuantity(record?.quantity)"
+                      <button @click.prevent="decreaseQuantity(record)"
                         class="border rounded-lg w-10 h-10 flex justify-center items-center text-lg">
                         -
                       </button>
                       {{ record?.quantity }}
-                      <button @click="increaseQuantity(record?.quantity)"
+                      <button @click.prevent="increaseQuantity(record)"
                         class="border rounded-lg w-10 h-10 flex justify-center items-center text-lg">
                         +
                       </button>
@@ -114,7 +121,12 @@
                     </div>
                   </template>
                   <template v-if="column.dataIndex === 'total'">
-                    <span>{{ record.total }}</span>
+                    <span>{{
+                        new Intl.NumberFormat("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        }).format(record?.total)
+                      }}</span>
                   </template>
                   <template v-if="column.dataIndex === 'action'">
                     <a-tooltip placement="top" color="red">
@@ -148,6 +160,7 @@
 import { ref } from "vue";
 import { LoadingOutlined } from "@ant-design/icons-vue";
 import { h } from "vue";
+import { watch } from "vue";
 const invoiceEnter = useInvoiceEnterStore();
 const data = ref([]);
 const errors = ref({})
@@ -194,17 +207,16 @@ const showConfirm = (id) => {
     okType: "danger",
     cancelText: "Hủy",
     onOk() {
-      const selectedBook = bookDetailStore?.getAllBookdetailAdmin?.books.find(
-        (book) => book?.book?.id === id
-      );
+      const selectedBook = bookDetailStore?.getAllBookdetailAdmin?.books.find((book) => book?.id === id);
+      console.log(selectedBook?.id);
       const existingBook = data.value.find(
-        (item) => item.id === selectedBook?.book?.id
+        (item) => item.id === selectedBook?.id
       );
       if (!existingBook) {
         if (selectedBook) {
           const newData = [...data.value];
           newData.push({
-            id: selectedBook?.book?.id,
+            id: selectedBook?.id,
             title: selectedBook?.book?.title,
             book_version: selectedBook?.book_version,
             sku_origin: selectedBook?.sku_origin,
@@ -212,11 +224,11 @@ const showConfirm = (id) => {
             price: selectedBook?.price,
             total: selectedBook.price,
           });
-          valueInvoiceEnter.value.invoice_enter_detail.push({
-            book_detail_id: selectedBook.book.id,
-            book_price: selectedBook.price,
-            book_quantity: 1,
-          });
+          // valueInvoiceEnter.value.invoice_enter_detail.push({
+          //   book_detail_id: 5,
+          //   book_price: selectedBook?.price,
+          //   book_quantity: 1,
+          // });
           data.value = newData;
         }
       } else {
@@ -230,15 +242,49 @@ const showConfirm = (id) => {
     class: "test",
   });
 };
+const calculateTotal = () => {
+  // Tính tổng của tất cả các sản phẩm trong danh sách data
+  const total = data.value.reduce((sum, item) => sum + item.total, 0);
+  
+  // Cập nhật trường total trong valueInvoiceEnter
+  valueInvoiceEnter.value.total = total;
+};
+watch(data, (newValue) => {
+  calculateTotal();
+}, { deep: true });
+const increaseQuantity = (record) => {
+  // Tìm sản phẩm trong danh sách data
+  const updatedData = data.value.map((item) => {
+    if (item.id === record.id) {
+      return {
+        ...item,
+        quantity: item.quantity + 1,
+        total: (item.quantity + 1) * item.price,
+      };
+    }
+    return item;
+  });
+  data.value = updatedData;
+  calculateTotal();
+};
 
-// const increaseQuantity = (quantity) => {
-//     quantity += 1;
-// };
-// const decreaseQuantity = (quantity) => {
-//     if (quantity > 1) {
-//         quantity -= 1;
-//     }
-// };
+const decreaseQuantity = (record) => {
+  // Tìm sản phẩm trong danh sách data
+  const updatedData = data.value.map((item) => {
+    if (item.id === record.id) {
+      if (item.quantity > 1) {
+        return {
+          ...item,
+          quantity: item.quantity - 1,
+          total: (item.quantity - 1) * item.price,
+        };
+      }
+    }
+    return item;
+  });
+  data.value = updatedData;
+  calculateTotal();
+};
 const saveDraft = () => {
   valueInvoiceEnter.value.status = "draft"; // Cập nhật trạng thái là draft
 };
@@ -250,7 +296,7 @@ const saveInvoice = () => {
 const valueInvoiceEnter = ref({
   invoice_code: "" || null,
   invoice_name: "",
-  total: "0",
+  total: "",
   invoice_description: "",
   supplier_id: "",
   invoice_date: "",
@@ -319,6 +365,11 @@ const columns = [
     title: "Tên sản phẩm",
     dataIndex: "title",
     key: "title",
+  },
+  {
+    title: "Phiên bản",
+    dataIndex: "book_version",
+    key: "book_version",
   },
   {
     title: "Mã sản phẩm",

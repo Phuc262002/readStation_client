@@ -38,7 +38,7 @@
           </div>
           <div class="flex flex-col gap-2">
             <label class="text-sm font-semibold" for="">Sku <span class="text-red-500">*</span></label>
-            <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Mã sách" required
+            <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Mã sách" disabled
               v-model:value="data.sku_origin" />
           </div>
           <div class="grid grid-rows-3 gap-5 ">
@@ -267,7 +267,6 @@ useAsyncData(async () => {
 });
 const onSubmit = async () => {
   const dataUpdate = {
-    book_id: idBookDetail.value,
     sku_origin: data.value.sku_origin,
     poster: imageInfo.value?.url || data.value.poster,
     images: [
@@ -295,8 +294,8 @@ const onSubmit = async () => {
   });
   if (res.data._rawValue?.status == true) {
       message.success("Cập nhật phiên bản sách thành công");
-      await bookDetailStore.getAllBookDetail({});
       handleClose();
+      await bookDetailStore.getAllBookDetail({});
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);

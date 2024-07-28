@@ -13,7 +13,7 @@
       <form :model="valuecreateBook" @submit.prevent="onSubmit">
         <div class="flex flex-col gap-10">
           <!-- Sách -->
-          <div class="flex flex-col gap-5">
+          <div class="flex flex-col gap-4">
             <div class="text-xl font-bold">Sách</div>
             <div class="flex flex-col gap-5 border-b border-gray-200 pb-10">
               <div class="grid grid-rows-2 gap-5">
@@ -75,7 +75,7 @@
             </div>
           </div>
           <!-- Sách chi tiết -->
-          <div class="flex flex-col gap-5">
+          <div class="flex flex-col gap-4">
             <div class="text-xl font-bold">Sách chi tiết</div>
             <div class="flex flex-col gap-2">
               <div class="grid grid-rows-1">

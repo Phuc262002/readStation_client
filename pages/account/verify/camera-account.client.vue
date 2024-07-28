@@ -139,13 +139,13 @@ export default defineComponent({
   methods: {
     validateCitizenName() {
   console.log("Citizen name:", this.citizen_name); // Debugging
-  const regex = /^[a-zA-ZÀ-ÿ\s]+$/;
+  const regex = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỀỂỄữẫựẫỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỲỴÝỶỸửữẫựạảấầẩẫậắằẳẵặẹẻẽềểếễềệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ\s]+$/;
   return regex.test(this.citizen_name);
 },
-    // validatePlaceOfIssue() {
-    //   const regex = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỀỂữẫựẫỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỲỴÝỶỸửữẫựạảấầẩẫậắằẳẵặẹẻẽềểếễềệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ\s]+$/;
-    //   return regex.test(this.place_of_issue);
-    // },
+    validatePlaceOfIssue() {
+      const regex = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỀỂỄữẫựẫỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỲỴÝỶỸửữẫựạảấầẩẫậắằẳẵặẹẻẽềểếễềệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ\s]+$/;
+      return regex.test(this.place_of_issue);
+    },
     validateCitizenCode() {
       const regex = /^[0-9]{12}/;
       return regex.test(this.citizen_code);
@@ -210,13 +210,13 @@ export default defineComponent({
         message.error("Họ và tên không được chứa số hoặc ký tự đặc biệt.");
         return;
       }
-      // if (!this.validatePlaceOfIssue()) {
-      //   message.error("Nơi cấp không được chứa số hoặc ký tự đặc biệt.");
-      //   return;
-      // }
+      if (!this.validatePlaceOfIssue()) {
+        message.error("Nơi cấp không được chứa số hoặc ký tự đặc biệt.");
+        return;
+      }
       if (!this.validateCitizenCode()) {
         message.error(
-          "CMT/CCCD không được chứa ký tự đặc biệt hoặc chưa đủ số"
+          "CMT/CCCD chưa đủ số hoặc chứa ký tự đặc biệt"
         );
         return;
       }
