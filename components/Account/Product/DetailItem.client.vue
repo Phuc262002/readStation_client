@@ -26,7 +26,6 @@
 
       <div class="font-bold text-2xl pb-1">
         {{ bookStore?.book?.book?.title }} -
-        {{ bookStore?.book?.book?.author?.author }} - Bản thường -
         {{ bookStore?.book?.cardboard === "soft" ? "Bìa mềm" : "Bìa cứng" }} -
         {{ bookStore?.book?.book_version }}
       </div>
@@ -45,8 +44,10 @@
         </div>
       </div>
       <div class="flex gap-3">
-        <p class="text-sm font-medium">4.8</p>
-        <CommonRating rating="3.5" />
+        <p class="text-sm font-medium">
+          {{ bookStore?.book?.average_rate }} sao
+        </p>
+        <CommonRating :rating="bookStore?.book?.average_rate" />
         <p class="text-[#787878] text-sm">
           ( {{ bookStore?.book?.rating_total }} đánh giá)
         </p>

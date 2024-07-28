@@ -32,51 +32,21 @@
           <a-button class="rounded-xl">1 sao</a-button>
         </div>
       </div>
-      <div class="space-y-5">
+      <div
+        class="space-y-5"
+        v-for="(review, index) in bookStore?.book?.rating_comments"
+      >
         <div class="flex gap-5 pb-5 border-b border-rtgray-50">
           <div class="">
-            <img
-              src="../../../assets/images/camera.png"
-              class="w-20 rounded-full"
-              alt=""
-            />
+            <img :src="review?.user?.avatar" class="w-20 rounded-full" alt="" />
           </div>
           <div class="space-y-1">
-            <p>Trần Quang Trung</p>
+            <p>{{ review?.user?.fullname }}</p>
             <p>
-              <CommonRating :rating="3" />
+              <CommonRating :rating="review?.rating" />
             </p>
             <p>
-              We supply a series of design principles, practical patterns and
-              high quality design resources (Sketch and Axure), to help people
-              create their product prototypes beautifully and efficiently. We
-              supply a series of design principles, practical patterns and high
-              quality design resources (Sketch and Axure), to help people create
-              their product prototypes beautifully and efficiently.
-            </p>
-          </div>
-        </div>
-
-        <div class="flex gap-5 pb-5 border-b border-rtgray-50">
-          <div class="">
-            <img
-              src="../../../assets/images/camera.png"
-              class="w-20 rounded-full"
-              alt=""
-            />
-          </div>
-          <div class="space-y-1">
-            <p>Trần Quang Trung</p>
-            <p>
-              <CommonRating :rating="3" />
-            </p>
-            <p>
-              We supply a series of design principles, practical patterns and
-              high quality design resources (Sketch and Axure), to help people
-              create their product prototypes beautifully and efficiently. We
-              supply a series of design principles, practical patterns and high
-              quality design resources (Sketch and Axure), to help people create
-              their product prototypes beautifully and efficiently.
+              {{ review?.review_text }}
             </p>
           </div>
         </div>

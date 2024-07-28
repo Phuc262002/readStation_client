@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    v-model:open="props.openModalAdd"
+    v-model:open="props.openModal"
     title="Thêm hình đại diện của bạn"
     :footer="null"
     :closable="false"
@@ -43,13 +43,13 @@ const auth = ref({
   avatar: "",
 });
 const props = defineProps({
-  openModalAdd: Boolean,
-  openModal: Function,
+  openModal: Boolean,
+  closeModal: Function,
 });
-const open = ref(props.openModalAdd);
+const open = ref(props.openModal);
 
 watch(
-  () => props.openModalAdd,
+  () => props.openModal,
   (newVal) => {
     open.value = newVal;
   }
