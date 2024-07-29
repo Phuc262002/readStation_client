@@ -5,7 +5,7 @@
       <div class="relative w-2/4 md:block hidden mb-5">
         <div class="flex gap-3">
           <a-input
-            v-model:value="value"
+            v-model:value="searchValue"
             placeholder="Nhập mã đơn hàng để tìm kiếm"
             enter-button
             class="h-10"
@@ -337,6 +337,7 @@ const filter = ref({
   value: "",
   label: "",
 });
+const searchValue = ref("");
 const statusValue = ({ value, label }) => {
   filter.value.value = value;
   filter.value.label = label;
@@ -366,6 +367,7 @@ const getDataOrder = async () => {
     await orderStore.getAllOrder({
       page: current.value,
       status: filter.value.value,
+      search: searchValue.value,
     });
   } catch (error) {
     console.error(error);
@@ -377,7 +379,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current, filter.value],
+    watch: [current, filter.value, searchValue],
   }
 );
 
@@ -434,15 +436,3 @@ const columns = [
   },
 ];
 </script>
-<style scoped>
-:deep(
-    :where(.css-dev-only-do-not-override-1mvo6uw).ant-input-search
-      > .ant-input-group
-      > .ant-input-group-addon:last-child
-      .ant-input-search-button
-  ) {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-</style>

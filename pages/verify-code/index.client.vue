@@ -12,15 +12,21 @@
       class="md:py-10 flex justify-center items-center mx-auto container min-h-[100vh]"
     >
       <div
-        class="flex space-y-3 flex-col justify-center items-center bg-white shadow-lg shadow-gray-500 p-8 w-[450px] rounded-lg"
+        class="flex space-y-3 flex-col justify-center items-center bg-white shadow-cs_01 p-8 w-[450px] rounded-lg"
       >
-        <div class="text-center pb-4">
-          <h2 class="text-2xl text-sky-600 font-bold pb-3">Xác minh 💬</h2>
-          <p>
-            Chúng tôi đã gửi mã xác minh tới Email của bạn. Nhập mã từ Email vào
-            trường bên dưới.
-          </p>
+        <div>
+          <NuxtLink to="/" class="mb-10 flex justify-center">
+            <img src="../../assets/images/logo_header.svg" alt="" />
+          </NuxtLink>
+          <div>
+            <h2 class="text-xl text-orange-400 font-bold pb-2">Xác minh 💬</h2>
+            <p>
+              Chúng tôi đã gửi mã xác minh tới Email của bạn. Nhập mã từ Email
+              vào trường bên dưới.
+            </p>
+          </div>
         </div>
+
         <form @submit="onSubmit" class="w-full space-y-6">
           <span>Nhập mã bảo mật gồm 6 chữ số của bạn</span>
           <div class="">

@@ -2,7 +2,7 @@
     <div>
         <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
             <div class="grow">
-                <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả nhà cung cấp</h5>
+                <h5 class="text-xl text-[#1e293b] font-bold">Tất cả nhà cung cấp</h5>
             </div>
         </div>
 
@@ -26,8 +26,8 @@
                     <a-dropdown :trigger="['click']">
                         <template #overlay>
                             <a-menu class="">
-                                <a-menu-item @click="statusValue({ value: '', label: 'Trạng thái' })">Tất
-                                    cả</a-menu-item>
+                                <a-menu-item @click="statusValue({ value: '', label: 'Tất cả trạng thái' })">Tất cả
+                                    trạng thái</a-menu-item>
                                 <a-menu-item @click="statusValue({ value: 'active', label: 'Hoạt động' })">Hoạt
                                     động</a-menu-item>
                                 <a-menu-item @click="statusValue({ value: 'inactive', label: 'Không hoạt động' })">Không
@@ -36,7 +36,7 @@
                             </a-menu>
                         </template>
                         <a-button size="large" class="flex gap-3 items-center">
-                            {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+                            {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
                             <DownOutlined />
                         </a-button>
                     </a-dropdown>
@@ -72,12 +72,12 @@
                         </template>
 
                         <template v-else-if="column.key === 'action'">
-                            <div class="flex text-[16px] gap-4">
+                            <div class="flex text-[16px] gap-2">
                                 <a-tooltip placement="top">
                                     <template #title>
                                         <span>Sửa</span>
                                     </template>
-                                    <button  @click="showModalEdit(record?.id)"
+                                    <button @click="showModalEdit(record?.id)"
                                         class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                                         <Icon icon="fluent:edit-48-regular" class="text-lg" />
                                     </button>
@@ -107,9 +107,10 @@
 
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue";
-import { Modal } from "ant-design-vue";
+import { Modal, message } from 'ant-design-vue';
 import { LoadingOutlined } from "@ant-design/icons-vue";
 import { h } from "vue";
+const errors = ref({});
 const supplierStore = useSupplierStore();
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
@@ -146,8 +147,15 @@ useAsyncData(async () => {
 
 });
 const onDelete = async (id: string) => {
-    await supplierStore.deleteSupplier(id);
-    await getData();
+    const res = await supplierStore.deleteSupplier(id);
+    if (res.data._rawValue?.status == true) {
+        message.success(res.data._rawValue?.message);
+        await getData();
+    } else {
+        errors.value = res.error.value.data.errors;
+        message.error(res.error.value.data.message);
+    }
+
 };
 const showDeleteConfirm = (id: string) => {
     Modal.confirm({
@@ -206,7 +214,7 @@ const columns = [
         key: 'status',
     },
     {
-        title: 'Action',
+        title: 'Thao tác',
         dataIndex: 'action',
         key: 'action',
     },

@@ -102,7 +102,11 @@
 <script setup lang="ts">
 const orderStore = useOrderClientStore();
 const extended_method = ref("cash");
-
+const route = useRoute();
+const id = route.params.id;
+const handleCloseExtendAll = async () => {
+  props.closeExtendAll();
+};
 const onSubmit = async () => {
   const resData = await orderStore.extensionAllBook({
     id: orderStore?.order?.id,
@@ -118,6 +122,8 @@ const onSubmit = async () => {
     message.success({
       content: "Gia hạn sách sách thành công",
     });
+    handleCloseExtendAll();
+    orderStore.getOneOrder(id);
   } else if (
     resData?.data?._rawValue?.status == true &&
     extended_method.value == "online"
@@ -139,8 +145,4 @@ const props = defineProps({
   closeExtendAll: Function,
 });
 const open = ref(props.openExtendAll);
-
-const handleCloseExtendAll = async () => {
-  props.closeExtendAll();
-};
 </script>

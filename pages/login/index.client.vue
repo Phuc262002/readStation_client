@@ -1,7 +1,7 @@
 <template>
   <div class="relative md:px-20 px-8 py-8">
     <div
-      v-if="isSubmitting"
+      v-if="authStore?.isSubmitting"
       class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default"
     >
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
@@ -14,7 +14,7 @@
           <NuxtLink to="/">
             <div class="w-fit mx-auto">
               <img
-                src="../../assets/images/Read Station.svg"
+                src="../../assets/images/logo_header.svg"
                 class="w-[230px] justify-center"
                 alt=""
               />
@@ -46,6 +46,8 @@
                         size="small"
                         type="primary"
                         @click="verifyEmail"
+                        html-type="button"
+                        :loading="authStore?.isSubmitting"
                       >
                         Xác thực
                       </a-button>
@@ -101,16 +103,16 @@
                 </div>
               </div>
 
-              <div class="float-end font-medium text-indigo-600 mt-6">
+              <div class="float-end font-medium text-indigo-600 mt-4 mb-3">
                 <NuxtLink to="/forgot-password" class="text-sm" type="button">
                   Bạn quên mật khẩu?
                 </NuxtLink>
               </div>
-              <div>
+              <div class="">
                 <a-button
                   html-type="submit"
+                  :loading="authStore?.isSubmitting"
                   class="w-full bg-rtprimary h-[45px] !text-white hover:bg-rtsecondary text-base border-none"
-                  :loading="isSubmitting"
                 >
                   <span>Đăng nhập</span>
                 </a-button>

@@ -8,17 +8,27 @@
     <div
       v-if="categoryStore.isLoading"
       class="flex justify-center items-center min-h-[50vh]"
-    ></div>
-    <form @submit.prevent="onUpdate">
+    >
+      <a-spin size="large" />
+    </div>
+    <form v-else @submit.prevent="onUpdate">
+      <div class="mb-4 space-y-1" v-if="errors">
+        <a-alert
+          v-for="(error, index) in errors"
+          :message="error"
+          type="error"
+          show-icon
+        />
+      </div>
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Tên danh mục
+            Tên danh mục <span class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <a-input
               v-model:value="category.name"
-              class="w-[450px] h-[45px]"
+              class="w-full h-10"
               placeholder="Nhập tên danh mục"
               required
             />
@@ -46,9 +56,8 @@
             <a-textarea
               :rows="6"
               v-model:value="category.description"
-              class="w-[450px] h-[45px]"
+              class="w-full h-10"
               placeholder="Nhập mô tả"
-              required
             />
           </div>
         </div>
@@ -61,7 +70,8 @@
             <a-select
               ref="select"
               v-model:value="category.status"
-              style="width: 450px"
+              class="w-full"
+              size="large"
               @change="handleChange"
             >
               <a-select-option value="active">Công khai</a-select-option>
@@ -72,6 +82,7 @@
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
             Hình danh mục sản phẩm
+            <span v-if="category.is_featured" class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <ClientOnly>
@@ -119,6 +130,7 @@ import { message, Upload } from "ant-design-vue";
 const categoryStore = useCategoryStore();
 const baseStore = useBaseStore();
 const fileList = ref([]);
+const errors = ref({});
 const imageInfo = ref("");
 const category = ref({
   image: "",
@@ -215,6 +227,7 @@ useAsyncData(
 );
 
 const onUpdate = async () => {
+  errors.value = {};
   const data = {
     name: category.value?.name,
     description: category.value?.description,
@@ -223,17 +236,28 @@ const onUpdate = async () => {
     image: imageInfo.value?.url || category.value?.image,
     type: "book",
   };
-  await categoryStore.updateCategory({
-    id: categoryId.value,
-    category: data,
-  });
-  await categoryStore.getAllCategory({
-    type: "book",
-  });
-  handleClose();
+  try {
+    const res = await categoryStore.updateCategory({
+      id: categoryId.value,
+      category: data,
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Cập nhật danh mục sản phẩm thành công");
+      await categoryStore.getAllCategory({
+        type: "book",
+      });
+      handleClose();
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Cập nhật danh mục sản phẩm thất bại");
+  }
 };
 
 const handleClose = () => {
   props.openModal();
+  errors.value = {};
 };
 </script>

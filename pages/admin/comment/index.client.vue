@@ -117,30 +117,52 @@
             </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top" color="black">
+            <div class="flex text-[16px] gap-2">
+              <a-tooltip
+                v-if="record.status === CommentStatus.PUBLISHED"
+                placement="top"
+                color="black"
+              >
                 <template #title>
-                  <span>Xem chi tiết</span>
+                  <span>Ẩn</span>
                 </template>
                 <button
+                  @click="showRecoverConfirm(record?.id)"
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
                 >
                   <Icon
-                    icon="heroicons:eye"
+                    icon="bitcoin-icons:hidden-filled"
+                    class="group-hover:text-[#212122]"
+                  />
+                </button>
+              </a-tooltip>
+              <a-tooltip v-else placement="top" color="black">
+                <template #title>
+                  <span>Hoạt động</span>
+                </template>
+                <button
+                  @click="showPublishedConfirm(record?.id)"
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
+                >
+                  <Icon icon="charm:tick" class="group-hover:text-[#212122]" />
+                </button>
+              </a-tooltip>
+              <a-tooltip placement="top" color="black">
+                <template #title>
+                  <span>Xóa</span>
+                </template>
+                <button
+                  @click="showDeleteConfirm(record?.id)"
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
+                >
+                  <Icon
+                    icon="hugeicons:delete-01"
                     class="group-hover:text-[#212122]"
                   />
                 </button>
               </a-tooltip>
 
               <a-dropdown :trigger="['click']" placement="bottom">
-                <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                >
-                  <Icon
-                    icon="humbleicons:dots-horizontal"
-                    class="group-hover:text-[#131313]"
-                  />
-                </button>
                 <template #overlay>
                   <a-menu class="space-y-1">
                     <a-menu-item
@@ -270,23 +292,53 @@ const showPublishedConfirm = (id) => {
   });
 };
 const onPublishedDelete = async (id) => {
-  await commentGeneralStore.updateComment({
-    comment_id: id,
-    status: "published",
-  });
-  await commentStore.getAllComment({});
+  try {
+    const res = await commentGeneralStore.updateComment({
+      comment_id: id,
+      status: "published",
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Khôi phục bình luận thành công");
+      await commentStore.getAllComment({});
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Khôi phục bình luận thất bại");
+  }
 };
 const onDelete = async (id) => {
-  await commentGeneralStore.deleteComment(id);
-  await commentStore.getAllComment({});
+  try {
+    const res = await commentGeneralStore.deleteComment(id);
+    if (res.data._rawValue?.status == true) {
+      message.success("Xóa bình luận thành công");
+      await commentStore.getAllComment({});
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Xóa bình luận thất bại");
+  }
 };
 
 const onRecover = async (comment_id) => {
-  await commentGeneralStore.updateComment({
-    comment_id: comment_id,
-    status: "hidden",
-  });
-  await commentStore.getAllComment({});
+  try {
+    const res = await commentGeneralStore.updateComment({
+      comment_id: comment_id,
+      status: "hidden",
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Ẩn bình luận thành công");
+      await commentStore.getAllComment({});
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Ẩn bình luận thất bại");
+  }
 };
 const showRecoverConfirm = (id) => {
   Modal.confirm({
@@ -337,7 +389,7 @@ const columns = [
     dataIndex: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     key: "action",
   },
 ];

@@ -29,13 +29,18 @@ const handleClose = () => {
 const reason_cancel = ref("");
 const orderStore = useOrderStore();
 const handSend = () => {
-    orderStore.updateOrderStatus({
-        id: props.orderId,
-        body: {
-            status: "canceled",
-            reason_cancel: reason_cancel.value
-        }
-    })
+    try {
+        orderStore.updateOrderStatus({
+            id: props.orderId,
+            body: {
+                status: "canceled",
+                reason_cancel: reason_cancel.value
+            }
+        })
+    } catch (error) {
+        message.error("Hủy thất bại");
+        console.error(error);
+    }
     handleClose();
 };
 </script>

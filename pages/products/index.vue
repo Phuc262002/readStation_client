@@ -62,8 +62,8 @@
                       })
                     "
                   >
-                    {{ category?.name }}</a-radio
-                  >
+                    {{ category?.name }}
+                  </a-radio>
                 </li>
               </ul>
               <!--  -->
@@ -315,7 +315,7 @@
               class="flex gap-5 justify-between items-center px-4 h-fit border-t"
             >
               <div class="text-base">
-                {{ dataBooks?.totalResults }} sản phẩm
+                {{ bookstore?.books?.totalResults }} sản phẩm
               </div>
               <div class="text-base px-4 py-3 text-right flex items-center">
                 <div class="px-4 text-[#cac9cd]">Sắp xếp</div>
@@ -365,8 +365,8 @@ const categoryStore = usePublicCategoryStore();
 const authorStore = useAuthorPublicStore();
 const route = useRoute();
 const bookFromQuery = ref(route.query.search);
-const dataAuthor = ref({});
-const dataBooks = ref({});
+const categoryFromQuery = route.query.category;
+console.log("category", categoryFromQuery);
 const isShow = ref([]);
 const filter = ref({
   sort: "asc",
@@ -384,8 +384,19 @@ watch(
   }
 );
 
-onMounted(() => {
-  // fetchBooks();
+onMounted(async () => {
+  await categoryStore.getAllCategoryClient({ type: "book" });
+
+  const matchedCategory = categoryStore?.categories?.categories?.find(
+    (cat) => cat.slug === categoryFromQuery
+  );
+
+  if (matchedCategory) {
+    filter.value.category_id = matchedCategory.id;
+    isShow.value.push("category");
+  }
+
+  fetchBooks();
 });
 const sortOptions = [
   {
@@ -442,6 +453,22 @@ useAsyncData(
   {
     immediate: true,
     watch: [current, filter.value, filter.value.sort],
+  }
+);
+watch(
+  () => route.query.category,
+  (newCategory) => {
+    const matchedCategory = categoryStore?.categories?.categories?.find(
+      (cat) => cat.slug === newCategory
+    );
+
+    if (matchedCategory) {
+      filter.value.category_id = matchedCategory.id;
+    } else {
+      filter.value.category_id = null;
+    }
+
+    fetchBooks();
   }
 );
 
@@ -506,150 +533,12 @@ useAsyncData(async () => {
   }
 });
 </script>
+
 <style scoped>
 :deep(.ant-select-selector) {
   border-radius: 200px !important;
 }
 </style>
-<!-- <script setup lang="ts">
-import Search from "~/components/Common/Search.vue";
-
-const publishingCompanyStore = usePublishingCompanyPublicStore();
-const bookstore = useBookPublicStore();
-const categoryStore = usePublicCategoryStore();
-const authorStore = useAuthorPublicStore();
-const route = useRoute();
-const bookFromQuery = route.query.search;
-const dataAuthor = ref({});
-const dataBooks = ref({});
-const isShow = ref([]);
-const filter = ref({
-  sort: "asc",
-  category_id: null,
-  author_id: null,
-  publishing_company_id: null,
-  rating: null,
-});
-// watch(
-//   () => route.query.search,
-//   (newSearch) => {
-//     bookFromQuery.value = newSearch;
-//   }
-// );
-onMounted(() => {
-  // fetchBooks();
-});
-const sortOptions = [
-  {
-    label: "Mới nhất",
-    value: "asc",
-  },
-  {
-    label: "Cũ nhất",
-    value: "desc",
-  },
-  {
-    label: "Phổ biến",
-    value: "popular",
-  },
-];
-const handleIsShow = (section) => {
-  if (isShow.value.includes(section)) {
-    isShow.value = [...isShow.value].filter((item) => item !== section);
-  } else {
-    isShow.value = [...isShow.value, section];
-  }
-};
-
-const dataCompanies = ref({});
-const current = ref(1);
-
-const isLoading = ref(false);
-
-useAsyncData(
-  async () => {
-    try {
-      await bookstore.getAllBooks({
-        page: current.value,
-        pageSize: 12,
-        sort: filter.value.sort,
-        category_id: filter.value.category_id,
-        author_id: filter.value.author_id,
-        publishing_company_id: filter.value.publishing_company_id,
-        rating: filter.value.rating,
-        search: bookFromQuery,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  },
-  {
-    immediate: true,
-    watch: [current, filter.value, filter.value.sort, bookFromQuery],
-  }
-);
-
-const handleCheckbox = ({ type, id }: any) => {
-  switch (type) {
-    case "category_id":
-      filter.value.category_id = id;
-      break;
-    case "author_id":
-      filter.value.author_id = id;
-      break;
-    case "publishing_company_id":
-      filter.value.publishing_company_id = id;
-      break;
-    case "rating":
-      filter.value.rating = id;
-      break;
-    default:
-      break;
-  }
-};
-const handleSortChange = (value: string) => {
-  filter.value.sort = value;
-  // console.log("aaa", filter.value);
-};
-
-useAsyncData(async () => {
-  isLoading.value = true;
-  try {
-    await authorStore.getAllAuthorClient({});
-  } catch (error) {
-    console.error(error);
-  } finally {
-    isLoading.value = false;
-  }
-});
-
-useAsyncData(async () => {
-  isLoading.value = true;
-  try {
-    await categoryStore.getAllCategoryClient({
-      type: "book",
-    });
-  } catch (error) {
-    console.error(error);
-  } finally {
-    isLoading.value = false;
-  }
-});
-
-useAsyncData(async () => {
-  isLoading.value = true;
-  try {
-    const response =
-      await publishingCompanyStore.getAllPublishingCompanyClient();
-    dataCompanies.value = response?.data?._rawValue?.data;
-    // console.log("aaabb", dataCompanies);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    isLoading.value = false;
-  }
-});
-</script> -->
 <style scoped>
 :deep(.ant-select-selector) {
   border-radius: 200px !important;

@@ -34,6 +34,8 @@
                 </div>
                 <div class="h-1 w-1 bg-white rounded-full"></div>
                 <p>{{ postStore.post?.view }} lượt xem</p>
+                <div class="h-1 w-1 bg-white rounded-full"></div>
+                <p>{{ postStore.post?.countComments }} bình luận</p>
               </div>
             </div>
           </div>
@@ -54,18 +56,15 @@
             <div>
               <IconTwitter />
             </div>
-            <div>
-              <IconLinkedin />
-            </div>
+            
           </div>
         </div>
 
         <div>
           <h2 class="font-bold text-[20px]">Bình luận</h2>
-
           <BlogComment />
         </div>
-        <hr class="mb-5" />
+        <hr class="my-4" />
 
         <div class="mb-5 font-bold text-[27px]">Bài viết liên quan</div>
         <div v-if="postStore.posts?.posts?.length > 0">
@@ -146,9 +145,7 @@
             <div>
               <IconTwitter />
             </div>
-            <div>
-              <IconLinkedin />
-            </div>
+           
           </div>
         </div>
         <div class="rounded-lg shadow-md p-5">
@@ -197,7 +194,6 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
-const authStore = useAuthStore();
 const route = useRoute();
 const slug = route.params.slug;
 const postStore = usePublicPostStore();

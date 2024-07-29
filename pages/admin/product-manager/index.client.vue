@@ -208,7 +208,7 @@
               <a-dropdown :trigger="['click']">
                 <template #overlay>
                   <a-menu>
-                    <a-menu-item @click="statusValue({ value: '', label: 'Tất cả' })">Tất cả</a-menu-item>
+                    <a-menu-item @click="statusValue({ value: '', label: 'Tất cả trạng thái' })">Tất cả trạng thái</a-menu-item>
                     <a-menu-item @click="
                       statusValue({ value: 'pending', label: 'Đang xử lý' })
                       ">Đang xử lý</a-menu-item>
@@ -254,7 +254,7 @@
                   </a-menu>
                 </template>
                 <a-button size="large" class="flex gap-3 items-center">
-                  {{ queryStatus.label ? queryStatus.label : "Tất cả" }}
+                  {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
                   <DownOutlined />
                 </a-button>
               </a-dropdown>
@@ -284,7 +284,7 @@
                 <template v-else-if="column.dataIndex === 'loan_date'">
                   <span v-if="record.loan_date">{{
                     $dayjs(record.loan_date).format("DD/MM/YYYY")
-                    }}</span>
+                  }}</span>
                   <span v-else></span>
                 </template>
                 <template v-if="column.dataIndex === 'status'">
@@ -347,7 +347,7 @@
                   </div>
                 </template>
                 <template v-else-if="column.key === 'action'">
-                  <div class="flex text-[16px] gap-4">
+                  <div class="flex text-[16px] gap-2">
                     <NuxtLink :to="`/admin/product-manager/${record.id}`">
                       <a-tooltip placement="top">
                         <template #title>
@@ -405,7 +405,11 @@ useAsyncData(
   }
 );
 useAsyncData(async () => {
-  await orderStore.statisticOrder();
+  try {
+    await orderStore.statisticOrder();
+  } catch (error) {
+    console.error(error);
+  }
 });
 const columns = [
   {
@@ -442,7 +446,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     key: "action",
   },
 ];

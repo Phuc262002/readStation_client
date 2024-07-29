@@ -1,4 +1,3 @@
-import { h } from 'vue';
 <template>
     <div>
         <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
@@ -27,7 +26,8 @@ import { h } from 'vue';
                                 name="i-material-symbols-draft-orders-outline-rounded" />
                         </div>
                         <div>
-                            <a-button class="flex justify-center gap-2 items-center" type="primary" size="large" @click="showModal">
+                            <a-button class="flex justify-center gap-2 items-center" type="primary" size="large"
+                                @click="showModal">
                                 <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
                                 <span class="text-white">Chỉnh sửa</span>
                             </a-button>
@@ -70,7 +70,7 @@ import { h } from 'vue';
                         </div>
                     </div>
                 </div>
-                <BookEdit :openModalBook="openModalBook" :openModal="CloseModal"/>
+                <BookEdit :openModalBook="openModalBook" :openModal="CloseModal" />
                 <div>
                     <a-button class="flex justify-center items-center gap-2" type="primary" size="large"
                         @click="showModalAdd">
@@ -150,7 +150,8 @@ import { h } from 'vue';
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Ngày phát hành: </span>
-                                    <span class="text-base">{{ $dayjs(items?.publish_date).format("DD-MM-YYYY") }}</span>
+                                    <span class="text-base">{{ $dayjs(items?.publish_date).format("DD-MM-YYYY")
+                                        }}</span>
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Công ty phát hành: </span>
@@ -164,7 +165,8 @@ import { h } from 'vue';
                         </div>
                     </div>
                 </div>
-                <BookDetailEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit" :bookDetailId="itemBookDetail" />
+                <BookDetailEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit"
+                    :bookDetailId="itemBookDetail" />
             </div>
         </div>
     </div>
@@ -197,6 +199,10 @@ const route = useRoute()
 const bookID = route.params.id
 const bookStore = useBookStore();
 useAsyncData(async () => {
-    await bookStore.getOneBookAdmin(bookID);
+    try {
+        await bookStore.getOneBookAdmin(bookID);
+    } catch (error) {
+        console.error(error);
+    }
 });
 </script>

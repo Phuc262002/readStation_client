@@ -11,18 +11,26 @@
     >
       <a-spin size="large" />
     </div>
+
     <form v-else @submit.prevent="onUpdate">
+      <div class="mb-4 space-y-1" v-if="errors">
+        <a-alert
+          v-for="(error, index) in errors"
+          :message="error"
+          type="error"
+          show-icon
+        />
+      </div>
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Tên nhà xuất bản
+            Tên nhà xuất bản <span class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <a-input
               v-model:value="publishingCompany.name"
               class="w-[450px] h-[45px]"
               placeholder="Nhập tên nhà xuất bản"
-              required
             />
           </div>
         </div>
@@ -48,9 +56,10 @@
           </label>
           <div class="mt-1">
             <a-select
+              class="w-full"
+              size="large"
               ref="select"
               v-model:value="publishingCompany.status"
-              style="width: 200px"
               @change="handleChange"
             >
               <a-select-option value="active">Hoạt động</a-select-option>
@@ -110,6 +119,7 @@ import { message, Upload } from "ant-design-vue";
 const publishingCompanyStore = usePublishingCompanyStore();
 const baseStore = useBaseStore();
 const fileList = ref([]);
+const errors = ref({});
 const imageInfo = ref("");
 const publishingCompany = ref({
   name: "",
@@ -208,6 +218,7 @@ useAsyncData(
 );
 
 const onUpdate = async () => {
+  errors.value = {};
   const data = {
     name: publishingCompany.value?.name,
     description: publishingCompany.value?.description,
@@ -215,15 +226,26 @@ const onUpdate = async () => {
     logo_company: imageInfo.value?.url || publishingCompany.value?.logo_company,
   };
 
-  await publishingCompanyStore.updatePublishingCompany({
-    id: publishingCompanyId.value,
-    publishingCompany: data,
-  });
-  await publishingCompanyStore.getAllPublishingCompany({});
-  handleClose();
+  try {
+    const res = await publishingCompanyStore.updatePublishingCompany({
+      id: publishingCompanyId.value,
+      publishingCompany: data,
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Cập nhật nhà xuất bản thành công");
+      await publishingCompanyStore.getAllPublishingCompany({});
+      handleClose();
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Cập nhật nhà xuất bản thất bại");
+  }
 };
 
 const handleClose = () => {
   props.openModal();
+  errors.value = {};
 };
 </script>

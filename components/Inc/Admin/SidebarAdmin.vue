@@ -21,7 +21,7 @@
       v-model:selectedKeys="selectedKeys"
       :theme="$colorMode.value === 'dark' ? 'dark' : 'light'"
       mode="inline"
-      class="!border-0 dark:!bg-[#6c819b] dark:!text-white overflow-auto h-5/6"
+      class="!border-0 dark:!bg-[#6c819b] dark:!text-white overflow-auto h-5/6 "
       :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
     >
       <a-menu-item key="1" @click="navigateTo('/admin')">
@@ -161,7 +161,7 @@
           class="font-semibold"
           key="14"
           @click="navigateTo('/admin/post/post-await')"
-          >Bài viết chờ duyệt</a-menu-item
+          >Bài viết đang xủ lý</a-menu-item
         >
         <a-menu-item
           class="font-semibold"

@@ -125,7 +125,7 @@
             </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <NuxtLink class="hover:text-black" :to="`book-case/${record.id}`">
                 <a-tooltip placement="top" color="black">
                   <template #title>
@@ -242,10 +242,16 @@ useAsyncData(
 
 const onDelete = async (id) => {
   try {
-    await bookCaseStore.deleteBookcase(id);
-    await bookCaseStore.getAllBookcases({});
+    const res = await bookCaseStore.deleteBookcase(id);
+    if (res.data._rawValue?.status == true) {
+      message.success(res.data._rawValue?.message);
+      await bookCaseStore.getAllBookcases({});
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
   } catch (error) {
-    console.error(error);
+    message.error("Xóa tủ sách thất bại");
   }
 };
 
@@ -309,7 +315,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     key: "action",
   },
 ];

@@ -116,7 +116,7 @@
           </template>
 
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <a-tooltip placement="top">
                 <template #title>
                   <span>Sửa</span>
@@ -189,10 +189,21 @@ useAsyncData(
 );
 
 const onDelete = async (id) => {
-  await categoryStore.deleteCategory(id);
-  await categoryStore.getAllCategory({
-    type: "post",
-  });
+  try {
+    const res = await categoryStore.deleteCategory(id);
+    if (res.data._rawValue?.status == true) {
+      message.success(res.data._rawValue?.message);
+      await categoryStore.getAllCategory({
+        type: "post",
+      });
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Khôi phục danh mục thất bại");
+  }
+
 };
 
 const showDeleteConfirm = (id) => {
@@ -235,7 +246,7 @@ const columns = [
   },
 
   {
-    title: "Chức năng",
+    title: "Thao tác",
     key: "action",
   },
 ];

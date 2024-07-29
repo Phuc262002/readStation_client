@@ -11,11 +11,19 @@
     >
       <a-spin size="large" />
     </div>
+    <div class="space-y-1" v-if="errors">
+      <a-alert
+        v-for="(error, index) in errors"
+        :message="error"
+        type="error"
+        show-icon
+      />
+    </div>
     <form @submit.prevent="onSubmit">
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Phương thức vận chuyển
+            Tên phương thức vận chuyển <span class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <a-input
@@ -29,25 +37,27 @@
 
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Khu vực
+            Khu vực <span class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <a-select
               size="large"
               v-model:value="selectedItems"
               mode="multiple"
-              placeholder="Inserted are removed"
+              placeholder="Chọn khu vực"
               style="width: 100%"
               :options="filteredOptions.map((item) => ({ value: item }))"
+              required
             ></a-select>
           </div>
         </div>
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Phí vận chuyển
+            Phí vận chuyển <span class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <a-input
+              number
               v-model:value="shippingMethod.fee"
               size="large"
               placeholder="Nhập phí vận chuyển"
@@ -64,7 +74,6 @@
               v-model:value="shippingMethod.note"
               size="large"
               placeholder="Nhập ghi chú"
-              required
             />
           </div>
         </div>
@@ -106,7 +115,7 @@
             :loading="shippingMethodStore.isSubmitting"
             html-type="submit"
             class="mt-4"
-            >Lưu</a-button
+            >Thêm</a-button
           >
         </div>
       </div>
@@ -119,6 +128,7 @@ const baseStore = useBaseStore();
 const shippingMethodStore = useShippingMethodsStore();
 const fileList = ref([]);
 const imageInfo = ref("");
+const errors = ref({});
 const shippingMethod = ref({
   method: "",
   location: [" Hồ chí minh", "Hà nội"],
@@ -247,26 +257,38 @@ const beforeUpload = (file) => {
   return isImage || Upload.LIST_IGNORE;
 };
 const onSubmit = async () => {
-  await shippingMethodStore.createShippingMethod({
-    method: shippingMethod.value.method,
-    location: selectedItems.value,
-    fee: shippingMethod.value.fee,
-    note: shippingMethod.value.note,
-    logo: imageInfo.value?.url,
-  });
-  await shippingMethodStore.getAllShippingMethods({});
-  shippingMethod.value = {
-    method: "",
-    location: [],
-    fee: "",
-    note: "",
-    logo: "",
-  };
-  selectedItems.value = [];
-  if (fileList.value.length > 0) {
-    fileList.value = [];
+  errors.value = {};
+  try {
+    const res = await shippingMethodStore.createShippingMethod({
+      method: shippingMethod.value.method,
+      location: selectedItems.value,
+      fee: shippingMethod.value.fee,
+      note: shippingMethod.value.note,
+      logo: imageInfo.value?.url,
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Thêm phương thức vận chuyển thành công");
+      await shippingMethodStore.getAllShippingMethods({});
+      shippingMethod.value = {
+        method: "",
+        location: [],
+        fee: "",
+        note: "",
+        logo: "",
+      };
+      selectedItems.value = [];
+      if (fileList.value.length > 0) {
+        fileList.value = [];
+      }
+
+      props.openModal();
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Thêm phương thức vận chuyển thất bại");
   }
-  props.openModal();
 };
 const handleClose = async () => {
   props.openModal();
@@ -283,5 +305,6 @@ const handleClose = async () => {
   };
   selectedItems.value = [];
   props.openModal();
+  errors.value = {};
 };
 </script>

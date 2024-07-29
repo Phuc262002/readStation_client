@@ -110,7 +110,7 @@
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'user_handle'">
             <p class="p-0">
-              {{ record.user_handle?.citizen_identity_card?.citizen_name }}
+              {{ record.user_handle?.fullname }}
             </p>
           </template>
           <template v-if="column.dataIndex === 'user_request'">
@@ -187,21 +187,29 @@
             </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <NuxtLink
                 class="hover:text-black"
                 :to="`/admin/verification-requests/${record.id}`"
               >
                 <a-tooltip placement="top" color="black">
                   <template #title>
-                    <span>Sửa</span>
+                    <span v-if="record.status !== 'pending'">Xem chi tiết</span>
+                    <span v-else>Sửa</span>
                   </template>
                   <button
                     class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
                   >
-                    <UIcon
-                      class="text-lg"
-                      name="i-material-symbols-edit-outline"
+                    <Icon
+                      v-if="record.status !== 'pending'"
+                      icon="heroicons:eye"
+                      class="group-hover:text-[#212122]"
+                    />
+                    <Icon
+                      v-else
+                      icon="la:user-edit"
+                      width="1.2rem"
+                      height="1.2rem"
                     />
                   </button>
                 </a-tooltip>
@@ -215,6 +223,7 @@
 </template>
 
 <script setup>
+import { Icon } from "@iconify/vue";
 import { VerificationRequestsStatus } from "~/types/admin/verificationRequests";
 const verificationRequestsStore = useVerificationRequestsStore();
 const current = ref(1);
@@ -285,7 +294,7 @@ const columns = [
   },
 
   {
-    title: "Hành động",
+    title: "Thao tác",
     dataIndex: "action",
     key: "action",
   },

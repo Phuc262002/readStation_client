@@ -11,6 +11,15 @@
         <UIcon name="i-material-symbols-person-check-outline" />
         <h2 class="text-sm font-bold">Thông tin cơ bản</h2>
       </div>
+      <div v-if="errors" class="space-y-2 mb-4">
+        <a-alert
+          v-for="(error, index) in errors"
+          :key="index"
+          :message="error"
+          type="error"
+          show-icon
+        />
+      </div>
 
       <p
         @click="handleChangeEditAcc"
@@ -23,7 +32,7 @@
     </div>
     <form @submit.prevent="onSubmit">
       <div
-        class="flex flex-col bg-white shadow-md shadow-gray-300 rounded-md p-4"
+        class="flex flex-col bg-white shadow-md shadow-gray-300 rounded-lg p-4"
       >
         <div class="border-b flex items-center justify-between py-4">
           <span class="w-1/2 h-8 flex items-center font-semibold">Họ tên</span>
@@ -80,8 +89,9 @@
             <a-input
               size="large"
               v-model:value="user.phone"
-              type="phone"
               name="phone"
+              type="number"
+              pattern="[0-9]*"
               v-if="isShow"
               required
             />
@@ -226,7 +236,7 @@
           <div class="w-1/2 text-left">
             <a-input
               v-model:value="address.street"
-              class="border p-2 rounded-md"
+              class="border p-2 rounded-lg"
               placeholder="Đường"
               :disabled="!ward_id"
               v-if="isShow"
@@ -275,7 +285,7 @@ const baseStore = useBaseStore();
 const isShow = ref(false);
 const resErrors = ref({});
 const data = ref(null);
-
+const errors = ref({});
 const user = ref({
   fullname: "",
   email: "",
@@ -311,30 +321,37 @@ const formattedAddress = computed(() => {
 });
 // Submit handler
 const onSubmit = async () => {
-  const resData = await authStore.updateProfile({
-    fullname: user.value.fullname,
-    email: user.value.email,
-    phone: user.value.phone,
-    gender: user.value.gender,
-    dob: user.value.dob,
-    job: user.value.job,
-    province_id: province_id.value,
-    district_id: district_id.value,
-    ward_id: ward_id.value,
-    street: address.value.street,
-    address_detail: formattedAddress.value,
-  });
-  if (resData?.data?._rawValue?.status == true) {
-    message.success({
-      content: "Chỉnh sửa thành công",
+  try {
+    // if (!user.value.phone) {
+    //   console.log("firstuserr");
+    //   message.error({
+    //     content: "Vui lòng nhập số điện thoại",
+    //   });
+    //   return;
+    // }
+    const resData = await authStore.updateProfile({
+      fullname: user.value.fullname,
+      email: user.value.email,
+      phone: user.value.phone,
+      gender: user.value.gender,
+      dob: user.value.dob,
+      job: user.value.job,
+      province_id: province_id.value,
+      district_id: district_id.value,
+      ward_id: ward_id.value,
+      street: address.value.street,
+      address_detail: formattedAddress.value,
     });
-    isShow.value = false;
-    data.value = resData?.data?._rawValue?.data;
-  } else {
-    resErrors.value = resData.error.value.data.errors;
-    message.error({
-      content: "Chỉnh sửa không thành công",
-    });
+    if (resData?.data?._rawValue?.status == true) {
+      message.success("Chỉnh sửa thành công");
+      isShow.value = false;
+      data.value = resData?.data?._rawValue?.data;
+    } else {
+      resErrors.value = resData.error.value.data.errors;
+      message.error("Chỉnh sửa thất bại");
+    }
+  } catch (error) {
+    message.error("Chỉnh sửa thất bại");
   }
 };
 
@@ -444,13 +461,10 @@ const filterOption = (input, option) => {
 };
 </script>
 <style scoped>
-:deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
+:deep(.ant-input) {
   resize: none;
 }
-:deep(
-    :where(.css-dev-only-do-not-override-1mvo6uw).ant-form-item
-      .ant-form-item-control-input-content
-  ) {
+:deep(.ant-form-item .ant-form-item-control-input-content) {
   color: black;
 }
 </style>

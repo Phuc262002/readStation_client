@@ -6,7 +6,7 @@
         <h2 class="text-sm font-bold">Tài khoản</h2>
       </div>
       <div
-        class="flex-col space-y-2 p-4 bg-white shadow-md shadow-gray-300 rounded-md"
+        class="flex-col space-y-2 p-4 bg-white shadow-md shadow-gray-300 rounded-lg"
       >
         <div class="flex items-center justify-between border-b pb-2">
           <span class="font-semibold">Loại tài khoản</span>
@@ -44,16 +44,13 @@
         <UIcon name="i-ph-users-bold" class="text-base" />
         <h2 class="text-sm font-bold">Kết nối tài khoản</h2>
       </div>
-      <div class="bg-white rounded-md shadow-md shadow-gray-300 p-4">
+      <div class="bg-white rounded-lg shadow-md shadow-gray-300 p-4">
         <div class="flex items-center justify-between">
           <img
             src="../../../assets/images/icon-gg.png"
             class="w-[90px] h-[30px]"
             alt=""
           />
-          <div>
-            <a-switch :checked="state.mode === 'light'" @change="changeMode" />
-          </div>
         </div>
         <div class="pt-4">
           <h2 class="font-semibold text-base">

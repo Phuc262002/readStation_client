@@ -7,7 +7,14 @@
         <h5 class="text-xl text-[#1e293b] font-bold">Tạo người dùng</h5>
       </div>
     </div>
-
+    <div class="mb-4 space-y-1" v-if="errors">
+      <a-alert
+        v-for="(error, index) in errors"
+        :message="error"
+        type="error"
+        show-icon
+      />
+    </div>
     <!-- Đây là phần code mẫu body -->
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
       <form @submit.prevent="handleSubmit">
@@ -339,7 +346,7 @@
               </div>
             </div>
           </div>
-          <div class="flex gap-2">
+          <div class="flex justify-end gap-2">
             <a-button type="default">Hủy</a-button>
             <a-button
               :loading="userStore.isSubmitting"
@@ -357,6 +364,7 @@
 import { ref } from "vue";
 import { message, Upload } from "ant-design-vue";
 const fileList = ref([]);
+const errors = ref({});
 
 const role_id = ref(1);
 const gender = ref("male");
@@ -480,94 +488,102 @@ useAsyncData(
 );
 
 const handleSubmit = async () => {
-  try {
+  errors.value = {};
+  if (
+    user.value.citizen_name ||
+    user.value.citizen_code ||
+    user.value.date_of_issue ||
+    user.value.place_of_issue
+  ) {
     if (
-      user.value.citizen_name ||
-      user.value.citizen_code ||
-      user.value.date_of_issue ||
+      user.value.citizen_name === "" ||
+      user.value.citizen_code === "" ||
+      user.value.date_of_issue === "" ||
+      user.value.place_of_issue === ""
+    ) {
+      message.error("Vui lòng nhập đầy đủ thông tin CMT/ CCCD");
+      return false;
+    }
+  }
+  if (
+    user.value.student_name ||
+    user.value.student_code ||
+    user.value.student_card_expired ||
+    user.value.place_of_study
+  ) {
+    if (
+      user.value.student_name === "" ||
+      user.value.student_code === "" ||
+      user.value.student_card_expired === "" ||
+      user.value.place_of_study === ""
+    ) {
+      message.error("Vui lòng nhập đầy đủ thông tin sinh viên");
+      return false;
+    }
+  }
+
+  const userData = {
+    role_id: role_id.value,
+    avatar: imageInfo.value ? imageInfo.value.url : null,
+    fullname: user.value.fullname,
+    job: user.value.job ? user.value.job : null,
+    gender: gender.value ? gender.value : null,
+    dob: user.value.dob ? user.value.dob : null,
+    email: user.value.email,
+    citizen_identity_card:
+      user.value.citizen_name &&
+      user.value.citizen_code &&
+      user.value.date_of_issue &&
       user.value.place_of_issue
-    ) {
-      if (
-        user.value.citizen_name === "" ||
-        user.value.citizen_code === "" ||
-        user.value.date_of_issue === "" ||
-        user.value.place_of_issue === ""
-      ) {
-        message.error("Vui lòng nhập đầy đủ thông tin CMT/ CCCD");
-        return false;
-      }
-    }
-    if (
-      user.value.student_name ||
-      user.value.student_code ||
-      user.value.student_card_expired ||
+        ? {
+            citizen_name: user.value.citizen_name,
+            citizen_code: user.value.citizen_code,
+            date_of_issue: user.value.date_of_issue,
+            place_of_issue: user.value.place_of_issue,
+          }
+        : null,
+    student_id_card:
+      user.value.student_name &&
+      user.value.student_code &&
+      user.value.student_card_expired &&
       user.value.place_of_study
-    ) {
-      if (
-        user.value.student_name === "" ||
-        user.value.student_code === "" ||
-        user.value.student_card_expired === "" ||
-        user.value.place_of_study === ""
-      ) {
-        message.error("Vui lòng nhập đầy đủ thông tin sinh viên");
-        return false;
-      }
+        ? {
+            student_name: user.value.student_name,
+            student_code: user.value.student_code,
+            student_card_expired: user.value.student_card_expired,
+            place_of_study: user.value.place_of_study,
+          }
+        : null,
+    street: address.value.street ? address.value.street : null,
+    province_id: province_id.value ? province_id.value : null,
+    district_id: district_id.value ? district_id.value : null,
+    ward_id: ward_id.value ? ward_id.value : null,
+    address_detail:
+      address.value.street &&
+      address.value.province &&
+      address.value.district &&
+      address.value.ward
+        ? `${address.value.street}, ${address.value.ward}, ${address.value.district}, ${address.value.province}`
+        : null,
+    phone: user.value.phone,
+  };
+
+  Object.entries(userData).forEach(([key, value]) => {
+    if (value === null) {
+      delete userData[key];
     }
+  });
 
-    const userData = {
-      role_id: role_id.value,
-      avatar: imageInfo.value ? imageInfo.value.url : null,
-      fullname: user.value.fullname,
-      job: user.value.job ? user.value.job : null,
-      gender: gender.value ? gender.value : null,
-      dob: user.value.dob ? user.value.dob : null,
-      email: user.value.email,
-      citizen_identity_card:
-        user.value.citizen_name &&
-        user.value.citizen_code &&
-        user.value.date_of_issue &&
-        user.value.place_of_issue
-          ? {
-              citizen_name: user.value.citizen_name,
-              citizen_code: user.value.citizen_code,
-              date_of_issue: user.value.date_of_issue,
-              place_of_issue: user.value.place_of_issue,
-            }
-          : null,
-      student_id_card:
-        user.value.student_name &&
-        user.value.student_code &&
-        user.value.student_card_expired &&
-        user.value.place_of_study
-          ? {
-              student_name: user.value.student_name,
-              student_code: user.value.student_code,
-              student_card_expired: user.value.student_card_expired,
-              place_of_study: user.value.place_of_study,
-            }
-          : null,
-      street: address.value.street ? address.value.street : null,
-      province_id: province_id.value ? province_id.value : null,
-      district_id: district_id.value ? district_id.value : null,
-      ward_id: ward_id.value ? ward_id.value : null,
-      address_detail:
-        address.value.street &&
-        address.value.province &&
-        address.value.district &&
-        address.value.ward
-          ? `${address.value.street}, ${address.value.ward}, ${address.value.district}, ${address.value.province}`
-          : null,
-      phone: user.value.phone,
-    };
+  try {
+    const res = await userStore.createUser(userData);
 
-    Object.entries(userData).forEach(([key, value]) => {
-      if (value === null) {
-        delete userData[key];
-      }
-    });
-
-    await userStore.createUser(userData);
-    message.success("Tạo người dùng thành công");
+    if (res.data._rawValue?.status == true) {
+      message.success("Tạo người dùng thành công");
+      navigateTo("/admin/user");
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
   } catch (error) {
     message.error("Tạo người dùng thất bại");
   }

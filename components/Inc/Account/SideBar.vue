@@ -11,15 +11,11 @@
         />
         <button
           class="border-none absolute bottom-0 left-[calc(50%+25px)] -translate-x-1/2 w-6 h-6 bg-white rounded-full flex items-center justify-center"
-          @click="showModalEdit"
+          @click="showModal"
         >
           <CommonAddImg />
         </button>
       </div>
-      <AvatarEdit
-        :openModalEdit="openModalEdit"
-        :closeModalEdit="closeModalEdit"
-      />
 
       <div class="mt-[17px] mb-[23px]">
         <h2 class="font-bold px-5">
@@ -118,11 +114,14 @@
       <a-sub-menu key="sub4">
         <template #title>
           <span class="flex items-center gap-2">
-            <UIcon name="i-tabler-credit-card-pay" class="text-base" />
+            <Icon
+              icon="material-symbols:verified-user-outline"
+              class="text-xl"
+            />
             <span class="font-bold">Xác thực tài khoản</span>
           </span>
         </template>
-        <a-menu-item key="8">
+        <a-menu-item key="10">
           <NuxtLink
             to="/account/verify/verify-account"
             class="flex items-center gap-2 font-semibold"
@@ -131,24 +130,24 @@
           </NuxtLink>
         </a-menu-item>
 
-        <a-menu-item key="9">
+        <a-menu-item key="11">
           <NuxtLink
             to="/account/verify/verify-student"
             class="flex items-center gap-2 font-semibold"
           >
-            Xác thực sinh viên
+            Xác thực HS/SV
           </NuxtLink>
         </a-menu-item>
       </a-sub-menu>
 
-      <a-menu-item key="11">
+      <a-menu-item key="12">
         <NuxtLink to="/account/order" class="flex items-center gap-2">
           <Icon icon="solar:box-minimalistic-outline" class="text-xl" />
           <span class="font-bold">Quản lý đơn hàng</span>
         </NuxtLink>
       </a-menu-item>
 
-      <a-menu-item key="12">
+      <a-menu-item key="13">
         <NuxtLink
           to="/account/manager/change-password"
           class="flex items-center gap-2"
@@ -158,7 +157,7 @@
         </NuxtLink>
       </a-menu-item>
 
-      <a-menu-item key="13" @click="logout">
+      <a-menu-item key="14" @click="logout">
         <NuxtLink to="/" class="flex items-center gap-2">
           <Icon icon="humbleicons:logout" class="text-xl" />
           <span class="font-bold">Đăng xuất</span>
@@ -166,6 +165,7 @@
       </a-menu-item>
     </a-menu>
   </a-layout-sider>
+  <ChangeAvatar :openModal="openModal" :closeModal="closeModal" />
 </template>
 <script setup lang="ts">
 import { useForm } from "vee-validate";
@@ -175,7 +175,7 @@ const props = defineProps<{
 }>();
 const selectedKeys = ref<string[]>(["sub1"]);
 const changeAvatarRef = ref(null);
-const openModalEdit = ref<boolean>(false);
+const openModal = ref<boolean>(false);
 
 //get API
 const data = ref(null);
@@ -184,10 +184,10 @@ const logout = async () => {
   await authStore.logout();
 };
 
-const showModalEdit = () => {
-  openModalEdit.value = true;
+const showModal = () => {
+  openModal.value = true;
 };
-const closeModalEdit = () => {
-  openModalEdit.value = false;
+const closeModal = () => {
+  openModal.value = false;
 };
 </script>

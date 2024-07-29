@@ -128,7 +128,7 @@
             </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <a-tooltip placement="top">
                 <template #title>
                   <span>Sửa</span>
@@ -147,7 +147,6 @@
                 <button
                   @click="showDeleteConfirm(record?.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                  
                 >
                   <Icon icon="hugeicons:delete-01" class="text-lg" />
                 </button>
@@ -205,8 +204,18 @@ useAsyncData(
 );
 
 const onDelete = async (id) => {
-  await publishingCompanyStore.deletePublishingCompany(id);
-  await publishingCompanyStore.getAllPublishingCompany({});
+  try {
+    const res = await publishingCompanyStore.deletePublishingCompany(id);
+    if (res.data._rawValue?.status == true) {
+      message.success(res.data._rawValue?.message);
+      await publishingCompanyStore.getAllPublishingCompany({});
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Xóa nhà xuất bản thất bại");
+  }
 };
 
 const showDeleteConfirm = (id) => {
@@ -249,7 +258,7 @@ const columns = [
     dataIndex: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     key: "action",
   },
 ];

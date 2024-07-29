@@ -8,12 +8,12 @@
     </div>
     <h2 class="text-sm font-bold pb-5">Bài viết của bạn</h2>
     <div class="bg-white rounded-lg shadow-md shadow-gray-300 p-5">
-      <div class="relative w-1/4 md:block hidden">
+      <div class="relative w-2/4 md:block hidden">
         <a-input
-          v-model:value="value"
+          v-model:value="searchValue"
           placeholder="Nhập tên bài viết để tìm kiếm"
           enter-button
-          class="h-10"
+          class="h-10 w-[385px]"
           @search="onSearch"
         >
           <template #prefix>
@@ -157,7 +157,7 @@
             </span>
           </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <span>
                 <a-tooltip placement="top">
                   <template #title>
@@ -244,7 +244,8 @@ const postGeneralStore = useGeneralPostStore();
 const current = ref(1);
 const openModal = ref(false);
 const postDetailId = ref<number>();
-const filter = ref(null);
+const filter = ref("client_post");
+const searchValue = ref("");
 // Modal
 const showModal = (id) => {
   openModal.value = true;
@@ -261,6 +262,7 @@ const getDataPost = async () => {
     await postStore.getAllPost({
       page: current.value,
       status: filter.value,
+      search: searchValue.value,
     });
   } catch (error) {
     console.error(error);
@@ -272,7 +274,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current, filter],
+    watch: [current, filter, searchValue],
   }
 );
 
@@ -341,15 +343,3 @@ const columns = [
   },
 ];
 </script>
-<style scoped>
-:deep(
-    :where(.css-dev-only-do-not-override-1mvo6uw).ant-input-search
-      > .ant-input-group
-      > .ant-input-group-addon:last-child
-      .ant-input-search-button
-  ) {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-</style>

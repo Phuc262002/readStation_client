@@ -4,7 +4,6 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả kệ sách đã xóa</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
 
@@ -38,7 +37,7 @@
             </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <a-tooltip placement="top" color="black ">
                 <template #title>
                   <span>Khôi phục</span>
@@ -59,9 +58,14 @@
 import { Icon } from "@iconify/vue";
 const bookShelves = useShelvesStore()
 useAsyncData(async () => {
-  await bookShelves.getAllShelves({
+  try {
+    await bookShelves.getAllShelves({
     status: "deleted"
   })
+  } catch (error) {
+    console.error(error)
+  }
+
 })
 const showRecoverConfirm = (id) => {
   Modal.confirm({
@@ -120,7 +124,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     key: "action",
   },
 ];

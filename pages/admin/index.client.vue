@@ -116,7 +116,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-03">
-              <p class="font-semibold text-base">Khách hàng đã kích hoạt</p>
+              <p class="font-semibold text-base">Khách hàng đã xác thực</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="isLoading"
@@ -126,7 +126,7 @@
                 <span v-else>
                   {{
                     new Intl.NumberFormat().format(
-                      dashboardStore?.dashboardAdmin?.userActiveWallet
+                      dashboardStore?.dashboardAdmin?.userVerified
                     )
                   }}
                 </span>
@@ -309,9 +309,9 @@
               </a-input>
             </div>
           </div>
-          <div>
+          <!-- <div>
             <a-button type="primary" size="large">Thêm đơn hàng</a-button>
-          </div>
+          </div> -->
         </div>
 
         <div class="flex gap-4 text-white">
@@ -473,7 +473,7 @@
                 </div>
               </template>
               <template v-else-if="column.key === 'action'">
-                <div class="flex text-[16px] gap-4">
+                <div class="flex text-[16px] gap-2">
                   <NuxtLink :to="`/admin/product-manager/${record.id}`">
                     <a-tooltip placement="top">
                       <template #title>
@@ -524,7 +524,7 @@
             </div>
             <h1 class="text-[#7b7b7b] font-semibold">Chưa có dữ liệu</h1>
           </div>
-          <NuxtLink to="/admin/book">
+          <NuxtLink class="hover:text-[black]" to="/admin/book">
             <DashboardBook
               v-for="book in dashboardStore.dashboardBook"
               :key="book.id"
@@ -549,7 +549,7 @@
             </div>
             <h1 class="text-[#7b7b7b] font-semibold">Chưa có dữ liệu</h1>
           </div>
-          <NuxtLink to="/admin/manager-bill">
+          <NuxtLink class="hover:text-[black]" to="/admin/manager-bill">
             <DashboardBill
               v-for="bill in dashboardStore.dashboardInvoice"
               :key="bill.id"
@@ -598,18 +598,19 @@ const dashboardStore = useDashboardStore();
 const orderStore = useOrderStore();
 const transactionAdminStore = useTransactionAdminStore();
 const isLoading = ref(false);
+const loading = ref(false);
 const filter = ref("");
 const valueSearch = ref("");
 const current = ref(1);
 useAsyncData(
   async () => {
-    isLoading.value = true;
+    loading.value = true;
     await orderStore.getAllOrder({
       current: current.value,
       status: filter.value,
       search: valueSearch.value,
     });
-    isLoading.value = false;
+    loading.value = false;
   },
   {
     immediate: true,
@@ -617,7 +618,9 @@ useAsyncData(
   }
 );
 useAsyncData(async () => {
+  isLoading.value = true;
   await dashboardStore.getAllDashboard();
+  isLoading.value = false;
 });
 
 useAsyncData(async () => {
@@ -649,12 +652,7 @@ const columns = [
     dataIndex: "user",
     key: "user",
   },
-  {
-    title: "Nơi nhận hàng",
-    dataIndex: "address",
-    key: "address",
-    width: 200,
-  },
+
   {
     title: "Ngày thuê",
     dataIndex: "receipt_date",
@@ -677,7 +675,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     key: "action",
   },
 ];

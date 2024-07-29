@@ -33,11 +33,23 @@
         <div class="bg-white w-[500px] p-4 rounded-lg border border-rtgray-50">
           <div class="space-y-2">
             <div class="flex justify-between">
-              <p class="text-[#84878b] font-semibold">Mã đơn hàng</p>
+              <p class="text-[#84878b] font-semibold">Mã giao dịch</p>
               <p class="font-bold">{{ query.orderCode }}</p>
             </div>
             <a-divider />
-            <div class="flex justify-between">
+            <div v-if="query.status === 'SUCCESS'" class="flex justify-between">
+              <p class="text-[#84878b] font-semibold">Số tiền</p>
+              <p class="font-bold text-[green]">
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(query.amount)
+                }}
+              </p>
+            </div>
+
+            <div v-else class="flex justify-between">
               <p class="text-[#84878b] font-semibold">Số tiền</p>
               <p class="font-bold text-[red]">
                 {{
@@ -99,11 +111,25 @@
         <div class="bg-white w-[500px] p-4 rounded-lg border border-rtgray-50">
           <div class="space-y-2">
             <div class="flex justify-between">
-              <p class="text-[#84878b] font-semibold">Mã đơn hàng</p>
+              <p class="text-[#84878b] font-semibold">Mã giao dịch</p>
               <p class="font-bold">{{ query.vnp_TxnRef }}</p>
             </div>
             <a-divider />
-            <div class="flex justify-between">
+            <div
+              v-if="query.vnp_TransactionStatus === '00'"
+              class="flex justify-between"
+            >
+              <p class="text-[#84878b] font-semibold">Số tiền</p>
+              <p class="font-bold text-[green]">
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(query.vnp_Amount / 100)
+                }}
+              </p>
+            </div>
+            <div v-else class="flex justify-between">
               <p class="text-[#84878b] font-semibold">Số tiền</p>
               <p class="font-bold text-[red]">
                 {{
@@ -140,41 +166,23 @@ const route = useRoute();
 const orderStore = useOrderClientStore();
 const query = route.query;
 onMounted(async () => {
-  console.log("🚀 ~ onMounted ~ query:", query);
+  const query = route.query;
   if (query && query.portal === "payos") {
-    await orderStore.getOrderById({
+    await orderStore.updateOrderPayment({
+      id: query.orderCode,
       body: {
-        id: query.orderCode,
         body: query,
+        status: query.status === 'SUCCESS' ? 'success' : 'canceled',
       },
     });
   } else {
-    await orderStore.getOrderById({
+    await orderStore.updateOrderPayment({
       id: query.vnp_TxnRef,
       body: {
         body: query,
+        status: query.vnp_TransactionStatus === '00' ? 'success' : 'canceled',
       },
     });
   }
 });
-
-const submit = async () => {
-  const query = route.query;
-  console.log("🚀 ~ submit ~ query:", query);
-  if (query && query.portal === "payos") {
-    await orderStore.cancelOrderPayment({
-      id: query.orderCode,
-      body: {
-        body: query,
-      },
-    });
-  } else {
-    await orderStore.cancelOrderPayment({
-      id: query.vnp_TxnRef,
-      body: {
-        body: query,
-      },
-    });
-  }
-};
 </script>

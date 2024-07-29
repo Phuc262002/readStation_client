@@ -29,7 +29,7 @@
               <p class="font-bold text-base">Tất cả</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="userStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -59,7 +59,7 @@
               <p class="font-bold text-base">Quản trị viên</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="userStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -90,7 +90,7 @@
               <p class="font-bold text-base">Khách hàng</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="userStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -120,7 +120,7 @@
               <p class="font-bold text-base">HS/SV</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
-                  v-if="userStore.isLoading"
+                  v-if="isLoading"
                   icon="svg-spinners:3-dots-scale"
                   class="text-3xl"
                 />
@@ -202,8 +202,8 @@
                   @click="roleValue({ value: role?.id, label: role?.name })"
                 >
                   <span v-if="role.name === 'user'"> Khách hàng</span>
+                  <span v-if="role.name === 'student'">Sinh viên</span>
                   <span v-if="role.name === 'admin'"> Quản trị</span>
-                  <span v-if="role.name === 'manager'"> Thủ thư</span>
                 </a-menu-item>
               </a-menu>
             </template>
@@ -322,7 +322,7 @@
             </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <a-tooltip placement="top" color="black">
                 <template #title>
                   <span>Xem chi tiết</span>
@@ -436,7 +436,7 @@ const openModalConfirm = ref(false);
 const userDetailId = ref();
 const userDashboard = ref();
 const openModalDetail = ref(false);
-
+const isLoading = ref(false);
 const status = ref("");
 const queryrole = ref({
   value: "",
@@ -485,9 +485,11 @@ useAsyncData(
   }
 );
 useAsyncData(async () => {
+  isLoading.value = true;
   await userStore.getDashboardUser({
     page: current.value,
   });
+  isLoading.value = false;
 });
 
 useAsyncData(
@@ -504,9 +506,10 @@ useAsyncData(
 );
 const showDeleteConfirm = (id) => {
   Modal.confirm({
-    title: "Bạn có chắn muốn khôi phục người dùng này không?",
+    title:
+      "Bạn có chắn muốn khôi phục trạng thái hoạt động cho người dùng này không?",
 
-    okText: "Khôi phục",
+    okText: "Hoạt động",
     okType: "danger",
     cancelText: "Hủy",
     onOk() {
@@ -518,13 +521,23 @@ const showDeleteConfirm = (id) => {
   });
 };
 const onActiveConfirm = async (id) => {
-  userStore.updateUser({
-    id: id,
-    user: {
-      status: "active",
-    },
-  });
-  await userStore.getUser({});
+  try {
+    const res = await userStore.updateUser({
+      id: id,
+      user: {
+        status: "active",
+      },
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Khôi phục trạng thái người dùng thành công");
+      await userStore.getUser({});
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Khôi phục trạng thái người dùng thất bại");
+  }
 };
 const showBannedConfirm = (id) => {
   openModalConfirm.value = true;
@@ -580,7 +593,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Hành động",
+    title: "Thao tác",
     dataIndex: "action",
     key: "action",
   },

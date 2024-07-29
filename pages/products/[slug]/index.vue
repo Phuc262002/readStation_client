@@ -17,48 +17,103 @@
         <AccountProductPayment :book="bookStore.book" />
       </div>
     </div>
-    <h2 class="font-bold text-xl mt-5">Có thể bạn sẽ thích</h2>
-    <div class="flex mt-5 gap-5">
+    <div
+      class="space-y-5 mt-5 bg-white h-auto border border-rtgray-50 overflow-hidden rounded-lg p-5"
+    >
+      <h2 class="font-bold text-xl">Đánh giá</h2>
+      <div>
+        <p class="mb-3">Lọc theo</p>
+        <div class="flex gap-4">
+          <a-button class="rounded-xl">Mới nhất</a-button>
+          <a-button class="rounded-xl">Cũ nhất</a-button>
+          <a-button
+            :class="[
+              'rounded-xl',
+              rating === '5' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckStatus('5')"
+          >
+            5 sao
+          </a-button>
+          <a-button class="rounded-xl" @click="handleCheckStatus(4)">
+            4 sao
+          </a-button>
+          <a-button class="rounded-xl" @click="handleCheckStatus(3)">
+            3 sao
+          </a-button>
+          <a-button class="rounded-xl" @click="handleCheckStatus(2)">
+            2 sao
+          </a-button>
+          <a-button class="rounded-xl" @click="handleCheckStatus(1)">
+            1 sao
+          </a-button>
+        </div>
+      </div>
       <div
-        class="mt-10"
-        v-for="(book, index) in limitBook"
-        :key="book.id || index"
-        :book="book"
+        class="space-y-5"
+        v-for="(review, index) in detailReview?.reviews?.bookReviews"
       >
-        <NuxtLink :to="`/products/${book?.book?.slug}`" class="flex">
-          <div class="flex flex-col gap-5 p-3 border rounded-lg">
-            <div class="mx-auto">
-              <img
-                class="rounded-lg w-[180px] h-[284px]"
-                :src="book?.poster"
-                alt=""
-              />
-            </div>
-
-            <div class="flex flex-col gap-3">
-              <div class="text-xl font-bold hover:text-[#f65d4e] line-clamp">
-                {{ book?.book?.title }}
-              </div>
-              <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
-                {{ book?.book_version }}
-              </div>
-              <div class="flex justify-start">
-                <CommonRating :rating="book?.average_rate" />
-              </div>
-              <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
-                {{ book?.book?.author?.author }}
-              </div>
-              <div class="text-orange-600 font-extrabold text-xl">
-                {{
-                  new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(book?.price)
-                }}
-              </div>
-            </div>
+        <div class="flex gap-5 pb-5 border-b border-rtgray-50">
+          <div class="">
+            <img :src="review?.user?.avatar" class="w-20 rounded-full" alt="" />
           </div>
-        </NuxtLink>
+          <div class="space-y-1">
+            <p>{{ review?.user?.fullname }}</p>
+            <p>
+              <CommonRating :rating="review?.rating" />
+            </p>
+            <p>
+              {{ review?.review_text }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2 class="font-bold text-xl my-5">Có thể bạn sẽ thích</h2>
+      <div class="grid grid-cols-5 gap-5">
+        <div
+          class="mt-10 w-full"
+          v-for="(book, index) in limitBook"
+          :key="book.id || index"
+        >
+          <NuxtLink :to="`/products/${book?.book?.slug}-${book?.id}`">
+            <div class="flex flex-col gap-5 p-3 border rounded-lg">
+              <div class="mx-auto">
+                <img
+                  class="rounded-lg w-[180px] h-[284px]"
+                  :src="book?.poster"
+                  alt=""
+                />
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <div
+                  class="text-xl font-bold hover:text-[#f65d4e] line-clamp-1"
+                >
+                  {{ book?.book?.title }}
+                </div>
+                <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
+                  {{ book?.book_version }}
+                </div>
+                <div class="flex justify-start">
+                  <CommonRating :rating="book?.average_rate" />
+                </div>
+                <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
+                  {{ book?.book?.author?.author }}
+                </div>
+                <div class="text-orange-600 font-extrabold text-xl">
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(book?.price)
+                  }}
+                </div>
+              </div>
+            </div>
+          </NuxtLink>
+        </div>
       </div>
     </div>
   </div>
@@ -66,10 +121,39 @@
 
 <script setup lang="ts">
 const bookStore = useBookPublicStore();
+const detailReview = useBookDetailReviewStore();
 const route = useRoute();
 const slug = route.params.slug;
+const rating = ref("");
 
-const limitBook = computed(() => bookStore?.books?.books?.slice(0, 6));
+const current = ref(1);
+// Get All Book Review
+const getAllReview = async () => {
+  try {
+    await detailReview.getAllReviewBook({
+      book_details_id: bookStore?.book?.id,
+      rating: rating.value,
+      page: current.value,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+useAsyncData(
+  async () => {
+    await getAllReview();
+  },
+  {
+    immediate: true,
+    watch: [current, rating, () => bookStore?.book?.id],
+  }
+);
+// Handle Check Status review
+const handleCheckStatus = (rating) => {
+  rating.value = rating;
+  console.log(rating);
+};
+const limitBook = computed(() => bookStore?.books?.books?.slice(0, 5));
 
 useAsyncData(async () => {
   await bookStore.getAllBooks({});

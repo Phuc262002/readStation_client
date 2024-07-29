@@ -9,79 +9,80 @@
     <div class="flex justify-between h-auto gap-5">
       <!-- Left -->
       <div class="w-3/4 space-y-5">
-        <a-table
-          :columns="columns"
-          :data-source="cartStore?.carts"
-          :pagination="false"
-          class="bg-white h-auto shadow-lg rounded-lg"
-        >
-          <template #headerCell="{ column }">
-            <template v-if="column.key === 'name'">
-              <span> Sản phẩm </span>
+        <div class="bg-white h-auto shadow-md rounded-lg overflow-hidden p-5">
+          <a-table
+            :columns="columns"
+            :data-source="cartStore?.carts"
+            :pagination="false"
+          >
+            <template #headerCell="{ column }">
+              <template v-if="column.key === 'name'">
+                <span> Sản phẩm </span>
+              </template>
             </template>
-          </template>
 
-          <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'name'">
-              <div class="flex justify-start gap-5">
-                <div class="min-w-[100px] min-h-[100px]">
-                  <img
-                    class="w-24 rounded-md shadow-lg"
-                    :src="record?.poster"
-                    alt=""
-                  />
-                </div>
-                <div class="flex flex-col gap-2 font-normal space-y-3">
-                  <div class="text-base font-bold">
-                    {{ record?.book?.title }}
+            <template #bodyCell="{ column, record }">
+              <template v-if="column.key === 'name'">
+                <div class="flex justify-start gap-5">
+                  <div class="min-w-[100px] min-h-[100px]">
+                    <img
+                      class="w-24 rounded-md shadow-lg"
+                      :src="record?.poster"
+                      alt=""
+                    />
                   </div>
-                  <div class="text-[14px] space-y-3">
-                    <div class="grid grid-cols-12 gap-2">
-                      <span class="font-bold col-span-6"> Tác giả: </span>
-                      <span class="col-span-6">
-                        {{ record?.book?.author?.author }}
-                      </span>
+                  <div class="flex flex-col gap-2 font-normal space-y-3">
+                    <div class="text-base font-bold">
+                      {{ record?.book?.title }}
                     </div>
-                    <div class="grid grid-cols-12 gap-2">
-                      <span class="font-bold col-span-6"> Phiên bản: </span>
-                      <span class="col-span-6"> {{ record?.cardboard }}</span>
+                    <div class="text-[14px] space-y-3">
+                      <div class="grid grid-cols-12 gap-2">
+                        <span class="font-bold col-span-6"> Tác giả: </span>
+                        <span class="col-span-6">
+                          {{ record?.book?.author?.author }}
+                        </span>
+                      </div>
+                      <div class="grid grid-cols-12 gap-2">
+                        <span class="font-bold col-span-6"> Phiên bản: </span>
+                        <span class="col-span-6"> {{ record?.cardboard }}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </template>
+              <template v-else-if="column.key === 'price'">
+                <span>
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(record?.price)
+                  }}
+                </span>
+              </template>
+              <template v-else-if="column.key === 'serviceFee'">
+                <span>
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(record?.price * 0.2)
+                  }}
+                </span>
+              </template>
+              <template v-else-if="column.key === 'totalFee'">
+                <span>
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(record?.price * 0.2 + record?.price)
+                  }}
+                </span>
+              </template>
             </template>
-            <template v-else-if="column.key === 'price'">
-              <span>
-                {{
-                  new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(record?.price)
-                }}
-              </span>
-            </template>
-            <template v-else-if="column.key === 'serviceFee'">
-              <span>
-                {{
-                  new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(record?.price * 0.2)
-                }}
-              </span>
-            </template>
-            <template v-else-if="column.key === 'totalFee'">
-              <span>
-                {{
-                  new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(record?.price * 0.2 + record?.price)
-                }}
-              </span>
-            </template>
-          </template>
-        </a-table>
+          </a-table>
+        </div>
         <div class="">
           <div class="bg-white h-auto p-5 shadow-md rounded-lg">
             <div class="w-full flex flex-col pb-5 font-medium">
@@ -308,19 +309,6 @@
                   Thanh toán
                 </a-button>
               </div>
-              <div class="flex justify-center">
-                <Nuxt-link to="/products">
-                  <button
-                    class="flex justify-center text-sm items-center gap-2 hover:text-rtsecondary"
-                  >
-                    <UIcon
-                      class="text-xl"
-                      name="i-material-symbols-turn-left-rounded"
-                    />
-                    <h1>Tiếp tục thuê sách</h1>
-                  </button>
-                </Nuxt-link>
-              </div>
             </div>
           </div>
         </div>
@@ -419,64 +407,71 @@ watch(
 );
 
 const payCart = async () => {
-  const newInfo = {
-    fullname: authStore?.authUser?.user?.fullname,
-    phone: authStore?.authUser?.user?.phone,
-    address: authStore?.authUser?.user?.address_detail,
-  };
-  const newArr = cartStore.carts.map((item) => {
-    return {
-      book_details_id: item.id,
-      service_fee: parseFloat(item.price) * 0.2,
-      deposit_fee: parseFloat(item.price),
+  try {
+    const newInfo = {
+      fullname: authStore?.authUser?.user?.fullname,
+      phone: authStore?.authUser?.user?.phone,
+      address: authStore?.authUser?.user?.address_detail,
     };
-  });
-  const paymentPortal = payment_method.value === "online" ? "payos" : null;
+    // if (!newInfo.phone || !newInfo.address) {
+    //   message.error({
+    //     content: "Vui lòng điền đầy đủ thông tin giao hàng!",
+    //   });
+    //   return;
+    // }
+    const newArr = cartStore.carts.map((item) => {
+      return {
+        book_details_id: item.id,
+        service_fee: parseFloat(item.price) * 0.2,
+        deposit_fee: parseFloat(item.price),
+      };
+    });
+    const paymentPortal = payment_method.value === "online" ? "payos" : null;
 
-  const resData = await orderStore.createOrder({
-    payment_method: payment_method.value,
-    delivery_method: delivery_method.value,
-    payment_portal: paymentPortal,
-    user_note: userNote.value,
-    discount: authStore?.authUser?.user?.discount,
-    shipping_method_id: shipping_method_id.value,
-    total_shipping_fee: parseFloat(shippingFee.value),
-    total_service_fee: parseFloat(serviceFee.value),
-    total_deposit_fee: parseFloat(depositFee.value),
-    total_all_fee: parseFloat(totalFee.value),
-    order_details: newArr,
-    delivery_info: newInfo,
-  });
-  // console.log("resData", resData);
-  if (
-    resData?.data?._rawValue?.status == true &&
-    payment_method.value === "cash"
-  ) {
-    message.success({
-      content: "Đặt hàng thành công",
+    const resData = await orderStore.createOrder({
+      payment_method: payment_method.value,
+      delivery_method: delivery_method.value,
+      payment_portal: paymentPortal,
+      user_note: userNote.value,
+      discount: authStore?.authUser?.user?.discount,
+      shipping_method_id: shipping_method_id.value,
+      total_shipping_fee: parseFloat(shippingFee.value),
+      total_service_fee: parseFloat(serviceFee.value),
+      total_deposit_fee: parseFloat(depositFee.value),
+      total_all_fee: parseFloat(totalFee.value),
+      order_details: newArr,
+      delivery_info: newInfo,
     });
-    cartStore.carts = [];
-    navigateTo("/account/order");
-  } else if (
-    resData?.data?._rawValue?.status == true &&
-    payment_method.value === "online"
-  ) {
-    message.success({
-      content: "Đặt hàng thành công",
-    });
-    cartStore.carts = [];
-    navigateTo(
-      "/account/order/checkout/payment/" +
-        resData?.data?._rawValue?.data.order_code
-    );
-    // console.log("first", resData?.data?._rawValue?.data.order_code);
-  } else if (resData?.data?._rawValue?.status == false) {
-    message.error(resData?.data?._rawValue?.errors);
-  } else {
-    resErrors.value = resData.error.value.data.errors;
-    message.error({
-      content: "Đặt hàng không thành công",
-    });
+    // console.log("resData", resData);
+    if (
+      resData?.data?._rawValue?.status == true &&
+      payment_method.value === "cash"
+    ) {
+      message.success({
+        content: "Đặt hàng thành công",
+      });
+      cartStore.carts = [];
+      navigateTo("/account/order");
+    } else if (
+      resData?.data?._rawValue?.status === true &&
+      payment_method.value === "online"
+    ) {
+      message.success({
+        content: "Đặt hàng thành công",
+      });
+      cartStore.carts = [];
+      navigateTo(
+        "/account/order/checkout/payment/" +
+          resData?.data?._rawValue?.data.order_code
+      );
+    } else {
+      resErrors.value = resData.error.value.data.errors;
+      message.error({
+        content: "Đặt hàng thất bại",
+      });
+    }
+  } catch (error) {
+    message.error("Đặt hàng thất bại");
   }
 };
 
@@ -528,23 +523,18 @@ const columns = ref([
 ]);
 </script>
 <style scoped>
-::deep(img, svg, video, canvas, audio, iframe, embed, object) {
+:deep(img, svg, video, canvas, audio, iframe, embed, object) {
   outline: initial;
 }
-::v-deep(textarea:where(.css-dev-only-do-not-override-1mvo6uw).ant-input) {
+
+:deep(.ant-radio-button-wrapper) {
+  border-inline-start-width: 1px;
+}
+:deep(.ant-input) {
   resize: none;
 }
-::v-deep(
-    :where(.css-dev-only-do-not-override-1mvo6uw).ant-radio-button-wrapper:not(
-        :first-child
-      )::before
-  ) {
+
+:deep(.ant-radio-button-wrapper:not(:first-child)::before) {
   background-color: initial;
-  /* border: 1px solid #d9d9d9; */
-}
-::v-deep(
-    :where(.css-dev-only-do-not-override-1mvo6uw).ant-radio-button-wrapper
-  ) {
-  border-inline-start-width: 1px;
 }
 </style>

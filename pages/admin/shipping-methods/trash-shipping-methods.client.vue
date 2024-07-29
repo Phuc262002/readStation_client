@@ -4,9 +4,10 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả phương thức vận chuyển đã xóa</h5>
+        <h5 class="text-xl text-[#1e293b] font-bold">
+          Tất cả phương thức vận chuyển đã xóa
+        </h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
@@ -68,8 +69,7 @@
           </template>
 
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
-              
+            <div class="flex text-[16px] gap-2">
               <a-tooltip placement="top" color="black ">
                 <template #title>
                   <span>Khôi phục</span>
@@ -78,9 +78,9 @@
                   @click="showRecoverConfirm(record.id)"
                   class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
-                  <UIcon
+                  <Icon
+                    icon="ic:round-settings-backup-restore"
                     class="text-lg"
-                    name="i-material-symbols-autorenew-rounded"
                   />
                 </button>
               </a-tooltip>
@@ -99,37 +99,46 @@
     </div>
   </div>
 </template>
-<script  setup>
+<script setup>
+import { Icon } from "@iconify/vue";
 import { Modal } from "ant-design-vue";
-const openModalAdd = ref(false);
-const openModalEdit = ref(false);
-const shippingMethodId = ref();
+
 const current = ref(1);
 
 const shippingMethodStore = useShippingMethodsStore();
 useAsyncData(async () => {
   shippingMethodStore.getAllShippingMethods({
     status: "deleted",
-
   });
 });
 const onRecover = async (id) => {
-  await shippingMethodStore.deleteShippingMethod({
-    id: id,
-    shippingMethod: {
-      status: "active",
-    },
-  });
-  await shippingMethodStore.getAllShippingMethods({
-    status: "deleted",
-    page: current.value,
-  });
+  try {
+    const res = await shippingMethodStore.updateShippingMethod({
+      id: id,
+      shippingMethod: {
+        status: "active",
+      },
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Khôi phục phương thức vận chuyển thành công");
+      await shippingMethodStore.getAllShippingMethods({
+        status: "deleted",
+        page: current.value,
+      });
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Khôi phục phương thức vận chuyển thất bại");
+  }
 };
 
 const showRecoverConfirm = (id) => {
   Modal.confirm({
     title: "Bạn có chắc chắn muốn khôi phục?",
-    content: "Khi đã khôi phục, phương thức vận chuyển sẽ hiển thị trên trang tất cả phương thức vận chuyển.",
+    content:
+      "Khi đã khôi phục, phương thức vận chuyển sẽ hiển thị trên trang tất cả phương thức vận chuyển.",
     okText: "Khôi phục",
     okType: "danger",
     cancelText: "Hủy",
@@ -143,6 +152,11 @@ const showRecoverConfirm = (id) => {
 };
 const columns = [
   {
+    title: "Tên phương thức vận chuyển",
+    dataIndex: "method",
+    key: "method",
+  },
+  {
     title: "Logo",
     dataIndex: "logo",
     key: "logo",
@@ -152,11 +166,7 @@ const columns = [
     dataIndex: "location",
     key: "location",
   },
-  {
-    title: "Phương thức vận chuyển",
-    dataIndex: "method",
-    key: "method",
-  },
+
   {
     title: "Phí vận chuyển",
     dataIndex: "fee",
@@ -175,10 +185,9 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     dataIndex: "action",
     key: "action",
   },
 ];
-
 </script>

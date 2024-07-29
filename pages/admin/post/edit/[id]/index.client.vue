@@ -15,8 +15,18 @@
     </div>
     <div v-else class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <form @submit.prevent="updatePost">
+        <div class="mb-4 space-y-1" v-if="errors">
+          <a-alert
+            v-for="(error, index) in errors"
+            :message="error"
+            type="error"
+            show-icon
+          />
+        </div>
         <div class="flex flex-col gap-2 w-full pb-4">
-          <label class="text-sm font-semibold" for="">Thêm hình ảnh</label>
+          <label class="text-sm font-semibold" for=""
+            >Thêm hình ảnh <span class="text-red-500">*</span></label
+          >
           <ClientOnly>
             <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
               <a-upload-dragger
@@ -29,6 +39,7 @@
                 @drop="handleDrop"
                 :before-upload="beforeUpload"
                 :remove="(file) => deleteFile(file)"
+                required
               >
                 <p class="ant-upload-drag-icon">
                   <inbox-outlined></inbox-outlined>
@@ -40,19 +51,24 @@
           </ClientOnly>
         </div>
         <div class="flex flex-col gap-2 w-full pb-4">
-          <label class="text-sm font-semibold" for="">Tên bài viết</label>
+          <label class="text-sm font-semibold" for=""
+            >Tên bài viết <span class="text-red-500">*</span></label
+          >
           <a-input
             v-model:value="post.title"
             size="large"
             type="text"
             class="border rounded-md"
             placeholder="Tên bài viết"
+            required
           />
         </div>
 
         <div class="flex gap-5 pb-4">
           <div class="flex flex-col gap-2 w-1/3">
-            <label class="text-sm font-semibold" for="">Danh mục</label>
+            <label class="text-sm font-semibold" for=""
+              >Danh mục <span class="text-red-500">*</span></label
+            >
             <a-select
               size="large"
               v-model:value="post.category_id"
@@ -63,10 +79,13 @@
               @focus="handleFocus"
               @blur="handleBlur"
               @change="handleChange"
+              required
             ></a-select>
           </div>
           <div class="flex flex-col gap-2 w-1/3">
-            <label class="text-sm font-semibold" for="">Trạng thái</label>
+            <label class="text-sm font-semibold" for=""
+              >Trạng thái <span class="text-red-500">*</span></label
+            >
             <a-select
               size="large"
               v-model:value="post.status"
@@ -77,16 +96,20 @@
               @focus="handleFocus"
               @blur="handleBlur"
               @change="handleChange"
+              required
             ></a-select>
           </div>
         </div>
         <div class="flex flex-col gap-2 w-full pb-4">
-          <label class="text-sm font-semibold" for="">Nội dung ngắn</label>
+          <label class="text-sm font-semibold" for=""
+            >Nội dung ngắn <span class="text-red-500">*</span></label
+          >
           <a-textarea
             placeholder="Nhập nội dung ngắn"
             v-model:value="post.summary"
             :rows="6"
             allow-clear
+            required
           />
         </div>
         <div class="flex flex-col gap-2 f-full pb-4">
@@ -100,7 +123,7 @@
           />
         </div>
 
-        <div class="flex items-end gap-2 pt-4">
+        <div class="flex justify-end gap-2 pt-4">
           <a-button @click="handClose" danger> Hủy</a-button>
           <a-button
             type="primary"
@@ -118,6 +141,7 @@
 const route = useRoute();
 const postID = route.params.id;
 const categoryStore = useCategoryStore();
+const errors = ref({});
 const baseStore = useBaseStore();
 const postGeneralStore = useGeneralPostStore();
 const post = ref({
@@ -132,12 +156,12 @@ const { $ckeditor } = useNuxtApp();
 const editor = $ckeditor.classicEditor;
 const options = ref([]);
 const optionsStatus = ref([
-  { value: "wating_approve", label: "Chờ duyệt" },
+  // { value: "wating_approve", label: "Chờ duyệt" },
   { value: "approve_canceled", label: "Từ chối" },
   { value: "draft", label: "Nháp" },
   { value: "published", label: "Công khai" },
   { value: "hidden", label: "Ẩn" },
-  { value: "deleted", label: "Đã xóa" },
+  // { value: "deleted", label: "Đã xóa" },
 ]);
 
 const fileList = ref([]);
@@ -216,11 +240,16 @@ const updatePost = async () => {
       content: post.value.content,
       summary: post.value.summary,
     };
-    await postGeneralStore.updatePost({ id: postID, post: data });
-    message.success("Cập nhật thành công");
-    navigateTo("/admin/post");
+    const res = await postGeneralStore.updatePost({ id: postID, post: data });
+    if (res.data._rawValue?.status == true) {
+      message.success("Cập nhật bài viết thành công");
+      navigateTo("/admin/post");
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error("Cập nhật bài viết thất bại");
+    }
   } catch (error) {
-    message.error(error.message);
+    message.error("Cập nhật bài viết thất bại");
   }
 };
 

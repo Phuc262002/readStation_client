@@ -24,14 +24,14 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
-                <a-menu-item @click="statusValue({ value: '', label: 'Trạng thái' })">Tất cả</a-menu-item>
+                <a-menu-item @click="statusValue({ value: '', label: 'Trạng thái' })">Tất cả trạng thái</a-menu-item>
                 <a-menu-item @click="statusValue({ value: 'active', label: 'Hoạt động' })">Hoạt động</a-menu-item>
                 <a-menu-item @click="statusValue({ value: 'inactive', label: 'Không hoạt động' })">Không hoạt
                   động</a-menu-item>
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+              {{ queryStatus.label ? queryStatus.label : " Tất cả trạng thái" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -53,11 +53,6 @@
         </template>
 
         <template #bodyCell="{ column, record, index }">
-          <template v-if="column.key === '#'">
-            <a>
-              {{ index + 1 }}
-            </a>
-          </template>
           <template v-if="column.key === 'avatar'">
             <div class="flex justify-start gap-4 items-center">
               <a-avatar :src="record.avatar" :size="80" />
@@ -84,7 +79,7 @@
           </template>
 
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <NuxtLink :to="`author/edit/${record.id}`">
                 <a-tooltip placement="top">
                   <template #title>
@@ -150,8 +145,12 @@ useAsyncData(async () => {
 });
 
 const onDelete = async (id: string) => {
-  await AuthorStore.deleteAuthor(id);
-  getDataAuthor()
+  try {
+    await AuthorStore.deleteAuthor(id);
+    getDataAuthor()
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const showDeleteConfirm = (id: string) => {
@@ -169,11 +168,7 @@ const showDeleteConfirm = (id: string) => {
   });
 }
 const columns = [
-  {
-    title: "#",
-    dataIndex: "#",
-    key: "#",
-  },
+
   {
     title: "Tác giả",
     dataIndex: "avatar",
@@ -195,7 +190,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     dataIndex: "action",
     key: "action",
   },

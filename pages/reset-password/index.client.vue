@@ -12,17 +12,23 @@
         <a-spin size="large" class="absolute top-1/2 left-1/2" />
       </div>
       <div
-        class="flex space-y-3 flex-col justify-center items-center mx-auto bg-white shadow-lg shadow-gray-500 p-8 w-[400px] rounded-lg"
+        class="flex space-y-3 flex-col justify-center mx-auto bg-white shadow-cs_01 p-8 w-[400px] rounded-lg"
       >
-        <div class="text-center pb-4">
-          <h2 class="text-2xl text-sky-600 font-bold pb-3">
-            Đặt lại mật khẩu 🔒
-          </h2>
-          <p>
-            cho tài khoản
-            <span class="text-lg font-semibold">nguyenvana@gmail.com</span>
-          </p>
+        <div>
+          <NuxtLink to="/" class="mb-10 flex justify-center">
+            <img src="../../assets/images/logo_header.svg" alt="" />
+          </NuxtLink>
+          <div>
+            <h2 class="text-xl text-orange-400 font-bold">
+              Đặt lại mật khẩu 🔒
+            </h2>
+            <p>
+              cho tài khoản
+              <span class="text-lg font-semibold">trung@gmail.com</span>
+            </p>
+          </div>
         </div>
+
         <form @submit="onSubmit" class="w-full space-y-6">
           <div class="space-y-2">
             <a-alert

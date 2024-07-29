@@ -4,10 +4,10 @@
       <div
         class="flex flex-col md:flex-row overflow-hidden space-x-8 md:space-x-8"
       >
-        <div class="w-full md:w-1/2 bg-orange-50 md:p-20 rounded-3xl">
+        <div class="w-full md:w-1/2 bg-orange-50 md:p-16 rounded-3xl">
           <div class="pb-5 border-b-2 border-white">
             <div class="text-5xl font-bold">Read Station</div>
-            <div class="text-2xl font-semibold pt-4">ReadStation.com</div>
+            <div class="text-2xl font-semibold pt-4">ReadStation.store</div>
           </div>
           <div class="text-lg py-4">
             <div class="flex flex-col space-y-3 text-[#99918a]">
@@ -30,7 +30,7 @@
                 </div>
               </div>
               <div>
-                <div class="text-xl font-semibold text-[#009245]">
+                <div class="text-xl font-semibold text-black">
                   Giờ mở cửa
                 </div>
                 <div class="text-[#99918a]">

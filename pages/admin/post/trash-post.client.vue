@@ -147,11 +147,24 @@ useAsyncData(
 );
 
 const onRecover = async (id) => {
-  await generalPostStore.updatePost({ id: id, post: { status: "published" } });
-  await postStore.getAllPost({
-    page: current.value,
-    status: "deleted",
-  });
+  try {
+    const res = await generalPostStore.updatePost({
+      id: id,
+      post: { status: "published" },
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Khôi phục bài viết thành công");
+      await postStore.getAllPost({
+        page: current.value,
+        status: "deleted",
+      });
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Khôi phục bài viết thất bại");
+  }
 };
 const showRecoverConfirm = (id) => {
   Modal.confirm({
@@ -211,7 +224,7 @@ const columns = [
     dataIndex: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     key: "action",
   },
 ];

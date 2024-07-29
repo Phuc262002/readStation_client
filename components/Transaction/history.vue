@@ -3,7 +3,7 @@
     class="flex justify-between cursor-pointer hover:bg-[#f1f1f1] p-2 hover:rounded-md space-y-2"
   >
     <div class="flex justify-center items-start">
-      <div class="space-y-2">
+      <div >
         <p>
           #{{ props?.transactions?.transaction_code }}
         </p>
@@ -12,7 +12,7 @@
         </p>
         <p>
           {{
-            dayjs(props?.transactions?.created_at).format(" DD/MM/YYYY - HH:mm")
+            dayjs(props?.transactions?.created_at).format(" DD/MM/YYYY  HH:mm:ss")
           }}
         </p>
         <p class="flex items-center">

@@ -4,7 +4,7 @@
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Xác thực tài khoản</h5>
+        <h5 class="text-xl text-[#1e293b] font-bold">Xác thực tài khoản</h5>
       </div>
     </div>
 
@@ -18,18 +18,51 @@
       <div class="grid md:grid-cols-2 gap-5">
         <div class="md:col-span-1 space-y-3 border-r border-gray-200">
           <div class="grid grid-cols-3">
-            <span class="text-base col-span-1">Vai trò: </span>
-            <span class="text-base col-span-2">khách hàng</span>
+            <span class="text-base col-span-1 font-bold">Vai trò: </span>
+            <span class="text-base col-span-2">
+              <a-tag
+                :bordered="false"
+                v-if="
+                  verificationRequestsStore.oneVerificationRequest?.user_request
+                    ?.role?.name === UserRole.ADMIN
+                "
+                class="bg-tag-bg-04 text-tag-text-04"
+              >
+                Quản trị
+              </a-tag>
+
+              <a-tag
+                :bordered="false"
+                v-if="
+                  verificationRequestsStore.oneVerificationRequest?.user_request
+                    ?.role?.name === UserRole.USER
+                "
+                class="bg-tag-bg-02 text-tag-text-02"
+              >
+                Khách hàng
+              </a-tag>
+
+              <a-tag
+                :bordered="false"
+                v-if="
+                  verificationRequestsStore.oneVerificationRequest?.user_request
+                    ?.role?.name === UserRole.STUDENT
+                "
+                class="bg-tag-bg-01 text-tag-text-01"
+              >
+                Sinh viên
+              </a-tag>
+            </span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base col-span-1">Họ và tên: </span>
+            <span class="text-base col-span-1 font-bold">Họ và tên: </span>
             <span class="text-base">{{
               verificationRequestsStore.oneVerificationRequest?.user_request
                 ?.fullname
             }}</span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base col-span-1">Ngày sinh: </span>
+            <span class="text-base col-span-1 font-bold">Ngày sinh: </span>
             <span
               v-if="
                 verificationRequestsStore.oneVerificationRequest?.user_request
@@ -47,7 +80,7 @@
             <span v-else>Chưa có thông tin</span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base col-span-1">Giới tính: </span>
+            <span class="text-base col-span-1 font-bold">Giới tính: </span>
             <span
               v-if="
                 verificationRequestsStore.oneVerificationRequest?.user_request
@@ -65,7 +98,7 @@
             <span v-else>Chưa có thông tin</span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base col-span-1">Số điên thoại: </span>
+            <span class="text-base col-span-1 font-bold">Số điên thoại: </span>
             <span
               v-if="
                 verificationRequestsStore.oneVerificationRequest?.user_request
@@ -81,7 +114,7 @@
             <span v-else>Chưa có thông tin</span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base col-span-1">Email: </span>
+            <span class="text-base col-span-1 font-bold">Email: </span>
             <span class="text-base">
               {{
                 verificationRequestsStore.oneVerificationRequest?.user_request
@@ -92,7 +125,7 @@
         </div>
         <div class="md:col-span-1 space-y-3">
           <div class="grid grid-cols-3">
-            <span class="text-base col-span-1">Công việc: </span>
+            <span class="text-base col-span-1 font-bold">Công việc: </span>
             <span
               v-if="
                 verificationRequestsStore.oneVerificationRequest?.user_request
@@ -108,55 +141,57 @@
             <span v-else>Chưa có thông tin</span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base col-span-1">Tỉnh/ Thành phố: </span>
+            <span class="text-base col-span-1 font-bold"
+              >Tỉnh/ Thành phố:
+            </span>
             <span
               v-if="
                 verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.province_id
+                  ?.ward
               "
               class="text-base"
             >
               {{
                 verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.province_id
+                  ?.ward?.district?.province?.ProvinceName
               }}
             </span>
             <span v-else>Chưa có thông tin</span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base col-span-1">Quận/ Huyện: </span>
+            <span class="text-base col-span-1 font-bold">Quận/ Huyện: </span>
             <span
               v-if="
                 verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.district_id
+                  ?.ward
               "
               class="text-base"
             >
               {{
                 verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.district_id
+                  ?.ward?.district?.DistrictName
               }}
             </span>
             <span v-else>Chưa có thông tin</span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base col-span-1">Phường/ Xã: </span>
+            <span class="text-base col-span-1 font-bold">Phường/ Xã: </span>
             <span
               v-if="
                 verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.ward_id
+                  ?.ward
               "
               class="text-base"
             >
               {{
                 verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.ward_id
+                  ?.ward?.WardName
               }}
             </span>
             <span v-else>Chưa có thông tin</span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base col-span-1">Đường: </span>
+            <span class="text-base col-span-1 font-bold">Đường: </span>
             <span
               v-if="
                 verificationRequestsStore.oneVerificationRequest?.user_request
@@ -172,7 +207,7 @@
             <span v-else>Chưa có thông tin</span>
           </div>
           <div class="grid grid-cols-3">
-            <span class="text-base col-span-1">Địa chỉ cụ thể: </span>
+            <span class="text-base col-span-1 font-bold">Địa chỉ cụ thể: </span>
             <span
               v-if="
                 verificationRequestsStore.oneVerificationRequest?.user_request
@@ -197,11 +232,11 @@
           verificationRequestsStore.oneVerificationRequest
             ?.verification_card_type === 'citizen_card'
         "
-        class="text-xl text-[#1e293b] font-semibold pb-4"
+        class="text-xl text-[#1e293b] font-bold pb-4"
       >
         Thông tin căn cước
       </div>
-      <div v-else class="text-xl text-[#1e293b] font-semibold pb-4">
+      <div v-else class="text-xl text-[#1e293b] font-bold pb-4">
         Thông tin khách cung cấp
       </div>
       <div
@@ -212,7 +247,7 @@
         class="grid grid-cols-4 gap-4"
       >
         <div class="pb-2">
-          <label for="email" class="block text-sm font-medium text-gray-700">
+          <label for="email" class="block text-sm font-bold text-gray-700">
             Họ tên khai sinh
           </label>
           <div class="mt-1">
@@ -228,14 +263,14 @@
           </div>
         </div>
         <div class="pb-2">
-          <label for="email" class="block text-sm font-medium text-gray-700">
+          <label for="email" class="block text-sm font-bold text-gray-700">
             CMT/CCCD
           </label>
           <div class="mt-1">
             <a-input
               :value="
                 verificationRequestsStore.oneVerificationRequest
-                  ?.verification_card_info?.citizen_name
+                  ?.verification_card_info?.citizen_code
               "
               class="w-full h-10"
               placeholder="Nhập số CMT/CCCD"
@@ -244,7 +279,7 @@
           </div>
         </div>
         <div class="pb-2">
-          <label for="email" class="block text-sm font-medium text-gray-700">
+          <label for="email" class="block text-sm font-bold text-gray-700">
             Ngày cấp
           </label>
           <div class="mt-1">
@@ -260,7 +295,7 @@
           </div>
         </div>
         <div class="pb-2">
-          <label for="email" class="block text-sm font-medium text-gray-700">
+          <label for="email" class="block text-sm font-bold text-gray-700">
             Nơi cấp
           </label>
 
@@ -279,7 +314,7 @@
       </div>
       <div v-else class="grid grid-cols-4 gap-4">
         <div class="pb-2">
-          <label for="email" class="block text-sm font-medium text-gray-700">
+          <label for="email" class="block text-sm font-bold text-gray-700">
             Họ tên khai sinh
           </label>
           <div class="mt-1">
@@ -295,7 +330,7 @@
           </div>
         </div>
         <div class="pb-2">
-          <label for="email" class="block text-sm font-medium text-gray-700">
+          <label for="email" class="block text-sm font-bold text-gray-700">
             Mã số sinh viên
           </label>
           <div class="mt-1">
@@ -311,7 +346,7 @@
           </div>
         </div>
         <div class="pb-2">
-          <label for="email" class="block text-sm font-medium text-gray-700">
+          <label for="email" class="block text-sm font-bold text-gray-700">
             Thời hạn thẻ
           </label>
           <div class="mt-1">
@@ -327,7 +362,7 @@
           </div>
         </div>
         <div class="pb-2">
-          <label for="email" class="block text-sm font-medium text-gray-700">
+          <label for="email" class="block text-sm font-bold text-gray-700">
             Trường
           </label>
 
@@ -345,11 +380,12 @@
         </div>
       </div>
       <div class="pb-2 mt-5">
-        <label class="block text-sm font-medium text-gray-700">
+        <label class="block text-sm font-bold text-gray-700">
           Hình ảnh khách hàng cung cấp
         </label>
         <div class="flex gap-2 mt-1">
           <a-image
+            :width="400"
             :src="
               verificationRequestsStore.oneVerificationRequest
                 ?.verification_card_image?.front
@@ -357,6 +393,7 @@
             alt=""
           />
           <a-image
+            :width="400"
             :src="
               verificationRequestsStore.oneVerificationRequest
                 ?.verification_card_image?.back
@@ -407,6 +444,7 @@
 </template>
 <script setup>
 import dayjs from "dayjs";
+import { UserRole } from "~/types/admin/user";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 const openModalConfirm = ref(false);

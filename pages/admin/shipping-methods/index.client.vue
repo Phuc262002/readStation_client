@@ -127,7 +127,7 @@
           </template>
 
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <a-tooltip placement="top">
                 <template #title>
                   <span>Sửa</span>
@@ -198,8 +198,18 @@ useAsyncData(
   }
 );
 const onDelete = async (id) => {
-  await shippingMethodStore.deleteShippingMethod(id);
-  await shippingMethodStore.getAllShippingMethods({});
+  try {
+    const res = await shippingMethodStore.deleteShippingMethod(id);
+    if (res.data._rawValue?.status == true) {
+      message.success(res.data._rawValue?.message);
+      await shippingMethodStore.getAllShippingMethods({});
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Xóa phương thức vận chuyển thất bại");
+  }
 };
 
 const showDeleteConfirm = (id) => {
@@ -219,7 +229,7 @@ const showDeleteConfirm = (id) => {
 };
 const columns = [
   {
-    title: "Phương thức vận chuyển",
+    title: "Tên phương thức vận chuyển",
     dataIndex: "method",
     key: "method",
   },
@@ -252,7 +262,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     dataIndex: "action",
     key: "action",
   },

@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="flex flex-col gap-2">
-                    <label class="text-sm font-semibold" for="">Mô tả chi tiết</label>
+                    <label class="text-sm font-semibold" for="">Mô tả</label>
                     <a-textarea class="border p-2 rounded-md h-40" v-model:value="dataGet.description_summary" />
                 </div>
                 <div class="flex flex-col gap-2">
@@ -62,8 +62,12 @@ const dataGet = ref({
     description: "",
 })
 useAsyncData(async () => {
-    const data = await bookStore.getOneBookAdmin(bookID);
-    dataGet.value = data.data._rawValue.data;
+    try {
+        const data = await bookStore.getOneBookAdmin(bookID);
+        dataGet.value = data.data._rawValue.data;
+    } catch (error) {
+        console.error(error);
+    }
 });
 const open = ref(props.openModalBook);
 const handleClose = () => {
@@ -71,11 +75,16 @@ const handleClose = () => {
 };
 
 const onSubmit = async () => {
-    const dataUpdate = {
-        description: dataGet.value.description,
-        description_summary: dataGet.value.description_summary,
-    };
-    await bookStore.updateBook({ id: bookID, value: dataUpdate });
+    try {
+        const dataUpdate = {
+            description: dataGet.value.description,
+            description_summary: dataGet.value.description_summary,
+        };
+        await bookStore.updateBook({ id: bookID, value: dataUpdate });
+    } catch (error) {
+        message.error("Cập nhật sách thất bại");
+        console.error(error);
+    }
     handleClose();
 };
 </script>

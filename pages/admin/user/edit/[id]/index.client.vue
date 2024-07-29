@@ -9,10 +9,24 @@
         </h5>
       </div>
     </div>
+    <div
+      v-if="userStore.isLoading"
+      class="flex justify-center items-center min-h-[50vh]"
+    >
+      <a-spin size="large" />
+    </div>
 
     <!-- Đây là phần code mẫu body -->
-    <div class="bg-white min-h-[360px] w-full rounded-lg p-5">
+    <div v-else class="bg-white min-h-[360px] w-full rounded-lg p-5">
       <form @submit.prevent="handleSubmit">
+        <div class="mb-4 space-y-1" v-if="errors">
+          <a-alert
+            v-for="(error, index) in errors"
+            :message="error"
+            type="error"
+            show-icon
+          />
+        </div>
         <div class="flex flex-col gap-0">
           <div class="flex flex-col gap-2">
             <label class="text-sm font-semibold">Vai trò</label>
@@ -87,7 +101,7 @@
                   >
                   <a-input
                     v-model:value="user.phone"
-                    type=""
+                    type="text"
                     class="border p-2 rounded-md"
                     placeholder="Số điện thoại"
                     required
@@ -145,7 +159,6 @@
                     type="text"
                     class="border p-2 rounded-md"
                     placeholder="Mã số CMT/ CCCD"
-                    readonly
                   />
                 </div>
               </div>
@@ -157,7 +170,6 @@
                     type="text"
                     class="border p-2 rounded-md"
                     placeholder="Họ tên"
-                    readonly
                   />
                 </div>
               </div>
@@ -169,7 +181,6 @@
                     type="date"
                     class="border p-2 rounded-md"
                     placeholder="Ngày cấp"
-                    readonly
                   />
                 </div>
               </div>
@@ -195,7 +206,7 @@
                 </div>
               </div>
             </div>
-            <div class="grid grid-cols-4 gap-4" v-if="role === 'student'">
+            <div class="grid grid-cols-4 gap-4" v-if="user.role_id === 2">
               <div>
                 <div class="flex flex-col gap-2">
                   <label class="text-sm font-semibold" for=""
@@ -310,7 +321,14 @@
                 <label for="">Địa chỉ cụ thể</label>
                 <a-input
                   class="h-11"
-                  :value="`${ address.street || address.ward ||  address.district || address.province ? `${address.street}, ${address.ward}, ${address.district}, ${address.province}` : ''}`"
+                  :value="`${
+                    address.street ||
+                    address.ward ||
+                    address.district ||
+                    address.province
+                      ? `${address.street}, ${address.ward}, ${address.district}, ${address.province}`
+                      : ''
+                  }`"
                   readonly
                 />
               </div>
@@ -348,9 +366,14 @@
               </div>
             </div>
           </div>
-          <div class="flex gap-4">
-            <a-button @click="'/admin/user'" type="default">Hủy</a-button>
-            <a-button html-type="submit" type="primary">Cập nhập</a-button>
+          <div class="flex gap-4 justify-end">
+            <a-button type="default">Hủy</a-button>
+            <a-button
+              :loading="userStore.isSubmitting"
+              html-type="submit"
+              type="primary"
+              >Cập nhập</a-button
+            >
           </div>
         </div>
       </form>
@@ -361,6 +384,7 @@
 import { ref } from "vue";
 import { message, Upload } from "ant-design-vue";
 const fileList = ref([]);
+const errors = ref({});
 const role = ref("user");
 const route = useRoute();
 const userId = route.params.id;
@@ -621,10 +645,10 @@ const handleSubmit = async () => {
             place_of_study: user.value.place_of_study,
           }
         : null,
-    street: userStore.user?.street,
-    province_id: userStore.user?.province?.id,
-    district_id: userStore.user?.district?.id,
-    ward_id: userStore.user?.ward?.id,
+    street: address.value.street ? address.value.street : null,
+    province_id: province_id.value ? province_id.value : null,
+    district_id: district_id.value ? district_id.value : null,
+    ward_id: ward_id.value ? ward_id.value : null,
     address_detail:
       address.value.street &&
       address.value.province &&
@@ -642,10 +666,18 @@ const handleSubmit = async () => {
       delete userData[key];
     }
   });
+  try {
+    const res = await userStore.updateUser({ id: userId, user: userData });
 
-  const updateUser = await userStore.updateUser({ id: userId, user: userData });
-  if (updateUser) {
-    message.success("Cập nhập thông tin người dùng thành công");
+    if (res.data._rawValue?.status == true) {
+      message.success("Cập nhập người dùng thành công");
+      navigateTo("/admin/user");
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Cập nhập người dùng thất bại");
   }
 };
 const handleChangeGender = (e) => {

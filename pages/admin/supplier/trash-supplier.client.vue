@@ -2,11 +2,10 @@
   <div>
     <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">
+        <h5 class="text-xl text-[#1e293b] font-bold">
           Tất cả nhà cung cấp đã xóa
         </h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
@@ -30,7 +29,7 @@
               </a-tag>
             </template>
             <template v-else-if="column.key === 'action'">
-              <div class="flex text-[16px] gap-4">
+              <div class="flex text-[16px] gap-2">
                 <a-tooltip placement="top" color="black ">
                   <template #title>
                     <span>Khôi phục</span>
@@ -115,7 +114,7 @@ const columns = [
     key: 'status',
   },
   {
-    title: 'Action',
+    title: 'Thao tác',
     dataIndex: 'action',
     key: 'action',
   },

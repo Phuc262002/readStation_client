@@ -79,9 +79,10 @@ const orderStore = useOrderStore();
 const onSubmit = async () => {
     try {
         await orderStore.extensionOneBook({ id: props.items?.id })
-        handleClose()
     } catch (error) {
+        message.error("Gia hạn thất bại");
         console.log(error)
     }
+    handleClose()
 }
 </script>

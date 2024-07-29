@@ -4,19 +4,17 @@
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Sửa tác giả</h5>
       </div>
-      <CommonBreadcrumAdmin />
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <form @submit.prevent="updateAuthor">
-        <div class="grid grid-cols-6 gap-4 ">
-
-          <div class="flex flex-col gap-3 col-start-1 col-end-3 ">
-            <label class="text-sm font-semibold" for="">Avatar</label>
+        <div class="grid grid-cols-6 gap-4">
+          <div class="flex flex-col gap-3 col-start-1 col-end-3">
+            <label class="text-sm font-semibold" for="">Avatar </label>
             <ClientOnly>
               <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
                 <a-upload-dragger v-model:fileList="fileList" list-type="picture" name="image" :multiple="false"
-                  :action="(file) => uploadFile(file)" @change="handleChangeUploadImg" @drop="handleDrop"
+                  required :action="(file) => uploadFile(file)" @change="handleChangeUploadImg" @drop="handleDrop"
                   :before-upload="beforeUpload" :remove="(file) => deleteFile(file)">
                   <p class="ant-upload-drag-icon">
                     <inbox-outlined></inbox-outlined>
@@ -46,8 +44,9 @@
         <div class="flex flex-col gap-5 mt-5">
           <div class="grid grid-cols-3 gap-4">
             <div class="flex flex-col gap-2">
-              <label class="text-sm font-semibold" for="">Tên tác giả</label>
-              <a-input placeholder="Tên tác giả" class="border p-2 rounded-md" v-model:value="valueAuthor.author" />
+              <label class="text-sm font-semibold" for="">Tên tác giả <span class="text-red-500">*</span></label>
+              <a-input placeholder="Tên tác giả" class="border p-2 rounded-md" v-model:value="valueAuthor.author"
+                required />
             </div>
             <div class="flex flex-col gap-2">
               <label class="text-sm font-semibold" for="">Ngày, tháng, năm sinh</label>
@@ -72,15 +71,14 @@
           </div>
         </div>
       </form>
-
     </div>
   </div>
 </template>
 <script setup>
 import { ref } from "vue";
-const route = useRoute()
+const route = useRoute();
 const authorID = route.params.id;
-const AuthorStore = useAuthorStore()
+const AuthorStore = useAuthorStore();
 const baseStore = useBaseStore();
 const fileList = ref([]);
 const imageInfo = ref("");
@@ -148,17 +146,19 @@ const updateAuthor = async () => {
       description: valueAuthor.value.description,
       is_featured: valueAuthor.value.is_featured,
       avatar: imageInfo.value?.url || valueAuthor.value.avatar,
+    };
+    const res = await AuthorStore.updateAuthor({ id: authorID, valueAuthor: updateValue });
+    if (res.data._rawValue?.status == true) {
+      message.success("Cập nhật tác giả thành công");
+      navigateTo("/admin/author");
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
     }
-    await AuthorStore.updateAuthor({ id: authorID, valueAuthor: updateValue });
-    message.success("Cập nhật tác giả thành công");
-    navigateTo("/admin/author");
   } catch (error) {
-    // message.error("Cập nhật tác giả thất bại");
+    message.error("Cập nhật tác giả thất bại");
   }
-
-}
-
-
+};
 
 useAsyncData(async () => {
   try {

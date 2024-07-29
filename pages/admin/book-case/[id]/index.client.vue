@@ -65,7 +65,7 @@
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'bookshelf_code'">
-            <span> Mã tủ sách </span>
+            <span> Mã kệ sách </span>
           </template>
         </template>
 
@@ -92,8 +92,8 @@
             </span>
           </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
-              <a-tooltip placement="top" color="black">
+            <div class="flex text-[16px] gap-2">
+              <!-- <a-tooltip placement="top" color="black">
                 <template #title>
                   <span>Xem chi tiết</span>
                 </template>
@@ -106,8 +106,7 @@
                     class="group-hover:text-[#212122]"
                   />
                 </button>
-              </a-tooltip>
-
+              </a-tooltip> -->
               <a-tooltip placement="top">
                 <template #title>
                   <span>Xóa</span>
@@ -152,19 +151,28 @@ useAsyncData(async () => {
 });
 
 const updateDetailCase = async (id) => {
+  const idCase = {
+    bookcase_id: null,
+  };
   try {
-    const idCase = {
-      bookcase_id: null,
-    };
-    await bookShelves.updateShelves({ id: id, valueUpdateShelves: idCase });
-    await bookCaseStore.getOneBookcase(detailBookCaseId);
+    const res = await bookShelves.updateShelves({
+      id: id,
+      valueUpdateShelves: idCase,
+    });
+    if (res.data._rawValue?.status == true) {
+      message.success("Xóa kệ sách thành công");
+      await bookCaseStore.getOneBookcase(detailBookCaseId);
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
   } catch (error) {
-
+    message.error("Xóa kệ sách thất bại");
   }
 };
 const showConfirm = (id) => {
   Modal.confirm({
-    title: "Bạn có chắc xóa sách này ra khỏi kệ không?",
+    title: "Bạn có chắc xóa kệ sách này ra khỏi kệ không?",
 
     async onOk() {
       updateDetailCase(id);
@@ -198,7 +206,7 @@ const columns = [
     key: "bookshelf_code",
   },
   {
-    title: "Tên tủ sách",
+    title: "Tên kệ sách",
     dataIndex: "name",
     key: "name",
   },
@@ -218,7 +226,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     key: "action",
   },
 ];

@@ -23,7 +23,7 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
-                <a-menu-item @click="statusValue({ value: '', label: 'Trạng thái' })">Tất cả</a-menu-item>
+                <a-menu-item @click="statusValue({ value: '', label: 'Trạng thái' })">Tất cả trạng thái</a-menu-item>
                 <a-menu-item @click="statusValue({ value: 'active', label: 'Hoạt động' })">Hoạt
                   động</a-menu-item>
                 <a-menu-item @click="statusValue({ value: 'inactive', label: 'Không hoạt động' })">Không
@@ -31,7 +31,7 @@
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ queryStatus.label ? queryStatus.label : "Trạng thái" }}
+              {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -41,8 +41,8 @@
               <div>
                 <a-menu>
                   <a-menu-item>
-                    <div @click="categoryValue({ id: null, label: 'Danh mục' })">
-                      Tất cả
+                    <div @click="categoryValue({ id: null, label: 'Tất cả danh mục' })">
+                      Tất cả danh mục
                     </div>
                   </a-menu-item>
                   <a-menu-item v-for="(items, index) in categoryStore?.categoriesAdmin?.categories" :key="index">
@@ -52,7 +52,7 @@
               </div>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ categoryQuery.label ? categoryQuery.label : "Danh mục" }}
+              {{ categoryQuery.label ? categoryQuery.label : "Tất cả danh mục" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
@@ -62,8 +62,8 @@
               <div>
                 <a-menu>
                   <a-menu-item>
-                    <div @click="bookcaseValue({ id: null, label: 'Tủ sách' })">
-                      Tất cả
+                    <div @click="bookcaseValue({ id: null, label: 'Tất cả tủ sách' })">
+                      Tất cả tủ sách
                     </div>
                   </a-menu-item>
                   <a-menu-item v-for="(items, index) in bookcaseStore?.bookCaseAdmin?.bookcases" :key="index">
@@ -73,14 +73,14 @@
               </div>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
-              {{ bookcaseQuery.label ? bookcaseQuery.label : "Tủ sách" }}
+              {{ bookcaseQuery.label ? bookcaseQuery.label : "Tất cả tủ sách" }}
               <DownOutlined />
             </a-button>
           </a-dropdown>
 
         </div>
         <div class="">
-          <a-button type="primary" @click="showModalAdd">Thêm kệ sách</a-button>
+          <a-button type="primary" size="large" @click="showModalAdd">Thêm kệ sách</a-button>
           <BookShelvesCreate :openModalAdd="openModalAdd" :openModal="CloseModalAdd" />
           <BookShelvesEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit" :shelvesId="shelvesId" />
         </div>
@@ -112,12 +112,12 @@
           <template v-if="column.key === 'status'">
             <span>
               <a-tag :color="record.status === 'active' ? 'green' : 'volcano'" style="border: none">
-                {{ record.status === 'active' ? 'hoạt động' : 'Không hoạt động' }}
+                {{ record.status === 'active' ? 'Đang hoạt động' : 'Không hoạt động' }}
               </a-tag>
             </span>
           </template>
           <template v-else-if="column.key === 'action'">
-            <div class="flex text-[16px] gap-4">
+            <div class="flex text-[16px] gap-2">
               <NuxtLink :to="`book-shelves/${record.id}`">
                 <a-tooltip placement="top">
                   <template #title>
@@ -133,33 +133,23 @@
               </NuxtLink>
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                >
-                  <UIcon
-                    class="group-hover:text-[#131313]"
-                    name="i-solar-menu-dots-bold"
-                  />
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                  <UIcon class="group-hover:text-[#131313]" name="i-solar-menu-dots-bold" />
                 </button>
                 <template #overlay>
                   <a-menu class="space-y-1">
                     <NuxtLink>
                       <a-menu-item key="1" class="p-4 hover:!bg-tag-bg-02">
                         <button class="flex items-center gap-2" @click="showModalEdit(record?.id)">
-                          <Icon
-                            icon="fluent:edit-48-regular"
-                            class="text-lg text-tag-text-02"
-                          />
+                          <Icon icon="fluent:edit-48-regular" class="text-lg text-tag-text-02" />
                           <span class="text-tag-text-02 font-bold">Sửa</span>
                         </button>
                       </a-menu-item>
                     </NuxtLink>
 
                     <a-menu-item key="2" class="p-4">
-                      <button
-                         @click="showDeleteConfirm(record?.id)"
-                        class="flex items-center gap-2"
-                      >
-                        <Icon icon="hugeicons:delete-01" class="text-lg text-tag-text-06" /> 
+                      <button @click="showDeleteConfirm(record?.id)" class="flex items-center gap-2">
+                        <Icon icon="hugeicons:delete-01" class="text-lg text-tag-text-06" />
                         <span class="text-tag-text-06 font-bold">Xóa</span>
                       </button>
                     </a-menu-item>
@@ -187,6 +177,7 @@ import { h } from "vue";
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const shelvesId = ref<number>();
+const errors = ref({});
 const current = ref(1);
 const valueSearch = ref("");
 const queryStatus = ref({
@@ -209,9 +200,13 @@ const categoryQuery = ref({
   label: ""
 });
 useAsyncData(async () => {
-  await categoryStore.getAllCategory({
-    type: 'book'
-  });
+  try {
+    await categoryStore.getAllCategory({
+      type: 'book'
+    });
+  } catch (error) {
+    console.error(error);
+  }
 },
 );
 const categoryValue = ({ id, label }: any) => {
@@ -224,7 +219,11 @@ const bookcaseQuery = ref({
   label: ""
 });
 useAsyncData(async () => {
-  await bookcaseStore.getAllBookcase({});
+  try {
+    await bookcaseStore.getAllBookcase({});
+  } catch (error) {
+    console.error(error);
+  }
 },
 );
 const bookcaseValue = ({ id, label }: any) => {
@@ -253,7 +252,17 @@ useAsyncData(async () => {
   watch: [valueSearch, categoryQuery.value, bookcaseQuery.value, queryStatus.value, current]
 });
 const onDelete = async (id: string) => {
-  await shelvesValue.deleteShelves(id);
+  try {
+    const res = await shelvesValue.deleteShelves(id);
+    if (res.data._rawValue?.status == true) {
+      message.success(res.data._rawValue?.message);
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    console.error(error);
+  }
   await getData();
 };
 const showDeleteConfirm = (id: string) => {
@@ -318,7 +327,7 @@ const columns = [
     key: "status",
   },
   {
-    title: "Action",
+    title: "Thao tác",
     key: "action",
   },
 ];

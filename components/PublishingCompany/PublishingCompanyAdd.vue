@@ -11,18 +11,26 @@
     >
       <a-spin size="large" />
     </div>
+    <div class="space-y-1" v-if="errors">
+      <a-alert
+        v-for="(error, index) in errors"
+        :message="error"
+        type="error"
+        show-icon
+      />
+    </div>
     <form @submit.prevent="onSubmit">
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Tên nhà xuất bản
+            Tên nhà xuất bản <span class="text-red-500">*</span>
           </label>
           <div class="mt-1">
             <a-input
               v-model:value="publishingCompany.name"
-              class="w-[450px] h-10"
+              class="w-full h-10"
               placeholder="Nhập mã nhà xuất bản"
-              required
+   
             />
           </div>
         </div>
@@ -33,10 +41,10 @@
           </label>
           <div class="mt-1">
             <a-textarea
+              :rows="6"
               v-model:value="publishingCompany.description"
-              class="w-[450px] h-10"
+              class="w-full h-10"
               placeholder="Nhập mã nhà xuất bản"
-              required
             />
           </div>
         </div>
@@ -78,7 +86,7 @@
             :loading="publishingCompanyStore.isSubmitting"
             html-type="submit"
             class="mt-4"
-            >Lưu</a-button
+            >Thêm</a-button
           >
         </div>
       </div>
@@ -91,6 +99,7 @@ const publishingCompanyStore = usePublishingCompanyStore();
 const baseStore = useBaseStore();
 const fileList = ref([]);
 const imageInfo = ref("");
+const errors = ref({});
 const publishingCompany = ref({
   name: "",
   description: "",
@@ -150,22 +159,35 @@ const beforeUpload = (file) => {
 };
 
 const onSubmit = async () => {
-  await publishingCompanyStore.createPublishingCompany({
-    logo_company: imageInfo.value?.url,
+  errors.value = {};
+  const data = {
     name: publishingCompany.value.name,
     description: publishingCompany.value.description,
-  });
-  await publishingCompanyStore.getAllPublishingCompany({});
-  publishingCompany.value = {
-    name: "",
-    description: "",
-    logo_company: "",
+    logo_company: imageInfo.value?.publicId,
   };
-  if (fileList.value.length > 0) {
-    fileList.value = [];
+  try {
+    const res = await publishingCompanyStore.createPublishingCompany(data);
+    if (res.data._rawValue?.status == true) {
+      message.success("Thêm nhà xuất bản thành công");
+      publishingCompany.value = {
+        name: "",
+        description: "",
+        logo_company: "",
+      };
+      if (fileList.value.length > 0) {
+        fileList.value = [];
+      }
+      await publishingCompanyStore.getAllPublishingCompany({});
+      props.openModal();
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
+  } catch (error) {
+    message.error("Thêm nhà xuất bản thất bại");
   }
-  props.openModal();
 };
+
 const handleClose = async () => {
   props.openModal();
   if (fileList.value.length > 0) {
@@ -178,5 +200,6 @@ const handleClose = async () => {
     logo_company: "",
   };
   props.openModal();
+  errors.value = {};
 };
 </script>

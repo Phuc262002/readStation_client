@@ -1,14 +1,17 @@
 <template>
   <a-modal v-model:open="props.openModalAdd" title="Thêm phiên bản sách" :footer="null" :onCancel="handleClose"
     style="width: 1200px;">
+    <div class="mb-4 space-y-1" v-if="errors">
+      <a-alert v-for="(error, index) in errors" :message="error" type="error" show-icon />
+    </div>
     <div class="flex flex-col gap-5 mt-5">
       <div class="border border-t-2"></div>
       <form @submit.prevent="onSubmit">
-        <div class="flex flex-col gap-5">
+        <div class="flex flex-col gap-4">
           <div class="grid grid-rows-1">
-            <div class="grid grid-cols-2 gap-10">
+            <div class="grid grid-cols-2 gap-4">
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold" for="">Ảnh chính</label>
+                <label class="text-sm font-semibold" for="">Ảnh chính <span class="text-red-500">*</span></label>
                 <ClientOnly>
                   <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
                     <a-upload-dragger v-model:fileList="fileList" list-type="picture" name="image" :multiple="false"
@@ -33,54 +36,49 @@
               </div>
             </div>
           </div>
-          <div class="flex flex-col gap-2">
-            <label class="text-sm font-semibold" for="">Sku</label>
-            <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Mã sách"
-              v-model:value="valueBookDetail.sku_origin" />
-          </div>
-          <div class="grid grid-rows-3 gap-5 ">
+          <div class="grid grid-rows-3 gap-4 ">
             <div class="grid grid-cols-4 gap-10">
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold" for="">Phiên bản sách</label>
-                <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Phiên bản sách"
+                <label class="text-sm font-semibold" for="">Phiên bản sách <span class="text-red-500">*</span></label>
+                <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Phiên bản sách" required
                   v-model:value="valueBookDetail.book_version" />
               </div>
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold" for="">Số lượng</label>
-                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Số lượng"
+                <label class="text-sm font-semibold" for="">Số lượng <span class="text-red-500">*</span></label>
+                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Số lượng" required
                   v-model:value="valueBookDetail.stock" />
               </div>
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold" for="">Giá</label>
-                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Giá"
+                <label class="text-sm font-semibold" for="">Giá <span class="text-red-500">*</span></label>
+                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Giá" required
                   v-model:value="valueBookDetail.price" />
               </div>
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold" for="">Tiền cọc</label>
-                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Tiền cọc"
+                <label class="text-sm font-semibold" for="">Tiền cọc <span class="text-red-500">*</span></label>
+                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Tiền cọc" required
                   v-model:value="valueBookDetail.hire_percent" />
               </div>
             </div>
             <div class="grid grid-cols-4 gap-10">
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold" for="">Loại bìa</label>
-                <a-select show-search size="large" placeholder="Loại bìa" :options="optionsCardboard"
+                <label class="text-sm font-semibold" for="">Loại bìa <span class="text-red-500">*</span></label>
+                <a-select show-search size="large" placeholder="Loại bìa" :options="optionsCardboard" required
                   v-model:value="valueBookDetail.cardboard" :filter-option="filterOption" @focus="handleFocus"
                   @blur="handleBlur" @change="handleChange"></a-select>
               </div>
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold" for="">Số trang</label>
-                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Số trang"
+                <label class="text-sm font-semibold" for="">Số trang <span class="text-red-500">*</span></label>
+                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Số trang" required
                   v-model:value="valueBookDetail.total_page" />
               </div>
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold" for="">Kích thước sách</label>
+                <label class="text-sm font-semibold" for="">Kích thước sách </label>
                 <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Kích thước sách"
                   v-model:value="valueBookDetail.book_size" />
               </div>
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold" for="">Ngôn ngữ</label>
-                <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Ngôn ngữ"
+                <label class="text-sm font-semibold" for="">Ngôn ngữ <span class="text-red-500">*</span></label>
+                <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Ngôn ngữ" required
                   v-model:value="valueBookDetail.language" />
               </div>
             </div>
@@ -91,19 +89,20 @@
                   v-model:value="valueBookDetail.translator" />
               </div>
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold" for="">Ngày phát hành</label>
-                <a-input type="date" class="border p-2 rounded-md h-10" placeholder="Ngày phát hành"
+                <label class="text-sm font-semibold" for="">Ngày phát hành <span class="text-red-500">*</span></label>
+                <a-input type="date" class="border p-2 rounded-md h-10" placeholder="Ngày phát hành" required
                   v-model:value="valueBookDetail.publish_date" />
               </div>
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold" for="">Công ty phát hành</label>
-                <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Công ty phát hành"
+                <label class="text-sm font-semibold" for="">Công ty phát hành <span
+                    class="text-red-500">*</span></label>
+                <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Công ty phát hành" required
                   v-model:value="valueBookDetail.issuing_company" />
               </div>
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold" for="">Nhà xuất bản</label>
+                <label class="text-sm font-semibold" for="">Nhà xuất bản <span class="text-red-500">*</span></label>
                 <a-select size="large" show-search placeholder="Nhà xuất bản" :options="optionsPublishingcompany"
-                  v-model:value="valueBookDetail.publishing_company_id" :filter-option="filterOption"
+                  required v-model:value="valueBookDetail.publishing_company_id" :filter-option="filterOption"
                   @focus="handleFocus" @blur="handleBlur" @change="handleChange"></a-select>
               </div>
             </div>
@@ -122,6 +121,7 @@
 const baseStore = useBaseStore();
 const fileList = ref([]);
 const imageInfo = ref("");
+const errors = ref({});
 const props = defineProps({
   openModalAdd: Boolean,
   openModal: Function,
@@ -229,9 +229,8 @@ const valueBookDetail = ref({
 });
 const onSubmit = async () => {
   try {
-    await DetailBookStore.createBookDetail({
+    const res = await DetailBookStore.createBookDetail({
       book_id: props.book_id,
-      sku_origin: valueBookDetail.value.sku_origin,
       poster: imageInfo.value?.url,
       images: valueBookDetail.value.images,
       book_version: valueBookDetail.value.book_version,
@@ -247,11 +246,22 @@ const onSubmit = async () => {
       total_page: valueBookDetail.value.total_page,
       translator: valueBookDetail.value.translator,
     });
-    handleClose()
-    useAsyncData(async () => {
-    await bookStore.getOneBookAdmin(bookID);
-  });
+    if (res.data._rawValue?.status == true) {
+      message.success("Thêm phiên bản sách thành công");
+      handleClose()
+      useAsyncData(async () => {
+        try {
+          await bookStore.getOneBookAdmin(bookID);
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
   } catch (error) {
+    message.error("Thêm phiên bản sách thất bại");
     console.error(error);
 
   }
