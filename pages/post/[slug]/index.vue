@@ -58,8 +58,8 @@
                 icon="fa6-brands:x-twitter"
                 class="text-[42px] text-[black]"
               />
-            </button @click="handleSharePinterest">
-            <button>
+            </button >
+            <button @click="handleSharePinterest">
               <Icon icon="uiw:pinterest" class="text-[42px] text-[red]" />
             </button>
           </div>
