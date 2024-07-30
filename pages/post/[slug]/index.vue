@@ -18,7 +18,7 @@
                 {{ postStore.post?.category?.name }}
               </div>
             </div>
-            <p class="text-white  text-[27px] pt-2 font-bold">
+            <p class="text-white text-[27px] pt-2 font-bold">
               {{ postStore.post?.title }}
             </p>
             <div class="pt-4">
@@ -44,19 +44,24 @@
         <div v-html="postStore.post?.summary" class="my-5 font-normal"></div>
         <div v-html="postStore.post?.content" class="my-5 font-normal"></div>
         <div
-          class="flex justify-between items-center p-5 bg-orange-100 w-full h-[70px] rounded-[10px] mb-5"
+          class="flex justify-between items-center p-5 shadow-md bg-white w-full h-[70px] rounded-[10px] mb-5"
         >
           <div class="text-black font-semibold text-base">
             <p>Chia sẻ với mọi người!</p>
           </div>
-          <div class="flex justify-items-end text-white gap-5 mt-[10px]">
-            <div>
-              <IconFacebook />
-            </div>
-            <div>
-              <IconTwitter />
-            </div>
-            
+          <div class="flex justify-items-end items-center text-white gap-4">
+            <button @click="handleShareFacebook">
+              <Icon icon="fa:facebook-square" class="text-4xl text-[#1877f2]" />
+            </button>
+            <button @click="handleShareTwitter">
+              <Icon
+                icon="fa6-brands:x-twitter"
+                class="text-[42px] text-[black]"
+              />
+            </button @click="handleSharePinterest">
+            <button>
+              <Icon icon="uiw:pinterest" class="text-[42px] text-[red]" />
+            </button>
           </div>
         </div>
 
@@ -71,7 +76,7 @@
           <div v-if="postStore.isLoading" class="flex justify-center my-10">
             <a-spin size="large" />
           </div>
-          
+
           <div v-else class="relative">
             <swiper
               :slidesPerView="3"
@@ -134,20 +139,7 @@
             </p>
           </div>
         </div>
-        <div class="p-5 shadow-md w-full h-70 rounded-[10px]">
-          <div class="text-black text-sm font-semibold">
-            <p>Chia sẻ với mọi người!</p>
-          </div>
-          <div class="flex text-black gap-5 mt-[10px]">
-            <div>
-              <IconFacebook />
-            </div>
-            <div>
-              <IconTwitter />
-            </div>
-           
-          </div>
-        </div>
+
         <div class="rounded-lg shadow-md p-5">
           <div class="border-b-2 font-semibold mb-2">Bài viết nổi bật</div>
           <div v-if="postStore.isLoading" class="flex justify-center my-10">
@@ -191,6 +183,7 @@
 </template>
 <script setup>
 import { Swiper, SwiperSlide } from "swiper/vue";
+import { Icon } from "@iconify/vue";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
@@ -258,6 +251,23 @@ useSeoMeta({
   ogImage: `${postStore.post?.image}`,
   twitterCard: `${postStore.post?.image}`,
 });
+const handleShareFacebook = () => {
+  window.open(
+    `http://www.facebook.com/sharer/sharer.php?u=${window.location.href}`
+  );
+};
+
+const handleShareTwitter = () => {
+  window.open(
+    `http://www.twitter.com/share?url=${window.location.href}&text=Cùng thưởng thức phim tại MovieHay&hashtags=MovieHay`
+  );
+};
+
+const handleSharePinterest = () => {
+  window.open(
+    `http://pinterest.com/pin/create/link/?url=${window.location.href}&description=Cùng thưởng thức phim tại MovieHay`
+  );
+};
 </script>
 <style scoped>
 :deep(.swiper) {
