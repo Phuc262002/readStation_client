@@ -524,13 +524,12 @@
             </div>
             <h1 class="text-[#7b7b7b] font-semibold">Chưa có dữ liệu</h1>
           </div>
-          <NuxtLink class="hover:text-[black]" to="/admin/book">
-            <DashboardBook
-              v-for="book in dashboardStore.dashboardBook"
-              :key="book.id"
-              :dashboard="book"
-            />
-          </NuxtLink>
+
+          <DashboardBook
+            v-for="book in dashboardStore.dashboardBook"
+            :key="book.id"
+            :dashboard="book"
+          />
         </div>
       </div>
 
@@ -549,13 +548,12 @@
             </div>
             <h1 class="text-[#7b7b7b] font-semibold">Chưa có dữ liệu</h1>
           </div>
-          <NuxtLink class="hover:text-[black]" to="/admin/manager-bill">
-            <DashboardBill
-              v-for="bill in dashboardStore.dashboardInvoice"
-              :key="bill.id"
-              :dashboard="bill"
-            />
-          </NuxtLink>
+
+          <DashboardBill
+            v-for="bill in dashboardStore.dashboardInvoice"
+            :key="bill.id"
+            :dashboard="bill"
+          />
         </div>
       </div>
 
