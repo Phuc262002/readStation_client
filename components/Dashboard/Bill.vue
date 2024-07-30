@@ -1,5 +1,8 @@
 <template>
-  <NuxtLink class="hover:text-[black]" to="/admin/manager-bill">
+  <NuxtLink
+    class="hover:text-[black]"
+    :to="`/admin/manager-bill?bill_id=${props.dashboard?.id}`"
+  >
     <div
       class="space-y-1 cursor-pointer hover:bg-[#f1f1f1] p-2 hover:rounded-md"
     >
