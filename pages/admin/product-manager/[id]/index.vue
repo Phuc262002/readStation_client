@@ -176,7 +176,6 @@
                 </div>
                 <div class="flex justify-end" v-if="orderStore?.getOneOrderAdmin?.data?.status === 'active'">
                     <div class="flex gap-2">
-                        <a-button class="border-orange-400 text-orange-500">Trả sách</a-button>
                         <a-button type="primary"
                             @click="showModalExtendsionAll(orderStore?.getOneOrderAdmin?.data?.loan_order_details)">Giao
                             hạn toàn bộ</a-button>
@@ -243,14 +242,6 @@
                                         <span class="text-base font-bold">Hình thức trả sách:</span>
                                         <span class="text-base ">Chưa có dữ liệu</span>
                                     </div>
-                                    <div class="grid grid-cols-2">
-                                        <span class="text-base font-bold">Khách đánh giá:</span>
-                                        <span class="text-base ">Chưa có dữ liệu</span>
-                                    </div>
-                                    <div class="grid grid-cols-2">
-                                        <span class="text-base font-bold">Nội dung:</span>
-                                        <span class="text-base ">Chưa có dữ liệu</span>
-                                    </div>
                                 </div>
                                 <div class="md:col-span-2 space-y-3 ml-5">
                                     <div class="grid grid-cols-3">
@@ -260,10 +251,6 @@
                                     <div class="grid grid-cols-3">
                                         <span class="text-base font-bold col-span-2">Phí dịch vụ:</span>
                                         <span class="text-base col-span-1">20%</span>
-                                    </div>
-                                    <div class="grid grid-cols-3">
-                                        <span class="text-base font-bold col-span-2">Phí dịch vụ:</span>
-                                        <span class="text-base col-span-1">20.000 đ</span>
                                     </div>
                                     <div class="grid grid-cols-3">
                                         <span class="text-base font-bold col-span-2">Phí trễ hạn:</span>
@@ -312,8 +299,10 @@
                             <NuxtLink :to="`/admin/product-manager`"> <a-button>Trở về</a-button> </NuxtLink>
                             <a-button class="border border-orange-400 text-orange-500"
                                 @click="showModalAdd">Hủy</a-button>
-                            <a-button type="primary" @click="setStatus('approved')">Xác
-                                nhận</a-button>
+                            <NuxtLink :to="`/admin/product-manager`">
+                                <a-button type="primary" @click="setStatus('approved')">Xác
+                                    nhận</a-button>
+                            </NuxtLink>
                         </div>
                     </div>
                     <div v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'approved'">
@@ -413,10 +402,10 @@ const orderStore = useOrderStore();
 const setStatus = (status: string) => {
     try {
         orderStore.updateOrderStatus({
-        id: orderId, body: {
-            status: status,
-        }
-    });
+            id: orderId, body: {
+                status: status,
+            }
+        });
     } catch (error) {
         message.error('Có lỗi xảy ra')
         console.error(error)
