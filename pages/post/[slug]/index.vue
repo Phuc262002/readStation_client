@@ -58,7 +58,7 @@
                 icon="fa6-brands:x-twitter"
                 class="text-[42px] text-[black]"
               />
-            </button >
+            </button>
             <button @click="handleSharePinterest">
               <Icon icon="uiw:pinterest" class="text-[42px] text-[red]" />
             </button>
@@ -259,13 +259,13 @@ const handleShareFacebook = () => {
 
 const handleShareTwitter = () => {
   window.open(
-    `http://www.twitter.com/share?url=${window.location.href}&text=Cùng thưởng thức phim tại MovieHay&hashtags=MovieHay`
+    `http://www.twitter.com/share?url=${window.location.href}&text=Cùng chia sẽ kiến thức hay với ReadStation&hashtags=ReadStation`
   );
 };
 
 const handleSharePinterest = () => {
   window.open(
-    `http://pinterest.com/pin/create/link/?url=${window.location.href}&description=Cùng thưởng thức phim tại MovieHay`
+    `http://pinterest.com/pin/create/link/?url=${window.location.href}&description=Cùng chia sẽ kiến thức hay với ReadStation`
   );
 };
 </script>
