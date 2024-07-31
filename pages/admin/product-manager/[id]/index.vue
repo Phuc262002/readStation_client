@@ -119,11 +119,17 @@
                         </div>
                         <div class="grid grid-cols-3">
                             <span class="text-base font-bold">Ngày trả dự kiến:</span>
-                            <span class="text-base ">Chưa có dữ liệu</span>
+                            <span class="text-base ">{{ orderStore?.getOneOrderAdmin?.data?.original_due_date ?
+                                $dayjs(orderStore?.getOneOrderAdmin?.data?.original_due_date).format('DD/MM/YYYY') :
+                                ''
+                                }}</span>
                         </div>
                         <div class="grid grid-cols-3">
                             <span class="text-base font-bold">Ngày trả thực tế:</span>
-                            <span class="text-base ">Chưa có dữ liệu</span>
+                            <span class="text-base ">{{ orderStore?.getOneOrderAdmin?.data?.current_due_date ?
+                                $dayjs(orderStore?.getOneOrderAdmin?.data?.current_due_date).format('DD/MM/YYYY') :
+                                ''
+                                }}</span>
                         </div>
                         <div class="grid grid-cols-3">
                             <span class="text-base font-bold">Số lần gia hạn:</span>
@@ -232,15 +238,33 @@
                                     </div>
                                     <div class="grid grid-cols-2">
                                         <span class="text-base font-bold">Ngày trả dự kiến:</span>
-                                        <span class="text-base ">Chưa có dữ liệu</span>
+                                        <span class="text-base ">{{
+                                            orderStore?.getOneOrderAdmin?.data?.original_due_date
+                                                ?
+                                                $dayjs(orderStore?.getOneOrderAdmin?.data?.original_due_date).format('DD/MM/YYYY')
+                                                :
+                                                ''
+                                        }}</span>
                                     </div>
                                     <div class="grid grid-cols-2">
                                         <span class="text-base font-bold">Ngày trả thực tế:</span>
-                                        <span class="text-base ">Chưa có dữ liệu</span>
+                                        <span class="text-base ">{{ orderStore?.getOneOrderAdmin?.data?.current_due_date
+                                            ?
+                                            $dayjs(orderStore?.getOneOrderAdmin?.data?.current_due_date).format('DD/MM/YYYY')
+                                            :
+                                            ''
+                                            }}</span>
                                     </div>
                                     <div class="grid grid-cols-2">
                                         <span class="text-base font-bold">Hình thức trả sách:</span>
-                                        <span class="text-base ">Chưa có dữ liệu</span>
+                                        <span class="text-base "
+                                            v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'shipper'">Giao
+                                            hàng tận
+                                            nơi</span>
+                                        <span class="text-base "
+                                            v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'pickup'">Nhận
+                                            tại thư
+                                            viện</span>
                                     </div>
                                 </div>
                                 <div class="md:col-span-2 space-y-3 ml-5">
@@ -260,7 +284,8 @@
                                         <span class="text-base font-bold col-span-2 ">Phí gia hạn:</span>
                                         <span class="text-base col-span-1">Chưa có dữ liệu</span>
                                     </div>
-                                    <div class="grid grid-cols-3">
+                                    <div class="grid grid-cols-3"
+                                        v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'shipper'">
                                         <span class="text-base font-bold col-span-2">Phí giao trả sách:</span>
                                         <span class="text-base col-span-1">Chưa có dữ liệu</span>
                                     </div>
