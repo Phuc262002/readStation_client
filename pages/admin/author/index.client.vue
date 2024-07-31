@@ -146,8 +146,14 @@ useAsyncData(async () => {
 
 const onDelete = async (id: string) => {
   try {
-    await AuthorStore.deleteAuthor(id);
-    getDataAuthor()
+    const res = await AuthorStore.deleteAuthor(id);
+    if (res.data._rawValue?.status == true) {
+      message.success("Xoa tác giả thành công");
+      getDataAuthor();
+    } else {
+      message.error(res.error.value.data.message);
+    }
+
   } catch (error) {
     console.error(error);
   }
