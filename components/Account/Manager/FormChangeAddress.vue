@@ -32,6 +32,7 @@
               <label class="text-sm font-bold"> Số điện thoại </label>
               <div class="mt-1">
                 <a-input
+                  type="number"
                   size="large"
                   class="w-full"
                   placeholder="Nhập số điện thoại"

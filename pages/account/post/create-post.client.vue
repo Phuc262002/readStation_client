@@ -145,28 +145,6 @@ useAsyncData(async () => {
 // Create post
 const onSubmit = async () => {
   try {
-    // if (!imageInfo.value?.url) {
-    //   message.error("Vui lòng chọn ảnh");
-    //   return;
-    // }
-
-    // if (!post.value?.title) {
-    //   message.error("Vui lòng nhập tên bài viết");
-    //   return;
-    // }
-    // if (!post.value?.summary) {
-    //   message.error("Vui lòng nhập mô tả ngắn");
-    //   return;
-    // }
-    // if (!post.value?.category) {
-    //   message.error("Vui lòng chọn danh mục bài viết");
-    //   return;
-    // }
-    // if (!post.value?.content) {
-    //   message.error("Vui lòng nhập nội dung bài viết");
-    //   return;
-    // }
-
     const res = await postStore.createPost({
       category_id: post.value?.category,
       title: post.value?.title,

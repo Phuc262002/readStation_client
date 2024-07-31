@@ -12,7 +12,7 @@
         <div class="bg-white h-auto shadow-md rounded-lg overflow-hidden p-5">
           <a-table
             :columns="columns"
-            :data-source="cartStore?.carts"
+            :data-source="dataSource"
             :pagination="false"
           >
             <template #headerCell="{ column }">
@@ -338,7 +338,15 @@ const depositFee = ref(0);
 const serviceFee = ref(0);
 const totalFee = ref(0);
 const shippingFee = ref(0);
-
+const route = useRoute();
+const type = route.query.type;
+console.log("type", type);
+const dataSource = computed(() => {
+  return route.query.type === "thue_ngay"
+    ? cartStore?.rentNow
+    : cartStore?.carts;
+});
+console.log("dataSource", dataSource);
 useAsyncData(async () => {
   await shippingMethodStore.getAllShipping();
   options.value = shippingMethodStore?.shippings.map((item) => ({
@@ -359,15 +367,16 @@ useAsyncData(async () => {
 const userNote = ref();
 // phí cọc
 const calcDepositFee = () => {
-  depositFee.value = cartStore.carts.reduce((acc, curr) => acc + curr.price, 0);
+  depositFee.value = (
+    type === "thue_ngay" ? cartStore.rentNow : cartStore.carts
+  ).reduce((acc, curr) => acc + curr.price, 0);
 };
 
 // phí dịch vụ
 const calcServiceFee = () => {
-  serviceFee.value = cartStore.carts.reduce(
-    (acc, curr) => acc + parseFloat(curr.price) * 0.2,
-    0
-  );
+  serviceFee.value = (
+    type === "thue_ngay" ? cartStore.rentNow : cartStore.carts
+  ).reduce((acc, curr) => acc + parseFloat(curr.price) * 0.2, 0);
 };
 
 // phí vận chuyển
@@ -413,19 +422,25 @@ const payCart = async () => {
       phone: authStore?.authUser?.user?.phone,
       address: authStore?.authUser?.user?.address_detail,
     };
-    // if (!newInfo.phone || !newInfo.address) {
-    //   message.error({
-    //     content: "Vui lòng điền đầy đủ thông tin giao hàng!",
-    //   });
-    //   return;
-    // }
-    const newArr = cartStore.carts.map((item) => {
+    if (
+      delivery_method.value === "shipper" &&
+      (!newInfo.phone || !newInfo.address)
+    ) {
+      message.error({
+        content: "Vui lòng điền đầy đủ thông tin giao hàng!",
+      });
+      return;
+    }
+    const newArr = (
+      type === "thue_ngay" ? cartStore.rentNow : cartStore.carts
+    ).map((item) => {
       return {
         book_details_id: item.id,
         service_fee: parseFloat(item.price) * 0.2,
         deposit_fee: parseFloat(item.price),
       };
     });
+    console.log("newArr", newArr);
     const paymentPortal = payment_method.value === "online" ? "payos" : null;
 
     const resData = await orderStore.createOrder({
@@ -450,7 +465,8 @@ const payCart = async () => {
       message.success({
         content: "Đặt hàng thành công",
       });
-      cartStore.carts = [];
+      type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
+
       navigateTo("/account/order");
     } else if (
       resData?.data?._rawValue?.status === true &&
@@ -459,7 +475,7 @@ const payCart = async () => {
       message.success({
         content: "Đặt hàng thành công",
       });
-      cartStore.carts = [];
+      type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
       navigateTo(
         "/account/order/checkout/payment/" +
           resData?.data?._rawValue?.data.order_code

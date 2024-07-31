@@ -122,6 +122,7 @@
       </div>
 
       <a-table
+        :loading="orderStore?.isLoading"
         :columns="columns"
         :data-source="orderStore?.orders?.orders"
         :pagination="false"

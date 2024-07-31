@@ -10,6 +10,7 @@ export const usePostClientStore = defineStore("post-client-store", {
   },
   actions: {
     async getAllPost({ page, pageSize, search, status, category_id }: any) {
+      this.isLoading = true;
       const data: any = await useCustomFetch(
         `/api/v1/account/get-posts?${page ? `&page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
@@ -17,7 +18,9 @@ export const usePostClientStore = defineStore("post-client-store", {
           status ? `&status=${status}` : ""
         }${category_id ? `&category_id=${category_id}` : ""}`
       );
+
       this.posts = data.data._value?.data;
+      this.isLoading = false;
       return data;
     },
   },
