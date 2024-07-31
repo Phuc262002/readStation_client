@@ -1,9 +1,7 @@
 import dayjs from 'dayjs';
 <template>
   <div>
-    <div
-      class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
-    >
+    <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">Phiếu trả sách</h5>
       </div>
@@ -19,26 +17,19 @@ import dayjs from 'dayjs';
               </template>
             </a-input>
           </div>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
-        <a-table
-          :columns="columns"
-          :data-source="returnHistoryStore?.ReturnHistoryAdmin?.returnHistory"
-        >
+        <a-table :columns="columns" :data-source="returnHistoryStore?.ReturnHistoryAdmin?.returnHistory"
+          :loading="returnHistoryStore?.isLoading" :pagination="false">
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'sku'">
               <a>{{ record.loan_order_detail?.loan_order?.order_code }}</a>
             </template>
             <template v-if="column.key === 'loan_order_detail'">
               <div class="flex justify-start gap-4 items-center">
-                <a-avatar
-                  :src="record.loan_order_detail?.loan_order?.user?.avatar"
-                  :size="40"
-                />
+                <a-avatar :src="record.loan_order_detail?.loan_order?.user?.avatar" :size="40" />
                 <div class="flex flex-col gap-1">
                   <span class="text-base">
                     {{ record.loan_order_detail?.loan_order?.user?.fullname }}
@@ -48,8 +39,7 @@ import dayjs from 'dayjs';
                       record.loan_order_detail?.loan_order?.user?.phone
                         ? record.loan_order_detail?.loan_order?.user?.phone
                         : ""
-                    }}</span
-                  >
+                    }}</span>
                 </div>
               </div>
             </template>
@@ -57,24 +47,18 @@ import dayjs from 'dayjs';
               <span>{{ $dayjs(record.return_date).format("DD/MM/YYYY") }}</span>
             </template>
             <template v-if="column.key === 'return_method'">
-              <span v-if="record?.return_method === 'library'"
-                >Giao trả tại thư viện</span
-              >
-              <span v-if="record?.return_method === 'pickup'"
-                >Giao trả đến thư viện</span
-              >
+              <span v-if="record?.return_method === 'library'">Giao trả tại thư viện</span>
+              <span v-if="record?.return_method === 'pickup'">Giao trả đến thư viện</span>
             </template>
             <template v-if="column.key === 'processed_by'">
-                <span>{{ record?.processed_by?.fullname ? record?.processed_by?.fullname : 'Chưa được xử lý'}}</span>
+              <span>{{ record?.processed_by?.fullname ? record?.processed_by?.fullname : 'Chưa được xử lý' }}</span>
             </template>
             <template v-if="column.key === 'status'">
               <span v-if="record?.status === 'completed'">
-                <a-tag :bordered="false"  class="bg-tag-bg-05 text-tag-text-05">Hoàn thành</a-tag>
+                <a-tag :bordered="false" class="bg-tag-bg-05 text-tag-text-05">Hoàn thành</a-tag>
               </span>
               <span v-if="record?.status === 'pending'">
-                <a-tag :bordered="false" class="bg-tag-bg-01 text-tag-text-01"
-                  >Đang xử lý</a-tag
-                >
+                <a-tag :bordered="false" class="bg-tag-bg-01 text-tag-text-01">Đang xử lý</a-tag>
               </span>
             </template>
             <template v-if="column.key === 'action'">
@@ -84,33 +68,38 @@ import dayjs from 'dayjs';
                     <span>Xem chi tiết</span>
                   </template>
                   <button
-                    class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
-                  >
-                    <Icon
-                      icon="heroicons:eye"
-                      class="group-hover:text-[#212122]"
-                    />
+                    class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md">
+                    <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
                   </button>
                 </a-tooltip>
               </NuxtLink>
             </template>
           </template>
         </a-table>
+        <div class="mt-4 flex justify-end">
+          <a-pagination v-model:current="current" :total="returnHistoryStore?.ReturnHistoryAdmin?.totalResults"
+            :pageSize="returnHistoryStore?.ReturnHistoryAdmin?.pageSize" show-less-items />
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script setup>
 import { Icon } from "@iconify/vue";
-
+const current = ref(1);
 const returnHistoryStore = useReturnHistoryStore();
 useAsyncData(async () => {
   try {
-    await returnHistoryStore.getAllReturnHistory({});
+    await returnHistoryStore.getAllReturnHistory({
+      page: current.value,
+    });
   } catch (error) {
     console.error(error);
   }
-});
+},{
+    immediate: true,
+    watch: [current],
+  });
 
 const columns = [
   {

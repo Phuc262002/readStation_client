@@ -28,11 +28,6 @@
                 name="role_id"
               >
                 <a-radio :value="1">Khách hàng</a-radio>
-                <!-- <a-radio
-                  v-if="authStore.authUser?.user?.role?.name === 'admin'"
-                  :value="3"
-                  >Quản thư</a-radio
-                > -->
                 <a-radio :value="2">Học sinh</a-radio>
                 <a-radio
                   :value="4"
@@ -188,7 +183,7 @@
                 </div>
               </div>
             </div>
-            <div class="grid grid-cols-4 gap-4" v-if="role === 'Student'">
+            <div class="grid grid-cols-4 gap-4" v-if="user.role_id === 2">
               <div>
                 <div class="flex flex-col gap-2">
                   <label class="text-sm font-semibold" for=""
@@ -251,6 +246,7 @@
                   v-model:value="province_id"
                   show-search
                   placeholder="Tỉnh/Thành phố"
+                  :filter-option="filterOption"
                   :options="optionsPronvines"
                   @focus="handleFocus"
                   @blur="handleBlur"
@@ -617,7 +613,7 @@ const handleChangeWard = (value) => {
 };
 
 const filterOption = (input, option) => {
-  return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+  return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
 const handleChangeRoleId = (e) => {
   user.value.role_id = e.target.value;

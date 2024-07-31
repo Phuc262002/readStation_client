@@ -37,11 +37,6 @@
                 name="role_id"
               >
                 <a-radio :value="1">Khách hàng</a-radio>
-                <!-- <a-radio
-                  v-if="authStore.authUser?.user?.role?.name === 'admin'"
-                  :value="3"
-                  >Quản thư</a-radio
-                > -->
                 <a-radio :value="2">Học sinh</a-radio>
                 <a-radio :value="4">Admin</a-radio>
               </a-radio-group>
@@ -679,6 +674,9 @@ const handleSubmit = async () => {
   } catch (error) {
     message.error("Cập nhập người dùng thất bại");
   }
+};
+const filterOption = (input, option) => {
+  return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
 const handleChangeGender = (e) => {
   user.value.gender = e.target.value;

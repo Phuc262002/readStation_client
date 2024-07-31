@@ -48,9 +48,6 @@
             </a-button>
           </a-dropdown>
         </div>
-        <NuxtLink to="/admin/book/create-book" class="">
-          <a-button type="primary" size="large">Thêm sách</a-button>
-        </NuxtLink>
       </div>
 
       <a-table :columns="columns" :data-source="bookreviewStore?.adminBookReviews?.bookReviews"
@@ -63,7 +60,7 @@
 
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'title'">
-            <span>{{ record?.book_detail?.book?.title }} - Phiên bản năm {{ record?.book_detail?.book_version   }}</span>
+            <span>{{ record?.book_detail?.book?.title }} - Phiên bản năm {{ record?.book_detail?.book_version }}</span>
           </template>
           <template v-if="column.key === 'user'">
             <div class="flex flex-col gap-1">
@@ -123,9 +120,9 @@ useAsyncData(async () => {
   } catch (error) {
     message.error("Lỗi tải dữ liệu");
   }
-}, { 
+}, {
   immediate: true,
-  watch:[queryRating.value]
+  watch: [queryRating.value]
 });
 const columns = [
   {
