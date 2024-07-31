@@ -11,15 +11,22 @@ export const useCommentClientStore = defineStore("comment-client-store", {
   },
   actions: {
     async getAllComment({ page, pageSize, sort }: any) {
-      const data: any = await useCustomFetch(
-        `/api/v1/account/comments/get-my-comments?${
-          page ? `&page=${page}` : ""
-        }${pageSize ? `&pageSize=${pageSize}` : ""}${
-          sort ? `&sort=${sort}` : ""
-        }`
-      );
-      this.comments = data.data._value?.data;
-      return data;
+      try {
+        this.isLoading = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/account/comments/get-my-comments?${
+            page ? `&page=${page}` : ""
+          }${pageSize ? `&pageSize=${pageSize}` : ""}${
+            sort ? `&sort=${sort}` : ""
+          }`
+        );
+        this.comments = data.data._value?.data;
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        this.isLoading = false;
+      }
     },
     async getAllRepComment({ page, pageSize, sort, post_id }: any) {
       try {

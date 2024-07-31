@@ -26,15 +26,7 @@
         <div class="flex gap-4">
           <a-button class="rounded-xl">Mới nhất</a-button>
           <a-button class="rounded-xl">Cũ nhất</a-button>
-          <a-button
-            :class="[
-              'rounded-xl',
-              rating === '5' ? 'bg-orange-500 !text-white' : '',
-            ]"
-            @click="handleCheckStatus('5')"
-          >
-            5 sao
-          </a-button>
+          <a-button class="rounded-xl"> 5 sao </a-button>
           <a-button class="rounded-xl" @click="handleCheckStatus(4)">
             4 sao
           </a-button>
@@ -127,6 +119,15 @@ const slug = route.params.slug;
 const rating = ref("");
 
 const current = ref(1);
+
+// Get One book
+useAsyncData(async () => {
+  try {
+    await bookStore.getOneBook(slug as string);
+  } catch (error) {
+    console.error("error", error);
+  }
+});
 // Get All Book Review
 const getAllReview = async () => {
   try {
@@ -149,21 +150,13 @@ useAsyncData(
   }
 );
 // Handle Check Status review
-const handleCheckStatus = (rating) => {
+const handleCheckStatus = (rating: number) => {
   rating.value = rating;
-  console.log(rating);
+  console.log(rating.value);
 };
 const limitBook = computed(() => bookStore?.books?.books?.slice(0, 5));
 
 useAsyncData(async () => {
   await bookStore.getAllBooks({});
-});
-
-useAsyncData(async () => {
-  try {
-    await bookStore.getOneBook(slug as string);
-  } catch (error) {
-    console.error("error", error);
-  }
 });
 </script>
