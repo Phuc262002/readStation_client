@@ -193,7 +193,6 @@ const onDelete = async (id) => {
         type: "book",
       });
     } else {
-      errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);
     }
   } catch (error) {

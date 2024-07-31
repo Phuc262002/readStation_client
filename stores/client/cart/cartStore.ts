@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 
 export const useCartStore = defineStore("cart-store", {
   state: () => ({
+    rentNow: {},
     carts: [],
     shippingFee: 0,
   }),
@@ -9,6 +10,9 @@ export const useCartStore = defineStore("cart-store", {
     storage: localStorage,
   },
   actions: {
+    addToRentNow(item) {
+      this.rentNow = [item];
+    },
     addToCart(product) {
       this.carts.push(product);
     },

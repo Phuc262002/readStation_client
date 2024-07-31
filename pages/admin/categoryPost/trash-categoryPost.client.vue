@@ -170,11 +170,7 @@ const columns = [
     width: "400px",
   },
 
-  {
-    title: "Nổi bật",
-    dataIndex: "is_featured",
-    key: "is_featured",
-  },
+  
 
   {
     title: "Trạng thái",

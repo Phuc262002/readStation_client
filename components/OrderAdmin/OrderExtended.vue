@@ -78,7 +78,13 @@ const handleClose = () => {
 const orderStore = useOrderStore();
 const onSubmit = async () => {
     try {
-        await orderStore.extensionOneBook({ id: props.items?.id })
+        const res = await orderStore.extensionOneBook({ id: props.items?.id })
+        console.log(res)
+        if (res.data._rawValue?.status == true) {
+            message.success("Gia hạn sách thành công");
+        } else {
+            message.error(res.data._rawValue?.errors);
+        }
     } catch (error) {
         message.error("Gia hạn thất bại");
         console.log(error)

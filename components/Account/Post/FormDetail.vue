@@ -1,11 +1,5 @@
 <template>
   <div>
-    <div
-      v-if="postStore?.isSubmitting"
-      class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default"
-    >
-      <a-spin size="large" class="absolute top-1/2 left-1/2" />
-    </div>
     <a-modal
       v-model:open="props.openModal"
       width="70%"
@@ -18,7 +12,7 @@
       >
         <a-spin size="large" />
       </div>
-      <div class="p-4">
+      <form @submit.prevent="onSubmit" class="p-4">
         <h2 class="font-bold text-base border-b border-rtgray-50 pb-5">
           Chi tiết bài viết “ {{ postStore?.post?.title }} “
         </h2>
@@ -110,12 +104,21 @@
           <a-button @click="handleClose" class="h-10 rounded-lg">Đóng</a-button>
           <a-button
             v-if="postStore?.post?.status === 'wating_approve'"
-            @click="status = 'hidden'"
+            @click="status = 'draft'"
             html-type="submit"
             :loading="postStore?.isSubmitting"
             class="h-10 border-none rounded-lg bg-orange-500 !text-white"
           >
             Lưu nháp
+          </a-button>
+          <a-button
+            v-if="postStore?.post?.status === 'draft'"
+            @click="status = 'wating_approve'"
+            html-type="submit"
+            :loading="postStore?.isSubmitting"
+            class="h-10 border-none rounded-lg bg-orange-500 !text-white"
+          >
+            Công khai
           </a-button>
           <a-button
             v-if="postStore?.post?.status === 'published'"
@@ -126,19 +129,51 @@
           >
             Ẩn bài viết
           </a-button>
+          <a-button
+            v-if="postStore?.post?.status === 'hidden'"
+            @click="status = 'published'"
+            html-type="submit"
+            :loading="postStore?.isSubmitting"
+            class="h-10 border-none rounded-lg bg-orange-500 !text-white"
+          >
+            Công khai
+          </a-button>
         </div>
-      </div>
+      </form>
     </a-modal>
   </div>
 </template>
 <script lang="ts" setup>
 const postStore = useGeneralPostStore();
+const getAllPostStore = usePostClientStore();
 const status = ref("published");
+const errors = ref({});
 const props = defineProps({
   openModal: Boolean,
   closeModal: Function,
   postDetailId: Number,
 });
+
+const onSubmit = async () => {
+  const res = await postStore.updatePost({
+    id: props.postDetailId,
+    post: {
+      status: status.value,
+    },
+  });
+  console.log("res111", res);
+  if (res.data._rawValue?.status == true) {
+    message.success("Thay đổi trạng thái thành công");
+    await getAllPostStore.getAllPost({
+      status: "client_post",
+    });
+    handleClose();
+  } else {
+    errors.value = res.error.value.data.errors;
+    message.error("Thay đổi trạng thái thất bại");
+  }
+};
+
 const open = ref(props.openModal);
 const postDetailId = ref(props.postDetailId);
 watch(

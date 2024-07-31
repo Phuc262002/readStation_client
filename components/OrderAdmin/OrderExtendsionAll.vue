@@ -81,7 +81,12 @@ const handleClose = () => {
 const orderStore = useOrderStore();
 const onSubmit = async () => {
     try {
-        await orderStore.extensionAllBook({ id: props.id });
+        const res = await orderStore.extensionAllBook({ id: props.id });
+        if (res.data._rawValue?.status == true) {
+            message.success("Gia hạn toàn bộ sách thành công");
+        } else {
+            message.error(res.data._rawValue?.errors);
+        }
     } catch (error) {
         message.error("Gia hạn thất bại");
         console.log(error)

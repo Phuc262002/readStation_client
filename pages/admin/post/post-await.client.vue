@@ -5,7 +5,7 @@
     >
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-bold">
-          Tất cả bài viết chờ duyệt
+          Tất cả bài viết đang xử lý
         </h5>
       </div>
     </div>
