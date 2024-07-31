@@ -166,6 +166,7 @@
               v-model:value="province_id"
               show-search
               placeholder="Tỉnh/Thành phố"
+              :filter-option="filterOption"
               :options="optionsPronvines"
               @focus="handleFocus"
               @blur="handleBlur"
@@ -344,6 +345,7 @@ const onSubmit = async () => {
     });
     if (resData?.data?._rawValue?.status == true) {
       message.success("Chỉnh sửa thành công");
+      await authStore.getProfile();
       isShow.value = false;
       data.value = resData?.data?._rawValue?.data;
     } else {
@@ -457,7 +459,7 @@ const handleFocus = () => {
   console.log("focus");
 };
 const filterOption = (input, option) => {
-  return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 4;
+  return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
 </script>
 <style scoped>

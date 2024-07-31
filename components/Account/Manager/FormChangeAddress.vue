@@ -47,6 +47,7 @@
               <label class="text-sm font-bold"> Tỉnh/ Thành phố </label>
               <div class="mt-1">
                 <a-select
+                  :filter-option="filterOption"
                   v-model:value="province_id"
                   :options="optionsProvines"
                   @focus="handleFocus"
@@ -300,7 +301,7 @@ const handleFocus = () => {
   console.log("focus");
 };
 const filterOption = (input, option) => {
-  return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 4;
+  return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
 </script>
 <style scoped>
