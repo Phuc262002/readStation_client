@@ -15,6 +15,11 @@
               <SearchOutlined />
             </template>
           </a-input>
+          <div
+            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          >
+            <UIcon class="text-gray-500" name="i-material-symbols-search" />
+          </div>
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu>

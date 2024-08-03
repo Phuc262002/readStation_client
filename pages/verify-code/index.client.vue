@@ -159,9 +159,9 @@ const onSubmit = handleSubmit(async (values) => {
       navigateTo("/login");
     } else {
       resErrors.value = resData.error.value.data?.errors;
-      message.error({
-        content: "Xác thực mã OTP không thành công",
-      });
+      // message.error({
+      //   content: "Xác thực mã OTP không thành công",
+      // });
     }
   } catch (error) {
     message.error({

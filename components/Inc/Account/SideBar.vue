@@ -11,7 +11,7 @@
         />
         <a-tooltip placement="top">
           <template #title>
-            <span>Thay đổi ảnh đại diện</span>
+            <span>Đổi ảnh đại diện</span>
           </template>
           <button
             @click="showModal"
