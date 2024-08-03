@@ -111,7 +111,7 @@
           </NuxtLink>
         </a-menu-item>
       </a-sub-menu>
-      <a-sub-menu key="sub4">
+      <a-sub-menu key="sub4" v-if="!isAllVerified" >
         <template #title>
           <span class="flex items-center gap-2">
             <Icon
@@ -125,18 +125,34 @@
           <NuxtLink
             to="/account/verify/verify-account"
             class="flex items-center gap-2 font-semibold"
+            v-if="!authStore.authUser?.user?.citizen_identity_card && !authStore.authUser?.user?.isCheckCCCD"
           >
             Xác thực CMT/CCCD
           </NuxtLink>
+          <NuxtLink
+            to="/account/verify/confirm-account"
+            class="flex items-center gap-2 font-semibold"
+            v-if="authStore.authUser?.user?.isCheckCCCD"
+          >
+            Xác minh CMT/CCCD
+          </NuxtLink>
         </a-menu-item>
 
-        <a-menu-item key="11">
+        <a-menu-item key="11"  v-if="!authStore.authUser?.user?.student_id_card">
           <NuxtLink
-            to="/account/verify/verify-student"
-            class="flex items-center gap-2 font-semibold"
-          >
-            Xác thực HS/SV
-          </NuxtLink>
+          to="/account/verify/verify-student"
+          class="flex items-center gap-2 font-semibold"
+          v-if="!authStore.authUser?.user?.student_id_card && !authStore.authUser?.user?.isCheckStudent"
+        >
+          Xác thực HS/SV
+        </NuxtLink>
+        <NuxtLink
+          to="/account/verify/confirm-student"
+          class="flex items-center gap-2 font-semibold"
+          v-if="authStore.authUser?.user?.isCheckStudent"
+        >
+          Xác minh HS/SV
+        </NuxtLink>
         </a-menu-item>
       </a-sub-menu>
 
@@ -190,4 +206,10 @@ const showModal = () => {
 const closeModal = () => {
   openModal.value = false;
 };
+const isAllVerified = ref<boolean>(false);
+
+
+if (authStore.authUser?.user?.citizen_identity_card && authStore.authUser?.user?.student_id_card) {
+  isAllVerified.value = true;
+}
 </script>
