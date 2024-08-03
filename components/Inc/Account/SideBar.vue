@@ -28,9 +28,23 @@
         <h2 class="font-bold px-5">
           {{ authStore?.authUser?.user?.fullname }}
         </h2>
-        <a-tag :bordered="false" color="purple" class="font-bold">{{
-          authStore?.authUser?.user?.role?.name
-        }}</a-tag>
+        <div class="font-bold">
+          <a-tag
+            :bordered="false"
+            color="purple"
+            v-if="authStore?.authUser?.user?.role?.name === 'user'"
+          >
+            Khách hàng
+          </a-tag>
+          <a-tag
+            :bordered="false"
+            color="purple"
+            v-else-if="authStore?.authUser?.user?.role?.name === 'student'"
+          >
+            HSSV
+          </a-tag>
+          <a-tag :bordered="false" color="purple" v-else> Quản lý </a-tag>
+        </div>
       </div>
     </div>
     <a-menu

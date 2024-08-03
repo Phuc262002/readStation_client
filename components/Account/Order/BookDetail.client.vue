@@ -191,7 +191,7 @@
           <a-button
             @click="handleReviewBook(order?.data?.id)"
             html-type="submit"
-            :loading="reviewStore?.isSubmitting"
+            :loading="reviewStore?.isLoading"
             class="h-10 bg-orange-500 !text-white border-none"
           >
             Gửi đánh giá
