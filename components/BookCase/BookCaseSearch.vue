@@ -51,7 +51,8 @@
 <script setup>
 import { ref } from "vue";
 import { Modal } from "ant-design-vue";
-
+const route = useRoute();
+const detailBookCaseId = route.params.id;
 const bookCaseStore = useBookcaseStore();
 const shelvesStore = useShelvesStore();
 const valueSearch = ref("");
@@ -82,10 +83,10 @@ watch(
 );
 const showConfirm = (id) => {
   Modal.confirm({
-    title: "Bạn có muốn thêm sách này vào kệ không?",
+    title: "Bạn có muốn thêm kệ sách này vào tủ không?",
+
     onOk() {
       updateDetailCase(id);
-      handleClose();
     },
     onCancel() {
       console.log("Cancel");
@@ -94,14 +95,27 @@ const showConfirm = (id) => {
   });
 };
 const updateDetailCase = async (id) => {
+  const idCase = {
+    bookcase_id: bookCaseStore?.bookCase?.id,
+  };
   try {
-    const idCase = {
-      bookcase_id: bookCaseStore?.bookCase?.id,
-    };
-    await shelvesStore.updateShelves({ id: id, valueUpdateShelves: idCase });
+    const res = await shelvesStore.updateShelves({
+      id: id,
+      valueUpdateShelves: idCase,
+    });
+    if (res.data._rawValue?.status == true) {
+      handleClose();
+      message.success("Thêm kệ sách thành công");
+      await bookCaseStore.getOneBookcase(detailBookCaseId);
+      
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
   } catch (error) {
-    console.log(error);
+    message.error("Thêm kệ sách thất bại");
   }
+  
 };
 </script>
 <style scoped>

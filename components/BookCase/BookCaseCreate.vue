@@ -54,7 +54,7 @@
           :loading="bookcaseStore.isSubmitting"
           html-type="submit"
           class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary mt-4"
-          >Lưu</a-button
+          >Thêm</a-button
         >
       </div>
     </form>

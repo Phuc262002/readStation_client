@@ -38,8 +38,8 @@
           </div>
           <div class="flex justify-end items-end gap-2">
             <a-button @click="handleClose">Hủy</a-button>
-            <a-button html-type="submit"
-              class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary mt-4">Cập
+            <a-button html-type="submit" :loading="supplierStore.isSubmitting"
+              class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary mt-4 ">Cập
               nhật</a-button>
           </div>
         </div>
@@ -71,6 +71,7 @@ watch(
 );
 const handleClose = () => {
   props.openModal();
+  errors.value = {};
 };
 const options = ref([
   {
@@ -123,8 +124,8 @@ const updateSupplier = async () => {
       valueSupplier: valueUpdateSupplier,
     });
     if (res.data._rawValue?.status == true) {
-      message.success("Cập nhật nhà cung cấp thành công");
       handleClose();
+      message.success("Cập nhật nhà cung cấp thành công");
       await supplierStore.getAllSupplier({});
     } else {
       errors.value = res.error.value.data.errors;
