@@ -5,7 +5,7 @@
     :footer="null"
     :onCancel="handleClose"
   >
-  <div
+    <div
       v-if="categoryStore.isLoading"
       class="flex justify-center items-center min-h-[50vh]"
     >
@@ -99,7 +99,7 @@
           >
           <a-button
             type="primary"
-            :loading="category.isSubmitting"
+            :loading="categoryStore.isSubmitting"
             html-type="submit"
             class="mt-4"
             >Cập nhật</a-button

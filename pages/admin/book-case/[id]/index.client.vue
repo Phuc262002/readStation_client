@@ -25,7 +25,7 @@
         </div>
         <div>
           <a-button @click="showModalEdit" size="large" type="primary"
-            >Đổi tên tủ</a-button
+            >Chỉnh sửa</a-button
           >
         </div>
       </div>
@@ -82,14 +82,29 @@
             </span>
           </template>
           <template v-if="column.key === 'status'">
-            <span>
-              <a-tag
-                style="border: none"
-                :color="record.status === 'active' ? 'green' : 'volcano'"
-              >
-                {{ record.status }}
-              </a-tag>
-            </span>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'active'"
+              class="bg-tag-bg-09 text-tag-text-09"
+            >
+              Đang hoạt động
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'inactive'"
+              class="bg-tag-bg-07 text-tag-text-07"
+            >
+              Đang ẩn
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'deleted'"
+              class="bg-tag-bg-06 text-tag-text-06"
+            >
+              Đã xóa
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-2">
@@ -173,14 +188,13 @@ const updateDetailCase = async (id) => {
 const showConfirm = (id) => {
   Modal.confirm({
     title: "Bạn có chắc xóa kệ sách này ra khỏi kệ không?",
-
-    async onOk() {
+    okText: "Xóa",
+    okType: "danger",
+    cancelText: "Hủy",
+    onOk() {
       updateDetailCase(id);
-      await bookCaseStore.getOneBookcase(detailBookCaseId);
     },
-    onCancel() {
-      console.log("Cancel");
-    },
+    onCancel() {},
   });
 };
 

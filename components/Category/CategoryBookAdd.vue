@@ -24,6 +24,7 @@
               v-model:value="category.name"
               class="w-full h-10"
               placeholder="Nhập tên danh mục"
+              required
             />
           </div>
         </div>

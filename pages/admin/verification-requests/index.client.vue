@@ -146,6 +146,11 @@
             <IconTick v-if="record.has_wallet" />
             <IconMul v-else />
           </template>
+          <template v-else-if="column.key === 'created_at'">
+            {{
+                dayjs(record.created_at).format(" DD/MM/YYYY HH:mm:ss")
+              }}
+          </template>
           <template v-else-if="column.key === 'verification_card_type'">
             <a-tag
               :bordered="false"
@@ -224,6 +229,9 @@
 
 <script setup>
 import { Icon } from "@iconify/vue";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 import { VerificationRequestsStatus } from "~/types/admin/verificationRequests";
 const verificationRequestsStore = useVerificationRequestsStore();
 const current = ref(1);
@@ -291,6 +299,11 @@ const columns = [
     title: "Người xử lý",
     dataIndex: "user_handle",
     key: "user_handle",
+  },
+  {
+    title: "Thời gian tạo",
+    dataIndex: "created_at",
+    key: "created_at",
   },
 
   {
