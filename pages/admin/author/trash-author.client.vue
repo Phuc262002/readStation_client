@@ -101,7 +101,7 @@ const onRecover = async (id) => {
       }
     });
     if (res.data._rawValue?.status == true) {
-      message.success("Khoi phuc tác giả thành công");
+      message.success("Khôi phục tác giả thành công");
       await AuthorStore.getAllAuthor({
         page: current.value,
         status: "deleted",
