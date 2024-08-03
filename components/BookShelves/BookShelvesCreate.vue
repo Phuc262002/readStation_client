@@ -18,8 +18,8 @@
                 v-model:value="valueCreateShelves.name" required />
             </div>
             <div class="flex flex-col gap-2">
-              <label for="">Mô tả</label>
-              <a-input type="text" class="border p-2 rounded-md" placeholder="Mô tả" size="large"
+              <label for="">Mô tả <span class="text-red-500">*</span></label>
+              <a-textarea type="text" class="border p-2 rounded-md" placeholder="Mô tả" size="large" required
                 v-model:value="valueCreateShelves.description" />
             </div>
           </div>
@@ -27,21 +27,21 @@
             <div class="flex flex-col gap-2">
               <label for="">Tủ sách <span class="text-red-500">*</span></label>
               <a-select v-model:value="valueCreateShelves.bookcase_id" show-search placeholder="Mã tủ sách" required
-                :options="optionsCase" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur" size="large"
-                @change="handleChange"></a-select>
+                :options="optionsCase" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
+                size="large" @change="handleChange"></a-select>
             </div>
             <div class="flex flex-col gap-2">
               <label for="">Danh mục <span class="text-red-500">*</span></label>
               <a-select v-model:value="valueCreateShelves.category_id" show-search placeholder="Mã danh mục" required
-                :options="optionsCategory" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur" size="large"
-                @change="handleChange"></a-select>
+                :options="optionsCategory" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
+                size="large" @change="handleChange"></a-select>
             </div>
           </div>
         </div>
         <div class="flex justify-end items-end gap-2">
           <a-button @click="handleClose">Hủy</a-button>
           <a-button :loading="shelvesValue.isSubmitting" html-type="submit"
-            class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary mt-4 ">Lưu</a-button>
+            class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary mt-4 ">Thêm</a-button>
         </div>
       </div>
     </form>
@@ -115,28 +115,22 @@ const onSubmit = async () => {
   try {
     const res = await shelvesValue.createShelves(valueCreateShelves.value);
     if (res) {
-      props.openModal();
       valueCreateShelves.value = {
         description: "",
         bookcase_id: "",
         bookshelf_code: "",
         category_id: "",
       };
-    }
-    if (res.data._rawValue?.status == true) {
-      message.success("Thêm kệ sách thành công");
-      useAsyncData(async () => {
-        try {
-          await shelvesValue.getAllShelves({});
-        } catch (error) {
-          console.error(error);
-        }
-      })
-    } else {
-      errors.value = res.error.value.data.errors;
-      message.error(res.error.value.data.message);
-    }
 
+      if (res.data._rawValue?.status == true) {
+        handleClose();
+        message.success("Thêm kệ sách thành công");
+        await shelvesValue.getAllShelves({});
+      } else {
+        errors.value = res.error.value.data.errors;
+        message.error(res.error.value.data.message);
+      }
+    }
   } catch (error) {
     message.error("Thêm kệ sách thất bại");
     console.error(error);
@@ -144,5 +138,6 @@ const onSubmit = async () => {
 }
 const handleClose = () => {
   props.openModal();
+  errors.value = {};
 };
 </script>

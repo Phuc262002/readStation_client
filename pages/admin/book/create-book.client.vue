@@ -33,7 +33,7 @@
                   </div>
                   <div>
                     <div class="flex flex-col gap-2">
-                      <label class="text-sm font-semibold" for="">Tên góc <span class="text-red-500">*</span></label>
+                      <label class="text-sm font-semibold" for="">Tên gốc <span class="text-red-500">*</span></label>
                       <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Tên góc" required
                         v-model:value="valuecreateBook.original_title" />
                     </div>

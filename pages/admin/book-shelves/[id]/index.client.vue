@@ -149,8 +149,13 @@ const updateDetailShelves = async (id) => {
     const idShelves = {
       shelve_id: null
     }
-    await bookStore.updateBook({ id: id, value: idShelves })
-    await bookShelves.getOneShelves(detailShelvesId);
+    const res = await bookStore.updateBook({ id: id, value: idShelves })
+    if (res.data._rawValue?.status == true) {
+      message.success("Xóa sách ra khỏi kệ thành công");
+      await bookShelves.getOneShelves(detailShelvesId);
+    } else {
+      message.error(res.error.value.data.message);
+    }
   } catch (error) {
     message.error("Xóa sách thất bại");
   }

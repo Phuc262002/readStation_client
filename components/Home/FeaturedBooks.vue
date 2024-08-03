@@ -46,19 +46,20 @@ import dayjs from 'dayjs';
                                         <h1 class="font-bold">{{ getFeauturedBooks?.getbookFeatured[0]?.author?.author
                                             }}</h1>
                                         <h1 class="font-bold">{{
-                                            $dayjs(getFeauturedBooks?.getbookFeatured[0]?.book_detail[0]?.publish_date).format("DD/MM/YYYY")
+                                            (getFeauturedBooks?.getbookFeatured[0]?.book_detail[0]?.publish_date) ?
+                                                $dayjs(getFeauturedBooks?.getbookFeatured[0]?.book_detail[0]?.publish_date).format("DD/MM/YYYY")
+                                                : ''
                                             }}</h1>
                                     </div>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <h1 class="font-bold text-xl"> {{
+                                    <h1 class="font-bold text-xl"> {{getFeauturedBooks?.getbookFeatured[0]?.book_detail[0]?.price ?
                                         new Intl.NumberFormat("vi-VN", {
                                             style: "currency",
                                             currency: "VND",
-                                        }).format( getFeauturedBooks?.getbookFeatured[0]?.book_detail[0]?.price)
-                                        }}</h1>
-                                    <a-button size="large" type="primary"
-                                        class=" w-1/2 rounded-lg text-white">Thuê
+                                        }).format(getFeauturedBooks?.getbookFeatured[0]?.book_detail[0]?.price)
+                                     : '' }}</h1>
+                                    <a-button size="large" type="primary" class=" w-1/2 rounded-lg text-white">Thuê
                                         Ngay</a-button>
                                 </div>
                             </div>

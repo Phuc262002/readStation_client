@@ -293,9 +293,9 @@
                   >
                     <tr>
                       <td
-                        class="px-3.5 py-2.5 text-left border-b border-slate-200 dark:border-zink-500"
+                        class="px-3.5 py-2.5 text-left border-b border-slate-200 dark:border-zink-500 "
                       >
-                        <h6 class="mb-1 text-sm font-bold">
+                        <h6 class="mb-1 text-sm font-bold w-[400px] text-wrap">
                           {{ items?.book_detail?.book?.title }} - Phiên bản năm
                           {{ items?.book_detail?.book_version }}
                         </h6>

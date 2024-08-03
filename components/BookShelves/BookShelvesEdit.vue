@@ -20,7 +20,7 @@
             </div>
             <div class="flex flex-col gap-2">
               <label>Mô tả <span class="text-red-500">*</span></label>
-              <a-input v-model:value="valueShelves.description" style="height: 40px;" placeholder="Nhập tên kệ sách"
+              <a-textarea v-model:value="valueShelves.description" placeholder="Nhập tên kệ sách"
                 size="large" />
             </div>
           </div>
@@ -44,7 +44,7 @@
           </div>
           <div class="flex justify-end items-end gap-2">
             <a-button @click="handleClose">Hủy</a-button>
-            <a-button type="primary" html-type="submit">Cập nhật</a-button>
+            <a-button type="primary" html-type="submit" :loading="shelvesStore.isSubmitting">Cập nhật</a-button>
           </div>
         </div>
       </form>
@@ -130,9 +130,9 @@ const updateShelves = async () => {
     }
     const res = await shelvesStore.updateShelves({ id: shelvesId.value, valueUpdateShelves: valueUpdateShelves });
     if (res.data._rawValue?.status == true) {
+      handleClose();
       message.success("Cập nhật kệ sách thành công");
       await shelvesStore.getAllShelves({});
-      props.openModal();
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);
