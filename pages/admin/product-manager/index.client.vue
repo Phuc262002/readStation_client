@@ -282,10 +282,9 @@
                   <span>{{ record.loan_order_details.length }} quyển</span>
                 </template>
                 <template v-else-if="column.dataIndex === 'loan_date'">
-                  <span v-if="record.loan_date">{{
-                    $dayjs(record.loan_date).format("DD/MM/YYYY")
-                  }}</span>
-                  <span v-else></span>
+                  <span>
+                  {{ record.loan_date ? $dayjs(record.loan_date).format('DD/MM/YYYY') : '' }}
+                  </span>
                 </template>
                 <template v-if="column.dataIndex === 'status'">
                   <span>
