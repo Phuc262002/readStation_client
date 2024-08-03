@@ -9,12 +9,19 @@
           :src="authStore?.authUser?.user?.avatar"
           alt=""
         />
-        <button
-          class="border-none absolute bottom-0 left-[calc(50%+25px)] -translate-x-1/2 w-6 h-6 bg-white rounded-full flex items-center justify-center"
-          @click="showModal"
-        >
-          <CommonAddImg />
-        </button>
+        <a-tooltip placement="top">
+          <template #title>
+            <span>Đổi ảnh đại diện</span>
+          </template>
+          <button
+            @click="showModal"
+            class="border-none absolute bottom-0 left-[calc(50%+25px)] -translate-x-1/2 w-6 h-6 bg-white rounded-full flex items-center justify-center"
+          >
+            <div class="flex items-center">
+              <CommonAddImg />
+            </div>
+          </button>
+        </a-tooltip>
       </div>
 
       <div class="mt-[17px] mb-[23px]">
@@ -181,26 +188,24 @@
       </a-menu-item>
     </a-menu>
   </a-layout-sider>
-  <ChangeAvatar :openModal="openModal" :closeModal="closeModal" />
+  <AvatarChangeAvatar :openModal="openModal" :closeModal="closeModal" />
 </template>
 <script setup lang="ts">
-import { useForm } from "vee-validate";
 import { Icon } from "@iconify/vue";
 const props = defineProps<{
   collapsed: boolean;
 }>();
 const selectedKeys = ref<string[]>(["sub1"]);
-const changeAvatarRef = ref(null);
-const openModal = ref<boolean>(false);
+const openModal = ref(false);
 
 //get API
-const data = ref(null);
 const authStore = useAuthStore();
 const logout = async () => {
   await authStore.logout();
 };
 
 const showModal = () => {
+  console.log("11");
   openModal.value = true;
 };
 const closeModal = () => {

@@ -16,7 +16,7 @@
         </template>
 
         <template #bodyCell="{ column, record, index }">
-          
+
           <template v-if="column.key === 'avatar'">
             <div class="flex justify-start gap-4 items-center">
               <a-avatar :src="record.avatar" :size="80" />
@@ -95,11 +95,21 @@ const showRecoverConfirm = (id) => {
 };
 const onRecover = async (id) => {
   try {
-    await AuthorStore.updateAuthor({
+    const res = await AuthorStore.updateAuthor({
       id: id, valueAuthor: {
         status: 'active'
       }
     });
+    if (res.data._rawValue?.status == true) {
+      message.success("Khôi phục tác giả thành công");
+      await AuthorStore.getAllAuthor({
+        page: current.value,
+        status: "deleted",
+      });
+    } else {
+      errors.value = res.error.value.data.errors;
+      message.error(res.error.value.data.message);
+    }
   } catch (error) {
     console.error(error);
   }

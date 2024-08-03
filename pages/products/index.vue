@@ -366,7 +366,8 @@ const authorStore = useAuthorPublicStore();
 const route = useRoute();
 const bookFromQuery = ref(route.query.search);
 const categoryFromQuery = route.query.category;
-console.log("category", categoryFromQuery);
+const authorFromQuery = route.query.author;
+// console.log("authorFromQuery", authorFromQuery);
 const isShow = ref([]);
 const filter = ref({
   sort: "asc",
@@ -376,6 +377,7 @@ const filter = ref({
   rating: null,
 });
 
+// Tìm kiếm
 watch(
   () => route.query.search,
   (newSearch) => {
@@ -384,20 +386,67 @@ watch(
   }
 );
 
-onMounted(async () => {
+// Chỉ định danh mục
+const updateCategoryFromQuery = async (categorySlug) => {
+  console.log("categorySlug", categorySlug);
   await categoryStore.getAllCategoryClient({ type: "book" });
 
   const matchedCategory = categoryStore?.categories?.categories?.find(
-    (cat) => cat.slug === categoryFromQuery
+    (cate) => cate.slug === categorySlug
   );
 
   if (matchedCategory) {
     filter.value.category_id = matchedCategory.id;
-    isShow.value.push("category");
+    if (!isShow.value.includes("category")) {
+      isShow.value.push("category");
+    }
+  } else {
+    filter.value.category_id = null;
   }
 
   fetchBooks();
+};
+
+onMounted(() => {
+  updateCategoryFromQuery(categoryFromQuery);
 });
+
+watch(
+  () => route.query.category,
+  (newCategory) => {
+    updateCategoryFromQuery(newCategory);
+  }
+);
+
+// Chỉ định theo tác giả
+const updateAuthorFromQuery = async (authorSlug) => {
+  console.log("authorSlug", authorSlug);
+  await authorStore.getAllAuthorClient({});
+  const matchedAuthor = authorStore?.authorClient?.authors?.find(
+    (author) => author.slug === authorSlug
+  );
+  if (matchedAuthor) {
+    filter.value.author_id = matchedAuthor.id;
+    if (!isShow.value.includes("author")) {
+      isShow.value.push("author");
+    }
+  } else {
+    filter.value.author_id = null;
+  }
+  fetchBooks();
+};
+
+onMounted(() => {
+  updateAuthorFromQuery(authorFromQuery);
+});
+
+watch(
+  () => route.query.author,
+  (newAuthor) => {
+    updateAuthorFromQuery(newAuthor);
+  }
+);
+
 const sortOptions = [
   {
     label: "Mới nhất",
@@ -453,22 +502,6 @@ useAsyncData(
   {
     immediate: true,
     watch: [current, filter.value, filter.value.sort],
-  }
-);
-watch(
-  () => route.query.category,
-  (newCategory) => {
-    const matchedCategory = categoryStore?.categories?.categories?.find(
-      (cat) => cat.slug === newCategory
-    );
-
-    if (matchedCategory) {
-      filter.value.category_id = matchedCategory.id;
-    } else {
-      filter.value.category_id = null;
-    }
-
-    fetchBooks();
   }
 );
 

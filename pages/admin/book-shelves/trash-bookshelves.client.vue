@@ -60,8 +60,8 @@ const bookShelves = useShelvesStore()
 useAsyncData(async () => {
   try {
     await bookShelves.getAllShelves({
-    status: "deleted"
-  })
+      status: "deleted"
+    })
   } catch (error) {
     console.error(error)
   }
@@ -82,14 +82,21 @@ const showRecoverConfirm = (id) => {
   });
 };
 const onRecover = async (id) => {
-  await bookShelves.updateShelves({
+  const res = await bookShelves.updateShelves({
     id: id, valueUpdateShelves: {
       status: 'active'
     }
   });
-  await bookShelves.getAllShelves({
-    status: "deleted"
-  })
+  if (res.data._rawValue?.status == true) {
+    message.success("Khôi phục kệ sách thành công");
+    await bookShelves.getAllShelves({
+      status: "deleted"
+    })
+  } else {
+    errors.value = res.error.value.data.errors;
+    message.error(res.error.value.data.message);
+  }
+
 }
 
 const columns = [

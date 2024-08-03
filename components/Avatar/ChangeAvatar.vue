@@ -1,83 +1,122 @@
 <template>
   <a-modal
     v-model:open="props.openModal"
-    title="Thêm hình đại diện của bạn"
+    :onCancel="handleClose"
     :footer="null"
-    :closable="false"
   >
-    <form @submit.prevent="onSubmit">
-      <div class="bg-white py-2">
-        <div class="pb-4">
-          <label for="email" class="block text-sm font-medium text-gray-700">
-            Hình đại diện
-          </label>
-          <div class="mt-1">
-            <CommonUploadImg :value="file" @input="(event) => (file = event)" />
-          </div>
-        </div>
+    <form @submit.prevent="onSubmit" class="space-y-4">
+      <p class="font-bold">Đổi ảnh đại diện của bạn</p>
 
-        <a class="flex justify-end items-end gap-4">
-          <a-button
-            @click="handleClose"
-            type="primary"
-            danger
-            html-type="button"
-            class="mt-4"
-            >Hủy</a-button
+      <ClientOnly>
+        <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
+          <a-upload-dragger
+            v-model:fileList="fileList"
+            list-type="picture"
+            name="image"
+            :multiple="false"
+            :action="(file) => uploadFile(file)"
+            @change="handleChange"
+            @drop="handleDrop"
+            :before-upload="beforeUpload"
+            :remove="(file) => deleteFile(file)"
           >
-        </a>
+            <p class="ant-upload-drag-icon">
+              <inbox-outlined></inbox-outlined>
+            </p>
+            <p class="ant-upload-text">Click hoặc kéo thả file vào đây</p>
+            <p class="ant-upload-hint">Hoặc nhấn vào đây để chọn file</p>
+          </a-upload-dragger>
+        </a-spin>
+      </ClientOnly>
+
+      <div class="flex justify-end gap-2">
+        <a-button class="h-10 text-base" @click="handleClose">Hủy</a-button>
         <a-button
-          type="primary"
-          :loading="userStore.isSubmitting"
           html-type="submit"
-          class="mt-4"
-          >Lưu</a-button
+          :loading="authStore?.isSubmitting"
+          class="h-10 text-base bg-orange-500 border-none !text-white"
         >
+          Lưu
+        </a-button>
       </div>
     </form>
   </a-modal>
 </template>
-<script setup>
-const userStore = useUserStore();
-const auth = ref({
-  avatar: "",
-});
+<script lang="ts" setup>
+const authStore = useAuthStore();
+const fileList = ref([]);
+const baseStore = useBaseStore();
+const imageInfo = ref("");
 const props = defineProps({
   openModal: Boolean,
   closeModal: Function,
 });
 const open = ref(props.openModal);
-
 watch(
   () => props.openModal,
-  (newVal) => {
-    open.value = newVal;
+  (newValue) => {
+    open.value = newValue;
   }
 );
-
-const uploadFile = async () => {
-  const formData = new FormData();
-  formData.append("image", file._rawValue.target.files[0]);
-  const dataUpload = await baseStore.uploadImg(formData);
-
-  return dataUpload.data._rawValue.data.link;
-};
-
-const onSubmit = async () => {
-  const url = await uploadFile();
-  await userStore.updateProfile({
-    avatar: url,
-  });
-  await userStore.getProfile({});
-  auth.value = {
-    avatar: "",
-  };
-  props.openModal();
-};
 const handleClose = () => {
-  auth.value = {
-    avatar: "",
-  };
-  props.openModal();
+  props.closeModal();
+};
+// Create post
+const onSubmit = async () => {
+  console.log("Image info before submit:", imageInfo.value);
+  if (!imageInfo.value?.url) {
+    message.error(
+      "Vui lòng chọn ảnh đại diện, hoặc ấn ' Hủy ' để quay trở lại!"
+    );
+    return;
+  }
+  const res = await authStore.updateProfile({
+    avatar: imageInfo.value?.url,
+  });
+
+  if (res.data._rawValue?.status == true) {
+    message.success("Đổi ảnh đại diện thành công");
+    await authStore.getProfile();
+    handleClose();
+  } else {
+    errors.value = res.error.value.data.errors;
+    message.error("Đổi ảnh đại diện thất bại");
+  }
+};
+// Upload Image
+const uploadFile = async (file) => {
+  if (fileList.value.length > 0) {
+    fileList.value = [];
+    await baseStore.deleteImg(imageInfo.value?.publicId);
+  }
+  const formData = new FormData();
+  formData.append("image", file);
+  try {
+    const dataUpload = await baseStore.uploadImg(formData);
+    imageInfo.value = dataUpload.data._rawValue.data;
+  } catch (error) {
+    message.error("Upload ảnh thất bại");
+  }
+};
+const handleChange = (info) => {
+  const status = info.file.status;
+  if (status !== "uploading") {
+    console.log(info.file, info.fileList);
+  }
+  if (status === "done") {
+    message.success(`${info.file.name} file uploaded successfully.`);
+  } else if (status === "error") {
+    message.error(`${info.file.name} file upload failed.`);
+  }
+};
+const deleteFile = async (file) => {
+  await baseStore.deleteImg(imageInfo.value?.publicId);
+};
+const beforeUpload = (file) => {
+  const isImage = file.type.startsWith("image/");
+  if (!isImage) {
+    message.error("Bạn chỉ có thể tải lên file ảnh!");
+  }
+  return isImage || Upload.LIST_IGNORE;
 };
 </script>

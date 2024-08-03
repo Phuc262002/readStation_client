@@ -12,8 +12,8 @@
                 <img class="w-32 h-38" :src="category?.image" alt="" />
               </div>
             </div>
+            <div class="text-xl text-center mt-2 font-semibold">{{ category?.name }}</div>
           </NuxtLink>
-          <div class="text-xl font-semibold">{{ category?.name }}</div>
         </div>
       </div>
     </div>

@@ -258,10 +258,7 @@ const idBook = route.params.id;
 console.log("idBook", idBook);
 
 const reviewStore = useReviewBookClientStore();
-// useAsyncData(async () => {
-//   await orderStore.getOneOrder(id);
-// });
-// review Book
+
 const review = ref({
   review_text: "",
 });

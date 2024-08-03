@@ -63,7 +63,7 @@
           </template>
           <template v-if="column.key === 'dob'">
             <span>
-              {{ $dayjs(record.dob).format("DD/MM/YYYY") }}
+              {{ record.dob ? $dayjs(record.dob).format("DD/MM/YYYY") : '' }}
             </span>
           </template>
           <template v-if="column.key === 'status'">
@@ -146,8 +146,14 @@ useAsyncData(async () => {
 
 const onDelete = async (id: string) => {
   try {
-    await AuthorStore.deleteAuthor(id);
-    getDataAuthor()
+    const res = await AuthorStore.deleteAuthor(id);
+    if (res.data._rawValue?.status == true) {
+      message.success("Xóa tác giả thành công");
+      getDataAuthor();
+    } else {
+      message.error(res.error.value.data.message);
+    }
+
   } catch (error) {
     console.error(error);
   }

@@ -66,7 +66,9 @@
               @input="(event) => (ValueAuthor.description = event)" />
           </div>
           <div class="flex justify-end gap-2">
-            <a-button> Hủy</a-button>
+            <NuxtLink to="/admin/author">
+              <a-button> Hủy</a-button>
+            </NuxtLink>
             <a-button type="primary" html-type="submit" :loading="AuthorStore.isSubmitting">Cập nhật</a-button>
           </div>
         </div>
@@ -187,6 +189,6 @@ const handleFocus = () => {
   console.log("focus");
 };
 const filterOption = (input, option) => {
-  return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+  return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
 </script>

@@ -40,18 +40,8 @@
                   "
                   >Đang hoạt động</a-menu-item
                 >
-                <!-- <a-menu-item
-                  @click="
-                    statusValue({ value: 'wating_approve', label: 'Chờ duyệt' })
-                  "
-                  >Chờ duyệt</a-menu-item
-                > -->
-                <a-menu-item
-                  @click="
-                    statusValue({ value: 'approve_canceled', label: 'Từ chối' })
-                  "
-                  >Từ chối</a-menu-item
-                >
+            
+                
                 <a-menu-item
                   @click="statusValue({ value: 'draft', label: 'Bản nháp' })"
                   >Bản nháp</a-menu-item
@@ -72,25 +62,25 @@
             <template #overlay>
               <a-menu class="">
                 <a-menu-item @click="typeValue({ value: '', label: 'Tất cả' })"
-                  >Tất cả</a-menu-item
+                  >Tất cả </a-menu-item
                 >
                 <a-menu-item
                   @click="
                     typeValue({
                       value: 'member',
-                      label: 'bài viết của thành viên',
+                      label: 'Bài viết đóng góp',
                     })
                   "
-                  >bài viết của thành viên</a-menu-item
+                  >Bài viết đóng góp</a-menu-item
                 >
                 <a-menu-item
                   @click="
                     typeValue({
                       value: 'manager',
-                      label: 'bài viết của thư viện',
+                      label: 'Bài viết của thư viện',
                     })
                   "
-                  >bài viết của thư viện</a-menu-item
+                  >Bài viết của thư viện</a-menu-item
                 >
               </a-menu>
             </template>

@@ -1,11 +1,5 @@
 <template>
   <div>
-    <div
-      v-if="postStore.isLoading"
-      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
-    >
-      <a-spin size="large" class="absolute top-1/2 left-1/2" />
-    </div>
     <h2 class="text-sm font-bold pb-5">Bài viết của bạn</h2>
     <div class="bg-white rounded-lg shadow-md shadow-gray-300 p-5">
       <div class="relative w-2/4 md:block hidden">
@@ -25,8 +19,6 @@
       <div class="flex items-center justify-between py-5">
         <div class="flex gap-2">
           <a-button
-            :loading="postStore.isLoading"
-            html-type="submit"
             :class="[
               'flex items-center justify-center rounded-lg h-10 border-none shadow-none gap-2',
               filter === null ? 'bg-orange-500 !text-white' : '',
@@ -110,6 +102,7 @@
         :columns="columns"
         :data-source="postStore?.posts?.posts"
         :pagination="false"
+        :loading="postStore?.isLoading"
       >
         <template #bodyCell="{ column, record }">
           <!--  -->

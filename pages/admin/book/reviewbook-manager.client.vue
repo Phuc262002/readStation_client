@@ -24,7 +24,7 @@
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
-                <a-menu-item>Tất cả sao</a-menu-item>
+                <a-menu-item @click="fitlerRating({ value: '', label: 'Tất cả sao' })">Tất cả sao</a-menu-item>
                 <a-menu-item>
                   <CommonRating @click="fitlerRating({ value: 5, label: '5 sao' })" :rating="5" />
                 </a-menu-item>
@@ -47,10 +47,34 @@
               <DownOutlined />
             </a-button>
           </a-dropdown>
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item @click="statusValue({ value: '', label: 'Trạng thái' })">Tất cả trạng thái</a-menu-item>
+                <a-menu-item @click="statusValue({ value: 'active', label: 'Hoạt động' })">Hoạt động</a-menu-item>
+                <a-menu-item @click="
+                  statusValue({ value: 'inactive', label: 'Không hoạt động' })
+                  ">Không hoạt động</a-menu-item>
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryStatus.label ? queryStatus.label : 'Trạng thái' }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item @click="sortValue({ value: 'desc', label: 'Mới nhất' })">Mới nhất</a-menu-item>
+                <a-menu-item @click="sortValue({ value: 'asc', label: 'Cũ nhất' })">Cũ nhất</a-menu-item>
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ querySort.label ? querySort.label : 'Mới nhất' }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
-        <NuxtLink to="/admin/book/create-book" class="">
-          <a-button type="primary" size="large">Thêm sách</a-button>
-        </NuxtLink>
       </div>
 
       <a-table :columns="columns" :data-source="bookreviewStore?.adminBookReviews?.bookReviews"
@@ -63,7 +87,7 @@
 
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'title'">
-            <span>{{ record?.book_detail?.book?.title }} - Phiên bản năm {{ record?.book_detail?.book_version   }}</span>
+            <span>{{ record?.book_detail?.book?.title }} - Phiên bản năm {{ record?.book_detail?.book_version }}</span>
           </template>
           <template v-if="column.key === 'user'">
             <div class="flex flex-col gap-1">
@@ -101,13 +125,26 @@
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination v-model:current="current" :total="bookreviewStore?.adminBookReviews?.totalResults"
+          :pageSize="bookreviewStore?.adminBookReviews?.pageSize" show-less-items />
+      </div>
     </div>
   </div>
 </template>
 <script setup>
 import { Icon } from "@iconify/vue";
 const bookreviewStore = useBookReviewStore();
+const current = ref(1);
 const queryRating = ref({
+  value: "",
+  label: "",
+});
+const queryStatus = ref({
+  value: "",
+  label: "",
+});
+const querySort = ref({
   value: "",
   label: "",
 });
@@ -115,17 +152,28 @@ const fitlerRating = ({ value, label }) => {
   queryRating.value.value = value;
   queryRating.value.label = label;
 };
+const statusValue = ({ value, label }) => {
+  queryStatus.value.value = value;
+  queryStatus.value.label = label;
+};
+const sortValue = ({ value, label }) => {
+  querySort.value.value = value;
+  querySort.value.label = label;
+};
 useAsyncData(async () => {
   try {
     await bookreviewStore.getAllBookReviews({
+      page: current.value,
       rating: queryRating.value?.value,
+      status: queryStatus.value?.value,
+      sort: querySort.value?.value,
     });
   } catch (error) {
     message.error("Lỗi tải dữ liệu");
   }
-}, { 
+}, {
   immediate: true,
-  watch:[queryRating.value]
+  watch: [current, queryRating.value, queryStatus.value, querySort.value],
 });
 const columns = [
   {

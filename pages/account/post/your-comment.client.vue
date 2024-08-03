@@ -4,6 +4,7 @@
 
     <div class="p-5 bg-white mt-5 shadow-lg rounded-xl">
       <a-table
+        :loading="commentStore?.isLoading"
         :columns="columns"
         :data-source="commentStore?.comments?.comments"
         :pagination="false"

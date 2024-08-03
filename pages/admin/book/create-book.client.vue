@@ -33,7 +33,7 @@
                   </div>
                   <div>
                     <div class="flex flex-col gap-2">
-                      <label class="text-sm font-semibold" for="">Tên góc <span class="text-red-500">*</span></label>
+                      <label class="text-sm font-semibold" for="">Tên gốc <span class="text-red-500">*</span></label>
                       <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Tên góc" required
                         v-model:value="valuecreateBook.original_title" />
                     </div>
@@ -423,7 +423,7 @@ const handleFocus = () => {
   console.log("focus");
 };
 const filterOption = (input, option) => {
-  return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+  return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
 </script>
 <style scoped>

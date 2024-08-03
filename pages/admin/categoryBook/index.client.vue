@@ -87,29 +87,32 @@
             <IconMul v-else />
           </template>
           <template v-else-if="column.key === 'status'">
-            <a-tag
-              :bordered="false"
-              v-if="record.status === CategoryStatus.ACTIVE"
-              class="bg-tag-bg-09 text-tag-text-09"
-            >
-              Công khai
-            </a-tag>
+            <div v-if="record.is_featured"></div>
+            <div v-else>
+              <a-tag
+                :bordered="false"
+                v-if="record.status === CategoryStatus.ACTIVE"
+                class="bg-tag-bg-09 text-tag-text-09"
+              >
+                Công khai
+              </a-tag>
 
-            <a-tag
-              :bordered="false"
-              v-if="record.status === CategoryStatus.INACTIVE"
-              class="bg-tag-bg-07 text-tag-text-07"
-            >
-              Đang ẩn
-            </a-tag>
+              <a-tag
+                :bordered="false"
+                v-if="record.status === CategoryStatus.INACTIVE"
+                class="bg-tag-bg-07 text-tag-text-07"
+              >
+                Đang ẩn
+              </a-tag>
 
-            <a-tag
-              :bordered="false"
-              v-if="record.status === CategoryStatus.DELETED"
-              class="bg-tag-bg-06 text-tag-text-06"
-            >
-              Đã xóa
-            </a-tag>
+              <a-tag
+                :bordered="false"
+                v-if="record.status === CategoryStatus.DELETED"
+                class="bg-tag-bg-06 text-tag-text-06"
+              >
+                Đã xóa
+              </a-tag>
+            </div>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-2">
@@ -193,13 +196,11 @@ const onDelete = async (id) => {
         type: "book",
       });
     } else {
-      errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);
     }
   } catch (error) {
     message.error("Xóa danh mục thất bại");
   }
-
 };
 const showDeleteConfirm = (id) => {
   Modal.confirm({

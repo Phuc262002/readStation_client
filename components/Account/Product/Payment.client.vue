@@ -73,73 +73,45 @@
 const bookStore = useBookPublicStore();
 const cartStore = useCartStore();
 const handleRentNow = () => {
-  try {
-    if (cartStore && cartStore?.carts) {
-      const bookToAdd = bookStore?.book;
-      const isCheck = cartStore?.carts.some((item) => item.id === bookToAdd.id);
-      if (isCheck) {
-        message.error({
-          content: "Thuê sản phẩm thất bại. Sản phẩm đã có trong giỏ hàng",
-        });
-        return;
-      }
-      if (cartStore?.carts.length < 3) {
-        if (bookToAdd) {
-          cartStore.addToCart(bookStore?.book);
-          message.success({
-            content:
-              "Thêm sản phẩm thành công. Chuyển hướng đến trang thanh toán!",
-          });
-          navigateTo("/account/order/checkout");
-        } else {
-          message.error({
-            content: "Thêm sản phẩm thất bại.",
-          });
-        }
-      } else {
-        message.error({
-          content: "Thêm sản phẩm thất bại. Đơn hàng tối đa 3 quyển!",
-        });
-      }
-    }
-  } catch (error) {
+  const bookToAdd = bookStore?.book;
+  if (bookToAdd) {
+    cartStore.addToRentNow(bookStore?.book);
+    message.success({
+      content: "Thêm sản phẩm thành công. Chuyển hướng đến trang thanh toán!",
+    });
+    navigateTo("/account/order/checkout?type=thue_ngay");
+  } else {
     message.error({
-      content: "Thêm sản phẩm thất bại. Vui lòng thử lại!",
+      content: "Thêm sản phẩm thất bại.",
     });
   }
 };
 const addToCart = () => {
-  try {
-    if (cartStore && cartStore?.carts) {
-      const bookToAdd = bookStore?.book;
-      const isCheck = cartStore?.carts.some((item) => item.id === bookToAdd.id);
-      if (isCheck) {
-        message.error({
-          content: "Thêm sản phẩm thất bại. Sản phẩm đã có trong giỏ hàng",
+  if (cartStore && cartStore?.carts) {
+    const bookToAdd = bookStore?.book;
+    const isCheck = cartStore?.carts.some((item) => item.id === bookToAdd.id);
+    if (isCheck) {
+      message.error({
+        content: "Thêm sản phẩm thất bại. Sản phẩm đã có trong giỏ hàng",
+      });
+      return;
+    }
+    if (cartStore?.carts.length < 3) {
+      if (bookToAdd) {
+        cartStore.addToCart(bookStore?.book);
+        message.success({
+          content: "Thêm sản phẩm thành công",
         });
-        return;
-      }
-      if (cartStore?.carts.length < 3) {
-        if (bookToAdd) {
-          cartStore.addToCart(bookStore?.book);
-          message.success({
-            content: "Thêm sản phẩm thành công",
-          });
-        } else {
-          message.error({
-            content: "Thêm sản phẩm thất bại.",
-          });
-        }
       } else {
         message.error({
-          content: "Thêm sản phẩm thất bại. Đơn hàng tối đa 3 quyển!",
+          content: "Thêm sản phẩm thất bại.",
         });
       }
+    } else {
+      message.error({
+        content: "Thêm sản phẩm thất bại. Đơn hàng tối đa 3 quyển!",
+      });
     }
-  } catch (error) {
-    message.error({
-      content: "Thêm sản phẩm thất bại. Vui lòng thử lại!",
-    });
   }
 };
 </script>

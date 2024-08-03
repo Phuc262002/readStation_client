@@ -355,25 +355,22 @@
         </div>
       </div>
 
-      <div class="flex justify-end pt-4 gap-2">
+      <div
+        class="flex justify-end pt-4 gap-2"
+        v-if="
+          orderStore?.order?.status === 'active' ||
+          $dayjs(new Date()).format('YYYY-MM-DD') ===
+            $dayjs(orderStore?.order?.current_due_date).format('YYYY-MM-DD')
+        "
+      >
         <a-button
           @click="showReturnAll"
-          v-if="
-            orderStore?.order?.status === 'active' ||
-            $dayjs(new Date()).format('YYYY-MM-DD') ===
-              $dayjs(orderStore?.order?.current_due_date).format('YYYY-MM-DD')
-          "
           class="h-10 border-orange-400 text-orange-400"
         >
           Trả sách toàn bộ
         </a-button>
         <a-button
           @click="showExtendAll"
-          v-if="
-            orderStore?.order?.status === 'active' ||
-            $dayjs(new Date()).format('YYYY-MM-DD') ===
-              $dayjs(orderStore?.order?.current_due_date).format('YYYY-MM-DD')
-          "
           class="h-10 bg-orange-500 !text-white border-none"
         >
           Gia hạn toàn bộ

@@ -50,8 +50,6 @@
                 >
                   Sinh viên
                 </a-tag>
-
-                
               </span>
             </div>
             <div class="grid grid-cols-3">
@@ -87,16 +85,14 @@
                   </span>
                 </div>
                 <div class="grid grid-cols-5">
-                  <span class="text-base col-span-3 font-bold"
-                    >Số dư:
-                  </span>
+                  <span class="text-base col-span-3 font-bold">Số dư: </span>
                   <span class="text-base col-span-2">
                     {{
-                  new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(userStore?.user?.balance_holding)
-                }}
+                      new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(userStore?.user?.balance_holding)
+                    }}
                   </span>
                 </div>
 
@@ -129,12 +125,11 @@
                   </span>
                 </div>
               </div>
-             
             </div>
           </div>
         </div>
       </div>
-   
+
       <div class="grid md:grid-cols-2 gap-5">
         <div
           class="md:col-span-1 space-y-3 md:border-r md:border-gray-200 md:pr-5"
@@ -164,9 +159,10 @@
           </div>
           <div class="grid grid-cols-6">
             <span class="text-base col-span-2 font-bold">Giới tính: </span>
-            <span class="text-base col-span-4">
-              {{ userStore.user?.gender === 'male' ? 'Nam' : 'Nữ' }}
+            <span v-if="userStore.user?.gender" class="text-base col-span-4">
+              {{ userStore.user?.gender === "male" ? "Nam" : "Nữ" }}
             </span>
+            <span v-else></span>
           </div>
           <div class="grid grid-cols-6">
             <span class="text-base col-span-2 font-bold">Công việc: </span>
@@ -194,9 +190,11 @@
             <span class="text-base col-span-1 font-bold">Ngày cấp: </span>
             <span class="text-base col-span-3">
               {{
-                  userStore.user?.citizen_identity_card ? $dayjs(
-                  userStore.user?.citizen_identity_card?.date_of_issue
-                ).format(" DD/MM/YYYY ") : ''
+                userStore.user?.citizen_identity_card
+                  ? $dayjs(
+                      userStore.user?.citizen_identity_card?.date_of_issue
+                    ).format(" DD/MM/YYYY ")
+                  : ""
               }}
             </span>
           </div>
