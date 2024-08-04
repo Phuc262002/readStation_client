@@ -182,7 +182,6 @@ const onSubmit = async () => {
       type: "book",
     });
     if (res.data._rawValue?.status == true) {
-      message.success("Thêm danh mục sản phẩm thành công");
       await categoryStore.getAllCategory({
         type: "book",
       });
@@ -196,6 +195,7 @@ const onSubmit = async () => {
         fileList.value = [];
       }
       props.openModal();
+      message.success("Thêm danh mục sản phẩm thành công");
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);

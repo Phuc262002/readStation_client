@@ -8,7 +8,7 @@
           Thông tin thanh toán
         </h2>
         <div
-          v-if="query.status === 'SUCCESS'"
+          v-if="query.status === 'PAID'"
           class="bg-[#30c373] h-20 w-20 rounded-full flex justify-center items-center"
         >
           <Icon icon="charm:tick" class="text-[50px] text-white" />
@@ -21,7 +21,7 @@
         </div>
 
         <div class="pt-5">
-          <div v-if="query.status === 'SUCCESS'" class="space-y-0 pb-4">
+          <div v-if="query.status === 'PAID'" class="space-y-0 pb-4">
             <h2 class="font-bold text-xl pb-2">Thanh toán thành công</h2>
             <p class="font-bold">Giao dịch thành công</p>
           </div>
@@ -37,7 +37,7 @@
               <p class="font-bold">{{ query.orderCode }}</p>
             </div>
             <a-divider />
-            <div v-if="query.status === 'SUCCESS'" class="flex justify-between">
+            <div v-if="query.status === 'PAID'" class="flex justify-between">
               <p class="text-[#84878b] font-semibold">Số tiền</p>
               <p class="font-bold text-[green]">
                 {{
@@ -172,7 +172,7 @@ onMounted(async () => {
       id: query.orderCode,
       body: {
         body: query,
-        status: query.status === 'SUCCESS' ? 'success' : 'canceled',
+        status: query.status === 'PAID' ? 'success' : 'canceled',
       },
     });
   } else {

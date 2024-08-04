@@ -106,6 +106,7 @@
             ?.verificationRequests
         "
         :loading="verificationRequestsStore.isLoading"
+        :pagination="false"
       >
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'user_handle'">
@@ -147,9 +148,7 @@
             <IconMul v-else />
           </template>
           <template v-else-if="column.key === 'created_at'">
-            {{
-                dayjs(record.created_at).format(" DD/MM/YYYY HH:mm:ss")
-              }}
+            {{ dayjs(record.created_at).format(" DD/MM/YYYY HH:mm:ss") }}
           </template>
           <template v-else-if="column.key === 'verification_card_type'">
             <a-tag
@@ -223,6 +222,18 @@
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="
+            verificationRequestsStore.verificationRequestsAdmin?.totalResults
+          "
+          :pageSize="
+            verificationRequestsStore.verificationRequestsAdmin?.pageSize
+          "
+          show-less-items
+        />
+      </div>
     </div>
   </div>
 </template>

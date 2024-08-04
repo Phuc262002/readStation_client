@@ -227,7 +227,7 @@ useAsyncData(async () => {
       navigateTo("/account/order");
     }
   } else {
-    console.log('fail');
+    console.log("fail");
   }
   payment_portal.value = orderStore.order?.transactions[0]?.portal;
 });
