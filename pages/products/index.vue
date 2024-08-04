@@ -143,8 +143,9 @@
                         id: null,
                       })
                     "
-                    >Tất cả</a-radio
                   >
+                    Tất cả
+                  </a-radio>
                 </li>
                 <li
                   class="flex items-center"
@@ -163,8 +164,8 @@
                       })
                     "
                   >
-                    {{ company?.name }}</a-radio
-                  >
+                    {{ company?.name }}
+                  </a-radio>
                 </li>
               </ul>
             </div>
@@ -486,7 +487,9 @@ const handleCheckbox = ({ type, id }: any) => {
     default:
       break;
   }
+  console.log("filter.value.rating", filter.value.rating);
 };
+
 const handleSortChange = (value: string) => {
   filter.value.sort = value;
   // console.log("aaa", filter.value);

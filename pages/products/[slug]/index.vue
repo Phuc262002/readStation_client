@@ -118,45 +118,51 @@
       <div class="grid grid-cols-5 gap-5">
         <div
           class="mt-10 w-full"
-          v-for="(book, index) in limitBook"
+          v-for="(book, index) in recommendationBooks"
           :key="book.id || index"
         >
-          <NuxtLink :to="`/products/${book?.book?.slug}-${book?.id}`">
-            <div class="flex flex-col gap-5 p-3 border rounded-lg">
-              <div class="mx-auto">
-                <img
-                  class="rounded-lg w-[180px] h-[284px]"
-                  :src="book?.poster"
-                  alt=""
-                />
-              </div>
+          <div class="flex flex-col gap-5 p-3 border rounded-lg">
+            <NuxtLink
+              :to="`/products/${book?.book?.slug}-${book?.id}`"
+              class="mx-auto"
+            >
+              <img
+                class="rounded-lg w-[180px] h-[284px]"
+                :src="book?.poster"
+                alt=""
+              />
+            </NuxtLink>
 
-              <div class="flex flex-col gap-1">
-                <div
-                  class="text-xl font-bold hover:text-[#f65d4e] line-clamp-1"
-                >
-                  {{ book?.book?.title }}
-                </div>
-                <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
-                  {{ book?.book_version }}
-                </div>
-                <div class="flex justify-start">
-                  <CommonRating :rating="book?.average_rate" />
-                </div>
-                <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
-                  {{ book?.book?.author?.author }}
-                </div>
-                <div class="text-orange-600 font-extrabold text-xl">
-                  {{
-                    new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(book?.price)
-                  }}
-                </div>
+            <div class="flex flex-col gap-1">
+              <NuxtLink
+                :to="`/products/${book?.book?.slug}-${book?.id}`"
+                class="text-xl font-bold hover:text-[#f65d4e] line-clamp-1"
+              >
+                {{ book?.book?.title }}
+              </NuxtLink>
+
+              <div class="text-sm text-[#999999]">
+                {{ book?.book_version }}
+              </div>
+              <div class="flex justify-start">
+                <CommonRating :rating="book?.average_rate" />
+              </div>
+              <NuxtLink
+                :to="`/products?author=${book?.book?.author?.slug}`"
+                class="text-sm text-[#999999] hover:text-[#f65d4e]"
+              >
+                {{ book?.book?.author?.author }}
+              </NuxtLink>
+              <div class="text-orange-600 font-extrabold text-xl">
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(book?.price)
+                }}
               </div>
             </div>
-          </NuxtLink>
+          </div>
         </div>
       </div>
     </div>
@@ -166,6 +172,7 @@
 <script setup lang="ts">
 const bookStore = useBookPublicStore();
 const detailReview = useBookDetailReviewStore();
+const authorStore = useAuthorPublicStore();
 const route = useRoute();
 const slug = route.params.slug;
 const parts = slug.split("-");
@@ -173,7 +180,10 @@ const lastPart = parts.pop();
 const filter = ref("");
 const arrange = ref("asc");
 const current = ref(1);
-
+// Get all author
+useAsyncData(async () => {
+  await authorStore.getAllAuthorClient();
+});
 // Check arrange
 const handleCheckSort = (sort) => {
   arrange.value = sort;
@@ -209,8 +219,17 @@ useAsyncData(
   }
 );
 
-const limitBook = computed(() => bookStore?.books?.books?.slice(0, 5));
-
+const recommendationBooks = computed(() =>
+  bookStore?.books?.books
+    ?.filter((book) => {
+      const isDifferWithCurrentBook = book?.id !== bookStore?.book?.id;
+      const isBeLongToCurrentType =
+        book?.book?.category?.slug === bookStore?.book?.book?.category?.slug;
+      return isBeLongToCurrentType && isDifferWithCurrentBook;
+    })
+    ?.slice(0, 5)
+);
+console.log("first", recommendationBooks);
 useAsyncData(async () => {
   await bookStore.getAllBooks({});
 });

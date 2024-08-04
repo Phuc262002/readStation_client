@@ -150,23 +150,16 @@ const onSubmit = handleSubmit(async (values) => {
       otpCode,
       email: email.value,
     });
-
     if (resData?.data?._rawValue?.status == true) {
       message.success({
         content: "Xác thực mã OTP thành công",
       });
-
       navigateTo("/login");
     } else {
-      resErrors.value = resData.error.value.data?.errors;
-      // message.error({
-      //   content: "Xác thực mã OTP không thành công",
-      // });
+      message.error(resData?.data?._rawValue?.message);
     }
   } catch (error) {
-    message.error({
-      content: "Xác thực mã OTP không thành công",
-    });
+    console.log("error", error);
   } finally {
     isSubmitting.value = false;
   }
