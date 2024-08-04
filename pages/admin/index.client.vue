@@ -522,7 +522,7 @@
                 class="text-[80px] text-gray-300"
               />
             </div>
-            <h1 class="text-[#7b7b7b] font-semibold">Chưa có dữ liệu</h1>
+            <h1 class="text-[#7b7b7b] font-semibold"></h1>
           </div>
 
           <DashboardBook
@@ -546,7 +546,7 @@
                 class="text-[80px] text-gray-300"
               />
             </div>
-            <h1 class="text-[#7b7b7b] font-semibold">Chưa có dữ liệu</h1>
+            <h1 class="text-[#7b7b7b] font-semibold"></h1>
           </div>
 
           <DashboardBill
@@ -570,7 +570,7 @@
                 class="text-[80px] text-gray-300"
               />
             </div>
-            <h1 class="text-[#7b7b7b] font-semibold">Chưa có dữ liệu</h1>
+            <h1 class="text-[#7b7b7b] font-semibold"></h1>
           </div>
           <NuxtLink to="/admin/history-transaction">
             <div class="underline text-sm cursor-pointer hover:text-orange-400">
