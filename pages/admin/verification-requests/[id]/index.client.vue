@@ -63,7 +63,13 @@
           </div>
           <div class="grid grid-cols-3">
             <span class="text-base col-span-1 font-bold">Ngày sinh: </span>
-            <span class="text-base">
+            <span
+              v-if="
+                verificationRequestsStore.oneVerificationRequest?.user_request
+                  ?.dob
+              "
+              class="text-base"
+            >
               {{
                 dayjs(
                   verificationRequestsStore.oneVerificationRequest?.user_request
@@ -74,7 +80,13 @@
           </div>
           <div class="grid grid-cols-3">
             <span class="text-base col-span-1 font-bold">Giới tính: </span>
-            <span class="text-base">
+            <span
+              v-if="
+                verificationRequestsStore.oneVerificationRequest?.user_request
+                  ?.gender
+              "
+              class="text-base"
+            >
               {{
                 verificationRequestsStore.oneVerificationRequest?.user_request
                   ?.gender === "male"
@@ -85,7 +97,13 @@
           </div>
           <div class="grid grid-cols-3">
             <span class="text-base col-span-1 font-bold">Số điên thoại: </span>
-            <span class="text-base">
+            <span
+              v-if="
+                verificationRequestsStore.oneVerificationRequest?.user_request
+                  ?.phone
+              "
+              class="text-base"
+            >
               {{
                 verificationRequestsStore.oneVerificationRequest?.user_request
                   ?.phone

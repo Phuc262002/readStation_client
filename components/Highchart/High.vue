@@ -192,7 +192,7 @@ useAsyncData(
         },
         {
           title: {
-            text: "Doanh thu (Đv:Nghìn Đồng)",
+            text: "Doanh thu ",
           },
           opposite: true,
         },

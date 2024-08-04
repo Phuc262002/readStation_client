@@ -78,7 +78,7 @@
                     </div>
                     <div class="grid grid-cols-5">
                         <span class="text-base font-bold col-span-2">Tình trạng sách:</span>
-                        <span class="text-base col-span-3">Chưa có thông tin</span>
+                        <span class="text-base col-span-3"></span>
                     </div>
                     <div class="grid grid-cols-5">
                         <span class="text-base font-bold col-span-2">Phí phạt:</span>

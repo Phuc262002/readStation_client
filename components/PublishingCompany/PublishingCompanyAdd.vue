@@ -19,7 +19,7 @@
         show-icon
       />
     </div>
-    <form v-else @submit.prevent="onSubmit">
+    <form  @submit.prevent="onSubmit">
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
