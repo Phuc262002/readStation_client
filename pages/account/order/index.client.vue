@@ -10,6 +10,7 @@
             enter-button
             class="h-10"
             @search="onSearch"
+            allow-clear
           >
             <template #prefix>
               <SearchOutlined />

@@ -303,7 +303,7 @@
               <div class="w-full">
                 <a-button
                   @click="payCart"
-                  :loading="isSubmitting"
+                  :loading="orderStore.isSubmitting"
                   class="bg-rtprimary !text-white uppercase border-none text-sm w-full h-10 rounded-lg"
                 >
                   Thanh toán

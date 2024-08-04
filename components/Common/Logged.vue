@@ -20,10 +20,26 @@
                   <div class="block font-semibold text-15">
                     {{ authStore?.authUser?.user?.fullname }}
                   </div>
-                  <div class="text-slate-500 dark:text-zink-200">
-                    <a-tag :bordered="false" class="font-bold" color="purple">{{
-                      authStore?.authUser?.user?.role?.name
-                    }}</a-tag>
+                  <div class="font-bold">
+                    <a-tag
+                      :bordered="false"
+                      color="purple"
+                      v-if="authStore?.authUser?.user?.role?.name === 'user'"
+                    >
+                      Khách hàng
+                    </a-tag>
+                    <a-tag
+                      :bordered="false"
+                      color="purple"
+                      v-else-if="
+                        authStore?.authUser?.user?.role?.name === 'student'
+                      "
+                    >
+                      HSSV
+                    </a-tag>
+                    <a-tag :bordered="false" color="purple" v-else>
+                      Quản lý
+                    </a-tag>
                   </div>
                 </div>
               </span>

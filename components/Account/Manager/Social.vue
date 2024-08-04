@@ -10,14 +10,26 @@
       >
         <div class="flex items-center justify-between border-b pb-2">
           <span class="font-semibold">Loại tài khoản</span>
-          <span>
-            <a-tag :bordered="false" color="purple" class="font-bold">
-              {{ authStore?.authUser?.user?.role?.name }}
+          <div class="font-bold">
+            <a-tag
+              :bordered="false"
+              color="purple"
+              v-if="authStore?.authUser?.user?.role?.name === 'user'"
+            >
+              Khách hàng
             </a-tag>
-          </span>
+            <a-tag
+              :bordered="false"
+              color="purple"
+              v-else-if="authStore?.authUser?.user?.role?.name === 'student'"
+            >
+              HSSV
+            </a-tag>
+            <a-tag :bordered="false" color="purple" v-else> Quản lý </a-tag>
+          </div>
         </div>
         <div class="flex items-center justify-between border-b pb-2">
-          <span class="font-semibold">Xác minh</span>
+          <span class="font-semibold">Xác thực</span>
           <span>
             <a-tag
               class="border-none"
