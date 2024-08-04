@@ -36,20 +36,11 @@
               </span>
             </div>
             <p class="text-xs">
-              <span class="text-red-600 text-base">* </span> Phí thuê sẽ bằng 20
+              <span class="text-red-600 text-base">* </span> Phí thuê sẽ bằng
+              {{ bookStore?.book?.hire_percent }}
               % giá sách
             </p>
           </div>
-
-          <!-- <div class="py-4">
-            <span>Phân loại:</span>
-            <a-button class="w-fit h-10 flex items-center gap-2 text-xs">
-              <img :src="bookStore?.book?.poster" class="w-4 h-6" alt="" />
-              <span>{{ bookStore?.book?.book_version }}</span>
-            </a-button>
-            <div></div>
-          </div> -->
-
           <div class="grid gap-2 py-4">
             <a-button
               @click="handleRentNow"

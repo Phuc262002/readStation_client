@@ -1,11 +1,5 @@
 <template>
   <div class="w-full">
-    <div
-      v-if="bookStore.isLoading"
-      class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default"
-    >
-      <a-spin size="large" class="absolute top-1/2 left-1/2" />
-    </div>
     <div class="p-5 bg-white border border-rtgray-50 rounded-lg">
       <div class="flex flex-col items-center">
         <div class="mb-8 w-full h-[370px] flex justify-center">

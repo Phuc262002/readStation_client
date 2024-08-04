@@ -9,6 +9,7 @@
           enter-button
           class="h-10 w-[385px]"
           @search="onSearch"
+          allow-clear
         >
           <template #prefix>
             <SearchOutlined />
@@ -308,7 +309,6 @@ const columns = [
     title: "Ảnh bìa",
     dataIndex: "image",
     key: "image",
-    width: "50px",
   },
   {
     title: "Bài viết",

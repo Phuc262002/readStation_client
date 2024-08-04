@@ -31,6 +31,7 @@
               v-model:value="publishingCompany.name"
               class="w-[450px] h-[45px]"
               placeholder="Nhập tên nhà xuất bản"
+              required
             />
           </div>
         </div>
@@ -45,7 +46,7 @@
               v-model:value="publishingCompany.description"
               class="w-[450px] h-[45px]"
               placeholder="Nhập nội dung"
-              required
+         
             />
           </div>
         </div>
