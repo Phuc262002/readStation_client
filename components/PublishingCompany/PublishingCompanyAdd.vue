@@ -19,7 +19,7 @@
         show-icon
       />
     </div>
-    <form @submit.prevent="onSubmit">
+    <form  @submit.prevent="onSubmit">
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
@@ -168,6 +168,7 @@ const onSubmit = async () => {
   try {
     const res = await publishingCompanyStore.createPublishingCompany(data);
     if (res.data._rawValue?.status == true) {
+      handleClose();
       message.success("Thêm nhà xuất bản thành công");
       publishingCompany.value = {
         name: "",
@@ -178,7 +179,7 @@ const onSubmit = async () => {
         fileList.value = [];
       }
       await publishingCompanyStore.getAllPublishingCompany({});
-      props.openModal();
+     
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);

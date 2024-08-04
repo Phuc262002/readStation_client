@@ -3,6 +3,7 @@ export const useBookcaseStore = defineStore("bookcase-store", {
   state: () => {
     return {
       bookCaseAdmin: [],
+      shelveOfBookcase: [],
       bookCase: {},
       isLoading: false,
       isSubmitting: false,
@@ -29,6 +30,17 @@ export const useBookcaseStore = defineStore("bookcase-store", {
       this.bookCase = data.data._value?.data;
       return data;
     },
+    async getShelveOfBookcase({ id, page, pageSize, search }: any) {
+      this.isLoading = true;
+      const data: any = await useCustomFetch(
+        `/api/v1/admin/bookcases/${id}/shelves?${page ? `&page=${page}` : ""}${
+          pageSize ? `&pageSize=${pageSize}` : ""
+        }${search ? `&search=${search}` : ""}`
+      );
+      this.isLoading = false;
+      this.shelveOfBookcase = data.data._value?.data;
+      return data;
+    },
     async createBookcase(bookcase: any) {
       this.isSubmitting = true;
       const data: any = await useCustomFetch(`/api/v1/admin/bookcases/create`, {
@@ -36,6 +48,7 @@ export const useBookcaseStore = defineStore("bookcase-store", {
         body: JSON.stringify(bookcase),
       });
       this.isSubmitting = false;
+    
       return data;
     },
     async deleteBookcase(id: string) {

@@ -1,10 +1,10 @@
 <template>
   <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
     <div
-      v-if="bookStore.isLoading"
-      class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default"
+      v-if="bookStore?.isLoading"
+      class="fixed inset-0 bg-black/40 z-[99999] flex items-center justify-center"
     >
-      <a-spin size="large" class="absolute top-1/2 left-1/2" />
+      <a-spin size="large" />
     </div>
     <div class="flex gap-6">
       <div class="w-2/6">
@@ -24,30 +24,82 @@
       <div>
         <p class="mb-3">Lọc theo</p>
         <div class="flex gap-4">
-          <a-button class="rounded-xl">Mới nhất</a-button>
-          <a-button class="rounded-xl">Cũ nhất</a-button>
-          <a-button class="rounded-xl"> 5 sao </a-button>
-          <a-button class="rounded-xl" @click="handleCheckStatus(4)">
+          <a-button
+            :class="[
+              'rounded-xl',
+              arrange === 'asc' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckSort('asc')"
+          >
+            Mới nhất
+          </a-button>
+          <a-button
+            :class="[
+              'rounded-xl',
+              arrange === 'desc' ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckSort('desc')"
+          >
+            Cũ nhất
+          </a-button>
+          <a-button
+            :class="[
+              'rounded-xl',
+              filter === 5 ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckRating(5)"
+          >
+            5 sao
+          </a-button>
+          <a-button
+            :class="[
+              'rounded-xl',
+              filter === 4 ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckRating(4)"
+          >
             4 sao
           </a-button>
-          <a-button class="rounded-xl" @click="handleCheckStatus(3)">
+          <a-button
+            :class="[
+              'rounded-xl',
+              filter === 3 ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckRating(3)"
+          >
             3 sao
           </a-button>
-          <a-button class="rounded-xl" @click="handleCheckStatus(2)">
+          <a-button
+            :class="[
+              'rounded-xl',
+              filter === 2 ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckRating(2)"
+          >
             2 sao
           </a-button>
-          <a-button class="rounded-xl" @click="handleCheckStatus(1)">
+          <a-button
+            :class="[
+              'rounded-xl',
+              filter === 1 ? 'bg-orange-500 !text-white' : '',
+            ]"
+            @click="handleCheckRating(1)"
+          >
             1 sao
           </a-button>
         </div>
       </div>
       <div
         class="space-y-5"
-        v-for="(review, index) in detailReview?.reviews?.bookReviews"
+        v-for="review in detailReview?.reviews?.bookReviews"
       >
         <div class="flex gap-5 pb-5 border-b border-rtgray-50">
           <div class="">
-            <img :src="review?.user?.avatar" class="w-20 rounded-full" alt="" />
+            <img
+              :src="review?.user?.avatar"
+              class="w-10 h-10 rounded-full"
+              alt=""
+            />
           </div>
           <div class="space-y-1">
             <p>{{ review?.user?.fullname }}</p>
@@ -66,45 +118,51 @@
       <div class="grid grid-cols-5 gap-5">
         <div
           class="mt-10 w-full"
-          v-for="(book, index) in limitBook"
+          v-for="(book, index) in recommendationBooks"
           :key="book.id || index"
         >
-          <NuxtLink :to="`/products/${book?.book?.slug}-${book?.id}`">
-            <div class="flex flex-col gap-5 p-3 border rounded-lg">
-              <div class="mx-auto">
-                <img
-                  class="rounded-lg w-[180px] h-[284px]"
-                  :src="book?.poster"
-                  alt=""
-                />
-              </div>
+          <div class="flex flex-col gap-5 p-3 border rounded-lg">
+            <NuxtLink
+              :to="`/products/${book?.book?.slug}-${book?.id}`"
+              class="mx-auto"
+            >
+              <img
+                class="rounded-lg w-[180px] h-[284px]"
+                :src="book?.poster"
+                alt=""
+              />
+            </NuxtLink>
 
-              <div class="flex flex-col gap-1">
-                <div
-                  class="text-xl font-bold hover:text-[#f65d4e] line-clamp-1"
-                >
-                  {{ book?.book?.title }}
-                </div>
-                <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
-                  {{ book?.book_version }}
-                </div>
-                <div class="flex justify-start">
-                  <CommonRating :rating="book?.average_rate" />
-                </div>
-                <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
-                  {{ book?.book?.author?.author }}
-                </div>
-                <div class="text-orange-600 font-extrabold text-xl">
-                  {{
-                    new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(book?.price)
-                  }}
-                </div>
+            <div class="flex flex-col gap-1">
+              <NuxtLink
+                :to="`/products/${book?.book?.slug}-${book?.id}`"
+                class="text-xl font-bold hover:text-[#f65d4e] line-clamp-1"
+              >
+                {{ book?.book?.title }}
+              </NuxtLink>
+
+              <div class="text-sm text-[#999999]">
+                {{ book?.book_version }}
+              </div>
+              <div class="flex justify-start">
+                <CommonRating :rating="book?.average_rate" />
+              </div>
+              <NuxtLink
+                :to="`/products?author=${book?.book?.author?.slug}`"
+                class="text-sm text-[#999999] hover:text-[#f65d4e]"
+              >
+                {{ book?.book?.author?.author }}
+              </NuxtLink>
+              <div class="text-orange-600 font-extrabold text-xl">
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(book?.price)
+                }}
               </div>
             </div>
-          </NuxtLink>
+          </div>
         </div>
       </div>
     </div>
@@ -114,12 +172,29 @@
 <script setup lang="ts">
 const bookStore = useBookPublicStore();
 const detailReview = useBookDetailReviewStore();
+const authorStore = useAuthorPublicStore();
 const route = useRoute();
 const slug = route.params.slug;
-const rating = ref("");
-
+const parts = slug.split("-");
+const lastPart = parts.pop();
+const filter = ref("");
+const arrange = ref("asc");
 const current = ref(1);
+// Get all author
+useAsyncData(async () => {
+  await authorStore.getAllAuthorClient();
+});
+// Check arrange
+const handleCheckSort = (sort) => {
+  arrange.value = sort;
+  console.log(sort);
+};
 
+// Check rating
+const handleCheckRating = (rating) => {
+  filter.value = rating;
+  console.log(rating);
+};
 // Get One book
 useAsyncData(async () => {
   try {
@@ -129,33 +204,32 @@ useAsyncData(async () => {
   }
 });
 // Get All Book Review
-const getAllReview = async () => {
-  try {
-    await detailReview.getAllReviewBook({
-      book_details_id: bookStore?.book?.id,
-      rating: rating.value,
-      page: current.value,
-    });
-  } catch (error) {
-    console.error(error);
-  }
-};
 useAsyncData(
   async () => {
-    await getAllReview();
+    await detailReview.getAllReviewBook({
+      book_details_id: lastPart,
+      rating: filter.value,
+      sort: arrange.value,
+      page: current.value,
+    });
   },
   {
     immediate: true,
-    watch: [current, rating, () => bookStore?.book?.id],
+    watch: [current, filter, arrange],
   }
 );
-// Handle Check Status review
-const handleCheckStatus = (rating: number) => {
-  rating.value = rating;
-  console.log(rating.value);
-};
-const limitBook = computed(() => bookStore?.books?.books?.slice(0, 5));
 
+const recommendationBooks = computed(() =>
+  bookStore?.books?.books
+    ?.filter((book) => {
+      const isDifferWithCurrentBook = book?.id !== bookStore?.book?.id;
+      const isBeLongToCurrentType =
+        book?.book?.category?.slug === bookStore?.book?.book?.category?.slug;
+      return isBeLongToCurrentType && isDifferWithCurrentBook;
+    })
+    ?.slice(0, 5)
+);
+console.log("first", recommendationBooks);
 useAsyncData(async () => {
   await bookStore.getAllBooks({});
 });

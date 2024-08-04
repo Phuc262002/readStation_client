@@ -191,7 +191,7 @@
           <a-button
             @click="handleReviewBook(order?.data?.id)"
             html-type="submit"
-            :loading="reviewStore?.isSubmitting"
+            :loading="reviewStore?.isLoading"
             class="h-10 bg-orange-500 !text-white border-none"
           >
             Gửi đánh giá
@@ -258,10 +258,7 @@ const idBook = route.params.id;
 console.log("idBook", idBook);
 
 const reviewStore = useReviewBookClientStore();
-// useAsyncData(async () => {
-//   await orderStore.getOneOrder(id);
-// });
-// review Book
+
 const review = ref({
   review_text: "",
 });

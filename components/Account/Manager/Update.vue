@@ -1,11 +1,5 @@
 <template>
   <div>
-    <div
-      v-if="authStore?.isSubmitting"
-      class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default"
-    >
-      <a-spin size="large" class="absolute top-1/2 left-1/2" />
-    </div>
     <div class="flex justify-between mb-5">
       <div class="flex items-center justify-between gap-2">
         <UIcon name="i-material-symbols-person-check-outline" />
@@ -40,7 +34,7 @@
             <a-input
               size="large"
               id="fullname"
-              type="fullname"
+              type="text"
               v-model:value="user.fullname"
               name="fullname"
               v-if="isShow"

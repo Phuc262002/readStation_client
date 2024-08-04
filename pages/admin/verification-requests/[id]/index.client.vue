@@ -77,7 +77,6 @@
                 ).format(" DD/MM/YYYY")
               }}
             </span>
-            <span v-else>Chưa có thông tin</span>
           </div>
           <div class="grid grid-cols-3">
             <span class="text-base col-span-1 font-bold">Giới tính: </span>
@@ -95,7 +94,6 @@
                   : "Nữ"
               }}
             </span>
-            <span v-else>Chưa có thông tin</span>
           </div>
           <div class="grid grid-cols-3">
             <span class="text-base col-span-1 font-bold">Số điên thoại: </span>
@@ -111,7 +109,6 @@
                   ?.phone
               }}
             </span>
-            <span v-else>Chưa có thông tin</span>
           </div>
           <div class="grid grid-cols-3">
             <span class="text-base col-span-1 font-bold">Email: </span>
@@ -126,101 +123,82 @@
         <div class="md:col-span-1 space-y-3">
           <div class="grid grid-cols-3">
             <span class="text-base col-span-1 font-bold">Công việc: </span>
-            <span
-              v-if="
-                verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.job
-              "
-              class="text-base"
-            >
+            <span class="text-base">
               {{
                 verificationRequestsStore.oneVerificationRequest?.user_request
                   ?.job
               }}
             </span>
-            <span v-else>Chưa có thông tin</span>
           </div>
           <div class="grid grid-cols-3">
             <span class="text-base col-span-1 font-bold"
               >Tỉnh/ Thành phố:
             </span>
-            <span
-              v-if="
-                verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.ward
-              "
-              class="text-base"
-            >
+            <span class="text-base">
               {{
                 verificationRequestsStore.oneVerificationRequest?.user_request
                   ?.ward?.district?.province?.ProvinceName
               }}
             </span>
-            <span v-else>Chưa có thông tin</span>
           </div>
           <div class="grid grid-cols-3">
             <span class="text-base col-span-1 font-bold">Quận/ Huyện: </span>
-            <span
-              v-if="
-                verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.ward
-              "
-              class="text-base"
-            >
+            <span class="text-base">
               {{
                 verificationRequestsStore.oneVerificationRequest?.user_request
                   ?.ward?.district?.DistrictName
               }}
             </span>
-            <span v-else>Chưa có thông tin</span>
           </div>
           <div class="grid grid-cols-3">
             <span class="text-base col-span-1 font-bold">Phường/ Xã: </span>
-            <span
-              v-if="
-                verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.ward
-              "
-              class="text-base"
-            >
+            <span class="text-base">
               {{
                 verificationRequestsStore.oneVerificationRequest?.user_request
                   ?.ward?.WardName
               }}
             </span>
-            <span v-else>Chưa có thông tin</span>
           </div>
           <div class="grid grid-cols-3">
             <span class="text-base col-span-1 font-bold">Đường: </span>
-            <span
-              v-if="
-                verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.street
-              "
-              class="text-base"
-            >
+            <span class="text-base">
               {{
                 verificationRequestsStore.oneVerificationRequest?.user_request
                   ?.street
               }}
             </span>
-            <span v-else>Chưa có thông tin</span>
           </div>
           <div class="grid grid-cols-3">
             <span class="text-base col-span-1 font-bold">Địa chỉ cụ thể: </span>
-            <span
-              v-if="
-                verificationRequestsStore.oneVerificationRequest?.user_request
-                  ?.address_detail
-              "
-              class="text-base"
-            >
+            <span class="text-base">
               {{
                 verificationRequestsStore.oneVerificationRequest?.user_request
                   ?.address_detail
               }}
             </span>
-            <span v-else>Chưa có thông tin</span>
+          </div>
+          <div class="grid grid-cols-3">
+            <span class="text-base col-span-1 font-bold">Thời gian tạo: </span>
+            <span class="text-base">
+              {{
+                dayjs(
+                  verificationRequestsStore.oneVerificationRequest?.created_at
+                ).format(" DD/MM/YYYY HH:mm:ss")
+              }}
+            </span>
+          </div>
+          <div class="grid grid-cols-3">
+            <span class="text-base col-span-1 font-bold"
+              >Thời gian xử lý:
+            </span>
+            <span class="text-base">
+              {{
+                dayjs(
+                  verificationRequestsStore.oneVerificationRequest
+                    ?.verification_date
+                ).format(" DD/MM/YYYY HH:mm:ss")
+              }}
+            </span>
           </div>
         </div>
       </div>
@@ -458,9 +436,7 @@ useAsyncData(async () => {
     );
   }
 });
-
 const status = ref("");
-
 const CloseModalConfirm = () => {
   openModalConfirm.value = false;
   status.value = "";

@@ -5,7 +5,7 @@
     :footer="null"
     :onCancel="handleClose"
   >
-  <div
+    <div
       v-if="categoryStore.isLoading"
       class="flex justify-center items-center min-h-[50vh]"
     >
@@ -99,7 +99,7 @@
           >
           <a-button
             type="primary"
-            :loading="category.isSubmitting"
+            :loading="categoryStore.isSubmitting"
             html-type="submit"
             class="mt-4"
             >Cập nhật</a-button
@@ -224,11 +224,11 @@ const onUpdate = async () => {
       category: data,
     });
     if (res.data._rawValue?.status == true) {
-      message.success("Cập nhật danh mục bài viết thành công");
       await categoryStore.getAllCategory({
         type: "post",
       });
       handleClose();
+      message.success("Cập nhật danh mục bài viết thành công");
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);

@@ -115,7 +115,7 @@
           >
           <a-button
             type="primary"
-            :loading="category.isSubmitting"
+            :loading="categoryStore.isSubmitting"
             html-type="submit"
             class="mt-4"
             >Cập nhật</a-button

@@ -1,11 +1,5 @@
 <template>
   <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
-    <div
-      v-if="isSubmitting"
-      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
-    >
-      <a-spin size="large" class="absolute top-1/2 left-1/2" />
-    </div>
     <div class="flex gap-6">
       <div class="w-1/5 rounded-lg h-fit flex flex-col space-y-4">
         <div class="px-3 pb-2 text-xl font-semibold">Khám phá theo:</div>
@@ -27,12 +21,6 @@
               />
             </div>
             <div class="border-t px-4 py-2" v-if="isShow.includes('category')">
-              <div
-                v-if="isLoading"
-                class="flex items-center justify-center py-10"
-              >
-                <a-spin></a-spin>
-              </div>
               <!--  -->
               <ul class="px-4 space-y-1">
                 <li>
@@ -88,12 +76,6 @@
               />
             </div>
             <div class="border-t px-4 py-2" v-if="isShow.includes('author')">
-              <div
-                v-if="isLoading"
-                class="flex items-center justify-center py-10"
-              >
-                <a-spin></a-spin>
-              </div>
               <ul class="px-4 space-y-1">
                 <li>
                   <a-radio
@@ -149,12 +131,6 @@
               class="border-t px-4 py-2"
               v-if="isShow.includes('publishing')"
             >
-              <div
-                v-if="isLoading"
-                class="flex items-center justify-center py-10"
-              >
-                <a-spin></a-spin>
-              </div>
               <ul class="px-4 space-y-1">
                 <li>
                   <a-radio
@@ -167,8 +143,9 @@
                         id: null,
                       })
                     "
-                    >Tất cả</a-radio
                   >
+                    Tất cả
+                  </a-radio>
                 </li>
                 <li
                   class="flex items-center"
@@ -187,8 +164,8 @@
                       })
                     "
                   >
-                    {{ company?.name }}</a-radio
-                  >
+                    {{ company?.name }}
+                  </a-radio>
                 </li>
               </ul>
             </div>
@@ -212,12 +189,6 @@
               />
             </div>
             <div v-if="isShow.includes('rating')" class="border-t px-4 py-2">
-              <div
-                v-if="isLoading"
-                class="flex items-center justify-center py-10"
-              >
-                <a-spin></a-spin>
-              </div>
               <ul class="px-4 space-y-1">
                 <li>
                   <a-radio
@@ -331,12 +302,6 @@
           </div>
 
           <div>
-            <div
-              v-if="isLoading"
-              class="flex items-center justify-center py-10"
-            >
-              <a-spin></a-spin>
-            </div>
             <div class="grid grid-cols-4">
               <CommonBookShop
                 v-for="(book, index) in bookstore?.books?.books"
@@ -522,7 +487,9 @@ const handleCheckbox = ({ type, id }: any) => {
     default:
       break;
   }
+  console.log("filter.value.rating", filter.value.rating);
 };
+
 const handleSortChange = (value: string) => {
   filter.value.sort = value;
   // console.log("aaa", filter.value);

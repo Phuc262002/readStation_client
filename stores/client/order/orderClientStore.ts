@@ -53,6 +53,7 @@ export const useOrderClientStore = defineStore("order-client-store", {
     },
     async createOrder(body: any) {
       try {
+        this.isSubmitting = true;
         const data: any = await useCustomFetch(
           "/api/v1/account/orders/create",
           {
@@ -64,7 +65,7 @@ export const useOrderClientStore = defineStore("order-client-store", {
       } catch (error) {
         console.log("error", error);
       } finally {
-        this.isLoading = false;
+        this.isSubmitting = false;
       }
     },
     async cancelOrder(id: any) {

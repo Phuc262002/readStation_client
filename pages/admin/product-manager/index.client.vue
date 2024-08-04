@@ -208,7 +208,8 @@
               <a-dropdown :trigger="['click']">
                 <template #overlay>
                   <a-menu>
-                    <a-menu-item @click="statusValue({ value: '', label: 'Tất cả trạng thái' })">Tất cả trạng thái</a-menu-item>
+                    <a-menu-item @click="statusValue({ value: '', label: 'Tất cả trạng thái' })">Tất cả trạng
+                      thái</a-menu-item>
                     <a-menu-item @click="
                       statusValue({ value: 'pending', label: 'Đang xử lý' })
                       ">Đang xử lý</a-menu-item>
@@ -260,7 +261,9 @@
               </a-dropdown>
             </div>
             <div>
-              <a-button type="primary" size="large">Thêm đơn hàng</a-button>
+              <NuxtLink :to="`/admin/product-manager/create-product`">
+                <a-button type="primary" size="large">Thêm đơn hàng</a-button>
+              </NuxtLink>
             </div>
           </div>
           <div>
@@ -283,7 +286,7 @@
                 </template>
                 <template v-else-if="column.dataIndex === 'loan_date'">
                   <span>
-                  {{ record.loan_date ? $dayjs(record.loan_date).format('DD/MM/YYYY') : '' }}
+                    {{ record.loan_date ? $dayjs(record.loan_date).format('DD/MM/YYYY') : '' }}
                   </span>
                 </template>
                 <template v-if="column.dataIndex === 'status'">

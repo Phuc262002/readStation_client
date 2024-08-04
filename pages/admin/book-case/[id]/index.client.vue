@@ -25,7 +25,7 @@
         </div>
         <div>
           <a-button @click="showModalEdit" size="large" type="primary"
-            >Đổi tên tủ</a-button
+            >Chỉnh sửa</a-button
           >
         </div>
       </div>
@@ -35,7 +35,11 @@
       <div class="flex justify-between pb-4">
         <div class="relative w-1/4 md:block hidden">
           <div class="flex">
-            <a-input placeholder="Nhập mã kệ để tìm kiếm" class="h-10">
+            <a-input
+              placeholder="Nhập tên kệ để tìm kiếm"
+              class="h-10"
+              v-model:value="valueSearch"
+            >
               <template #prefix>
                 <SearchOutlined />
               </template>
@@ -60,8 +64,9 @@
 
       <a-table
         :columns="columns"
-        :data-source="bookCaseStore?.bookCase?.shelves"
+        :data-source="bookCaseStore?.shelveOfBookcase?.shelves"
         :loading="bookCaseStore.isLoading"
+        :pagination="false"
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'bookshelf_code'">
@@ -71,9 +76,9 @@
 
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
-            <a>
+            <span>
               {{ record.name }}
-            </a>
+            </span>
           </template>
           <template v-if="column.key === 'books'">
             <span class="flex justify-start gap-2">
@@ -82,31 +87,32 @@
             </span>
           </template>
           <template v-if="column.key === 'status'">
-            <span>
-              <a-tag
-                style="border: none"
-                :color="record.status === 'active' ? 'green' : 'volcano'"
-              >
-                {{ record.status }}
-              </a-tag>
-            </span>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'active'"
+              class="bg-tag-bg-09 text-tag-text-09"
+            >
+              Đang hoạt động
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'inactive'"
+              class="bg-tag-bg-07 text-tag-text-07"
+            >
+              Đang ẩn
+            </a-tag>
+
+            <a-tag
+              :bordered="false"
+              v-if="record.status === 'deleted'"
+              class="bg-tag-bg-06 text-tag-text-06"
+            >
+              Đã xóa
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-2">
-              <!-- <a-tooltip placement="top" color="black">
-                <template #title>
-                  <span>Xem chi tiết</span>
-                </template>
-                <button
-                  @click="showModal"
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center cursor-pointer justify-center w-8 h-8 rounded-md"
-                >
-                  <Icon
-                    icon="heroicons:eye"
-                    class="group-hover:text-[#212122]"
-                  />
-                </button>
-              </a-tooltip> -->
               <a-tooltip placement="top">
                 <template #title>
                   <span>Xóa</span>
@@ -125,6 +131,14 @@
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="bookCaseStore?.shelveOfBookcase?.totalResults"
+          :pageSize="bookCaseStore?.shelveOfBookcase?.pageSize"
+          show-less-items
+        />
+      </div>
       <BookCaseEdit
         :openModalEdit="openModalEdit"
         :openModal="CloseModalEdit"
@@ -144,11 +158,27 @@ const openModalAdd = ref(false);
 const detailBookCaseId = route.params.id;
 const bookCaseStore = useBookcaseStore();
 const bookShelves = useShelvesStore();
+const valueSearch = ref("");
+const current = ref(1);
 useAsyncData(async () => {
   if (detailBookCaseId !== undefined) {
     await bookCaseStore.getOneBookcase(detailBookCaseId);
   }
 });
+
+useAsyncData(
+  async () => {
+    await bookCaseStore.getShelveOfBookcase({
+      id: detailBookCaseId,
+      page: current.value,
+      search: valueSearch.value,
+    });
+  },
+  {
+    immediate: true,
+    watch: [current, valueSearch],
+  }
+);
 
 const updateDetailCase = async (id) => {
   const idCase = {
@@ -173,19 +203,14 @@ const updateDetailCase = async (id) => {
 const showConfirm = (id) => {
   Modal.confirm({
     title: "Bạn có chắc xóa kệ sách này ra khỏi kệ không?",
-
-    async onOk() {
+    okText: "Xóa",
+    okType: "danger",
+    cancelText: "Hủy",
+    onOk() {
       updateDetailCase(id);
-      await bookCaseStore.getOneBookcase(detailBookCaseId);
     },
-    onCancel() {
-      console.log("Cancel");
-    },
+    onCancel() {},
   });
-};
-
-const showModal = () => {
-  open.value = true;
 };
 const showModalAdd = () => {
   openModalAdd.value = true;

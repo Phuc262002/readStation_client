@@ -164,7 +164,7 @@ const onSubmit = async () => {
       type: "post",
     });
     if (res.data._rawValue?.status == true) {
-      message.success("Thêm danh mục bài viết thành công");
+    
       await categoryStore.getAllCategory({
         type: "post",
       });
@@ -177,6 +177,7 @@ const onSubmit = async () => {
         fileList.value = [];
       }
       props.openModal();
+      message.success("Thêm danh mục bài viết thành công");
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);

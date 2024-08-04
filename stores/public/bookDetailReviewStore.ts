@@ -16,15 +16,22 @@ export const useBookDetailReviewStore = defineStore("book-detail-review", {
       rating,
       sort,
     }: any) {
-      const data: any = await useCustomFetch(
-        `/api/v1/public/book-reviews/${book_details_id}?${
-          page ? `&page=${page}` : ""
-        }${pageSize ? `&pageSize=${pageSize}` : ""}${
-          rating ? `&rating=${rating}` : ""
-        }${sort ? `&sort=${sort}` : ""}`
-      );
-      this.reviews = data.data._value?.data;
-      return data;
+      try {
+        this.isLoading = true;
+        const data: any = await useCustomFetch(
+          `/api/v1/public/book-reviews/${book_details_id}?${
+            page ? `&page=${page}` : ""
+          }${pageSize ? `&pageSize=${pageSize}` : ""}${
+            rating ? `&rating=${rating}` : ""
+          }${sort ? `&sort=${sort}` : ""}`
+        );
+        this.reviews = data.data._value?.data;
+        return data;
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        this.isLoading = false;
+      }
     },
   },
 });

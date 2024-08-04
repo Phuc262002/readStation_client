@@ -30,13 +30,17 @@
                         <div class="grid grid-cols-3">
                             <span class="text-base font-bold col-span-1">Số điện thoại:</span>
                             <span class="text-base col-span-2">{{ orderStore?.getOneOrderAdmin?.data?.user?.phone ?
-                                orderStore.getOneOrderAdmin.data.user.phone : "Chưa có thông tin" }}</span>
+                                orderStore.getOneOrderAdmin.data.user.phone : "" }}</span>
                         </div>
                         <div class="grid grid-cols-3">
                             <span class="text-base font-bold col-span-1">Vai trò</span>
                             <span class="text-base col-span-2">
-                                <div class="p-1 w-14 text-center rounded-lg text-tag-text-01 bg-tag-bg-01">
-                                    HS/SV
+                                <div class="p-1 w-24 text-center rounded-lg text-tag-text-02 bg-tag-bg-02"
+                                    v-if="orderStore?.getOneOrderAdmin?.data?.user?.role?.description === 'User'">
+                                    Khách hàng
+                                </div>
+                                <div class="p-1 w-24 text-center rounded-lg text-tag-text-01 bg-tag-bg-01" v-else>
+                                    HS/ SV
                                 </div>
                             </span>
                         </div>
@@ -44,7 +48,7 @@
                     <div class="md:col-span-3 space-y-3 ml-5">
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Địa chỉ nhận sách: </span>
-                            <span class="text-base col-span-3">Chưa có thông tin</span>
+                            <span class="text-base col-span-3"></span>
                         </div>
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Phương thức thanh toán: </span>
@@ -111,11 +115,11 @@
                         </div>
                         <div class="grid grid-cols-3">
                             <span class="text-base font-bold">Ngày đặt sách:</span>
-                            <span class="text-base ">Chưa có dữ liệu</span>
+                            <span class="text-base "></span>
                         </div>
                         <div class="grid grid-cols-3">
                             <span class="text-base font-bold">Ngày nhận sách:</span>
-                            <span class="text-base ">Chưa có dữ liệu</span>
+                            <span class="text-base "></span>
                         </div>
                         <div class="grid grid-cols-3">
                             <span class="text-base font-bold">Ngày trả dự kiến:</span>
@@ -148,35 +152,35 @@
                     <div class="md:col-span-3 space-y-3 ml-5">
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Tổng tiền cọc thuê sách:</span>
-                            <span class="text-base col-span-3">chưa có dữ liệu</span>
+                            <span class="text-base col-span-3"></span>
                         </div>
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Phí vận chuyển:</span>
-                            <span class="text-base col-span-3">Chưa có dữ liệu </span>
+                            <span class="text-base col-span-3"> </span>
                         </div>
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Phí dịch vụ:</span>
-                            <span class="text-base col-span-3">Chưa có dữ liệu</span>
+                            <span class="text-base col-span-3"></span>
                         </div>
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Tổng phí gia hạn:</span>
-                            <span class="text-base col-span-3">Chưa có dữ liệu</span>
+                            <span class="text-base col-span-3"></span>
                         </div>
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Tổng phí trễ hạn:</span>
-                            <span class="text-base col-span-3">Chưa có dữ liệu</span>
+                            <span class="text-base col-span-3"></span>
                         </div>
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Tổng phí giao trả sách:</span>
-                            <span class="text-base col-span-3">Chưa có dữ liệu</span>
+                            <span class="text-base col-span-3"></span>
                         </div>
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Tổng tiền nhận:</span>
-                            <span class="text-base col-span-3">Chưa có dữ liệu</span>
+                            <span class="text-base col-span-3"></span>
                         </div>
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Tiền cọc trả lại:</span>
-                            <span class="text-base col-span-3">Chưa có dữ liệu</span>
+                            <span class="text-base col-span-3"></span>
                         </div>
                     </div>
                 </div>
@@ -199,7 +203,7 @@
                     </div>
                 </div>
                 <div v-for="(items, index) in orderStore?.getOneOrderAdmin?.data?.loan_order_details" :key=index>
-                    <div class="border-t-2 border-gray-200 p-5 space-y-3">
+                    <div class="border-t-2 border-gray-100 p-5 space-y-3">
                         <div class="flex gap-2 items-center">
                             <h1 class="text-base font-bold">{{ items?.book_details?.book?.title }} - Phiên bản năm {{
                                 items?.book_details.book_version }} </h1>
@@ -270,7 +274,7 @@
                                 <div class="md:col-span-2 space-y-3 ml-5">
                                     <div class="grid grid-cols-3">
                                         <span class="text-base font-bold col-span-2">Tiền cọc sách:</span>
-                                        <span class="text-base col-span-1">Chưa có dữ liệu</span>
+                                        <span class="text-base col-span-1"></span>
                                     </div>
                                     <div class="grid grid-cols-3">
                                         <span class="text-base font-bold col-span-2">Phí dịch vụ:</span>
@@ -278,16 +282,16 @@
                                     </div>
                                     <div class="grid grid-cols-3">
                                         <span class="text-base font-bold col-span-2">Phí trễ hạn:</span>
-                                        <span class="text-base col-span-1">Chưa có dữ liệu</span>
+                                        <span class="text-base col-span-1"></span>
                                     </div>
                                     <div class="grid grid-cols-3">
                                         <span class="text-base font-bold col-span-2 ">Phí gia hạn:</span>
-                                        <span class="text-base col-span-1">Chưa có dữ liệu</span>
+                                        <span class="text-base col-span-1"></span>
                                     </div>
                                     <div class="grid grid-cols-3"
                                         v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'shipper'">
                                         <span class="text-base font-bold col-span-2">Phí giao trả sách:</span>
-                                        <span class="text-base col-span-1">Chưa có dữ liệu</span>
+                                        <span class="text-base col-span-1"></span>
                                     </div>
                                 </div>
                             </div>

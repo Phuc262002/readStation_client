@@ -57,6 +57,7 @@ watch(
 );
 const handleClose = () => {
   props.openModal();
+  errors.value = {};
 };
 const valueSupplier = ref({
   name: "",
@@ -70,8 +71,8 @@ const onSubmit = async () => {
     const res = await supplierStore.createSupplier(valueSupplier.value);
 
     if (res.data._rawValue?.status == true) {
-      message.success("Thêm nhà cung cấp thành công");
       handleClose();
+      message.success("Thêm nhà cung cấp thành công");
       await supplierStore.getAllSupplier({});
     } else {
       errors.value = res.error.value.data.errors;
@@ -82,10 +83,6 @@ const onSubmit = async () => {
     console.log(error);
   }
 };
-
-
-
-
 const handleChangeWard = (ward) => {
   const selectedWard = wards.value.find((item) => item.value === ward);
   address.value.ward = selectedWard ? selectedWard.label : "";

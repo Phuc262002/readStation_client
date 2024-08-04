@@ -63,7 +63,7 @@
           </template>
           <template v-if="column.key === 'dob'">
             <span>
-              {{ $dayjs(record.dob).format("DD/MM/YYYY") }}
+              {{ record.dob ? $dayjs(record.dob).format("DD/MM/YYYY") : '' }}
             </span>
           </template>
           <template v-if="column.key === 'status'">
@@ -80,7 +80,7 @@
 
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-2">
-              <NuxtLink :to="`author/edit/${record.id}`">
+              <NuxtLink :to="`author/${record.id}`">
                 <a-tooltip placement="top">
                   <template #title>
                     <span>Sửa</span>
@@ -148,7 +148,7 @@ const onDelete = async (id: string) => {
   try {
     const res = await AuthorStore.deleteAuthor(id);
     if (res.data._rawValue?.status == true) {
-      message.success("Xoa tác giả thành công");
+      message.success("Xóa tác giả thành công");
       getDataAuthor();
     } else {
       message.error(res.error.value.data.message);

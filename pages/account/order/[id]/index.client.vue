@@ -1,12 +1,11 @@
 <template>
   <div>
     <div
-      v-if="reviewStore?.isSubmitting"
-      class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default"
+      v-if="orderStore?.isLoading"
+      class="fixed inset-0 bg-black/40 z-[99999] flex items-center justify-center"
     >
-      <a-spin size="large" class="absolute top-1/2 left-1/2" />
+      <a-spin size="large" />
     </div>
-
     <h2 class="font-bold pb-5">
       Chi tiết đơn hàng <span>{{ orderStore?.order?.order_code }}</span>
     </h2>

@@ -50,6 +50,7 @@ export const useCategoryStore = defineStore("category-store", {
       return data;
     },
     async updateCategory({ id, category }: any) {
+      this.isSubmitting = true;
       const data: any = await useCustomFetch(
         `/api/v1/admin/categories/update/${id}`,
         {
@@ -57,6 +58,7 @@ export const useCategoryStore = defineStore("category-store", {
           body: JSON.stringify(category),
         }
       );
+      this.isSubmitting = false;
       return data;
     },
   },
