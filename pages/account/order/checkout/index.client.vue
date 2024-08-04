@@ -340,7 +340,7 @@ const totalFee = ref(0);
 const shippingFee = ref(0);
 const route = useRoute();
 const type = route.query.type;
-console.log("type", type);
+
 const dataSource = computed(() => {
   return route.query.type === "thue_ngay"
     ? cartStore?.rentNow
@@ -416,6 +416,13 @@ watch(
 );
 
 const payCart = async () => {
+  const locations = shippingMethodStore?.shippings?.filter(
+    (item) => item.id === shipping_method_id.value
+  )[0]?.location;
+  if (!locations.includes(authStore?.authUser?.user?.province?.ProvinceName)) {
+    message.error("Hiện tại chưa có hình thức vận chuyển khu vực này !");
+    return;
+  }
   try {
     const newInfo = {
       fullname: authStore?.authUser?.user?.fullname,
@@ -442,7 +449,6 @@ const payCart = async () => {
     });
     console.log("newArr", newArr);
     const paymentPortal = payment_method.value === "online" ? "payos" : null;
-
     const resData = await orderStore.createOrder({
       payment_method: payment_method.value,
       delivery_method: delivery_method.value,
@@ -466,7 +472,6 @@ const payCart = async () => {
         content: "Đặt hàng thành công",
       });
       type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
-
       navigateTo("/account/order");
     } else if (
       resData?.data?._rawValue?.status === true &&

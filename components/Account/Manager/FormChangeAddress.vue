@@ -6,7 +6,7 @@
     >
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
     </div>
-    <div v-if="handleChangeEdit">
+    <div>
       <a-modal
         v-model:open="props.openModalForm"
         title="Thay đổi thông tin giao hàng"
@@ -14,7 +14,7 @@
         :footer="null"
         :onCancel="handleClose"
       >
-        <form @submit.prevent="onSubmit">
+        <form @submit.prevent="onSubmit" v-if="handleChangeEdit">
           <div class="flex gap-2">
             <div class="w-1/2 pb-4">
               <label class="text-sm font-bold"> Họ tên </label>
@@ -32,7 +32,7 @@
               <label class="text-sm font-bold"> Số điện thoại </label>
               <div class="mt-1">
                 <a-input
-                  type="number"
+                  type="text"
                   size="large"
                   class="w-full"
                   placeholder="Nhập số điện thoại"
@@ -137,7 +137,7 @@
               >Hủy</a-button
             >
             <a-button
-              :loading="isSubmitting"
+              :loading="authStore?.isSubmitting"
               type="primary"
               html-type="submit"
               class="mt-4"
@@ -173,14 +173,30 @@ const optionsDistricts = ref([]);
 const optionsWards = ref([]);
 // Display infor
 const handleChangeEdit = () => {
-  user.value.fullname = authStore?.authUser?.user?.fullname;
-  user.value.phone = authStore?.authUser?.user?.phone;
   address.value.province = authStore?.authUser?.user?.province?.ProvinceName;
   address.value.district = authStore?.authUser?.user?.district?.DistrictName;
   address.value.ward = authStore?.authUser?.user?.ward?.WardName;
+  address.value.street = authStore?.authUser?.user?.street;
+  province_id.value = authStore?.authUser?.user?.province?.id;
+  district_id.value = authStore?.authUser?.user?.district?.id;
+  ward_id.value = authStore?.authUser?.user?.ward?.id;
 };
 // Update Profile
 const onSubmit = async () => {
+  const phonePattern = /^(0[3|5|7|8|9])+([0-9]{8})$/;
+  const fullNamePattern = /^[a-zA-ZÀ-ỹ\s]+$/;
+  if (!phonePattern.test(user.value.phone)) {
+    message.error({
+      content: "Số điện thoại không hợp lệ!",
+    });
+    return;
+  }
+  if (!fullNamePattern.test(user.value.fullname)) {
+    message.error({
+      content: "Họ tên không nhập số và ký tự đặc biệt!",
+    });
+    return;
+  }
   const resData = await authStore.updateProfile({
     fullname: user.value.fullname,
     phone: user.value.phone,
@@ -288,6 +304,9 @@ watch(
   () => props.openModalForm,
   (newValue) => {
     open.value = newValue;
+    if (newValue) {
+      handleChangeEdit();
+    }
   }
 );
 const handleClose = async () => {

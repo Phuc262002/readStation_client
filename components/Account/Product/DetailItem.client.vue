@@ -97,13 +97,15 @@
       </div>
       <div class="">
         <div
-          class="line-clamp-6 relative"
+          class="relative"
+          :class="!viewMore && 'line-clamp-6'"
           v-html="bookStore?.book?.book?.description"
         ></div>
         <button
+          @click="viewMore = !viewMore"
           class="flex justify-center items-center gap-2 text-[#189EFF] mx-auto text-sm font-normal pt-4"
         >
-          <span> Xem thêm</span>
+          <span>{{ viewMore ? "Rút gọn" : "Xem thêm" }}</span>
           <UIcon name="i-material-symbols-keyboard-arrow-down-rounded" />
         </button>
       </div>
@@ -113,4 +115,5 @@
 
 <script setup lang="ts">
 const bookStore = useBookPublicStore();
+const viewMore = ref(false);
 </script>
