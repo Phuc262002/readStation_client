@@ -88,7 +88,11 @@
           <a-button @click="handleClose" html-type="button" class="mt-4"
             >Hủy</a-button
           >
-          <a-button type="primary" html-type="submit" class="mt-4"
+          <a-button
+            type="primary"
+            html-type="submit"
+            class="mt-4"
+            :loading="bookCaseStore.isSubmitting"
             >Cập nhật</a-button
           >
         </div>
@@ -153,9 +157,9 @@ const onUpdate = async () => {
       bookcase: data,
     });
     if (res.data._rawValue?.status == true) {
-      message.success("Cập nhật tủ sách thành công");
       await bookCaseStore.getAllBookcases({});
       props.openModal();
+      message.success("Cập nhật tủ sách thành công");
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);

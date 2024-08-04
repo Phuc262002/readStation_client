@@ -46,7 +46,6 @@
               v-model:value="publishingCompany.description"
               class="w-[450px] h-[45px]"
               placeholder="Nhập nội dung"
-         
             />
           </div>
         </div>
@@ -233,9 +232,9 @@ const onUpdate = async () => {
       publishingCompany: data,
     });
     if (res.data._rawValue?.status == true) {
-      message.success("Cập nhật nhà xuất bản thành công");
       await publishingCompanyStore.getAllPublishingCompany({});
       handleClose();
+      message.success("Cập nhật nhà xuất bản thành công");
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);

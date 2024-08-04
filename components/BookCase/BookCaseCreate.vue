@@ -6,14 +6,6 @@
     :onCancel="handleClose"
   >
     <form @submit.prevent="onSubmit" v-mode:valueCreateShelves>
-      <div class="mb-4 space-y-1" v-if="errors">
-        <a-alert
-          v-for="(error, index) in errors"
-          :message="error"
-          type="error"
-          show-icon
-        />
-      </div>
       <div class="bg-white py-2">
         <div class="pb-4">
           <label for="">Mã tủ sách</label>
@@ -90,7 +82,6 @@ const onSubmit = async () => {
       name: bookCase.value.name,
     });
     if (res.data._rawValue?.status == true) {
-      message.success("Thêm tủ sách thành công");
       await bookcaseStore.getAllBookcases({});
       bookCase.value = {
         bookcase_code: "",
@@ -98,6 +89,7 @@ const onSubmit = async () => {
         name: "",
       };
       props.openModal();
+      message.success("Thêm tủ sách thành công");
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);

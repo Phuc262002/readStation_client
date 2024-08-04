@@ -327,9 +327,9 @@ const onUpdate = async () => {
       shippingMethod: data,
     });
     if (res.data._rawValue?.status == true) {
-      message.success("Cập nhật phương thức vận chuyển thành công");
       await shippingMethodStore.getAllShippingMethods({});
       handleClose();
+      message.success("Cập nhật phương thức vận chuyển thành công");
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);
