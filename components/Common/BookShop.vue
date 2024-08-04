@@ -1,44 +1,55 @@
 <template>
   <div class="py-5 border-b">
-    <NuxtLink :to="`/products/${props?.book?.book?.slug}-${props?.book?.id}`">
-      <div class="flex flex-col gap-5 px-5 border-x">
-        <div class="mx-auto">
-          <img
-            class="rounded-lg w-[180px] h-[284px]"
-            :src="props?.book?.poster"
-            alt=""
-          />
-        </div>
+    <div class="flex flex-col gap-5 px-5 border-x">
+      <NuxtLink
+        class="mx-auto"
+        :to="`/products/${props?.book?.book?.slug}-${props?.book?.id}`"
+      >
+        <img
+          class="rounded-lg w-[180px] h-[284px]"
+          :src="props?.book?.poster"
+          alt=""
+        />
+      </NuxtLink>
 
-        <div class="flex flex-col gap-1">
-          <div class="text-xl font-bold hover:text-[#f65d4e] line-clamp-1">
-            {{ props?.book?.book?.original_title }}
-          </div>
-          <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
-            {{ props?.book?.book_version }}
-          </div>
-          <div class="flex justify-start">
-            <CommonRating :rating="props?.book?.average_rate" />
-          </div>
-          <div class="text-sm text-[#999999] hover:text-[#f65d4e]">
-            {{ props?.book?.book?.author?.author }}
-          </div>
-          <div class="text-orange-600 font-extrabold text-xl">
-            {{
-              new Intl.NumberFormat("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              }).format(props?.book?.price)
-            }}
-          </div>
+      <div class="flex flex-col gap-1">
+        <NuxtLink
+          class="text-xl font-bold hover:text-[#f65d4e] line-clamp-1"
+          :to="`/products/${props?.book?.book?.slug}-${props?.book?.id}`"
+        >
+          {{ props?.book?.book?.original_title }}
+        </NuxtLink>
+
+        <div class="text-sm text-[#999999]">
+          {{ props?.book?.book_version }}
+        </div>
+        <div class="flex justify-start">
+          <CommonRating :rating="props?.book?.average_rate" />
+        </div>
+        <NuxtLink
+          :to="`/products?author=${props?.book?.book?.author?.slug}`"
+          class="text-sm text-[#999999] hover:text-[#f65d4e]"
+        >
+          {{ props?.book?.book?.author?.author }}
+        </NuxtLink>
+
+        <div class="text-orange-600 font-extrabold text-xl">
+          {{
+            new Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(props?.book?.price)
+          }}
         </div>
       </div>
-    </NuxtLink>
+    </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const props = defineProps(["book"]);
-
-console.log(props);
+const authorStore = useAuthorPublicStore();
+useAsyncData(async () => {
+  await authorStore.getAllAuthorClient();
+});
 </script>
