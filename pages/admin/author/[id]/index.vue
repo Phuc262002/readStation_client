@@ -5,9 +5,8 @@
         <h5 class="text-xl text-[#1e293b] font-semibold">Sửa tác giả</h5>
       </div>
     </div>
-
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
-      <form @submit.prevent="updateAuthor">
+      <form @submit.prevent="putUpdateAuthor">
         <div class="grid grid-cols-6 gap-4">
           <div class="flex flex-col gap-3 col-start-1 col-end-3">
             <label class="text-sm font-semibold" for="">Avatar </label>
@@ -32,7 +31,7 @@
               </template>
               <span class="group flex items-center justify-center cursor-pointer w-8 h-8 rounded-md">
                 <a-space direction="vertical">
-                  <a-switch v-model:checked="valueAuthor.is_featured">
+                  <a-switch :value="valueAuthor.is_featured">
                     <template #checkedChildren><check-outlined /></template>
                     <template #unCheckedChildren><close-outlined /></template>
                   </a-switch>
@@ -65,12 +64,12 @@
             <CommonCKEditor v-model:value="valueAuthor.description"
               @input="(event) => (ValueAuthor.description = event)" />
           </div>
-          <div class="flex justify-end gap-2">
-            <NuxtLink to="/admin/author">
-              <a-button> Hủy</a-button>
-            </NuxtLink>
-            <a-button type="primary" html-type="submit" :loading="AuthorStore.isSubmitting">Cập nhật</a-button>
-          </div>
+        </div>
+        <div class="flex justify-end gap-2 mt-4">
+          <NuxtLink :to="`/admin/author`">
+            <a-button html-type="submit">Hủy</a-button>
+          </NuxtLink>
+          <a-button type="primary" html-type="submit" :loading="AuthorStore.isSubmitting">Cập nhật</a-button>
         </div>
       </form>
     </div>
@@ -82,6 +81,7 @@ const route = useRoute();
 const authorID = route.params.id;
 const AuthorStore = useAuthorStore();
 const baseStore = useBaseStore();
+const checked = ref(true)
 const fileList = ref([]);
 const imageInfo = ref("");
 const uploadFile = async (file) => {
@@ -139,7 +139,23 @@ const optionsStatus = ref([
 const valueAuthor = ref({
   avatar: "",
 });
-const updateAuthor = async () => {
+useAsyncData(async () => {
+  try {
+    const data = await AuthorStore.getAuthorById(authorID);
+    valueAuthor.value = data.data._rawValue.data;
+    fileList.value = [
+      {
+        uid: "-1",
+        name: "image.png",
+        status: "done",
+        url: data.data._rawValue.data.avatar,
+      },
+    ];
+  } catch (error) {
+    console.log(error);
+  }
+});
+const putUpdateAuthor = async () => {
   try {
     const updateValue = {
       author: valueAuthor.value.author,
@@ -160,24 +176,11 @@ const updateAuthor = async () => {
   } catch (error) {
     message.error("Cập nhật tác giả thất bại");
   }
+
+
 };
 
-useAsyncData(async () => {
-  try {
-    const data = await AuthorStore.getAuthorById(authorID);
-    valueAuthor.value = data.data._rawValue.data;
-    fileList.value = [
-      {
-        uid: "-1",
-        name: "image.png",
-        status: "done",
-        url: data.data._rawValue.data.avatar,
-      },
-    ];
-  } catch (error) {
-    console.log(error);
-  }
-});
+
 
 const handleChange = (value) => {
   console.log(`selected ${value}`);

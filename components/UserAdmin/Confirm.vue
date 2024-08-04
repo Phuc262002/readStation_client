@@ -42,7 +42,6 @@
             <a-textarea v-model:value="reason" class="w-full h-10" />
           </div>
         </div>
-       
       </div>
 
       <div class="flex justify-end items-end gap-2">
@@ -54,6 +53,7 @@
           type="primary"
           html-type="submit"
           class="mt-4"
+          :loading="verificationRequestsStore.isSubmitting"
           >Xác nhận</a-button
         >
       </div>
@@ -81,23 +81,25 @@ const handleClose = () => {
   props.openModal();
 };
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
   if (props.status === "rejected") {
     if (reason.value === "") {
       message.error("Vui lòng nhập lý do từ chối");
       return;
     }
-    verificationRequestsStore.updateVerificationRequestStatus({
+    await verificationRequestsStore.updateVerificationRequestStatus({
       id: props.id,
       body: { status: "rejected", reason: reason.value },
     });
+    message.success("Từ chối xác thực tài khoản thành công");
+    handleClose();
   } else {
-    verificationRequestsStore.updateVerificationRequestStatus({
+    await verificationRequestsStore.updateVerificationRequestStatus({
       id: props.id,
       body: { status: "approved" },
     });
+    message.success("Xác thực tài khoản thành công");
   }
-  props.openModal();
   navigateTo("/admin/verification-requests");
 };
 </script>

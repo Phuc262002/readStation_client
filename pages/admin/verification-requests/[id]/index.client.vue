@@ -436,9 +436,7 @@ useAsyncData(async () => {
     );
   }
 });
-
 const status = ref("");
-
 const CloseModalConfirm = () => {
   openModalConfirm.value = false;
   status.value = "";

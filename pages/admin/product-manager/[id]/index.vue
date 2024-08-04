@@ -35,8 +35,12 @@
                         <div class="grid grid-cols-3">
                             <span class="text-base font-bold col-span-1">Vai trò</span>
                             <span class="text-base col-span-2">
-                                <div class="p-1 w-14 text-center rounded-lg text-tag-text-01 bg-tag-bg-01">
-                                    HS/SV
+                                <div class="p-1 w-24 text-center rounded-lg text-tag-text-02 bg-tag-bg-02"
+                                    v-if="orderStore?.getOneOrderAdmin?.data?.user?.role?.description === 'User'">
+                                    Khách hàng
+                                </div>
+                                <div class="p-1 w-24 text-center rounded-lg text-tag-text-01 bg-tag-bg-01" v-else>
+                                    HS/ SV
                                 </div>
                             </span>
                         </div>
@@ -199,7 +203,7 @@
                     </div>
                 </div>
                 <div v-for="(items, index) in orderStore?.getOneOrderAdmin?.data?.loan_order_details" :key=index>
-                    <div class="border-t-2 border-gray-200 p-5 space-y-3">
+                    <div class="border-t-2 border-gray-100 p-5 space-y-3">
                         <div class="flex gap-2 items-center">
                             <h1 class="text-base font-bold">{{ items?.book_details?.book?.title }} - Phiên bản năm {{
                                 items?.book_details.book_version }} </h1>
