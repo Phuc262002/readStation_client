@@ -75,11 +75,11 @@ watch(
 const handleClose = () => {
     props.CloseModal();
 };
+const number_of_days = ref(1);
 const orderStore = useOrderStore();
 const onSubmit = async () => {
     try {
-        const res = await orderStore.extensionOneBook({ id: props.items?.id })
-        console.log(res)
+        const res = await orderStore.extensionOneBook({ id: props.items?.id, body: {number_of_days: number_of_days.value} });
         if (res.data._rawValue?.status == true) {
             message.success("Gia hạn sách thành công");
         } else {
