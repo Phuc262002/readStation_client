@@ -31,7 +31,7 @@
               </template>
               <span class="group flex items-center justify-center cursor-pointer w-8 h-8 rounded-md">
                 <a-space direction="vertical">
-                  <a-switch :value="valueAuthor.is_featured">
+                  <a-switch v-model:checked="valueAuthor.is_featured">
                     <template #checkedChildren><check-outlined /></template>
                     <template #unCheckedChildren><close-outlined /></template>
                   </a-switch>
@@ -81,7 +81,7 @@ const route = useRoute();
 const authorID = route.params.id;
 const AuthorStore = useAuthorStore();
 const baseStore = useBaseStore();
-const checked = ref(true)
+// const checked = ref('')
 const fileList = ref([]);
 const imageInfo = ref("");
 const uploadFile = async (file) => {
@@ -129,10 +129,6 @@ const optionsStatus = ref([
   },
   {
     value: "inactive",
-    label: "Không hoạt động",
-  },
-  {
-    value: "deleted",
     label: "Không hoạt động",
   },
 ]);

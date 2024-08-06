@@ -1,6 +1,6 @@
 <template>
   <a-layout-sider
-    class="dark:!bg-[#132337] rounded-lg hidden md:block bg-[#f9f9f9] shadow-md shadow-gray-300 !w-fit !min-w-[theme(padding.sidebar)]"
+    class="dark:!bg-[#132337] rounded-lg hidden md:block bg-[#f9f9f9] shadow-md shadow-gray-300 !min-w-full"
   >
     <div class="text-center">
       <div class="flex items-center justify-center pt-3 relative">
@@ -51,8 +51,7 @@
       v-model:selectedKeys="selectedKeys"
       :theme="$colorMode.value === 'dark' ? 'dark' : 'light'"
       mode="inline"
-      class="!border-0 dark:!bg-[#6c819b] dark:!text-white overflow-auto h-5/6 border rounded-2xl"
-      :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
+      class="dark:!bg-[#6c819b] dark:!text-white overflow-auto h-5/6 rounded-2xl"
     >
       <a-menu-item key="2" class="flex items-center gap-2">
         <NuxtLink to="/account" class="flex items-center gap-2 font-semibold">
@@ -132,7 +131,7 @@
           </NuxtLink>
         </a-menu-item>
       </a-sub-menu>
-      <a-sub-menu key="sub4" v-if="!isAllVerified" >
+      <a-sub-menu key="sub4" v-if="!isAllVerified">
         <template #title>
           <span class="flex items-center gap-2">
             <Icon
@@ -146,7 +145,10 @@
           <NuxtLink
             to="/account/verify/verify-account"
             class="flex items-center gap-2 font-semibold"
-            v-if="!authStore.authUser?.user?.citizen_identity_card && !authStore.authUser?.user?.isCheckCCCD"
+            v-if="
+              !authStore.authUser?.user?.citizen_identity_card &&
+              !authStore.authUser?.user?.isCheckCCCD
+            "
           >
             Xác thực CMT/CCCD
           </NuxtLink>
@@ -159,21 +161,24 @@
           </NuxtLink>
         </a-menu-item>
 
-        <a-menu-item key="11"  v-if="!authStore.authUser?.user?.student_id_card">
+        <a-menu-item key="11" v-if="!authStore.authUser?.user?.student_id_card">
           <NuxtLink
-          to="/account/verify/verify-student"
-          class="flex items-center gap-2 font-semibold"
-          v-if="!authStore.authUser?.user?.student_id_card && !authStore.authUser?.user?.isCheckStudent"
-        >
-          Xác thực HS/SV
-        </NuxtLink>
-        <NuxtLink
-          to="/account/verify/confirm-student"
-          class="flex items-center gap-2 font-semibold"
-          v-if="authStore.authUser?.user?.isCheckStudent"
-        >
-          Xác minh HS/SV
-        </NuxtLink>
+            to="/account/verify/verify-student"
+            class="flex items-center gap-2 font-semibold"
+            v-if="
+              !authStore.authUser?.user?.student_id_card &&
+              !authStore.authUser?.user?.isCheckStudent
+            "
+          >
+            Xác thực HS/SV
+          </NuxtLink>
+          <NuxtLink
+            to="/account/verify/confirm-student"
+            class="flex items-center gap-2 font-semibold"
+            v-if="authStore.authUser?.user?.isCheckStudent"
+          >
+            Xác minh HS/SV
+          </NuxtLink>
         </a-menu-item>
       </a-sub-menu>
 
@@ -219,7 +224,6 @@ const logout = async () => {
 };
 
 const showModal = () => {
-  console.log("11");
   openModal.value = true;
 };
 const closeModal = () => {
@@ -227,8 +231,16 @@ const closeModal = () => {
 };
 const isAllVerified = ref<boolean>(false);
 
-
-if (authStore.authUser?.user?.citizen_identity_card && authStore.authUser?.user?.student_id_card) {
+if (
+  authStore.authUser?.user?.citizen_identity_card &&
+  authStore.authUser?.user?.student_id_card
+) {
   isAllVerified.value = true;
 }
 </script>
+<style scoped>
+:deep(.ant-menu-title-content) {
+  color: black;
+  font-weight: 600;
+}
+</style>

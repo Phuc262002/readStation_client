@@ -121,11 +121,8 @@
                                 <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Tiền cọc: </span>
                                     <span class="text-base"> {{
-                                        new Intl.NumberFormat("vi-VN", {
-                                            style: "currency",
-                                            currency: "VND",
-                                        }).format(items?.hire_percent)
-                                    }}</span>
+                                       items?.hire_percent
+                                    }}%</span>
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Loại bìa: </span>

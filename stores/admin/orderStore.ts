@@ -59,11 +59,10 @@ export const useOrderStore = defineStore("order-store", {
             body: JSON.stringify(valueOrder),
           }
         );
+        this.isSubmitting = false;
         return data;
       } catch (error) {
         console.log(error);
-      } finally {
-        this.isSubmitting = false;
       }
     },
     async retrunEachBook({ id, valueRetunEachBook }: any) {
@@ -78,22 +77,24 @@ export const useOrderStore = defineStore("order-store", {
       this.isSubmitting = false;
       return data;
     },
-    async extensionAllBook({ id }: any) {
+    async extensionAllBook({ id, days }: any) {
       this.isSubmitting = true;
       const data: any = await useCustomFetch(
         `/api/v1/admin/orders/extension-all/${id}`,
         {
+          body: JSON.stringify(days),
           method: "POST",
         }
       );
       this.isSubmitting = false;
       return data;
     },
-    async extensionOneBook({ id }: any) {
+    async extensionOneBook({ id, body }: any) {
       this.isSubmitting = true;
       const data: any = await useCustomFetch(
         `/api/v1/admin/orders/extension-each-book/${id}`,
         {
+          body: JSON.stringify(body),
           method: "POST",
         }
       );
