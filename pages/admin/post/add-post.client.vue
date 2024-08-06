@@ -19,7 +19,9 @@
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <form :model="posts" @submit.prevent="onSubmit">
         <div class="flex flex-col gap-2 w-full pb-4">
-          <label class="text-sm font-semibold" for="">Thêm hình ảnh <span class="text-red-500">*</span></label>
+          <label class="text-sm font-semibold" for=""
+            >Thêm hình ảnh <span class="text-red-500">*</span></label
+          >
           <ClientOnly>
             <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
               <a-upload-dragger
@@ -44,7 +46,9 @@
           </ClientOnly>
         </div>
         <div class="flex flex-col gap-2 w-full pb-4">
-          <label class="text-sm font-semibold" for="">Tên bài viết <span class="text-red-500">*</span></label>
+          <label class="text-sm font-semibold" for=""
+            >Tên bài viết <span class="text-red-500">*</span></label
+          >
           <a-input
             v-model:value="posts.title"
             size="large"
@@ -57,7 +61,9 @@
 
         <div class="grid grid-cols-2 gap-4 pb-4">
           <div class="flex flex-col gap-2 w-[50%]">
-            <label class="text-sm font-semibold" for="">Danh mục <span class="text-red-500">*</span></label>
+            <label class="text-sm font-semibold" for=""
+              >Danh mục <span class="text-red-500">*</span></label
+            >
             <a-select
               size="large"
               v-model:value="posts.category"
@@ -73,7 +79,9 @@
           </div>
         </div>
         <div class="flex flex-col gap-2 w-full pb-4">
-          <label class="text-sm font-semibold" for="">Nội dung ngắn <span class="text-red-500">*</span></label>
+          <label class="text-sm font-semibold" for=""
+            >Nội dung ngắn <span class="text-red-500">*</span></label
+          >
           <a-textarea
             placeholder="Nhập nội dung ngắn"
             v-model:value="posts.summary"
@@ -91,10 +99,20 @@
         </div>
         <div class="flex justify-end items-end gap-2 pt-4">
           <a-button @click="() => navigateTo('/admin/post')"> Hủy</a-button>
-          <a-button @click="posts.status = 'draft'" html-type="submit">
+          <a-button
+            @click="posts.status = 'draft'"
+            html-type="submit"
+            :loading="postStore.isSubmitting"
+          >
             Lưu nháp</a-button
           >
-          <a-button type="primary" html-type="submit"> Đăng bài</a-button>
+          <a-button
+            :loading="postStore.isSubmitting"
+            type="primary"
+            html-type="submit"
+          >
+            Đăng bài</a-button
+          >
         </div>
       </form>
     </div>
@@ -180,8 +198,8 @@ const onSubmit = async () => {
       status: posts.value.status,
     });
     if (res.data._rawValue?.status == true) {
-      message.success("Thêm bài viết thành công");
       navigateTo("/admin/post");
+      message.success("Thêm bài viết thành công");
     } else {
       errors.value = res.error.value.data.errors;
       message.error("Thêm bài viết thất bại");

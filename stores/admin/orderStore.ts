@@ -59,11 +59,10 @@ export const useOrderStore = defineStore("order-store", {
             body: JSON.stringify(valueOrder),
           }
         );
+        this.isSubmitting = false;
         return data;
       } catch (error) {
         console.log(error);
-      } finally {
-        this.isSubmitting = false;
       }
     },
     async retrunEachBook({ id, valueRetunEachBook }: any) {
