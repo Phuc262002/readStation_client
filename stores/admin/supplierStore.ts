@@ -38,10 +38,12 @@ export const useSupplierStore = defineStore("supplier-store", {
         return data;
     },
     async updateSupplier({ id, valueSupplier }: any) {
+      this.isSubmitting = true;
         const data: any = await useCustomFetch(`/api/v1/admin/suppliers/update/${id}`, {
             method: "PUT",
             body: JSON.stringify(valueSupplier),
         });
+        this.isSubmitting = false;
         return data;
     },
     async getSupplierById(id: string) {

@@ -71,7 +71,6 @@ const onSubmit = async () => {
     return;
   }
   const res = await authStore.updateProfile({
-    phone: "0563783914",
     avatar: imageInfo.value?.url,
   });
 
