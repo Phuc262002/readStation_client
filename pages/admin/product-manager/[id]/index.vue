@@ -159,7 +159,7 @@ import create from '@ant-design/icons-vue/lib/components/IconFont';
                             <span class="text-base col-span-3">{{ new Intl.NumberFormat("vi-VN", {
                                 style: "currency",
                                 currency: "VND",
-                            }).format(orderStore?.getOneOrderAdmin?.data?.total_deposit_fee) }}</span>
+                            }).format(orderStore?.getOneOrderAdmin?.data?.total_service_fee) }}</span>
                         </div>
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Tổng phí gia hạn:</span>

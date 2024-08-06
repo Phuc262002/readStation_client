@@ -344,7 +344,7 @@ const onSubmit = async () => {
 
         } else {
             // user đã xác thực
-            const totalServiceFee = 0
+            let totalServiceFee = 0
             valueOrder = {
                 user_id: inforUser.value?.id,
                 payment_method: paymentMethod.value,
