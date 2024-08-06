@@ -224,7 +224,6 @@ const logout = async () => {
 };
 
 const showModal = () => {
-  console.log("11");
   openModal.value = true;
 };
 const closeModal = () => {
@@ -239,3 +238,9 @@ if (
   isAllVerified.value = true;
 }
 </script>
+<style scoped>
+:deep(.ant-menu-title-content) {
+  color: black;
+  font-weight: 600;
+}
+</style>
