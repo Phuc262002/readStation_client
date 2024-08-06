@@ -1,3 +1,4 @@
+import { number } from 'yup';
 <template>
     <a-modal v-model:open="props.openModal" :title='"Khách muốn gia hạn toàn bộ sách ?"' style="width: 800px;"
         :footer="null" :onCancel="handleClose">
@@ -79,9 +80,10 @@ const handleClose = () => {
     props.CloseModal();
 };
 const orderStore = useOrderStore();
+const number_of_days = ref(1);
 const onSubmit = async () => {
     try {
-        const res = await orderStore.extensionAllBook({ id: props.id });
+        const res = await orderStore.extensionAllBook({ id: props.id, days: { number_of_days: number_of_days.value } });
         if (res.data._rawValue?.status == true) {
             message.success("Gia hạn toàn bộ sách thành công");
         } else {

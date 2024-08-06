@@ -84,7 +84,7 @@
               size="large"
               v-model:value="user.phone"
               name="phone"
-              type="number"
+              type="text"
               pattern="[0-9]*"
               v-if="isShow"
               required
@@ -317,13 +317,20 @@ const formattedAddress = computed(() => {
 // Submit handler
 const onSubmit = async () => {
   try {
-    // if (!user.value.phone) {
-    //   console.log("firstuserr");
-    //   message.error({
-    //     content: "Vui lòng nhập số điện thoại",
-    //   });
-    //   return;
-    // }
+    const phonePattern = /^(0[3|5|7|8|9])+([0-9]{8})$/;
+    const fullNamePattern = /^[a-zA-ZÀ-ỹ\s]+$/;
+    if (!phonePattern.test(user.value.phone)) {
+      message.error({
+        content: "Số điện thoại không hợp lệ!",
+      });
+      return;
+    }
+    if (!fullNamePattern.test(user.value.fullname)) {
+      message.error({
+        content: "Họ tên không nhập số và ký tự đặc biệt!",
+      });
+      return;
+    }
     const resData = await authStore.updateProfile({
       fullname: user.value.fullname,
       email: user.value.email,

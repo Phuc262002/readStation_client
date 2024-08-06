@@ -10,7 +10,7 @@
             <li>Ưu đãi cho khách hàng xác thực tài khoản</li>
             <li>Ưu đãi thêm cho học sinh sinh viên khi thuê sách</li>
             <li>Thế giới sách trong tầm tay bạn</li>
-            <li>Mở ra thế giới sách phong phú chỉ với vài bước đơn giản </li>
+            <li>Mở ra thế giới sách phong phú chỉ với vài bước đơn giản</li>
           </ul>
           <NuxtLink to="/login">
             <button
@@ -24,11 +24,11 @@
     </div>
     <div class="md:py-10">
       <div class="flex items-center md:items-start space-x-8">
-        <div class="w-1/3 ">
+        <div class="w-1/3">
           <img
             src="/assets/images/book-is-open.jpg"
             alt="Car Image"
-            class="h-[400px] rounded-lg "
+            class="h-[400px] rounded-lg"
           />
         </div>
         <div class="py-6 w-2/3">
@@ -63,7 +63,7 @@
         />
       </div> -->
       <div class="w-full">
-        <div class=" py-4">
+        <div class="py-4">
           <div class=" ">
             <h2 class="text-3xl font-bold mb-4 text-center">
               Câu hỏi thường gặp
@@ -73,21 +73,20 @@
                 v-model:activeKey="activeKey"
                 :bordered="false"
                 style="background: transparent"
-            
               >
                 <template #expandIcon="{ isActive }">
                   <caret-right-outlined :rotate="isActive ? 90 : 0" />
                 </template>
                 <a-collapse-panel
                   key="1"
-                  header="#1. Cọc thuê sách"
+                  header="#1. Phí cọc thuê sách"
                   :style="customStyle"
                 >
                   <p v-html="text"></p>
                 </a-collapse-panel>
                 <a-collapse-panel
                   key="2"
-                  header="#2. Trường hợp làm mất sách, hư sách "
+                  header="#2. Phạt và bồi thường hư hỏng sách "
                   :style="customStyle"
                 >
                   <p v-html="text2"></p>
@@ -114,14 +113,77 @@ import { ref } from "vue";
 const activeKey = ref([]);
 const customStyle =
   "background: #e9e9e9;border-radius: 4px;margin-bottom: 16px;border: 0;overflow: hidden";
-const text = `Khoản đặt cọc này để hỗ trợ Read Station trong các trường hợp hư hỏng hay mất sách, sẽ được hoàn lại cho bạn sau thời gian trải nghiệm miễn phí`;
-const text2 = `Trong trường hợp làm thất lạc, không trả sách đúng thời hạn hoặc gây hư hỏng bao gồm rách giấy, gãy bìa, viết hoặc note vào sách. <br/>
- ReadStation sẽ tính phí phạt bằng 80% giá trị cuốn sách.<br/>
-Trường hợp hư tổn do bên vận chuyển, khi nhận được sách hãy liên hệ gấp với ReadStation để nhận được sự hỗ trợ.
+const text = `
+Khoản đặt cọc này để hỗ trợ Read Station trong các trường hợp hư hỏng hay mất sách, sẽ được hoàn lại 
+cho bạn sau khi hoàn thành đơn.  <br/>
+ -Đối với khách hàng chưa xác thực tài khoản phí cọc thuê sách sẽ là 80% giá sách. <br/>
+ -Đối với khách hàng đã xác thực tài khoản phí cọc thuê sách sẽ là 60% giá sách. 
+ <br/>
+ <table style="border-collapse: collapse; width: 70%; border: 1px solid black;">
+  <tr>
+    <td style="padding-right: 40px; border: 1px solid black;"><strong>Giá bìa sách</strong></td>
+    <td style="padding-left: 16px;border: 1px solid black;"><strong>Giá thuê (theo ngày)</strong></td>
+  </tr>
+  <tr>
+    <td style="padding-right: 40px; border: 1px solid black;">Dưới 50.000đ</td>
+    <td style="padding-left: 16px;border: 1px solid black;">1.000đ /1 cuốn /1 ngày</td>
+  </tr>
+  <tr>
+    <td style="padding-right: 40px; border: 1px solid black;">Từ 50.000đ - 100.000đ</td>
+    <td style="padding-left: 16px;border: 1px solid black;">2.000đ /1 cuốn /1 ngày</td>
+  </tr>
+  <tr>
+    <td style="padding-right: 40px; border: 1px solid black;">Trên 100.000đ</td>
+    <td style="padding-left: 16px;border: 1px solid black;">4.000đ /1 cuốn /1 ngày</td>
+  </tr>
+</table>
+
+`;
+const text2 = `
+
+Phạt trễ hạn: Mức phạt: 5.000đ/1 sách/ngày. <br/>
+Nếu độc giả bị phạt tiền quá hạn từ 50.000đ trở lên, tài khoản sẽ bị khoá cho đến khi tài khoản được thanh toán đầy đủ.
+<br/>
+
+<table style="border-collapse: collapse; width: 70%; border: 1px solid black;">
+  <tr>
+    <td style="border: 1px solid black;"><strong> Tình trạng </strong></td>
+    <td style="padding-left: 16px;border: 1px solid black;"><strong> Mức phạt </strong></td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">Mất sách hoặc làm cho sách hoàn toàn không sử dụng được</td>
+    <td style="padding-left: 16px;border: 1px solid black;"> Đền 100% giá trị sách </td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">  Mất trang </td>
+    <td style="padding-left: 16px;border: 1px solid black;"> 10.000đ/tờ </td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">Làm bẩn, viết vẽ bẩn lên sách</td>
+    <td style="padding-left: 16px;border: 1px solid black;"> 2.000đ/tờ </td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">Làm bong bìa</td>
+    <td style="padding-left: 16px;border: 1px solid black;"> 15.000đ/1 cuốn</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;"> Làm rách sách</td>
+    <td rowspan=3 style="padding-left: 16px;border: 1px solid black;">30.000đ/ sách </td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;"> Làm ướt sách</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;"> Bóc nhãn, phiếu ghi chú trên sách</td>
+  </tr>
+</table> 
+
+
 `;
 const text3 = `Khi đã là bạn đọc tại Read Station, bạn có thể:<br/>
-- Giữ sách và thưởng thức trọn vẹn nội dung.<br/>
-- Khi đã đọc xong, bạn có thể trả sách mượn quyển tiếp theo, Read Station sẽ chuyển cho bạn quyển mới, đồng thời nhận lại quyển hiện tại. Theo quy định hiện tại, bạn có thể giữ tối đa cùng lúc là 3 quyển.<br/>
+- Giữ sách và thưởng thức trọn vẹn nội dung trong thời gian tối đa là 14 ngày.<br/>
+- Khi đã đọc xong và hoàn trả sách, bạn có thể mượn quyển sách tiếp theo.<br/>
+- Theo quy định hiện tại, bạn có thể giữ tối đa cùng lúc là 3 quyển, và việc hoàn trả lại sách là yêu cầu bắt buộc để có thể mượn tiếp sách mới.<br/>
 - Read Station mong bạn ưu tiên hoàn trả lại sách trong mọi trường hợp.<br/>
 `;
 </script>

@@ -13,7 +13,7 @@
         <div class="col-start-2 col-span-6 text-center text-xl">
           Chương trình ưu đãi tại Read Station. Khi Quý khách xác thực chứng
           minh thư/ căn cước công dân (CMT/CCCD), Quý khách sẽ nhận được ưu đãi
-          giảm giá 50% phí cọc thuê sách.
+          giảm ngay 20% phí cọc thuê sách.
         </div>
       </div>
 

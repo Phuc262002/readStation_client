@@ -87,13 +87,15 @@ const handleOnComplete = (value: string) => {
 const handleOnChange = (value: string) => {
   console.log("OTP changed: ", value);
 };
-
+const clearInput = () => {
+  otpInput.value?.clearInput();
+};
 const fillInput = (value: string) => {
   console.log(value);
   otpInput.value?.fillInput(value);
 };
 // Create the form
-const { defineInputBinds, handleSubmit, errors } = useForm({
+const { handleSubmit } = useForm({
   validationSchema: yup.object().shape({}),
 });
 
@@ -105,7 +107,6 @@ onMounted(() => {
     console.log(email.value);
   } else {
     email.value = "";
-    console.error("Invalid email parameter:", emailFromQuery);
   }
 });
 
@@ -124,12 +125,12 @@ const resendOtp = async () => {
     } else {
       resErrors.value = resData.error.value.data?.errors;
       message.error({
-        content: "Gửi mã OTP không thành công",
+        content: "Gửi mã OTP thất bại",
       });
     }
   } catch (error) {
     message.error({
-      content: "Gửi mã OTP không thành công",
+      content: "Gửi mã OTP thất bại",
     });
   } finally {
     isSubmitting.value = false;
@@ -139,7 +140,6 @@ const resendOtp = async () => {
 // Submit handler
 const onSubmit = handleSubmit(async (values) => {
   const otpCode = bindValue.value;
-  console.log("otp", otpCode);
   // Submit to API
 
   values = { otpCode, email: email.value };
@@ -150,16 +150,33 @@ const onSubmit = handleSubmit(async (values) => {
       otpCode,
       email: email.value,
     });
+    console.log("resData", resData?.data);
+    if (!resData?.data?._rawValue) {
+      message.error({
+        content: "Mã OTP không được để trống",
+      });
+      return;
+    }
     if (resData?.data?._rawValue?.status == true) {
       message.success({
         content: "Xác thực mã OTP thành công",
       });
       navigateTo("/login");
     } else {
-      message.error(resData?.data?._rawValue?.message);
+      if (
+        resData?.data?._rawValue?.message ===
+        "Mã OTP đã hết hạn, vui lòng kiểm tra lại mã OTP"
+      ) {
+        message.error(resData?.data?._rawValue?.message);
+        navigateTo("/");
+      } else {
+        otpInput.value?.clearInput();
+        message.error(resData?.data?._rawValue?.message);
+      }
     }
   } catch (error) {
     console.log("error", error);
+    otpInput.value?.clearInput();
   } finally {
     isSubmitting.value = false;
   }

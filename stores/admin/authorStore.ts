@@ -42,6 +42,7 @@ export const useAuthorStore = defineStore("author-store", {
       return data;
     },
     async updateAuthor({ id, valueAuthor }: any) {
+      this.isSubmitting = true;
       const data: any = await useCustomFetch(
         `/api/v1/admin/authors/update/${id}`,
         {
@@ -49,6 +50,7 @@ export const useAuthorStore = defineStore("author-store", {
           body: JSON.stringify(valueAuthor),
         }
       );
+      this.isSubmitting = false;
       return data;
     },
     async getAuthorById(id: string) {

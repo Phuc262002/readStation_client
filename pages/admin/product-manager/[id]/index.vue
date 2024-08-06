@@ -1,3 +1,4 @@
+import create from '@ant-design/icons-vue/lib/components/IconFont';
 <template>
     <div class="flex flex-col gap-2">
         <h1 class="text-xl text-[#1e293b] font-bold pb-3">Chi tiết đơn hàng {{
@@ -115,25 +116,13 @@
                         </div>
                         <div class="grid grid-cols-3">
                             <span class="text-base font-bold">Ngày đặt sách:</span>
-                            <span class="text-base "></span>
+                            <span class="text-base ">{{ orderStore?.getOneOrderAdmin?.data?.created_at ? $dayjs(
+                                orderStore?.getOneOrderAdmin?.data?.created_at).format("DD/MM/YYYY") : '' }}</span>
                         </div>
                         <div class="grid grid-cols-3">
                             <span class="text-base font-bold">Ngày nhận sách:</span>
-                            <span class="text-base "></span>
-                        </div>
-                        <div class="grid grid-cols-3">
-                            <span class="text-base font-bold">Ngày trả dự kiến:</span>
-                            <span class="text-base ">{{ orderStore?.getOneOrderAdmin?.data?.original_due_date ?
-                                $dayjs(orderStore?.getOneOrderAdmin?.data?.original_due_date).format('DD/MM/YYYY') :
-                                ''
-                                }}</span>
-                        </div>
-                        <div class="grid grid-cols-3">
-                            <span class="text-base font-bold">Ngày trả thực tế:</span>
-                            <span class="text-base ">{{ orderStore?.getOneOrderAdmin?.data?.current_due_date ?
-                                $dayjs(orderStore?.getOneOrderAdmin?.data?.current_due_date).format('DD/MM/YYYY') :
-                                ''
-                                }}</span>
+                            <span class="text-base ">{{ orderStore?.getOneOrderAdmin?.data?.pickup_date ? $dayjs(
+                                orderStore?.getOneOrderAdmin?.data?.pickup_date).format("DD/MM/YYYY") : '' }}</span>
                         </div>
                         <div class="grid grid-cols-3">
                             <span class="text-base font-bold">Số lần gia hạn:</span>
@@ -148,39 +137,74 @@
                                 v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'pickup'">Nhận tại thư
                                 viện</span>
                         </div>
+
                     </div>
                     <div class="md:col-span-3 space-y-3 ml-5">
                         <div class="grid grid-cols-4">
-                            <span class="text-base font-bold col-span-1">Tổng tiền cọc thuê sách:</span>
-                            <span class="text-base col-span-3"></span>
+                            <span class="text-base font-bold">Tổng tiền cọc thuê sách:</span>
+                            <span class="text-base col-span-3">{{ new Intl.NumberFormat("vi-VN", {
+                                style: "currency",
+                                currency: "VND",
+                            }).format(orderStore?.getOneOrderAdmin?.data?.total_deposit_fee) }}</span>
                         </div>
                         <div class="grid grid-cols-4">
-                            <span class="text-base font-bold col-span-1">Phí vận chuyển:</span>
-                            <span class="text-base col-span-3"> </span>
+                            <span class="text-base font-bold">Phí vận chuyển:</span>
+                            <span class="text-base col-span-3">{{ new Intl.NumberFormat("vi-VN", {
+                                style: "currency",
+                                currency: "VND",
+                            }).format(orderStore?.getOneOrderAdmin?.data?.total_shipping_fee) }} </span>
                         </div>
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Phí dịch vụ:</span>
-                            <span class="text-base col-span-3"></span>
+                            <span class="text-base col-span-3">{{ new Intl.NumberFormat("vi-VN", {
+                                style: "currency",
+                                currency: "VND",
+                            }).format(orderStore?.getOneOrderAdmin?.data?.total_service_fee) }}</span>
                         </div>
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Tổng phí gia hạn:</span>
-                            <span class="text-base col-span-3"></span>
+                            <span class="text-base col-span-3">
+                                {{ new Intl.NumberFormat("vi-VN", {
+                                    style: "currency",
+                                    currency: "VND",
+                                }).format(orderStore?.getOneOrderAdmin?.data?.total_deposit_fee) }}
+                            </span>
                         </div>
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Tổng phí trễ hạn:</span>
-                            <span class="text-base col-span-3"></span>
+                            <span class="text-base col-span-3">
+                                {{ new Intl.NumberFormat("vi-VN", {
+                                    style: "currency",
+                                    currency: "VND",
+                                }).format(orderStore?.getOneOrderAdmin?.data?.total_deposit_fee) }}
+                            </span>
                         </div>
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Tổng phí giao trả sách:</span>
-                            <span class="text-base col-span-3"></span>
+                            <span class="text-base col-span-3">
+                                {{ new Intl.NumberFormat("vi-VN", {
+                                    style: "currency",
+                                    currency: "VND",
+                                }).format(orderStore?.getOneOrderAdmin?.data?.total_deposit_fee) }}
+                            </span>
                         </div>
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Tổng tiền nhận:</span>
-                            <span class="text-base col-span-3"></span>
+                            <span class="text-base col-span-3">
+                                {{ new Intl.NumberFormat("vi-VN", {
+                                    style: "currency",
+                                    currency: "VND",
+                                }).format(orderStore?.getOneOrderAdmin?.data?.total_deposit_fee) }}
+                            </span>
                         </div>
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Tiền cọc trả lại:</span>
-                            <span class="text-base col-span-3"></span>
+                            <span class="text-base col-span-3">
+                                {{ new Intl.NumberFormat("vi-VN", {
+                                    style: "currency",
+                                    currency: "VND",
+                                }).format(orderStore?.getOneOrderAdmin?.data?.total_deposit_fee) }}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -243,18 +267,18 @@
                                     <div class="grid grid-cols-2">
                                         <span class="text-base font-bold">Ngày trả dự kiến:</span>
                                         <span class="text-base ">{{
-                                            orderStore?.getOneOrderAdmin?.data?.original_due_date
+                                            items?.original_due_date
                                                 ?
-                                                $dayjs(orderStore?.getOneOrderAdmin?.data?.original_due_date).format('DD/MM/YYYY')
+                                                $dayjs(items?.original_due_date).format('DD/MM/YYYY')
                                                 :
                                                 ''
                                         }}</span>
                                     </div>
                                     <div class="grid grid-cols-2">
                                         <span class="text-base font-bold">Ngày trả thực tế:</span>
-                                        <span class="text-base ">{{ orderStore?.getOneOrderAdmin?.data?.current_due_date
+                                        <span class="text-base ">{{ items?.current_due_date
                                             ?
-                                            $dayjs(orderStore?.getOneOrderAdmin?.data?.current_due_date).format('DD/MM/YYYY')
+                                            $dayjs(items?.current_due_date).format('DD/MM/YYYY')
                                             :
                                             ''
                                             }}</span>
@@ -274,11 +298,17 @@
                                 <div class="md:col-span-2 space-y-3 ml-5">
                                     <div class="grid grid-cols-3">
                                         <span class="text-base font-bold col-span-2">Tiền cọc sách:</span>
-                                        <span class="text-base col-span-1"></span>
+                                        <span class="text-base col-span-1">{{ new Intl.NumberFormat("vi-VN", {
+                                            style: "currency",
+                                            currency: "VND",
+                                        }).format(items?.deposit_fee) }}</span>
                                     </div>
                                     <div class="grid grid-cols-3">
                                         <span class="text-base font-bold col-span-2">Phí dịch vụ:</span>
-                                        <span class="text-base col-span-1">20%</span>
+                                        <span class="text-base col-span-1">{{ new Intl.NumberFormat("vi-VN", {
+                                            style: "currency",
+                                            currency: "VND",
+                                        }).format(items?.service_fee) }}</span>
                                     </div>
                                     <div class="grid grid-cols-3">
                                         <span class="text-base font-bold col-span-2">Phí trễ hạn:</span>

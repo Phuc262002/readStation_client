@@ -112,9 +112,12 @@
             >
               <span class="col-span-2 font-bold">Đánh giá:</span>
               <span class="col-span-2">
-                <a-rate v-model:value="rating">
+                <a-rate v-model:value="rating" :readonly="isReviewSubmitted">
                   <template #character>
                     <svg
+                      :style="{
+                        pointerEvents: isReviewSubmitted ? 'none' : 'auto',
+                      }"
                       focusable="false"
                       data-icon="star"
                       width="1em"
@@ -135,9 +138,9 @@
         </div>
         <!--  -->
         <div class="w-1/2 space-y-3 pl-5 text-sm">
-          <div class="grid grid-cols-4">
+          <div class="grid grid-cols-8">
             <span class="col-span-2 font-bold">Tiền cọc sách:</span>
-            <span class="col-span-2">
+            <span class="col-span-6">
               {{
                 new Intl.NumberFormat("vi-VN", {
                   style: "currency",
@@ -146,9 +149,9 @@
               }}
             </span>
           </div>
-          <div class="grid grid-cols-4">
+          <div class="grid grid-cols-8">
             <span class="col-span-2 font-bold">Phí dịch vụ:</span>
-            <span class="col-span-2">
+            <span class="col-span-6">
               {{
                 new Intl.NumberFormat("vi-VN", {
                   style: "currency",
@@ -157,9 +160,9 @@
               }}
             </span>
           </div>
-          <div class="grid grid-cols-4">
+          <div class="grid grid-cols-8">
             <span class="col-span-2 font-bold">Tổng tiền:</span>
-            <span class="col-span-2">
+            <span class="col-span-6">
               {{
                 new Intl.NumberFormat("vi-VN", {
                   style: "currency",
@@ -255,6 +258,7 @@ const bookExtendDetail = ref();
 const rating = ref<number>(5);
 const route = useRoute();
 const idBook = route.params.id;
+const isReviewSubmitted = ref(false);
 console.log("idBook", idBook);
 
 const reviewStore = useReviewBookClientStore();
@@ -271,6 +275,7 @@ const handleReviewBook = async (id) => {
     });
     console.log("res", res);
     if (res.data._rawValue?.status == true) {
+      isReviewSubmitted.value = true;
       navigateTo("/account/order/" + idBook);
       message.success("Thêm đánh giá thành công");
     } else {

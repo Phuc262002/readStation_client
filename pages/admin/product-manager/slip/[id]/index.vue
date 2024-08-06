@@ -160,9 +160,7 @@
                 </div>
             </div>
             <div class="flex justify-end">
-                <NuxtLink to="/admin/product-manager/book-return-slip">
-                    <a-button>Trở về</a-button>
-                </NuxtLink>
+                <a-button @click="() => $router.back()">Trở về</a-button>
             </div>
         </div>
     </div>

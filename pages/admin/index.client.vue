@@ -347,7 +347,6 @@
             <span>Quá hạn</span>
           </a-button>
         </div>
-
         <div>
           <a-table
             :columns="columns"
@@ -357,24 +356,27 @@
           >
             <template #bodyCell="{ column, record }">
               <template v-if="column.dataIndex === 'user'">
-                <div class="flex justify-start gap-2">
+                <div class="flex justify-start gap-2 items-center">
                   <div>
-                    <a-avatar :size="48" :src="record.user.avatar" />
+                    <a-avatar :src="record.user.avatar" />
                   </div>
-
-                  <div>
-                    <p class="p-0">{{ record.user.fullname }}</p>
-                    <p class="p-0">{{ record.user.email }}</p>
+                  <div class="flex flex-col">
+                    <span>{{ record.user.fullname }}</span>
+                    <span>{{ record.user.email }}</span>
                   </div>
                 </div>
               </template>
               <template v-else-if="column.dataIndex === 'order_details'">
                 <span>{{ record.loan_order_details.length }} quyển</span>
               </template>
-              <template v-else-if="column.dataIndex === 'receipt_date'">
-                <span v-if="record.loan_date">{{
-                  $dayjs(record.loan_date).format("DD/MM/YYYY")
-                }}</span>
+              <template v-else-if="column.dataIndex === 'loan_date'">
+                <span>
+                  {{
+                    record.loan_date
+                      ? $dayjs(record.loan_date).format("DD/MM/YYYY")
+                      : ""
+                  }}
+                </span>
               </template>
               <template v-if="column.dataIndex === 'status'">
                 <span>

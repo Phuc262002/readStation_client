@@ -133,6 +133,7 @@
 
       <!-- Right -->
       <div class="w-1/4 space-y-4">
+        <!--  -->
         <div class="bg-white shadow-md rounded-lg">
           <div class="p-6 w-full">
             <div
@@ -187,6 +188,31 @@
 
                 <p>Đừng quên đến thư viện lấy sách nhé !</p>
               </div>
+            </div>
+          </div>
+        </div>
+        <!--  -->
+        <div class="bg-white shadow-md rounded-lg">
+          <div class="p-6 w-full">
+            <div class="flex flex-col gap-5">
+              <div class="flex gap-3 border-b border-rtgray-50 pb-5">
+                <span class="font-bold">Nhập số ngày thuê sách</span>
+                <a-popover trigger="hover" placement="topRight">
+                  <template #content>
+                    <p class="text-sm text-orange-600 flex flex-col">
+                      <span>* Học sinh, sinh viên thuê tối đa 30 ngày</span>
+                      <span>* Khách hàng thuê tối đa 5 ngày</span>
+                    </p>
+                  </template>
+                  <Icon class="text-orange-600" icon="ic:outline-info" />
+                </a-popover>
+              </div>
+
+              <a-input
+                placeholder="Nhập số ngày thuê sách"
+                size="large"
+                v-model:value="rentNumber"
+              />
             </div>
           </div>
         </div>
@@ -340,7 +366,8 @@ const totalFee = ref(0);
 const shippingFee = ref(0);
 const route = useRoute();
 const type = route.query.type;
-console.log("type", type);
+const rentNumber = ref(1);
+
 const dataSource = computed(() => {
   return route.query.type === "thue_ngay"
     ? cartStore?.rentNow
@@ -416,79 +443,85 @@ watch(
 );
 
 const payCart = async () => {
-  try {
-    const newInfo = {
-      fullname: authStore?.authUser?.user?.fullname,
-      phone: authStore?.authUser?.user?.phone,
-      address: authStore?.authUser?.user?.address_detail,
-    };
-    if (
-      delivery_method.value === "shipper" &&
-      (!newInfo.phone || !newInfo.address)
-    ) {
-      message.error({
-        content: "Vui lòng điền đầy đủ thông tin giao hàng!",
-      });
-      return;
-    }
-    const newArr = (
-      type === "thue_ngay" ? cartStore.rentNow : cartStore.carts
-    ).map((item) => {
-      return {
-        book_details_id: item.id,
-        service_fee: parseFloat(item.price) * 0.2,
-        deposit_fee: parseFloat(item.price),
-      };
-    });
-    console.log("newArr", newArr);
-    const paymentPortal = payment_method.value === "online" ? "payos" : null;
-
-    const resData = await orderStore.createOrder({
-      payment_method: payment_method.value,
-      delivery_method: delivery_method.value,
-      payment_portal: paymentPortal,
-      user_note: userNote.value,
-      discount: authStore?.authUser?.user?.discount,
-      shipping_method_id: shipping_method_id.value,
-      total_shipping_fee: parseFloat(shippingFee.value),
-      total_service_fee: parseFloat(serviceFee.value),
-      total_deposit_fee: parseFloat(depositFee.value),
-      total_all_fee: parseFloat(totalFee.value),
-      order_details: newArr,
-      delivery_info: newInfo,
-    });
-    // console.log("resData", resData);
-    if (
-      resData?.data?._rawValue?.status == true &&
-      payment_method.value === "cash"
-    ) {
-      message.success({
-        content: "Đặt hàng thành công",
-      });
-      type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
-
-      navigateTo("/account/order");
-    } else if (
-      resData?.data?._rawValue?.status === true &&
-      payment_method.value === "online"
-    ) {
-      message.success({
-        content: "Đặt hàng thành công",
-      });
-      type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
-      navigateTo(
-        "/account/order/checkout/payment/" +
-          resData?.data?._rawValue?.data.order_code
-      );
-    } else {
-      resErrors.value = resData.error.value.data.errors;
-      message.error({
-        content: "Đặt hàng thất bại",
-      });
-    }
-  } catch (error) {
-    message.error("Đặt hàng thất bại");
-  }
+  console.log("rentNumber", rentNumber.value);
+  // const locations = shippingMethodStore?.shippings?.filter(
+  //   (item) => item.id === shipping_method_id.value
+  // )[0]?.location;
+  // if (!locations.includes(authStore?.authUser?.user?.province?.ProvinceName)) {
+  //   message.error("Hiện tại chưa có hình thức vận chuyển khu vực này !");
+  //   return;
+  // }
+  // try {
+  //   const newInfo = {
+  //     fullname: authStore?.authUser?.user?.fullname,
+  //     phone: authStore?.authUser?.user?.phone,
+  //     address: authStore?.authUser?.user?.address_detail,
+  //   };
+  //   if (
+  //     delivery_method.value === "shipper" &&
+  //     (!newInfo.phone || !newInfo.address)
+  //   ) {
+  //     message.error({
+  //       content: "Vui lòng điền đầy đủ thông tin giao hàng!",
+  //     });
+  //     return;
+  //   }
+  //   const newArr = (
+  //     type === "thue_ngay" ? cartStore.rentNow : cartStore.carts
+  //   ).map((item) => {
+  //     return {
+  //       book_details_id: item.id,
+  //       service_fee: parseFloat(item.price) * 0.2,
+  //       deposit_fee: parseFloat(item.price),
+  //     };
+  //   });
+  //   console.log("newArr", newArr);
+  //   const paymentPortal = payment_method.value === "online" ? "payos" : null;
+  //   const resData = await orderStore.createOrder({
+  //     payment_method: payment_method.value,
+  //     delivery_method: delivery_method.value,
+  //     payment_portal: paymentPortal,
+  //     user_note: userNote.value,
+  //     discount: authStore?.authUser?.user?.discount,
+  //     shipping_method_id: shipping_method_id.value,
+  //     total_shipping_fee: parseFloat(shippingFee.value),
+  //     total_service_fee: parseFloat(serviceFee.value),
+  //     total_deposit_fee: parseFloat(depositFee.value),
+  //     total_all_fee: parseFloat(totalFee.value),
+  //     order_details: newArr,
+  //     delivery_info: newInfo,
+  //   });
+  //   // console.log("resData", resData);
+  //   if (
+  //     resData?.data?._rawValue?.status == true &&
+  //     payment_method.value === "cash"
+  //   ) {
+  //     message.success({
+  //       content: "Đặt hàng thành công",
+  //     });
+  //     type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
+  //     navigateTo("/account/order");
+  //   } else if (
+  //     resData?.data?._rawValue?.status === true &&
+  //     payment_method.value === "online"
+  //   ) {
+  //     message.success({
+  //       content: "Đặt hàng thành công",
+  //     });
+  //     type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
+  //     navigateTo(
+  //       "/account/order/checkout/payment/" +
+  //         resData?.data?._rawValue?.data.order_code
+  //     );
+  //   } else {
+  //     resErrors.value = resData.error.value.data.errors;
+  //     message.error({
+  //       content: "Đặt hàng thất bại",
+  //     });
+  //   }
+  // } catch (error) {
+  //   message.error("Đặt hàng thất bại");
+  // }
 };
 
 const focus = () => {

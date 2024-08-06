@@ -35,7 +35,7 @@
                         authStore?.authUser?.user?.role?.name === 'student'
                       "
                     >
-                      HSSV
+                      Sinh viên
                     </a-tag>
                     <a-tag :bordered="false" color="purple" v-else>
                       Quản lý

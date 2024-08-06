@@ -65,7 +65,7 @@ const bookStore = useBookPublicStore();
 const cartStore = useCartStore();
 const handleRentNow = () => {
   const bookToAdd = bookStore?.book;
-  if (bookToAdd) {
+  if (bookToAdd && bookStore?.book?.stock > 0) {
     cartStore.addToRentNow(bookStore?.book);
     message.success({
       content: "Thêm sản phẩm thành công. Chuyển hướng đến trang thanh toán!",
@@ -73,7 +73,7 @@ const handleRentNow = () => {
     navigateTo("/account/order/checkout?type=thue_ngay");
   } else {
     message.error({
-      content: "Thêm sản phẩm thất bại.",
+      content: "Thêm sản phẩm thất bại. Sản phẩm tạm hết hàng !",
     });
   }
 };
@@ -81,9 +81,18 @@ const addToCart = () => {
   if (cartStore && cartStore?.carts) {
     const bookToAdd = bookStore?.book;
     const isCheck = cartStore?.carts.some((item) => item.id === bookToAdd.id);
+    const isCheckStock = bookStore?.book.stock;
+    console.log("isCheckStock", isCheckStock);
+
     if (isCheck) {
       message.error({
-        content: "Thêm sản phẩm thất bại. Sản phẩm đã có trong giỏ hàng",
+        content: "Thêm sản phẩm thất bại. Sản phẩm đã có trong giỏ hàng !",
+      });
+      return;
+    }
+    if (isCheckStock < 1) {
+      message.error({
+        content: "Thêm sản phẩm thất bại. Sản phẩm tạm hết hàng !",
       });
       return;
     }
