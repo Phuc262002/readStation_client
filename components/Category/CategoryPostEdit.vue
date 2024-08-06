@@ -224,11 +224,11 @@ const onUpdate = async () => {
       category: data,
     });
     if (res.data._rawValue?.status == true) {
-      message.success("Cập nhật danh mục bài viết thành công");
       await categoryStore.getAllCategory({
         type: "post",
       });
       handleClose();
+      message.success("Cập nhật danh mục bài viết thành công");
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);

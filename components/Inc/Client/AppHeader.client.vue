@@ -134,7 +134,8 @@ const bookFromQuery = route.query.search;
 onMounted(() => {
   console.log("slug", bookFromQuery);
 });
-const onSearch = async (searchValue) => {
+const onSearch = async (searchValue: string) => {
+  if (!searchValue?.trim()) return;
   console.log("first", searchValue);
   navigateTo("/products?search=" + searchValue);
 };

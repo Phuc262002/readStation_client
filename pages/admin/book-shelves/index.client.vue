@@ -220,7 +220,7 @@ const bookcaseQuery = ref({
 });
 useAsyncData(async () => {
   try {
-    await bookcaseStore.getAllBookcase({});
+    await bookcaseStore.getAllBookcases({});
   } catch (error) {
     console.error(error);
   }
@@ -249,7 +249,7 @@ useAsyncData(async () => {
   await getData();
 }, {
   immediate: true,
-  watch: [valueSearch, categoryQuery.value, bookcaseQuery.value, queryStatus.value, current]
+  watch: [current, valueSearch, categoryQuery.value, bookcaseQuery.value, queryStatus.value]
 });
 const onDelete = async (id: string) => {
   try {

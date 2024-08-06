@@ -267,8 +267,9 @@ const onSubmit = async () => {
       logo: imageInfo.value?.url,
     });
     if (res.data._rawValue?.status == true) {
-      message.success("Thêm phương thức vận chuyển thành công");
       await shippingMethodStore.getAllShippingMethods({});
+      props.openModal();
+      message.success("Thêm phương thức vận chuyển thành công");
       shippingMethod.value = {
         method: "",
         location: [],
@@ -280,8 +281,6 @@ const onSubmit = async () => {
       if (fileList.value.length > 0) {
         fileList.value = [];
       }
-
-      props.openModal();
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);

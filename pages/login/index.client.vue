@@ -291,3 +291,8 @@ const handleLoginError = () => {
   );
 };
 </script>
+<style scoped>
+:deep(.ant-input::placeholder) {
+  text-align: left;
+}
+</style>

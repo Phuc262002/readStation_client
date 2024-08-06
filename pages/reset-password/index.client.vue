@@ -24,7 +24,7 @@
             </h2>
             <p>
               cho tài khoản
-              <span class="text-lg font-semibold">trung@gmail.com</span>
+              <span class="text-lg font-semibold">{{ email }}</span>
             </p>
           </div>
         </div>
@@ -200,3 +200,8 @@ const onSubmit = handleSubmit(async (values) => {
   }
 });
 </script>
+<style scoped>
+:deep(.ant-input::placeholder) {
+  text-align: left;
+}
+</style>
