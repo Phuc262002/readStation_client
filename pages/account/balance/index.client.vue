@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-5">
-    <h3 class="font-bold mb-5">Thông số dư</h3>
+    <h3 class="font-bold mb-5">Thông tin số dư</h3>
 
     <div
       class="flex items-center text-base h-[90px] bg-white shadow-md rounded-md p-5"
@@ -14,7 +14,7 @@
         /></a-tag>
 
         <div class="text-orange-400">
-          <p class="font-normal text-base">Tiền cọc đang thuê sách</p>
+          <p class="font-bold text-base">Tiền cọc đang thuê sách</p>
           <p class="font-bold text-xl">
             {{
               new Intl.NumberFormat("vi-VN", {
@@ -27,7 +27,7 @@
       </div>
     </div>
     <div class="w-full bg-white rounded-lg shadow-md shadow-gray-300 p-5">
-      <span class="py-5">Lịch sử giao dịch (30 ngày gần nhất)</span>
+      <span class="py-5 font-bold">Lịch sử giao dịch (30 ngày gần nhất)</span>
       <a-table
         :columns="columns"
         :data-source="trangsactionStore?.transaction?.transactions"

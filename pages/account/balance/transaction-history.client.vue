@@ -2,7 +2,7 @@
   <div class="space-y-5">
     <h3 class="font-bold mb-5">Lịch sử giao dịch</h3>
     <div class="w-full bg-white rounded-lg shadow-md shadow-gray-300 p-5">
-      <span class="py-5">Các giao dịch bạn đã thực hiện</span>
+      <span class="py-5 font-bold">Các giao dịch bạn đã thực hiện</span>
       <a-table
         :columns="columns"
         :data-source="trangsactionStore?.transaction?.transactions"
