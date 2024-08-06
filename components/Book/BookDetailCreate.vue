@@ -56,7 +56,7 @@
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Tiền cọc <span class="text-red-500">*</span></label>
                 <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Tiền cọc" required
-                  v-model:value="valueBookDetail.hire_percent" />
+                  v-model:value="valueBookDetail.hire_percent" :min="1" :max="100" />
               </div>
             </div>
             <div class="grid grid-cols-4 gap-10">
@@ -249,13 +249,7 @@ const onSubmit = async () => {
     if (res.data._rawValue?.status == true) {
       message.success("Thêm phiên bản sách thành công");
       handleClose()
-      useAsyncData(async () => {
-        try {
-          await bookStore.getOneBookAdmin(bookID);
-        } catch (error) {
-          console.error(error);
-        }
-      });
+      await bookStore.getOneBookAdmin(bookID);
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);

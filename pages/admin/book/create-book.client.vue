@@ -136,7 +136,7 @@
                   <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold" for="">Tiền cọc <span class="text-red-500">*</span></label>
                     <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Tiền cọc" required
-                      v-model:value="valuecreateBook.book_detail.hire_percent" />
+                      v-model:value="valuecreateBook.book_detail.hire_percent" :min="1" :max="10" />
                   </div>
                   <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold" for="">Số lượng <span class="text-red-500">*</span></label>

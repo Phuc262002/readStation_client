@@ -66,11 +66,14 @@
             <label class="text-sm font-semibold" for="">Nội dung </label>
             <CommonCKEditor :value="ValueAuthor.description" @input="(event) => (ValueAuthor.description = event)" />
           </div>
-          <div class="flex justify-end gap-2">
-            <a-button> Hủy</a-button>
-            <a-button type="primary" html-type="submit" :loading="AuthorStore.isSubmitting">
-              Thêm</a-button>
-          </div>
+
+        </div>
+        <div class="flex justify-end gap-2 mt-4">
+          <NuxtLink :to="`/admin/author`">
+            <a-button html-type="submit">Hủy</a-button>
+          </NuxtLink>
+          <a-button type="primary" html-type="submit" :loading="AuthorStore.isSubmitting">
+            Thêm</a-button>
         </div>
       </form>
     </div>
@@ -122,15 +125,11 @@ const beforeUpload = (file) => {
 const optionsStatus = ref([
   {
     value: "active",
-    label: "Active",
+    label: "Hoạt động",
   },
   {
     value: "inactive",
-    label: "InActive",
-  },
-  {
-    value: "deleted",
-    label: "Deleted",
+    label: "Không hoạt động",
   },
 ]);
 const ValueAuthor = ref({
@@ -140,10 +139,6 @@ const ValueAuthor = ref({
   statusValue: "",
   is_featured: false,
   description: "",
-});
-
-watchEffect(() => {
-  console.log("🚀 ~ ValueAuthor:", ValueAuthor);
 });
 const onSubmit = async () => {
   try {

@@ -61,7 +61,7 @@
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Tiền cọc <span class="text-red-500">*</span></label>
                 <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Tiền cọc" required
-                  v-model:value="data.hire_percent" />
+                  v-model:value="data.hire_percent" :min="1" :max="100" />
               </div>
             </div>
             <div class="grid grid-cols-4 gap-10">
@@ -72,7 +72,7 @@
                   @change="handleChange"></a-select>
               </div>
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold" for="">Số trang  <span class="text-red-500">*</span></label>
+                <label class="text-sm font-semibold" for="">Số trang <span class="text-red-500">*</span></label>
                 <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Số trang" required
                   v-model:value="data.total_page" />
               </div>
@@ -99,14 +99,15 @@
                   v-model:value="data.publish_date" />
               </div>
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold" for="">Công ty phát hành <span class="text-red-500">*</span></label>
+                <label class="text-sm font-semibold" for="">Công ty phát hành <span
+                    class="text-red-500">*</span></label>
                 <a-input type="text" class="border p-2 rounded-md h-10" placeholder="Công ty phát hành" required
                   v-model:value="data.issuing_company" />
               </div>
               <div class="flex flex-col gap-2">
                 <label class="text-sm font-semibold" for="">Nhà xuất bản <span class="text-red-500">*</span></label>
-                <a-select size="large" show-search placeholder="Nhà xuất bản" :options="optionsPublishingcompany" required
-                  v-model:value="data.publishing_company" :filter-option="filterOption" @focus="handleFocus" 
+                <a-select size="large" show-search placeholder="Nhà xuất bản" :options="optionsPublishingcompany"
+                  required v-model:value="data.publishing_company" :filter-option="filterOption" @focus="handleFocus"
                   @blur="handleBlur" @change="handleChange"></a-select>
               </div>
             </div>
@@ -114,7 +115,7 @@
         </div>
         <div class="flex justify-end items-end gap-2">
           <a-button @click="handleClose" html-type="button">Hủy</a-button>
-          <a-button type="primary" html-type="submit" class="mt-4">Lưu thay đổi</a-button>
+          <a-button type="primary" html-type="submit" class="mt-4" :loading="bookDetailStore.isSubmitting">Lưu thay đổi</a-button>
         </div>
       </form>
     </div>
@@ -128,6 +129,8 @@ const props = defineProps({
   bookDetailId: Number,
 });
 const idBookDetail = ref(props.bookDetailId);
+const route = useRoute();
+const bookID = route.params.id;
 const baseStore = useBaseStore();
 const fileList = ref([]);
 const imageInfo = ref("");
@@ -193,6 +196,7 @@ const handleClose = () => {
 };
 
 const bookDetailStore = useBookDetailStore();
+const bookStore = useBookStore();
 const optionsCardboard = ref([
   {
     value: "soft",
@@ -293,13 +297,13 @@ const onSubmit = async () => {
     valueBookDetail: dataUpdate,
   });
   if (res.data._rawValue?.status == true) {
-      message.success("Cập nhật phiên bản sách thành công");
-      handleClose();
-      await bookDetailStore.getAllBookDetail({});
-    } else {
-      errors.value = res.error.value.data.errors;
-      message.error(res.error.value.data.message);
-    }
+    handleClose();
+    message.success("Cập nhật phiên bản sách thành công");
+    await bookStore.getOneBookAdmin(bookID);
+  } else {
+    errors.value = res.error.value.data.errors;
+    message.error(res.error.value.data.message);
+  }
 }
 
 </script>

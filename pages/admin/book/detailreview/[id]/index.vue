@@ -188,6 +188,9 @@
                 <a-pagination v-model:current="current" :total="bookDetailReview.adminGetOneBookReview?.totalResults"
                     :pageSize="bookDetailReview.adminGetOneBookReview?.pageSize" show-less-items />
             </div>
+            <div class="mt-4 flex justify-end">
+                <a-button  @click="() => $router.back()">Trở về</a-button>
+            </div>
         </div>
     </div>
 
@@ -259,7 +262,7 @@ const onHidden = async (bookReview_id) => {
             status: "inactive",
         });
         if (res.data._rawValue?.status == true) {
-            message.success("Ẩn đánh giá thành công xin ");
+            message.success("Ẩn đánh giá thành công");
             await bookDetailReview.getOneBookReview({ book_details_id: id });
         } else {
             errors.value = res.error.value.data.errors;

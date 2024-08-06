@@ -52,7 +52,7 @@
                         </div>
                     </div>
                     <div class="flex flex-col gap-5 mt-5" v-if="inforUser.fullname">
-                        <div class="font-bold text-xl">Tạo đơn hàng cho khách hàng {{ inforUser.fullname }}</div>
+                        <div class="font-bold text-xl">Tạo đơn hàng cho khách hàng {{ inforUser?.fullname }}</div>
                         <div class="relative w-full md:block hidden">
                             <div class="flex">
                                 <a-dropdown :open="valueSearchBook !== ''">
@@ -169,6 +169,7 @@
 
 <script setup>
 import { ref } from "vue";
+import { number } from "yup";
 const errors = ref({});
 const orderStore = useOrderStore();
 const valueSearchUser = ref('');
@@ -190,6 +191,9 @@ useAsyncData(async () => {
 const inforUser = ref({
     id: "",
     fullname: "",
+    role: {
+        name: ""
+    }
 })
 
 const showOneUser = async (id) => {
@@ -200,8 +204,8 @@ const showOneUser = async (id) => {
         console.log(error)
     }
     valueSearchUser.value = '';
+    calculatorServicesFree();
 }
-
 const valueSearchBook = ref('');
 const bookDetailStore = useBookDetailStore();
 useAsyncData(async () => {
@@ -241,24 +245,135 @@ const paymentMethod = ref('cash');
 const setPayment = (selectePayment) => {
     paymentMethod.value = selectePayment;
 };
+const number_of_days= ref(1);
 const onSubmit = async () => {
-    const valueOrder = {
-        user_id: inforUser.value?.id,
-        payment_method: paymentMethod.value,
-        discount: 0,
-        total_service_fee: 100000,
-        total_deposit_fee: 110000,
-        total_all_fee: 120000,
-        order_details: []
-    }
-    data.value.forEach(item => {
-        const orderDetail = {
-            book_details_id: item.id,
-            service_fee: 122220,
-            deposit_fee: 122220
+    let checkcate = ref(true);
+    const cate = data.value.forEach(item => {
+        if (item?.category?.name !== 'Giáo dục') {
+            checkcate.value = false;
         }
-        valueOrder.order_details.push(orderDetail);
     });
+    let valueOrder
+    let orderDetail
+    if (inforUser.value.role.name === 'student') {
+        // student đã xác thực
+        if (inforUser.value.user_verified_at && checkcate.value) {
+            let desposive = 0;
+                if (item.price < 50000) {
+                    desposive = 1000;
+                } else if (item.price >= 50000 && item.price <= 100000) {
+                    desposive = 2000;
+                } else {
+                    desposive = 4000;
+                }
+            valueOrder = {
+                user_id: inforUser.value?.id,
+                payment_method: paymentMethod.value,
+                total_service_fee: 100000,
+                total_deposit_fee: 110000,
+                total_all_fee: 120000,
+                order_details: []
+            }
+            data.value.forEach(item => {
+                orderDetail = {
+                    number_of_days: number_of_days.value,
+                    book_details_id: item.id,
+                    service_fee: desposive * number_of_days.value,
+                    deposit_fee: (item.hire_percent - 20) / 100 * item.price
+                }
+                valueOrder.order_details.push(orderDetail);
+            });
+        } else {
+            // student chưa xác thực
+            let desposive = 0;
+                if (item.price < 50000) {
+                    desposive = 1000;
+                } else if (item.price >= 50000 && item.price <= 100000) {
+                    desposive = 2000;
+                } else {
+                    desposive = 4000;
+                }
+            valueOrder = {
+                user_id: inforUser.value?.id,
+                payment_method: paymentMethod.value,
+                total_service_fee: 100000,
+                total_deposit_fee: 110000,
+                total_all_fee: 120000,
+                order_details: []
+            }
+            data.value.forEach(item => {
+                orderDetail = {
+                    number_of_days: number_of_days.value,
+                    book_details_id: item.id,
+                    service_fee: desposive * number_of_days.value,
+                    deposit_fee: (item.hire_percent) / 100 * item.price
+                }
+                valueOrder.order_details.push(orderDetail);
+            });
+        }
+
+        message.success("Thêm đơn hàng thành công student");
+    } else {
+        // user chưa xác thực
+        if (inforUser.value.user_verified_at === null) {
+            valueOrder = {
+                user_id: inforUser.value?.id,
+                payment_method: paymentMethod.value,
+                total_service_fee: 100000,
+                total_deposit_fee: 110000,
+                total_all_fee: 120000,
+                order_details: []
+            }
+            data.value.forEach(item => {
+                let desposive = 0;
+                if (item.price < 50000) {
+                    desposive = 1000;
+                } else if (item.price >= 50000 && item.price <= 100000) {
+                    desposive = 2000;
+                } else {
+                    desposive = 4000;
+                }
+                orderDetail = {
+                    number_of_days: number_of_days.value,
+                    book_details_id: item.id,
+                    service_fee: desposive * number_of_days.value,
+                    deposit_fee: (item.hire_percent) / 100 * item.price
+                }
+                valueOrder.order_details.push(orderDetail);
+            });
+
+        } else {
+            // user đã xác thực
+            const totalServiceFee = 0
+            valueOrder = {
+                user_id: inforUser.value?.id,
+                payment_method: paymentMethod.value,
+                total_service_fee: 100000,
+                total_deposit_fee: 110000,
+                total_all_fee: 120000,
+                order_details: []
+            }
+            data.value.forEach(item => {
+                let desposive = 0;
+                if (item.price < 50000) {
+                    desposive = 1000;
+                } else if (item.price >= 50000 && item.price <= 100000) {
+                    desposive = 2000;
+                } else {
+                    desposive = 4000;
+                }
+                totalServiceFee += desposive * number_of_days.value;
+                orderDetail = {
+                    number_of_days: number_of_days.value,
+                    book_details_id: item.id,
+                    service_fee: desposive * number_of_days.value,
+                    deposit_fee: (item.hire_percent - 20) / 100 * item.price
+                }
+                valueOrder.order_details.push(orderDetail);
+            });
+        }
+        message.success("Thêm đơn hàng thành công user");
+    }
     try {
         const res = await orderStore.creatOrder(valueOrder)
         if (res.data._rawValue?.status == true) {
@@ -270,6 +385,34 @@ const onSubmit = async () => {
     } catch (error) {
         message.error(error);
     }
+    // const valueOrder = {
+    //     user_id: inforUser.value?.id,
+    //     payment_method: paymentMethod.value,
+    //     discount: 0,
+    //     total_service_fee: 100000,
+    //     total_deposit_fee: 110000,
+    //     total_all_fee: 120000,
+    //     order_details: []
+    // }
+    // data.value.forEach(item => {
+    //     const orderDetail = {
+    //         book_details_id: item.id,
+    //         service_fee: 122220,
+    //         deposit_fee: 122220
+    //     }
+    //     valueOrder.order_details.push(orderDetail);
+    // });
+    // try {
+    //     const res = await orderStore.creatOrder(valueOrder)
+    //     if (res.data._rawValue?.status == true) {
+    //         message.success("Thêm đơn hàng thành công");
+    //     } else {
+    //         errors.value = res.data._rawValue?.errors;
+    //         message.error(res.data._rawValue?.errors);
+    //     }
+    // } catch (error) {
+    //     message.error(error);
+    // }
 }
 
 

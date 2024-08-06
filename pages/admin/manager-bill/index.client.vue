@@ -71,7 +71,7 @@
                 class="p-5 w-full hover:bg-gray-200 rounded-md"
                 @click="id = items?.id"
               >
-                <div class="flex flex-col gap-2">
+                <div class="flex flex-col gap-1">
                   <div class="flex justify-between items-center">
                     <h1 class="text-base font-semibold">
                       #{{ items?.invoice_code }}
