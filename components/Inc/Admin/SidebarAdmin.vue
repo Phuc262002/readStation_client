@@ -440,6 +440,18 @@
         />
         <span class="font-bold">Quản lý ảnh</span>
       </a-menu-item>
+      <a-menu-item
+        class="font-semibold"
+        key="33"
+        @click="navigateTo('/admin/contact')"
+      >
+        <Icon
+          :class="props.collapsed && 'anticon anticon-desktop'"
+          icon="radix-icons:image"
+          class="text-2xl"
+        />
+        <span class="font-bold">Quản lý liên hệ</span>
+      </a-menu-item>
     </a-menu>
   </a-layout-sider>
 </template>

@@ -227,8 +227,10 @@
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'avatar'">
             <a-image
-              class="w-5 h-5 rounded-full"
+              class=" rounded-full"
               :src="record.avatar.replace('=s96-c', '')"
+              :width="60"
+              :height="60"
             />
           </template>
           <template v-if="column.dataIndex === 'user_info'">
