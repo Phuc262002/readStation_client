@@ -46,7 +46,8 @@
                   @click="
                     statusValue({ value: 'approve_canceled', label: 'Từ chối' })
                   "
-                  >Từ chối</a-menu-item>
+                  >Từ chối</a-menu-item
+                >
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
@@ -196,7 +197,7 @@
                   />
                 </button>
               </a-tooltip>
-              <a-dropdown :trigger="['click']" placement="bottom">
+              <a-dropdown  v-if="record.status !== PostStatus.APPROVE_CANCELED" :trigger="['click']" placement="bottom">
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
@@ -318,11 +319,11 @@ const onRecover = async (id) => {
       post: { status: "published" },
     });
     if (res.data._rawValue?.status == true) {
-      message.success("Duyệt bài viết thành công");
       await postStore.getAllPost({
         page: current.value,
         status: "wating_approve",
       });
+      message.success("Duyệt bài viết thành công");
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);
