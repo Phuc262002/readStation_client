@@ -1,6 +1,6 @@
 <template>
   <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
-    <div class="flex ">
+    <div class="flex">
       <div
         class="flex flex-col md:flex-row overflow-hidden space-x-8 md:space-x-8"
       >
@@ -30,9 +30,7 @@
                 </div>
               </div>
               <div>
-                <div class="text-xl font-semibold text-black">
-                  Giờ mở cửa
-                </div>
+                <div class="text-xl font-semibold text-black">Giờ mở cửa</div>
                 <div class="text-[#99918a]">
                   <div>T2 – T6: 8H sáng — 10H tối</div>
                   <div>T7: 9H sáng — 10H tối</div>
@@ -44,45 +42,34 @@
         <div
           class="w-full md:w-1/2 p-6 flex flex-col justify-center items-center bg-white rounded-3xl border border-[#e6e6e6] md:p-20"
         >
-          <h1 class="text-4xl font-bold pb-6">
-            Read Station
-          </h1>
-          <h1 class="text-4xl font-bold pb-6"> có thể giúp đỡ bạn điều gì?</h1>
-          <form
-            @submit.prevent="validateForm"
-            class="w-full max-w-lg space-y-8"
-          >
+          <h1 class="text-4xl font-bold pb-6">Read Station</h1>
+          <h1 class="text-4xl font-bold pb-6">có thể giúp đỡ bạn điều gì?</h1>
+          <form @submit.prevent="onSubmit" class="w-full max-w-lg space-y-8">
             <div>
               <input
                 type="text"
-                v-model="name"
+                v-model="data.name"
+                required
                 placeholder="Tên của bạn"
                 class="w-full px-4 py-2 border border-[#e6e6e6] rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
               />
-              <p v-if="errors.name" class="text-[#f4402f] text-sm">
-                {{ errors.name }}
-              </p>
             </div>
             <div>
               <input
                 type="email"
-                v-model="email"
+                required
+                v-model="data.email"
                 placeholder="E-mail của bạn"
                 class="w-full px-4 py-2 border border-[#e6e6e6] rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
               />
-              <p v-if="errors.email" class="text-[#f4402f] text-sm">
-                {{ errors.email }}
-              </p>
             </div>
             <div>
               <textarea
-                v-model="message"
+                v-model="data.content"
+                required
                 placeholder="Phản hồi của bạn"
                 class="w-full px-4 py-2 border border-[#e6e6e6] rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 h-40 resize-none"
               ></textarea>
-              <p v-if="errors.message" class="text-[#f4402f] text-sm">
-                {{ errors.message }}
-              </p>
             </div>
             <div class="flex items-center justify-between">
               <button
@@ -101,36 +88,16 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
-
-const name = ref("");
-const email = ref("");
-const message = ref("");
-const errors = ref<{ [key: string]: string }>({});
-
-const validateForm = () => {
-  errors.value = {};
-
-  if (!name.value) {
-    errors.value.name = "Hãy nhập tên của bạn.";
-  } else if (/\d/.test(name.value)) {
-    errors.value.name = "Tên của bạn không được chứa số.";
-  }
-
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!email.value || !emailPattern.test(email.value)) {
-    errors.value.email = "E-mail của bạn chưa hợp lệ.";
-  }
-
-  if (!message.value) {
-    errors.value.message = "Hãy nhập nội dung của bạn.";
-  }
-
-  if (Object.keys(errors.value).length === 0) {
-    alert("Chúng tôi đã tiếp nhận ý kiến đóng góp của bạn!");
-  }
+const baseStore = useBaseStore();
+const data = ref({
+  name: "",
+  email: "",
+  content: "",
+});
+const onSubmit = async () => {
+  await baseStore.createContact(data.value);
+  console.log(data.value);
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -65,5 +65,14 @@ export const useBaseStore = defineStore("base-store", {
       this.isSubmitting = false;
       return data;
     },
+    async createContact (data:any) {
+      this.isSubmitting = true;
+      const res: any = await useFetch(`https://n8n.readstation.store/webhook/a071caaa-c731-43d3-97b4-6e92a74380bb`, {
+        method: "POST",
+        body: data,
+      });
+      this.isSubmitting = false;
+      return data;
+    },
   },
 });
