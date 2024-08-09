@@ -700,12 +700,5 @@ const handleChangeGender = (e) => {
 const handleChangeRoleId = (e) => {
   user.value.role_id = e.target.value;
 };
-useSeoMeta({
-    title: "ReadStation - Cập nhập thông tin người dùng",
-    ogTitle: "ReadStation - Cập nhập thông tin người dùng",
-    description: "Cập nhập thông tin người dùng",
-    ogDescription: "Cập nhập thông tin người dùng",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-});
+
 </script>
