@@ -255,4 +255,12 @@ const columns = [
     key: "action",
   },
 ];
+useSeoMeta({
+    title: "ReadStation - Chi tiết tủ sách",
+    ogTitle: "ReadStation - Chi tiết tủ sách",
+    description: "Chi tiết tủ sách",
+    ogDescription: "Chi tiết tủ sách",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>

@@ -1,5 +1,28 @@
 <template>
   <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
+    <Head>
+      <Title>ReadStation | {{ postStore?.post?.title }}</Title>
+      <Meta
+        name="description"
+        :content="postStore.post?.summary"
+      />
+      <Meta
+        property="og:title"
+        :content="`ReadStation | ${postStore.post?.title}`"
+      />
+      <Meta
+        property="og:description"
+        :content="postStore.post?.summary"
+      />
+      <Meta
+        property="og:image"
+        :content="postStore.post?.image"
+      />
+      <Meta
+        property="twitter:card"
+        :content="postStore.post?.image"
+      />
+    </Head>
     <div class="flex gap-[30px]">
       <div class="w-3/4">
         <div
@@ -249,14 +272,14 @@ useAsyncData(async () => {
   }
 });
 
-useSeoMeta({
-  title: `ReadStation | ${postStore?.data?.post?.title}`,
-  ogTitle: `ReadStation | ${postStore.post?.title}`,
-  description: `${postStore.post?.summary}`,
-  ogDescription: `${postStore.post?.summary}`,
-  ogImage: `${postStore.post?.image}`,
-  twitterCard: `${postStore.post?.image}`,
-});
+// useSeoMeta({
+//   title: `ReadStation | ${postStore?.data?.post?.title}`,
+//   ogTitle: `ReadStation | ${postStore.post?.title}`,
+//   description: `${postStore.post?.summary}`,
+//   ogDescription: `${postStore.post?.summary}`,
+//   ogImage: `${postStore.post?.image}`,
+//   twitterCard: `${postStore.post?.image}`,
+// });
 
 const handleShareFacebook = () => {
   window.open(

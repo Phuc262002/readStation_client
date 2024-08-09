@@ -263,4 +263,12 @@ const showModalEdit = (id) => {
   openModalEdit.value = true;
   categoryId.value = id;
 };
+useSeoMeta({
+    title: "ReadStation - Danh mục sản phẩm",
+    ogTitle: "ReadStation - Danh mục sản phẩm",
+    description: "Danh mục sản phẩm",
+    ogDescription: "Danh mục sản phẩm",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>

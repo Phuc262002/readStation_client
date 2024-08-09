@@ -1,5 +1,21 @@
 <template>
   <div>
+    <Head>
+      <Title>ReadStation | {{ userStore.user.fullname}}</Title>
+      <Meta
+        name="description"
+        :content="userStore.user.fullname"
+      />
+      <Meta
+        property="og:title"
+        :content="`ReadStation | ${userStore.user.fullname}`"
+      />
+      <Meta
+        property="og:description"
+        :content="userStore.user.fullname"
+      />
+     
+    </Head>
     <div
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
@@ -684,4 +700,12 @@ const handleChangeGender = (e) => {
 const handleChangeRoleId = (e) => {
   user.value.role_id = e.target.value;
 };
+useSeoMeta({
+    title: "ReadStation - Cập nhập thông tin người dùng",
+    ogTitle: "ReadStation - Cập nhập thông tin người dùng",
+    description: "Cập nhập thông tin người dùng",
+    ogDescription: "Cập nhập thông tin người dùng",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>

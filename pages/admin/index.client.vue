@@ -679,4 +679,12 @@ const columns = [
     key: "action",
   },
 ];
+useSeoMeta({
+    title: "ReadStation - Dashboard",
+    ogTitle: "ReadStation - Dashboard",
+    description: "Dashboard",
+    ogDescription: "Dashboard",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>
