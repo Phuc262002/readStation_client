@@ -51,7 +51,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mt-4 flex flex-col gap-2" v-if="inforUser.fullname">
+                    <!-- <div class="mt-4 flex flex-col gap-2" v-if="inforUser.fullname">
                         <lael class="text-base font-medium">Nhập số ngày thuê <span class="text-red-500">*</span></lael>
                         <div v-if="inforUser.role.name === 'student'">
                             <a-input type="number" size="large" v-model:value="number_of_days" :min="1" :max="30"
@@ -61,7 +61,7 @@
                             <a-input type="number" size="large" v-model:value="number_of_days" :min="1" :max="5"
                                 class="w-1/4" placeholder="Nhập số ngày thuê cho khách hàng" required />
                         </div>
-                    </div>
+                    </div> -->
                     <div class="flex flex-col gap-5 mt-5" v-if="inforUser.fullname">
                         <div class="font-bold text-xl">Tạo đơn hàng cho khách hàng {{ inforUser?.fullname }}</div>
                         <div class="relative w-full md:block hidden">
@@ -136,6 +136,12 @@
                                 <template v-if="column.key === 'category'">
                                     <div class="flex gap-5 items-center">
                                         <span>{{ record?.book?.category?.name }}</span>
+                                    </div>
+                                </template>
+                                <template v-if="column.key === 'number_of_days'">
+                                    <div>
+                                        <a-input type="number" class="w-1/2" size="large" v-model:value="number_of_days"
+                                            :min="1" :max="5" required />
                                     </div>
                                 </template>
                                 <template v-else-if="column.key === 'action'">
@@ -233,6 +239,7 @@ useAsyncData(async () => {
     }
 )
 const data = ref([]);
+console.log("🚀 ~ data:", data)
 const showBook = async (id) => {
     const selectedBook = bookDetailStore?.getAllBookdetailAdmin?.books.find((book) => book?.id === id);
     const existingBook = data.value.find(item => item.id === selectedBook.id);
@@ -259,7 +266,7 @@ const number_of_days = ref();
 const onSubmit = async () => {
     let checkcate = ref(true);
     const cate = data.value.forEach(item => {
-        if (item?.category?.name !== 'Giáo dục') {
+        if (item?.book?.category?.name !== 'Giáo Dục') {
             checkcate.value = false;
         }
     });
@@ -277,19 +284,9 @@ const onSubmit = async () => {
                 order_details: []
             }
             data.value.forEach(item => {
-                let desposive = 0;
                 let totalService = 0;
                 let totalDeposit = 0;
-                if (item.price < 50000) {
-                    desposive = 1000;
-                } else if (item.price >= 50000 && item.price <= 100000) {
-                    desposive = 2000;
-                } else {
-                    desposive = 4000;
-                }
-                totalService += desposive * number_of_days.value;
                 totalDeposit += (item.hire_percent - 20) / 100 * item.price;
-                valueOrder.total_service_fee += totalService;
                 valueOrder.total_deposit_fee += totalDeposit;
                 valueOrder.total_all_fee += totalService + totalDeposit;
                 orderDetail = {
@@ -311,17 +308,8 @@ const onSubmit = async () => {
                 order_details: []
             }
             data.value.forEach(item => {
-                let desposive = 0;
                 let totalService = 0;
                 let totalDeposit = 0;
-                if (item.price < 50000) {
-                    desposive = 1000;
-                } else if (item.price >= 50000 && item.price <= 100000) {
-                    desposive = 2000;
-                } else {
-                    desposive = 4000;
-                }
-                totalService += desposive * number_of_days.value;
                 totalDeposit += (item.hire_percent) / 100 * item.price;
                 valueOrder.total_service_fee += totalService;
                 valueOrder.total_deposit_fee += totalDeposit;
@@ -506,6 +494,11 @@ const columns = [
         title: "Danh mục",
         dataIndex: "category",
         key: "category",
+    },
+    {
+        title: "Số ngày thuê",
+        dataIndex: "number_of_days",
+        key: "number_of_days",
     },
     {
         title: "Thao tác",
