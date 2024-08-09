@@ -214,7 +214,7 @@ import { Icon } from "@iconify/vue";
 const props = defineProps<{
   collapsed: boolean;
 }>();
-const selectedKeys = ref<string[]>(["sub1"]);
+const selectedKeys = ref<string[]>(["2"]);
 const openModal = ref(false);
 
 //get API
@@ -239,8 +239,8 @@ if (
 }
 </script>
 <style scoped>
-:deep(.ant-menu-title-content) {
+/* :deep(.ant-menu-item-only-child) {
   color: black;
   font-weight: 600;
-}
+} */
 </style>

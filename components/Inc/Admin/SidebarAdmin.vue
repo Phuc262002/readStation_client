@@ -21,7 +21,7 @@
       v-model:selectedKeys="selectedKeys"
       :theme="$colorMode.value === 'dark' ? 'dark' : 'light'"
       mode="inline"
-      class="!border-0 dark:!bg-[#6c819b] dark:!text-white overflow-auto h-5/6 "
+      class="!border-0 dark:!bg-[#6c819b] dark:!text-white overflow-auto h-5/6"
       :class="props.collapsed ? 'w-[80px]' : '!min-w-[theme(padding.sidebar)]'"
     >
       <a-menu-item key="1" @click="navigateTo('/admin')">
@@ -378,7 +378,7 @@
               :class="props.collapsed && 'anticon anticon-desktop'"
               icon="tabler:building-warehouse"
               class="text-2xl"
-            />  
+            />
             <span class="font-bold">Quản lý nhà cung cấp</span>
           </span>
         </template>
@@ -447,7 +447,7 @@
       >
         <Icon
           :class="props.collapsed && 'anticon anticon-desktop'"
-          icon="radix-icons:image"
+          icon="mdi:contact-outline"
           class="text-2xl"
         />
         <span class="font-bold">Quản lý liên hệ</span>

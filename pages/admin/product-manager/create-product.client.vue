@@ -139,12 +139,7 @@
                                     </div>
                                 </template>
                                 <template v-if="column.key === 'number_of_days'">
-                                    <div
-                                        v-if="inforUser?.role?.name === 'student' && record?.book?.category?.name === 'Giáo Dục'">
-                                        <a-input type="number" class="w-1/2" size="large" v-model:value="number_of_days"
-                                            :min="1" :max="30" required />
-                                    </div>
-                                    <div v-else>
+                                    <div>
                                         <a-input type="number" class="w-1/2" size="large" v-model:value="number_of_days"
                                             :min="1" :max="5" required />
                                     </div>
@@ -193,341 +188,356 @@
 import { ref } from "vue";
 const errors = ref({});
 const orderStore = useOrderStore();
-const valueSearchUser = ref('');
-const userStore = useUserStore()
-useAsyncData(async () => {
+const valueSearchUser = ref("");
+const userStore = useUserStore();
+useAsyncData(
+  async () => {
     try {
-        await userStore.getUser({
-            search: valueSearchUser.value,
-        })
+      await userStore.getUser({
+        search: valueSearchUser.value,
+      });
     } catch (error) {
-        console.error(error)
+      console.error(error);
     }
-},
-    {
-        immediate: true,
-        watch: [valueSearchUser]
-    }
-)
+  },
+  {
+    immediate: true,
+    watch: [valueSearchUser],
+  }
+);
 const inforUser = ref({
-    id: "",
-    fullname: "",
-    role: {
-        name: ""
-    }
-})
+  id: "",
+  fullname: "",
+  role: {
+    name: "",
+  },
+});
 
 const showOneUser = async (id) => {
-    try {
-        const data = await userStore.getOneUser(id)
-        inforUser.value = data?.data?._rawValue?.data
-    } catch (error) {
-        console.log(error)
-    }
-    valueSearchUser.value = '';
-}
-const valueSearchBook = ref('');
+  try {
+    const data = await userStore.getOneUser(id);
+    inforUser.value = data?.data?._rawValue?.data;
+  } catch (error) {
+    console.log(error);
+  }
+  valueSearchUser.value = "";
+};
+const valueSearchBook = ref("");
 const bookDetailStore = useBookDetailStore();
-useAsyncData(async () => {
+useAsyncData(
+  async () => {
     try {
-        await bookDetailStore.getAllBookDetail({
-            search: valueSearchBook.value,
-        })
+      await bookDetailStore.getAllBookDetail({
+        search: valueSearchBook.value,
+      });
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-},
-    {
-        immediate: true,
-        watch: [valueSearchBook]
-    }
-)
+  },
+  {
+    immediate: true,
+    watch: [valueSearchBook],
+  }
+);
 const data = ref([]);
-console.log("🚀 ~ data:", data)
+console.log("🚀 ~ data:", data);
 const showBook = async (id) => {
-    const selectedBook = bookDetailStore?.getAllBookdetailAdmin?.books.find((book) => book?.id === id);
-    const existingBook = data.value.find(item => item.id === selectedBook.id);
-    if (!existingBook) {
-        if (selectedBook) {
-            if (data.value.length < 3) {
-                const newData = [...data.value]
-                newData.push(selectedBook);
-                data.value = newData;
-            } else {
-                message.error("Chỉ được thêm tối đa 3 cuốn sách")
-            }
-        }
-    } else {
-        message.error("Sách đã được thêm")
+  const selectedBook = bookDetailStore?.getAllBookdetailAdmin?.books.find(
+    (book) => book?.id === id
+  );
+  const existingBook = data.value.find((item) => item.id === selectedBook.id);
+  if (!existingBook) {
+    if (selectedBook) {
+      if (data.value.length < 3) {
+        const newData = [...data.value];
+        newData.push(selectedBook);
+        data.value = newData;
+      } else {
+        message.error("Chỉ được thêm tối đa 3 cuốn sách");
+      }
     }
-    valueSearchBook.value = '';
-}
-const paymentMethod = ref('cash');
+  } else {
+    message.error("Sách đã được thêm");
+  }
+  valueSearchBook.value = "";
+};
+const paymentMethod = ref("cash");
 const setPayment = (selectePayment) => {
-    paymentMethod.value = selectePayment;
+  paymentMethod.value = selectePayment;
 };
 const number_of_days = ref();
 const onSubmit = async () => {
-    let checkcate = ref(true);
-    const cate = data.value.forEach(item => {
-        if (item?.book?.category?.name !== 'Giáo Dục') {
-            checkcate.value = false;
-        }
-    });
-    let valueOrder
-    let orderDetail
-    if (inforUser.value.role.name === 'student') {
-        // student đã xác thực và chọn GD
-        if (inforUser.value.user_verified_at && checkcate.value) {
-            valueOrder = {
-                user_id: inforUser.value?.id,
-                payment_method: paymentMethod.value,
-                total_service_fee: 0,
-                total_deposit_fee: 0,
-                total_all_fee: 0,
-                order_details: []
-            }
-            data.value.forEach(item => {
-                let totalService = 0;
-                let totalDeposit = 0;
-                totalDeposit += (item.hire_percent - 20) / 100 * item.price;
-                valueOrder.total_deposit_fee += totalDeposit;
-                valueOrder.total_all_fee += totalService + totalDeposit;
-                orderDetail = {
-                    number_of_days: number_of_days.value,
-                    book_details_id: item.id,
-                    service_fee: 0,
-                    deposit_fee: (item.hire_percent - 20) / 100 * item.price
-                }
-                valueOrder.order_details.push(orderDetail);
-            });
-            // stundent chưa xác thực nhưng chọn GD
-        } else if (!inforUser.value.user_verified_at && checkcate.value) {
-            valueOrder = {
-                user_id: inforUser.value?.id,
-                payment_method: paymentMethod.value,
-                total_service_fee: 0,
-                total_deposit_fee: 0,
-                total_all_fee: 0,
-                order_details: []
-            }
-            data.value.forEach(item => {
-                let totalService = 0;
-                let totalDeposit = 0;
-                totalDeposit += (item.hire_percent) / 100 * item.price;
-                valueOrder.total_service_fee += totalService;
-                valueOrder.total_deposit_fee += totalDeposit;
-                valueOrder.total_all_fee += totalService + totalDeposit;
-                orderDetail = {
-                    number_of_days: number_of_days.value,
-                    book_details_id: item.id,
-                    service_fee: 0,
-                    deposit_fee: (item.hire_percent) / 100 * item.price
-                }
-                valueOrder.order_details.push(orderDetail);
-            });
+  let checkcate = ref(true);
+  const cate = data.value.forEach((item) => {
+    if (item?.category?.name !== "Giáo dục") {
+      checkcate.value = false;
+    }
+  });
+  let valueOrder;
+  let orderDetail;
+  if (inforUser.value.role.name === "student") {
+    // student đã xác thực và chọn GD
+    if (inforUser.value.user_verified_at && checkcate.value) {
+      valueOrder = {
+        user_id: inforUser.value?.id,
+        payment_method: paymentMethod.value,
+        total_service_fee: 0,
+        total_deposit_fee: 0,
+        total_all_fee: 0,
+        order_details: [],
+      };
+      data.value.forEach((item) => {
+        let desposive = 0;
+        let totalService = 0;
+        let totalDeposit = 0;
+        if (item.price < 50000) {
+          desposive = 1000;
+        } else if (item.price >= 50000 && item.price <= 100000) {
+          desposive = 2000;
         } else {
-            // student chưa xác thực
-            valueOrder = {
-                user_id: inforUser.value?.id,
-                payment_method: paymentMethod.value,
-                total_service_fee: 0,
-                total_deposit_fee: 0,
-                total_all_fee: 0,
-                order_details: []
-            }
-            data.value.forEach(item => {
-                let desposive = 0;
-                let totalService = 0;
-                let totalDeposit = 0;
-                if (item.price < 50000) {
-                    desposive = 1000;
-                } else if (item.price >= 50000 && item.price <= 100000) {
-                    desposive = 2000;
-                } else {
-                    desposive = 4000;
-                }
-                totalService += desposive * number_of_days.value;
-                totalDeposit += (item.hire_percent) / 100 * item.price;
-                valueOrder.total_service_fee += totalService;
-                valueOrder.total_deposit_fee += totalDeposit;
-                valueOrder.total_all_fee += totalService + totalDeposit;
-                orderDetail = {
-                    number_of_days: number_of_days.value,
-                    book_details_id: item.id,
-                    service_fee: desposive * number_of_days.value,
-                    deposit_fee: (item.hire_percent) / 100 * item.price
-                }
-                valueOrder.order_details.push(orderDetail);
-            });
+          desposive = 4000;
         }
-
-        message.success("Thêm đơn hàng thành công student");
+        totalService += desposive * number_of_days.value;
+        totalDeposit += ((item.hire_percent - 20) / 100) * item.price;
+        valueOrder.total_service_fee += totalService;
+        valueOrder.total_deposit_fee += totalDeposit;
+        valueOrder.total_all_fee += totalService + totalDeposit;
+        orderDetail = {
+          number_of_days: number_of_days.value,
+          book_details_id: item.id,
+          service_fee: 0,
+          deposit_fee: ((item.hire_percent - 20) / 100) * item.price,
+        };
+        valueOrder.order_details.push(orderDetail);
+      });
+      // stundent chưa xác thực nhưng chọn GD
+    } else if (!inforUser.value.user_verified_at && checkcate.value) {
+      valueOrder = {
+        user_id: inforUser.value?.id,
+        payment_method: paymentMethod.value,
+        total_service_fee: 0,
+        total_deposit_fee: 0,
+        total_all_fee: 0,
+        order_details: [],
+      };
+      data.value.forEach((item) => {
+        let desposive = 0;
+        let totalService = 0;
+        let totalDeposit = 0;
+        if (item.price < 50000) {
+          desposive = 1000;
+        } else if (item.price >= 50000 && item.price <= 100000) {
+          desposive = 2000;
+        } else {
+          desposive = 4000;
+        }
+        totalService += desposive * number_of_days.value;
+        totalDeposit += (item.hire_percent / 100) * item.price;
+        valueOrder.total_service_fee += totalService;
+        valueOrder.total_deposit_fee += totalDeposit;
+        valueOrder.total_all_fee += totalService + totalDeposit;
+        orderDetail = {
+          number_of_days: number_of_days.value,
+          book_details_id: item.id,
+          service_fee: 0,
+          deposit_fee: (item.hire_percent / 100) * item.price,
+        };
+        valueOrder.order_details.push(orderDetail);
+      });
     } else {
-        // user chưa xác thực
-        if (inforUser.value.user_verified_at === null) {
-            valueOrder = {
-                user_id: inforUser.value?.id,
-                payment_method: paymentMethod.value,
-                total_service_fee: 0,
-                total_deposit_fee: 0,
-                total_all_fee: 0,
-                order_details: []
-            }
-            data.value.forEach(item => {
-                let desposive = 0;
-                let totalService = 0;
-                let totalDeposit = 0;
-                if (item.price < 50000) {
-                    desposive = 1000;
-                } else if (item.price >= 50000 && item.price <= 100000) {
-                    desposive = 2000;
-                } else {
-                    desposive = 4000;
-                }
-                totalService += desposive * number_of_days.value;
-                totalDeposit += (item.hire_percent) / 100 * item.price;
-                valueOrder.total_service_fee += totalService;
-                valueOrder.total_deposit_fee += totalDeposit;
-                valueOrder.total_all_fee += totalService + totalDeposit;
-                orderDetail = {
-                    number_of_days: number_of_days.value,
-                    book_details_id: item.id,
-                    service_fee: desposive * number_of_days.value,
-                    deposit_fee: (item.hire_percent) / 100 * item.price
-                }
-                valueOrder.order_details.push(orderDetail);
-            });
-
+      // student chưa xác thực
+      valueOrder = {
+        user_id: inforUser.value?.id,
+        payment_method: paymentMethod.value,
+        total_service_fee: 0,
+        total_deposit_fee: 0,
+        total_all_fee: 0,
+        order_details: [],
+      };
+      data.value.forEach((item) => {
+        let desposive = 0;
+        let totalService = 0;
+        let totalDeposit = 0;
+        if (item.price < 50000) {
+          desposive = 1000;
+        } else if (item.price >= 50000 && item.price <= 100000) {
+          desposive = 2000;
         } else {
-            // user đã xác thực
-            valueOrder = {
-                user_id: inforUser.value?.id,
-                payment_method: paymentMethod.value,
-                total_service_fee: 0,
-                total_deposit_fee: 0,
-                total_all_fee: 0,
-                order_details: []
-            }
-            data.value.forEach(item => {
-                let desposive = 0;
-                let totalService = 0;
-                let totalDeposit = 0;
-                if (item.price < 50000) {
-                    desposive = 1000;
-                } else if (item.price >= 50000 && item.price <= 100000) {
-                    desposive = 2000;
-                } else {
-                    desposive = 4000;
-                }
-                totalService += desposive * number_of_days.value;
-                totalDeposit += (item.hire_percent - 20) / 100 * item.price;
-                valueOrder.total_service_fee += totalService;
-                valueOrder.total_deposit_fee += totalDeposit;
-                valueOrder.total_all_fee += totalService + totalDeposit;
-                orderDetail = {
-                    number_of_days: number_of_days.value,
-                    book_details_id: item.id,
-                    service_fee: desposive * number_of_days.value,
-                    deposit_fee: (item.hire_percent - 20) / 100 * item.price
-                }
-                valueOrder.order_details.push(orderDetail);
-            });
+          desposive = 4000;
         }
-        message.success("Thêm đơn hàng thành công user");
+        totalService += desposive * number_of_days.value;
+        totalDeposit += (item.hire_percent / 100) * item.price;
+        valueOrder.total_service_fee += totalService;
+        valueOrder.total_deposit_fee += totalDeposit;
+        valueOrder.total_all_fee += totalService + totalDeposit;
+        orderDetail = {
+          number_of_days: number_of_days.value,
+          book_details_id: item.id,
+          service_fee: desposive * number_of_days.value,
+          deposit_fee: (item.hire_percent / 100) * item.price,
+        };
+        valueOrder.order_details.push(orderDetail);
+      });
     }
-    try {
-        const res = await orderStore.creatOrder(valueOrder)
-        if (res.data._rawValue?.status == true) {
-            message.success("Thêm đơn hàng thành công");
-        } else {
-            errors.value = res.data._rawValue?.errors;
-            message.error(res.data._rawValue?.errors);
-        }
-    } catch (error) {
-        message.error(error);
-    }
-    // const valueOrder = {
-    //     user_id: inforUser.value?.id,
-    //     payment_method: paymentMethod.value,
-    //     discount: 0,
-    //     total_service_fee: 100000,
-    //     total_deposit_fee: 110000,
-    //     total_all_fee: 120000,
-    //     order_details: []
-    // }
-    // data.value.forEach(item => {
-    //     const orderDetail = {
-    //         book_details_id: item.id,
-    //         service_fee: 122220,
-    //         deposit_fee: 122220
-    //     }
-    //     valueOrder.order_details.push(orderDetail);
-    // });
-    // try {
-    //     const res = await orderStore.creatOrder(valueOrder)
-    //     if (res.data._rawValue?.status == true) {
-    //         message.success("Thêm đơn hàng thành công");
-    //     } else {
-    //         errors.value = res.data._rawValue?.errors;
-    //         message.error(res.data._rawValue?.errors);
-    //     }
-    // } catch (error) {
-    //     message.error(error);
-    // }
-}
 
+    message.success("Thêm đơn hàng thành công student");
+  } else {
+    // user chưa xác thực
+    if (inforUser.value.user_verified_at === null) {
+      valueOrder = {
+        user_id: inforUser.value?.id,
+        payment_method: paymentMethod.value,
+        total_service_fee: 0,
+        total_deposit_fee: 0,
+        total_all_fee: 0,
+        order_details: [],
+      };
+      data.value.forEach((item) => {
+        let desposive = 0;
+        let totalService = 0;
+        let totalDeposit = 0;
+        if (item.price < 50000) {
+          desposive = 1000;
+        } else if (item.price >= 50000 && item.price <= 100000) {
+          desposive = 2000;
+        } else {
+          desposive = 4000;
+        }
+        totalService += desposive * number_of_days.value;
+        totalDeposit += (item.hire_percent / 100) * item.price;
+        valueOrder.total_service_fee += totalService;
+        valueOrder.total_deposit_fee += totalDeposit;
+        valueOrder.total_all_fee += totalService + totalDeposit;
+        orderDetail = {
+          number_of_days: number_of_days.value,
+          book_details_id: item.id,
+          service_fee: desposive * number_of_days.value,
+          deposit_fee: (item.hire_percent / 100) * item.price,
+        };
+        valueOrder.order_details.push(orderDetail);
+      });
+    } else {
+      // user đã xác thực
+      valueOrder = {
+        user_id: inforUser.value?.id,
+        payment_method: paymentMethod.value,
+        total_service_fee: 0,
+        total_deposit_fee: 0,
+        total_all_fee: 0,
+        order_details: [],
+      };
+      data.value.forEach((item) => {
+        let desposive = 0;
+        let totalService = 0;
+        let totalDeposit = 0;
+        if (item.price < 50000) {
+          desposive = 1000;
+        } else if (item.price >= 50000 && item.price <= 100000) {
+          desposive = 2000;
+        } else {
+          desposive = 4000;
+        }
+        totalService += desposive * number_of_days.value;
+        totalDeposit += ((item.hire_percent - 20) / 100) * item.price;
+        valueOrder.total_service_fee += totalService;
+        valueOrder.total_deposit_fee += totalDeposit;
+        valueOrder.total_all_fee += totalService + totalDeposit;
+        orderDetail = {
+          number_of_days: number_of_days.value,
+          book_details_id: item.id,
+          service_fee: desposive * number_of_days.value,
+          deposit_fee: ((item.hire_percent - 20) / 100) * item.price,
+        };
+        valueOrder.order_details.push(orderDetail);
+      });
+    }
+    message.success("Thêm đơn hàng thành công user");
+  }
+  try {
+    const res = await orderStore.creatOrder(valueOrder);
+    if (res.data._rawValue?.status == true) {
+      message.success("Thêm đơn hàng thành công");
+    } else {
+      errors.value = res.data._rawValue?.errors;
+      message.error(res.data._rawValue?.errors);
+    }
+  } catch (error) {
+    message.error(error);
+  }
+  // const valueOrder = {
+  //     user_id: inforUser.value?.id,
+  //     payment_method: paymentMethod.value,
+  //     discount: 0,
+  //     total_service_fee: 100000,
+  //     total_deposit_fee: 110000,
+  //     total_all_fee: 120000,
+  //     order_details: []
+  // }
+  // data.value.forEach(item => {
+  //     const orderDetail = {
+  //         book_details_id: item.id,
+  //         service_fee: 122220,
+  //         deposit_fee: 122220
+  //     }
+  //     valueOrder.order_details.push(orderDetail);
+  // });
+  // try {
+  //     const res = await orderStore.creatOrder(valueOrder)
+  //     if (res.data._rawValue?.status == true) {
+  //         message.success("Thêm đơn hàng thành công");
+  //     } else {
+  //         errors.value = res.data._rawValue?.errors;
+  //         message.error(res.data._rawValue?.errors);
+  //     }
+  // } catch (error) {
+  //     message.error(error);
+  // }
+};
 
 const columns = [
-    {
-        title: "Tên sách",
-        dataIndex: "title",
-        key: "title",
-    },
-    {
-        title: "Tác giả",
-        dataIndex: "author",
-        key: "author",
-    },
-    {
-        title: "Giá",
-        dataIndex: "price",
-        key: "price",
-    },
-    {
-        title: "Danh mục",
-        dataIndex: "category",
-        key: "category",
-    },
-    {
-        title: "Số ngày thuê",
-        dataIndex: "number_of_days",
-        key: "number_of_days",
-    },
-    {
-        title: "Thao tác",
-        key: "action",
-    },
+  {
+    title: "Tên sách",
+    dataIndex: "title",
+    key: "title",
+  },
+  {
+    title: "Tác giả",
+    dataIndex: "author",
+    key: "author",
+  },
+  {
+    title: "Giá",
+    dataIndex: "price",
+    key: "price",
+  },
+  {
+    title: "Danh mục",
+    dataIndex: "category",
+    key: "category",
+  },
+  {
+    title: "Thao tác",
+    key: "action",
+  },
 ];
 const showConfirm = (id) => {
-    Modal.confirm({
-        title: 'Bạn có chắc loại bỏ sách này không?',
-        onOk() {
-            deleteBook(id)
-        },
-        onCancel() {
-            console.log('Cancel');
-        },
-
-    });
+  Modal.confirm({
+    title: "Bạn có chắc loại bỏ sách này không?",
+    onOk() {
+      deleteBook(id);
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
 };
 const deleteBook = (id) => {
-    try {
-        const newData = data.value.filter(item => item.id !== id);
-        data.value = newData;
-    } catch (error) {
-        message.error("Xóa sách thất bại");
-        console.error(error);
-    }
+  try {
+    const newData = data.value.filter((item) => item.id !== id);
+    data.value = newData;
+  } catch (error) {
+    message.error("Xóa sách thất bại");
+    console.error(error);
+  }
 };
 </script>
