@@ -139,7 +139,12 @@
                                     </div>
                                 </template>
                                 <template v-if="column.key === 'number_of_days'">
-                                    <div>
+                                    <div
+                                        v-if="inforUser?.role?.name === 'student' && record?.book?.category?.name === 'Giáo Dục'">
+                                        <a-input type="number" class="w-1/2" size="large" v-model:value="number_of_days"
+                                            :min="1" :max="30" required />
+                                    </div>
+                                    <div v-else>
                                         <a-input type="number" class="w-1/2" size="large" v-model:value="number_of_days"
                                             :min="1" :max="5" required />
                                     </div>
@@ -186,7 +191,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { number } from "yup";
 const errors = ref({});
 const orderStore = useOrderStore();
 const valueSearchUser = ref('');
