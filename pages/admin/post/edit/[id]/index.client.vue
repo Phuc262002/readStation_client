@@ -1,5 +1,21 @@
 <template>
   <div>
+    <Head>
+      <Title>ReadStation | {{ postGeneralStore?.post.title }}</Title>
+      <Meta
+        name="description"
+        :content="postGeneralStore.post?.summary"
+      />
+      <Meta
+        property="og:title"
+        :content="`ReadStation | ${postGeneralStore.post.title}`"
+      />
+      <Meta
+        property="og:description"
+        :content="postGeneralStore.post?.summary"
+      />
+     
+    </Head>
     <div
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
@@ -351,14 +367,7 @@ const editorConfiguration = {
   },
   language: "vi",
 };
-useSeoMeta({
-    title: "ReadStation - Chỉnh sửa bài viết",
-    ogTitle: "ReadStation - Chỉnh sửa bài viết",
-    description: "Chỉnh sửa bài viết",
-    ogDescription: "Chỉnh sửa bài viết",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-});
+
 </script>
 <style>
 .ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar,

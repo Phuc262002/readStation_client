@@ -190,4 +190,12 @@ const columns = [
     key: "action",
   },
 ];
+useSeoMeta({
+    title: "ReadStation - Thùng rác phương thức vận chuyển",
+    ogTitle: "ReadStation - Thùng rác phương thức vận chuyển",
+    description: "Thùng rác phương thức vận chuyển",
+    ogDescription: "Thùng rác phương thức vận chuyển",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>
