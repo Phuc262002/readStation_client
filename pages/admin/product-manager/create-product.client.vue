@@ -314,6 +314,7 @@ useAsyncData(
   }
 );
 const data = ref([]);
+console.log("🚀 ~ data:", data);
 const showBook = async (id) => {
   const selectedBook = bookDetailStore?.getAllBookdetailAdmin?.books.find(
     (book) => book?.id === id
