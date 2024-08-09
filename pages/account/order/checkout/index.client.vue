@@ -12,7 +12,7 @@
         <div class="bg-white h-auto shadow-md rounded-lg overflow-hidden p-5">
           <a-table
             :columns="columns"
-            :data-source="dataSource"
+            :data-source="cartStore?.carts"
             :pagination="false"
           >
             <template #headerCell="{ column }">
@@ -56,7 +56,7 @@
                     new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(record?.price)
+                    }).format((record?.price * record?.hire_percent) / 100)
                   }}
                 </span>
               </template>
@@ -66,8 +66,13 @@
                     new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(record?.price * 0.2)
+                    }).format(record?.number_of_days)
                   }}
+                </span>
+              </template>
+              <template v-else-if="column.key === 'number_of_days'">
+                <span>
+                  {{ record?.number_of_days }}
                 </span>
               </template>
               <template v-else-if="column.key === 'totalFee'">
@@ -192,7 +197,10 @@
           </div>
         </div>
         <!--  -->
-        <div class="bg-white shadow-md rounded-lg">
+        <div
+          class="bg-white shadow-md rounded-lg"
+          v-if="route.query.type === 'thue_ngay'"
+        >
           <div class="p-6 w-full">
             <div class="flex flex-col gap-5">
               <div class="flex gap-3 border-b border-rtgray-50 pb-5">
@@ -276,7 +284,7 @@
                       new Intl.NumberFormat("vi-VN", {
                         style: "currency",
                         currency: "VND",
-                      }).format(depositFee)
+                      }).format(deposit_fee)
                     }}
                   </span>
                 </div>
@@ -360,20 +368,20 @@ const shipping_method_id = ref();
 const paymentPortal = ref("payos");
 const options = ref([]);
 const shippingValue = ref({});
-const depositFee = ref(0);
+const deposit_fee = ref(0);
 const serviceFee = ref(0);
 const totalFee = ref(0);
 const shippingFee = ref(0);
 const route = useRoute();
 const type = route.query.type;
-const rentNumber = ref(1);
+const number_of_days = ref(1);
 
 const dataSource = computed(() => {
   return route.query.type === "thue_ngay"
     ? cartStore?.rentNow
     : cartStore?.carts;
 });
-console.log("dataSource", dataSource);
+// console.log("dataSource", dataSource);
 useAsyncData(async () => {
   await shippingMethodStore.getAllShipping();
   options.value = shippingMethodStore?.shippings.map((item) => ({
@@ -392,6 +400,7 @@ useAsyncData(async () => {
   // console.log("options.value", options.value);
 });
 const userNote = ref();
+// phí coc
 // phí cọc
 const calcDepositFee = () => {
   depositFee.value = (
@@ -443,7 +452,284 @@ watch(
 );
 
 const payCart = async () => {
-  console.log("rentNumber", rentNumber.value);
+  const isCheckAuth = authStore?.authUser?.user?.role?.name;
+  const isCheckVerify = authStore?.authUser?.user?.user_verified_at;
+  const data = cartStore?.carts;
+
+  // new Infor
+  const newInfo = {
+    fullname: authStore?.authUser?.user?.fullname,
+    phone: authStore?.authUser?.user?.phone,
+    address: authStore?.authUser?.user?.address_detail,
+  };
+
+  console.log("data", data);
+  // check danh mục "Giáo dục"
+  // let checkcate = ref(true);
+  // const cate = data.forEach((item) => {
+  //   if (item?.category?.name !== "Giáo dục") {
+  //     checkcate.value = false;
+  //   }
+  // });
+
+  // check address
+  if (
+    delivery_method.value === "shipper" &&
+    (!newInfo.phone || !newInfo.address)
+  ) {
+    message.error({
+      content: "Vui lòng điền đầy đủ thông tin giao hàng!",
+    });
+    return;
+  }
+  //
+  const locations = shippingMethodStore?.shippings?.filter(
+    (item) => item.id === shipping_method_id.value
+  )[0]?.location;
+  if (!locations.includes(authStore?.authUser?.user?.province?.ProvinceName)) {
+    message.error("Hiện tại chưa có hình thức vận chuyển khu vực này !");
+    return;
+  }
+
+  let valueOrder;
+  let orderDetail;
+
+  if (isCheckAuth === "student") {
+    // student đã xác thực và chọn GD
+    if (isCheckVerify) {
+      valueOrder = {
+        payment_method: payment_method.value,
+        delivery_method: delivery_method.value,
+        payment_portal: paymentPortal.value,
+
+        user_note: userNote.value,
+        discount: authStore?.authUser?.user?.discount,
+        shipping_method_id: shipping_method_id.value,
+        total_shipping_fee: parseFloat(shippingFee.value),
+        total_service_fee: 0,
+        total_deposit_fee: 0,
+        total_all_fee: 0,
+        order_details: [],
+        delivery_info: newInfo,
+      };
+      data.map((item) => {
+        let desposive = 0;
+        let totalService = 0;
+        let totalDeposit = 0;
+        if (item.price < 50000) {
+          desposive = 1000;
+        } else if (item.price >= 50000 && item.price <= 100000) {
+          desposive = 2000;
+        } else {
+          desposive = 4000;
+        }
+        totalService += desposive * number_of_days.value;
+        totalDeposit += ((item.hire_percent - 20) / 100) * item.price;
+        valueOrder.total_service_fee += totalService;
+        valueOrder.total_deposit_fee += totalDeposit;
+        valueOrder.total_all_fee += totalService + totalDeposit;
+        orderDetail = {
+          number_of_days: number_of_days.value,
+          book_details_id: item.id,
+          service_fee: 0,
+          deposit_fee: ((item.hire_percent - 20) / 100) * item.price,
+        };
+        valueOrder.order_details.push(orderDetail);
+      });
+      // stundent chưa xác thực nhưng chọn GD
+    } else if (!isCheckVerify) {
+      valueOrder = {
+        payment_method: payment_method.value,
+        delivery_method: delivery_method.value,
+        payment_portal: paymentPortal.value,
+
+        user_note: userNote.value,
+        discount: authStore?.authUser?.user?.discount,
+        shipping_method_id: shipping_method_id.value,
+        total_shipping_fee: parseFloat(shippingFee.value),
+        total_service_fee: 0,
+        total_deposit_fee: 0,
+        total_all_fee: 0,
+        order_details: [],
+        delivery_info: newInfo,
+      };
+      data.map((item) => {
+        let desposive = 0;
+        let totalService = 0;
+        let totalDeposit = 0;
+        if (item.price < 50000) {
+          desposive = 1000;
+        } else if (item.price >= 50000 && item.price <= 100000) {
+          desposive = 2000;
+        } else {
+          desposive = 4000;
+        }
+        totalService += desposive * number_of_days.value;
+        totalDeposit += (item.hire_percent / 100) * item.price;
+        valueOrder.total_service_fee += totalService;
+        valueOrder.total_deposit_fee += totalDeposit;
+        valueOrder.total_all_fee += totalService + totalDeposit;
+        orderDetail = {
+          number_of_days: number_of_days.value,
+          book_details_id: item.id,
+          service_fee: 0,
+          deposit_fee: (item.hire_percent / 100) * item.price,
+        };
+        valueOrder.order_details.push(orderDetail);
+      });
+    } else {
+      // student chưa xác thực
+      valueOrder = {
+        payment_method: payment_method.value,
+        delivery_method: delivery_method.value,
+        payment_portal: paymentPortal.value,
+
+        user_note: userNote.value,
+        discount: authStore?.authUser?.user?.discount,
+        shipping_method_id: shipping_method_id.value,
+        total_shipping_fee: parseFloat(shippingFee.value),
+        total_service_fee: 0,
+        total_deposit_fee: 0,
+        total_all_fee: 0,
+        order_details: [],
+        delivery_info: newInfo,
+      };
+      data.map((item) => {
+        let desposive = 0;
+        let totalService = 0;
+        let totalDeposit = 0;
+        if (item.price < 50000) {
+          desposive = 1000;
+        } else if (item.price >= 50000 && item.price <= 100000) {
+          desposive = 2000;
+        } else {
+          desposive = 4000;
+        }
+        totalService += desposive * number_of_days.value;
+        totalDeposit += (item.hire_percent / 100) * item.price;
+        valueOrder.total_service_fee += totalService;
+        valueOrder.total_deposit_fee += totalDeposit;
+        valueOrder.total_all_fee += totalService + totalDeposit;
+        orderDetail = {
+          number_of_days: number_of_days.value,
+          book_details_id: item.id,
+          service_fee: desposive * number_of_days.value,
+          deposit_fee: (item.hire_percent / 100) * item.price,
+        };
+        valueOrder.order_details.push(orderDetail);
+      });
+    }
+    message.success("Thêm đơn hàng thành công student");
+  } else {
+    if (isCheckAuth === "user") {
+      valueOrder = {
+        payment_method: payment_method.value,
+        delivery_method: delivery_method.value,
+        payment_portal: paymentPortal.value,
+
+        user_note: userNote.value,
+        discount: authStore?.authUser?.user?.discount,
+        shipping_method_id: shipping_method_id.value,
+        total_shipping_fee: parseFloat(shippingFee.value),
+        total_service_fee: 0,
+        total_deposit_fee: 0,
+        total_all_fee: 0,
+        order_details: [],
+        delivery_info: newInfo,
+      };
+      data.map((item) => {
+        let desposive = 0;
+        let totalService = 0;
+        let totalDeposit = 0;
+        if (item.price < 50000) {
+          desposive = 1000;
+        } else if (item.price >= 50000 && item.price <= 100000) {
+          desposive = 2000;
+        } else {
+          desposive = 4000;
+        }
+        totalService += desposive * number_of_days.value;
+        totalDeposit += (item.hire_percent / 100) * item.price;
+        valueOrder.total_service_fee += totalService;
+        valueOrder.total_deposit_fee += totalDeposit;
+        valueOrder.total_all_fee += totalService + totalDeposit;
+        orderDetail = {
+          number_of_days: number_of_days.value,
+          book_details_id: item.id,
+          service_fee: desposive * number_of_days.value,
+          deposit_fee: (item.hire_percent / 100) * item.price,
+        };
+        valueOrder.order_details.push(orderDetail);
+      });
+    } else {
+      // user đã xác thực
+      valueOrder = {
+        payment_method: payment_method.value,
+        delivery_method: delivery_method.value,
+        payment_portal: paymentPortal.value,
+
+        user_note: userNote.value,
+        discount: authStore?.authUser?.user?.discount,
+        shipping_method_id: shipping_method_id.value,
+        total_shipping_fee: parseFloat(shippingFee.value),
+        total_service_fee: 0,
+        total_deposit_fee: 0,
+        total_all_fee: 0,
+        order_details: [],
+        delivery_info: newInfo,
+      };
+      data.map((item) => {
+        let desposive = 0;
+        let totalService = 0;
+        let totalDeposit = 0;
+        if (item.price < 50000) {
+          desposive = 1000;
+        } else if (item.price >= 50000 && item.price <= 100000) {
+          desposive = 2000;
+        } else {
+          desposive = 4000;
+        }
+        totalService += desposive * number_of_days.value;
+        totalDeposit += ((item.hire_percent - 20) / 100) * item.price;
+        valueOrder.total_service_fee += totalService;
+        valueOrder.total_deposit_fee += totalDeposit;
+        valueOrder.total_all_fee += totalService + totalDeposit;
+        orderDetail = {
+          number_of_days: number_of_days.value,
+          book_details_id: item.id,
+          service_fee: desposive * number_of_days.value,
+          deposit_fee: ((item.hire_percent - 20) / 100) * item.price,
+        };
+        valueOrder.order_details.push(orderDetail);
+      });
+    }
+    message.success("Thêm đơn hàng thành công user");
+  }
+  try {
+    const res = await orderStore.createOrder(valueOrder);
+    if (res.data._rawValue?.status == true && payment_method.value === "cash") {
+      message.success("Thêm đơn hàng thành công");
+      navigateTo("/account/order");
+    } else if (
+      res.data._rawValue?.status == true &&
+      payment_method.value === "online"
+    ) {
+      message.success({
+        content: "Đặt hàng thành công",
+      });
+      navigateTo(
+        "/account/order/checkout/payment/" +
+          resData?.data?._rawValue?.data.order_code
+      );
+    } else {
+      message.error({
+        content: "Đặt hàng thất bại",
+      });
+    }
+  } catch (error) {
+    message.error("Đặt hàng thất bại");
+  }
+
   // const locations = shippingMethodStore?.shippings?.filter(
   //   (item) => item.id === shipping_method_id.value
   // )[0]?.location;
@@ -492,28 +778,28 @@ const payCart = async () => {
   //     delivery_info: newInfo,
   //   });
   //   // console.log("resData", resData);
-  //   if (
-  //     resData?.data?._rawValue?.status == true &&
-  //     payment_method.value === "cash"
-  //   ) {
-  //     message.success({
-  //       content: "Đặt hàng thành công",
-  //     });
-  //     type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
-  //     navigateTo("/account/order");
-  //   } else if (
-  //     resData?.data?._rawValue?.status === true &&
-  //     payment_method.value === "online"
-  //   ) {
-  //     message.success({
-  //       content: "Đặt hàng thành công",
-  //     });
-  //     type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
-  //     navigateTo(
-  //       "/account/order/checkout/payment/" +
-  //         resData?.data?._rawValue?.data.order_code
-  //     );
-  //   } else {
+  // if (
+  //   resData?.data?._rawValue?.status == true &&
+  //   payment_method.value === "cash"
+  // ) {
+  //   message.success({
+  //     content: "Đặt hàng thành công",
+  //   });
+  //   type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
+  //   navigateTo("/account/order");
+  // } else if (
+  //   resData?.data?._rawValue?.status === true &&
+  //   payment_method.value === "online"
+  // ) {
+  //   message.success({
+  //     content: "Đặt hàng thành công",
+  //   });
+  //   type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
+  //   navigateTo(
+  //     "/account/order/checkout/payment/" +
+  //       resData?.data?._rawValue?.data.order_code
+  //   );
+  // } else {
   //     resErrors.value = resData.error.value.data.errors;
   //     message.error({
   //       content: "Đặt hàng thất bại",
@@ -563,6 +849,11 @@ const columns = ref([
     title: "Phí dịch vụ",
     dataIndex: "serviceFee",
     key: "serviceFee",
+  },
+  {
+    title: "Số ngày thuê sách",
+    dataIndex: "number_of_days",
+    key: "number_of_days",
   },
   {
     title: "Tổng",
