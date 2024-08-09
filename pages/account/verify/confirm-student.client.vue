@@ -1,5 +1,8 @@
 <template>
   <div class="space-y-5">
+    <Head>
+      <Title>ReadStation | Xác thực HS/SV</Title>
+    </Head>
     <h3 class="font-bold mb-5">Xác thực HS/SV</h3>
     <div
       class="flex flex-col space-y-10 items-center bg-white shadow-md rounded-md pb-10 min-h-[400px]"
