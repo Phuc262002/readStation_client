@@ -11,10 +11,6 @@
       />
       <div class="grid grid-cols-8 justify-items-center">
         <div class="col-start-2 col-span-6 text-center text-xl">
-          <!-- Chúng tôi xin thông báo về chương trình ưu đãi đặc biệt dành cho các
-          học sinh/sinh viên (HS/SV). Khi Quý khách xác thực tài khoản HS/SV của mình,
-          Quý khách sẽ nhận được ưu đãi giảm giá 50% cho các dịch vụ của Read
-          Station. -->
           Để hỗ trợ học sinh, sinh viên trong quá trình học tập. <br> ReadStation sẽ miễn phí hoàn toàn việc thuê sách thuộc danh mục giáo dục. 
           Các sách miễn phí bao gồm  tất cả các sách phục vụ học tập và nghiên cứu của học sinh, sinh viên.
         </div>

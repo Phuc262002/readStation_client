@@ -16,12 +16,19 @@
         <div class="text-orange-400">
           <p class="font-bold text-base">Tiền cọc đang thuê sách</p>
           <p class="font-bold text-xl">
-            {{
-              new Intl.NumberFormat("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              }).format(trangsactionStore?.balanceHoding)
-            }}
+            <Icon
+              v-if="isLoading"
+              icon="svg-spinners:3-dots-scale"
+              class="text-3xl"
+            />
+            <span v-else>
+              {{
+                new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(trangsactionStore?.balanceHoding)
+              }}</span
+            >
           </p>
         </div>
       </div>
@@ -138,14 +145,18 @@
 </template>
 
 <script setup>
+import { Icon } from "@iconify/vue";
 const trangsactionStore = useTransactionStore();
 const current = ref(1);
+const isLoading = ref(false);
 useAsyncData(
   async () => {
+    isLoading.value = true;
     await trangsactionStore.getTransaction({
       page: current.value,
       sort: "inMonth",
     });
+    isLoading.value = false;
   },
   {
     immediate: true,
