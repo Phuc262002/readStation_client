@@ -393,4 +393,12 @@ const columns = [
     key: "action",
   },
 ];
+useSeoMeta({
+    title: "ReadStation - Quản lý bình luận",
+    ogTitle: "ReadStation - Quản lý bình luận",
+    description: "Quản lý bình luận",
+    ogDescription: "Quản lý bình luận",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>

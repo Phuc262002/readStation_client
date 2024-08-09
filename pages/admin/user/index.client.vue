@@ -608,4 +608,12 @@ const showModalDetail = (id) => {
   openModalDetail.value = true;
   userDetailId.value = id;
 };
+useSeoMeta({
+    title: "ReadStation - Danh Sách Người Dùng",
+    ogTitle: "ReadStation - Danh Sách Người Dùng",
+    description: "Danhs sách người dùng",
+    ogDescription: "Danhs sách người dùng",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>

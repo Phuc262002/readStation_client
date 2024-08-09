@@ -35,7 +35,9 @@
           class="text-[200px] text-gray-300"
         />
         <p class="text-4xl font-bold">Chưa có bài viết</p>
-        <p class="text-2xl font-semibold">Bạn hãy đóng góp bài viết cho chúng tôi nhé!</p>
+        <p class="text-2xl font-semibold">
+          Bạn hãy đóng góp bài viết cho chúng tôi nhé!
+        </p>
       </div>
     </div>
   </div>
@@ -69,11 +71,12 @@ useAsyncData(
 );
 
 useSeoMeta({
-  title: "Blog",
-  ogTitle: "My Amazing Site",
-  description: "This is my amazing site, let me tell you all about it.",
-  ogDescription: "This is my amazing site, let me tell you all about it.",
-  ogImage: "https://example.com/image.png",
-  twitterCard: "summary_large_image",
+  title: "ReadStation - Danh Sách Bài Viết",
+  ogTitle: "ReadStation - Danh Sách Bài Viết",
+  description: "Bài viết trên Read Station giúp bạn hiểu rõ hơn về sách, văn học và nhiều chủ đề khác. Hãy cùng khám phá những bài viết thú vị tại Read Station!",
+  ogDescription:
+    "Bài viết trên Read Station giúp bạn hiểu rõ hơn về sách, văn học và nhiều chủ đề khác. Hãy cùng khám phá những bài viết thú vị tại Read Station!",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>

@@ -221,4 +221,12 @@ const handleFocus = () => {
 const filterOption = (input, option) => {
   return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
+useSeoMeta({
+    title: "ReadStation - Thêm bài viết",
+    ogTitle: "ReadStation - Thêm bài viết",
+    description: "Thêm bài viết",
+    ogDescription: "Thêm bài viết",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>

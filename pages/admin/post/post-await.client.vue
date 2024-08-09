@@ -197,7 +197,11 @@
                   />
                 </button>
               </a-tooltip>
-              <a-dropdown  v-if="record.status !== PostStatus.APPROVE_CANCELED" :trigger="['click']" placement="bottom">
+              <a-dropdown
+                v-if="record.status !== PostStatus.APPROVE_CANCELED"
+                :trigger="['click']"
+                placement="bottom"
+              >
                 <button
                   class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
                 >
@@ -227,6 +231,7 @@
                       <button
                         @click="showCancelConfirm(record.id)"
                         class="flex items-center gap-2"
+                        :isloading="postStore.isSubmitting"
                       >
                         <Icon
                           icon="ic:outline-cancel"
@@ -312,6 +317,7 @@ useAsyncData(async () => {
     type: "post",
   });
 });
+
 const onRecover = async (id) => {
   try {
     const res = await postStore.updatePost({
@@ -321,7 +327,7 @@ const onRecover = async (id) => {
     if (res.data._rawValue?.status == true) {
       await postStore.getAllPost({
         page: current.value,
-        status: "wating_approve",
+        status: queryStatus.value.value,
       });
       message.success("Duyệt bài viết thành công");
     } else {
@@ -410,4 +416,12 @@ const showModalDetail = (id) => {
   openModalDetail.value = true;
   postDetailId.value = id;
 };
+useSeoMeta({
+    title: "ReadStation - Bài viết đang xử lý",
+    ogTitle: "ReadStation - Bài viết đang xử lý",
+    description: "Bài viết đang xử lý",
+    ogDescription: "Bài viết đang xử lý",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>

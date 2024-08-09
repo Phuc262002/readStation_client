@@ -319,15 +319,12 @@ const columns = [
   },
 ];
 
-// const data = [
-//   {
-//     key: "1",
-//     bookcase_code: "#343",
-//     name: "123",
-//     bookCase: 32,
-//     books: 32,
-//     description: "New York No. 1 Lake Park",
-//     status: "active",
-//   },
-// ];
+useSeoMeta({
+    title: "ReadStation - Quản lý tủ sách",
+    ogTitle: "ReadStation - Quản lý tủ sách",
+    description: "Quản lý tủ sách",
+    ogDescription: "Quản lý tủ sách",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>

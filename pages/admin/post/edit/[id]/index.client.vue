@@ -351,6 +351,14 @@ const editorConfiguration = {
   },
   language: "vi",
 };
+useSeoMeta({
+    title: "ReadStation - Chỉnh sửa bài viết",
+    ogTitle: "ReadStation - Chỉnh sửa bài viết",
+    description: "Chỉnh sửa bài viết",
+    ogDescription: "Chỉnh sửa bài viết",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>
 <style>
 .ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar,

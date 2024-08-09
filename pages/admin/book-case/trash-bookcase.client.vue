@@ -180,4 +180,12 @@ const columns = [
     key: "action",
   },
 ];
+useSeoMeta({
+    title: "ReadStation - Thùng rác tủ sách",
+    ogTitle: "ReadStation - Thùng rác tủ sách",
+    description: "Thùng rác tủ sách",
+    ogDescription: "Thùng rác tủ sách",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>

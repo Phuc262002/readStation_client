@@ -228,4 +228,12 @@ const columns = [
     key: "action",
   },
 ];
+useSeoMeta({
+    title: "ReadStation - Thùng rác bài viết",
+    ogTitle: "ReadStation - Thùng rác bài viết",
+    description: "Thùng rác bài viết",
+    ogDescription: "Thùng rác bài viết",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>
