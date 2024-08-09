@@ -36,6 +36,7 @@
           type="primary"
           html-type="submit"
           class="mt-4"
+          :loading="postStore.isSubmitting"
           >Xác nhận</a-button
         >
       </div>
@@ -78,11 +79,11 @@ const handleSubmit = async () => {
       },
     });
     if (res.data._rawValue?.status == true) {
-      message.success("Từ chối viết thành công");
       await postStore.getAllPost({
-        status: "wating_approve",
+        status: "handle",
       });
       handleClose();
+      message.success("Từ chối viết thành công");
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);
