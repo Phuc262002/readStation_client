@@ -21,7 +21,7 @@
       class="space-y-5 mt-5 bg-white h-auto border border-rtgray-50 overflow-hidden rounded-lg p-5"
     >
       <h2 class="font-bold text-xl">Đánh giá</h2>
-      <div>
+      <div v-if="detailReview?.reviews?.bookReviews.length > 0">
         <p class="mb-3">Lọc theo</p>
         <div class="flex gap-4">
           <a-button
@@ -112,6 +112,12 @@
           </div>
         </div>
       </div>
+      <p
+        class="text-center mb-5 font-semibold"
+        v-if="detailReview?.reviews?.bookReviews.length == 0"
+      >
+        Sách hiện tại chưa có đánh giá nào.
+      </p>
     </div>
     <div>
       <h2 class="font-bold text-xl my-5">Có thể bạn sẽ thích</h2>

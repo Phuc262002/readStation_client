@@ -53,7 +53,7 @@
                       new Intl.NumberFormat("vi-VN", {
                         style: "currency",
                         currency: "VND",
-                      }).format(record?.price)
+                      }).format((record?.price * record?.hire_percent) / 100)
                     }}
                   </span>
                 </template>
@@ -65,6 +65,23 @@
                         currency: "VND",
                       }).format(record?.price * 0.2)
                     }}
+                  </span>
+                </template>
+
+                <template v-else-if="column.key === 'number_of_days'">
+                  <span>
+                    <a-input
+                      :value="record.number_of_days"
+                      class="w-[100px]"
+                      type="number"
+                      @change="
+                        (e) =>
+                          cartStore.updateNumberOfDays(
+                            record.id,
+                            e.target.value
+                          )
+                      "
+                    />
                   </span>
                 </template>
                 <template v-else-if="column.key === 'totalFee'">
@@ -195,7 +212,12 @@ const cartStore = useCartStore();
 const depositFee = ref(0);
 const serviceFee = ref(0);
 const totalFee = ref(0);
+const number_of_days = ref(1);
 
+// số ngày thuê
+const calcNumberOfDays = () => {
+  return number_of_days.value;
+};
 // phí cọc
 const calcDepositFee = () => {
   depositFee.value = cartStore?.carts.reduce(
@@ -216,6 +238,7 @@ const calcTotalFee = () => {
 };
 useAsyncData(
   async () => {
+    calcNumberOfDays();
     calcDepositFee();
     calcServiceFee();
     calcTotalFee();
@@ -229,7 +252,7 @@ watch(
   () => cartStore.carts,
 
   () => {
-    calcDepositFee(), calcServiceFee(), calcTotalFee();
+    calcNumberOfDays(), calcDepositFee(), calcServiceFee(), calcTotalFee();
   }
 );
 
@@ -249,6 +272,11 @@ const columns = ref([
     title: "Phí dịch vụ",
     dataIndex: "serviceFee",
     key: "serviceFee",
+  },
+  {
+    title: "Số ngày thuê",
+    dataIndex: "number_of_days",
+    key: "number_of_days",
   },
   {
     title: "Tổng",
