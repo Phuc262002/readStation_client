@@ -248,14 +248,16 @@ useAsyncData(async () => {
     console.error(error);
   }
 });
+
 useSeoMeta({
-  title: `ReadStation | ${postStore.post?.title}`,
+  title: `ReadStation | ${postStore?.data?.post?.title}`,
   ogTitle: `ReadStation | ${postStore.post?.title}`,
   description: `${postStore.post?.summary}`,
   ogDescription: `${postStore.post?.summary}`,
   ogImage: `${postStore.post?.image}`,
   twitterCard: `${postStore.post?.image}`,
 });
+
 const handleShareFacebook = () => {
   window.open(
     `http://www.facebook.com/sharer/sharer.php?u=${window.location.href}`
