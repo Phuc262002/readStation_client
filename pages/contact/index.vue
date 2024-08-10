@@ -1,5 +1,8 @@
 <template>
   <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
+    <Head>
+      <Title>ReadStation | Liên hệ</Title>
+    </Head>
     <div class="flex">
       <div
         class="flex flex-col md:flex-row overflow-hidden space-x-8 md:space-x-8"
