@@ -373,7 +373,7 @@
             </div>
           </div>
           <div class="flex gap-4 justify-end">
-            <a-button type="default">Hủy</a-button>
+            <NuxtLink to="/admin/user"> <a-button> Hủy </a-button> </NuxtLink>
             <a-button
               :loading="userStore.isSubmitting"
               html-type="submit"

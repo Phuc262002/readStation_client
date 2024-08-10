@@ -173,6 +173,7 @@ onMounted(async () => {
       body: {
         body: query,
         status: query.status === 'PAID' ? 'success' : 'canceled',
+        isLibrary: false
       },
     });
   } else {
@@ -181,6 +182,7 @@ onMounted(async () => {
       body: {
         body: query,
         status: query.vnp_TransactionStatus === '00' ? 'success' : 'canceled',
+        isLibrary: query.isLibrary === 'true' ? true : false,
       },
     });
   }
