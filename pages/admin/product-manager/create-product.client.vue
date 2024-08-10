@@ -138,11 +138,11 @@
                 </template>
                 <template v-if="column.key === 'number_of_days'">
                   <div v-if="inforUser?.role?.name === 'student' && record?.book?.category?.name === 'Giáo Dục'">
-                    <a-input type="number" class="w-1/2" size="large" v-model:value="number_of_days" :min="1" :max="30"
+                    <a-input type="number" class="w-3/4" size="large" v-model:value="number_of_days" :min="1" :max="30"
                       required />
                   </div>
                   <div v-else>
-                    <a-input type="number" class="w-1/2" size="large" v-model:value="number_of_days" :min="1" :max="5"
+                    <a-input type="number" class="w-3/4" size="large" v-model:value="number_of_days" :min="1" :max="5"
                       required />
                   </div>
                 </template>
@@ -359,7 +359,6 @@ const onSubmit = async () => {
         valueOrder.order_details.push(orderDetail);
       });
     }
-    message.success("Thêm đơn hàng thành công student");
   } else {
     // user chưa xác thực
     if (inforUser.value.user_verified_at === null) {
@@ -430,7 +429,6 @@ const onSubmit = async () => {
         valueOrder.order_details.push(orderDetail);
       });
     }
-    message.success("Thêm đơn hàng thành công user");
   }
   try {
     const res = await orderStore.creatOrder(valueOrder);
@@ -440,37 +438,16 @@ const onSubmit = async () => {
       errors.value = res.data._rawValue?.errors;
       message.error(res.data._rawValue?.errors);
     }
+    if (res.data._rawValue?.data?.payment_method === 'online') {
+      navigateTo(res.data._rawValue?.data?.transactions[0]?.extra_info?.checkoutUrl, {
+        external: true,
+      });
+    } else {
+      console.log('Thanh toán tiền mặt');
+    }
   } catch (error) {
-    message.error(error);
+    // message.error(error);
   }
-  // const valueOrder = {
-  //     user_id: inforUser.value?.id,
-  //     payment_method: paymentMethod.value,
-  //     discount: 0,
-  //     total_service_fee: 100000,
-  //     total_deposit_fee: 110000,
-  //     total_all_fee: 120000,
-  //     order_details: []
-  // }
-  // data.value.forEach(item => {
-  //     const orderDetail = {
-  //         book_details_id: item.id,
-  //         service_fee: 122220,
-  //         deposit_fee: 122220
-  //     }
-  //     valueOrder.order_details.push(orderDetail);
-  // });
-  // try {
-  //     const res = await orderStore.creatOrder(valueOrder)
-  //     if (res.data._rawValue?.status == true) {
-  //         message.success("Thêm đơn hàng thành công");
-  //     } else {
-  //         errors.value = res.data._rawValue?.errors;
-  //         message.error(res.data._rawValue?.errors);
-  //     }
-  // } catch (error) {
-  //     message.error(error);
-  // }
 };
 
 const columns = [

@@ -23,7 +23,6 @@ useAsyncData(async () => {
         isLoading.value = false;
     }
 });
-
 useSeoMeta({
     title: "ReadStation - Website Thuê Sách Trực Tuyến",
     ogTitle: "ReadStation - Website Thuê Sách Trực Tuyến",

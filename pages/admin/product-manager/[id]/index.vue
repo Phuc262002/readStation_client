@@ -40,7 +40,7 @@ import create from '@ant-design/icons-vue/lib/components/IconFont';
                                     v-if="orderStore?.getOneOrderAdmin?.data?.user?.role?.description === 'User'">
                                     Khách hàng
                                 </div>
-                                <div class="p-1 w-24 text-center rounded-lg text-tag-text-01 bg-tag-bg-01" v-else>
+                                <div class="p-1 w-24 text-center rounded-lg text-tag-text-01 bg-tag-bg-01" v-if="orderStore?.getOneOrderAdmin?.data?.user?.role?.description === 'Student'">
                                     HS/ SV
                                 </div>
                             </span>
@@ -68,7 +68,7 @@ import create from '@ant-design/icons-vue/lib/components/IconFont';
                     <h1 class="text-base font-bold">Thông tin đơn hàng</h1>
                     <span>
                         <a-tag :bordered="false" v-if="orderStore?.getOneOrderAdmin?.data?.status === 'wating_payment'"
-                            class="bg-tag-bg-01 text-tag-text-01">
+                            class="text-tag-text-01 bg-tag-bg-01 p-2 rounded-lg flex justify-center items-center">
                             Chờ thanh toán
                         </a-tag>
                     </span>
