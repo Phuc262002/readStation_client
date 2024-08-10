@@ -50,7 +50,7 @@
 
               <a-tooltip placement="top">
                 <template #title>
-                  <span>Hủy</span>
+                  <span>Xóa</span>
                 </template>
                 <button
                   @click="showDeleteConfirm(record.id)"
