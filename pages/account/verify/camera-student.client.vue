@@ -45,7 +45,14 @@
             </div>
           </div>
           <div class="flex justify-center items-center mt-4">
-            <button html-type="submit" class="bg-orange-500 border-none text-white rounded-lg h-10 px-32">Xác nhận</button>
+            <a-button
+                class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary"
+                size="large"
+                :loading="verifyClientStore.isSubmitting"
+                html-type="submit"
+              >
+                Xác nhậndsd
+              </a-button>
           </div>
         </form>
       </div>
