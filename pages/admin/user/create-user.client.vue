@@ -618,4 +618,12 @@ const filterOption = (input, option) => {
 const handleChangeRoleId = (e) => {
   user.value.role_id = e.target.value;
 };
+useSeoMeta({
+    title: "ReadStation - Thêm người dùng",
+    ogTitle: "ReadStation - Thêm người dùng",
+    description: "Thêm người dùng",
+    ogDescription: "Thêm người dùng",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>

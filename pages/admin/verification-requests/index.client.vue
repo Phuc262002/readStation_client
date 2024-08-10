@@ -323,4 +323,12 @@ const columns = [
     key: "action",
   },
 ];
+useSeoMeta({
+    title: "ReadStation - Xác thực tài khoản",
+    ogTitle: "ReadStation - Xác thực tài khoản",
+    description: "Xác thực tài khoản",
+    ogDescription: "Xác thực tài khoản",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>

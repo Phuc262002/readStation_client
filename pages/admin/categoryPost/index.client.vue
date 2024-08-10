@@ -263,4 +263,12 @@ const showModalEdit = (id) => {
   openModalEdit.value = true;
   categoryId.value = id;
 };
+useSeoMeta({
+    title: "ReadStation - Danh mục bài viết",
+    ogTitle: "ReadStation - Danh mục bài viết",
+    description: "Danh mục bài viết",
+    ogDescription: "Danh mục bài viết",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>

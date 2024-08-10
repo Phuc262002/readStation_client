@@ -172,4 +172,12 @@ const columns = [
     dataIndex: "created_at",
   },
 ];
+useSeoMeta({
+    title: "ReadStation - Lịch sử giao dịch",
+    ogTitle: "ReadStation - Lịch sử giao dịch",
+    description: "Lịch sử giao dịch",
+    ogDescription: "Lịch sử giao dịch",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>

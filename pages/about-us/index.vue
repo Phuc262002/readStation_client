@@ -1,11 +1,14 @@
 <template>
   <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
+    <Head>
+      <Title>ReadStation | Giới thiệu</Title>
+    </Head>
     <div>
       <div
         class="relative h-[600px] w-full bg-[url('../../assets/images/aboutus.svg')] bg-cover bg-center bg-no-repeat rounded-3xl"
       >
         <div class="absolute bottom-20 left-[320px] font-semibold text-4xl">
-          <h1 class="text-4xl font-bold pb-4">Thuê sách ngay</h1>
+          <h1 class="text-4xl font-bold pb-4">Read Station</h1>
           <ul class="text-lg pb-6 space-y-2">
             <li>Ưu đãi cho khách hàng xác thực tài khoản</li>
             <li>Ưu đãi thêm cho học sinh sinh viên khi thuê sách</li>

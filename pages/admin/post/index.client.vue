@@ -439,4 +439,12 @@ const open = ref(false);
 const showModal = () => {
   open.value = true;
 };
+useSeoMeta({
+    title: "ReadStation - Quản lý bài viết",
+    ogTitle: "ReadStation - Quản lý bài viết",
+    description: "Quản lý bài viết",
+    ogDescription: "Quản lý bài viết",
+    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>

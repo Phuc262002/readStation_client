@@ -38,4 +38,12 @@
 </template>
 <script setup>
 import { Icon } from "@iconify/vue";
+useSeoMeta({
+  title: "ReadStation - Phản hồi từ khách hàng",
+  ogTitle: "ReadStation - Phản hồi từ khách hàng",
+  description: "Phản hồi từ khách hàng",
+  ogDescription: "Phản hồi từ khách hàng",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>

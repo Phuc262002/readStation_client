@@ -1,5 +1,31 @@
 <template>
   <div class="space-y-2">
+    <Head>
+      <Title
+        >ReadStation |
+        {{
+          verificationRequestsStore.oneVerificationRequest?.user_request
+            ?.fullname
+        }}</Title
+      >
+      <Meta
+        name="description"
+        :content="
+          verificationRequestsStore.oneVerificationRequest?.user_request
+        "
+      />
+      <Meta
+        property="og:title"
+        :content="`ReadStation | ${verificationRequestsStore.oneVerificationRequest?.user_request?.fullname}`"
+      />
+      <Meta
+        property="og:description"
+        :content="
+          verificationRequestsStore.oneVerificationRequest?.user_request
+            ?.fullname
+        "
+      />
+    </Head>
     <div
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >

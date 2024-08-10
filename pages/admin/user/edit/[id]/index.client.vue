@@ -1,5 +1,21 @@
 <template>
   <div>
+    <Head>
+      <Title>ReadStation | {{ userStore.user.fullname}}</Title>
+      <Meta
+        name="description"
+        :content="userStore.user.fullname"
+      />
+      <Meta
+        property="og:title"
+        :content="`ReadStation | ${userStore.user.fullname}`"
+      />
+      <Meta
+        property="og:description"
+        :content="userStore.user.fullname"
+      />
+     
+    </Head>
     <div
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
@@ -684,4 +700,5 @@ const handleChangeGender = (e) => {
 const handleChangeRoleId = (e) => {
   user.value.role_id = e.target.value;
 };
+
 </script>
