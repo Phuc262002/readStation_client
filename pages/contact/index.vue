@@ -75,12 +75,14 @@
               ></textarea>
             </div>
             <div class="flex items-center justify-between">
-              <button
-                class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
-                type="submit"
+              <a-button
+                class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary"
+                size="large"
+                :loading="baseStore.isSubmitting"
+                html-type="submit"
               >
                 Gửi phản hồi
-              </button>
+              </a-button>
             </div>
           </form>
         </div>
