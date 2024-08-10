@@ -23,6 +23,7 @@
               v-model:value="publishingCompany.name"
               class="w-full h-10"
               placeholder="Nhập mã nhà xuất bản"
+              required
             />
           </div>
         </div>
@@ -130,9 +131,9 @@ const handleChange = (info) => {
     console.log(info.file, info.fileList);
   }
   if (status === "done") {
-    message.success(`${info.file.name} file uploaded successfully.`);
+    message.success(`${info.file.name} Upload file thành công.`);
   } else if (status === "error") {
-    message.error(`${info.file.name} file upload failed.`);
+    message.error(`${info.file.name} Upload file thất bại.`);
   }
 };
 const deleteFile = async (file) => {
