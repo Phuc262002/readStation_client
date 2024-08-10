@@ -1,5 +1,11 @@
 <template>
   <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300">
+    <Head>
+      <Title>ReadStation | Đổi mật khẩu</Title>
+      <Meta name="description" content="Đổi mật khẩu" />
+      <Meta property="og:title" content="ReadStation | Đổi mật khẩu" />
+      <Meta property="og:description" content="Đổi mật khẩu" />
+    </Head>
     <div
       v-if="isSubmitting"
       class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
