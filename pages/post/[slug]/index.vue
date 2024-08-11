@@ -240,6 +240,9 @@ const post = ref({
 useAsyncData(async () => {
   try {
     await postStore.getOnePost(slug);
+    if (!postStore.post) {
+      navigateTo("/404");
+    }
   } catch (error) {
     console.error(error);
   }

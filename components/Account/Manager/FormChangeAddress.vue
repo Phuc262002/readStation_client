@@ -1,44 +1,25 @@
 <template>
   <div>
-    <div
-      v-if="isSubmitting"
-      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
-    >
+    <div v-if="isSubmitting"
+      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default">
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
     </div>
     <div>
-      <a-modal
-        v-model:open="props.openModalForm"
-        title="Thay đổi thông tin giao hàng"
-        width="40%"
-        :footer="null"
-        :onCancel="handleClose"
-      >
+      <a-modal v-model:open="props.openModalForm" title="Thay đổi thông tin giao hàng" width="40%" :footer="null"
+        :onCancel="handleClose">
         <form @submit.prevent="onSubmit" v-if="handleChangeEdit">
           <div class="flex gap-2">
             <div class="w-1/2 pb-4">
               <label class="text-sm font-bold"> Họ tên </label>
               <div class="mt-1">
-                <a-input
-                  size="large"
-                  class="w-full"
-                  placeholder="Nhập họ tên"
-                  v-model:value="user.fullname"
-                  required
-                />
+                <a-input size="large" class="w-full" placeholder="Nhập họ tên" v-model:value="user.fullname" required />
               </div>
             </div>
             <div class="w-1/2 pb-4">
               <label class="text-sm font-bold"> Số điện thoại </label>
               <div class="mt-1">
-                <a-input
-                  type="text"
-                  size="large"
-                  class="w-full"
-                  placeholder="Nhập số điện thoại"
-                  v-model:value="user.phone"
-                  required
-                />
+                <a-input type="text" size="large" class="w-full" placeholder="Nhập số điện thoại"
+                  v-model:value="user.phone" required />
               </div>
             </div>
           </div>
@@ -46,39 +27,18 @@
             <div class="w-1/2 pb-4">
               <label class="text-sm font-bold"> Tỉnh/ Thành phố </label>
               <div class="mt-1">
-                <a-select
-                  :filter-option="filterOption"
-                  v-model:value="province_id"
-                  :options="optionsProvines"
-                  @focus="handleFocus"
-                  @blur="handleBlur"
-                  @change="handleChangeProvince"
-                  :loading="baseStore.isLoading"
-                  class="w-full"
-                  size="large"
-                  show-search
-                  placeholder="Tỉnh/Thành phố"
-                >
+                <a-select :filter-option="filterOption" v-model:value="province_id" :options="optionsProvines"
+                  @focus="handleFocus" @blur="handleBlur" @change="handleChangeProvince" :loading="baseStore.isLoading"
+                  class="w-full" size="large" show-search placeholder="Tỉnh/Thành phố">
                 </a-select>
               </div>
             </div>
             <div class="w-1/2 pb-4">
               <label class="text-sm font-bold"> Quận/ Huyện </label>
               <div class="mt-1">
-                <a-select
-                  v-model:value="district_id"
-                  :options="optionsDistricts"
-                  :filter-option="filterOption"
-                  @focus="handleFocus"
-                  @blur="handleBlur"
-                  @change="handleChangeDistrict"
-                  :disabled="!province_id"
-                  :loading="baseStore.isLoading"
-                  class="w-full"
-                  size="large"
-                  show-search
-                  placeholder="Quận/ Huyện"
-                >
+                <a-select v-model:value="district_id" :options="optionsDistricts" :filter-option="filterOption"
+                  @focus="handleFocus" @blur="handleBlur" @change="handleChangeDistrict" :disabled="!province_id"
+                  :loading="baseStore.isLoading" class="w-full" size="large" show-search placeholder="Quận/ Huyện">
                 </a-select>
               </div>
             </div>
@@ -87,61 +47,32 @@
             <div class="w-1/2 pb-4">
               <label class="text-sm font-bold"> Phường/ Xã/ Thị trấn </label>
               <div class="mt-1">
-                <a-select
-                  v-model:value="ward_id"
-                  :options="optionsWards"
-                  :filter-option="filterOption"
-                  @focus="handleFocus"
-                  @blur="handleBlur"
-                  @change="handleChangeWard"
-                  :disabled="!district_id"
-                  :loading="baseStore.isLoading"
-                  class="w-full"
-                  size="large"
-                  show-search
-                  placeholder="Xã/ Phường/ Thị trấn"
-                >
+                <a-select v-model:value="ward_id" :options="optionsWards" :filter-option="filterOption"
+                  @focus="handleFocus" @blur="handleBlur" @change="handleChangeWard" :disabled="!district_id"
+                  :loading="baseStore.isLoading" class="w-full" size="large" show-search
+                  placeholder="Xã/ Phường/ Thị trấn">
                 </a-select>
               </div>
             </div>
             <div class="w-1/2 pb-4">
               <label class="text-sm font-bold"> Đường </label>
               <div class="mt-1">
-                <a-input
-                  v-model:value="address.street"
-                  :disabled="!ward_id"
-                  size="large"
-                  class="w-full"
-                  placeholder="Nhập đường"
-                  required
-                />
+                <a-input v-model:value="address.street" :disabled="!ward_id" size="large" class="w-full"
+                  placeholder="Nhập đường" required />
               </div>
             </div>
           </div>
           <div>
             <label class="text-sm font-bold"> Địa chỉ cụ thể </label>
             <div class="mt-1">
-              <a-textarea
-                size="large"
-                :value="`${address.street}, ${address.ward}, ${address.district}, ${address.province}`"
-              />
+              <a-textarea size="large"
+                :value="`${address.street}, ${address.ward}, ${address.district}, ${address.province}`" />
             </div>
           </div>
 
           <div class="flex justify-end items-end gap-2">
-            <a-button
-              @click="handleClose"
-              danger
-              html-type="button"
-              class="mt-4"
-              >Hủy</a-button
-            >
-            <a-button
-              :loading="authStore?.isSubmitting"
-              type="primary"
-              html-type="submit"
-              class="mt-4"
-            >
+            <a-button @click="handleClose" danger html-type="button" class="mt-4">Hủy</a-button>
+            <a-button :loading="authStore?.isSubmitting" type="primary" html-type="submit" class="mt-4">
               Lưu
             </a-button>
           </div>
@@ -184,7 +115,7 @@ const handleChangeEdit = () => {
 // Update Profile
 const onSubmit = async () => {
   const phonePattern = /^(0[3|5|7|8|9])+([0-9]{8})$/;
-  const fullNamePattern = /^[a-zA-ZÀ-ỹ\s]+$/;
+  const fullNamePattern = /^[a-zA-ZÀ-ỹ\s\(\)]+$/;
   if (!phonePattern.test(user.value.phone)) {
     message.error({
       content: "Số điện thoại không hợp lệ!",
@@ -206,13 +137,13 @@ const onSubmit = async () => {
     street: address.value.street,
     address_detail:
       address.value.province &&
-      address.value.district &&
-      address.value.ward &&
-      address.value.street
+        address.value.district &&
+        address.value.ward &&
+        address.value.street
         ? `${address.value.street}, ${address.value.ward}, ${address.value.district}, ${address.value.province}`
         : null,
   });
-  console.log("user", resData.value);
+
   if (resData?.data?._rawValue?.status == true) {
     message.success({
       content: "Chỉnh sửa thành công",
@@ -220,8 +151,7 @@ const onSubmit = async () => {
     await authStore.getProfile();
     handleClose();
   } else {
-    resErrors.value = resData.error.value.data.errors;
-    console.log("object", resErrors.value);
+
     message.error({
       content: "Chỉnh sửa không thành công",
     });

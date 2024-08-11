@@ -115,6 +115,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
+import debounce from 'lodash.debounce'
 const AuthorStore = useAuthorStore();
 const current = ref(1);
 const valueSearch = ref("");
@@ -126,6 +127,12 @@ const statusValue = ({ value, label }) => {
   queryStatus.value.value = value;
   queryStatus.value.label = label;
 };
+const onSearch = debounce(() => {
+  current.value = 1;
+  getDataAuthor();
+}, 500);
+
+watch(valueSearch, onSearch);
 const getDataAuthor = async () => {
   try {
     await AuthorStore.getAllAuthor({
@@ -141,7 +148,7 @@ useAsyncData(async () => {
   await getDataAuthor();
 }, {
   immediate: true,
-  watch: [current, valueSearch, queryStatus.value],
+  watch: [current, queryStatus.value],
 });
 
 const onDelete = async (id: string) => {
