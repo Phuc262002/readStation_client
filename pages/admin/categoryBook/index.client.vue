@@ -80,7 +80,14 @@
             </a>
           </template>
           <template v-else-if="column.key === 'image'">
-            <a-image class="rounded-md" :width="100" :src="record.image" />
+            <a-image
+              v-if="record.image"
+              class="rounded-md"
+              :width="100"
+              :height="100"
+              :src="record.image"
+            />
+            <span v-else></span>
           </template>
           <template v-else-if="column.key === 'is_featured'">
             <IconTick v-if="record.is_featured" />
@@ -158,7 +165,7 @@ import { ref } from "vue";
 import { Modal } from "ant-design-vue";
 import { Icon } from "@iconify/vue";
 import { CategoryStatus } from "~/types/admin/category";
-import debounce from 'lodash.debounce'
+import debounce from "lodash.debounce";
 const categoryStore = useCategoryStore();
 const openModalEdit = ref(false);
 const openModalAdd = ref(false);
@@ -176,11 +183,11 @@ const statusValue = ({ value, label }) => {
 const onSearch = debounce(() => {
   current.value = 1;
   categoryStore.getAllCategory({
-      page: current.value,
-      search: valueSearch.value,
-      status: queryStatus.value.value,
-      type: "book",
-    });
+    page: current.value,
+    search: valueSearch.value,
+    status: queryStatus.value.value,
+    type: "book",
+  });
 }, 500);
 
 watch(valueSearch, onSearch);
@@ -277,11 +284,11 @@ const showModalEdit = (id) => {
   categoryId.value = id;
 };
 useSeoMeta({
-    title: "ReadStation - Danh mục sản phẩm",
-    ogTitle: "ReadStation - Danh mục sản phẩm",
-    description: "Danh mục sản phẩm",
-    ogDescription: "Danh mục sản phẩm",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  title: "ReadStation - Danh mục sản phẩm",
+  ogTitle: "ReadStation - Danh mục sản phẩm",
+  description: "Danh mục sản phẩm",
+  ogDescription: "Danh mục sản phẩm",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>

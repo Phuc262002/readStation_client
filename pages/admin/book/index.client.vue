@@ -251,6 +251,7 @@
           :total="allAdminBooks?.adminBooks?.totalResults"
           :pageSize="allAdminBooks?.adminBooks?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
     </div>

@@ -296,14 +296,16 @@ useAsyncData(
     shippingMethod.value.note = shippingMethodStore.shippingMethod.note;
     shippingMethod.value.status = shippingMethodStore.shippingMethod.status;
     imageInfo.value = shippingMethodStore.shippingMethod.logo;
-    fileList.value = [
-      {
-        uid: "-1",
-        name: "image.png",
-        status: "done",
-        url: imageInfo.value,
-      },
-    ];
+    fileList.value = imageInfo.value
+      ? [
+          {
+            uid: "-1",
+            name: "image.png",
+            status: "done",
+            url: imageInfo.value,
+          },
+        ]
+      : [];
   },
   {
     watch: [shippingMethodId, open],

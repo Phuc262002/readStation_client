@@ -398,7 +398,12 @@
                 <template v-if="column.dataIndex === 'user'">
                   <div class="flex justify-start gap-2 items-center">
                     <div>
-                      <a-avatar :src="record.user.avatar" />
+                      <a-image
+                        v-if="record.user.avatar"
+                        :src="record.user.avatar"
+                        :width="40"
+                        :height="40"
+                      />
                     </div>
                     <div class="flex flex-col">
                       <span>{{ record.user.fullname }}</span>
@@ -543,6 +548,7 @@
                 :total="orderStore?.getAllOrderAdmin?.totalResults"
                 :pageSize="orderStore?.getAllOrderAdmin?.pageSize"
                 show-less-items
+                pageSizeOptions
               />
             </div>
           </div>

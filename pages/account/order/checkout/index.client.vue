@@ -1,4 +1,4 @@
-<template>
+div<template>
   <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
     <div v-if="isSubmitting"
       class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default">
@@ -8,7 +8,7 @@
       <!-- Left -->
       <div class="w-3/4 space-y-5">
         <div class="bg-white h-auto shadow-md rounded-lg overflow-hidden p-5">
-          <a-table :columns="columns" :data-source="totalCarts" :pagination="false">
+          <a-table :columns="columns" :data-source="dataSource" :pagination="false">
             <template #headerCell="{ column }">
               <template v-if="column.key === 'name'">
                 <span> Sản phẩm </span>
@@ -171,8 +171,13 @@
                   <Icon class="text-orange-600" icon="ic:outline-info" />
                 </a-popover>
               </div>
-
-              <a-input placeholder="Nhập số ngày thuê sách" size="large" v-model:value="rentNumber" />
+              <a-input placeholder="Nhập số ngày thuê sách" size="large" :value="cartStore.rentNow[0].number_of_days"
+                @change="(e) =>
+                  cartStore.updateNumberOfDays(
+                    cartStore.rentNow[0].id,
+                    e.target.value
+                  )
+                  " />
             </div>
           </div>
         </div>
@@ -308,14 +313,12 @@ const type = route.query.type;
 const userNote = ref();
 const totalCarts = ref([]);
 let valueOrder = ref([])
-
-
+const number_of_days = ref();
 const dataSource = computed(() => {
   return route.query.type === "thue_ngay"
     ? cartStore?.rentNow
-    : cartStore?.carts;
+    : totalCarts.value;
 });
-// console.log("dataSource", dataSource);
 useAsyncData(async () => {
   await shippingMethodStore.getAllShipping();
   options.value = shippingMethodStore?.shippings.map((item) => ({
@@ -380,11 +383,11 @@ const newInfo = {
 // khai báo
 const isCheckAuth = authStore?.authUser?.user?.role?.name;
 const isCheckVerify = authStore?.authUser?.user?.user_verified_at;
-const data = cartStore?.carts;
 
 // check danh mục "Giáo dục"
+console.log("🚀 ~ cartStore.rentNow:", cartStore.rentNow)
 let checkcate = ref(true);
-const cate = cartStore?.carts.forEach((item) => {
+(type === "thue_ngay" ? cartStore.rentNow : cartStore.carts).forEach((item) => {
   if (item?.book?.category?.name !== "Giáo dục") {
     checkcate.value = false;
   }
@@ -409,15 +412,15 @@ if (isCheckAuth === "student") {
       delivery_info: newInfo,
     };
 
-    totalCarts.value = data.map((item) => {
-      let desposive = 0;
+    totalCarts.value = (type === "thue_ngay" ? cartStore.rentNow : cartStore.carts).map((item) => {
+      let fee = 0;
 
       if (item.price < 50000) {
-        desposive = 1000;
+        fee = 1000;
       } else if (item.price >= 50000 && item.price <= 100000) {
-        desposive = 2000;
+        fee = 2000;
       } else {
-        desposive = 4000;
+        fee = 4000;
       }
 
       orderDetail = {
@@ -456,15 +459,15 @@ if (isCheckAuth === "student") {
       delivery_info: newInfo,
     };
 
-    totalCarts.value = data.map((item) => {
-      let desposive = 0;
+    totalCarts.value = (type === "thue_ngay" ? cartStore.rentNow : cartStore.carts).map((item) => {
+      let fee = 0;
 
       if (item.price < 50000) {
-        desposive = 1000;
+        fee = 1000;
       } else if (item.price >= 50000 && item.price <= 100000) {
-        desposive = 2000;
+        fee = 2000;
       } else {
-        desposive = 4000;
+        fee = 4000;
       }
 
       orderDetail = {
@@ -501,27 +504,27 @@ if (isCheckAuth === "student") {
       order_details: [],
       delivery_info: newInfo,
     };
-    totalCarts.value = data.map((item) => {
-      let desposive = 0;
+    totalCarts.value = (type === "thue_ngay" ? cartStore.rentNow : cartStore.carts).map((item) => {
+      let fee = 0;
 
       if (item.price < 50000) {
-        desposive = 1000;
+        fee = 1000;
       } else if (item.price >= 50000 && item.price <= 100000) {
-        desposive = 2000;
+        fee = 2000;
       } else {
-        desposive = 4000;
+        fee = 4000;
       }
 
       orderDetail = {
         number_of_days: item.number_of_days,
         book_details_id: item.id,
-        service_fee: desposive * item.number_of_days,
+        service_fee: fee * item.number_of_days,
         deposit_fee: (item.hire_percent / 100) * item.price,
       };
       valueOrder.value.order_details.push(orderDetail);
       return {
         ...item,
-        service_fee: desposive * item.number_of_days,
+        service_fee: fee * item.number_of_days,
         deposit_fee: (item.hire_percent / 100) * item.price,
       }
     });
@@ -550,34 +553,36 @@ if (isCheckAuth === "student") {
       delivery_info: newInfo,
     };
 
-    totalCarts.value = data.map((item) => {
-      let desposive = 0;
+    totalCarts.value = (type === "thue_ngay" ? cartStore.rentNow : cartStore.carts).map((item) => {
+      let fee = 0;
 
       if (item.price < 50000) {
-        desposive = 1000;
+        fee = 1000;
       } else if (item.price >= 50000 && item.price <= 100000) {
-        desposive = 2000;
+        fee = 2000;
       } else {
-        desposive = 4000;
+        fee = 4000;
       }
 
       orderDetail = {
         number_of_days: item.number_of_days,
         book_details_id: item.id,
-        service_fee: desposive * item.number_of_days,
+        service_fee: fee * item.number_of_days,
         deposit_fee: (item.hire_percent / 100) * item.price,
       };
 
       valueOrder.value.order_details.push(orderDetail);
       return {
         ...item,
-        service_fee: desposive * item.number_of_days,
+        service_fee: fee * item.number_of_days,
         deposit_fee: ((item.hire_percent) / 100) * item.price,
       };
     });
+    console.log('totalCarts.value', totalCarts.value)
     total_serviceFee.value = totalCarts.value.reduce((acc, curr) => acc + parseFloat(curr.service_fee), 0);
     total_depositFee.value = totalCarts.value.reduce((acc, curr) => acc + parseFloat(curr.deposit_fee), 0);
 
+    console.log(' total_serviceFee.value', total_serviceFee.value)
     valueOrder.value.total_service_fee = total_serviceFee.value;
     valueOrder.value.total_deposit_fee = total_depositFee.value;
     valueOrder.value.total_all_fee = total_depositFee.value + total_serviceFee.value;
@@ -598,27 +603,27 @@ if (isCheckAuth === "student") {
       order_details: [],
       delivery_info: newInfo,
     };
-    totalCarts.value = data.map((item) => {
-      let desposive = 0;
+    totalCarts.value = (type === "thue_ngay" ? cartStore.rentNow : cartStore.carts).map((item) => {
+      let fee = 0;
 
       if (item.price < 50000) {
-        desposive = 1000;
+        fee = 1000;
       } else if (item.price >= 50000 && item.price <= 100000) {
-        desposive = 2000;
+        fee = 2000;
       } else {
-        desposive = 4000;
+        fee = 4000;
       }
 
       orderDetail = {
         number_of_days: item.number_of_days,
         book_details_id: item.id,
-        service_fee: desposive * item.number_of_days,
+        service_fee: fee * item.number_of_days,
         deposit_fee: ((item.hire_percent - 20) / 100) * item.price,
       };
       valueOrder.value.order_details.push(orderDetail);
       return {
         ...item,
-        service_fee: desposive * item.number_of_days,
+        service_fee: fee * item.number_of_days,
         deposit_fee: ((item.hire_percent - 20) / 100) * item.price,
       }
     });
@@ -679,65 +684,6 @@ const payCart = async () => {
   } catch (error) {
     message.error("Đặt hàng thất bại");
   }
-
-  // try {
-
-  //   const newArr = (
-  //     type === "thue_ngay" ? cartStore.rentNow : cartStore.carts
-  //   ).map((item) => {
-  //     return {
-  //       book_details_id: item.id,
-  //       service_fee: parseFloat(item.price) * 0.2,
-  //       deposit_fee: parseFloat(item.price),
-  //     };
-  //   });
-  //   console.log("newArr", newArr);
-  //   const paymentPortal = payment_method.value === "online" ? "payos" : null;
-  //   const resData = await orderStore.createOrder({
-  //     payment_method: payment_method.value,
-  //     delivery_method: delivery_method.value,
-  //     payment_portal: paymentPortal,
-  //     user_note: userNote.value,
-  //     discount: authStore?.authUser?.user?.discount,
-  //     shipping_method_id: shipping_method_id.value,
-  //     total_shipping_fee: parseFloat(shippingFee.value),
-  //     total_service_fee: parseFloat(serviceFee.value),
-  //     total_deposit_fee: parseFloat(depositFee.value),
-  //     total_all_fee: parseFloat(totalFee.value),
-  //     order_details: newArr,
-  //     delivery_info: newInfo,
-  //   });
-  //   // console.log("resData", resData);
-  // if (
-  //   resData?.data?._rawValue?.status == true &&
-  //   payment_method.value === "cash"
-  // ) {
-  //   message.success({
-  //     content: "Đặt hàng thành công",
-  //   });
-  //   type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
-  //   navigateTo("/account/order");
-  // } else if (
-  //   resData?.data?._rawValue?.status === true &&
-  //   payment_method.value === "online"
-  // ) {
-  //   message.success({
-  //     content: "Đặt hàng thành công",
-  //   });
-  //   type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
-  //   navigateTo(
-  //     "/account/order/checkout/payment/" +
-  //       resData?.data?._rawValue?.data.order_code
-  //   );
-  // } else {
-  //     resErrors.value = resData.error.value.data.errors;
-  //     message.error({
-  //       content: "Đặt hàng thất bại",
-  //     });
-  //   }
-  // } catch (error) {
-  //   message.error("Đặt hàng thất bại");
-  // }
 };
 
 const focus = () => {
