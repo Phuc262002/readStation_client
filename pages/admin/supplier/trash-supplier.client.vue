@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+    <div
+      class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
+    >
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-bold">
           Tất cả nhà cung cấp đã xóa
@@ -10,8 +12,12 @@
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div>
-        <a-table :columns="columns" :data-source="supplierStore?.SupplierAdmin?.suppliers"
-          :loading="supplierStore.isLoading">
+        <a-table
+          :columns="columns"
+          :data-source="supplierStore?.SupplierAdmin?.suppliers"
+          :loading="supplierStore.isLoading"
+          :pagination="false"
+        >
           <template #bodyCell="{ column, record, index }">
             <template v-if="column.key === 'name'">
               <a>
@@ -34,9 +40,14 @@
                   <template #title>
                     <span>Khôi phục</span>
                   </template>
-                  <button @click="showRecoverConfirm(record?.id)" class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8
-                    rounded-md">
-                    <Icon icon="ic:round-settings-backup-restore" class="text-lg" />
+                  <button
+                    @click="showRecoverConfirm(record?.id)"
+                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                  >
+                    <Icon
+                      icon="ic:round-settings-backup-restore"
+                      class="text-lg"
+                    />
                   </button>
                 </a-tooltip>
               </div>
@@ -44,21 +55,28 @@
           </template>
         </a-table>
       </div>
-      <!-- <div class="mt-4 flex justify-end">
-        <a-pagination v-model:current="current" :total="publishingCompanyStore?.publishingCompaniesAdmin?.totalResults
-          " :pageSize="publishingCompanyStore?.publishingCompaniesAdmin?.pageSize" show-less-items />
-      </div> -->
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-if="supplierStore.getAllSupplier?.totalResults > 0"
+          v-model:current="current"
+          :total="supplierStore.getAllSupplier?.totalResults"
+          :pageSize="supplierStore.getAllSupplier?.pageSize"
+          show-less-items
+        />
+      </div>
     </div>
   </div>
 </template>
 <script setup>
 import { Icon } from "@iconify/vue";
 const supplierStore = useSupplierStore();
+const current = ref(1);
 useAsyncData(async () => {
   await supplierStore.getAllSupplier({
-    status: 'deleted'
+    page: current.value,
+    status: "deleted",
   });
-})
+});
 const showRecoverConfirm = (id) => {
   Modal.confirm({
     title: "Bạn có muốn khôi phục nhà cung cấp này ?",
@@ -75,48 +93,47 @@ const showRecoverConfirm = (id) => {
 };
 const onRecover = async (id) => {
   await supplierStore.updateSupplier({
-    id: id, valueSupplier: {
-      status: 'active'
-    }
+    id: id,
+    valueSupplier: {
+      status: "active",
+    },
   });
   await supplierStore.getAllSupplier({
-    status: 'deleted'
+    status: "deleted",
   });
-}
-
-
+};
 
 const columns = [
   {
-    title: 'Tên nhà cùng cấp',
-    dataIndex: 'name',
-    key: 'name',
+    title: "Tên nhà cùng cấp",
+    dataIndex: "name",
+    key: "name",
   },
   {
-    title: 'Số điện thoại',
-    dataIndex: 'phone',
-    key: 'phone',
+    title: "Số điện thoại",
+    dataIndex: "phone",
+    key: "phone",
     ellipsis: true,
   },
   {
-    title: 'Email',
-    dataIndex: 'email',
-    key: 'email',
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
   },
   {
-    title: 'Địa chỉ nhà cung cấp',
-    dataIndex: 'address',
-    key: 'address',
+    title: "Địa chỉ nhà cung cấp",
+    dataIndex: "address",
+    key: "address",
   },
   {
-    title: 'Trạng thái',
-    dataIndex: 'status',
-    key: 'status',
+    title: "Trạng thái",
+    dataIndex: "status",
+    key: "status",
   },
   {
-    title: 'Thao tác',
-    dataIndex: 'action',
-    key: 'action',
+    title: "Thao tác",
+    dataIndex: "action",
+    key: "action",
   },
 ];
 </script>

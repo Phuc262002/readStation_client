@@ -9,11 +9,13 @@ export const useReturnHistoryStore = defineStore("return-history-store", {
     };
   },
   actions: {
-    async getAllReturnHistory({ page, pageSize }: any) {
+    async getAllReturnHistory({ page, pageSize, search, status }: any) {
       this.isLoading = true;
       const data: any = await useCustomFetch(
         `/api/v1/admin/return-histories?${page ? `&page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
+        }${search ? `&search=${search}` : ""}${
+          status ? `&status=${status}` : ""
         }`
       );
       this.ReturnHistoryAdmin = data.data._value?.data;
@@ -29,7 +31,7 @@ export const useReturnHistoryStore = defineStore("return-history-store", {
       this.isLoading = false;
       return data;
     },
-    async updateReturnHistory({id, dataUpdateReturnHistory} : any) {
+    async updateReturnHistory({ id, dataUpdateReturnHistory }: any) {
       this.isSubmitting = true;
       const data = await useCustomFetch(
         `/api/v1/admin/return-histories/update/${id}`,

@@ -51,7 +51,9 @@
               orderStore?.order?.status === 'returning'
             ">
               <span class="col-span-2 font-bold">Số lần gia hạn:</span>
-              <span class="col-span-2"> 0 / 3 </span>
+              <span class="col-span-2"> {{ order?.data?.extensions_details?.length }} / {{
+                orderStore?.order?.max_extensions }}
+              </span>
             </div>
             <div class="grid grid-cols-4" v-if="
               orderStore?.order?.status === 'extended' ||
@@ -110,7 +112,7 @@
                 new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
-                }).format(order?.data?.book_details?.price)
+                }).format(order?.data?.deposit_fee)
               }}
             </span>
           </div>
@@ -121,7 +123,7 @@
                 new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
-                }).format(order?.data?.book_details?.price * 0.2)
+                }).format(order?.data?.service_fee)
               }}
             </span>
           </div>
@@ -133,8 +135,7 @@
                   style: "currency",
                   currency: "VND",
                 }).format(
-                  order?.data?.book_details?.price * 0.2 +
-                  order?.data?.book_details?.price
+                  order?.data?.deposit_fee + order?.data?.service_fee
                 )
               }}
             </span>

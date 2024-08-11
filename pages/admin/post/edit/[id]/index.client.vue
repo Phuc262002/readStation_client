@@ -237,14 +237,14 @@ useAsyncData(async () => {
   post.value.image = data.data._value?.data?.image;
   post.value.content = data.data._value?.data?.content;
   post.value.summary = data.data._value?.data?.summary;
-  fileList.value = [
+  fileList.value = post.value.image ?[
     {
       uid: "-1",
       name: "image.png",
       status: "done",
       url: post.value.image,
     },
-  ];
+  ] : [];
 });
 const updatePost = async () => {
   try {

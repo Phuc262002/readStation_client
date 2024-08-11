@@ -92,10 +92,12 @@
           </template>
           <template v-else-if="column.key === 'logo_company'">
             <a-image
+              v-if="record.logo_company"
               class="rounded-md"
               :width="100"
               :src="record.logo_company"
             />
+            <span v-else> </span>
           </template>
           <template v-else-if="column.key === 'description'">
             <p class="p-0">
@@ -157,12 +159,14 @@
       </a-table>
       <div class="mt-4 flex justify-end">
         <a-pagination
+        v-if="publishingCompanyStore?.publishingCompaniesAdmin?.totalResults > 0"
           v-model:current="current"
           :total="
             publishingCompanyStore?.publishingCompaniesAdmin?.totalResults
           "
           :pageSize="publishingCompanyStore?.publishingCompaniesAdmin?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
     </div>
