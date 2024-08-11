@@ -56,7 +56,7 @@
             </div>
           </div>
           <div
-            v-if="inVoiceEnter.isLoading"
+            v-if="isLoading"
             class="flex justify-center items-center min-h-[50vh]"
           >
             <a-spin size="large" />
@@ -128,6 +128,7 @@
             <a-spin size="large" />
           </div>
           <div
+            v-else
             class="flex flex-col p-5 gap-4"
             v-if="inVoiceEnter?.getOneInvoiceEnterAdmin?.id"
           >
@@ -293,7 +294,7 @@
                   >
                     <tr>
                       <td
-                        class="px-3.5 py-2.5 text-left border-b border-slate-200 dark:border-zink-500 "
+                        class="px-3.5 py-2.5 text-left border-b border-slate-200 dark:border-zink-500"
                       >
                         <h6 class="mb-1 text-sm font-bold w-[400px] text-wrap">
                           {{ items?.book_detail?.book?.title }} - Phiên bản năm
@@ -364,10 +365,13 @@ const inVoiceEnter = useInvoiceEnterStore();
 const route = useRoute();
 const query = route.query;
 const id = ref(null);
+const isLoading = ref(false);
 console.log("🚀 ~ query.bill_id:", query.bill_id);
 
 useAsyncData(async () => {
+  isLoading.value = true;
   await inVoiceEnter.getAllInvoiceEnter({});
+  isLoading.value = false;
 });
 
 useAsyncData(

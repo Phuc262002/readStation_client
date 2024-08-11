@@ -161,7 +161,7 @@
           class="font-semibold"
           key="14"
           @click="navigateTo('/admin/post/post-await')"
-          >Bài viết đang xủ lý</a-menu-item
+          >Bài viết đang xử lý</a-menu-item
         >
         <a-menu-item
           class="font-semibold"

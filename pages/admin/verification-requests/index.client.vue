@@ -244,6 +244,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 import { VerificationRequestsStatus } from "~/types/admin/verificationRequests";
+import debounce from "lodash.debounce";
 const verificationRequestsStore = useVerificationRequestsStore();
 const current = ref(1);
 const valueSearch = ref("");
@@ -259,11 +260,22 @@ const statusValue = ({ value, label }) => {
   queryStatus.value.value = value;
   queryStatus.value.label = label;
 };
-
 const verificationCardTypeValue = ({ value, label }) => {
   queryVerificationCardType.value.value = value;
   queryVerificationCardType.value.label = label;
 };
+const onSearch = debounce(() => {
+  current.value = 1;
+  verificationRequestsStore.getVerificationRequests({
+    page: current.value,
+    search: valueSearch.value,
+    status: queryStatus.value.value,
+    verification_card_type: queryVerificationCardType.value.value,
+  });
+}, 500);
+
+watch(valueSearch, onSearch);
+
 useAsyncData(
   async () => {
     await verificationRequestsStore.getVerificationRequests({
@@ -275,12 +287,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [
-      current,
-      valueSearch,
-      queryStatus.value,
-      queryVerificationCardType.value,
-    ],
+    watch: [current, queryStatus.value, queryVerificationCardType.value],
   }
 );
 
@@ -324,11 +331,11 @@ const columns = [
   },
 ];
 useSeoMeta({
-    title: "ReadStation - Xác thực tài khoản",
-    ogTitle: "ReadStation - Xác thực tài khoản",
-    description: "Xác thực tài khoản",
-    ogDescription: "Xác thực tài khoản",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  title: "ReadStation - Xác thực tài khoản",
+  ogTitle: "ReadStation - Xác thực tài khoản",
+  description: "Xác thực tài khoản",
+  ogDescription: "Xác thực tài khoản",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>

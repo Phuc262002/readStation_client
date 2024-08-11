@@ -151,6 +151,7 @@
 import { Modal } from "ant-design-vue";
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
+import debounce from 'lodash.debounce'
 const route = useRoute();
 const open = ref(false);
 const openModalEdit = ref(false);
@@ -165,6 +166,16 @@ useAsyncData(async () => {
     await bookCaseStore.getOneBookcase(detailBookCaseId);
   }
 });
+const onSearch = debounce(() => {
+  current.value = 1;
+  bookCaseStore.getShelveOfBookcase({
+      id: detailBookCaseId,
+      page: current.value,
+      search: valueSearch.value,
+    });
+}, 500);
+
+watch(valueSearch, onSearch);
 
 useAsyncData(
   async () => {
@@ -176,7 +187,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current, valueSearch],
+    watch: [current],
   }
 );
 

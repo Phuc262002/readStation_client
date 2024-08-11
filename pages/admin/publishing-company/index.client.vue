@@ -172,11 +172,12 @@
 import { Modal } from "ant-design-vue";
 import { Icon } from "@iconify/vue";
 import { PublishingCompanyStatus } from "~/types/admin/publishingCompany";
-
+import debounce from "lodash.debounce";
 const openModalEdit = ref(false);
 const openModalAdd = ref(false);
 const publishingCompanyId = ref(0);
 const valueSearch = ref("");
+const publishingCompanyStore = usePublishingCompanyStore();
 const queryStatus = ref({
   value: "",
   label: "",
@@ -187,8 +188,18 @@ const statusValue = ({ value, label }) => {
   queryStatus.value.label = label;
 };
 
-const publishingCompanyStore = usePublishingCompanyStore();
 const current = ref(1);
+
+const onSearch = debounce(() => {
+  current.value = 1;
+  publishingCompanyStore.getAllPublishingCompany({
+    page: current.value,
+    search: valueSearch.value,
+    status: queryStatus.value.value,
+  });
+}, 500);
+watch(valueSearch, onSearch);
+
 useAsyncData(
   async () => {
     await publishingCompanyStore.getAllPublishingCompany({
@@ -199,7 +210,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current, valueSearch, queryStatus.value],
+    watch: [current, queryStatus.value],
   }
 );
 
@@ -277,11 +288,11 @@ const showModalEdit = (id) => {
   publishingCompanyId.value = id;
 };
 useSeoMeta({
-    title: "ReadStation - Quản lý nhà xuất bản",
-    ogTitle: "ReadStation - Quản lý nhà xuất bản",
-    description: "Quản lý nhà xuất bản",
-    ogDescription: "Quản lý nhà xuất bản",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  title: "ReadStation - Quản lý nhà xuất bản",
+  ogTitle: "ReadStation - Quản lý nhà xuất bản",
+  description: "Quản lý nhà xuất bản",
+  ogDescription: "Quản lý nhà xuất bản",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>
