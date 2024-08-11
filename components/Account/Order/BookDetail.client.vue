@@ -51,7 +51,9 @@
               orderStore?.order?.status === 'returning'
             ">
               <span class="col-span-2 font-bold">Số lần gia hạn:</span>
-              <span class="col-span-2"> 0 / 3 </span>
+              <span class="col-span-2"> {{ order?.data?.extensions_details?.length }} / {{
+                orderStore?.order?.max_extensions }}
+              </span>
             </div>
             <div class="grid grid-cols-4" v-if="
               orderStore?.order?.status === 'extended' ||
