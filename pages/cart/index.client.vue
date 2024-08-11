@@ -5,11 +5,7 @@
         <!-- Left -->
         <div class="w-3/4">
           <div class="bg-white h-auto shadow-md overflow-hidden rounded-lg p-5">
-            <a-table
-              :columns="columns"
-              :data-source="cartStore?.carts"
-              :pagination="false"
-            >
+            <a-table :columns="columns" :data-source="cartStore?.carts" :pagination="false">
               <template #headerCell="{ column }">
                 <template v-if="column.key === 'name'">
                   <span> Sản phẩm </span>
@@ -20,11 +16,7 @@
                 <template v-if="column.key === 'name'">
                   <div class="flex justify-start gap-5">
                     <div class="min-w-[100px] min-h-[100px]">
-                      <img
-                        class="w-24 rounded-lg shadow-lg"
-                        :src="record?.poster"
-                        alt=""
-                      />
+                      <img class="w-24 rounded-lg shadow-lg" :src="record?.poster" alt="" />
                     </div>
                     <div class="flex flex-col gap-2 font-normal space-y-3">
                       <div class="text-base font-bold">
@@ -40,8 +32,7 @@
                         <div class="grid grid-cols-12 gap-2">
                           <span class="font-bold col-span-6"> Phiên bản: </span>
                           <span class="col-span-6">
-                            {{ record?.cardboard }}</span
-                          >
+                            {{ record?.cardboard }}</span>
                         </div>
                       </div>
                     </div>
@@ -70,18 +61,12 @@
 
                 <template v-else-if="column.key === 'number_of_days'">
                   <span>
-                    <a-input
-                      :value="record.number_of_days"
-                      class="w-[100px]"
-                      type="number"
-                      @change="
-                        (e) =>
-                          cartStore.updateNumberOfDays(
-                            record.id,
-                            e.target.value
-                          )
-                      "
-                    />
+                    <a-input :value="record.number_of_days" class="w-[100px]" type="number" @change="(e) =>
+                        cartStore.updateNumberOfDays(
+                          record.id,
+                          e.target.value
+                        )
+                      " />
                   </span>
                 </template>
                 <template v-else-if="column.key === 'totalFee'">
@@ -92,20 +77,15 @@
                         currency: "VND",
                       }).format(
                         record?.service_fee +
-                          record?.price * (record?.hire_percent / 100)
+                        record?.price * (record?.hire_percent / 100)
                       )
                     }}
                   </span>
                 </template>
                 <template v-else-if="column.key === 'action'">
-                  <a-button
-                    @click="cartStore.deleteItemCart(record?.id)"
-                    class="text-center text-2xl text-rtprimary flex justify-center cursor-pointer border-none"
-                  >
-                    <UIcon
-                      class="text-2xl"
-                      name="i-material-symbols-delete-outline-rounded"
-                    />
+                  <a-button @click="cartStore.deleteItemCart(record?.id)"
+                    class="text-center text-2xl text-rtprimary flex justify-center cursor-pointer border-none">
+                    <UIcon class="text-2xl" name="i-material-symbols-delete-outline-rounded" />
                   </a-button>
                 </template>
               </template>
@@ -175,22 +155,15 @@
                 </div>
                 <div class="w-full">
                   <nuxt-link to="/account/order/checkout">
-                    <button
-                      class="bg-rtprimary text-white uppercase text-sm w-full h-8 rounded-lg"
-                    >
+                    <button class="bg-rtprimary text-white uppercase text-sm w-full h-8 rounded-lg">
                       Thanh toán
                     </button>
                   </nuxt-link>
                 </div>
                 <div class="flex justify-center">
                   <Nuxt-link to="/products">
-                    <button
-                      class="flex justify-center text-sm items-center gap-2 hover:text-rtsecondary"
-                    >
-                      <UIcon
-                        class="text-xl"
-                        name="i-material-symbols-turn-left-rounded"
-                      />
+                    <button class="flex justify-center text-sm items-center gap-2 hover:text-rtsecondary">
+                      <UIcon class="text-xl" name="i-material-symbols-turn-left-rounded" />
                       <h1>Tiếp tục thuê sách</h1>
                     </button>
                   </Nuxt-link>
@@ -227,7 +200,7 @@ const cartStore = useCartStore();
 const depositFee = ref(0);
 const serviceFee = ref(0);
 const totalFee = ref(0);
-const number_of_days = ref(1);
+const number_of_days = ref();
 
 // phí cọc
 const calcDepositFee = () => {

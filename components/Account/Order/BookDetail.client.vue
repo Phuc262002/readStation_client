@@ -110,7 +110,7 @@
                 new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
-                }).format(order?.data?.book_details?.price)
+                }).format(order?.data?.deposit_fee)
               }}
             </span>
           </div>
@@ -121,7 +121,7 @@
                 new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
-                }).format(order?.data?.book_details?.price * 0.2)
+                }).format(order?.data?.service_fee)
               }}
             </span>
           </div>
@@ -133,8 +133,7 @@
                   style: "currency",
                   currency: "VND",
                 }).format(
-                  order?.data?.book_details?.price * 0.2 +
-                  order?.data?.book_details?.price
+                  order?.data?.deposit_fee + order?.data?.service_fee
                 )
               }}
             </span>
