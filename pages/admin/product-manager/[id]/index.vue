@@ -1,4 +1,4 @@
-import create from '@ant-design/icons-vue/lib/components/IconFont';
+
 <template>
     <div class="flex flex-col gap-2">
         <h1 class="text-xl text-[#1e293b] font-bold pb-3">Chi tiết đơn hàng {{
@@ -211,7 +211,7 @@ import create from '@ant-design/icons-vue/lib/components/IconFont';
                 <div class="flex justify-end" v-if="orderStore?.getOneOrderAdmin?.data?.status === 'active'">
                     <div class="flex gap-2">
                         <a-button type="primary"
-                            @click="showModalExtendsionAll(orderStore?.getOneOrderAdmin?.data?.loan_order_details)">Giao
+                            @click="showModalExtendsionAll(orderStore?.getOneOrderAdmin?.data?.loan_order_details)">Gia
                             hạn toàn bộ</a-button>
                     </div>
                 </div>
@@ -261,24 +261,20 @@ import create from '@ant-design/icons-vue/lib/components/IconFont';
                                         <span class="text-base ">{{ items?.book_details?.book?.category?.name }}</span>
                                     </div>
                                     <div class="grid grid-cols-2">
-                                        <span class="text-base font-bold">Số lần gia hạn:</span>
-                                        <span class="text-base ">0/3</span>
-                                    </div>
-                                    <div class="grid grid-cols-2">
                                         <span class="text-base font-bold">Ngày trả dự kiến:</span>
                                         <span class="text-base ">{{
-                                            items?.original_due_date
+                                            items?.current_due_date
                                                 ?
-                                                $dayjs(items?.original_due_date).format('DD/MM/YYYY')
+                                                $dayjs(items?.current_due_date).format('DD/MM/YYYY')
                                                 :
                                                 ''
                                         }}</span>
                                     </div>
                                     <div class="grid grid-cols-2">
                                         <span class="text-base font-bold">Ngày trả thực tế:</span>
-                                        <span class="text-base ">{{ items?.current_due_date
+                                        <span class="text-base ">{{ items?.return_date
                                             ?
-                                            $dayjs(items?.current_due_date).format('DD/MM/YYYY')
+                                            $dayjs(items?.return_date).format('DD/MM/YYYY')
                                             :
                                             ''
                                             }}</span>

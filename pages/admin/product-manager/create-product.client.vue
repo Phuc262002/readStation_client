@@ -246,15 +246,23 @@ const showBook = async (id) => {
     (book) => book?.id === id
   );
   const existingBook = data.value.find((item) => item.id === selectedBook.id);
+  const checkStock = selectedBook?.stock === 0;
   if (!existingBook) {
     if (selectedBook) {
-      if (data.value.length < 3) {
-        const newData = [...data.value];
-        newData.push(selectedBook);
-        data.value = newData;
+      if (checkStock) {
+        message.error("Sách đã hết hàng");
+        return;
       } else {
-        message.error("Chỉ được thêm tối đa 3 cuốn sách");
+        if (data.value.length < 3) {
+          const newData = [...data.value];
+          newData.push(selectedBook);
+          data.value = newData;
+        }
+        else {
+          message.error("Chỉ được thêm tối đa 3 cuốn sách");
+        }
       }
+
     }
   } else {
     message.error("Sách đã được thêm");
@@ -434,9 +442,10 @@ const onSubmit = async () => {
     const res = await orderStore.creatOrder(valueOrder);
     if (res.data._rawValue?.status == true) {
       message.success("Thêm đơn hàng thành công");
+      navigateTo("/admin/product-manager");
     } else {
       errors.value = res.data._rawValue?.errors;
-      message.error(res.data._rawValue?.errors);
+      message.error(res.data._rawValue?.message);
     }
     if (res.data._rawValue?.data?.payment_method === 'online') {
       navigateTo(res.data._rawValue?.data?.transactions[0]?.extra_info?.checkoutUrl, {
