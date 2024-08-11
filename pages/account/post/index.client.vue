@@ -8,7 +8,6 @@
           placeholder="Nhập tên bài viết để tìm kiếm"
           enter-button
           class="h-10 w-[385px]"
-          @search="onSearch"
           allow-clear
         >
           <template #prefix>
@@ -233,6 +232,7 @@
 </template>
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
+import debounce from "lodash.debounce";
 const postStore = usePostClientStore();
 const postGeneralStore = useGeneralPostStore();
 const current = ref(1);
@@ -250,6 +250,12 @@ const showModal = (id) => {
 const closeModal = () => {
   openModal.value = false;
 };
+const onSearch = debounce(() => {
+  current.value = 1;
+  getDataPost();
+}, 500);
+
+watch(searchValue, onSearch);
 
 const getDataPost = async () => {
   try {
@@ -268,7 +274,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current, filter, searchValue],
+    watch: [current, filter],
   }
 );
 
@@ -300,10 +306,7 @@ const showDeleteConfirm = (id: any) => {
 };
 const value = ref<string>("");
 
-const onSearch = (searchValue: string) => {
-  console.log("use value", searchValue);
-  console.log("or use this.value", value.value);
-};
+
 const columns = [
   {
     title: "Ảnh bìa",

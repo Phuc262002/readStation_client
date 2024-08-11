@@ -1,8 +1,11 @@
 <template>
   <div>
-    <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+    <div
+      class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
+    >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-bold ">Chi tiết {{ bookShelves?.adminGetOneBookShelve.name }}
+        <h5 class="text-xl text-[#1e293b] font-bold">
+          Chi tiết {{ bookShelves?.adminGetOneBookShelve.name }}
         </h5>
       </div>
     </div>
@@ -12,17 +15,28 @@
           <h1 class="text-xl font-bold">
             {{ bookShelves?.adminGetOneBookShelve.name }}
           </h1>
-          <p class="text-orange-400">{{ bookShelves?.adminGetOneBookShelve.bookcase?.description }} - {{
-            bookShelves?.adminGetOneBookShelve.name }} -
-            {{ bookShelves?.adminGetOneBookShelve?.book_details.length }} cuốn sách</p>
+          <p class="text-orange-400">
+            {{ bookShelves?.adminGetOneBookShelve.bookcase?.description }} -
+            {{ bookShelves?.adminGetOneBookShelve.name }} -
+            {{ bookShelves?.adminGetOneBookShelve?.book_details.length }} cuốn
+            sách
+          </p>
         </div>
         <div>
-          <a-button class="flex justify-center items-center gap-1" type="primary" @click="showModalEdit" size="large">
+          <a-button
+            class="flex justify-center items-center gap-1"
+            type="primary"
+            @click="showModalEdit"
+            size="large"
+          >
             <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
             <span class="text-white text-base">Chỉnh sửa</span>
           </a-button>
-          <BookShelvesEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit"
-            :shelvesId="bookShelves?.adminGetOneBookShelve?.id" />
+          <BookShelvesEdit
+            :openModalEdit="openModalEdit"
+            :openModal="CloseModalEdit"
+            :shelvesId="bookShelves?.adminGetOneBookShelve?.id"
+          />
         </div>
       </div>
     </div>
@@ -36,25 +50,33 @@
               </template>
             </a-input>
           </div>
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <div
+            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          >
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
         <div class="">
-          <a-button type="primary" @click="showModalAdd" size="large">Thêm sách</a-button>
-          <CommonSearch :openModalAdd="openModalAdd" :openModal="CloseModalAdd" />
+          <a-button type="primary" @click="showModalAdd" size="large"
+            >Thêm sách</a-button
+          >
+          <CommonSearch
+            :openModalAdd="openModalAdd"
+            :openModal="CloseModalAdd"
+          />
         </div>
       </div>
-      <a-table :columns="columns" :data-source="bookShelves?.adminGetOneBookShelve?.book_details"
-        :loading="bookShelves.isLoading">
+      <a-table
+        :columns="columns"
+        :data-source="bookShelves?.adminGetOneBookShelve?.book_details"
+        :loading="bookShelves.isLoading"
+      >
         <template #bodyCell="{ column, record }">
           <template v-if="column.dataIndex === 'name'">
             <a>{{ record }}</a>
           </template>
           <template v-if="column.key === 'poster'">
-            <span class="flex justify-start gap-2">
-              <img class="rounded-lg w-20 h-30" :src="record.poster" alt="">
-            </span>
+            <a-image :src="record.poster" :width="100" :height="100" />
           </template>
           <template v-if="column.key === 'title'">
             <span class="flex justify-start gap-2">
@@ -68,12 +90,14 @@
           </template>
           <template v-if="column.key === 'price'">
             <span class="flex justify-start gap-2">
-              <p>{{
-                new Intl.NumberFormat("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                }).format(record?.price)
-              }}</p>
+              <p>
+                {{
+                  new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(record?.price)
+                }}
+              </p>
             </span>
           </template>
           <template v-if="column.key === 'category'">
@@ -87,8 +111,13 @@
           </template>
           <template v-if="column.key === 'status'">
             <span>
-              <a-tag :color="record.status === 'active' ? 'green' : 'volcano'" style="border: none">
-                {{ record.status === 'active' ? 'hoạt động' : 'Không hoạt động' }}
+              <a-tag
+                :color="record.status === 'active' ? 'green' : 'volcano'"
+                style="border: none"
+              >
+                {{
+                  record.status === "active" ? "hoạt động" : "Không hoạt động"
+                }}
               </a-tag>
             </span>
           </template>
@@ -109,14 +138,15 @@
                 <template #title>
                   <span>Xóa</span>
                 </template>
-                <button @click.prevent="showConfirm(record?.book?.id)"
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                <button
+                  @click.prevent="showConfirm(record?.book?.id)"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                >
                   <Icon icon="hugeicons:delete-01" class="text-lg" />
                 </button>
               </a-tooltip>
             </div>
           </template>
-
         </template>
       </a-table>
     </div>
@@ -126,7 +156,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
-const route = useRoute()
+
+const route = useRoute();
 const openModalAdd = ref<boolean>(false);
 const openModalEdit = ref<boolean>(false);
 const open = ref(false);
@@ -147,9 +178,9 @@ const bookStore = useBookStore();
 const updateDetailShelves = async (id) => {
   try {
     const idShelves = {
-      shelve_id: null
-    }
-    const res = await bookStore.updateBook({ id: id, value: idShelves })
+      shelve_id: null,
+    };
+    const res = await bookStore.updateBook({ id: id, value: idShelves });
     if (res.data._rawValue?.status == true) {
       message.success("Xóa sách ra khỏi kệ thành công");
       await bookShelves.getOneShelves(detailShelvesId);
@@ -159,64 +190,63 @@ const updateDetailShelves = async (id) => {
   } catch (error) {
     message.error("Xóa sách thất bại");
   }
-}
+};
 
 const showConfirm = (id) => {
   Modal.confirm({
-    title: 'Bạn có chắc xóa sách này ra khỏi kệ không?',
+    title: "Bạn có chắc xóa sách này ra khỏi kệ không?",
     okText: "Có",
     okType: "danger",
     cancelText: "Hủy",
     onOk() {
-      updateDetailShelves(id)
+      updateDetailShelves(id);
     },
     onCancel() {
-      console.log('Cancel');
+      console.log("Cancel");
     },
-
   });
 };
 const columns = [
   {
-    title: 'Ảnh bìa',
-    dataIndex: 'poster',
-    key: 'poster',
+    title: "Ảnh bìa",
+    dataIndex: "poster",
+    key: "poster",
   },
   {
-    title: 'Tên sách',
-    dataIndex: 'title',
-    key: 'title',
+    title: "Tên sách",
+    dataIndex: "title",
+    key: "title",
   },
   {
-    title: 'Phiên bản',
-    dataIndex: 'book_version',
-    key: 'book_version',
+    title: "Phiên bản",
+    dataIndex: "book_version",
+    key: "book_version",
   },
   {
-    title: 'Tác giả',
-    dataIndex: 'author',
-    key: 'author',
+    title: "Tác giả",
+    dataIndex: "author",
+    key: "author",
   },
   {
-    title: 'Giá',
-    dataIndex: 'price',
-    key: 'price',
+    title: "Giá",
+    dataIndex: "price",
+    key: "price",
   },
 
   {
-    title: 'Danh mục',
-    dataIndex: 'category',
-    key: 'category',
+    title: "Danh mục",
+    dataIndex: "category",
+    key: "category",
   },
   {
-    title: 'Nổi bật',
-    dataIndex: 'is_featured',
-    key: 'is_featured',
+    title: "Nổi bật",
+    dataIndex: "is_featured",
+    key: "is_featured",
   },
   {
-    title: 'Trạng thái',
-    dataIndex: 'status',
-    key: 'status',
+    title: "Trạng thái",
+    dataIndex: "status",
+    key: "status",
   },
   {
     title: "Thao tác",

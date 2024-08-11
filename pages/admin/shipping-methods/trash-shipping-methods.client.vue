@@ -94,6 +94,7 @@
           :total="shippingMethodStore?.shippingMethodsAdmin?.totalResults"
           :pageSize="shippingMethodStore?.shippingMethodsAdmin?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
     </div>

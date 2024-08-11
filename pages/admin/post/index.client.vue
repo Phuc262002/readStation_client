@@ -40,8 +40,7 @@
                   "
                   >Đang hoạt động</a-menu-item
                 >
-            
-                
+
                 <a-menu-item
                   @click="statusValue({ value: 'draft', label: 'Bản nháp' })"
                   >Bản nháp</a-menu-item
@@ -62,8 +61,8 @@
             <template #overlay>
               <a-menu class="">
                 <a-menu-item @click="typeValue({ value: '', label: 'Tất cả' })"
-                  >Tất cả </a-menu-item
-                >
+                  >Tất cả
+                </a-menu-item>
                 <a-menu-item
                   @click="
                     typeValue({
@@ -283,6 +282,7 @@
           :total="postStore?.postsAdmin?.totalResults"
           :pageSize="postStore?.postsAdmin?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
     </div>
@@ -297,6 +297,7 @@
 import { Modal } from "ant-design-vue";
 import { PostStatus } from "~/types/admin/post";
 import { Icon } from "@iconify/vue";
+import debounce from "lodash.debounce";
 const postGeneralStore = useGeneralPostStore();
 const postStore = usePostStore();
 const categoryStore = useCategoryStore();
@@ -328,6 +329,18 @@ const statusValue = ({ value, label }) => {
   queryStatus.value.value = value;
   queryStatus.value.label = label;
 };
+const onSearch = debounce(() => {
+  current.value = 1;
+  postStore.getAllPost({
+    page: current.value,
+    category_id: categoryQuery.value.id,
+    search: valueSearch.value,
+    status: queryStatus.value.value,
+    type: queryType.value.value,
+  });
+}, 500);
+
+watch(valueSearch, onSearch);
 
 useAsyncData(
   async () => {
@@ -341,13 +354,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [
-      current,
-      valueSearch,
-      queryStatus.value,
-      categoryQuery.value,
-      queryType.value,
-    ],
+    watch: [current, queryStatus.value, categoryQuery.value, queryType.value],
   }
 );
 useAsyncData(async () => {
@@ -440,11 +447,11 @@ const showModal = () => {
   open.value = true;
 };
 useSeoMeta({
-    title: "ReadStation - Quản lý bài viết",
-    ogTitle: "ReadStation - Quản lý bài viết",
-    description: "Quản lý bài viết",
-    ogDescription: "Quản lý bài viết",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  title: "ReadStation - Quản lý bài viết",
+  ogTitle: "ReadStation - Quản lý bài viết",
+  description: "Quản lý bài viết",
+  ogDescription: "Quản lý bài viết",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>

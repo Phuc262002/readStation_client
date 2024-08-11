@@ -223,6 +223,7 @@
           :total="commentStore?.commentAdmin?.totalResults"
           :pageSize="commentStore?.commentAdmin?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
     </div>

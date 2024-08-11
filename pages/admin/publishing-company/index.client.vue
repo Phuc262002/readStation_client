@@ -92,10 +92,12 @@
           </template>
           <template v-else-if="column.key === 'logo_company'">
             <a-image
+              v-if="record.logo_company"
               class="rounded-md"
               :width="100"
               :src="record.logo_company"
             />
+            <span v-else> </span>
           </template>
           <template v-else-if="column.key === 'description'">
             <p class="p-0">
@@ -157,12 +159,14 @@
       </a-table>
       <div class="mt-4 flex justify-end">
         <a-pagination
+        v-if="publishingCompanyStore?.publishingCompaniesAdmin?.totalResults > 0"
           v-model:current="current"
           :total="
             publishingCompanyStore?.publishingCompaniesAdmin?.totalResults
           "
           :pageSize="publishingCompanyStore?.publishingCompaniesAdmin?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
     </div>
@@ -172,11 +176,12 @@
 import { Modal } from "ant-design-vue";
 import { Icon } from "@iconify/vue";
 import { PublishingCompanyStatus } from "~/types/admin/publishingCompany";
-
+import debounce from "lodash.debounce";
 const openModalEdit = ref(false);
 const openModalAdd = ref(false);
 const publishingCompanyId = ref(0);
 const valueSearch = ref("");
+const publishingCompanyStore = usePublishingCompanyStore();
 const queryStatus = ref({
   value: "",
   label: "",
@@ -187,8 +192,18 @@ const statusValue = ({ value, label }) => {
   queryStatus.value.label = label;
 };
 
-const publishingCompanyStore = usePublishingCompanyStore();
 const current = ref(1);
+
+const onSearch = debounce(() => {
+  current.value = 1;
+  publishingCompanyStore.getAllPublishingCompany({
+    page: current.value,
+    search: valueSearch.value,
+    status: queryStatus.value.value,
+  });
+}, 500);
+watch(valueSearch, onSearch);
+
 useAsyncData(
   async () => {
     await publishingCompanyStore.getAllPublishingCompany({
@@ -199,7 +214,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current, valueSearch, queryStatus.value],
+    watch: [current, queryStatus.value],
   }
 );
 
@@ -277,11 +292,11 @@ const showModalEdit = (id) => {
   publishingCompanyId.value = id;
 };
 useSeoMeta({
-    title: "ReadStation - Quản lý nhà xuất bản",
-    ogTitle: "ReadStation - Quản lý nhà xuất bản",
-    description: "Quản lý nhà xuất bản",
-    ogDescription: "Quản lý nhà xuất bản",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  title: "ReadStation - Quản lý nhà xuất bản",
+  ogTitle: "ReadStation - Quản lý nhà xuất bản",
+  description: "Quản lý nhà xuất bản",
+  ogDescription: "Quản lý nhà xuất bản",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>

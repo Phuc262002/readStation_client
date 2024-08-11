@@ -264,6 +264,7 @@
           :total="postStore?.postsAdmin?.totalResults"
           :pageSize="postStore?.postsAdmin?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
     </div>
@@ -273,6 +274,7 @@
 import { Modal } from "ant-design-vue";
 import { Icon } from "@iconify/vue";
 import { PostStatus } from "~/types/admin/post";
+import debounce from "lodash.debounce";
 const postStore = usePostStore();
 const openModalConfirm = ref(false);
 const openModalDetail = ref(false);
@@ -298,6 +300,17 @@ const statusValue = ({ value, label }) => {
   queryStatus.value.value = value;
   queryStatus.value.label = label;
 };
+const onSearch = debounce(() => {
+  current.value = 1;
+  postStore.getAllPost({
+    page: current.value,
+    search: valueSearch.value,
+    category_id: categoryQuery.value.id,
+    status: queryStatus.value.value,
+  });
+}, 500);
+watch(valueSearch, onSearch);
+
 useAsyncData(
   async () => {
     await postStore.getAllPost({
@@ -309,7 +322,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current, categoryQuery.value, valueSearch, queryStatus.value],
+    watch: [current, valueSearch, queryStatus.value],
   }
 );
 useAsyncData(async () => {
@@ -417,11 +430,11 @@ const showModalDetail = (id) => {
   postDetailId.value = id;
 };
 useSeoMeta({
-    title: "ReadStation - Bài viết đang xử lý",
-    ogTitle: "ReadStation - Bài viết đang xử lý",
-    description: "Bài viết đang xử lý",
-    ogDescription: "Bài viết đang xử lý",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  title: "ReadStation - Bài viết đang xử lý",
+  ogTitle: "ReadStation - Bài viết đang xử lý",
+  description: "Bài viết đang xử lý",
+  ogDescription: "Bài viết đang xử lý",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>

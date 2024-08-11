@@ -4,31 +4,43 @@ import { number } from 'yup';
         :footer="null" :onCancel="handleClose">
         <form @submit.prevent="onSubmit">
             <div class="space-y-5 mt-5">
-                <div class="flex flex-col " v-for="(items, index) in props.data" :key="index">
+                <div class="flex flex-col" v-for="(items, index) in props.data" :key="index">
                     <div class="flex justify-start pl-5 ">
                         <div>
-                            <img class="w-28 h-44" :src="items?.book_details?.poster" alt="">
+                            <img class="w-52" :src="items?.book_details?.poster" alt="">
                         </div>
-                        <div class=" pl-5 space-y-3">
-                            <div class="grid grid-cols-5 gap-5">
-                                <p class="text-base font-bold col-span-2">Tên sách:</p>
-                                <p class="text-base col-span-3">{{ items?.book_details?.book?.title }}</p>
+                        <div class="grid grid-cols-1 pl-12 space-y-3">
+                            <div class="grid grid-cols-2">
+                                <p class="text-base font-bold col-span-1">Tên sách:</p>
+                                <p class="text-base col-span-1">{{ items?.book_details?.book?.title }}</p>
                             </div>
-                            <div class="grid grid-cols-5 gap-5">
-                                <p class="text-base font-bold col-span-2">Tác giả:</p>
-                                <p class="text-base col-span-3">{{ items?.book_details?.book?.author?.author }}</p>
+                            <div class="grid grid-cols-2">
+                                <p class="text-base font-bold col-span-1">Tác giả:</p>
+                                <p class="text-base col-span-1">{{ items?.book_details?.book?.author?.author }}
+                                </p>
                             </div>
-                            <div class="grid grid-cols-5 gap-5">
-                                <p class="text-base font-bold col-span-2">Ngày thuê sách:</p>
-                                <p class="text-base col-span-3">11/06/2024</p>
+                            <div class="grid grid-cols-2">
+                                <p class="text-base font-bold col-span-1">Danh mục:</p>
+                                <p class="text-base col-span-1">{{ items?.book_details?.book?.category?.name }}
+                                </p>
                             </div>
-                            <div class="grid grid-cols-5 gap-5">
-                                <p class="text-base font-bold col-span-2">Ngày hết hạn cũ:</p>
-                                <p class="text-base col-span-3">11/06/2024</p>
+                            <div class="grid grid-cols-2">
+                                <p class="text-base font-bold col-span-1">Ngày hết hạn cũ:</p>
+                                <p class="text-base col-span-1">{{ items?.current_due_date ?
+                                    $dayjs(items?.current_due_date).format("DD/MM/YYYY") : '' }}</p>
                             </div>
-                            <div class="grid grid-cols-5 gap-5">
-                                <p class="text-base font-bold col-span-2">Ngày hết hạn mới:</p>
-                                <p class="text-base col-span-3">11/06/2024</p>
+                            <div class="grid grid-cols-2">
+                                <p class="text-base font-bold col-span-1">Chọn thêm ngày gia hạn:</p>
+                                <a-input type="number" class="w-1/4" v-model:value="number_of_days[index]" :min="1"
+                                    :max="5" required />
+                            </div>
+                            <div class="grid grid-cols-2">
+                                <p class="text-base font-bold col-span-1">Ngày hết hạn mới:</p>
+                                <p class="text-base col-span-1">{{ items?.current_due_date ?
+                                    $dayjs(items?.current_due_date).add(number_of_days[index],
+                                        'day').format("DD/MM/YYYY") : ''
+                                    }}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -63,7 +75,6 @@ const props = defineProps({
     id: Number
 });
 const open = ref(props.openModal);
-
 watch(
     () => props.openModal,
     (newVal) => {
@@ -80,10 +91,11 @@ const handleClose = () => {
     props.CloseModal();
 };
 const orderStore = useOrderStore();
-const number_of_days = ref(1);
+const number_of_days = ref([1, 1, 1]);
+const body = ref();
 const onSubmit = async () => {
     try {
-        const res = await orderStore.extensionAllBook({ id: props.id, days: { number_of_days: number_of_days.value } });
+        const res = await orderStore.extensionAllBook({ id: props.id, days: body.value });
         if (res.data._rawValue?.status == true) {
             message.success("Gia hạn toàn bộ sách thành công");
         } else {

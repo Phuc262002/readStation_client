@@ -192,6 +192,7 @@
           :total="bookCaseStore?.bookCaseAdmin?.totalResults"
           :pageSize="bookCaseStore?.bookCaseAdmin?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
     </div>
@@ -204,6 +205,7 @@ import { Modal } from "ant-design-vue";
 import { BookCaseStatus } from "~/types/admin/bookCase";
 import { LoadingOutlined } from "@ant-design/icons-vue";
 import { h } from "vue";
+import debounce from "lodash.debounce";
 const openModalEdit = ref(false);
 const openModalAdd = ref(false);
 const bookCaseStore = useBookcaseStore();
@@ -226,6 +228,16 @@ const indicator = h(LoadingOutlined, {
   spin: true,
 });
 
+const onSearch = debounce(() => {
+  current.value = 1;
+  bookCaseStore.getAllBookcases({
+    page: current.value,
+    search: valueSearch.value,
+    status: queryStatus.value.value,
+  });
+}, 500);
+
+watch(valueSearch, onSearch);
 useAsyncData(
   async () => {
     await bookCaseStore.getAllBookcases({
@@ -236,7 +248,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current, valueSearch, queryStatus.value],
+    watch: [current, queryStatus.value],
   }
 );
 
@@ -320,11 +332,11 @@ const columns = [
 ];
 
 useSeoMeta({
-    title: "ReadStation - Quản lý tủ sách",
-    ogTitle: "ReadStation - Quản lý tủ sách",
-    description: "Quản lý tủ sách",
-    ogDescription: "Quản lý tủ sách",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  title: "ReadStation - Quản lý tủ sách",
+  ogTitle: "ReadStation - Quản lý tủ sách",
+  description: "Quản lý tủ sách",
+  ogDescription: "Quản lý tủ sách",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>
