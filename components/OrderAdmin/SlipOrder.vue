@@ -145,12 +145,26 @@
           @change="handleChange"
         ></a-select>
       </div>
+      <div
+        v-if="data.penalty_reason == 1 || data.penalty_reason == 2"
+        class="flex flex-col gap-2 mt-4"
+      >
+        <label class="text-base">Số tờ hư hại</label>
+        <a-input
+          size="large"
+          placeholder="Số tờ hư hại"
+          v-model:value="page"
+          number
+          :min="1"
+        />
+      </div>
       <div class="flex flex-col gap-2 mt-4">
         <label class="text-base">Số tiền phạt</label>
         <a-input
           size="large"
           placeholder="Số tiền phạt"
           v-model:value="data.fine_amount"
+          readonly
         />
       </div>
       <div class="flex justify-end gap-2 mt-4">
@@ -168,6 +182,7 @@
 <script setup>
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
+import { number } from "yup";
 const errors = ref({});
 const visible = ref(false);
 const props = defineProps({
@@ -224,42 +239,41 @@ const options = ref([
 ]);
 const penaltyReason = ref([
   {
-    value: "0",
-    label: "Rách hoặc mất trang sách",
+    value: "lost",
+    label: "Mất sách hoặc làm cho sách hoàn toàn không sử dụng được",
   },
   {
     value: "1",
-    label: "Gãy hoặc hỏng gáy sách",
+    label: "Mất trang",
   },
   {
     value: "2",
-    label: "Bị ướt hoặc ẩm mốc",
+    label: "Làm bẩn, viết vẽ bẩn lên sách",
   },
   {
     value: "3",
-    label: "Vết bẩn, mực hoặc các chất lỏng khác",
+    label: "Làm bong bìa",
   },
   {
     value: "4",
-    label: "Gập hoặc nhăn trang sách",
+    label: "Làm rách sách",
   },
   {
     value: "5",
-    label: "Hỏng bìa sách",
+    label: "Làm ướt sách",
   },
   {
     value: "6",
-    label: "Viết hoặc vẽ trong sách",
+    label: "Bóc nhãn, phiếu ghi chú trên sách",
   },
-  {
-    value: "lost",
-    label: "Mất sách",
-  }
 ]);
+const page = ref(1);
 const data = ref({
   condition: "",
   fine_amount: 0,
   actual_return_condition: "excellent",
+
+  penalty_reason: "",
 });
 const onSubmit = async () => {
   try {
@@ -280,36 +294,51 @@ const onSubmit = async () => {
 };
 
 const handleChange = (value) => {
+  data.value.penalty_reason = value;
   switch (value) {
-    case "0":
-      data.value.fine_amount = 30000;
-      break;
-    case "1":
-      data.value.fine_amount = 30000;
-      break;
-    case "2":
-      data.value.fine_amount = 30000;
-      break;
-    case "3":
-      data.value.fine_amount = 2000;
-      break;
-    case "4":
-      data.value.fine_amount = 10000;
-      break;
-    case "5":
-      data.value.fine_amount = 15000;
-      break;
-    case "6":
-      data.value.fine_amount = 2000;
-      break;
     case "lost":
       data.value.fine_amount = props.data?.loan_order_detail?.deposit_fee;
+      break;
+    case "1":
+      data.value.fine_amount =
+        props.data?.loan_order_detail?.deposit_fee - 10000 * page.value;
+      break;
+    case "2":
+      data.value.fine_amount =
+        props.data?.loan_order_detail?.deposit_fee - 10000 * page.value;
+      break;
+    case "3":
+      data.value.fine_amount =
+        props.data?.loan_order_detail?.deposit_fee - 15000;
+      break;
+    case "4":
+      data.value.fine_amount =
+        props.data?.loan_order_detail?.deposit_fee - 30000;
+      break;
+    case "5":
+      data.value.fine_amount =
+        props.data?.loan_order_detail?.deposit_fee - 30000;
+      break;
+    case "6":
+      data.value.fine_amount =
+        props.data?.loan_order_detail?.deposit_fee - 30000;
       break;
     default:
       data.value.fine_amount = 0;
       break;
   }
 };
+
+watch(
+  () => page.value,
+  (value) => {
+    if (data.value.penalty_reason == 1 || data.value.penalty_reason == 2) {
+      data.value.fine_amount =
+        props.data?.loan_order_detail?.deposit_fee - 10000 * value;
+    }
+  }
+);
+
 const handleBlur = () => {
   console.log("blur");
 };

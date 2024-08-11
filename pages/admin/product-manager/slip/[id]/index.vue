@@ -86,7 +86,7 @@
               v-if="
                 returnHistoryStore?.ReturnLoanDetail?.return_method === 'pickup'
               "
-              >Giao trả đến thư viện</span
+              >Trả sách tại nhà</span
             >
           </div>
           <div class="grid grid-cols-3">
@@ -105,7 +105,12 @@
             <span class="text-base font-bold col-span-1"
               >Ngày trả sách đến TV:</span
             >
-            <span class="text-base col-span-2">11/06/2024 - 17:30</span>
+            <span class="text-base col-span-2">{{
+                      $dayjs(
+                        returnHistoryStore?.ReturnLoanDetail?.loan_order_detail
+                          ?.current_due_date
+                      ).format("DD/MM/YYYY - HH:MM")
+                    }}</span>
           </div>
         </div>
         <div class="md:col-span-2 space-y-3 ml-5">
@@ -113,19 +118,51 @@
             <span class="text-base font-bold col-span-2"
               >Phí giao trả sách:</span
             >
-            <span class="text-base col-span-3">20.000 đ</span>
+            <span class="text-base col-span-3">
+              {{
+                new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(
+                  returnHistoryStore?.ReturnLoanDetail?.return_shipping_fee
+                )
+              }}
+            </span>
           </div>
           <div class="grid grid-cols-5">
             <span class="text-base font-bold col-span-2">Tình trạng sách:</span>
-            <span class="text-base col-span-3"></span>
+            <span class="text-base col-span-3">
+              {{
+                returnHistoryStore?.ReturnLoanDetail?.actual_return_condition
+              }}</span
+            >
+          </div>
+          <div class="grid grid-cols-5">
+            <span class="text-base font-bold col-span-2"
+              >Mô tả tình trạng sách:</span
+            >
+            <span class="text-base col-span-3">
+              {{ returnHistoryStore?.ReturnLoanDetail?.condition }}</span
+            >
           </div>
           <div class="grid grid-cols-5">
             <span class="text-base font-bold col-span-2">Phí phạt:</span>
-            <span class="text-base col-span-3">Không có phí phạt</span>
+            <span class="text-base col-span-3"> {{
+                new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(
+                  returnHistoryStore?.ReturnLoanDetail?.fine_amount
+                )
+              }}</span>
           </div>
           <div class="grid grid-cols-5">
-            <span class="text-base font-bold col-span-2">Người nhận sách:</span>
-            <span class="text-base col-span-3">Huỳnh Tuấn Kiệt</span>
+            <span class="text-base font-bold col-span-2">Người xử lý:</span>
+            <span class="text-base col-span-3">
+              {{
+                returnHistoryStore?.ReturnLoanDetail?.processed_by?.fullname
+              }}</span
+            >
           </div>
         </div>
         <div
@@ -175,11 +212,35 @@
               <div class="md:col-span-2 space-y-3 border-r border-gray-200">
                 <div class="grid grid-cols-3">
                   <span class="text-base font-bold">Ngày trả dự kiến:</span>
-                  <span class="text-base">15/06/2024 - 17:30</span>
+                  <span
+                    v-if="
+                      returnHistoryStore?.ReturnLoanDetail?.loan_order_detail
+                        ?.current_due_date
+                    "
+                    class="text-base"
+                    >{{
+                      $dayjs(
+                        returnHistoryStore?.ReturnLoanDetail?.loan_order_detail
+                          ?.current_due_date
+                      ).format("DD/MM/YYYY - HH:MM")
+                    }}</span
+                  >
                 </div>
                 <div class="grid grid-cols-3">
                   <span class="text-base font-bold">Ngày trả thực tế:</span>
-                  <span class="text-base">11/06/2024 - 15:30</span>
+                  <span
+                    v-if="
+                      returnHistoryStore?.ReturnLoanDetail?.loan_order_detail
+                        ?.return_date
+                    "
+                    class="text-base"
+                    >{{
+                      $dayjs(
+                        returnHistoryStore?.ReturnLoanDetail?.loan_order_detail
+                          ?.return_date
+                      ).format("DD/MM/YYYY - HH:MM")
+                    }}
+                  </span>
                 </div>
                 <div class="grid grid-cols-3">
                   <span class="text-base font-bold">Hình thức trả sách:</span>
@@ -207,40 +268,67 @@
                   <span class="text-base font-bold col-span-2"
                     >Tiền cọc sách:</span
                   >
-                  <span class="text-base col-span-1">{{
-                    returnHistoryStore?.ReturnLoanDetail?.loan_order_detail
-                      ?.deposit_fee
-                  }}</span>
+                  <span class="text-base col-span-1">
+                    {{
+                      new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(
+                        returnHistoryStore?.ReturnLoanDetail?.loan_order_detail
+                          ?.deposit_fee
+                      )
+                    }}
+                  </span>
                 </div>
                 <div class="grid grid-cols-3">
                   <span class="text-base font-bold col-span-2"
                     >Phí dịch vụ:</span
                   >
-                  <span class="text-base col-span-1">{{
-                    returnHistoryStore?.ReturnLoanDetail?.loan_order_detail
-                      ?.service_fee
-                  }}</span>
+                  <span class="text-base col-span-1">
+                    {{
+                      new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(
+                        returnHistoryStore?.ReturnLoanDetail?.loan_order_detail
+                          ?.service_fee
+                      )
+                    }}</span
+                  >
                 </div>
                 <div class="grid grid-cols-3">
                   <span class="text-base font-bold col-span-2"
                     >Phí trễ hạn:</span
                   >
-                  <span class="text-base col-span-1">{{
-                    returnHistoryStore?.ReturnLoanDetail?.loan_order_detail
-                      ?.fine_amount
-                  }}</span>
+                  <span class="text-base col-span-1">
+                    {{
+                      new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(
+                        returnHistoryStore?.ReturnLoanDetail?.loan_order_detail
+                          ?.fine_amount
+                      )
+                    }}</span
+                  >
                 </div>
                 <div class="grid grid-cols-3">
                   <span class="text-base font-bold col-span-2"
                     >Phí gia hạn:</span
                   >
-                  <span class="text-base col-span-1">0 đ</span>
-                </div>
-                <div class="grid grid-cols-3">
-                  <span class="text-base font-bold col-span-2"
-                    >Phí giao trả sách:</span
+                  <span class="text-base col-span-1">
+                    {{
+                      new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(
+                        returnHistoryStore?.ReturnLoanDetail?.loan_order_detail?.extensions_details.reduce(
+                          (acc, curr) => acc + parseFloat(curr.extension_fee),
+                          0
+                        )
+                      )
+                    }}</span
                   >
-                  <span class="text-base col-span-1">20.000 đ</span>
                 </div>
               </div>
             </div>
