@@ -309,9 +309,6 @@ const userNote = ref();
 const totalCarts = ref([]);
 let valueOrder = ref([])
 
-const isCheckAuth = authStore?.authUser?.user?.role?.name;
-const isCheckVerify = authStore?.authUser?.user?.user_verified_at;
-const data = cartStore?.carts;
 
 const dataSource = computed(() => {
   return route.query.type === "thue_ngay"
@@ -334,17 +331,22 @@ useAsyncData(async () => {
     );
     cartStore.addShipFee(shippingValue.value.fee);
   }
-  // console.log("options.value", options.value);
 });
-// phí cọc
+// Phí ship
 const calcShippingFee = () => {
   shippingFee.value =
     delivery_method.value === "pickup" ? 0 : cartStore.shippingFee;
 };
 
+// Tổng tiền
+const calcTotalFee = () => {
+  totalFee.value = total_depositFee.value + total_serviceFee.value + shippingValue.value;
+  console.log('totalFee.value', total_depositFee.value)
+}
+
 useAsyncData(
   async () => {
-
+    calcTotalFee();
     calcShippingFee();
 
   },
@@ -357,7 +359,7 @@ watch(
   () => cartStore.shippingFee,
   () => {
     calcShippingFee();
-
+    calcTotalFee();
   }
 );
 watch(
@@ -375,17 +377,24 @@ const newInfo = {
   address: authStore?.authUser?.user?.address_detail,
 };
 
+// khai báo
+const isCheckAuth = authStore?.authUser?.user?.role?.name;
+const isCheckVerify = authStore?.authUser?.user?.user_verified_at;
+const data = cartStore?.carts;
+
 // check danh mục "Giáo dục"
-// let checkcate = ref(true);
-// const cate = data.forEach((item) => {
-//   if (item?.category?.name !== "Giáo dục") {
-//     checkcate.value = false;
-//   }
-// });
+let checkcate = ref(true);
+const cate = cartStore?.carts.forEach((item) => {
+  if (item?.book?.category?.name !== "Giáo dục") {
+    checkcate.value = false;
+  }
+});
+
+
 let orderDetail;
 if (isCheckAuth === "student") {
   // 1. student đã xác thực và chọn danh mục " Giáo dục"
-  if (isCheckVerify) {
+  if (isCheckVerify && checkcate.value) {
     valueOrder.value = {
       payment_method: payment_method.value,
       delivery_method: delivery_method.value,
@@ -400,10 +409,9 @@ if (isCheckAuth === "student") {
       delivery_info: newInfo,
     };
 
-    data.map((item) => {
+    totalCarts.value = data.map((item) => {
       let desposive = 0;
-      let totalService = 0;
-      let totalDeposit = 0;
+
       if (item.price < 50000) {
         desposive = 1000;
       } else if (item.price >= 50000 && item.price <= 100000) {
@@ -411,21 +419,29 @@ if (isCheckAuth === "student") {
       } else {
         desposive = 4000;
       }
-      totalService += desposive * item.number_of_days;
-      totalDeposit += ((item.hire_percent - 20) / 100) * item.price;
-      valueOrder.total_service_fee += totalService;
-      valueOrder.total_deposit_fee += totalDeposit;
-      valueOrder.total_all_fee += totalService + totalDeposit;
+
       orderDetail = {
         number_of_days: item.number_of_days,
         book_details_id: item.id,
         service_fee: 0,
         deposit_fee: ((item.hire_percent - 20) / 100) * item.price,
       };
-      valueOrder.order_details.push(orderDetail);
+
+      valueOrder.value.order_details.push(orderDetail);
+      return {
+        ...item,
+        service_fee: 0,
+        deposit_fee: ((item.hire_percent - 20) / 100) * item.price,
+      };
     });
+    total_serviceFee.value = totalCarts.value.reduce((acc, curr) => acc + parseFloat(curr.service_fee), 0);
+    total_depositFee.value = totalCarts.value.reduce((acc, curr) => acc + parseFloat(curr.deposit_fee), 0);
+
+    valueOrder.value.total_service_fee = total_serviceFee.value;
+    valueOrder.value.total_deposit_fee = total_depositFee.value;
+    valueOrder.value.total_all_fee = total_depositFee.value + total_serviceFee.value;
     // 2. stundent chưa xác thực nhưng chọn danh mục " Giáo dục"
-  } else if (!isCheckVerify) {
+  } else if (!isCheckVerify && checkcate.value) {
     valueOrder.value = {
       payment_method: payment_method.value,
       delivery_method: delivery_method.value,
@@ -439,10 +455,10 @@ if (isCheckAuth === "student") {
       order_details: [],
       delivery_info: newInfo,
     };
-    data.map((item) => {
+
+    totalCarts.value = data.map((item) => {
       let desposive = 0;
-      let totalService = 0;
-      let totalDeposit = 0;
+
       if (item.price < 50000) {
         desposive = 1000;
       } else if (item.price >= 50000 && item.price <= 100000) {
@@ -450,19 +466,26 @@ if (isCheckAuth === "student") {
       } else {
         desposive = 4000;
       }
-      totalService += desposive * item.number_of_days;
-      totalDeposit += (item.hire_percent / 100) * item.price;
-      valueOrder.total_service_fee += totalService;
-      valueOrder.total_deposit_fee += totalDeposit;
-      valueOrder.total_all_fee += totalService + totalDeposit;
+
       orderDetail = {
         number_of_days: item.number_of_days,
         book_details_id: item.id,
         service_fee: 0,
         deposit_fee: (item.hire_percent / 100) * item.price,
       };
-      valueOrder.order_details.push(orderDetail);
+      valueOrder.value.order_details.push(orderDetail);
+      return {
+        ...item,
+        service_fee: 0,
+        deposit_fee: (item.hire_percent / 100) * item.price,
+      }
     });
+    total_serviceFee.value = totalCarts.value.reduce((acc, curr) => acc + parseFloat(curr.service_fee), 0);
+    total_depositFee.value = totalCarts.value.reduce((acc, curr) => acc + parseFloat(curr.deposit_fee), 0);
+
+    valueOrder.value.total_service_fee = total_serviceFee.value;
+    valueOrder.value.total_deposit_fee = total_depositFee.value;
+    valueOrder.value.total_all_fee = total_depositFee.value + total_serviceFee.value;
   } else {
     // 3. student chưa xác thực
     valueOrder.value = {
@@ -478,10 +501,9 @@ if (isCheckAuth === "student") {
       order_details: [],
       delivery_info: newInfo,
     };
-    data.map((item) => {
+    totalCarts.value = data.map((item) => {
       let desposive = 0;
-      let totalService = 0;
-      let totalDeposit = 0;
+
       if (item.price < 50000) {
         desposive = 1000;
       } else if (item.price >= 50000 && item.price <= 100000) {
@@ -489,24 +511,31 @@ if (isCheckAuth === "student") {
       } else {
         desposive = 4000;
       }
-      totalService += desposive * item.number_of_days;
-      totalDeposit += (item.hire_percent / 100) * item.price;
-      valueOrder.total_service_fee += totalService;
-      valueOrder.total_deposit_fee += totalDeposit;
-      valueOrder.total_all_fee += totalService + totalDeposit;
+
       orderDetail = {
         number_of_days: item.number_of_days,
         book_details_id: item.id,
         service_fee: desposive * item.number_of_days,
         deposit_fee: (item.hire_percent / 100) * item.price,
       };
-      valueOrder.order_details.push(orderDetail);
+      valueOrder.value.order_details.push(orderDetail);
+      return {
+        ...item,
+        service_fee: desposive * item.number_of_days,
+        deposit_fee: (item.hire_percent / 100) * item.price,
+      }
     });
+    total_serviceFee.value = totalCarts.value.reduce((acc, curr) => acc + parseFloat(curr.service_fee), 0);
+    total_depositFee.value = totalCarts.value.reduce((acc, curr) => acc + parseFloat(curr.deposit_fee), 0);
+
+    valueOrder.value.total_service_fee = total_serviceFee.value;
+    valueOrder.value.total_deposit_fee = total_depositFee.value;
+    valueOrder.value.total_all_fee = total_depositFee.value + total_serviceFee.value;
   }
 
 } else {
   // 4. user chưa xác thực
-  if (isCheckAuth === "user") {
+  if (isCheckVerify === null) {
     valueOrder.value = {
       payment_method: payment_method.value,
       delivery_method: delivery_method.value,
@@ -520,7 +549,7 @@ if (isCheckAuth === "student") {
       order_details: [],
       delivery_info: newInfo,
     };
-    console.log('first', valueOrder.value)
+
     totalCarts.value = data.map((item) => {
       let desposive = 0;
 
@@ -543,7 +572,7 @@ if (isCheckAuth === "student") {
       return {
         ...item,
         service_fee: desposive * item.number_of_days,
-        deposit_fee: ((item.hire_percent - 20) / 100) * item.price,
+        deposit_fee: ((item.hire_percent) / 100) * item.price,
       };
     });
     total_serviceFee.value = totalCarts.value.reduce((acc, curr) => acc + parseFloat(curr.service_fee), 0);
@@ -569,10 +598,9 @@ if (isCheckAuth === "student") {
       order_details: [],
       delivery_info: newInfo,
     };
-    data.map((item) => {
+    totalCarts.value = data.map((item) => {
       let desposive = 0;
-      let totalService = 0;
-      let totalDeposit = 0;
+
       if (item.price < 50000) {
         desposive = 1000;
       } else if (item.price >= 50000 && item.price <= 100000) {
@@ -580,19 +608,27 @@ if (isCheckAuth === "student") {
       } else {
         desposive = 4000;
       }
-      totalService += desposive * item.number_of_days;
-      totalDeposit += ((item.hire_percent - 20) / 100) * item.price;
-      valueOrder.total_service_fee += totalService;
-      valueOrder.total_deposit_fee += totalDeposit;
-      valueOrder.total_all_fee += totalService + totalDeposit;
+
       orderDetail = {
         number_of_days: item.number_of_days,
         book_details_id: item.id,
         service_fee: desposive * item.number_of_days,
         deposit_fee: ((item.hire_percent - 20) / 100) * item.price,
       };
-      valueOrder.order_details.push(orderDetail);
+      valueOrder.value.order_details.push(orderDetail);
+      return {
+        ...item,
+        service_fee: desposive * item.number_of_days,
+        deposit_fee: ((item.hire_percent - 20) / 100) * item.price,
+      }
     });
+    total_serviceFee.value = totalCarts.value.reduce((acc, curr) => acc + parseFloat(curr.service_fee), 0);
+    total_depositFee.value = totalCarts.value.reduce((acc, curr) => acc + parseFloat(curr.deposit_fee), 0);
+
+    valueOrder.value.total_service_fee = total_serviceFee.value;
+    valueOrder.value.total_deposit_fee = total_depositFee.value;
+    valueOrder.value.total_all_fee = total_depositFee.value + total_serviceFee.value;
+
   }
 }
 const payCart = async () => {
