@@ -60,7 +60,7 @@ import { number } from 'yup';
                 </div>
                 <div class="flex justify-end items-center gap-2">
                     <a-button @click="handleClose">Hủy</a-button>
-                    <a-button type="primary" html-type="submit">Xác nhận</a-button>
+                    <a-button type="primary" html-type="submit" :loading="orderStore. isSubmitting">Xác nhận</a-button>
                 </div>
             </div>
         </form>
@@ -75,12 +75,14 @@ const props = defineProps({
     id: Number
 });
 const open = ref(props.openModal);
-watch(
-    () => props.openModal,
-    (newVal) => {
-        open.value = newVal;
-    }
-);
+const id = useRoute().params.id;
+// watch(
+//     console.log("🚀 ~ props:", props)
+//     () => props.openModal,
+//     (newVal) => {
+//         open.value = newVal;
+//     }
+// );
 // watch(
 //   () => props.extensionBookId,
 //   (newVal) => {
@@ -92,12 +94,24 @@ const handleClose = () => {
 };
 const orderStore = useOrderStore();
 const number_of_days = ref([1, 1, 1]);
-const body = ref();
+
 const onSubmit = async () => {
+    const body = props.data.map((item, index) => {
+        return {
+            loan_order_details_id: item.id,
+            number_of_days: number_of_days.value[index],
+        }
+    })
+    const valueExtendsion = ref({
+        extended_method: 'cash',
+        extension: body
+    });
     try {
-        const res = await orderStore.extensionAllBook({ id: props.id, days: body.value });
+        const res = await orderStore.extensionAllBook({ id: props.id, days: valueExtendsion.value });
         if (res.data._rawValue?.status == true) {
             message.success("Gia hạn toàn bộ sách thành công");
+            handleClose();
+            await orderStore.getOneOrder(id);
         } else {
             message.error(res.data._rawValue?.errors);
         }
@@ -105,6 +119,6 @@ const onSubmit = async () => {
         message.error("Gia hạn thất bại");
         console.log(error)
     }
-    handleClose();
+
 }
 </script>
