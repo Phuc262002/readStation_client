@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 
 export const useCartStore = defineStore("cart-store", {
   state: () => ({
-    days: 0,
     rentNow: {},
     carts: [],
     shippingFee: 0,
@@ -13,11 +12,19 @@ export const useCartStore = defineStore("cart-store", {
   actions: {
     updateNumberOfDays(id, quantity) {
       this.carts = this.carts.map((item) => {
-        console.log("item", item.id === id);
+        let deposit = 0;
+        if (item.price < 50000) {
+          deposit = 1000;
+        } else if (item.price >= 50000 && item.price <= 100000) {
+          deposit = 2000;
+        } else {
+          deposit = 4000;
+        }
         if (item.id === id) {
           return {
             ...item,
             number_of_days: quantity,
+            service_fee: quantity * deposit,
           };
         } else {
           return item;
@@ -28,9 +35,18 @@ export const useCartStore = defineStore("cart-store", {
       this.rentNow = [item];
     },
     addToCart(product) {
+      let deposit = 0;
+      if (product.price < 50000) {
+        deposit = 1000;
+      } else if (product.price >= 50000 && product.price <= 100000) {
+        deposit = 2000;
+      } else {
+        deposit = 4000;
+      }
       this.carts.push({
         ...product,
         number_of_days: 5,
+        service_fee: 5 * deposit,
       });
     },
     deleteItemCart(id) {

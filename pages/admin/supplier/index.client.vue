@@ -110,6 +110,7 @@ import { Icon } from "@iconify/vue";
 import { Modal, message } from 'ant-design-vue';
 import { LoadingOutlined } from "@ant-design/icons-vue";
 import { h } from "vue";
+import debounce from 'lodash.debounce'
 const errors = ref({});
 const supplierStore = useSupplierStore();
 const openModalEdit = ref<boolean>(false);
@@ -131,6 +132,12 @@ const indicator = h(LoadingOutlined, {
     },
     spin: true,
 });
+const onSearch = debounce(() => {
+  current.value = 1;
+  getData();
+}, 500);
+
+watch(valueSearch, onSearch);
 const getData = async () => {
     await supplierStore.getAllSupplier({
         page: current.value,
@@ -143,7 +150,7 @@ useAsyncData(async () => {
     getData();
 }, {
     immediate: true,
-    watch: [valueSearch, queryStatus.value, current],
+    watch: [ queryStatus.value, current],
 
 });
 const onDelete = async (id: string) => {

@@ -159,6 +159,7 @@ import { ref } from "vue";
 import { Icon } from "@iconify/vue";
 import { Modal } from "ant-design-vue";
 import { CategoryStatus } from "~/types/admin/category";
+import debounce from 'lodash.debounce'
 const openModalEdit = ref(false);
 const openModalAdd = ref(false);
 const categoryId = ref();
@@ -173,6 +174,17 @@ const statusValue = ({ value, label }) => {
   queryStatus.value.value = value;
   queryStatus.value.label = label;
 };
+const onSearch = debounce(() => {
+  current.value = 1;
+  categoryStore.getAllCategory({
+      page: current.value,
+      search: valueSearch.value,
+      status: queryStatus.value.value,
+      type: "post",
+    });
+}, 500);
+watch(valueSearch, onSearch);
+
 useAsyncData(
   async () => {
     await categoryStore.getAllCategory({
@@ -184,7 +196,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current, valueSearch, queryStatus.value],
+    watch: [current, queryStatus.value],
   }
 );
 

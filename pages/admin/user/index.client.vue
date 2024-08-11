@@ -117,7 +117,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-01">
-              <p class="font-bold text-base">HS/SV</p>
+              <p class="font-bold text-base">Sinh viên</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="isLoading"
@@ -308,13 +308,7 @@
             >
               Đã chặn
             </a-tag>
-            <a-tag
-              :bordered="false"
-              v-if="record.status === UserStatus.DELETED"
-              class="bg-tag-bg-06 text-tag-text-06"
-            >
-              Đã xóa
-            </a-tag>
+          
             <a-tag
               :bordered="false"
               v-if="record.status === UserStatus.BANNED"
@@ -431,6 +425,7 @@ import { UserStatus } from "~/types/admin/user";
 import { UserRole } from "~/types/admin/user";
 import { Icon } from "@iconify/vue";
 import { Modal } from "ant-design-vue";
+import debounce from 'lodash.debounce'
 const current = ref(1);
 const userStore = useUserStore();
 const roleStore = useRoleStore();
@@ -472,6 +467,19 @@ const statusValue = ({ value, label }) => {
   queryStatus.value.value = value;
   queryStatus.value.label = label;
 };
+
+const onSearch = debounce(() => {
+  current.value = 1;
+  userStore.getUser({
+    page: current.value,
+    search: valueSearch.value,
+    status: queryStatus.value.value,
+    role_id: queryrole.value.value,
+  });
+}, 500);
+
+watch(valueSearch, onSearch);
+
 useAsyncData(
   async () => {
     await userStore.getUser({
@@ -483,7 +491,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current, valueSearch, queryStatus.value, queryrole.value],
+    watch: [current, queryStatus.value, queryrole.value],
   }
 );
 useAsyncData(async () => {

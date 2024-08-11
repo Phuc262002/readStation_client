@@ -169,6 +169,7 @@
 <script setup>
 import { Modal } from "ant-design-vue";
 import { Icon } from "@iconify/vue";
+import debounce from 'lodash.debounce'
 import { ShippingMethodsStatus } from "~/types/admin/shippingMethods";
 const openModalAdd = ref(false);
 const openModalEdit = ref(false);
@@ -183,6 +184,16 @@ const statusValue = ({ value, label }) => {
   queryStatus.value.value = value;
   queryStatus.value.label = label;
 };
+const onSearch = debounce(() => {
+  current.value = 1;
+  shippingMethodStore.getAllShippingMethods({
+      page: current.value,
+      search: valueSearch.value,
+      status: queryStatus.value.value,
+    });
+}, 500);
+
+watch(valueSearch, onSearch);
 const shippingMethodStore = useShippingMethodsStore();
 useAsyncData(
   async () => {
@@ -194,7 +205,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current, valueSearch, queryStatus.value],
+    watch: [current, queryStatus.value],
   }
 );
 const onDelete = async (id) => {

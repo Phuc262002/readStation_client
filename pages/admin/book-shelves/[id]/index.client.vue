@@ -126,6 +126,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
+
 const route = useRoute()
 const openModalAdd = ref<boolean>(false);
 const openModalEdit = ref<boolean>(false);

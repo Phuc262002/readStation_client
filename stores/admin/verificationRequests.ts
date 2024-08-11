@@ -16,6 +16,7 @@ export const useVerificationRequestsStore = defineStore(
         page,
         pageSize,
         verification_card_type,
+        search,
         status,
       }: any) {
         try {
@@ -27,7 +28,9 @@ export const useVerificationRequestsStore = defineStore(
               verification_card_type
                 ? `&verification_card_type=${verification_card_type}`
                 : ""
-            }${status ? `&status=${status}` : ""}`
+            }${status ? `&status=${status}` : ""} ${
+              search ? `&search=${search}` : ""
+            }`
           );
           this.verificationRequestsAdmin = data.data._value?.data;
 

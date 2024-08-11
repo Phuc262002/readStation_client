@@ -1,20 +1,13 @@
 <template>
   <div>
     <Head>
-      <Title>ReadStation | {{ userStore.user.fullname}}</Title>
-      <Meta
-        name="description"
-        :content="userStore.user.fullname"
-      />
+      <Title>ReadStation | {{ userStore.user.fullname }}</Title>
+      <Meta name="description" :content="userStore.user.fullname" />
       <Meta
         property="og:title"
         :content="`ReadStation | ${userStore.user.fullname}`"
       />
-      <Meta
-        property="og:description"
-        :content="userStore.user.fullname"
-      />
-     
+      <Meta property="og:description" :content="userStore.user.fullname" />
     </Head>
     <div
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
@@ -85,6 +78,8 @@
                     size="large"
                     type="date"
                     width="100%"
+                    value-format="DD-MM-YYYY"
+                    placeholder="Chọn ngày, tháng, năm sinh"
                   />
                 </div>
               </div>
@@ -378,7 +373,7 @@
             </div>
           </div>
           <div class="flex gap-4 justify-end">
-            <a-button type="default">Hủy</a-button>
+            <NuxtLink to="/admin/user"> <a-button> Hủy </a-button> </NuxtLink>
             <a-button
               :loading="userStore.isSubmitting"
               html-type="submit"
@@ -700,5 +695,4 @@ const handleChangeGender = (e) => {
 const handleChangeRoleId = (e) => {
   user.value.role_id = e.target.value;
 };
-
 </script>

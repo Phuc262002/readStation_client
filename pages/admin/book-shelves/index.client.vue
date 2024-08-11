@@ -174,6 +174,7 @@ import { ref } from "vue";
 import { Modal } from "ant-design-vue";
 import { LoadingOutlined } from "@ant-design/icons-vue";
 import { h } from "vue";
+import debounce from 'lodash.debounce'
 const openModalEdit = ref<boolean>(false);
 const openModalAdd = ref<boolean>(false);
 const shelvesId = ref<number>();
@@ -231,6 +232,12 @@ const bookcaseValue = ({ id, label }: any) => {
   bookcaseQuery.value.label = label
 };
 const shelvesValue = useShelvesStore();
+const onSearch = debounce(() => {
+  current.value = 1;
+  getData();
+}, 500);
+
+watch(valueSearch, onSearch);
 const getData = async () => {
   try {
     const data = await shelvesValue.getAllShelves({
@@ -249,7 +256,7 @@ useAsyncData(async () => {
   await getData();
 }, {
   immediate: true,
-  watch: [current, valueSearch, categoryQuery.value, bookcaseQuery.value, queryStatus.value]
+  watch: [current, categoryQuery.value, bookcaseQuery.value, queryStatus.value]
 });
 const onDelete = async (id: string) => {
   try {

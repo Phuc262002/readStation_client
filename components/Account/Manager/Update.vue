@@ -6,39 +6,22 @@
         <h2 class="text-sm font-bold">Thông tin cơ bản</h2>
       </div>
       <div v-if="errors" class="space-y-2 mb-4">
-        <a-alert
-          v-for="(error, index) in errors"
-          :key="index"
-          :message="error"
-          type="error"
-          show-icon
-        />
+        <a-alert v-for="(error, index) in errors" :key="index" :message="error" type="error" show-icon />
       </div>
 
-      <p
-        @click="handleChangeEditAcc"
-        v-if="!isShow"
-        class="flex gap-1 items-center justify-center border-0 cursor-pointer text-sm font-bold hover:font-medium"
-      >
+      <p @click="handleChangeEditAcc" v-if="!isShow"
+        class="flex gap-1 items-center justify-center border-0 cursor-pointer text-sm font-bold hover:font-medium">
         <UIcon name="i-solar-pen-2-linear" />
         <span>Chỉnh sửa</span>
       </p>
     </div>
     <form @submit.prevent="onSubmit">
-      <div
-        class="flex flex-col bg-white shadow-md shadow-gray-300 rounded-lg p-4"
-      >
+      <div class="flex flex-col bg-white shadow-md shadow-gray-300 rounded-lg p-4">
         <div class="border-b flex items-center justify-between py-4">
           <span class="w-1/2 h-8 flex items-center font-semibold">Họ tên</span>
           <div class="w-1/2 text-left">
-            <a-input
-              size="large"
-              id="fullname"
-              type="text"
-              v-model:value="user.fullname"
-              name="fullname"
-              v-if="isShow"
-            />
+            <a-input size="large" id="fullname" type="text" v-model:value="user.fullname" name="fullname"
+              v-if="isShow" />
             <span v-else class="w-full">
               {{ authStore?.authUser?.user?.fullname }}
             </span>
@@ -46,17 +29,9 @@
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center font-semibold"
-            >Giới tính</span
-          >
+          <span class="w-1/2 h-8 flex items-center font-semibold">Giới tính</span>
           <div class="w-1/2 text-left">
-            <a-radio-group
-              type="gender"
-              v-bind="gender"
-              name="gender"
-              v-if="isShow"
-              v-model:value="user.gender"
-            >
+            <a-radio-group type="gender" v-bind="gender" name="gender" v-if="isShow" v-model:value="user.gender">
               <a-radio value="male">Nam</a-radio>
               <a-radio value="female">Nữ</a-radio>
             </a-radio-group>
@@ -66,8 +41,8 @@
                 authStore?.authUser?.user?.gender === "female"
                   ? "Nữ"
                   : authStore?.authUser?.user?.gender === "male"
-                  ? "Nam"
-                  : ""
+                    ? "Nam"
+                    : ""
               }}
             </span>
           </div>
@@ -80,48 +55,24 @@
           </div>
 
           <div class="w-1/2 text-left">
-            <a-input
-              size="large"
-              v-model:value="user.phone"
-              name="phone"
-              type="text"
-              pattern="[0-9]*"
-              v-if="isShow"
-              required
-            />
+            <a-input size="large" v-model:value="user.phone" name="phone" type="text" pattern="[0-9]*" v-if="isShow"
+              required />
             <span v-else>{{ authStore?.authUser?.user?.phone }}</span>
           </div>
         </div>
         <div class="border-b flex items-center justify-between py-4">
           <span class="w-1/2 h-8 flex items-center font-semibold">Email</span>
           <div class="w-1/2 text-left">
-            <a-input
-              size="large"
-              v-if="isShow"
-              v-model:value="user.email"
-              name="email"
-              type="email"
-              disabled
-            />
+            <a-input size="large" v-if="isShow" v-model:value="user.email" name="email" type="email" disabled />
             <span v-else>{{ authStore?.authUser?.user?.email }}</span>
           </div>
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center font-semibold"
-            >Ngày sinh</span
-          >
+          <span class="w-1/2 h-8 flex items-center font-semibold">Ngày sinh</span>
           <a-form-item class="w-1/2 text-left mb-0">
-            <a-input
-              size="large"
-              v-if="isShow"
-              v-model:value="user.dob"
-              name="dob"
-              type="date"
-              class="w-full"
-              value-format="DD-MM-YYYY"
-              placeholder="Chọn ngày, tháng, năm sinh"
-            />
+            <a-input size="large" v-if="isShow" v-model:value="user.dob" name="dob" type="date" class="w-full"
+              value-format="DD-MM-YYYY" placeholder="Chọn ngày, tháng, năm sinh" />
             <span v-else>
               {{
                 authStore?.authUser?.user?.dob
@@ -133,40 +84,19 @@
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center font-semibold"
-            >Công việc</span
-          >
+          <span class="w-1/2 h-8 flex items-center font-semibold">Công việc</span>
           <div class="w-1/2 text-left">
-            <a-input
-              size="large"
-              v-if="isShow"
-              v-model:value="user.job"
-              name="job"
-              type="job"
-            />
+            <a-input size="large" v-if="isShow" v-model:value="user.job" name="job" type="job" />
             <span v-else>{{ authStore?.authUser?.user?.job }}</span>
           </div>
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center font-semibold"
-            >Tỉnh/ Thành Phố</span
-          >
+          <span class="w-1/2 h-8 flex items-center font-semibold">Tỉnh/ Thành Phố</span>
           <div class="w-1/2 text-left">
-            <a-select
-              v-if="isShow"
-              class="w-full"
-              size="large"
-              v-model:value="province_id"
-              show-search
-              placeholder="Tỉnh/Thành phố"
-              :filter-option="filterOption"
-              :options="optionsPronvines"
-              @focus="handleFocus"
-              @blur="handleBlur"
-              @change="handleChangeProvince"
-              :loading="baseStore.isLoading"
-            >
+            <a-select v-if="isShow" class="w-full" size="large" v-model:value="province_id" show-search
+              placeholder="Tỉnh/Thành phố" :filter-option="filterOption" :options="optionsPronvines"
+              @focus="handleFocus" @blur="handleBlur" @change="handleChangeProvince" :loading="baseStore.isLoading">
             </a-select>
             <span v-else>{{
               authStore?.authUser?.user?.province?.ProvinceName
@@ -175,25 +105,11 @@
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center font-semibold"
-            >Quận/ Huyện</span
-          >
+          <span class="w-1/2 h-8 flex items-center font-semibold">Quận/ Huyện</span>
           <div class="w-1/2 text-left">
-            <a-select
-              v-if="isShow"
-              class="w-full"
-              size="large"
-              v-model:value="district_id"
-              show-search
-              placeholder="Quận/Huyện"
-              :options="optionsDistricts"
-              :filter-option="filterOption"
-              @focus="handleFocus"
-              @blur="handleBlur"
-              @change="handleChangeDistrict"
-              :disabled="!province_id"
-              :loading="baseStore.isLoading"
-            >
+            <a-select v-if="isShow" class="w-full" size="large" v-model:value="district_id" show-search
+              placeholder="Quận/Huyện" :options="optionsDistricts" :filter-option="filterOption" @focus="handleFocus"
+              @blur="handleBlur" @change="handleChangeDistrict" :disabled="!province_id" :loading="baseStore.isLoading">
             </a-select>
             <span v-else>{{
               authStore?.authUser?.user?.district?.DistrictName
@@ -202,25 +118,11 @@
         </div>
 
         <div class="border-b flex items-center justify-between py-4">
-          <span class="w-1/2 h-8 flex items-center font-semibold"
-            >Xã/ Phường/ Thị trấn</span
-          >
+          <span class="w-1/2 h-8 flex items-center font-semibold">Xã/ Phường/ Thị trấn</span>
           <div class="w-1/2 text-left">
-            <a-select
-              v-if="isShow"
-              class="w-full"
-              size="large"
-              v-model:value="ward_id"
-              show-search
-              placeholder="Phường/Xã"
-              :options="optionsWards"
-              :filter-option="filterOption"
-              @focus="handleFocus"
-              @blur="handleBlur"
-              @change="handleChangeWard"
-              :disabled="!district_id"
-              :loading="baseStore.isLoading"
-            >
+            <a-select v-if="isShow" class="w-full" size="large" v-model:value="ward_id" show-search
+              placeholder="Phường/Xã" :options="optionsWards" :filter-option="filterOption" @focus="handleFocus"
+              @blur="handleBlur" @change="handleChangeWard" :disabled="!district_id" :loading="baseStore.isLoading">
             </a-select>
             <span v-else>{{ authStore?.authUser?.user?.ward?.WardName }}</span>
           </div>
@@ -229,13 +131,8 @@
         <div class="border-b flex items-center justify-between py-4">
           <span class="w-1/2 h-8 flex items-center font-semibold"> Đường </span>
           <div class="w-1/2 text-left">
-            <a-input
-              v-model:value="address.street"
-              class="border p-2 rounded-lg"
-              placeholder="Đường"
-              :disabled="!ward_id"
-              v-if="isShow"
-            />
+            <a-input v-model:value="address.street" class="border p-2 rounded-lg" placeholder="Đường"
+              :disabled="!ward_id" v-if="isShow" />
             <span v-else>{{ authStore?.authUser?.user?.street }}</span>
           </div>
         </div>
@@ -245,27 +142,14 @@
             Địa chỉ cụ thể
           </span>
           <div class="w-1/2 text-left">
-            <a-textarea
-              readonly
-              :value="formattedAddress"
-              size="large"
-              v-if="isShow"
-            />
+            <a-textarea readonly :value="formattedAddress" size="large" v-if="isShow" />
             <span v-else>{{ authStore?.authUser?.user?.address_detail }}</span>
           </div>
         </div>
-        <div
-          class="w-full flex items-center justify-end gap-2 pt-5"
-          v-if="isShow"
-        >
+        <div class="w-full flex items-center justify-end gap-2 pt-5" v-if="isShow">
           <a-button size="large" @click="handleCancel"> Hủy </a-button>
 
-          <a-button
-            type="primary"
-            size="large"
-            html-type="submit"
-            :loading="authStore?.isSubmitting"
-          >
+          <a-button type="primary" size="large" html-type="submit" :loading="authStore?.isSubmitting">
             Lưu thay đổi
           </a-button>
         </div>
@@ -308,9 +192,8 @@ const optionsWards = ref([]);
 const formattedAddress = computed(() => {
   const { province, district, ward, street } = address.value;
   if (province || district || ward) {
-    return `${street || ""}, ${ward || ""}, ${district || ""}, ${
-      province || ""
-    }`;
+    return `${street || ""}, ${ward || ""}, ${district || ""}, ${province || ""
+      }`;
   }
   return "";
 });
@@ -318,7 +201,7 @@ const formattedAddress = computed(() => {
 const onSubmit = async () => {
   try {
     const phonePattern = /^(0[3|5|7|8|9])+([0-9]{8})$/;
-    const fullNamePattern = /^[a-zA-ZÀ-ỹ\s]+$/;
+    const fullNamePattern = /^[a-zA-ZÀ-ỹ\s\(\)]+$/;
     if (!phonePattern.test(user.value.phone)) {
       message.error({
         content: "Số điện thoại không hợp lệ!",
@@ -467,6 +350,7 @@ const filterOption = (input, option) => {
 :deep(.ant-input) {
   resize: none;
 }
+
 :deep(.ant-form-item .ant-form-item-control-input-content) {
   color: black;
 }

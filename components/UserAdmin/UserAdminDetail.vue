@@ -104,23 +104,23 @@
                     <a-tag
                       :bordered="false"
                       v-if="userStore?.user?.status === UserStatus.ACTIVE"
-                      color="green"
+                      class="bg-tag-bg-09 text-tag-text-09"
                     >
                       Công khai
                     </a-tag>
                     <a-tag
                       :bordered="false"
                       v-else="userStore?.user?.status === UserStatus.INACTIVE"
-                      color="yellow"
+                      class="bg-tag-bg-07 text-tag-text-07"
                     >
                       Đang ẩn
                     </a-tag>
                     <a-tag
                       :bordered="false"
-                      v-else="userStore?.user?.status === UserStatus.DELETED"
-                      color="red"
+                      v-else="record.status === UserStatus.BANNED"
+                      class="bg-tag-bg-10 text-tag-text-10"
                     >
-                      Đã xóa
+                      Vô hiệu hóa
                     </a-tag>
                   </span>
                 </div>
@@ -143,7 +143,9 @@
           </div>
           <div class="grid grid-cols-6">
             <span class="text-base col-span-2 font-bold">Ngày sinh: </span>
-            <span class="text-base col-span-4"> 1 </span>
+            <span v-if="userStore.user?.dob" class="text-base col-span-4"
+              >{{ $dayjs(userStore.user?.dob).format("DD/MM/YYYY") }}
+            </span>
           </div>
           <div class="grid grid-cols-6">
             <span class="text-base col-span-2 font-bold">Số điện thoại: </span>

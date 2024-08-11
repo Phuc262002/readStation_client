@@ -53,7 +53,7 @@
                       new Intl.NumberFormat("vi-VN", {
                         style: "currency",
                         currency: "VND",
-                      }).format((record?.price * record?.hire_percent) / 100)
+                      }).format(record?.price * (record?.hire_percent / 100))
                     }}
                   </span>
                 </template>
@@ -63,7 +63,7 @@
                       new Intl.NumberFormat("vi-VN", {
                         style: "currency",
                         currency: "VND",
-                      }).format(record?.price * 0.2)
+                      }).format(record?.service_fee)
                     }}
                   </span>
                 </template>
@@ -90,7 +90,10 @@
                       new Intl.NumberFormat("vi-VN", {
                         style: "currency",
                         currency: "VND",
-                      }).format(record?.price * 0.2 + record?.price)
+                      }).format(
+                        record?.service_fee +
+                          record?.price * (record?.hire_percent / 100)
+                      )
                     }}
                   </span>
                 </template>
@@ -107,6 +110,18 @@
                 </template>
               </template>
             </a-table>
+            <div class="text-xs text-tag-text-06 mt-5">
+              <span>Lưu ý:</span>
+              <ul>
+                <li>
+                  - Bạn có thể tham khảo các mức phí đã được đề cập ở trên.
+                </li>
+                <li>
+                  - Để xem chi tiết cụ thể các khoản phí, vui lòng truy cập
+                  trang "Thanh toán".
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
         <!-- Right -->
@@ -214,21 +229,17 @@ const serviceFee = ref(0);
 const totalFee = ref(0);
 const number_of_days = ref(1);
 
-// số ngày thuê
-const calcNumberOfDays = () => {
-  return number_of_days.value;
-};
 // phí cọc
 const calcDepositFee = () => {
-  depositFee.value = cartStore?.carts.reduce(
-    (acc, curr) => acc + curr.price,
+  depositFee.value = cartStore.carts.reduce(
+    (acc, curr) => acc + curr.price * (curr.hire_percent / 100),
     0
   );
 };
 // phí dịch vụ
 const calcServiceFee = () => {
   serviceFee.value = cartStore.carts.reduce(
-    (acc, curr) => acc + parseFloat(curr.price) * 0.2,
+    (acc, curr) => acc + curr.service_fee,
     0
   );
 };
@@ -238,7 +249,6 @@ const calcTotalFee = () => {
 };
 useAsyncData(
   async () => {
-    calcNumberOfDays();
     calcDepositFee();
     calcServiceFee();
     calcTotalFee();
@@ -252,7 +262,7 @@ watch(
   () => cartStore.carts,
 
   () => {
-    calcNumberOfDays(), calcDepositFee(), calcServiceFee(), calcTotalFee();
+    calcDepositFee(), calcServiceFee(), calcTotalFee();
   }
 );
 
