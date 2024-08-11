@@ -20,14 +20,14 @@ export const useVerifyClientStore = defineStore("verify-client-store", {
       return data;
     },
     async createVerify(body: any) {
-      this.isLoading = true;
+      
       this.isSubmitting = true;
       const data: any = await useCustomFetch(`/api/v1/account/verification-requests/create`, {
         method: "POST",
         body: JSON.stringify(body),
       });
       this.isSubmitting = false;
-      this.isLoading = false;
+      
       return data;
     },
   },
