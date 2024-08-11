@@ -200,6 +200,7 @@ div<template>
                       {{ shippingValue?.method }}
                     </span>
                   </div>
+
                   <div>
                     <span>Phí vận chuyển:</span>
                     <span class="text-orange-500 font-bold float-right">
@@ -209,6 +210,12 @@ div<template>
                           currency: "VND",
                         }).format(shippingValue?.fee)
                       }}
+                    </span>
+                  </div>
+                  <div>
+                    <span>Khu vực vận chuyển:</span>
+                    <span class="text-orange-500 float-right">
+                      {{ shippingValue?.location.join(', ') }}
                     </span>
                   </div>
                 </div>
@@ -314,6 +321,7 @@ const userNote = ref();
 const totalCarts = ref([]);
 let valueOrder = ref([])
 const number_of_days = ref();
+
 const dataSource = computed(() => {
   return route.query.type === "thue_ngay"
     ? cartStore?.rentNow
@@ -333,6 +341,7 @@ useAsyncData(async () => {
       (item) => item.id === shipping_method_id.value
     );
     cartStore.addShipFee(shippingValue.value.fee);
+
   }
 });
 // Phí ship
@@ -344,34 +353,28 @@ const calcShippingFee = () => {
 // Tổng tiền
 const calcTotalFee = () => {
   totalFee.value = total_depositFee.value + total_serviceFee.value + shippingValue.value;
-  console.log('totalFee.value', total_depositFee.value)
+
 }
 
 useAsyncData(
   async () => {
     calcTotalFee();
     calcShippingFee();
-
   },
   {
     immediate: true,
-    watch: [cartStore.shippingFee, delivery_method],
+    watch: [cartStore.shippingFee, delivery_method.value],
   }
 );
 watch(
+  () => delivery_method.value,
   () => cartStore.shippingFee,
   () => {
     calcShippingFee();
     calcTotalFee();
   }
 );
-watch(
-  () => delivery_method.value,
-  () => {
-    calcShippingFee();
-
-  }
-);
+console.log('delivery_method.value', delivery_method.value)
 
 // new Infor
 const newInfo = {
@@ -661,26 +664,26 @@ const payCart = async () => {
       ...valueOrder.value,
       shipping_method_id: shipping_method_id.value
     });
-    if (res.data._rawValue?.status == true && payment_method.value === "cash") {
-      message.success("Thêm đơn hàng thành công");
-      navigateTo("/account/order");
-    } else if (
-      res.data._rawValue?.status == true &&
-      payment_method.value === "online"
-    ) {
-      type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
-      message.success({
-        content: "Đặt hàng thành công",
-      });
-      navigateTo(
-        "/account/order/checkout/payment/" +
-        res?.data?._rawValue?.data.order_code
-      );
-    } else {
-      message.error({
-        content: "Đặt hàng thất bại",
-      });
-    }
+    // if (res.data._rawValue?.status == true && payment_method.value === "cash") {
+    //   message.success("Thêm đơn hàng thành công");
+    //   navigateTo("/account/order");
+    // } else if (
+    //   res.data._rawValue?.status == true &&
+    //   payment_method.value === "online"
+    // ) {
+    //   type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
+    //   message.success({
+    //     content: "Đặt hàng thành công",
+    //   });
+    //   navigateTo(
+    //     "/account/order/checkout/payment/" +
+    //     res?.data?._rawValue?.data.order_code
+    //   );
+    // } else {
+    //   message.error({
+    //     content: "Đặt hàng thất bại",
+    //   });
+    // }
   } catch (error) {
     message.error("Đặt hàng thất bại");
   }

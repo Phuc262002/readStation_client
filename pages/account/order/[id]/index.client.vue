@@ -204,7 +204,8 @@
               orderStore?.order?.status === 'returning'
             ">
               <span class="col-span-3 font-bold">Số lần gia hạn:</span>
-              <span class="col-span-5"> 0 / 3 </span>
+              <span class="col-span-5"> {{ orderStore?.order?.extensions?.length }} / {{
+                orderStore?.order?.max_extensions }} </span>
             </div>
             <div class="grid grid-cols-8">
               <span class="col-span-3 font-bold">Hình thức giao sách:</span>
@@ -284,7 +285,9 @@
       </div>
 
       <div class="flex justify-end pt-4 gap-2" v-if="
-        orderStore?.order?.status === 'active'
+        orderStore?.order?.status === 'active' ||
+        $dayjs(new Date()).format('YYYY-MM-DD') ===
+        $dayjs(orderStore?.order?.current_due_date).format('YYYY-MM-DD')
       ">
         <a-button @click="showReturnAll" class="h-10 border-orange-400 text-orange-400">
           Trả sách toàn bộ
