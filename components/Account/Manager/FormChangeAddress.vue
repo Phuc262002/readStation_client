@@ -143,7 +143,7 @@ const onSubmit = async () => {
         ? `${address.value.street}, ${address.value.ward}, ${address.value.district}, ${address.value.province}`
         : null,
   });
-  console.log("user", resData.value);
+
   if (resData?.data?._rawValue?.status == true) {
     message.success({
       content: "Chỉnh sửa thành công",
@@ -151,8 +151,7 @@ const onSubmit = async () => {
     await authStore.getProfile();
     handleClose();
   } else {
-    resErrors.value = resData.error.value.data.errors;
-    console.log("object", resErrors.value);
+
     message.error({
       content: "Chỉnh sửa không thành công",
     });
