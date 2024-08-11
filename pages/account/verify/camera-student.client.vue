@@ -48,13 +48,18 @@
             <a-button
                 class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary"
                 size="large"
-                :loading="verifyClientStore.isSubmitting"
+               
                 html-type="submit"
               >
-                Xác nhậndsd
+                Xác nhận
               </a-button>
           </div>
         </form>
+      </div>
+    </div>
+    <div v-if="loading" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
+      <div class="spinner-border text-white" role="status">
+        <span class="sr-only">Loading...</span>
       </div>
     </div>
   </div>
@@ -78,7 +83,8 @@ export default defineComponent({
       student_code: "",
       student_card_expired: "",
       place_of_study: "",
-      errors: {} as Record<string, string>
+      errors: {} as Record<string, string>,
+      loading: false
     };
   },
   methods: {
@@ -170,10 +176,10 @@ export default defineComponent({
       console.log("Photos:", this.photos);
 
       if (this.photos.length !== 2) {
-        message.error("Please upload both front and back photos.");
+        message.error("Hãy chụp lại ảnh mặt trước và mặt sau thẻ HS/SV của bạn");
         return;
       }
-
+      this.loading = true;  
       try {
         const frontPhotoURL = await this.uploadPhoto(this.photos[0]);
         const backPhotoURL = await this.uploadPhoto(this.photos[1]);
@@ -211,6 +217,8 @@ export default defineComponent({
         this.showInputs = false;
       } catch (error) {
         message.error("Bạn đã gửi yêu cầu xác thực thẻ HS/SV rồi. Vui lòng chờ xác thực.");
+      } finally {
+        this.loading = false;  // Hide loading overlay
       }
     },
     async uploadPhoto(photoData: string): Promise<string> {
@@ -260,5 +268,21 @@ img {
   width: 100%;
   max-width: 400px;
   margin: 10px 0;
+}
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border: 0.25em solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 0.25em solid #fff;
+  animation: spinner-border .75s linear infinite;
+}
+@keyframes spinner-border {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

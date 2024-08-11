@@ -102,6 +102,8 @@ const data = ref({
 const onSubmit = async () => {
   await baseStore.createContact(data.value);
   console.log(data.value);
+  message.success("Gửi phản hồi thành công");
+  navigateTo("/")
 };
 </script>
 
