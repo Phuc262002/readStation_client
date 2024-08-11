@@ -28,7 +28,7 @@
                         </div>
                         <div class="grid grid-cols-2">
                             <p class="text-base font-bold col-span-1">Chọn thêm ngày gia hạn:</p>
-                            <a-input  type="number" class="w-1/4" v-model:value="number_of_days" :min="1" :max="5"
+                            <a-input type="number" class="w-1/4" v-model:value="number_of_days" :min="1" :max="5"
                                 required />
                         </div>
                         <div class="grid grid-cols-2">
@@ -55,7 +55,7 @@
                 </div>
                 <div class="flex justify-end items-center gap-2">
                     <a-button @click="handleClose">Hủy</a-button>
-                    <a-button type="primary" html-type="submit">Xác nhận</a-button>
+                    <a-button type="primary" html-type="submit" :loading="orderStore.isSubmitting">Xác nhận</a-button>
                 </div>
             </div>
         </form>
@@ -67,10 +67,9 @@ const props = defineProps({
     openModal: Boolean,
     CloseModal: Function,
     items: Object
-});
-const rotuer = useRouter();
-// const id = rotuer.currentRoute.value.params.id;
-// alert(id)
+})
+const id = useRoute().params.id;
+
 const open = ref(props.openModal);
 watch(
     () => props.openModal,
@@ -94,7 +93,8 @@ const onSubmit = async () => {
         const res = await orderStore.extensionOneBook({ id: props.items?.id, body: { number_of_days: number_of_days.value } });
         if (res.data._rawValue?.status == true) {
             message.success("Gia hạn sách thành công");
-            await orderStore.getOneOrder();
+            handleClose();
+            await orderStore.getOneOrder(id);
         } else {
             message.error(res.data._rawValue?.errors);
         }
@@ -102,6 +102,6 @@ const onSubmit = async () => {
         message.error("Gia hạn thất bại");
         console.log(error)
     }
-    handleClose()
+
 }
 </script>

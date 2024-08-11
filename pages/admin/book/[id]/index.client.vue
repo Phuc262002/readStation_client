@@ -185,7 +185,7 @@ const showModalAdd = () => {
 const CloseModalAdd = () => {
     openModalAdd.value = false;
 };
-const showModalEdit = (id) => {
+const showModalEdit = (id : any) => {
     itemBookDetail.value = id;
     openModalEdit.value = true;
 };

@@ -1,4 +1,3 @@
-
 <template>
     <div class="flex flex-col gap-2">
         <h1 class="text-xl text-[#1e293b] font-bold pb-3">Chi tiết đơn hàng {{
@@ -40,7 +39,8 @@
                                     v-if="orderStore?.getOneOrderAdmin?.data?.user?.role?.description === 'User'">
                                     Khách hàng
                                 </div>
-                                <div class="p-1 w-24 text-center rounded-lg text-tag-text-01 bg-tag-bg-01" v-if="orderStore?.getOneOrderAdmin?.data?.user?.role?.description === 'Student'">
+                                <div class="p-1 w-24 text-center rounded-lg text-tag-text-01 bg-tag-bg-01"
+                                    v-if="orderStore?.getOneOrderAdmin?.data?.user?.role?.description === 'Student'">
                                     HS/ SV
                                 </div>
                             </span>
@@ -126,7 +126,8 @@
                         </div>
                         <div class="grid grid-cols-3">
                             <span class="text-base font-bold">Số lần gia hạn:</span>
-                            <span class="text-base ">0/3</span>
+                            <span class="text-base "> {{ orderStore?.getOneOrderAdmin?.data?.extensions.length }} /{{
+                                orderStore?.getOneOrderAdmin?.data?.max_extensions }}</span>
                         </div>
                         <div class="grid grid-cols-3">
                             <span class="text-base font-bold">Hình thức vận chuyển:</span>
@@ -327,13 +328,13 @@
                             <a-button @click="showReturnBook(items)">Trả sách</a-button>
                             <a-button type="primary" @click="showModalExtend(items)">Gia hạn</a-button>
                         </div>
-                        <!-- <div class="flex justify-end" v-if="items?.status === 'extended'">
+                        <div class="flex justify-end" v-if="items?.status === 'extended'">
                             <div class="flex gap-2">
                                 <a-button class="border-orange-400 text-orange-500" @click="showReturnBook(items)">Trả
                                     sách</a-button>
                                 <a-button type="primary" @click="showModalExtend(items)">Gia hạn</a-button>
                             </div>
-                        </div> -->
+                        </div>
                         <div class="flex justify-end" v-else-if="items?.status === 'overdue'">
                             <div class="flex gap-2">
                                 <a-button class="border-orange-400 text-orange-500">Trả sách</a-button>
@@ -470,9 +471,9 @@ useAsyncData(async () => {
     try {
         await orderStore.getOneOrder(orderId);
     } catch (error) {
-        console.error(error);
+        message.error('Có lỗi xảy ra')
+        console.error(error)
     }
-
 });
 const loan_order_detail = ref()
 const extendsionBook = ref()
