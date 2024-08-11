@@ -83,6 +83,15 @@
           </template>
         </template>
       </a-table>
+      <div class="mt-4 flex justify-end">
+        <a-pagination
+          v-model:current="current"
+          :total="bookCaseStore.getAllBookcases?.totalResults"
+          :pageSize="bookCaseStore.getAllBookcases?.pageSize"
+          show-less-items
+          pageSizeOptions
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -94,6 +103,7 @@ import { BookCaseStatus } from "~/types/admin/bookCase";
 import { LoadingOutlined } from "@ant-design/icons-vue";
 import { h } from "vue";
 const bookCaseStore = useBookcaseStore();
+const current = ref(1);
 const indicator = h(LoadingOutlined, {
   style: {
     fontSize: "16px",
@@ -101,11 +111,18 @@ const indicator = h(LoadingOutlined, {
   spin: true,
 });
 
-useAsyncData(async () => {
-  await bookCaseStore.getAllBookcases({
-    status: "deleted",
-  });
-});
+useAsyncData(
+  async () => {
+    await bookCaseStore.getAllBookcases({
+      page: current.value,
+      status: "deleted",
+    });
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
 
 const onRecover = async (id) => {
   try {
@@ -181,11 +198,11 @@ const columns = [
   },
 ];
 useSeoMeta({
-    title: "ReadStation - Thùng rác tủ sách",
-    ogTitle: "ReadStation - Thùng rác tủ sách",
-    description: "Thùng rác tủ sách",
-    ogDescription: "Thùng rác tủ sách",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  title: "ReadStation - Thùng rác tủ sách",
+  ogTitle: "ReadStation - Thùng rác tủ sách",
+  description: "Thùng rác tủ sách",
+  ogDescription: "Thùng rác tủ sách",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>

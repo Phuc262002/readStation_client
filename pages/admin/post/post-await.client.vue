@@ -264,6 +264,7 @@
           :total="postStore?.postsAdmin?.totalResults"
           :pageSize="postStore?.postsAdmin?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
     </div>

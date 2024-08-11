@@ -192,6 +192,7 @@
           :total="bookCaseStore?.bookCaseAdmin?.totalResults"
           :pageSize="bookCaseStore?.bookCaseAdmin?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
     </div>

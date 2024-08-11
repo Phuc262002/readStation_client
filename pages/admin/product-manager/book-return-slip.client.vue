@@ -10,19 +10,47 @@
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <div class="flex flex-col gap-4">
-        <div class="relative w-1/4 md:block hidden">
-          <div class="flex">
-            <a-input placeholder="Nhập mã đơn hàng để tìm kiếm" class="h-10">
-              <template #prefix>
-                <SearchOutlined />
-              </template>
-            </a-input>
+        <div class="w-1/2 flex items-center gap-2">
+          <div class="md:block hidden">
+            <div class="flex">
+              <a-input
+                placeholder="Nhập mã đơn hàng để tìm kiếm"
+                class="h-10 w-[400px]"
+                v-model:value="valueSearch"
+              >
+                <template #prefix>
+                  <SearchOutlined />
+                </template>
+              </a-input>
+            </div>
           </div>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
-            <UIcon class="text-gray-500" name="i-material-symbols-search" />
-          </div>
+
+          <a-dropdown :trigger="['click']">
+            <template #overlay>
+              <a-menu class="">
+                <a-menu-item
+                  @click="
+                    statusValue({ value: '', label: 'Tất cả trạng thái' })
+                  "
+                  >Tất cả trạng thái</a-menu-item
+                >
+                <a-menu-item
+                  @click="statusValue({ value: 'completed ', label: 'Hoàn thành' })"
+                  >Hoàn thành</a-menu-item
+                >
+                <a-menu-item
+                  @click="
+                    statusValue({ value: 'pending', label: 'Chờ xử lý' })
+                  "
+                  >Chờ xử lý</a-menu-item
+                >
+              </a-menu>
+            </template>
+            <a-button size="large" class="flex gap-3 items-center">
+              {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
+              <DownOutlined />
+            </a-button>
+          </a-dropdown>
         </div>
         <a-table
           :columns="columns"
@@ -32,7 +60,9 @@
         >
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'sku'">
-              <a>{{ record.loan_order_detail?.loan_order?.order_code }}</a>
+              <span>{{
+                record.loan_order_detail?.loan_order?.order_code
+              }}</span>
             </template>
             <template v-if="column.key === 'loan_order_detail'">
               <div class="flex justify-start gap-4 items-center">
@@ -120,13 +150,36 @@
 </template>
 <script setup>
 import { Icon } from "@iconify/vue";
+import debounce from "lodash.debounce";
 const current = ref(1);
+const valueSearch = ref("");
 const returnHistoryStore = useReturnHistoryStore();
+const queryStatus = ref({
+  value: "",
+  label: "",
+});
+
+const statusValue = ({ value, label }) => {
+  queryStatus.value.value = value;
+  queryStatus.value.label = label;
+};
+const onSearch = debounce(() => {
+  current.value = 1;
+  returnHistoryStore.getAllReturnHistory({
+    search: valueSearch.value,
+    page: current.value,
+    status: queryStatus.value.value,
+  });
+}, 500);
+watch(valueSearch, onSearch);
+
 useAsyncData(
   async () => {
     try {
       await returnHistoryStore.getAllReturnHistory({
+        search: valueSearch.value,
         page: current.value,
+        status: queryStatus.value.value,
       });
     } catch (error) {
       console.error(error);
@@ -134,7 +187,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current],
+    watch: [current, queryStatus.value],
   }
 );
 

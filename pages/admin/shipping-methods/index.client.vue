@@ -77,7 +77,14 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'logo'">
-            <a-image class="rounded-md" :width="100" :src="record.logo" />
+            <a-image
+              v-if="record.logo"
+              class="rounded-md"
+              :width="100"
+              :height="100"
+              :src="record.logo"
+            />
+            <span v-else></span>
           </template>
           <template v-if="column.key === 'location'">
             <ul>
@@ -161,6 +168,7 @@
           :total="shippingMethodStore?.shippingMethodsAdmin?.totalResults"
           :pageSize="shippingMethodStore?.shippingMethodsAdmin?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
     </div>
@@ -169,7 +177,7 @@
 <script setup>
 import { Modal } from "ant-design-vue";
 import { Icon } from "@iconify/vue";
-import debounce from 'lodash.debounce'
+import debounce from "lodash.debounce";
 import { ShippingMethodsStatus } from "~/types/admin/shippingMethods";
 const openModalAdd = ref(false);
 const openModalEdit = ref(false);
@@ -187,10 +195,10 @@ const statusValue = ({ value, label }) => {
 const onSearch = debounce(() => {
   current.value = 1;
   shippingMethodStore.getAllShippingMethods({
-      page: current.value,
-      search: valueSearch.value,
-      status: queryStatus.value.value,
-    });
+    page: current.value,
+    search: valueSearch.value,
+    status: queryStatus.value.value,
+  });
 }, 500);
 
 watch(valueSearch, onSearch);
@@ -293,11 +301,11 @@ const showModalEdit = (id) => {
   shippingMethodId.value = id;
 };
 useSeoMeta({
-    title: "ReadStation - Quản lý phương thức vận chuyển",
-    ogTitle: "ReadStation - Quản lý phương thức vận chuyển",
-    description: "Quản lý phương thức vận chuyển",
-    ogDescription: "Quản lý phương thức vận chuyển",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  title: "ReadStation - Quản lý phương thức vận chuyển",
+  ogTitle: "ReadStation - Quản lý phương thức vận chuyển",
+  description: "Quản lý phương thức vận chuyển",
+  ogDescription: "Quản lý phương thức vận chuyển",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>
