@@ -102,13 +102,14 @@
                   </div>
                   <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold" for="">Hình ảnh chi tiết</label>
-                    <a-upload list-type="picture" :max-count="3"
-                      action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
+                    <a-upload list-type="picture" :file-list="images" :action="uploadImages" :multiple="true"
+                      :before-upload="beforeUpload" :on-change="handleChangeImages" :on-remove="deleteImage">
                       <a-button class="flex justify-between gap-3 items-center">
-                        <upload-outlined></upload-outlined>
+                        <upload-outlined />
                         <h1>Upload hình ảnh chi tiết</h1>
                       </a-button>
                     </a-upload>
+
                   </div>
                 </div>
               </div>
@@ -165,10 +166,9 @@
                   </div>
                   <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold" for="">Nhà xuất bản <span class="text-red-500">*</span></label>
-                    <a-select v-model:value="valuecreateBook.book_detail.publishing_company_id" size="large"
-                      show-search placeholder="Nhà xuất bản" :options="optionsPublishingcompany"
-                      :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur" required
-                      @change="handleChange"></a-select>
+                    <a-select v-model:value="valuecreateBook.book_detail.publishing_company_id" size="large" show-search
+                      placeholder="Nhà xuất bản" :options="optionsPublishingcompany" :filter-option="filterOption"
+                      @focus="handleFocus" @blur="handleBlur" required @change="handleChange"></a-select>
                   </div>
                 </div>
                 <div class="grid grid-cols-4 gap-4">
@@ -211,6 +211,10 @@ import { ref } from "vue";
 const baseStore = useBaseStore();
 const fileList = ref([]);
 const imageInfo = ref("");
+const images = ref([]);
+const imagesInfo = ref([]);
+
+
 const isLoading = ref(false);
 const optionsShelve = ref([]);
 const errors = ref({});
@@ -302,7 +306,9 @@ const valuecreateBook = ref({
     {
       poster: "",
       images: [
-        "https://i0.wp.com/sachcugiadinh.wordpress.com/wp-content/uploads/2016/12/img_10661.jpg?ssl=1",
+        "",
+        "",
+        "",
       ],
       sku_origin: "valuecreateBook.book_detail.sku_origin",
       book_version: "",
@@ -320,7 +326,7 @@ const valuecreateBook = ref({
     },
   ],
 });
-
+// Upload poster
 const uploadFile = async (file) => {
   if (fileList.value.length > 0) {
     fileList.value = [];
@@ -356,6 +362,58 @@ const beforeUpload = (file) => {
   }
   return isImage || Upload.LIST_IGNORE;
 };
+// Upload images
+const uploadImages = async (file) => {
+  const formData = new FormData();
+  formData.append("image", file);
+
+  try {
+    const response = await baseStore.uploadImg(formData);
+    const imageData = response.data._rawValue.data; // Giả sử server trả về dữ liệu như thế này
+    // Thêm URL của hình ảnh vào danh sách imagesInfo
+    imagesInfo.value.push(imageData.url); // Lưu URL vào imagesInfo
+    return {
+      url: imageData.url, // Return URL để `a-upload` có thể sử dụng
+    };
+  } catch (error) {
+    message.error("Upload ảnh thất bại");
+    return Upload.LIST_IGNORE; // Ngăn không cho thêm ảnh vào danh sách nếu upload thất bại
+  }
+};
+
+// Watch imagesInfo for changes
+watch(() => imagesInfo.value, (value) => {
+  console.log("🚀 ~ watch ~ imagesInfo.value:", imagesInfo.value);
+});
+
+// Handle change in images
+const handleChangeImages = (info) => {
+  const { file, fileList } = info;
+  const status = file.status;
+
+  if (status === "done") {
+    message.success(`${file.name} file uploaded successfully.`);
+  } else if (status === "error") {
+    message.error(`${file.name} file upload failed.`);
+  }
+
+  // Update the images list
+  images.value = fileList;
+};
+
+// Delete image
+const deleteImage = async (file) => {
+  const imageToDelete = imagesInfo.value.find(img => img.url === file.url);
+  if (imageToDelete) {
+    try {
+      await baseStore.deleteImg(imageToDelete.publicId);
+      imagesInfo.value = imagesInfo.value.filter(img => img.url !== file.url);
+      message.success("File deleted successfully.");
+    } catch (error) {
+      message.error("Failed to delete file.");
+    }
+  }
+};
 
 const onSubmit = async () => {
   try {
@@ -373,11 +431,7 @@ const onSubmit = async () => {
         {
           sku_origin: null,
           poster: imageInfo.value?.url,
-          images: [
-            "https://i0.wp.com/sachcugiadinh.wordpress.com/wp-content/uploads/2016/12/img_10661.jpg?ssl=1",
-            "https://i0.wp.com/sachcugiadinh.wordpress.com/wp-content/uploads/2016/12/img_10661.jpg?ssl=1",
-            "https://i0.wp.com/sachcugiadinh.wordpress.com/wp-content/uploads/2016/12/img_10661.jpg?ssl=1",
-          ],
+          images: images.value,
           book_version: valuecreateBook.value.book_detail.book_version,
           price: valuecreateBook.value.book_detail.price,
           hire_percent: valuecreateBook.value.book_detail.hire_percent,

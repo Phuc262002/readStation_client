@@ -117,7 +117,7 @@
             </a-tag>
 
             <div class="flex-1 text-tag-text-01">
-              <p class="font-bold text-base">HS/SV</p>
+              <p class="font-bold text-base">Sinh viên</p>
               <p class="font-bold text-2xl float-right">
                 <Icon
                   v-if="isLoading"
@@ -308,13 +308,7 @@
             >
               Đã chặn
             </a-tag>
-            <a-tag
-              :bordered="false"
-              v-if="record.status === UserStatus.DELETED"
-              class="bg-tag-bg-06 text-tag-text-06"
-            >
-              Đã xóa
-            </a-tag>
+          
             <a-tag
               :bordered="false"
               v-if="record.status === UserStatus.BANNED"

@@ -503,6 +503,7 @@
               :total="orderStore?.getAllOrderAdmin?.totalResults"
               :pageSize="orderStore?.getAllOrderAdmin?.pageSize"
               show-less-items
+              pageSizeOptions
             />
           </div>
         </div>

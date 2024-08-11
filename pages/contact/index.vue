@@ -1,5 +1,8 @@
 <template>
   <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
+    <Head>
+      <Title>ReadStation | Liên hệ</Title>
+    </Head>
     <div class="flex">
       <div
         class="flex flex-col md:flex-row overflow-hidden space-x-8 md:space-x-8"
@@ -72,12 +75,14 @@
               ></textarea>
             </div>
             <div class="flex items-center justify-between">
-              <button
-                class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
-                type="submit"
+              <a-button
+                class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary"
+                size="large"
+                :loading="baseStore.isSubmitting"
+                html-type="submit"
               >
                 Gửi phản hồi
-              </button>
+              </a-button>
             </div>
           </form>
         </div>

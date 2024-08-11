@@ -1,5 +1,8 @@
 <template>
   <div class="space-y-5">
+    <Head>
+      <Title>ReadStation | Xác thực HS/SV</Title>
+    </Head>
     <h3 class="font-bold mb-5">Xác thực HS/SV</h3>
     <div class="flex flex-col space-y-5 items-center bg-white shadow-md rounded-md pb-10 min-h-[700px] pt-10">
       <video ref="video" v-if="cameraOn" class="rounded-lg w-[1/2]" autoplay playsinline></video>
@@ -42,7 +45,14 @@
             </div>
           </div>
           <div class="flex justify-center items-center mt-4">
-            <button html-type="submit" class="bg-orange-500 border-none text-white rounded-lg h-10 px-32">Xác nhận</button>
+            <a-button
+                class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary"
+                size="large"
+                :loading="verifyClientStore.isSubmitting"
+                html-type="submit"
+              >
+                Xác nhậndsd
+              </a-button>
           </div>
         </form>
       </div>

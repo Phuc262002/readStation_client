@@ -1,5 +1,8 @@
 <template>
   <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
+    <Head>
+      <Title>ReadStation | Giới thiệu</Title>
+    </Head>
     <div>
       <div
         class="relative h-[600px] w-full bg-[url('../../assets/images/aboutus.svg')] bg-cover bg-center bg-no-repeat rounded-3xl"
@@ -112,7 +115,7 @@ import type { NuxtLink } from "#build/components";
 import { ref } from "vue";
 const activeKey = ref([]);
 const customStyle =
-  "background: #e9e9e9;border-radius: 4px;margin-bottom: 16px;border: 0;overflow: hidden";
+  "background: #e9e9e9;border-radius: 4px;margin-bottom: 8px;border: 0;overflow: hidden";
 const text = `
 Khoản đặt cọc này để hỗ trợ Read Station trong các trường hợp hư hỏng hay mất sách, sẽ được hoàn lại 
 cho bạn sau khi hoàn thành đơn.  <br/>
@@ -121,60 +124,61 @@ cho bạn sau khi hoàn thành đơn.  <br/>
  <br/>
  <table style="border-collapse: collapse; width: 70%; border: 1px solid black;">
   <tr>
-    <td style="padding-right: 40px; border: 1px solid black;"><strong>Giá bìa sách</strong></td>
-    <td style="padding-left: 16px;border: 1px solid black;"><strong>Giá thuê (theo ngày)</strong></td>
+    <td style="padding-right: 40px; padding-left: 8px; border: 1px solid black;"><strong>Giá bìa sách</strong></td>
+    <td style="padding-left: 8px;border: 1px solid black;"><strong>Giá thuê (theo ngày)</strong></td>
   </tr>
   <tr>
-    <td style="padding-right: 40px; border: 1px solid black;">Dưới 50.000đ</td>
-    <td style="padding-left: 16px;border: 1px solid black;">1.000đ /1 cuốn /1 ngày</td>
+    <td style="padding-right: 40px; padding-left: 8px; border: 1px solid black;">Dưới 50.000đ</td>
+    <td style="padding-left: 8px;border: 1px solid black;">1.000đ /1 cuốn /1 ngày</td>
   </tr>
   <tr>
-    <td style="padding-right: 40px; border: 1px solid black;">Từ 50.000đ - 100.000đ</td>
-    <td style="padding-left: 16px;border: 1px solid black;">2.000đ /1 cuốn /1 ngày</td>
+    <td style="padding-right: 40px; padding-left: 8px; border: 1px solid black;">Từ 50.000đ - 100.000đ</td>
+    <td style="padding-left: 8px;border: 1px solid black;">2.000đ /1 cuốn /1 ngày</td>
   </tr>
   <tr>
-    <td style="padding-right: 40px; border: 1px solid black;">Trên 100.000đ</td>
-    <td style="padding-left: 16px;border: 1px solid black;">4.000đ /1 cuốn /1 ngày</td>
+    <td style="padding-right: 40px; padding-left: 8px; border: 1px solid black;">Trên 100.000đ</td>
+    <td style="padding-left: 8px;border: 1px solid black;">4.000đ /1 cuốn /1 ngày</td>
   </tr>
 </table>
 
 `;
 const text2 = `
 
-Phạt trễ hạn: Mức phạt: 5.000đ/1 sách/ngày. <br/>
+Phạt trễ hạn: <br/>
+- Mức phạt: 5.000đ/ sách/ngày. <br/>
 Nếu độc giả bị phạt tiền quá hạn từ 50.000đ trở lên, tài khoản sẽ bị khoá cho đến khi tài khoản được thanh toán đầy đủ.
 <br/>
 
 <table style="border-collapse: collapse; width: 70%; border: 1px solid black;">
   <tr>
-    <td style="border: 1px solid black;"><strong> Tình trạng </strong></td>
-    <td style="padding-left: 16px;border: 1px solid black;"><strong> Mức phạt </strong></td>
+    <td style="padding-left: 8px; border: 1px solid black;"><strong> Tình trạng </strong></td>
+    <td style="padding-left: 8px;border: 1px solid black;"><strong> Mức phạt </strong></td>
   </tr>
   <tr>
-    <td style="border: 1px solid black;">Mất sách hoặc làm cho sách hoàn toàn không sử dụng được</td>
-    <td style="padding-left: 16px;border: 1px solid black;"> Đền 100% giá trị sách </td>
+    <td style="padding-left: 8px; border: 1px solid black;">Mất sách hoặc làm cho sách hoàn toàn không sử dụng được</td>
+    <td style="padding-left: 8px;border: 1px solid black;"> Đền 100% giá trị sách </td>
   </tr>
   <tr>
-    <td style="border: 1px solid black;">  Mất trang </td>
-    <td style="padding-left: 16px;border: 1px solid black;"> 10.000đ/tờ </td>
+    <td style="padding-left: 8px; border: 1px solid black;">  Mất trang </td>
+    <td style="padding-left: 8px;border: 1px solid black;"> 10.000đ/tờ </td>
   </tr>
   <tr>
-    <td style="border: 1px solid black;">Làm bẩn, viết vẽ bẩn lên sách</td>
-    <td style="padding-left: 16px;border: 1px solid black;"> 2.000đ/tờ </td>
+    <td style="padding-left: 8px; border: 1px solid black;">Làm bẩn, viết vẽ bẩn lên sách</td>
+    <td style="padding-left: 8px;border: 1px solid black;"> 2.000đ/tờ </td>
   </tr>
   <tr>
-    <td style="border: 1px solid black;">Làm bong bìa</td>
-    <td style="padding-left: 16px;border: 1px solid black;"> 15.000đ/1 cuốn</td>
+    <td style="padding-left: 8px; border: 1px solid black;">Làm bong bìa</td>
+    <td style="padding-left: 8px;border: 1px solid black;"> 15.000đ/1 cuốn</td>
   </tr>
   <tr>
-    <td style="border: 1px solid black;"> Làm rách sách</td>
-    <td rowspan=3 style="padding-left: 16px;border: 1px solid black;">30.000đ/ sách </td>
+    <td style="padding-left: 8px; border: 1px solid black;"> Làm rách sách</td>
+    <td rowspan=3 style="padding-left: 8px;border: 1px solid black;">30.000đ/ sách </td>
   </tr>
   <tr>
-    <td style="border: 1px solid black;"> Làm ướt sách</td>
+    <td style="padding-left: 8px; border: 1px solid black;"> Làm ướt sách</td>
   </tr>
   <tr>
-    <td style="border: 1px solid black;"> Bóc nhãn, phiếu ghi chú trên sách</td>
+    <td style="padding-left: 8px; border: 1px solid black;"> Bóc nhãn, phiếu ghi chú trên sách</td>
   </tr>
 </table> 
 
