@@ -76,7 +76,7 @@
             <a>{{ record }}</a>
           </template>
           <template v-if="column.key === 'poster'">
-            <a-image :src="record.poster" :width="100" :height="100" />
+            <a-image :src="record.poster" :width="100" :height="140" />
           </template>
           <template v-if="column.key === 'title'">
             <span class="flex justify-start gap-2">
