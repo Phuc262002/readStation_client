@@ -9,7 +9,6 @@
             placeholder="Nhập mã đơn hàng để tìm kiếm"
             enter-button
             class="h-10"
-            @search="onSearch"
             allow-clear
           >
             <template #prefix>
@@ -338,6 +337,7 @@
 </template>
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
+import debounce from 'lodash.debounce'
 const orderStore = useOrderClientStore();
 const current = ref(1);
 const filter = ref({
@@ -368,6 +368,12 @@ const showCancelConfirm = (id: any) => {
     },
   });
 };
+const onSearch = debounce(() => {
+  current.value = 1;
+  getDataOrder();
+}, 500);
+
+watch(searchValue, onSearch);
 // Get All Order
 const getDataOrder = async () => {
   try {
@@ -386,7 +392,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [current, filter.value, searchValue],
+    watch: [current, filter.value],
   }
 );
 

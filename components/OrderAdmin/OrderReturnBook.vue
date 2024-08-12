@@ -42,7 +42,7 @@
       </div>
       <div class="flex justify-end gap-2 mt-4">
         <a-button type="default" @click="handleClose">Hủy</a-button>
-        <a-button type="primary" html-type="submit">Cập nhật</a-button>
+        <a-button type="primary" html-type="submit" :loading="orderStore.isSubmitting">Cập nhật</a-button>
       </div>
     </form>
   </a-modal>
@@ -50,6 +50,7 @@
 <script setup>
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
+const id = useRoute().params.id;
 const orderStore = useOrderStore();
 const errors = ref({});
 const props = defineProps({
@@ -146,6 +147,8 @@ const onSubmit = async () => {
     });
     if (res.data._rawValue?.status == true) {
       message.success("Trả sách thành công");
+      handleClose();
+      await orderStore.getOneOrder(id);
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);
@@ -154,7 +157,7 @@ const onSubmit = async () => {
     message.error("Trả sách thất bại");
     console.error(error);
   }
-  handleClose();
+
 };
 const handleChange = (value) => {
   console.log(`selected ${value}`);

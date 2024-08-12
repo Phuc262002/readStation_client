@@ -91,6 +91,7 @@
           "
           :pageSize="publishingCompanyStore?.publishingCompaniesAdmin?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
     </div>
@@ -182,11 +183,11 @@ const columns = [
   },
 ];
 useSeoMeta({
-    title: "ReadStation - Thùng rác nhà xuất bản",
-    ogTitle: "ReadStation - Thùng rác nhà xuất bản",
-    description: "Thùng rác nhà xuất bản",
-    ogDescription: "Thùng rác nhà xuất bản",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  title: "ReadStation - Thùng rác nhà xuất bản",
+  ogTitle: "ReadStation - Thùng rác nhà xuất bản",
+  description: "Thùng rác nhà xuất bản",
+  ogDescription: "Thùng rác nhà xuất bản",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>

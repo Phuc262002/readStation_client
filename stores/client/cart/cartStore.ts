@@ -11,20 +11,40 @@ export const useCartStore = defineStore("cart-store", {
   },
   actions: {
     updateNumberOfDays(id, quantity) {
+      console.log("🚀 ~ updateNumberOfDays ~ quantity:", quantity);
       this.carts = this.carts.map((item) => {
-        let deposit = 0;
+        let fee = 0;
         if (item.price < 50000) {
-          deposit = 1000;
+          fee = 1000;
         } else if (item.price >= 50000 && item.price <= 100000) {
-          deposit = 2000;
+          fee = 2000;
         } else {
-          deposit = 4000;
+          fee = 4000;
         }
         if (item.id === id) {
           return {
             ...item,
             number_of_days: quantity,
-            service_fee: quantity * deposit,
+            service_fee: quantity * fee,
+          };
+        } else {
+          return item;
+        }
+      });
+      this.rentNow = this.rentNow.map((item) => {
+        let fee = 0;
+        if (item.price < 50000) {
+          fee = 1000;
+        } else if (item.price >= 50000 && item.price <= 100000) {
+          fee = 2000;
+        } else {
+          fee = 4000;
+        }
+        if (item.id === id) {
+          return {
+            ...item,
+            number_of_days: quantity,
+            service_fee: quantity * fee,
           };
         } else {
           return item;
@@ -32,21 +52,47 @@ export const useCartStore = defineStore("cart-store", {
       });
     },
     addToRentNow(item) {
-      this.rentNow = [item];
+      const authStore = useAuthStore();
+      let fee = 0;
+      let deposit_fee = 0;
+
+      if (item.price < 50000) {
+        fee = 1000;
+      } else if (item.price >= 50000 && item.price <= 100000) {
+        fee = 2000;
+      } else {
+        fee = 4000;
+      }
+      //
+
+      const isCheckVerify = authStore?.authUser?.user?.user_verified_at;
+      if (isCheckVerify === null) {
+        deposit_fee = (item.hire_percent / 100) * item.price;
+      } else {
+        deposit_fee = ((item.hire_percent - 30) / 100) * item.price;
+      }
+      this.rentNow = [
+        {
+          ...item,
+          number_of_days: 5,
+          service_fee: 5 * fee,
+          deposit_fee: deposit_fee,
+        },
+      ];
     },
     addToCart(product) {
-      let deposit = 0;
+      let fee = 0;
       if (product.price < 50000) {
-        deposit = 1000;
+        fee = 1000;
       } else if (product.price >= 50000 && product.price <= 100000) {
-        deposit = 2000;
+        fee = 2000;
       } else {
-        deposit = 4000;
+        fee = 4000;
       }
       this.carts.push({
         ...product,
         number_of_days: 5,
-        service_fee: 5 * deposit,
+        service_fee: 5 * fee,
       });
     },
     deleteItemCart(id) {

@@ -1,18 +1,13 @@
 <template>
   <div>
-    <div
-      v-if="orderStore?.isLoading"
-      class="fixed inset-0 bg-black/40 z-[99999] flex items-center justify-center"
-    >
+    <div v-if="orderStore?.isLoading" class="fixed inset-0 bg-black/40 z-[99999] flex items-center justify-center">
       <a-spin size="large" />
     </div>
     <h2 class="font-bold pb-5">
       Chi tiết đơn hàng <span>{{ orderStore?.order?.order_code }}</span>
     </h2>
-    <div
-      class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5 mb-5 text-tag-text-06"
-      v-if="orderStore?.order?.status === 'overdue'"
-    >
+    <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5 mb-5 text-tag-text-06"
+      v-if="orderStore?.order?.status === 'overdue'">
       <p>
         Read Station xin thông báo rằng thời hạn trả sách của bạn đã quá hạn. Do
         đó, chúng tôi sẽ tạm tính phí phạt cho đơn hàng này. Bạn có thể lựa chọn
@@ -58,16 +53,10 @@
             </div>
             <div class="grid grid-cols-8">
               <span class="col-span-3 font-bold">Phương thức thanh toán:</span>
-              <span
-                class="col-span-5"
-                v-if="orderStore?.order?.payment_method === 'online'"
-              >
+              <span class="col-span-5" v-if="orderStore?.order?.payment_method === 'online'">
                 Chuyển khoản
               </span>
-              <span
-                class="col-span-2"
-                v-else-if="orderStore?.order?.payment_method === 'cash'"
-              >
+              <span class="col-span-2" v-else-if="orderStore?.order?.payment_method === 'cash'">
                 Tiền mặt
               </span>
             </div>
@@ -76,9 +65,7 @@
       </div>
     </div>
     <!--  -->
-    <div
-      class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5 my-5"
-    >
+    <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5 my-5">
       <div>
         <h3 class="border-b border-rtgray-50 pb-5 flex gap-5">
           <div class="flex gap-3">
@@ -95,82 +82,56 @@
           </div>
 
           <span class="flex justify-center">
-            <a-tag
-              v-if="orderStore?.order?.status === 'wating_payment'"
-              class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg"
-            >
+            <a-tag v-if="orderStore?.order?.status === 'wating_payment'"
+              class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg">
               Chờ thanh toán
             </a-tag>
-            <a-tag
-              v-if="orderStore?.order?.status === 'pending'"
-              class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg"
-            >
+            <a-tag v-if="orderStore?.order?.status === 'pending'"
+              class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg">
               Đang xử lý
             </a-tag>
-            <a-tag
-              v-else-if="orderStore?.order?.status === 'approved'"
-              class="text-tag-text-02 bg-tag-bg-02 border-none py-1 px-3 rounded-lg"
-            >
+            <a-tag v-else-if="orderStore?.order?.status === 'approved'"
+              class="text-tag-text-02 bg-tag-bg-02 border-none py-1 px-3 rounded-lg">
               Đã xác nhận
             </a-tag>
-            <a-tag
-              v-else-if="
-                orderStore?.order?.status === 'ready_for_pickup' &&
-                orderStore?.order?.delivery_method === 'pickup'
-              "
-              class="text-tag-text-14 bg-tag-bg-14 border-none py-1 px-3 rounded-lg"
-            >
+            <a-tag v-else-if="
+              orderStore?.order?.status === 'ready_for_pickup' &&
+              orderStore?.order?.delivery_method === 'pickup'
+            " class="text-tag-text-14 bg-tag-bg-14 border-none py-1 px-3 rounded-lg">
               Đơn hàng sẵn sàng
             </a-tag>
-            <a-tag
-              v-else-if="
-                orderStore?.order?.status === 'preparing_shipment' &&
-                orderStore?.order?.delivery_method === 'shipper'
-              "
-              class="text-tag-text-15 bg-tag-bg-15 border-none py-1 px-3 rounded-lg"
-            >
+            <a-tag v-else-if="
+              orderStore?.order?.status === 'preparing_shipment' &&
+              orderStore?.order?.delivery_method === 'shipper'
+            " class="text-tag-text-15 bg-tag-bg-15 border-none py-1 px-3 rounded-lg">
               Chờ giao hàng
             </a-tag>
-            <a-tag
-              v-else-if="orderStore?.order?.status === 'in_transit'"
-              class="text-tag-text-03 bg-tag-bg-03 border-none py-1 px-3 rounded-lg"
-            >
+            <a-tag v-else-if="orderStore?.order?.status === 'in_transit'"
+              class="text-tag-text-03 bg-tag-bg-03 border-none py-1 px-3 rounded-lg">
               Đang giao
             </a-tag>
-            <a-tag
-              v-else-if="orderStore?.order?.status === 'extended'"
-              class="text-tag-text-12 bg-tag-bg-12 border-none py-1 px-3 rounded-lg"
-            >
+            <a-tag v-else-if="orderStore?.order?.status === 'extended'"
+              class="text-tag-text-12 bg-tag-bg-12 border-none py-1 px-3 rounded-lg">
               Đang gia hạn
             </a-tag>
-            <a-tag
-              v-else-if="orderStore?.order?.status === 'active'"
-              class="text-tag-text-04 bg-tag-bg-04 border-none py-1 px-3 rounded-lg"
-            >
+            <a-tag v-else-if="orderStore?.order?.status === 'active'"
+              class="text-tag-text-04 bg-tag-bg-04 border-none py-1 px-3 rounded-lg">
               Đang thuê
             </a-tag>
-            <a-tag
-              v-else-if="orderStore?.order?.status === 'returning'"
-              class="text-tag-text-13 bg-tag-bg-13 border-none py-1 px-3 rounded-lg"
-            >
+            <a-tag v-else-if="orderStore?.order?.status === 'returning'"
+              class="text-tag-text-13 bg-tag-bg-13 border-none py-1 px-3 rounded-lg">
               Đang trả sách
             </a-tag>
-            <a-tag
-              v-else-if="orderStore?.order?.status === 'completed'"
-              class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg"
-            >
+            <a-tag v-else-if="orderStore?.order?.status === 'completed'"
+              class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg">
               Hoàn thành
             </a-tag>
-            <a-tag
-              v-else-if="orderStore?.order?.status === 'canceled'"
-              class="text-tag-text-07 bg-tag-bg-07 border-none py-1 px-3 rounded-lg"
-            >
+            <a-tag v-else-if="orderStore?.order?.status === 'canceled'"
+              class="text-tag-text-07 bg-tag-bg-07 border-none py-1 px-3 rounded-lg">
               Bị từ chối
             </a-tag>
-            <a-tag
-              v-else-if="orderStore?.order?.status === 'overdue'"
-              class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
-            >
+            <a-tag v-else-if="orderStore?.order?.status === 'overdue'"
+              class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg">
               Quá hạn
             </a-tag>
           </span>
@@ -183,12 +144,7 @@
                 {{ orderStore?.order?.loan_order_details?.length }}
               </span>
             </div>
-            <div class="grid grid-cols-8">
-              <span class="col-span-3 font-bold">Ưu đãi:</span>
-              <span class="col-span-5">
-                Giảm giá 50% các loại phí thuê sách cho HS/SV
-              </span>
-            </div>
+
             <div class="grid grid-cols-8">
               <span class="col-span-3 font-bold">Ngày đặt sách:</span>
               <span class="col-span-5">
@@ -199,14 +155,11 @@
                 }}
               </span>
             </div>
-            <div
-              class="grid grid-cols-8"
-              v-if="
-                orderStore?.order?.status === 'active' ||
-                orderStore?.order?.status === 'overdue' ||
-                orderStore?.order?.status === 'returning'
-              "
-            >
+            <div class="grid grid-cols-8" v-if="
+              orderStore?.order?.status === 'active' ||
+              orderStore?.order?.status === 'overdue' ||
+              orderStore?.order?.status === 'returning'
+            ">
               <span class="col-span-3 font-bold">Ngày nhận sách:</span>
               <span class="col-span-5">
                 {{
@@ -216,14 +169,11 @@
                 }}
               </span>
             </div>
-            <div
-              class="grid grid-cols-8"
-              v-if="
-                orderStore?.order?.status === 'active' ||
-                orderStore?.order?.status === 'overdue' ||
-                orderStore?.order?.status === 'returning'
-              "
-            >
+            <div class="grid grid-cols-8" v-if="
+              orderStore?.order?.status === 'active' ||
+              orderStore?.order?.status === 'overdue' ||
+              orderStore?.order?.status === 'returning'
+            ">
               <span class="col-span-3 font-bold">Ngày trả dự kiến:</span>
               <span class="col-span-5">
                 {{
@@ -233,14 +183,11 @@
                 }}
               </span>
             </div>
-            <div
-              class="grid grid-cols-8"
-              v-if="
-                orderStore?.order?.status === 'active' ||
-                orderStore?.order?.status === 'overdue' ||
-                orderStore?.order?.status === 'returning'
-              "
-            >
+            <div class="grid grid-cols-8" v-if="
+              orderStore?.order?.status === 'active' ||
+              orderStore?.order?.status === 'overdue' ||
+              orderStore?.order?.status === 'returning'
+            ">
               <span class="col-span-3 font-bold">Ngày trả thực tế:</span>
               <span class="col-span-5">
                 {{
@@ -251,36 +198,25 @@
               </span>
             </div>
 
-            <div
-              class="grid grid-cols-8"
-              v-if="
-                orderStore?.order?.status === 'active' ||
-                orderStore?.order?.status === 'overdue' ||
-                orderStore?.order?.status === 'returning'
-              "
-            >
+            <div class="grid grid-cols-8" v-if="
+              orderStore?.order?.status === 'active' ||
+              orderStore?.order?.status === 'overdue' ||
+              orderStore?.order?.status === 'returning'
+            ">
               <span class="col-span-3 font-bold">Số lần gia hạn:</span>
-              <span class="col-span-5"> 0 / 3 </span>
+              <span class="col-span-5"> {{ orderStore?.order?.extensions?.length }} / {{
+                orderStore?.order?.max_extensions }} </span>
             </div>
             <div class="grid grid-cols-8">
               <span class="col-span-3 font-bold">Hình thức giao sách:</span>
-              <span
-                class="col-span-5"
-                v-if="orderStore?.order?.delivery_method === 'pickup'"
-              >
+              <span class="col-span-5" v-if="orderStore?.order?.delivery_method === 'pickup'">
                 Giao sách tại thư viện
               </span>
-              <span
-                class="col-span-2"
-                v-else-if="orderStore?.order?.delivery_method === 'shipper'"
-              >
+              <span class="col-span-2" v-else-if="orderStore?.order?.delivery_method === 'shipper'">
                 Giao sách tại nhà
               </span>
             </div>
-            <div
-              class="grid grid-cols-8"
-              v-if="orderStore?.order?.status === 'canceled'"
-            >
+            <div class="grid grid-cols-8" v-if="orderStore?.order?.status === 'canceled'">
               <span class="col-span-3 font-bold">Lý do bị từ chối:</span>
               <span class="col-span-5">
                 {{ orderStore?.order?.reason_cancel }}
@@ -291,9 +227,7 @@
           <div class="w-1/2 pl-5 grid grid-cols-12">
             <div class="space-y-3 col-span-8">
               <div class="grid grid-cols-4">
-                <span class="col-span-2 font-bold"
-                  >Tồng tiền cọc thuê sách:</span
-                >
+                <span class="col-span-2 font-bold">Tồng tiền cọc thuê sách:</span>
                 <span class="col-span-2">
                   {{
                     new Intl.NumberFormat("vi-VN", {
@@ -335,43 +269,30 @@
                     new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(orderStore?.order?.total_all_fee)
+                    }).format(orderStore?.order?.total_all_fee + orderStore?.order?.total_shipping_fee)
                   }}
                 </span>
               </div>
             </div>
-            <a-button
-              @click="showHistoryExtend"
-              v-if="
-                orderStore?.order?.status === 'active' ||
-                orderStore?.order?.status === 'extended'
-              "
-              class="text-sm text-orange-400 text-right col-span-4 border-none shadow-none"
-            >
+            <a-button @click="showHistoryExtend" v-if="
+              orderStore?.order?.status === 'active' ||
+              orderStore?.order?.status === 'extended'
+            " class="text-sm text-orange-400 text-right col-span-4 border-none shadow-none">
               Lịch sử gia hạn
             </a-button>
           </div>
         </div>
       </div>
 
-      <div
-        class="flex justify-end pt-4 gap-2"
-        v-if="
-          orderStore?.order?.status === 'active' ||
-          $dayjs(new Date()).format('YYYY-MM-DD') ===
-            $dayjs(orderStore?.order?.current_due_date).format('YYYY-MM-DD')
-        "
-      >
-        <a-button
-          @click="showReturnAll"
-          class="h-10 border-orange-400 text-orange-400"
-        >
+      <div class="flex justify-end pt-4 gap-2" v-if="
+        orderStore?.order?.status === 'active' ||
+        $dayjs(new Date()).format('YYYY-MM-DD') ===
+        $dayjs(orderStore?.order?.current_due_date).format('YYYY-MM-DD')
+      ">
+        <a-button @click="showReturnAll" class="h-10 border-orange-400 text-orange-400">
           Trả sách toàn bộ
         </a-button>
-        <a-button
-          @click="showExtendAll"
-          class="h-10 bg-orange-500 !text-white border-none"
-        >
+        <a-button @click="showExtendAll" class="h-10 bg-orange-500 !text-white border-none">
           Gia hạn toàn bộ
         </a-button>
       </div>
@@ -381,14 +302,11 @@
       <div>
         <div class="border-b border-rtgray-50 pb-3">
           <h3 class="font-bold mb-1">Thông tin sách thuê</h3>
-          <span
-            class="text-xs text-tag-text-06"
-            v-if="
-              orderStore?.order?.status === 'active' ||
-              orderStore?.order?.status === 'returning' ||
-              orderStore?.order?.status === 'overdue'
-            "
-          >
+          <span class="text-xs text-tag-text-06" v-if="
+            orderStore?.order?.status === 'active' ||
+            orderStore?.order?.status === 'returning' ||
+            orderStore?.order?.status === 'overdue'
+          ">
             Lưu ý:
             <ul>
               <li>- Thời gian gia hạn sẽ được cộng dồn</li>
@@ -401,12 +319,8 @@
           </span>
         </div>
 
-        <form
-          @submit.prevent="onSubmit"
-          class="pt-5 pb-8 border-b border-rtgray-50"
-          v-for="(order, index) in orderStore?.order?.loan_order_details"
-          :key="index"
-        >
+        <form @submit.prevent="onSubmit" class="pt-5 pb-8 border-b border-rtgray-50"
+          v-for="(order, index) in orderStore?.order?.loan_order_details" :key="index">
           <AccountOrderBookDetail :data="order" />
         </form>
       </div>
@@ -416,41 +330,24 @@
         <NuxtLink to="/account/order">
           <a-button class="h-10"> Trở về </a-button>
         </NuxtLink>
-        <a-button
-          class="h-10 !text-orange-400 border border-orange-400"
-          v-if="
-            orderStore?.order?.status === 'pending' ||
-            orderStore?.order?.status === 'wating_payment'
-          "
-          @click="showCancelConfirm(orderStore?.order?.id)"
-        >
+        <a-button class="h-10 !text-orange-400 border border-orange-400" v-if="
+          orderStore?.order?.status === 'pending' ||
+          orderStore?.order?.status === 'wating_payment'
+        " @click="showCancelConfirm(orderStore?.order?.id)">
           Hủy thuê
         </a-button>
-        <NuxtLink
-          :to="`/account/order/checkout/payment/${orderStore?.order?.order_code}`"
-        >
-          <a-button
-            class="h-10 bg-orange-500 !text-white border-none"
-            v-if="orderStore?.order?.status === 'wating_payment'"
-          >
+        <NuxtLink :to="`/account/order/checkout/payment/${orderStore?.order?.order_code}`">
+          <a-button class="h-10 bg-orange-500 !text-white border-none"
+            v-if="orderStore?.order?.status === 'wating_payment'">
             Thanh toán
           </a-button>
         </NuxtLink>
       </div>
     </div>
 
-    <AccountOrderReturnAllBook
-      :openReturnAll="openReturnAll"
-      :closeReturnAll="closeReturnAll"
-    />
-    <AccountOrderHistoryExtendBook
-      :openHistoryExtend="openHistoryExtend"
-      :closeHistoryExtend="closeHistoryExtend"
-    />
-    <AccountOrderExtendAllBook
-      :openExtendAll="openExtendAll"
-      :closeExtendAll="closeExtendAll"
-    />
+    <AccountOrderReturnAllBook :openReturnAll="openReturnAll" :closeReturnAll="closeReturnAll" />
+    <AccountOrderHistoryExtendBook :openHistoryExtend="openHistoryExtend" :closeHistoryExtend="closeHistoryExtend" />
+    <AccountOrderExtendAllBook :openExtendAll="openExtendAll" :closeExtendAll="closeExtendAll" />
   </div>
 </template>
 <script setup lang="ts">

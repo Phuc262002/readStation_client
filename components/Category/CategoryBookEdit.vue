@@ -211,14 +211,14 @@ useAsyncData(
     category.value.status = data.data._value?.data?.status;
     category.value.image = data.data._value?.data?.image;
     category.value.is_featured = data.data._value?.data?.is_featured;
-    fileList.value = [
+    fileList.value = data.data._value?.data?.image ? [
       {
         uid: "-1",
         name: "image.png",
         status: "done",
         url: data.data._value?.data?.image,
       },
-    ];
+    ] : [];
   },
   {
     watch: [categoryId, open],

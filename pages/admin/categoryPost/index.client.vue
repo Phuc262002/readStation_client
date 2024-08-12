@@ -86,7 +86,14 @@
             </a>
           </template>
           <template v-else-if="column.key === 'image'">
-            <a-image class="rounded-md" :width="100" :src="record.image" />
+            <a-image
+              v-if="record.image"
+              class="rounded-md"
+              :width="100"
+              :height="100"
+              :src="record.image"
+            />
+            <span v-else></span>
           </template>
 
           <template v-else-if="column.key === 'status'">
@@ -159,7 +166,7 @@ import { ref } from "vue";
 import { Icon } from "@iconify/vue";
 import { Modal } from "ant-design-vue";
 import { CategoryStatus } from "~/types/admin/category";
-import debounce from 'lodash.debounce'
+import debounce from "lodash.debounce";
 const openModalEdit = ref(false);
 const openModalAdd = ref(false);
 const categoryId = ref();
@@ -177,11 +184,11 @@ const statusValue = ({ value, label }) => {
 const onSearch = debounce(() => {
   current.value = 1;
   categoryStore.getAllCategory({
-      page: current.value,
-      search: valueSearch.value,
-      status: queryStatus.value.value,
-      type: "post",
-    });
+    page: current.value,
+    search: valueSearch.value,
+    status: queryStatus.value.value,
+    type: "post",
+  });
 }, 500);
 watch(valueSearch, onSearch);
 
@@ -214,7 +221,6 @@ const onDelete = async (id) => {
   } catch (error) {
     message.error("Khôi phục danh mục thất bại");
   }
-
 };
 
 const showDeleteConfirm = (id) => {
@@ -276,11 +282,11 @@ const showModalEdit = (id) => {
   categoryId.value = id;
 };
 useSeoMeta({
-    title: "ReadStation - Danh mục bài viết",
-    ogTitle: "ReadStation - Danh mục bài viết",
-    description: "Danh mục bài viết",
-    ogDescription: "Danh mục bài viết",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  title: "ReadStation - Danh mục bài viết",
+  ogTitle: "ReadStation - Danh mục bài viết",
+  description: "Danh mục bài viết",
+  ogDescription: "Danh mục bài viết",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>

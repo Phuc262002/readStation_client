@@ -1,14 +1,22 @@
 <template>
   <div>
-    <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+    <div
+      class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
+    >
       <div class="grow">
-        <h5 class="text-xl text-[#1e293b] font-semibold">Tất cả tác giả đã xóa</h5>
+        <h5 class="text-xl text-[#1e293b] font-semibold">
+          Tất cả tác giả đã xóa
+        </h5>
       </div>
     </div>
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
-      <a-table :columns="columns" :data-source="AuthorStore?.AuthorAdmin?.authors" :loading="AuthorStore.isLoading"
-        :pagination="false">
+      <a-table
+        :columns="columns"
+        :data-source="AuthorStore?.AuthorAdmin?.authors"
+        :loading="AuthorStore.isLoading"
+        :pagination="false"
+      >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
             <span> Mã tác giả </span>
@@ -16,7 +24,6 @@
         </template>
 
         <template #bodyCell="{ column, record, index }">
-
           <template v-if="column.key === 'avatar'">
             <div class="flex justify-start gap-4 items-center">
               <a-avatar :src="record.avatar" :size="80" />
@@ -45,9 +52,14 @@
                 <template #title>
                   <span>Khôi phục</span>
                 </template>
-                <button @click="showRecoverConfirm(record?.id)" class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8
-                    rounded-md">
-                  <Icon icon="ic:round-settings-backup-restore" class="text-lg" />
+                <button
+                  @click="showRecoverConfirm(record?.id)"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
+                >
+                  <Icon
+                    icon="ic:round-settings-backup-restore"
+                    class="text-lg"
+                  />
                 </button>
               </a-tooltip>
             </div>
@@ -55,8 +67,13 @@
         </template>
       </a-table>
       <div class="mt-4 flex justify-end">
-        <a-pagination v-model:current="current" :total="AuthorStore?.AuthorAdmin?.totalResults"
-          :pageSize="AuthorStore?.AuthorAdmin?.pageSize" show-less-items />
+        <a-pagination
+          v-model:current="current"
+          :total="AuthorStore?.AuthorAdmin?.totalResults"
+          :pageSize="AuthorStore?.AuthorAdmin?.pageSize"
+          show-less-items
+          pageSizeOptions
+        />
       </div>
     </div>
   </div>
@@ -65,20 +82,22 @@
 import { Icon } from "@iconify/vue";
 const AuthorStore = useAuthorStore();
 const current = ref(1);
-useAsyncData(async () => {
-  try {
-    await AuthorStore.getAllAuthor({
-      page: current.value,
-      status: "deleted",
-    });
-  } catch (error) {
-    console.error(error);
-
+useAsyncData(
+  async () => {
+    try {
+      await AuthorStore.getAllAuthor({
+        page: current.value,
+        status: "deleted",
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  {
+    immediate: true,
+    watch: [current],
   }
-}, {
-  immediate: true,
-  watch: [current],
-});
+);
 const showRecoverConfirm = (id) => {
   Modal.confirm({
     title: "Bạn có muốn khôi phục tác giả này ?",
@@ -96,9 +115,10 @@ const showRecoverConfirm = (id) => {
 const onRecover = async (id) => {
   try {
     const res = await AuthorStore.updateAuthor({
-      id: id, valueAuthor: {
-        status: 'active'
-      }
+      id: id,
+      valueAuthor: {
+        status: "active",
+      },
     });
     if (res.data._rawValue?.status == true) {
       message.success("Khôi phục tác giả thành công");
@@ -113,9 +133,8 @@ const onRecover = async (id) => {
   } catch (error) {
     console.error(error);
   }
-}
+};
 const columns = [
-
   {
     title: "Tác giả",
     dataIndex: "avatar",

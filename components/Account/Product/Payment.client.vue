@@ -4,10 +4,7 @@
       <div class="flex flex-col gap-4">
         <div class="text-base flex border-b border-rtgray-50 pb-2">
           <div class="flex items-center gap-4">
-            <a-avatar
-              class="h-[40px] w-[40px]"
-              :src="bookStore?.book?.publishing_company?.logo_company"
-            />
+            <a-avatar class="h-[40px] w-[40px]" :src="bookStore?.book?.publishing_company?.logo_company" />
             <span>{{ bookStore?.book?.publishing_company?.name }}</span>
           </div>
         </div>
@@ -42,16 +39,12 @@
             </p>
           </div>
           <div class="grid gap-2 py-4">
-            <a-button
-              @click="handleRentNow"
-              class="bg-rtprimary border-none border border-lg rounded-lg text-center !text-white text-sm h-10 w-full"
-            >
+            <a-button @click="handleRentNow"
+              class="bg-rtprimary border-none border border-lg rounded-lg text-center !text-white text-sm h-10 w-full">
               Thuê ngay
             </a-button>
-            <a-button
-              @click="addToCart"
-              class="border border-lg border-x-rtgray-50 rounded-lg text-center text-rtprimary text-sm h-10"
-            >
+            <a-button @click="addToCart"
+              class="border border-lg border-x-rtgray-50 rounded-lg text-center text-rtprimary text-sm h-10">
               Thêm vào danh sách thuê
             </a-button>
           </div>
@@ -70,7 +63,9 @@ const handleRentNow = () => {
     message.success({
       content: "Thêm sản phẩm thành công. Chuyển hướng đến trang thanh toán!",
     });
-    navigateTo("/account/order/checkout?type=thue_ngay");
+    navigateTo("/account/order/checkout?type=thue_ngay", {
+      external: 'blank'
+    });
   } else {
     message.error({
       content: "Thêm sản phẩm thất bại. Sản phẩm tạm hết hàng !",
@@ -120,6 +115,7 @@ const addToCart = () => {
 :deep(.ant-rate-star):not(:first-child) {
   display: none;
 }
+
 button {
   padding: 0.5rem 1rem;
   cursor: pointer;

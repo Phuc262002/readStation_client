@@ -1,17 +1,10 @@
 <template>
   <div>
-    <div
-      v-if="orderStore?.isSubmitting"
-      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
-    >
+    <div v-if="orderStore?.isSubmitting"
+      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default">
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
     </div>
-    <a-modal
-      v-model:open="props.openModalExtend"
-      :footer="null"
-      width="50%"
-      :onCancel="handleCloseExtend"
-    >
+    <a-modal v-model:open="props.openModalExtend" :footer="null" width="50%" :onCancel="handleCloseExtend">
       <form @submit.prevent="onSubmit" class="mt-5 space-y-5">
         <h3 class="font-bold text-base">
           Bạn muốn gia hạn sách
@@ -28,11 +21,8 @@
 
         <div class="grid grid-cols-12 px-5">
           <div class="col-span-4">
-            <img
-              :src="props.bookExtendDetail?.book_details?.poster"
-              alt=""
-              class="w-[114px] h-[176px] shadow-lg shadow-gray-500"
-            />
+            <img :src="props.bookExtendDetail?.book_details?.poster" alt=""
+              class="w-[114px] h-[176px] shadow-lg shadow-gray-500" />
           </div>
           <div class="col-span-8 text-sm space-y-3">
             <div class="grid grid-cols-6">
@@ -81,6 +71,12 @@
               <span class="col-span-3 font-bold">Phí gia hạn:</span>
               <span class="col-span-3"> 0 / 3 </span>
             </div>
+            <div class="grid grid-cols-6">
+              <span class="col-span-3 font-bold">Nhập số ngày gia hạn:</span>
+              <span class="col-span-3">
+                <a-input type="number" />
+              </span>
+            </div>
           </div>
         </div>
         <p>
@@ -96,11 +92,8 @@
         <div class="flex justify-end gap-2">
           <a-button class="h-10" @click="handleCloseExtend"> Hủy </a-button>
 
-          <a-button
-            :loading="orderStore?.isSubmitting"
-            html-type="submit"
-            class="h-10 bg-orange-500 !text-white border-none"
-          >
+          <a-button :loading="orderStore?.isSubmitting" html-type="submit"
+            class="h-10 bg-orange-500 !text-white border-none">
             Xác nhận
           </a-button>
         </div>

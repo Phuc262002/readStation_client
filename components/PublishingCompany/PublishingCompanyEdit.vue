@@ -202,14 +202,14 @@ useAsyncData(
     publishingCompany.value.description = data.data._value?.data?.description;
     publishingCompany.value.logo_company = data.data._value?.data?.logo_company;
     publishingCompany.value.status = data.data._value?.data?.status;
-    fileList.value = [
+    fileList.value = data.data._value?.data?.logo_company ? [
       {
         uid: "-1",
         name: "image.png",
         status: "done",
         url: data.data._value?.data?.logo_company,
       },
-    ];
+    ] : [];
   },
   {
     watch: [publishingCompanyId, open],
