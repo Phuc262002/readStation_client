@@ -43,13 +43,19 @@
                                     v-if="orderStore?.getOneOrderAdmin?.data?.user?.role?.description === 'Student'">
                                     HS/ SV
                                 </div>
+                                <div class="p-1 w-24 text-center rounded-lg text-tag-text-04 bg-tag-bg-04" v-if="orderStore?.getOneOrderAdmin?.data?.user?.role?.description === 'Administrator'
+                                ">
+                                    Quản trị
+                                </div>
                             </span>
                         </div>
                     </div>
                     <div class="md:col-span-3 space-y-3 ml-5">
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Địa chỉ nhận sách: </span>
-                            <span class="text-base col-span-3"></span>
+                            <span class="text-base col-span-3">{{
+                                orderStore?.getOneOrderAdmin?.data?.user?.address_detail
+                            }}</span>
                         </div>
                         <div class="grid grid-cols-4">
                             <span class="text-base font-bold col-span-1">Phương thức thanh toán: </span>
@@ -148,7 +154,8 @@
                                 currency: "VND",
                             }).format(orderStore?.getOneOrderAdmin?.data?.total_deposit_fee) }}</span>
                         </div>
-                        <div class="grid grid-cols-4">
+                        <div class="grid grid-cols-4"
+                            v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'shipper'">
                             <span class="text-base font-bold">Phí vận chuyển:</span>
                             <span class="text-base col-span-3">{{ new Intl.NumberFormat("vi-VN", {
                                 style: "currency",
@@ -168,7 +175,11 @@
                                 {{ new Intl.NumberFormat("vi-VN", {
                                     style: "currency",
                                     currency: "VND",
-                                }).format(orderStore?.getOneOrderAdmin?.data?.total_deposit_fee) }}
+                                }).format(orderStore?.getOneOrderAdmin?.data?.extensions_details.reduce(
+                                    (acc, curr) => acc + parseFloat(curr.extension_fee),
+                                    0
+                                )) }}
+
                             </span>
                         </div>
                         <div class="grid grid-cols-4">
@@ -177,7 +188,7 @@
                                 {{ new Intl.NumberFormat("vi-VN", {
                                     style: "currency",
                                     currency: "VND",
-                                }).format(orderStore?.getOneOrderAdmin?.data?.total_deposit_fee) }}
+                                }).format(orderStore?.getOneOrderAdmin?.data?.total_fine_fee) }}
                             </span>
                         </div>
                         <div class="grid grid-cols-4">
@@ -262,6 +273,13 @@
                                         <span class="text-base ">{{ items?.book_details?.book?.category?.name }}</span>
                                     </div>
                                     <div class="grid grid-cols-2">
+                                        <span class="text-base font-bold">Giá:</span>
+                                        <span class="text-base ">{{ new Intl.NumberFormat("vi-VN", {
+                                            style: "currency",
+                                            currency: "VND",
+                                        }).format(items?.book_details?.price) }}</span>
+                                    </div>
+                                    <div class="grid grid-cols-2">
                                         <span class="text-base font-bold">Ngày trả dự kiến:</span>
                                         <span class="text-base ">{{
                                             items?.current_due_date
@@ -309,11 +327,27 @@
                                     </div>
                                     <div class="grid grid-cols-3">
                                         <span class="text-base font-bold col-span-2">Phí trễ hạn:</span>
-                                        <span class="text-base col-span-1"></span>
+                                        <span class="text-base col-span-1">
+                                            {{ new Intl.NumberFormat("vi-VN", {
+                                                style: "currency",
+                                                currency: "VND",
+                                            }).format(items?.fine_amount) }}
+                                        </span>
                                     </div>
                                     <div class="grid grid-cols-3">
                                         <span class="text-base font-bold col-span-2 ">Phí gia hạn:</span>
-                                        <span class="text-base col-span-1"></span>
+                                        <span class="text-base col-span-1">{{
+                                            new Intl.NumberFormat("vi-VN", {
+                                                style: "currency",
+                                                currency: "VND",
+                                            }).format(
+                                                items.extensions_details.reduce(
+                                                    (acc, curr) => acc + parseFloat(curr.extension_fee),
+                                                    0
+                                                )
+                                            )
+                                        }}</span>
+
                                     </div>
                                     <div class="grid grid-cols-3"
                                         v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'shipper'">
@@ -337,8 +371,8 @@
                         </div>
                         <div class="flex justify-end" v-else-if="items?.status === 'overdue'">
                             <div class="flex gap-2">
-                                <a-button class="border-orange-400 text-orange-500">Trả sách</a-button>
-                                <a-button type="primary">Gia hạn</a-button>
+                                <a-button class="border-orange-400 text-orange-500" @click="showReturnBook(items)">Trả
+                                    sách</a-button>
                             </div>
                         </div>
                     </div>
