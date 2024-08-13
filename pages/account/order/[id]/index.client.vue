@@ -292,7 +292,9 @@
         <a-button @click="showReturnAll" class="h-10 border-orange-400 text-orange-400">
           Trả sách toàn bộ
         </a-button>
-        <a-button @click="showExtendAll" class="h-10 bg-orange-500 !text-white border-none">
+
+        <a-button @click="showExtendAll(orderStore?.order?.loan_order_details)"
+          class="h-10 bg-orange-500 !text-white border-none">
           Gia hạn toàn bộ
         </a-button>
       </div>
@@ -347,7 +349,8 @@
 
     <AccountOrderReturnAllBook :openReturnAll="openReturnAll" :closeReturnAll="closeReturnAll" />
     <AccountOrderHistoryExtendBook :openHistoryExtend="openHistoryExtend" :closeHistoryExtend="closeHistoryExtend" />
-    <AccountOrderExtendAllBook :openExtendAll="openExtendAll" :closeExtendAll="closeExtendAll" />
+    <AccountOrderExtendAllBook :openExtendAll="openExtendAll" :closeExtendAll="closeExtendAll" :data="extendsionBooks"
+      :id="id" />
   </div>
 </template>
 <script setup lang="ts">
@@ -358,7 +361,7 @@ const route = useRoute();
 const id = route.params.id;
 const rating = ref<number>(5);
 const errors = ref({});
-
+const extendsionBooks = ref([])
 const onCancelOrderDetail = async (id: any) => {
   await orderStore.cancelOrder(id);
 };
@@ -399,8 +402,10 @@ const closeHistoryExtend = () => {
 };
 // Modal Extend All
 const openExtendAll = ref(false);
-const showExtendAll = () => {
+const showExtendAll = (books) => {
   openExtendAll.value = true;
+  extendsionBooks.value = books;
+  console.log('extendsionBooks.value ', extendsionBooks.value)
 };
 const closeExtendAll = () => {
   openExtendAll.value = false;
