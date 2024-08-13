@@ -152,7 +152,6 @@ export default defineComponent({
   methods: {
     
     validateCitizenName() {
-      console.log("Citizen name:", this.citizen_name); // Debugging
       const regex =
         /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỀỂỄữẫựẫỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỲỴÝỶỸửữẫựạảấầẩẫậắằẳẵặẹẻẽềểếễềệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ\s]+$/;
       return regex.test(this.citizen_name);
