@@ -7,40 +7,36 @@ import { number } from 'yup';
                 <div class="flex flex-col" v-for="(items, index) in props.data" :key="index">
                     <div class="flex justify-start pl-5 ">
                         <div>
-                            <img class="w-52" :src="items?.book_details?.poster" alt="">
+                            <img class="w-36" :src="items?.book_details?.poster" alt="">
                         </div>
-                        <div class="grid grid-cols-1 pl-12 space-y-3">
-                            <div class="grid grid-cols-2">
-                                <p class="text-base font-bold col-span-1">Tên sách:</p>
-                                <p class="text-base col-span-1">{{ items?.book_details?.book?.title }}</p>
+                        <div class="space-y-3 pl-12">
+                            <div class="grid grid-cols-2  gap-x-8">
+                                <p class="text-base font-bold">Tên sách:</p>
+                                <p class="text-base">{{ items?.book_details?.book?.title }}</p>
                             </div>
-                            <div class="grid grid-cols-2">
-                                <p class="text-base font-bold col-span-1">Tác giả:</p>
-                                <p class="text-base col-span-1">{{ items?.book_details?.book?.author?.author }}
-                                </p>
+                            <div class="grid grid-cols-2  gap-x-8">
+                                <p class="text-base font-bold">Tác giả:</p>
+                                <p class="text-base">{{ items?.book_details?.book?.author?.author }}</p>
                             </div>
-                            <div class="grid grid-cols-2">
-                                <p class="text-base font-bold col-span-1">Danh mục:</p>
-                                <p class="text-base col-span-1">{{ items?.book_details?.book?.category?.name }}
-                                </p>
+                            <div class="grid grid-cols-2  gap-x-8">
+                                <p class="text-base font-bold">Danh mục:</p>
+                                <p class="text-base">{{ items?.book_details?.book?.category?.name }}</p>
                             </div>
-                            <div class="grid grid-cols-2">
-                                <p class="text-base font-bold col-span-1">Ngày hết hạn cũ:</p>
-                                <p class="text-base col-span-1">{{ items?.current_due_date ?
+                            <div class="grid grid-cols-2  gap-x-8">
+                                <p class="text-base font-bold">Ngày hết hạn cũ:</p>
+                                <p class="text-base">{{ items?.current_due_date ?
                                     $dayjs(items?.current_due_date).format("DD/MM/YYYY") : '' }}</p>
                             </div>
-                            <div class="grid grid-cols-2">
-                                <p class="text-base font-bold col-span-1">Chọn thêm ngày gia hạn:</p>
-                                <a-input type="number" class="w-1/4" v-model:value="number_of_days[index]" :min="1"
+                            <div class="grid grid-cols-2  gap-x-8 items-center">
+                                <p class="text-base font-bold">Chọn thêm ngày gia hạn:</p>
+                                <a-input type="number" class="w-1/2" v-model:value="number_of_days[index]" :min="1"
                                     :max="5" required />
                             </div>
-                            <div class="grid grid-cols-2">
-                                <p class="text-base font-bold col-span-1">Ngày hết hạn mới:</p>
-                                <p class="text-base col-span-1">{{ items?.current_due_date ?
+                            <div class="grid grid-cols-2  gap-x-8">
+                                <p class="text-base font-bold">Ngày hết hạn mới:</p>
+                                <p class="text-base">{{ items?.current_due_date ?
                                     $dayjs(items?.current_due_date).add(number_of_days[index],
-                                        'day').format("DD/MM/YYYY") : ''
-                                    }}
-                                </p>
+                                        'day').format("DD/MM/YYYY") : '' }}</p>
                             </div>
                         </div>
                     </div>
@@ -60,7 +56,7 @@ import { number } from 'yup';
                 </div>
                 <div class="flex justify-end items-center gap-2">
                     <a-button @click="handleClose">Hủy</a-button>
-                    <a-button type="primary" html-type="submit" :loading="orderStore. isSubmitting">Xác nhận</a-button>
+                    <a-button type="primary" html-type="submit" :loading="orderStore.isSubmitting">Xác nhận</a-button>
                 </div>
             </div>
         </form>

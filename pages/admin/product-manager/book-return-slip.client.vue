@@ -66,9 +66,11 @@
             </template>
             <template v-if="column.key === 'loan_order_detail'">
               <div class="flex justify-start gap-4 items-center">
-                <a-avatar
+                <a-image
                   :src="record.loan_order_detail?.loan_order?.user?.avatar"
-                  :size="40"
+                  :width="40"
+                  :height="40"
+                  class="rounded-full"
                 />
                 <div class="flex flex-col gap-1">
                   <span class="text-base">

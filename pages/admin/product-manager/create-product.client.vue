@@ -102,7 +102,7 @@
               </div>
             </div>
             <a-table :columns="columns" :data-source="data" :pagination="false">
-              <template #bodyCell="{ column, record }">
+              <template #bodyCell="{ column, record, index }">
                 <template v-if="column.key === 'name'">
                   <a>
                     {{ record.name }}
@@ -131,6 +131,7 @@
                     <span>{{ record?.book?.author?.author }}</span>
                   </div>
                 </template>
+
                 <template v-if="column.key === 'category'">
                   <div class="flex gap-5 items-center">
                     <span>{{ record?.book?.category?.name }}</span>
@@ -138,12 +139,12 @@
                 </template>
                 <template v-if="column.key === 'number_of_days'">
                   <div v-if="inforUser?.role?.name === 'student' && record?.book?.category?.name === 'Giáo Dục'">
-                    <a-input type="number" class="w-3/4" size="large" v-model:value="number_of_days" :min="1" :max="30"
-                      required />
+                    <a-input type="number" class="w-3/4" size="large" v-model:value="number_of_days[index]" :min="1"
+                      :max="30" required />
                   </div>
                   <div v-else>
-                    <a-input type="number" class="w-3/4" size="large" v-model:value="number_of_days" :min="1" :max="5"
-                      required />
+                    <a-input type="number" class="w-3/4" size="large" v-model:value="number_of_days[index]" :min="1"
+                      :max="5" required />
                   </div>
                 </template>
                 <template v-else-if="column.key === 'action'">
@@ -273,7 +274,7 @@ const paymentMethod = ref("cash");
 const setPayment = (selectePayment) => {
   paymentMethod.value = selectePayment;
 };
-const number_of_days = ref(1);
+const number_of_days = ref([1, 1, 1]);
 const onSubmit = async () => {
   let checkcate = ref(true);
   const cate = data.value.forEach((item) => {
@@ -294,14 +295,14 @@ const onSubmit = async () => {
         total_all_fee: 0,
         order_details: [],
       };
-      data.value.forEach((item) => {
+      data.value.forEach((item, index) => {
         let totalService = 0;
         let totalDeposit = 0;
         totalDeposit += ((item.hire_percent - 20) / 100) * item.price;
         valueOrder.total_deposit_fee += totalDeposit;
         valueOrder.total_all_fee += totalService + totalDeposit;
         orderDetail = {
-          number_of_days: number_of_days.value,
+          number_of_days: number_of_days.value[index] * 1,
           book_details_id: item.id,
           service_fee: 0,
           deposit_fee: ((item.hire_percent - 20) / 100) * item.price,
@@ -318,14 +319,14 @@ const onSubmit = async () => {
         total_all_fee: 0,
         order_details: [],
       };
-      data.value.forEach((item) => {
+      data.value.forEach((item, index) => {
         let totalService = 0;
         let totalDeposit = 0;
         totalDeposit += (item.hire_percent / 100) * item.price;
         valueOrder.total_deposit_fee += totalDeposit;
         valueOrder.total_all_fee += totalService + totalDeposit;
         orderDetail = {
-          number_of_days: number_of_days.value,
+          number_of_days: number_of_days.value[index] * 1,
           book_details_id: item.id,
           service_fee: 0,
           deposit_fee: (item.hire_percent / 100) * item.price,
@@ -342,7 +343,7 @@ const onSubmit = async () => {
         total_all_fee: 0,
         order_details: [],
       };
-      data.value.forEach((item) => {
+      data.value.forEach((item, index) => {
         let desposive = 0;
         let totalService = 0;
         let totalDeposit = 0;
@@ -353,15 +354,15 @@ const onSubmit = async () => {
         } else {
           desposive = 4000;
         }
-        totalService += desposive * number_of_days.value;
+        totalService += desposive * number_of_days.value[index] * 1,
         totalDeposit += (item.hire_percent / 100) * item.price;
         valueOrder.total_service_fee += totalService;
         valueOrder.total_deposit_fee += totalDeposit;
         valueOrder.total_all_fee += totalService + totalDeposit;
         orderDetail = {
-          number_of_days: number_of_days.value,
+          number_of_days: number_of_days.value[index] * 1,
           book_details_id: item.id,
-          service_fee: desposive * number_of_days.value,
+          service_fee: desposive * number_of_days.value[index] * 1,
           deposit_fee: (item.hire_percent / 100) * item.price,
         };
         valueOrder.order_details.push(orderDetail);
@@ -378,7 +379,7 @@ const onSubmit = async () => {
         total_all_fee: 0,
         order_details: [],
       };
-      data.value.forEach((item) => {
+      data.value.forEach((item, index) => {
         let desposive = 0;
         let totalService = 0;
         let totalDeposit = 0;
@@ -389,15 +390,15 @@ const onSubmit = async () => {
         } else {
           desposive = 4000;
         }
-        totalService += desposive * number_of_days.value;
+        totalService += desposive * number_of_days.value[index] * 1;
         totalDeposit += (item.hire_percent / 100) * item.price;
         valueOrder.total_service_fee += totalService;
         valueOrder.total_deposit_fee += totalDeposit;
         valueOrder.total_all_fee += totalService + totalDeposit;
         orderDetail = {
-          number_of_days: number_of_days.value,
+          number_of_days: number_of_days.value[index] * 1,
           book_details_id: item.id,
-          service_fee: desposive * number_of_days.value,
+          service_fee: desposive * number_of_days.value[index] * 1,
           deposit_fee: (item.hire_percent / 100) * item.price,
         };
         valueOrder.order_details.push(orderDetail);
@@ -412,7 +413,7 @@ const onSubmit = async () => {
         total_all_fee: 0,
         order_details: [],
       };
-      data.value.forEach((item) => {
+      data.value.forEach((item, index) => {
         let desposive = 0;
         let totalService = 0;
         let totalDeposit = 0;
@@ -423,15 +424,15 @@ const onSubmit = async () => {
         } else {
           desposive = 4000;
         }
-        totalService += desposive * number_of_days.value;
+        totalService += desposive * number_of_days.value[index] * 1
         totalDeposit += ((item.hire_percent - 20) / 100) * item.price;
         valueOrder.total_service_fee += totalService;
         valueOrder.total_deposit_fee += totalDeposit;
         valueOrder.total_all_fee += totalService + totalDeposit;
         orderDetail = {
-          number_of_days: number_of_days.value,
+          number_of_days: number_of_days.value[index] * 1,
           book_details_id: item.id,
-          service_fee: desposive * number_of_days.value,
+          service_fee: desposive * number_of_days.value[index] * 1,
           deposit_fee: ((item.hire_percent - 20) / 100) * item.price,
         };
         valueOrder.order_details.push(orderDetail);

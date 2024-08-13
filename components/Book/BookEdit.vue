@@ -53,13 +53,7 @@ const route = useRoute()
 const bookID = route.params.id
 const bookStore = useBookStore();
 const dataGet = ref({
-    title: "",
-    author: "",
-    category: "",
-    shelve: "",
-    bookcase: "",
-    description_summary: "",
-    description: "",
+
 })
 useAsyncData(async () => {
     try {
