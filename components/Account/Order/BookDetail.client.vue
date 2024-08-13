@@ -182,7 +182,7 @@
       </div>
     </div>
     <AccountOrderExtendBook :openModalExtend="openModalExtend" :closeModalExtend="closeModalExtend"
-      :bookExtendDetail="bookExtendDetail" />
+      :extendsionBook="extendsionBook" />
     <AccountOrderGiveBook :openModalGive="openModalGive" :closeModalGive="closeModalGive" :bookDetail="bookDetail" />
   </div>
 </template>
@@ -191,7 +191,7 @@ const orderStore = useOrderClientStore();
 const order = defineProps(["data"]);
 const errors = ref({});
 const bookDetail = ref();
-const bookExtendDetail = ref();
+const extendsionBook = ref();
 const rating = ref<number>(5);
 const route = useRoute();
 const idBook = route.params.id;
@@ -227,8 +227,8 @@ const handleReviewBook = async (id) => {
 const openModalExtend = ref(false);
 const showModalExtend = (order: any) => {
   openModalExtend.value = true;
-  bookExtendDetail.value = order;
-  console.log("id book ex", order);
+  extendsionBook.value = order;
+  // console.log("id book ex", order);
 };
 const closeModalExtend = () => {
   openModalExtend.value = false;
@@ -239,6 +239,7 @@ const openModalGive = ref(false);
 const showModalGive = (order: any) => {
   openModalGive.value = true;
   bookDetail.value = order;
+  console.log('order', order)
 };
 const closeModalGive = () => {
   openModalGive.value = false;

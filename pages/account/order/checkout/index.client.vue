@@ -664,26 +664,26 @@ const payCart = async () => {
       ...valueOrder.value,
       shipping_method_id: shipping_method_id.value
     });
-    // if (res.data._rawValue?.status == true && payment_method.value === "cash") {
-    //   message.success("Thêm đơn hàng thành công");
-    //   navigateTo("/account/order");
-    // } else if (
-    //   res.data._rawValue?.status == true &&
-    //   payment_method.value === "online"
-    // ) {
-    //   type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
-    //   message.success({
-    //     content: "Đặt hàng thành công",
-    //   });
-    //   navigateTo(
-    //     "/account/order/checkout/payment/" +
-    //     res?.data?._rawValue?.data.order_code
-    //   );
-    // } else {
-    //   message.error({
-    //     content: "Đặt hàng thất bại",
-    //   });
-    // }
+    if (res.data._rawValue?.status == true && payment_method.value === "cash") {
+      message.success("Thêm đơn hàng thành công");
+      navigateTo("/account/order");
+    } else if (
+      res.data._rawValue?.status == true &&
+      payment_method.value === "online"
+    ) {
+      type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
+      message.success({
+        content: "Đặt hàng thành công",
+      });
+      navigateTo(
+        "/account/order/checkout/payment/" +
+        res?.data?._rawValue?.data.order_code
+      );
+    } else {
+      message.error({
+        content: "Đặt hàng thất bại",
+      });
+    }
   } catch (error) {
     message.error("Đặt hàng thất bại");
   }
