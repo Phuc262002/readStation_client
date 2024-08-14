@@ -8,13 +8,27 @@ export const useTransactionAdminStore = defineStore("transaction-admin-store", {
     };
   },
   actions: {
-    async getAllTransaction({ page, pageSize, sort }: any) {
+    async getAllTransaction({
+      page,
+      pageSize,
+      sort,
+      status,
+      transaction_type,
+      transaction_method,
+      search,
+    }: any) {
       try {
         this.isLoading = true;
         const data: any = await useCustomFetch(
           `/api/v1/admin/transactions?${page ? `&page=${page}` : ""}${
             pageSize ? `&pageSize=${pageSize}` : ""
-          }${sort ? `&sort=${sort}` : ""}`
+          }${sort ? `&sort=${sort}` : ""}${status ? `&status=${status}` : ""}${
+            transaction_type ? `&transaction_type=${transaction_type}` : ""
+          }${
+            transaction_method
+              ? `&transaction_method=${transaction_method}`
+              : ""
+          }${search ? `&search=${search}` : ""}`
         );
         this.transactionAdmin = data.data._value?.data;
         return data;

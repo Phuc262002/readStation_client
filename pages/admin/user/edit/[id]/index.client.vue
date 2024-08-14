@@ -617,10 +617,9 @@ const handleSubmit = async () => {
       return false;
     }
   }
-  const roleId = role.value === "user" ? 1 : role.value === "student" ? 2 : 3;
 
   const userData = {
-    role_id: roleId ? roleId : null,
+    role_id: user.value.role_id,
     avatar: imageInfo.value ? imageInfo.value.url : null,
     fullname: user.value.fullname,
     job: user.value.job ? user.value.job : null,
