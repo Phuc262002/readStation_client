@@ -36,14 +36,14 @@
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Ngày thuê:</span>
               <span class="col-span-3">
-                {{ $dayjs(order?.loan_date).format("DD/MM/YYYY - HH:MM") }}
+                {{ $dayjs(order?.loan_date).format("DD/MM/YYYY") }}
               </span>
             </div>
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Ngày hết hạn cũ:</span>
               <span class="col-span-3">
                 {{
-                  $dayjs(order?.original_due_date).format("DD/MM/YYYY - HH:MM")
+                  $dayjs(order?.original_due_date).format("DD/MM/YYYY")
                 }}
               </span>
             </div>
@@ -53,7 +53,7 @@
                 {{
                   $dayjs(order?.original_due_date)
                     .add(5, "day")
-                    .format("DD/MM/YYYY - HH:MM")
+                    .format("DD/MM/YYYY")
                 }}
               </span>
             </div>
