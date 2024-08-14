@@ -285,9 +285,7 @@
       </div>
 
       <div class="flex justify-end pt-4 gap-2" v-if="
-        orderStore?.order?.status === 'active' ||
-        $dayjs(new Date()).format('YYYY-MM-DD') ===
-        $dayjs(orderStore?.order?.current_due_date).format('YYYY-MM-DD')
+        orderStore?.order?.status === 'active'
       ">
         <a-button @click="showReturnAll" class="h-10 border-orange-400 text-orange-400">
           Trả sách toàn bộ

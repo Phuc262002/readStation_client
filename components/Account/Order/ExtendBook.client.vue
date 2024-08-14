@@ -42,7 +42,7 @@
               <span class="col-span-3">
                 {{
                   $dayjs(props.extendsionBook?.loan_date).format(
-                    "DD/MM/YYYY - HH:MM"
+                    "DD/MM/YYYY"
                   )
                 }}
               </span>
@@ -52,7 +52,7 @@
               <span class="col-span-3">
                 {{
                   $dayjs(props.extendsionBook?.original_due_date).format(
-                    "DD/MM/YYYY - HH:MM"
+                    "DD/MM/YYYY"
                   )
                 }}
               </span>
@@ -63,7 +63,7 @@
                 {{
                   $dayjs(props.extendsionBook?.original_due_date)
                     .add(5, "day")
-                    .format("DD/MM/YYYY - HH:MM")
+                    .format("DD/MM/YYYY")
                 }}
               </span>
             </div>
@@ -181,7 +181,7 @@ const onSubmit = async () => {
       external: true,
     });
   } else {
-    message.error(resData.data._rawValue?.errors);
+    message.error(resData.data._rawValue?.message);
   }
 };
 

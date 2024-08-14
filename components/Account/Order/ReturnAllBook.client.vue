@@ -1,51 +1,30 @@
 <template>
   <div>
-    <div
-      v-if="orderStore?.isSubmitting"
-      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
-    >
+    <div v-if="orderStore?.isSubmitting"
+      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default">
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
     </div>
-    <a-modal
-      v-model:open="props.openReturnAll"
-      :footer="null"
-      width="50%"
-      :onCancel="handleClose"
-    >
+    <a-modal v-model:open="props.openReturnAll" :footer="null" width="50%" :onCancel="handleClose">
       <div class="mt-5 space-y-5">
         <h3 class="font-bold text-base">Bạn muốn trả sách toàn bộ ?</h3>
         <a-radio-group v-model:value="return_method" class="flex gap-5">
           <a-radio value="library" class="w-1/2 p-5 border rounded-lg">
             Trả sách trực tiếp tại thư viện
           </a-radio>
-          <a-radio
-            value="pickup"
-            @click="renderInfor"
-            class="w-1/2 p-5 border rounded-lg"
-          >
+          <a-radio value="pickup" @click="renderInfor" class="w-1/2 p-5 border rounded-lg">
             Giao sách đến thư viện
           </a-radio>
         </a-radio-group>
-        <div
-          class="text-base grid grid-cols-12"
-          v-if="return_method === 'library'"
-        >
+        <div class="text-base grid grid-cols-12" v-if="return_method === 'library'">
           <p class="font-bold col-span-3">Địa chỉ thư viện:</p>
           <p class="col-span-9">
             Lô 42, đường số 3, Công viên phần mềm Quang Trung, phường Tân Chánh
             Hiệp, Quận 12, TP HCM
           </p>
         </div>
-        <div
-          class="grid grid-cols-12 px-5"
-          v-for="(order, index) in orderStore?.order?.loan_order_details"
-        >
+        <div class="grid grid-cols-12 px-5" v-for="(order, index) in orderStore?.order?.loan_order_details">
           <div class="col-span-3">
-            <img
-              :src="order?.book_details?.poster"
-              alt=""
-              class="w-[114px] h-[176px] shadow-lg shadow-gray-500"
-            />
+            <img :src="order?.book_details?.poster" alt="" class="w-[114px] h-[176px] shadow-lg shadow-gray-500" />
           </div>
           <div class="col-span-9 text-sm space-y-3">
             <div class="grid grid-cols-6">
@@ -63,14 +42,14 @@
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Ngày thuê sách:</span>
               <span class="col-span-3">
-                {{ $dayjs(order?.loan_date).format("DD/MM/YYYY - HH:MM") }}
+                {{ $dayjs(order?.loan_date).format("DD/MM/YYYY") }}
               </span>
             </div>
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Ngày hết hạn mới:</span>
               <span class="col-span-3">
                 {{
-                  $dayjs(order?.current_due_date).format("DD/MM/YYYY - HH:MM")
+                  $dayjs(order?.current_due_date).format("DD/MM/YYYY")
                 }}
               </span>
             </div>
@@ -82,25 +61,15 @@
               <div class="w-1/2">
                 <label class="font-bold"> Tên của bạn </label>
                 <div class="mt-2">
-                  <a-input
-                    size="large"
-                    class="w-full"
-                    v-model:value="user.fullname"
-                    placeholder="Nhập họ tên"
-                    required
-                  />
+                  <a-input size="large" class="w-full" v-model:value="user.fullname" placeholder="Nhập họ tên"
+                    required />
                 </div>
               </div>
               <div class="w-1/2">
                 <label class="font-bold"> Số điện thoại </label>
                 <div class="mt-2">
-                  <a-input
-                    size="large"
-                    class="w-full"
-                    v-model:value="user.phone"
-                    placeholder="Nhập số điện thoại"
-                    required
-                  />
+                  <a-input size="large" class="w-full" v-model:value="user.phone" placeholder="Nhập số điện thoại"
+                    required />
                 </div>
               </div>
             </div>
@@ -108,38 +77,18 @@
               <div class="w-1/2">
                 <label class="font-bold"> Tỉnh/ Thành phố </label>
                 <div class="mt-2">
-                  <a-select
-                    class="w-full"
-                    size="large"
-                    v-model:value="province_id"
-                    show-search
-                    placeholder="Tỉnh/Thành phố"
-                    :options="optionsPronvines"
-                    @focus="handleFocus"
-                    @blur="handleBlur"
-                    @change="handleChangeProvince"
-                    :loading="baseStore.isLoading"
-                  >
+                  <a-select class="w-full" size="large" v-model:value="province_id" show-search
+                    placeholder="Tỉnh/Thành phố" :options="optionsPronvines" @focus="handleFocus" @blur="handleBlur"
+                    @change="handleChangeProvince" :loading="baseStore.isLoading">
                   </a-select>
                 </div>
               </div>
               <div class="w-1/2">
                 <label class="font-bold"> Quận/ Huyện </label>
                 <div class="mt-2">
-                  <a-select
-                    class="w-full"
-                    size="large"
-                    v-model:value="district_id"
-                    show-search
-                    placeholder="Quận/Huyện"
-                    :options="optionsDistricts"
-                    :filter-option="filterOption"
-                    @focus="handleFocus"
-                    @blur="handleBlur"
-                    @change="handleChangeDistrict"
-                    :disabled="!province_id"
-                    :loading="baseStore.isLoading"
-                  >
+                  <a-select class="w-full" size="large" v-model:value="district_id" show-search placeholder="Quận/Huyện"
+                    :options="optionsDistricts" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
+                    @change="handleChangeDistrict" :disabled="!province_id" :loading="baseStore.isLoading">
                   </a-select>
                 </div>
               </div>
@@ -148,55 +97,31 @@
               <div class="w-1/2">
                 <label class="font-bold"> Phường/ Xã </label>
                 <div class="mt-2">
-                  <a-select
-                    class="w-full"
-                    size="large"
-                    v-model:value="ward_id"
-                    show-search
-                    placeholder="Phường/Xã"
-                    :options="optionsWards"
-                    :filter-option="filterOption"
-                    @focus="handleFocus"
-                    @blur="handleBlur"
-                    @change="handleChangeWard"
-                    :disabled="!district_id"
-                    :loading="baseStore.isLoading"
-                  >
+                  <a-select class="w-full" size="large" v-model:value="ward_id" show-search placeholder="Phường/Xã"
+                    :options="optionsWards" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
+                    @change="handleChangeWard" :disabled="!district_id" :loading="baseStore.isLoading">
                   </a-select>
                 </div>
               </div>
               <div class="w-1/2">
                 <label class="font-bold"> Đường </label>
                 <div class="mt-2">
-                  <a-input
-                    v-model:value="address.street"
-                    class="border p-2 rounded-lg"
-                    placeholder="Đường"
-                    :disabled="!ward_id"
-                  />
+                  <a-input v-model:value="address.street" class="border p-2 rounded-lg" placeholder="Đường"
+                    :disabled="!ward_id" />
                 </div>
               </div>
             </div>
             <div class="">
               <label class="font-bold"> Địa chỉ lấy sách </label>
               <div class="mt-2">
-                <a-input
-                  readonly
+                <a-input readonly
                   :value="`${address.street}, ${address.ward}, ${address.district}, ${address.province}`"
-                  size="large"
-                />
+                  size="large" />
               </div>
             </div>
 
-            <a-select
-              placeholder="Chọn hình thức vận chuyển"
-              size="large"
-              v-model:value="shipping_method_id"
-              style="width: 30%"
-              @focus="focus"
-              @change="handleChange"
-              :options="options"
-            >
+            <a-select placeholder="Chọn hình thức vận chuyển" size="large" v-model:value="shipping_method_id"
+              style="width: 30%" @focus="focus" @change="handleChange" :options="options">
             </a-select>
 
             <div class="flex gap-2">
@@ -228,11 +153,8 @@
           <div class="flex justify-end gap-2">
             <a-button class="h-10" @click="handleClose"> Hủy </a-button>
 
-            <a-button
-              class="h-10 bg-orange-500 !text-white border-none"
-              :loading="orderStore?.isSubmitting"
-              html-type="submit"
-            >
+            <a-button class="h-10 bg-orange-500 !text-white border-none" :loading="orderStore?.isSubmitting"
+              html-type="submit">
               Xác nhận
             </a-button>
           </div>
@@ -323,9 +245,9 @@ const onSubmit = async () => {
     phone: user.value.phone,
     address:
       address.value.province &&
-      address.value.district &&
-      address.value.ward &&
-      address.value.street
+        address.value.district &&
+        address.value.ward &&
+        address.value.street
         ? `${address.value.street}, ${address.value.ward}, ${address.value.district}, ${address.value.province}`
         : null,
   };
