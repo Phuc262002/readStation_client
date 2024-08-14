@@ -147,31 +147,31 @@ import { message } from 'ant-design-vue';
             </div>
 
           </div>
-          <div class="md:col-span-3 space-y-3 ml-5">
-            <div class="grid grid-cols-4">
+          <div class="md:col-span-2 space-y-3 ml-5">
+            <div class="grid grid-cols-3">
               <span class="text-base font-bold">Tổng tiền cọc thuê sách:</span>
-              <span class="text-base col-span-3">{{ new Intl.NumberFormat("vi-VN", {
+              <span class="text-base col-span-2">{{ new Intl.NumberFormat("vi-VN", {
                 style: "currency",
                 currency: "VND",
               }).format(orderStore?.getOneOrderAdmin?.data?.total_deposit_fee) }}</span>
             </div>
-            <div class="grid grid-cols-4" v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'shipper'">
+            <div class="grid grid-cols-3" v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'shipper'">
               <span class="text-base font-bold">Phí vận chuyển:</span>
-              <span class="text-base col-span-3">{{ new Intl.NumberFormat("vi-VN", {
+              <span class="text-base col-span-2">{{ new Intl.NumberFormat("vi-VN", {
                 style: "currency",
                 currency: "VND",
               }).format(orderStore?.getOneOrderAdmin?.data?.total_shipping_fee) }} </span>
             </div>
-            <div class="grid grid-cols-4">
+            <div class="grid grid-cols-3">
               <span class="text-base font-bold col-span-1">Phí dịch vụ:</span>
-              <span class="text-base col-span-3">{{ new Intl.NumberFormat("vi-VN", {
+              <span class="text-base col-span-2">{{ new Intl.NumberFormat("vi-VN", {
                 style: "currency",
                 currency: "VND",
               }).format(orderStore?.getOneOrderAdmin?.data?.total_service_fee) }}</span>
             </div>
-            <div class="grid grid-cols-4">
+            <div class="grid grid-cols-3">
               <span class="text-base font-bold col-span-1">Tổng phí gia hạn:</span>
-              <span class="text-base col-span-3">
+              <span class="text-base col-span-2">
                 {{ new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
@@ -182,27 +182,27 @@ import { message } from 'ant-design-vue';
                 ) }}
               </span>
             </div>
-            <div class="grid grid-cols-4">
+            <div class="grid grid-cols-3">
               <span class="text-base font-bold col-span-1">Tổng phí trễ hạn:</span>
-              <span class="text-base col-span-3">
+              <span class="text-base col-span-2">
                 {{ new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 }).format(orderStore?.getOneOrderAdmin?.data?.total_fine_fee) }}
               </span>
             </div>
-            <div class="grid grid-cols-4">
+            <div class="grid grid-cols-3">
               <span class="text-base font-bold col-span-1">Tổng tiền nhận:</span>
-              <span class="text-base col-span-3">
+              <span class="text-base col-span-2">
                 {{ new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 }).format(orderStore?.getOneOrderAdmin?.data?.total_all_fee) }}
               </span>
             </div>
-            <div class="grid grid-cols-4">
+            <div class="grid grid-cols-3">
               <span class="text-base font-bold col-span-1">Tiền cọc trả lại:</span>
-              <span class="text-base col-span-3">
+              <span class="text-base col-span-2">
                 {{ new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
@@ -210,15 +210,14 @@ import { message } from 'ant-design-vue';
               </span>
             </div>
           </div>
-        </div>
-        <div class="flex justify-end" v-if="orderStore?.getOneOrderAdmin?.data?.status === 'extended'">
-          <div class="flex gap-2">
-            <a-button type="primary"
-              @click="showModalExtendsionAll(orderStore?.getOneOrderAdmin?.data?.loan_order_details)">Gia
-              hạn toàn bộ</a-button>
+          <div class="md:col-span-1 text-right">
+            <a-button v-if="orderStore?.getOneOrderAdmin?.data?.status === 'extended'" @click="showModalHistoryExtend()"
+              class="text-sm text-orange-400 text-right col-span-4 border-none shadow-none">Lịch sử
+              gia hạn</a-button>
           </div>
         </div>
-        <div class="flex justify-end" v-if="orderStore?.getOneOrderAdmin?.data?.status === 'active'">
+        <div class="flex justify-end"
+          v-if="orderStore?.getOneOrderAdmin?.data?.status === 'extended' || orderStore?.getOneOrderAdmin?.data?.status === 'active'">
           <div class="flex gap-2">
             <a-button type="primary"
               @click="showModalExtendsionAll(orderStore?.getOneOrderAdmin?.data?.loan_order_details)">Gia
@@ -260,8 +259,8 @@ import { message } from 'ant-design-vue';
             </div>
             <div class="flex gap-5">
               <img class="w-32 h-48" :src="items?.book_details?.poster" alt="">
-              <div class="grid md:grid-cols-4">
-                <div class="md:col-span-2 space-y-3 border-r border-gray-200">
+              <div class="grid md:grid-cols-5">
+                <div class="md:col-span-3 space-y-3 border-r border-gray-200">
                   <div class="grid grid-cols-2">
                     <span class="text-base font-bold">Tác giả: </span>
                     <span class="text-base ">{{ items?.book_details?.book?.author?.author }}</span>
@@ -308,7 +307,7 @@ import { message } from 'ant-design-vue';
                       viện</span>
                   </div>
                 </div>
-                <div class="md:col-span-2 space-y-3 ml-5">
+                <div class="md:col-span-2 space-y-3 ml-4">
                   <div class="grid grid-cols-3">
                     <span class="text-base font-bold col-span-2">Tiền cọc sách:</span>
                     <span class="text-base col-span-1">{{ new Intl.NumberFormat("vi-VN", {
@@ -470,7 +469,8 @@ import { message } from 'ant-design-vue';
         <OrderAdminOrderExtended :openModal="openModalExtend" :CloseModal="CloseModalExtend" :items="extendsionBook" />
         <OrderAdminOrderReturnBook :openModal="openModalReturnBook" :CloseModal="CloseReturnBook"
           :loan_order_detail="loan_order_detail" />
-
+        <OrderAdminHistoryExtended :openHistoryExtend="openModalHistoryExtend"
+          :closeHistoryExtend="CloseModalHistoryExtend" />
       </div>
     </div>
   </div>
@@ -481,6 +481,7 @@ const openModalAdd = ref<boolean>(false);
 const openModalExtend = ref<boolean>(false);
 const openModalReturnBook = ref<boolean>(false);
 const openModalExtendsionAll = ref<boolean>(false)
+const openModalHistoryExtend = ref<boolean>(false)
 const route = useRoute()
 const orderId = route.params.id;
 const orderStore = useOrderStore();
@@ -541,4 +542,10 @@ const showReturnBook = (items: any) => {
 const CloseReturnBook = () => {
   openModalReturnBook.value = false;
 };
+const showModalHistoryExtend = () => {
+  openModalHistoryExtend.value = true;
+}
+const CloseModalHistoryExtend = () => {
+  openModalHistoryExtend.value = false;
+}
 </script>
