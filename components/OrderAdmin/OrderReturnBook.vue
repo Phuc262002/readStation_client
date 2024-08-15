@@ -136,7 +136,7 @@ const penaltyReason = ref([
 const valueReturnEachBook = ref({
   condition: "",
   actual_return_condition: "",
-  fine_amount: "",
+  fine_amount: 27000,
 });
 
 const onSubmit = async () => {

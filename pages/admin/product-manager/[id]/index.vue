@@ -183,16 +183,16 @@ import { message } from 'ant-design-vue';
               </span>
             </div>
             <div class="grid grid-cols-3">
-              <span class="text-base font-bold col-span-1">Tổng phí trễ hạn:</span>
+              <span class="text-base font-bold col-span-1">Tổng phí phạt:</span>
               <span class="text-base col-span-2">
                 {{ new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
-                }).format(orderStore?.getOneOrderAdmin?.data?.total_fine_fee) }}
+                }).format(orderStore?.getOneOrderAdmin?.data?.total_fine_fee)}}
               </span>
             </div>
             <div class="grid grid-cols-3">
-              <span class="text-base font-bold col-span-1">Tổng tiền nhận:</span>
+              <span class="text-base font-bold col-span-1">Tổng tiền thanh toán:</span>
               <span class="text-base col-span-2">
                 {{ new Intl.NumberFormat("vi-VN", {
                   style: "currency",
@@ -316,19 +316,19 @@ import { message } from 'ant-design-vue';
                     }).format(items?.deposit_fee) }}</span>
                   </div>
                   <div class="grid grid-cols-3">
-                    <span class="text-base font-bold col-span-2">Phí dịch vụ:</span>
+                    <a-flex gap="small" align="center" class="text-base font-bold col-span-2">Phí phạt:<Icon icon="gg:info" />  </a-flex>
                     <span class="text-base col-span-1">{{ new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(items?.service_fee) }}</span>
+                    }).format(items?.fine_amount) }}</span>
                   </div>
                   <div class="grid grid-cols-3">
-                    <span class="text-base font-bold col-span-2">Phí trễ hạn:</span>
+                    <span class="text-base font-bold col-span-2">Phí dịch vụ:</span>
                     <span class="text-base col-span-1">
                       {{ new Intl.NumberFormat("vi-VN", {
                         style: "currency",
                         currency: "VND",
-                      }).format(items?.fine_amount) }}
+                      }).format(items?.service_fee)  }}
                     </span>
                   </div>
                   <div class="grid grid-cols-3">
@@ -477,6 +477,7 @@ import { message } from 'ant-design-vue';
 </template>
 
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
 const openModalAdd = ref<boolean>(false);
 const openModalExtend = ref<boolean>(false);
 const openModalReturnBook = ref<boolean>(false);
