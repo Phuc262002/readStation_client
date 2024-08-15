@@ -1,4 +1,3 @@
-import { message } from 'ant-design-vue';
 <template>
   <div class="flex flex-col gap-2">
     <h1 class="text-xl text-[#1e293b] font-bold pb-3">Chi tiết đơn hàng {{
@@ -116,61 +115,63 @@ import { message } from 'ant-design-vue';
         <div class="border border-gray-100"></div>
         <div class="grid md:grid-cols-5">
           <div class="md:col-span-2 space-y-3 border-r border-gray-200">
-            <div class="grid grid-cols-3">
-              <span class="text-base font-bold">Số sách thuê:</span>
-              <span class="text-base ">{{ orderStore?.getOneOrderAdmin?.data?.loan_order_details.length
+            <div class="grid grid-cols-4">
+              <span class="text-base font-bold col-span-2">Số sách thuê:</span>
+              <span class="text-base col-span-2 ">{{ orderStore?.getOneOrderAdmin?.data?.loan_order_details.length
                 }}</span>
             </div>
-            <div class="grid grid-cols-3">
-              <span class="text-base font-bold">Ngày đặt sách:</span>
-              <span class="text-base ">{{ orderStore?.getOneOrderAdmin?.data?.created_at ? $dayjs(
+            <div class="grid grid-cols-4">
+              <span class="text-base font-bold col-span-2">Ngày đặt sách:</span>
+              <span class="text-base col-span-2">{{ orderStore?.getOneOrderAdmin?.data?.created_at ? $dayjs(
                 orderStore?.getOneOrderAdmin?.data?.created_at).format("DD/MM/YYYY") : '' }}</span>
             </div>
-            <div class="grid grid-cols-3">
-              <span class="text-base font-bold">Ngày nhận sách:</span>
-              <span class="text-base ">{{ orderStore?.getOneOrderAdmin?.data?.pickup_date ? $dayjs(
+            <div class="grid grid-cols-4">
+              <span class="text-base font-bold col-span-2">Ngày nhận sách:</span>
+              <span class="text-base col-span-2">{{ orderStore?.getOneOrderAdmin?.data?.pickup_date ? $dayjs(
                 orderStore?.getOneOrderAdmin?.data?.pickup_date).format("DD/MM/YYYY") : '' }}</span>
             </div>
-            <div class="grid grid-cols-3">
-              <span class="text-base font-bold">Số lần gia hạn:</span>
-              <span class="text-base "> {{ orderStore?.getOneOrderAdmin?.data?.extensions.length }} /{{
+            <div class="grid grid-cols-4">
+              <span class="text-base font-bold col-span-2">Số lần gia hạn:</span>
+              <span class="text-base col-span-2"> {{ orderStore?.getOneOrderAdmin?.data?.extensions.length }} /{{
                 orderStore?.getOneOrderAdmin?.data?.max_extensions }}</span>
             </div>
-            <div class="grid grid-cols-3">
-              <span class="text-base font-bold">Hình thức vận chuyển:</span>
-              <span class="text-base " v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'shipper'">Giao
+            <div class="grid grid-cols-4">
+              <span class="text-base font-bold col-span-2">Hình thức vận chuyển:</span>
+              <span class="text-base col-span-2"
+                v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'shipper'">Giao
                 hàng tận
                 nơi</span>
-              <span class="text-base " v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'pickup'">Nhận tại
+              <span class="text-base col-span-2"
+                v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'pickup'">Nhận tại
                 thư
                 viện</span>
             </div>
 
           </div>
           <div class="md:col-span-2 space-y-3 ml-5">
-            <div class="grid grid-cols-3">
-              <span class="text-base font-bold">Tổng tiền cọc thuê sách:</span>
+            <div class="grid grid-cols-4">
+              <span class="text-base font-bold col-span-2">Tổng tiền cọc thuê sách:</span>
               <span class="text-base col-span-2">{{ new Intl.NumberFormat("vi-VN", {
                 style: "currency",
                 currency: "VND",
               }).format(orderStore?.getOneOrderAdmin?.data?.total_deposit_fee) }}</span>
             </div>
-            <div class="grid grid-cols-3" v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'shipper'">
-              <span class="text-base font-bold">Phí vận chuyển:</span>
+            <div class="grid grid-cols-4" v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'shipper'">
+              <span class="text-base font-bold col-span-2">Phí vận chuyển:</span>
               <span class="text-base col-span-2">{{ new Intl.NumberFormat("vi-VN", {
                 style: "currency",
                 currency: "VND",
               }).format(orderStore?.getOneOrderAdmin?.data?.total_shipping_fee) }} </span>
             </div>
-            <div class="grid grid-cols-3">
-              <span class="text-base font-bold col-span-1">Phí dịch vụ:</span>
+            <div class="grid grid-cols-4">
+              <span class="text-base font-bold col-span-2">Phí dịch vụ:</span>
               <span class="text-base col-span-2">{{ new Intl.NumberFormat("vi-VN", {
                 style: "currency",
                 currency: "VND",
               }).format(orderStore?.getOneOrderAdmin?.data?.total_service_fee) }}</span>
             </div>
-            <div class="grid grid-cols-3">
-              <span class="text-base font-bold col-span-1">Tổng phí gia hạn:</span>
+            <div class="grid grid-cols-4">
+              <span class="text-base font-bold col-span-2">Tổng phí gia hạn:</span>
               <span class="text-base col-span-2">
                 {{ new Intl.NumberFormat("vi-VN", {
                   style: "currency",
@@ -182,17 +183,26 @@ import { message } from 'ant-design-vue';
                 ) }}
               </span>
             </div>
-            <div class="grid grid-cols-3">
-              <span class="text-base font-bold col-span-1">Tổng phí phạt:</span>
+            <a-flex align="center" class="grid grid-cols-4">
+              <a-flex gap="small" align="center" class="text-base font-bold col-span-2">Tổng phí phạt
+                <a-popover placement="topLeft">
+                  <template #content>
+                    <p>Phí này bao gồm phí trễ hạn và tổng các phí phạt khác phát sinh</p>
+                  </template>
+                  <a-button class="p-0 border-none shadow-none">
+                    <Icon icon="gg:info" />
+                  </a-button>
+                </a-popover>
+              </a-flex>
               <span class="text-base col-span-2">
                 {{ new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
-                }).format(orderStore?.getOneOrderAdmin?.data?.total_fine_fee)}}
+                }).format(orderStore?.getOneOrderAdmin?.data?.total_fine_fee) }}
               </span>
-            </div>
-            <div class="grid grid-cols-3">
-              <span class="text-base font-bold col-span-1">Tổng tiền thanh toán:</span>
+            </a-flex>
+            <div class="grid grid-cols-4">
+              <span class="text-base font-bold col-span-2">Tổng tiền thanh toán:</span>
               <span class="text-base col-span-2">
                 {{ new Intl.NumberFormat("vi-VN", {
                   style: "currency",
@@ -200,8 +210,8 @@ import { message } from 'ant-design-vue';
                 }).format(orderStore?.getOneOrderAdmin?.data?.total_all_fee) }}
               </span>
             </div>
-            <div class="grid grid-cols-3">
-              <span class="text-base font-bold col-span-1">Tiền cọc trả lại:</span>
+            <div class="grid grid-cols-4">
+              <span class="text-base font-bold col-span-2">Tiền cọc trả lại:</span>
               <span class="text-base col-span-2">
                 {{ new Intl.NumberFormat("vi-VN", {
                   style: "currency",
@@ -219,9 +229,9 @@ import { message } from 'ant-design-vue';
         <div class="flex justify-end"
           v-if="orderStore?.getOneOrderAdmin?.data?.status === 'extended' || orderStore?.getOneOrderAdmin?.data?.status === 'active'">
           <div class="flex gap-2">
-            <a-button type="primary"
-              @click="showModalExtendsionAll(orderStore?.getOneOrderAdmin?.data?.loan_order_details)">Gia
-              hạn toàn bộ</a-button>
+            <a-button type="primary" v-if="orderStore?.getOneOrderAdmin?.data?.current_extensions <= 2"
+              @click="showModalExtendsionAll(orderStore?.getOneOrderAdmin?.data?.loan_order_details)">Gia hạn toàn
+              bộ</a-button>
           </div>
         </div>
       </div>
@@ -315,20 +325,29 @@ import { message } from 'ant-design-vue';
                       currency: "VND",
                     }).format(items?.deposit_fee) }}</span>
                   </div>
-                  <div class="grid grid-cols-3">
-                    <a-flex gap="small" align="center" class="text-base font-bold col-span-2">Phí phạt:<Icon icon="gg:info" />  </a-flex>
+                  <a-flex align="center" class="grid grid-cols-3">
+                    <a-flex gap="small" align="center" class="text-base font-bold col-span-2">Phí phạt <a-popover
+                        placement="topLeft">
+                        <template #content>
+                          <p>Phí này bao gồm phí trễ hạn và tổng các phí phạt khác phát sinh</p>
+                        </template>
+                        <a-button class="p-0 border-none shadow-none">
+                          <Icon icon="gg:info" />
+                        </a-button>
+                      </a-popover>
+                    </a-flex>
                     <span class="text-base col-span-1">{{ new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
                     }).format(items?.fine_amount) }}</span>
-                  </div>
+                  </a-flex>
                   <div class="grid grid-cols-3">
                     <span class="text-base font-bold col-span-2">Phí dịch vụ:</span>
                     <span class="text-base col-span-1">
                       {{ new Intl.NumberFormat("vi-VN", {
                         style: "currency",
                         currency: "VND",
-                      }).format(items?.service_fee)  }}
+                      }).format(items?.service_fee) }}
                     </span>
                   </div>
                   <div class="grid grid-cols-3">
@@ -356,13 +375,15 @@ import { message } from 'ant-design-vue';
             </div>
             <div class="flex justify-end gap-2" v-if="items?.status == 'active'">
               <a-button @click="showReturnBook(items)">Trả sách</a-button>
-              <a-button type="primary" @click="showModalExtend(items)">Gia hạn</a-button>
+              <a-button v-if="orderStore?.getOneOrderAdmin?.data?.current_extensions <= 2" type="primary"
+                @click="showModalExtend(items)">Gia hạn</a-button>
             </div>
             <div class="flex justify-end" v-if="items?.status === 'extended'">
               <div class="flex gap-2">
                 <a-button class="border-orange-400 text-orange-500" @click="showReturnBook(items)">Trả
                   sách</a-button>
-                <a-button type="primary" @click="showModalExtend(items)">Gia hạn</a-button>
+                <a-button v-if="orderStore?.getOneOrderAdmin?.data?.current_extensions <= 2" type="primary"
+                  @click="showModalExtend(items)">Gia hạn</a-button>
               </div>
             </div>
             <div class="flex justify-end" v-else-if="items?.status === 'overdue'">
@@ -539,7 +560,6 @@ const showReturnBook = (items: any) => {
   loan_order_detail.value = items
   openModalReturnBook.value = true;
 };
-
 const CloseReturnBook = () => {
   openModalReturnBook.value = false;
 };

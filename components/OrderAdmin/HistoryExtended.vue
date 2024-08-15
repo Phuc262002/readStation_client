@@ -3,7 +3,7 @@
         <a-modal v-model:open="props.openHistoryExtend" :footer="null" width="70%" :onCancel="handleClose"
             title="Lịch sử gia hạn">
             <a-table class="my-5" :columns="columns" :data-source="orderStore?.getOneOrderAdmin?.data?.extensions"
-                @resizeColumn="handleResizeColumn" :index="0">
+                @resizeColumn="handleResizeColumn" :index="0" >
                 <template #bodyCell="{ column, record, index }">
                     <template v-if="column.key === 'extensions'">
                         <span> Gia hạn lần {{ index + 1 }} </span>
