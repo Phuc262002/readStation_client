@@ -69,7 +69,7 @@
               <span class="col-span-2">
                 {{
                   $dayjs(order?.data?.current_due_date).format(
-                    "DD/MM/YYYY - HH:MM"
+                    "DD/MM/YYYY"
                   )
                 }}
               </span>

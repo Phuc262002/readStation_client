@@ -271,7 +271,7 @@ div<template>
                       new Intl.NumberFormat("vi-VN", {
                         style: "currency",
                         currency: "VND",
-                      }).format(total_depositFee + total_serviceFee + shippingValue?.fee)
+                      }).format(totalAllFee)
                     }}
                   </span>
                 </div>
@@ -314,6 +314,7 @@ const deposit_fee = ref(0);
 const total_depositFee = ref(0);
 const total_serviceFee = ref(0);
 const totalFee = ref(0);
+const totalAllFee = ref(0)
 const shippingFee = ref(0);
 const route = useRoute();
 const type = route.query.type;
@@ -327,54 +328,7 @@ const dataSource = computed(() => {
     ? cartStore?.rentNow
     : totalCarts.value;
 });
-useAsyncData(async () => {
-  await shippingMethodStore.getAllShipping();
-  options.value = shippingMethodStore?.shippings.map((item) => ({
-    value: item.id,
-    label: item.method,
-  }));
 
-  // Set default value for shipping_method_id
-  if (options.value.length > 0) {
-    shipping_method_id.value = options.value[0].value;
-    shippingValue.value = shippingMethodStore?.shippings.find(
-      (item) => item.id === shipping_method_id.value
-    );
-    cartStore.addShipFee(shippingValue.value.fee);
-
-  }
-});
-// Phí ship
-const calcShippingFee = () => {
-  shippingFee.value =
-    delivery_method.value === "pickup" ? 0 : cartStore.shippingFee;
-};
-
-// Tổng tiền
-const calcTotalFee = () => {
-  totalFee.value = total_depositFee.value + total_serviceFee.value + shippingValue.value;
-
-}
-
-useAsyncData(
-  async () => {
-    calcTotalFee();
-    calcShippingFee();
-  },
-  {
-    immediate: true,
-    watch: [cartStore.shippingFee, delivery_method.value],
-  }
-);
-watch(
-  () => delivery_method.value,
-  () => cartStore.shippingFee,
-  () => {
-    calcShippingFee();
-    calcTotalFee();
-  }
-);
-console.log('delivery_method.value', delivery_method.value)
 
 // new Infor
 const newInfo = {
@@ -581,11 +535,9 @@ if (isCheckAuth === "student") {
         deposit_fee: ((item.hire_percent) / 100) * item.price,
       };
     });
-    console.log('totalCarts.value', totalCarts.value)
     total_serviceFee.value = totalCarts.value.reduce((acc, curr) => acc + parseFloat(curr.service_fee), 0);
     total_depositFee.value = totalCarts.value.reduce((acc, curr) => acc + parseFloat(curr.deposit_fee), 0);
 
-    console.log(' total_serviceFee.value', total_serviceFee.value)
     valueOrder.value.total_service_fee = total_serviceFee.value;
     valueOrder.value.total_deposit_fee = total_depositFee.value;
     valueOrder.value.total_all_fee = total_depositFee.value + total_serviceFee.value;
@@ -639,6 +591,66 @@ if (isCheckAuth === "student") {
 
   }
 }
+useAsyncData(async () => {
+  await shippingMethodStore.getAllShipping();
+  options.value = shippingMethodStore?.shippings.map((item) => ({
+    value: item.id,
+    label: item.method,
+  }));
+
+  // Set default value for shipping_method_id
+  if (options.value.length > 0) {
+    shipping_method_id.value = options.value[0].value;
+    shippingValue.value = shippingMethodStore?.shippings.find(
+      (item) => item.id === shipping_method_id.value
+    );
+    cartStore.addShipFee(shippingValue.value.fee);
+    calcShippingFee();
+    calcTotalAllFee();
+  }
+});
+
+// Phí ship
+const calcShippingFee = () => {
+  shippingFee.value =
+    delivery_method.value === "pickup" ? 0 : cartStore.shippingFee;
+  console.log('shippingFee.value', shippingFee.value)
+};
+
+// Tổng tiền
+const calcTotalAllFee = () => {
+  totalAllFee.value = Number(total_depositFee.value) + Number(total_serviceFee.value) + Number(shippingFee.value);
+  console.log('totalAllFee.value', totalAllFee.value)
+  console.log('total_depositFee.value', total_depositFee.value)
+  console.log('total_serviceFee.value', total_serviceFee.value)
+  console.log('shippingFee.value', shippingFee.value)
+
+}
+
+useAsyncData(
+  async () => {
+    calcTotalAllFee();
+    calcShippingFee();
+  },
+  {
+    immediate: true,
+    watch: [cartStore.shippingFee, delivery_method.value],
+  }
+);
+watch(
+  () => delivery_method.value,
+  () => {
+    calcShippingFee();
+    calcTotalAllFee();
+  }
+);
+watch(
+  () => cartStore.shippingFee,
+  () => {
+    calcShippingFee();
+    calcTotalAllFee();
+  }
+);
 const payCart = async () => {
 
   // check address

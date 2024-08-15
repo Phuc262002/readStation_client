@@ -75,7 +75,13 @@
           gia hạn thời gian thuê sách
         </p>
         <p class="text-tag-text-06">
-          Lưu ý: Quý khách cần trả sách đúng hạn để tránh các khoản phí phạt.
+          Lưu ý:
+        <ul>
+          <li>- Vui lòng tham khảo phí gia hạn được nêu ở trên. Chi tiết về phí gia hạn có thể xem trong phần "Lịch sử
+            gia hạn".</li>
+          <li>- Quý khách cần trả sách đúng hạn để tránh các khoản phí phạt.</li>
+        </ul>
+
         </p>
         <div class="flex justify-end gap-2">
           <a-button class="h-10" @click="handleCloseExtendAll"> Hủy </a-button>

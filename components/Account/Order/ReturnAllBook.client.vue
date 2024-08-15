@@ -144,10 +144,13 @@
             khách đã sử dụng dịch vụ của chúng tôi.
           </p>
           <p class="text-tag-text-06">
-            Lưu ý quan trọng: Nếu quá thời gian 48 giờ kể từ khi xác nhận mà Quý
-            khách chưa hoàn tất việc trả sách, chúng tôi sẽ tính thêm phí quá
-            hạn trả sách. Mong Quý khách thông cảm và hợp tác để tránh các khoản
-            phí không mong muốn.
+            Lưu ý quan trọng:
+          <ul>
+            <li>- Nếu sách được trả trong thời gian gia hạn, phí gia hạn sẽ không được hoàn lại.</li>
+            <li>- Nếu quá 48 giờ kể từ khi xác nhận mà quý khách chưa hoàn tất việc trả sách, chúng tôi sẽ tính thêm phí
+              quá hạn. Mong quý khách thông cảm và hợp tác để tránh các khoản phí không mong muốn.</li>
+          </ul>
+
           </p>
 
           <div class="flex justify-end gap-2">

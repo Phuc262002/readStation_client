@@ -3,18 +3,10 @@
     <div class="bg-white w-full h-fit p-4 rounded-lg border border-rtgray-50">
       <div class="flex pb-1 gap-2">
         <div>
-          <img
-            class="w-full h-[20px]"
-            src="../../../assets/images/icon-standing.svg"
-            alt=""
-          />
+          <img class="w-full h-[20px]" src="../../../assets/images/icon-standing.svg" alt="" />
         </div>
         <div class="px-1">
-          <img
-            class="w-full h-[20px]"
-            src="../../../assets/images/icon-real.svg"
-            alt=""
-          />
+          <img class="w-full h-[20px]" src="../../../assets/images/icon-real.svg" alt="" />
         </div>
         <div class="flex gap-2 text-sm font-normal">
           <p>Tác giả:</p>
@@ -96,15 +88,9 @@
         <div>Thông tin chi tiết</div>
       </div>
       <div class="">
-        <div
-          class="relative"
-          :class="!viewMore && 'line-clamp-6'"
-          v-html="bookStore?.book?.book?.description"
-        ></div>
-        <button
-          @click="viewMore = !viewMore"
-          class="flex justify-center items-center gap-2 text-[#189EFF] mx-auto text-sm font-normal pt-4"
-        >
+        <div class="relative" :class="!viewMore && 'line-clamp-6'" v-html="bookStore?.book?.book?.description"></div>
+        <button @click="viewMore = !viewMore"
+          class="flex justify-center items-center gap-2 text-[#189EFF] hover:text-orange-400 mx-auto text-sm font-normal pt-4">
           <span>{{ viewMore ? "Rút gọn" : "Xem thêm" }}</span>
           <UIcon name="i-material-symbols-keyboard-arrow-down-rounded" />
         </button>
