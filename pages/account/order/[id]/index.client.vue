@@ -43,6 +43,18 @@
                 {{ orderStore?.order?.user?.phone }}
               </span>
             </div>
+            <div class="grid grid-cols-4">
+              <span class="col-span-1 font-bold">Vai trò:</span>
+              <div class="font-bold">
+                <a-tag :bordered="false" color="purple" v-if="authStore?.authUser?.user?.role?.name === 'user'">
+                  Khách hàng
+                </a-tag>
+                <a-tag :bordered="false" color="purple" v-else-if="authStore?.authUser?.user?.role?.name === 'student'">
+                  HSSV
+                </a-tag>
+                <a-tag :bordered="false" color="purple" v-else> Quản lý </a-tag>
+              </div>
+            </div>
           </div>
           <div class="w-1/2 pl-5 space-y-3">
             <div class="grid grid-cols-8">
@@ -146,57 +158,17 @@
             </div>
 
             <div class="grid grid-cols-8">
-              <span class="col-span-3 font-bold">Ngày đặt sách:</span>
+              <span class="col-span-3 font-bold">Ngày thuê sách:</span>
               <span class="col-span-5">
                 {{
                   $dayjs(orderStore?.order?.created_at).format(
-                    "DD/MM/YYYY - HH:MM"
+                    "DD/MM/YYYY"
                   )
                 }}
               </span>
             </div>
-            <div class="grid grid-cols-8" v-if="
-              orderStore?.order?.status === 'active' ||
-              orderStore?.order?.status === 'overdue' ||
-              orderStore?.order?.status === 'returning'
-            ">
-              <span class="col-span-3 font-bold">Ngày nhận sách:</span>
-              <span class="col-span-5">
-                {{
-                  $dayjs(orderStore?.order?.created_at).format(
-                    "DD/MM/YYYY - HH:MM"
-                  )
-                }}
-              </span>
-            </div>
-            <div class="grid grid-cols-8" v-if="
-              orderStore?.order?.status === 'active' ||
-              orderStore?.order?.status === 'overdue' ||
-              orderStore?.order?.status === 'returning'
-            ">
-              <span class="col-span-3 font-bold">Ngày trả dự kiến:</span>
-              <span class="col-span-5">
-                {{
-                  $dayjs(orderStore?.order?.created_at).format(
-                    "DD/MM/YYYY - HH:MM"
-                  )
-                }}
-              </span>
-            </div>
-            <div class="grid grid-cols-8" v-if="
-              orderStore?.order?.status === 'active' ||
-              orderStore?.order?.status === 'overdue' ||
-              orderStore?.order?.status === 'returning'
-            ">
-              <span class="col-span-3 font-bold">Ngày trả thực tế:</span>
-              <span class="col-span-5">
-                {{
-                  $dayjs(orderStore?.order?.created_at).format(
-                    "DD/MM/YYYY - HH:MM"
-                  )
-                }}
-              </span>
-            </div>
+
+
 
             <div class="grid grid-cols-8" v-if="
               orderStore?.order?.status === 'active' ||
@@ -285,7 +257,7 @@
       </div>
 
       <div class="flex justify-end pt-4 gap-2" v-if="
-        orderStore?.order?.status === 'active'
+        orderStore?.order?.status === 'active' || orderStore?.order?.status === 'extended'
       ">
         <a-button @click="showReturnAll" class="h-10 border-orange-400 text-orange-400">
           Trả sách toàn bộ
@@ -296,6 +268,8 @@
           Gia hạn toàn bộ
         </a-button>
       </div>
+
+
     </div>
     <!--  -->
     <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">

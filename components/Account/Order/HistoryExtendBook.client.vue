@@ -77,6 +77,7 @@ const columns = ref([
     title: "Tên sách",
     dataIndex: "extension_details",
     key: "extension_details",
+    width: "250px",
   },
   {
     title: "Số ngày gia hạn",

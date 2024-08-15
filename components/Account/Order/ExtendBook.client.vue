@@ -87,10 +87,14 @@
           gia hạn thời gian thuê sách
         </p>
         <p class="text-tag-text-06">
-          Xin lưu ý rằng quý khách cần trả sách đúng hạn để tránh các khoản phí
-          phạt. Nếu có bất kỳ thắc mắc nào hoặc cần thêm thông tin, xin vui lòng
-          liên hệ với chúng tôi qua địa chỉ email của thư viện hoặc gọi đến số
-          điện thoại 0987654321 để được hỗ trợ
+          Lưu ý:
+        <ul>
+          <li>- Vui lòng tham khảo phí gia hạn được nêu ở trên. Chi tiết về phí gia hạn có thể xem trong phần "Lịch sử
+            gia
+            hạn".</li>
+          <li>- Quý khách cần trả sách đúng hạn để tránh các khoản phí phạt.</li>
+        </ul>
+
         </p>
         <div class="flex justify-end gap-2">
           <a-button class="h-10" @click="handleCloseExtend"> Hủy </a-button>
