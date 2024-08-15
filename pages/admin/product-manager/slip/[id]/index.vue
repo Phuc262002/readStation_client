@@ -105,7 +105,7 @@
           </div>
           <div class="grid grid-cols-5">
             <span class="text-base font-bold col-span-2">Tình trạng sách:</span>
-            <span class="text-base col-span-3" v-if="returnHistoryStore?.ReturnLoanDetail?.actual_return_condition">
+            <span class="text-base col-span-3" v-if="returnHistoryStore?.ReturnLoanDetail?.status === 'completed'">
               Hoàn thành</span>
             <span class="text-base col-span-3" v-else>
               Đang xử lý</span>
