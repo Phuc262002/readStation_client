@@ -70,7 +70,6 @@ const props = defineProps({
     data: Array,
     id: Number
 });
-console.log('props.data', props.data)
 const open = ref(props.openModal);
 const id = useRoute().params.id;
 // watch(

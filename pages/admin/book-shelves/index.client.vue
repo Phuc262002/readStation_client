@@ -94,15 +94,10 @@
               {{ record.bookshelf_code }}
             </a>
           </template>
-          <template v-if="column.key === 'bookcase_id'">
+          <template v-if="column.key === 'bookcase'">
             <a>
-              {{ record.bookcase.description ? record.bookcase.description : 'Chưa được thêm vào tủ' }}
+              {{ record.bookcase ? record.bookcase.name : 'Chưa được thêm vào tủ' }}
             </a>
-          </template>
-          <template v-if="column.key === 'category_id'">
-            <span>
-              {{ record.category.name ? record.category.name : 'Chưa được thêm vào danh mục' }}
-            </span>
           </template>
           <template v-if="column.key === 'books'">
             <span class="flex justify-start gap-2">
@@ -316,7 +311,7 @@ const columns = [
   {
     title: "Thuộc tủ",
     dataIndex: "bookcase",
-    key: "bookcase_id",
+    key: "bookcase",
   },
   {
     title: "Số lượng sách",
