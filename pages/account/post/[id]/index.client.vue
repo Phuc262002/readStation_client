@@ -1,25 +1,22 @@
 <template>
   <div>
+
+    <Head>
+      <Title>ReadStation | Chỉnh sửa bài viết của bạn</Title>
+      <Meta name="description" content="Chỉnh sửa bài viết của bạn" />
+      <Meta property="og:title" content="ReadStation | Chỉnh sửa bài viết của bạn" />
+      <Meta property="og:description" content="Chỉnh sửa bài viết của bạn" />
+    </Head>
     <h2 class="font-bold pb-5">Chỉnh sửa bài viết của bạn</h2>
-    <div
-      class="w-2/3 w-full bg-white rounded-lg shadow-md shadow-gray-300 p-5 text-sm"
-    >
+    <div class="w-2/3 w-full bg-white rounded-lg shadow-md shadow-gray-300 p-5 text-sm">
       <form @submit.prevent="updatePost" class="space-y-5">
         <div>
           <p class="pb-2">Ảnh bìa</p>
           <ClientOnly>
             <a-spin tip="Đang xử lý..." :spinning="baseStore.isSubmitting">
-              <a-upload-dragger
-                v-model:fileList="fileList"
-                list-type="picture"
-                name="image"
-                :multiple="false"
-                :action="(file) => uploadFile(file)"
-                @change="handleChangeUploadImg"
-                @drop="handleDrop"
-                :before-upload="beforeUpload"
-                :remove="(file) => deleteFile(file)"
-              >
+              <a-upload-dragger v-model:fileList="fileList" list-type="picture" name="image" :multiple="false"
+                :action="(file) => uploadFile(file)" @change="handleChangeUploadImg" @drop="handleDrop"
+                :before-upload="beforeUpload" :remove="(file) => deleteFile(file)">
                 <p class="ant-upload-drag-icon">
                   <inbox-outlined></inbox-outlined>
                 </p>
@@ -32,49 +29,28 @@
         <!--  -->
         <div>
           <p class="pb-2">Tên bài viết</p>
-          <a-input
-            type="text"
-            v-model:value="post.title"
-            placeholder="Tên bài viết"
-            class="h-10"
-          />
+          <a-input type="text" v-model:value="post.title" placeholder="Tên bài viết" class="h-10" />
         </div>
         <div>
           <p class="pb-2">Mô tả ngắn</p>
-          <a-textarea
-            v-model:value="post.summary"
-            placeholder="Mô tả ngắn"
-            :rows="4"
-          />
+          <a-textarea v-model:value="post.summary" placeholder="Mô tả ngắn" :rows="4" />
         </div>
         <div class="w-1/3 w-full">
           <p class="pb-2" for="">Danh mục</p>
-          <a-select
-            v-model:value="post.category.name"
-            placeholder="Danh mục"
-            class="w-1/3"
-            size="large"
-            :options="options"
-          >
+          <a-select v-model:value="post.category.name" placeholder="Danh mục" class="w-1/3" size="large"
+            :options="options">
           </a-select>
         </div>
         <div>
           <p class="pb-2" for="">Mô tả chi tiết</p>
-          <CommonCKEditor
-            :value="post.content"
-            @input="(event) => (post.content = event)"
-          />
+          <CommonCKEditor :value="post.content" @input="(event) => (post.content = event)" />
         </div>
         <div class="flex justify-end gap-2">
           <NuxtLink to="/account/post">
             <a-button class="h-10 text-base">Hủy</a-button>
           </NuxtLink>
 
-          <a-button
-            html-type="submit"
-            class="h-10 text-base bg-orange-500 border-none !text-white"
-            >Cập nhật</a-button
-          >
+          <a-button html-type="submit" class="h-10 text-base bg-orange-500 border-none !text-white">Cập nhật</a-button>
         </div>
       </form>
     </div>

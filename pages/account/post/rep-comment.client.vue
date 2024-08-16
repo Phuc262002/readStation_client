@@ -1,14 +1,17 @@
 <template>
   <div>
+
+    <Head>
+      <Title>ReadStation | Quản lý bình luận bài viết của bạn</Title>
+      <Meta name="description" content="Quản lý bình luận bài viết của bạn" />
+      <Meta property="og:title" content="ReadStation | Quản lý bình luận bài viết của bạn" />
+      <Meta property="og:description" content="Quản lý bình luận bài viết của bạn" />
+    </Head>
     <h3 class="font-bold">Bình luận bài viết của bạn</h3>
 
     <div class="p-5 bg-white mt-5 shadow-lg rounded-xl">
-      <a-table
-        :loading="commentStore?.isLoading"
-        :columns="columns"
-        :data-source="commentStore?.repcomment?.comments"
-        :pagination="false"
-      >
+      <a-table :loading="commentStore?.isLoading" :columns="columns" :data-source="commentStore?.repcomment?.comments"
+        :pagination="false">
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'title'">
             <span>
@@ -36,13 +39,9 @@
                     <span>Xem chi tiết</span>
                   </template>
                   <button
-                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                  >
+                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                     <div class="flex items-center">
-                      <Icon
-                        icon="heroicons:eye"
-                        class="group-hover:text-[#212122]"
-                      />
+                      <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
                     </div>
                   </button>
                 </a-tooltip>
@@ -52,14 +51,9 @@
                 <template #title>
                   <span>Xóa</span>
                 </template>
-                <button
-                  @click="showDeleteConfirm(record.id)"
-                  class="hover:bg-[#131313]/20 bg-[#e4e1e1] p-2 rounded-lg flex items-center justify-center"
-                >
-                  <UIcon
-                    class="group-hover:text-black"
-                    name="i-material-symbols-close-rounded"
-                  />
+                <button @click="showDeleteConfirm(record.id)"
+                  class="hover:bg-[#131313]/20 bg-[#e4e1e1] p-2 rounded-lg flex items-center justify-center">
+                  <UIcon class="group-hover:text-black" name="i-material-symbols-close-rounded" />
                 </button>
               </a-tooltip>
             </div>
@@ -68,11 +62,8 @@
         </template>
       </a-table>
       <div class="mt-4 flex justify-end">
-        <a-pagination
-          v-model:current="current"
-          :total="commentStore?.repcomment?.totalResults"
-          :pageSize="commentStore?.repcomment?.pageSize"
-        />
+        <a-pagination v-model:current="current" :total="commentStore?.repcomment?.totalResults"
+          :pageSize="commentStore?.repcomment?.pageSize" />
       </div>
     </div>
   </div>

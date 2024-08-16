@@ -90,7 +90,7 @@
       <div class="">
         <div class="relative" :class="!viewMore && 'line-clamp-6'" v-html="bookStore?.book?.book?.description"></div>
         <button @click="viewMore = !viewMore"
-          class="flex justify-center items-center gap-2 text-[#189EFF] hover:text-orange-400 mx-auto text-sm font-normal pt-4">
+          class="flex justify-center items-center gap-2 text-orange-400 hover:text-orange-500 mx-auto text-sm font-normal pt-4">
           <span>{{ viewMore ? "Rút gọn" : "Xem thêm" }}</span>
           <UIcon name="i-material-symbols-keyboard-arrow-down-rounded" />
         </button>

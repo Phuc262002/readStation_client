@@ -183,8 +183,8 @@ const columns = [
   },
 ];
 useSeoMeta({
-  title: "ReadStation - Thùng rác nhà xuất bản",
-  ogTitle: "ReadStation - Thùng rác nhà xuất bản",
+  title: "ReadStation | Thùng rác nhà xuất bản",
+  ogTitle: "ReadStation | Thùng rác nhà xuất bản",
   description: "Thùng rác nhà xuất bản",
   ogDescription: "Thùng rác nhà xuất bản",
   ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",

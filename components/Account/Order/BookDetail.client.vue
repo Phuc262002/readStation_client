@@ -209,6 +209,7 @@ const handleReviewBook = async (id) => {
     if (res.data._rawValue?.status == true) {
       isReviewSubmitted.value = true;
       navigateTo("/account/order/" + idBook);
+      orderStore.getOneOrder(idBook);
       message.success("Thêm đánh giá thành công");
     } else {
       errors.value = res.error.value.data.errors;

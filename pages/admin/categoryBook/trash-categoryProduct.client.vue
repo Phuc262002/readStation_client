@@ -189,8 +189,8 @@ const columns = [
   },
 ];
 useSeoMeta({
-    title: "ReadStation - Thùng rác danh mục sản phẩm",
-    ogTitle: "ReadStation - Thùng rác danh mục sản phẩm",
+    title: "ReadStation | Thùng rác danh mục sản phẩm",
+    ogTitle: "ReadStation | Thùng rác danh mục sản phẩm",
     description: "Thùng rác danh mục sản phẩm",
     ogDescription: "Thùng rác danh mục sản phẩm",
     ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",

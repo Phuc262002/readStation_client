@@ -267,8 +267,8 @@ const columns = [
   },
 ];
 useSeoMeta({
-    title: "ReadStation - Chi tiết tủ sách",
-    ogTitle: "ReadStation - Chi tiết tủ sách",
+    title: "ReadStation | Chi tiết tủ sách",
+    ogTitle: "ReadStation | Chi tiết tủ sách",
     description: "Chi tiết tủ sách",
     ogDescription: "Chi tiết tủ sách",
     ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
