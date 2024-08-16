@@ -51,11 +51,22 @@
 <script setup>
 import { ref } from "vue";
 import { Modal } from "ant-design-vue";
+import debounce from "lodash.debounce";
 const route = useRoute();
 const detailBookCaseId = route.params.id;
+const current = ref(1);
 const bookCaseStore = useBookcaseStore();
 const shelvesStore = useShelvesStore();
 const valueSearch = ref("");
+
+const onSearch = debounce(() => {
+  current.value = 1;
+  shelvesStore.getAllShelves({
+    search: valueSearch.value,
+  });
+}, 500);
+watch(valueSearch, onSearch);
+
 useAsyncData(
   async () => {
     await shelvesStore.getAllShelves({
@@ -63,7 +74,8 @@ useAsyncData(
     });
   },
   {
-    watch: [valueSearch],
+    immediate: true,
+    watch: [current],
   }
 );
 const handleClose = () => {
@@ -107,7 +119,6 @@ const updateDetailCase = async (id) => {
       handleClose();
       message.success("Thêm kệ sách thành công");
       await bookCaseStore.getOneBookcase(detailBookCaseId);
-      
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);
@@ -115,7 +126,6 @@ const updateDetailCase = async (id) => {
   } catch (error) {
     message.error("Thêm kệ sách thất bại");
   }
-  
 };
 </script>
 <style scoped>

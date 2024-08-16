@@ -156,6 +156,7 @@
           :total="categoryStore.categoriesAdmin?.totalResults"
           :pageSize="categoryStore.categoriesAdmin?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
     </div>
