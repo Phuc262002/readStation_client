@@ -195,6 +195,7 @@ watch(valueSearch, onSearch);
 useAsyncData(
   async () => {
     await categoryStore.getAllCategory({
+      pageSize: 1000,
       page: current.value,
       search: valueSearch.value,
       status: queryStatus.value.value,
