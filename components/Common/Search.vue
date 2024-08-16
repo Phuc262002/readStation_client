@@ -68,7 +68,6 @@ const showConfirm = (id) => {
         cancelText: "Hủy",
         onOk() {
             updateDetailShelves(id);
-            handleClose();
         },
         onCancel() {
             console.log('Cancel');
@@ -94,7 +93,10 @@ const updateDetailShelves = async (id) => {
         const res = await bookStore.updateBook({ id: id, value: idShelves })
         if (res.data._rawValue?.status == true) {
             message.success("Thêm sách thành công");
-            await bookShelves.getOneShelves(detailShelvesId);
+            handleClose();
+            useAsyncData(async () => {s
+                await bookShelves.getOneShelves(detailShelvesId);
+            })
         } else {
             errors.value = res.error.value.data.errors;
             message.error(res.error.value.data.message);
