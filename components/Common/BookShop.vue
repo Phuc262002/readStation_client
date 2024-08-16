@@ -8,7 +8,7 @@
       <div class="flex flex-col gap-1">
         <NuxtLink class="text-xl font-bold hover:text-[#f65d4e] line-clamp-1"
           :to="`/products/${props?.book?.book?.slug}-${props?.book?.id}`">
-          {{ props?.book?.book?.original_title }}
+          {{ props?.book?.book?.title }}
         </NuxtLink>
 
         <div class="text-sm text-[#999999]">
