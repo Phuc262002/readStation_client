@@ -284,8 +284,8 @@ const showModalEdit = (id) => {
   categoryId.value = id;
 };
 useSeoMeta({
-  title: "ReadStation - Danh mục sản phẩm",
-  ogTitle: "ReadStation - Danh mục sản phẩm",
+  title: "ReadStation | Danh mục sản phẩm",
+  ogTitle: "ReadStation | Danh mục sản phẩm",
   description: "Danh mục sản phẩm",
   ogDescription: "Danh mục sản phẩm",
   ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",

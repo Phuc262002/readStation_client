@@ -192,8 +192,8 @@ const columns = [
   },
 ];
 useSeoMeta({
-    title: "ReadStation - Thùng rác phương thức vận chuyển",
-    ogTitle: "ReadStation - Thùng rác phương thức vận chuyển",
+    title: "ReadStation | Thùng rác phương thức vận chuyển",
+    ogTitle: "ReadStation | Thùng rác phương thức vận chuyển",
     description: "Thùng rác phương thức vận chuyển",
     ogDescription: "Thùng rác phương thức vận chuyển",
     ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",

@@ -55,8 +55,8 @@ const onDelete = async (publicId) => {
   await generalImageStore.getAllImage({});
 };
 useSeoMeta({
-    title: "ReadStation - Hình ảnh",
-    ogTitle: "ReadStation - Hình ảnh",
+    title: "ReadStation | Hình ảnh",
+    ogTitle: "ReadStation | Hình ảnh",
     description: "Hình ảnh",
     ogDescription: "Hình ảnh",
     ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",

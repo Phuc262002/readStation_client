@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-orange-200 w-1/2 rounded-lg h-auto">
+  <div class="bg-orange-200 w-1/2 rounded-lg h-fit">
     <div class="p-8">
       <div class="flex flex-col gap-5">
         <div class="text-4xl font-bold">{{ title?.title }}</div>
@@ -47,7 +47,7 @@
         >
           <swiper-slide v-for="(items, index) in data" :key="items?.id">
             <NuxtLink :to="`/products/${items?.book?.slug}-${items?.id}`">
-              <img class="rounded-lg" :src="items?.poster" alt="" />
+              <img class="rounded-lg w-38 h-56" :src="items?.poster" alt="" />
             </NuxtLink>
           </swiper-slide>
         </swiper>
@@ -105,8 +105,6 @@ export default {
 
 :deep(.swiper-slide img) {
   display: block;
-  width: 100%;
-  height: 100%;
   object-fit: cover;
 }
 </style>

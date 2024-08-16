@@ -27,10 +27,11 @@
                 </ClientOnly>
               </div>
               <div class="flex flex-col gap-2"><label class="text-sm font-semibold" for="">Bộ sưu tập</label>
-                <a-upload list-type="picture" :max-count="3" action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
+                <a-upload list-type="picture" :file-list="images" :action="uploadImages" :multiple="true"
+                  :before-upload="beforeUpload" :on-change="handleChangeImages" :on-remove="deleteImage">
                   <a-button class="flex justify-between gap-3 items-center">
-                    <upload-outlined></upload-outlined>
-                    <h1>Bộ sưu tập</h1>
+                    <upload-outlined />
+                    <h1>Upload hình ảnh chi tiết</h1>
                   </a-button>
                 </a-upload>
               </div>
@@ -176,6 +177,63 @@ const beforeUpload = (file) => {
   }
   return isImage || Upload.LIST_IGNORE;
 };
+// bo suu tap 
+const images = ref([]);
+const imagesInfo = ref([]);
+
+// Upload images
+const uploadImages = async (file) => {
+  const formData = new FormData();
+  formData.append("image", file);
+  try {
+    const response = await baseStore.uploadImg(formData);
+    const imageData = response.data._rawValue.data; // Giả sử server trả về dữ liệu như thế này
+    // Thêm URL của hình ảnh vào danh sách imagesInfo
+    imagesInfo.value = [...imagesInfo.value, imageData?.url]// Lưu URL vào imagesInfo
+    console.log("imagesInfo", imagesInfo.value);
+    return {
+      url: imageData.url, // Return URL để `a-upload` có thể sử dụng
+    };
+  } catch (error) {
+    message.error("Upload ảnh thất bại");
+    return Upload.LIST_IGNORE; // Ngăn không cho thêm ảnh vào danh sách nếu upload thất bại
+  }
+};
+
+// Watch imagesInfo for changes
+watch(() => imagesInfo.value, (value) => {
+});
+
+// Handle change in images
+const handleChangeImages = (info) => {
+  const { file, fileList } = info;
+  const status = file.status;
+
+  if (status === "done") {
+    message.success(`${file.name} file uploaded successfully.`);
+  } else if (status === "error") {
+    message.error(`${file.name} file upload failed.`);
+  }
+
+  // Update the images list
+  images.value = fileList;
+};
+
+// Delete image
+const deleteImage = async (file) => {
+  const imageToDelete = imagesInfo.value.find(img => img.url === file.url);
+  if (imageToDelete) {
+    try {
+      await baseStore.deleteImg(imageToDelete.publicId);
+      imagesInfo.value = imagesInfo.value.filter(img => img.url !== file.url);
+      message.success("File deleted successfully.");
+    } catch (error) {
+      message.error("Failed to delete file.");
+    }
+  }
+};
+
+
 const optionsPublishingcompany = ref([]);
 const publishingcompanyValue = usePublishingCompanyStore();
 const getDataPublishingcompanyValue = async () => {
@@ -209,11 +267,7 @@ const valueBookDetail = ref({
   book_id: "",
   sku_origin: "",
   poster: "",
-  images: [
-    "https://www.vinaprint.vn/wp-content/uploads/2023/01/poster-ra-mat-sach-2.jpeg",
-    "https://www.vinaprint.vn/wp-content/uploads/2023/01/poster-ra-mat-sach-2.jpeg",
-    "https://www.vinaprint.vn/wp-content/uploads/2023/01/poster-ra-mat-sach-2.jpeg",
-  ],
+  images: [],
   book_version: "",
   price: "",
   hire_percent: "",
@@ -232,7 +286,7 @@ const onSubmit = async () => {
     const res = await DetailBookStore.createBookDetail({
       book_id: props.book_id,
       poster: imageInfo.value?.url,
-      images: valueBookDetail.value.images,
+      images: imagesInfo.value,
       book_version: valueBookDetail.value.book_version,
       price: valueBookDetail.value.price,
       hire_percent: valueBookDetail.value.hire_percent,
@@ -250,6 +304,7 @@ const onSubmit = async () => {
       message.success("Thêm phiên bản sách thành công");
       handleClose()
       await bookStore.getOneBookAdmin(bookID);
+      
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);

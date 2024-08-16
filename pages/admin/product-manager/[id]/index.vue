@@ -29,8 +29,8 @@
             </div>
             <div class="grid grid-cols-3">
               <span class="text-base font-bold col-span-1">Số điện thoại:</span>
-              <span class="text-base col-span-2">{{ orderStore?.getOneOrderAdmin?.data?.user?.phone ?
-                orderStore.getOneOrderAdmin.data.user.phone : "" }}</span>
+              <span class="text-base col-span-2">{{ orderStore?.getOneOrderAdmin?.data?.delivery_info?.phone ?
+                orderStore?.getOneOrderAdmin?.data?.delivery_info?.phone : '' }}</span>
             </div>
             <div class="grid grid-cols-3">
               <span class="text-base font-bold col-span-1">Vai trò</span>
@@ -53,9 +53,8 @@
           <div class="md:col-span-3 space-y-3 ml-5">
             <div class="grid grid-cols-4">
               <span class="text-base font-bold col-span-1">Địa chỉ nhận sách: </span>
-              <span class="text-base col-span-3">{{
-                orderStore?.getOneOrderAdmin?.data?.user?.address_detail
-              }}</span>
+              <span class="text-base col-span-3">{{ orderStore?.getOneOrderAdmin?.data?.delivery_info?.address ?
+                orderStore?.getOneOrderAdmin?.data?.delivery_info?.address : '' }}</span>
             </div>
             <div class="grid grid-cols-4">
               <span class="text-base font-bold col-span-1">Phương thức thanh toán: </span>
@@ -66,6 +65,33 @@
                 khoản</span>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="w-full p-5 flex flex-col gap-4 bg-[white] rounded-lg"
+        v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'shipper'">
+        <h1 class="text-base font-bold">Thông tin giao hàng</h1>
+        <div class="border border-gray-100"></div>
+        <div class="grid md:grid-cols-3">
+          <div class="md:col-span-2 space-y-3">
+            <div class="grid grid-cols-4">
+              <span class="text-base font-bold col-span-1">Tên khách hàng:</span>
+              <span class="text-base col-span-1">{{ orderStore?.getOneOrderAdmin?.data?.delivery_info?.fullname ?
+                orderStore?.getOneOrderAdmin?.data?.delivery_info?.fullname : 'Không có tên khách hàng' }}</span>
+            </div>
+            <div class="grid grid-cols-4">
+              <span class="text-base font-bold col-span-1">Số điện thoại:</span>
+              <span class="text-base col-span-1">{{ orderStore?.getOneOrderAdmin?.data?.delivery_info?.phone ?
+                orderStore?.getOneOrderAdmin?.data?.delivery_info?.phone : 'Không có số điện thoại'
+                }}</span>
+            </div>
+            <div class="grid grid-cols-4">
+              <span class="text-base font-bold col-span-1">Địa chỉ giao hàng:</span>
+              <span class="text-base col-span-3">{{ orderStore?.getOneOrderAdmin?.data?.delivery_info?.address ?
+                orderStore?.getOneOrderAdmin?.data?.delivery_info?.address : ' Không có địa chỉ giao hàng' }}
+              </span>
+            </div>
+          </div>
+          <div class="md:col-span-1"></div>
         </div>
 
       </div>

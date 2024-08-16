@@ -71,8 +71,8 @@ useAsyncData(
 );
 
 useSeoMeta({
-  title: "ReadStation - Danh Sách Bài Viết",
-  ogTitle: "ReadStation - Danh Sách Bài Viết",
+  title: "ReadStation | Danh Sách Bài Viết",
+  ogTitle: "ReadStation | Danh Sách Bài Viết",
   description: "Bài viết trên Read Station giúp bạn hiểu rõ hơn về sách, văn học và nhiều chủ đề khác. Hãy cùng khám phá những bài viết thú vị tại Read Station!",
   ogDescription:
     "Bài viết trên Read Station giúp bạn hiểu rõ hơn về sách, văn học và nhiều chủ đề khác. Hãy cùng khám phá những bài viết thú vị tại Read Station!",

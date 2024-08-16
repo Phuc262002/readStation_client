@@ -430,8 +430,8 @@ const showModalDetail = (id) => {
   postDetailId.value = id;
 };
 useSeoMeta({
-  title: "ReadStation - Bài viết đang xử lý",
-  ogTitle: "ReadStation - Bài viết đang xử lý",
+  title: "ReadStation | Bài viết đang xử lý",
+  ogTitle: "ReadStation | Bài viết đang xử lý",
   description: "Bài viết đang xử lý",
   ogDescription: "Bài viết đang xử lý",
   ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",

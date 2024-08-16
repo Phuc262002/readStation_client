@@ -96,12 +96,12 @@
           </template>
           <template v-if="column.key === 'bookcase_id'">
             <a>
-              {{ record.bookcase.description }}
+              {{ record.bookcase.description ? record.bookcase.description : 'Chưa được thêm vào tủ' }}
             </a>
           </template>
           <template v-if="column.key === 'category_id'">
             <span>
-              {{ record.category.name }}
+              {{ record.category.name ? record.category.name : 'Chưa được thêm vào danh mục' }}
             </span>
           </template>
           <template v-if="column.key === 'books'">
