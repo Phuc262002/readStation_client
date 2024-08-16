@@ -289,6 +289,7 @@ useAsyncData(async () => {
   try {
     await categoryStore.getAllCategory({
       type: "book",
+      pageSize: 1000,
     });
   } catch (error) {
     console.error(error);
@@ -305,7 +306,9 @@ const authorQuery = ref({
 });
 useAsyncData(async () => {
   try {
-    await authorStore.getAllAuthor({});
+    await authorStore.getAllAuthor({
+      pageSize: 1000,
+    });
   } catch (error) {
     console.error(error);
   }
