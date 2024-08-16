@@ -217,7 +217,9 @@ const errors = ref({});
 const shelvesValue = useShelvesStore();
 const getDataShelvesValue = async () => {
   try {
-    const data = await shelvesValue.getAllShelves({});
+    const data = await shelvesValue.getAllShelves({
+      pageSize: 1000,
+    });
     optionsShelve.value = data.data._rawValue.data.shelves.map((shelve) => {
       return {
         value: shelve.id,
@@ -262,7 +264,7 @@ const categoryValue = useCategoryStore();
 const getDataCategory = async () => {
   try {
     isLoading.value = true;
-    const data = await categoryValue.getAllCategory({ type: "book" });
+    const data = await categoryValue.getAllCategory({ type: "book",pageSize: 1000, });
     optionsCategory.value = data.data._rawValue.data.categories.map(
       (category) => {
         return {
@@ -279,7 +281,9 @@ const optionsAuthor = ref([]);
 const authorValue = useAuthorStore();
 const getDataAuthor = async () => {
   try {
-    const data = await authorValue.getAllAuthor({});
+    const data = await authorValue.getAllAuthor({
+      pageSize: 1000,
+    });
     optionsAuthor.value = data.data._rawValue.data.authors.map((author) => {
       return {
         value: author.id,
