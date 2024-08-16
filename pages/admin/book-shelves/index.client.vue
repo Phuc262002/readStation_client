@@ -38,7 +38,7 @@
 
           <a-dropdown :trigger="['click']">
             <template #overlay>
-              <div>
+              <div class="h-[300px] overflow-auto w-[190px]">
                 <a-menu>
                   <a-menu-item>
                     <div @click="categoryValue({ id: null, label: 'Tất cả danh mục' })">
@@ -59,7 +59,7 @@
 
           <a-dropdown :trigger="['click']">
             <template #overlay>
-              <div>
+              <div class="h-[300px] overflow-auto w-[190px]">
                 <a-menu>
                   <a-menu-item>
                     <div @click="bookcaseValue({ id: null, label: 'Tất cả tủ sách' })">
@@ -198,7 +198,8 @@ const categoryQuery = ref({
 useAsyncData(async () => {
   try {
     await categoryStore.getAllCategory({
-      type: 'book'
+      type: 'book',
+      pageSize: 1000,
     });
   } catch (error) {
     console.error(error);
@@ -216,7 +217,9 @@ const bookcaseQuery = ref({
 });
 useAsyncData(async () => {
   try {
-    await bookcaseStore.getAllBookcases({});
+    await bookcaseStore.getAllBookcases({
+      pageSize: 1000,
+    });
   } catch (error) {
     console.error(error);
   }

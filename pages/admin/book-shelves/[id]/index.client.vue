@@ -180,8 +180,11 @@ const updateDetailShelves = async (id) => {
     const res = await bookStore.updateBook({ id: id, value: idShelves });
     if (res.data._rawValue?.status == true) {
       message.success("Xóa sách ra khỏi kệ thành công");
-      useAsyncData(async () => {
-        await bookShelves.getOneShelves(detailShelvesId);
+      await bookShelves.getOneShelves(detailShelvesId);
+      await bookShelves.getBookOfShelves({
+        id: detailShelvesId,
+        page: current.value,
+        search: valueSearch.value,
       });
     } else {
       message.error(res.error.value.data.message);
@@ -189,7 +192,6 @@ const updateDetailShelves = async (id) => {
   } catch (error) {
     message.error("Xóa sách thất bại");
   }
-
 };
 
 const showConfirm = (id) => {

@@ -94,9 +94,12 @@ const updateDetailShelves = async (id) => {
         if (res.data._rawValue?.status == true) {
             message.success("Thêm sách thành công");
             handleClose();
-            useAsyncData(async () => {s
-                await bookShelves.getOneShelves(detailShelvesId);
-            })
+            await bookShelves.getOneShelves(detailShelvesId);
+            await bookShelves.getBookOfShelves({
+                id: detailShelvesId,
+                page: current.value,
+                search: valueSearch.value,
+            });
         } else {
             errors.value = res.error.value.data.errors;
             message.error(res.error.value.data.message);

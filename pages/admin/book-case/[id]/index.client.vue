@@ -202,6 +202,7 @@ const updateDetailCase = async (id) => {
     });
     if (res.data._rawValue?.status == true) {
       message.success("Xóa kệ sách thành công");
+      await bookCaseStore.getOneBookcase(detailBookCaseId);
       await bookCaseStore.getShelveOfBookcase({
         id: detailBookCaseId,
         page: current.value,

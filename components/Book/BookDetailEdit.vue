@@ -163,7 +163,6 @@ const uploadFile = async (file) => {
     imageInfo.value = dataUpload.data._rawValue.data?.url;
   } catch (error) {
     message.error("Upload ảnh thất bại");
-    console.log("🚀 ~ uploadFile ~ error:", error);
   }
 };
 const handleChangeUploadImg = (info) => {
@@ -270,7 +269,9 @@ const optionsPublishingcompany = ref([]);
 const publishingcompanyValue = usePublishingCompanyStore();
 useAsyncData(async () => {
   try {
-    const data = await publishingcompanyValue.getAllPublishingCompany({});
+    const data = await publishingcompanyValue.getAllPublishingCompany({
+      pageSize: 1000,
+    });
     optionsPublishingcompany.value = data.data._rawValue.data.publishing_companies.map((publishingcompany) => {
       return {
         value: publishingcompany.id,
