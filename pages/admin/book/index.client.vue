@@ -29,7 +29,7 @@
               <UIcon class="text-gray-500" name="i-material-symbols-search" />
             </div>
           </div>
-          <a-dropdown :trigger="['click']">
+          <a-dropdown :trigger="['click']" class="h-[300px] overflow-auto">
             <template #overlay>
               <a-menu class="">
                 <a-menu-item
@@ -87,7 +87,7 @@
             </a-button>
           </a-dropdown>
 
-          <a-dropdown :trigger="['click']">
+          <a-dropdown :trigger="['click']" class="h-[300px] overflow-auto">
             <template #overlay>
               <div>
                 <a-menu>
