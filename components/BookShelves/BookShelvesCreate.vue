@@ -57,7 +57,9 @@ const optionsCase = ref({});
 const errors = ref({});
 const getDataCase = async () => {
   try {
-    const data = await bookcaseValue.getAllBookcases({});
+    const data = await bookcaseValue.getAllBookcases({
+      pageSize: 1000,
+    });
     optionsCase.value = data?.data?._rawValue?.data?.bookcases.map((items) => {
       return {
         value: items.id,
@@ -75,7 +77,7 @@ const categoryValue = useCategoryStore();
 const getDataCategory = async () => {
   try {
     isLoading.value = true;
-    const data = await categoryValue.getAllCategory({ type: "book" });
+    const data = await categoryValue.getAllCategory({ type: "book", pageSize: 1000 });
     optionsCategory.value = data.data._rawValue.data.categories.map((items) => {
       return {
         value: items.id,
