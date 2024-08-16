@@ -243,7 +243,9 @@ const publishingcompanyValue = usePublishingCompanyStore();
 const getDataPublishingcompanyValue = async () => {
   try {
     isLoading.value = true;
-    const data = await publishingcompanyValue.getAllPublishingCompany({});
+    const data = await publishingcompanyValue.getAllPublishingCompany({
+      pageSize: 1000,
+    });
     optionsPublishingcompany.value =
       data.data._rawValue.data.publishing_companies.map((publishingcompany) => {
         return {
