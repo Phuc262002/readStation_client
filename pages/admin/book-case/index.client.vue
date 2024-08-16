@@ -77,7 +77,7 @@
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'bookcase_code'">
-            <a> Mã tủ sách </a>
+            <span> Mã tủ sách </span>
           </template>
         </template>
 

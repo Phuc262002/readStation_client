@@ -87,7 +87,7 @@
             </a-button>
           </a-dropdown>
 
-          <a-dropdown :trigger="['click']" >
+          <a-dropdown :trigger="['click']">
             <template #overlay>
               <div class="h-[300px] overflow-auto w-[190px]">
                 <a-menu>
@@ -261,7 +261,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
-import debounce from 'lodash.debounce'
+import debounce from "lodash.debounce";
 const openModalBook = ref<boolean>(false);
 const valueSearch = ref("");
 const queryStatus = ref({
@@ -271,6 +271,7 @@ const queryStatus = ref({
 const statusValue = ({ value, label }: any) => {
   queryStatus.value.value = value;
   queryStatus.value.label = label;
+  current.value = 1;
 };
 const allAdminBooks = useBookStore();
 const categoryStore = useCategoryStore();
@@ -281,7 +282,7 @@ const categoryQuery = ref({
 
 const onSearch = debounce(() => {
   current.value = 1;
-   getAllAdminBooks();
+  getAllAdminBooks();
 }, 500);
 
 watch(valueSearch, onSearch);
@@ -298,6 +299,7 @@ useAsyncData(async () => {
 const categoryValue = ({ id, label }: any) => {
   categoryQuery.value.id = id;
   categoryQuery.value.label = label;
+  current.value = 1;
 };
 const authorStore = useAuthorStore();
 const authorQuery = ref({
@@ -316,6 +318,7 @@ useAsyncData(async () => {
 const authorValue = ({ id, label }: any) => {
   authorQuery.value.id = id;
   authorQuery.value.label = label;
+  current.value = 1;
 };
 const current = ref(1);
 const getAllAdminBooks = async () => {
@@ -332,18 +335,14 @@ const getAllAdminBooks = async () => {
     console.error(error);
   }
 };
+
 useAsyncData(
   async () => {
     await getAllAdminBooks();
   },
   {
     immediate: true,
-    watch: [
-      current,
-      categoryQuery.value,
-      authorQuery.value,
-      queryStatus.value,
-    ],
+    watch: [current, categoryQuery.value, authorQuery.value, queryStatus.value],
   }
 );
 const errors = ref({});
