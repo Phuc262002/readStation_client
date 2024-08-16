@@ -292,8 +292,8 @@ const showModalEdit = (id) => {
   publishingCompanyId.value = id;
 };
 useSeoMeta({
-  title: "ReadStation - Quản lý nhà xuất bản",
-  ogTitle: "ReadStation - Quản lý nhà xuất bản",
+  title: "ReadStation | Quản lý nhà xuất bản",
+  ogTitle: "ReadStation | Quản lý nhà xuất bản",
   description: "Quản lý nhà xuất bản",
   ogDescription: "Quản lý nhà xuất bản",
   ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",

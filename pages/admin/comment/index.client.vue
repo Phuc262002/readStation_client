@@ -395,8 +395,8 @@ const columns = [
   },
 ];
 useSeoMeta({
-    title: "ReadStation - Quản lý bình luận",
-    ogTitle: "ReadStation - Quản lý bình luận",
+    title: "ReadStation | Quản lý bình luận",
+    ogTitle: "ReadStation | Quản lý bình luận",
     description: "Quản lý bình luận",
     ogDescription: "Quản lý bình luận",
     ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
