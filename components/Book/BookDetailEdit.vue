@@ -27,7 +27,7 @@
                 </ClientOnly>
               </div>
               <div class="flex flex-col gap-2"><label class="text-sm font-semibold" for="">Bộ sưu tập</label>
-                <a-upload list-type="picture":file-list="images" :action="uploadImages" :multiple="true"
+                <a-upload list-type="picture" :file-list="images" :action="uploadImages" :multiple="true"
                   :before-upload="beforeUpload" :on-change="handleChangeImages" :on-remove="deleteImage">
                   <a-button class="flex justify-between gap-3 items-center">
                     <upload-outlined />
