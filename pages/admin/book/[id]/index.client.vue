@@ -84,7 +84,7 @@
                     <div class="bg-[white] rounded-lg h-auto flex flex-col gap-3 p-4"
                         v-for="(items, index) in bookStore?.OneBookAdmin?.book_detail" :key="index">
                         <div class="flex justify-between">
-                            <h1 class="text-base font-bold">Phiên bản {{ items.book_version }} </h1>
+                            <h1 class="text-base font-bold">Phiên bản {{ items.book_version }} - {{ items?.sku_origin }} </h1>
                             <a-button @click="showModalEdit(items?.id)"
                                 class="flex justify-center items-center gap-1 bg-[#344054]" type="primary" size="large">
                                 <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
