@@ -36,14 +36,14 @@
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Ngày thuê:</span>
               <span class="col-span-3">
-                {{ $dayjs(order?.loan_date).format("DD/MM/YYYY - HH:MM") }}
+                {{ $dayjs(order?.loan_date).format("DD/MM/YYYY") }}
               </span>
             </div>
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Ngày hết hạn cũ:</span>
               <span class="col-span-3">
                 {{
-                  $dayjs(order?.original_due_date).format("DD/MM/YYYY - HH:MM")
+                  $dayjs(order?.original_due_date).format("DD/MM/YYYY")
                 }}
               </span>
             </div>
@@ -53,18 +53,19 @@
                 {{
                   $dayjs(order?.original_due_date)
                     .add(5, "day")
-                    .format("DD/MM/YYYY - HH:MM")
+                    .format("DD/MM/YYYY")
                 }}
               </span>
             </div>
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Phí gia hạn:</span>
-              <span class="col-span-3"> 0 / 3 </span>
+              <span class="col-span-3"> {{ order?.service_fee }} </span>
             </div>
             <div class="grid grid-cols-6">
-              <span class="col-span-3 font-bold">Nhập số ngày gia hạn:</span>
+              <span class="col-span-3 font-bold">Nhập thêm số ngày gia hạn:</span>
               <span class="col-span-3">
-                <a-input type="number" />
+                <a-input type="number" class="w-1/2" v-model:value="number_of_days[index]"
+                  @change="(e) => updateNumberOfDays(order?.id, number_of_days[index])" />
               </span>
             </div>
           </div>
@@ -74,7 +75,13 @@
           gia hạn thời gian thuê sách
         </p>
         <p class="text-tag-text-06">
-          Lưu ý: Quý khách cần trả sách đúng hạn để tránh các khoản phí phạt.
+          Lưu ý:
+        <ul>
+          <li>- Vui lòng tham khảo phí gia hạn được nêu ở trên. Chi tiết về phí gia hạn có thể xem trong phần "Lịch sử
+            gia hạn".</li>
+          <li>- Quý khách cần trả sách đúng hạn để tránh các khoản phí phạt.</li>
+        </ul>
+
         </p>
         <div class="flex justify-end gap-2">
           <a-button class="h-10" @click="handleCloseExtendAll"> Hủy </a-button>
@@ -93,17 +100,53 @@ const orderStore = useOrderClientStore();
 const extended_method = ref("cash");
 const route = useRoute();
 const id = route.params.id;
+const number_of_days = ref([5, 5, 5]);
+const props = defineProps({
+  openExtendAll: Boolean,
+  closeExtendAll: Function,
+  data: Array,
+  id: Number,
+});
+const open = ref(props.openExtendAll);
+console.log('props.data', props.data);
 const handleCloseExtendAll = async () => {
   props.closeExtendAll();
 };
-const onSubmit = async () => {
-  const resData = await orderStore.extensionAllBook({
-    id: orderStore?.order?.id,
-    body: {
-      extended_method: extended_method.value,
-    },
-  });
+// const updateNumberOfDays = (id, quantity) => {
+//   console.log("🚀 ~ updateNumberOfDays ~ quantity:", quantity);
 
+//   let fee = 0;
+//   const price = props.extendsionBook?.book_details?.price || 0;
+
+//   if (price < 50000) {
+//     fee = 1000;
+//   } else if (price >= 50000 && price <= 100000) {
+//     fee = 2000;
+//   } else {
+//     fee = 4000;
+//   }
+
+
+//   props.extendsionBook.service_fee = quantity * fee;
+//   props.extendsionBook.number_of_days = quantity;
+// };
+const onSubmit = async () => {
+  const body = props.data.map((item, index) => {
+    return {
+      loan_order_details_id: item.id,
+      number_of_days: number_of_days.value[index],
+    }
+  })
+  console.log('body', body)
+  const valueExtendsion = ref({
+    extended_method: extended_method.value,
+    extension: body
+  });
+  const resData = await orderStore.extensionAllBook({
+    id: props.id,
+    body: valueExtendsion.value
+  });
+  console.log('resData', resData)
   if (
     resData?.data?._rawValue?.status == true &&
     extended_method.value == "cash"
@@ -124,14 +167,10 @@ const onSubmit = async () => {
       external: true,
     });
   } else {
-    message.error({
-      content: "Gia hạn sách sách thất bại",
-    });
+    message.error(resData?.data?._rawValue?.errors);
+    handleCloseExtendAll();
+    orderStore.getOneOrder(id);
   }
 };
-const props = defineProps({
-  openExtendAll: Boolean,
-  closeExtendAll: Function,
-});
-const open = ref(props.openExtendAll);
+
 </script>

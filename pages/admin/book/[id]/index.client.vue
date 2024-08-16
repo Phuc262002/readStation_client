@@ -110,6 +110,10 @@
                                     <span class="text-base">{{ items?.stock }}</span>
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
+                                    <span class="font-bold text-base">Số lượng hư: </span>
+                                    <span class="text-base">{{ items?.stock_broken }}</span>
+                                </div>
+                                <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Giá: </span>
                                     <span class="text-base"> {{
                                         new Intl.NumberFormat("vi-VN", {

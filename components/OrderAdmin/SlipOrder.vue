@@ -1,180 +1,127 @@
 <template>
-  <a-modal
-    v-model:open="props.openModal"
-    title="Cập nhật tình trạng sách"
-    style="width: 500px"
-    :footer="null"
-    :onCancel="handleClose"
-  >
+  <a-modal v-model:open="props.openModal" title="Cập nhật tình trạng sách" style="width: 500px" :footer="null"
+    :onCancel="handleClose">
     <form @submit.prevent="onSubmit">
       <div class="mb-4 space-y-1" v-if="errors">
-        <a-alert
-          v-for="(error, index) in errors"
-          :message="error"
-          type="error"
-          show-icon
-        />
+        <a-alert v-for="(error, index) in errors" :message="error" type="error" show-icon />
       </div>
       <div class="flex flex-col gap-2 mt-4">
         <label class="text-base">Tên sách</label>
-        <a-input
-          size="large"
-          :value="props.data?.loan_order_detail?.book_details?.book?.title"
-          readonly
-        />
+        <a-input size="large" :value="props.data?.loan_order_detail?.book_details?.book?.title" readonly />
       </div>
       <div class="flex flex-col gap-2 mt-4">
         <label class="text-base">Tình trạng sách</label>
-        <a-select
-          show-search
-          placeholder="Trạng thái"
-          size="large"
-          :options="options"
-          :filter-option="filterOption"
-          @focus="handleFocus"
-          @blur="handleBlur"
-          @change="handleChange"
-        ></a-select>
+        <a-select show-search placeholder="Trạng thái" v-model:value="data.actual_return_condition" size="large"
+          :options="options" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
+          @change="handleConditionChange"></a-select>
       </div>
       <div class="flex flex-col gap-2 mt-4">
-        <label class="text-base"
-          >Chi tiết <span class="text-red-500">*</span></label
-        >
-        <a-textarea
-          class="border border-gray-300 rounded-md p-2"
-          v-model:value="data.condition"
-          required
-        ></a-textarea>
+        <label class="text-base">Chi tiết <span class="text-red-500">*</span></label>
+        <a-textarea class="border border-gray-300 rounded-md p-2" v-model:value="data.condition" required></a-textarea>
       </div>
-      <div class="flex flex-col gap-2 mt-4">
-        <div class="flex gap-2 items-center">
-          <label class="text-base">Lý do phạt</label>
-          <a-popover v-model:open="visible" trigger="click" placement="topLeft">
-            <template #content>
-              <table
-                style="
+      <div>
+        <div class="flex flex-col gap-2 mt-4">
+          <div class="flex gap-2 items-center">
+            <label class="text-base">Lý do phạt</label>
+            <a-popover v-model:open="visible" trigger="click" placement="topLeft">
+              <template #content>
+                <table style="
                   border-collapse: collapse;
                   width: 100%;
                   border: 1px solid black;
-                "
-              >
-                <tr>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    <strong> Tình trạng </strong>
-                  </td>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    <strong> Mức phạt </strong>
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    style="
+                ">
+                  <tr>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      <strong> Tình trạng </strong>
+                    </td>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      <strong> Mức phạt </strong>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="
                       padding-left: 8px;
                       border: 1px solid black;
                       width: 220px;
-                    "
-                  >
-                    Mất sách hoặc làm cho sách hoàn toàn không sử dụng được
-                  </td>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    Đền 100% giá trị sách
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    Mất trang
-                  </td>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    10.000đ/tờ
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    Làm bẩn, viết vẽ bẩn lên sách
-                  </td>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    2.000đ/tờ
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    Làm bong bìa
-                  </td>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    15.000đ/1 cuốn
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    Làm rách sách
-                  </td>
-                  <td
-                    rowspan="3"
-                    style="padding-left: 8px; border: 1px solid black"
-                  >
-                    30.000đ/ sách
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    Làm ướt sách
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    Bóc nhãn, phiếu ghi chú trên sách
-                  </td>
-                </tr>
-              </table>
-            </template>
+                    ">
+                      Mất sách hoặc làm cho sách hoàn toàn không sử dụng được
+                    </td>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      Đền 100% giá trị sách
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      Mất trang
+                    </td>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      10.000đ/tờ
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      Làm bẩn, viết vẽ bẩn lên sách
+                    </td>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      2.000đ/tờ
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      Làm bong bìa
+                    </td>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      15.000đ/1 cuốn
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      Làm rách sách
+                    </td>
+                    <td rowspan="3" style="padding-left: 8px; border: 1px solid black">
+                      30.000đ/ sách
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      Làm ướt sách
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      Bóc nhãn, phiếu ghi chú trên sách
+                    </td>
+                  </tr>
+                </table>
+              </template>
 
-            <Icon
-              icon="heroicons:eye"
-              class="group-hover:text-[#212122] w-5 h-5"
-            />
-          </a-popover>
+              <Icon icon="heroicons:eye" class="group-hover:text-[#212122] w-5 h-5" />
+            </a-popover>
+          </div>
+          <a-select show-search placeholder="Lý do phạt" size="large" :options="penaltyReason"
+            :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur" @change="handleChange"
+            :disabled="isDisabled"></a-select>
         </div>
-        <a-select
-          show-search
-          placeholder="Lý do phạt"
-          size="large"
-          :options="penaltyReason"
-          :filter-option="filterOption"
-          @focus="handleFocus"
-          @blur="handleBlur"
-          @change="handleChange"
-        ></a-select>
-      </div>
-      <div
-        v-if="data.penalty_reason == 1 || data.penalty_reason == 2"
-        class="flex flex-col gap-2 mt-4"
-      >
-        <label class="text-base">Số tờ hư hại</label>
-        <a-input
-          size="large"
-          placeholder="Số tờ hư hại"
-          v-model:value="page"
-          number
-          :min="1"
-        />
-      </div>
-      <div class="flex flex-col gap-2 mt-4">
-        <label class="text-base">Số tiền phạt</label>
-        <a-input
-          size="large"
-          placeholder="Số tiền phạt"
-          v-model:value="data.fine_amount"
-          readonly
-        />
+        <div v-if="data.penalty_reason == 1 || data.penalty_reason == 2" class="flex flex-col gap-2 mt-4">
+          <label class="text-base">Số tờ hư hại</label>
+          <a-input size="large" placeholder="Số tờ hư hại" v-model:value="page" number :min="1"
+            :disabled="isDisabled" />
+        </div>
+
+        <div class="flex flex-col gap-2 mt-4">
+          <!-- <div>
+            <span class="text-[red]">Lưu ý : Nếu số tiền phạt lớn hơn tiền cọc sách thì số tiền phạt bằng với tiền cọc
+              quyển
+              sách</span>
+          </div> -->
+          <label class="text-base">Số tiền phạt</label>
+          <a-input size="large" placeholder="Số tiền phạt" v-model:value="data.fine_amount" readonly
+            :disabled="isDisabled" />
+        </div>
       </div>
       <div class="flex justify-end gap-2 mt-4">
         <a-button type="default" @click="handleClose">Hủy</a-button>
-        <a-button
-          type="primary"
-          html-type="submit"
-          :loading="returnHistoryStore.isSubmitting"
-          >Cập nhật</a-button
-        >
+        <a-button type="primary" html-type="submit" :loading="returnHistoryStore.isSubmitting">Cập nhật</a-button>
       </div>
     </form>
   </a-modal>
@@ -182,16 +129,16 @@
 <script setup>
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
-import { number } from "yup";
 const errors = ref({});
 const visible = ref(false);
+const route = useRoute();
+const id = route.params.id;
 const props = defineProps({
   openModal: Boolean,
   CloseModal: Function,
   data: Object,
 });
 const open = ref(props.openModal);
-
 const returnHistoryStore = useReturnHistoryStore();
 watch(
   () => props.openModal,
@@ -203,14 +150,6 @@ const handleClose = () => {
   open.value = false;
   props.CloseModal();
 };
-const statusValue = ({ value, label }) => {
-  queryStatus.value.value = value;
-  queryStatus.value.label = label;
-};
-const queryStatus = ref({
-  value: "",
-  label: "",
-});
 const options = ref([
   {
     value: "excellent",
@@ -271,8 +210,7 @@ const page = ref(1);
 const data = ref({
   condition: "",
   fine_amount: 0,
-  actual_return_condition: "excellent",
-
+  actual_return_condition: "",
   penalty_reason: "",
 });
 const onSubmit = async () => {
@@ -283,6 +221,8 @@ const onSubmit = async () => {
     });
     if (res.data._rawValue?.status == true) {
       message.success("Cập nhật sách thành công");
+      handleClose();
+      await returnHistoryStore.getOneReturnHistory(id);
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);
@@ -292,7 +232,16 @@ const onSubmit = async () => {
     console.error(error);
   }
 };
-
+const isDisabled = ref(false);
+const handleConditionChange = (value) => {
+  if (value === 'excellent' || value === 'good') {
+    isDisabled.value = true;
+    data.value.penalty_reason = "";
+    data.value.fine_amount = 0;
+  } else {
+    isDisabled.value = false;
+  }
+};
 const handleChange = (value) => {
   data.value.penalty_reason = value;
   switch (value) {
@@ -300,32 +249,29 @@ const handleChange = (value) => {
       data.value.fine_amount = props.data?.loan_order_detail?.deposit_fee;
       break;
     case "1":
-      data.value.fine_amount =
-        props.data?.loan_order_detail?.deposit_fee - 10000 * page.value;
+      data.value.fine_amount = 10000 * page.value;
       break;
     case "2":
-      data.value.fine_amount =
-        props.data?.loan_order_detail?.deposit_fee - 10000 * page.value;
+      data.value.fine_amount = 2000 * page.value;
       break;
     case "3":
-      data.value.fine_amount =
-        props.data?.loan_order_detail?.deposit_fee - 15000;
+      data.value.fine_amount = 15000;
       break;
     case "4":
-      data.value.fine_amount =
-        props.data?.loan_order_detail?.deposit_fee - 30000;
+      data.value.fine_amount = 30000;
       break;
     case "5":
-      data.value.fine_amount =
-        props.data?.loan_order_detail?.deposit_fee - 30000;
+      data.value.fine_amount = 30000;
       break;
     case "6":
-      data.value.fine_amount =
-        props.data?.loan_order_detail?.deposit_fee - 30000;
+      data.value.fine_amount = 30000;
       break;
     default:
       data.value.fine_amount = 0;
       break;
+  }
+  if (data.value.fine_amount > props.data?.loan_order_detail?.deposit_fee) {
+    data.value.fine_amount = props.data?.loan_order_detail?.deposit_fee;
   }
 };
 
@@ -333,8 +279,7 @@ watch(
   () => page.value,
   (value) => {
     if (data.value.penalty_reason == 1 || data.value.penalty_reason == 2) {
-      data.value.fine_amount =
-        props.data?.loan_order_detail?.deposit_fee - 10000 * value;
+      handleChange(data.value.penalty_reason);
     }
   }
 );

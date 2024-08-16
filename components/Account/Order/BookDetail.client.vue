@@ -7,6 +7,10 @@
           {{ order?.data?.book_details?.book_version }}
         </h3>
         <div>
+          <a-tag v-if="order?.data?.status === 'active'"
+            class="text-tag-text-04 bg-tag-bg-04 border-none py-1 px-3 rounded-lg">
+            Đang thuê
+          </a-tag>
           <a-tag v-if="order?.data?.status === 'returning'"
             class="text-tag-text-13 bg-tag-bg-13 border-none py-1 px-3 rounded-lg">
             Đang trả sách
@@ -61,11 +65,11 @@
               orderStore?.order?.status === 'overdue' ||
               orderStore?.order?.status === 'returning'
             ">
-              <span class="col-span-2 font-bold">Ngày trả thực tế:</span>
+              <span class="col-span-2 font-bold">Ngày hết hạn:</span>
               <span class="col-span-2">
                 {{
-                  $dayjs(orderStore?.order?.created_at).format(
-                    "DD/MM/YYYY - HH:MM"
+                  $dayjs(order?.data?.current_due_date).format(
+                    "DD/MM/YYYY"
                   )
                 }}
               </span>
@@ -159,30 +163,21 @@
 
       <div class="flex justify-end pt-4 gap-2">
         <div v-if="
-          order?.data?.status === 'active' ||
-          $dayjs(new Date()).format('YYYY-MM-DD') ===
-          $dayjs(order?.data?.current_due_date).format('YYYY-MM-DD')
-        " class="flex justify-end pt-4 gap-2">
-          <a-button class="h-10" @click="showModalGive(order?.data)" v-if="
-            order?.data?.status === 'active' ||
-            $dayjs(new Date()).format('YYYY-MM-DD') ===
-            $dayjs(order?.data?.current_due_date).format('YYYY-MM-DD')
-          ">
+          order?.data?.status === 'extended' || order?.data?.status === 'active'" class="flex justify-end pt-4 gap-2">
+          <a-button class="h-10" @click="showModalGive(order?.data)">
             Trả sách
           </a-button>
 
-          <a-button v-if="
-            order?.data?.status === 'active' ||
-            $dayjs(new Date()).format('YYYY-MM-DD') ===
-            $dayjs(order?.data?.current_due_date).format('YYYY-MM-DD')
-          " class="h-10 bg-orange-500 !text-white border-none" @click="showModalExtend(order?.data)">
-            Gia hạn lần 1
+          <a-button v-if="orderStore?.order?.current_extensions < 3 && $dayjs(new Date()).format('YYYY-MM-DD') ===
+            $dayjs(order?.data?.current_due_date).subtract(1, 'day').format('YYYY-MM-DD')"
+            class="h-10 bg-orange-500 !text-white border-none" @click="showModalExtend(order?.data)">
+            Gia hạn lần {{ order?.data?.extensions_details?.length + 1 }}
           </a-button>
         </div>
       </div>
     </div>
     <AccountOrderExtendBook :openModalExtend="openModalExtend" :closeModalExtend="closeModalExtend"
-      :bookExtendDetail="bookExtendDetail" />
+      :extendsionBook="extendsionBook" />
     <AccountOrderGiveBook :openModalGive="openModalGive" :closeModalGive="closeModalGive" :bookDetail="bookDetail" />
   </div>
 </template>
@@ -191,7 +186,7 @@ const orderStore = useOrderClientStore();
 const order = defineProps(["data"]);
 const errors = ref({});
 const bookDetail = ref();
-const bookExtendDetail = ref();
+const extendsionBook = ref();
 const rating = ref<number>(5);
 const route = useRoute();
 const idBook = route.params.id;
@@ -227,8 +222,8 @@ const handleReviewBook = async (id) => {
 const openModalExtend = ref(false);
 const showModalExtend = (order: any) => {
   openModalExtend.value = true;
-  bookExtendDetail.value = order;
-  console.log("id book ex", order);
+  extendsionBook.value = order;
+  // console.log("id book ex", order);
 };
 const closeModalExtend = () => {
   openModalExtend.value = false;
@@ -239,6 +234,7 @@ const openModalGive = ref(false);
 const showModalGive = (order: any) => {
   openModalGive.value = true;
   bookDetail.value = order;
+  console.log('order', order)
 };
 const closeModalGive = () => {
   openModalGive.value = false;

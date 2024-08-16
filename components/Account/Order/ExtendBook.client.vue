@@ -8,7 +8,7 @@
       <form @submit.prevent="onSubmit" class="mt-5 space-y-5">
         <h3 class="font-bold text-base">
           Bạn muốn gia hạn sách
-          {{ props.bookExtendDetail?.book_details?.book?.title }}
+          {{ props.extendsionBook?.book_details?.book?.title }}
         </h3>
         <a-radio-group v-model:value="extended_method" class="flex gap-5 my-5">
           <a-radio value="cash" class="w-1/2 p-5 border rounded-lg">
@@ -21,28 +21,28 @@
 
         <div class="grid grid-cols-12 px-5">
           <div class="col-span-4">
-            <img :src="props.bookExtendDetail?.book_details?.poster" alt=""
+            <img :src="props.extendsionBook?.book_details?.poster" alt=""
               class="w-[114px] h-[176px] shadow-lg shadow-gray-500" />
           </div>
           <div class="col-span-8 text-sm space-y-3">
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Tên sách:</span>
               <span class="col-span-3">
-                {{ props.bookExtendDetail?.book_details?.book?.title }}
+                {{ props.extendsionBook?.book_details?.book?.title }}
               </span>
             </div>
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Tác giả:</span>
               <span class="col-span-3">
-                {{ props.bookExtendDetail?.book_details?.book?.author?.author }}
+                {{ props.extendsionBook?.book_details?.book?.author?.author }}
               </span>
             </div>
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Ngày thuê:</span>
               <span class="col-span-3">
                 {{
-                  $dayjs(props.bookExtendDetail?.loan_date).format(
-                    "DD/MM/YYYY - HH:MM"
+                  $dayjs(props.extendsionBook?.loan_date).format(
+                    "DD/MM/YYYY"
                   )
                 }}
               </span>
@@ -51,8 +51,8 @@
               <span class="col-span-3 font-bold">Ngày hết hạn cũ:</span>
               <span class="col-span-3">
                 {{
-                  $dayjs(props.bookExtendDetail?.original_due_date).format(
-                    "DD/MM/YYYY - HH:MM"
+                  $dayjs(props.extendsionBook?.original_due_date).format(
+                    "DD/MM/YYYY"
                   )
                 }}
               </span>
@@ -61,20 +61,23 @@
               <span class="col-span-3 font-bold">Ngày hết hạn mới:</span>
               <span class="col-span-3">
                 {{
-                  $dayjs(props.bookExtendDetail?.original_due_date)
+                  $dayjs(props.extendsionBook?.original_due_date)
                     .add(5, "day")
-                    .format("DD/MM/YYYY - HH:MM")
+                    .format("DD/MM/YYYY")
                 }}
               </span>
             </div>
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Phí gia hạn:</span>
-              <span class="col-span-3"> 0 / 3 </span>
+              <span class="col-span-3"> {{ props.extendsionBook?.service_fee }} </span>
             </div>
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Nhập số ngày gia hạn:</span>
               <span class="col-span-3">
-                <a-input type="number" />
+                <a-input type="number" class="w-1/2" v-model:value="number_of_days" @change="(e) =>
+                  updateNumberOfDays(props.extendsionBook?.id, number_of_days
+                  )
+                  " />
               </span>
             </div>
           </div>
@@ -84,10 +87,14 @@
           gia hạn thời gian thuê sách
         </p>
         <p class="text-tag-text-06">
-          Xin lưu ý rằng quý khách cần trả sách đúng hạn để tránh các khoản phí
-          phạt. Nếu có bất kỳ thắc mắc nào hoặc cần thêm thông tin, xin vui lòng
-          liên hệ với chúng tôi qua địa chỉ email của thư viện hoặc gọi đến số
-          điện thoại 0987654321 để được hỗ trợ
+          Lưu ý:
+        <ul>
+          <li>- Vui lòng tham khảo phí gia hạn được nêu ở trên. Chi tiết về phí gia hạn có thể xem trong phần "Lịch sử
+            gia
+            hạn".</li>
+          <li>- Quý khách cần trả sách đúng hạn để tránh các khoản phí phạt.</li>
+        </ul>
+
         </p>
         <div class="flex justify-end gap-2">
           <a-button class="h-10" @click="handleCloseExtend"> Hủy </a-button>
@@ -106,14 +113,54 @@ const orderStore = useOrderClientStore();
 const extended_method = ref("cash");
 const route = useRoute();
 const id = route.params.id;
+const number_of_days = ref(5);
+const props = defineProps({
+  openModalExtend: Boolean,
+  closeModalExtend: Function,
+  extendsionBook: Object,
+});
+const open = ref(props.openModalExtend);
+const bookDetailId = ref(props.extendsionBook?.id);
+console.log('props.extendsionBook.id', props?.extendsionBook)
+watch(
+  () => props.openModalExtend,
+  (newValue) => {
+    open.value = newValue;
+  }
+);
+watch(
+  () => props.extendsionBook?.id,
+  (newValue) => {
+    bookDetailId.value = newValue;
+  }
+);
 const handleCloseExtend = async () => {
   props.closeModalExtend();
 };
+const updateNumberOfDays = (id, quantity) => {
+  console.log("🚀 ~ updateNumberOfDays ~ quantity:", quantity);
+
+  let fee = 0;
+  const price = props.extendsionBook?.book_details?.price || 0;
+
+  if (price < 50000) {
+    fee = 1000;
+  } else if (price >= 50000 && price <= 100000) {
+    fee = 2000;
+  } else {
+    fee = 4000;
+  }
+
+  props.extendsionBook.service_fee = quantity * fee;
+  props.extendsionBook.number_of_days = quantity;
+};
+// updateNumberOfDays(id, quantity)
 const onSubmit = async () => {
   const resData = await orderStore.extensionBook({
-    id: props.bookExtendDetail?.id,
+    id: props.extendsionBook?.id,
     body: {
       extended_method: extended_method.value,
+      number_of_days: number_of_days.value,
     },
   });
   console.log("resData", resData);
@@ -138,30 +185,9 @@ const onSubmit = async () => {
       external: true,
     });
   } else {
-    message.error({
-      content: "Gia hạn sách sách thất bại",
-    });
+    message.error(resData.data._rawValue?.message);
   }
 };
 
-const props = defineProps({
-  openModalExtend: Boolean,
-  closeModalExtend: Function,
-  bookExtendDetail: Object,
-});
-const open = ref(props.openModalExtend);
-const bookDetailId = ref(props.bookExtendDetail?.id);
 
-watch(
-  () => props.openModalExtend,
-  (newValue) => {
-    open.value = newValue;
-  }
-);
-watch(
-  () => props.bookExtendDetail?.id,
-  (newValue) => {
-    bookDetailId.value = newValue;
-  }
-);
 </script>

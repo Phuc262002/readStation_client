@@ -211,10 +211,6 @@ import { ref } from "vue";
 const baseStore = useBaseStore();
 const fileList = ref([]);
 const imageInfo = ref("");
-const images = ref([]);
-const imagesInfo = ref([]);
-
-
 const isLoading = ref(false);
 const optionsShelve = ref([]);
 const errors = ref({});
@@ -362,16 +358,19 @@ const beforeUpload = (file) => {
   }
   return isImage || Upload.LIST_IGNORE;
 };
+const images = ref([]);
+const imagesInfo = ref([]);
+
 // Upload images
 const uploadImages = async (file) => {
   const formData = new FormData();
   formData.append("image", file);
-
   try {
     const response = await baseStore.uploadImg(formData);
     const imageData = response.data._rawValue.data; // Giả sử server trả về dữ liệu như thế này
     // Thêm URL của hình ảnh vào danh sách imagesInfo
-    imagesInfo.value.push(imageData.url); // Lưu URL vào imagesInfo
+    imagesInfo.value = [...imagesInfo.value, imageData?.url]// Lưu URL vào imagesInfo
+    console.log("imagesInfo", imagesInfo.value);
     return {
       url: imageData.url, // Return URL để `a-upload` có thể sử dụng
     };
@@ -383,7 +382,6 @@ const uploadImages = async (file) => {
 
 // Watch imagesInfo for changes
 watch(() => imagesInfo.value, (value) => {
-  console.log("🚀 ~ watch ~ imagesInfo.value:", imagesInfo.value);
 });
 
 // Handle change in images
@@ -431,7 +429,7 @@ const onSubmit = async () => {
         {
           sku_origin: null,
           poster: imageInfo.value?.url,
-          images: images.value,
+          images: imagesInfo.value,
           book_version: valuecreateBook.value.book_detail.book_version,
           price: valuecreateBook.value.book_detail.price,
           hire_percent: valuecreateBook.value.book_detail.hire_percent,
@@ -448,9 +446,9 @@ const onSubmit = async () => {
         },
       ],
     });
-    console.log("🚀 ~ onSubmit ~ res:", res)
     if (res.data._rawValue?.status == true) {
       message.success("Thêm sách thành công");
+      navigateTo("/admin/book");
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);

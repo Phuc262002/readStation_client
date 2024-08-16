@@ -4,116 +4,83 @@
     <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">
       <div class="relative w-2/4 md:block hidden mb-5">
         <div class="flex gap-3">
-          <a-input
-            v-model:value="searchValue"
-            placeholder="Nhập mã đơn hàng để tìm kiếm"
-            enter-button
-            class="h-10"
-            allow-clear
-          >
+          <a-input v-model:value="searchValue" placeholder="Nhập mã đơn hàng để tìm kiếm" enter-button class="h-10"
+            allow-clear>
             <template #prefix>
               <SearchOutlined />
             </template>
           </a-input>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu>
-                <a-menu-item
-                  @click="statusValue({ value: '', label: 'Tất cả' })"
-                >
+                <a-menu-item @click="statusValue({ value: '', label: 'Tất cả' })">
                   Tất cả
                 </a-menu-item>
-                <a-menu-item
-                  @click="
-                    statusValue({
-                      value: 'wating_payment',
-                      label: 'Chờ thanh toán',
-                    })
-                  "
-                >
+                <a-menu-item @click="
+                  statusValue({
+                    value: 'wating_payment',
+                    label: 'Chờ thanh toán',
+                  })
+                  ">
                   Chờ thanh toán
                 </a-menu-item>
-                <a-menu-item
-                  @click="
-                    statusValue({ value: 'pending', label: 'Đang xử lý' })
-                  "
-                >
+                <a-menu-item @click="
+                  statusValue({ value: 'pending', label: 'Đang xử lý' })
+                  ">
                   Đang xử lý
                 </a-menu-item>
-                <a-menu-item
-                  @click="
-                    statusValue({ value: 'approved', label: 'Đã xác nhận' })
-                  "
-                >
+                <a-menu-item @click="
+                  statusValue({ value: 'approved', label: 'Đã xác nhận' })
+                  ">
                   Đã xác nhận
                 </a-menu-item>
-                <a-menu-item
-                  @click="
-                    statusValue({
-                      value: 'ready_for_pickup',
-                      label: 'Đơn hàng sẵn sàn',
-                    })
-                  "
-                >
+                <a-menu-item @click="
+                  statusValue({
+                    value: 'ready_for_pickup',
+                    label: 'Đơn hàng sẵn sàn',
+                  })
+                  ">
                   Đơn hàng sẵn sàng
                 </a-menu-item>
-                <a-menu-item
-                  @click="
-                    statusValue({
-                      value: 'preparing_shipment',
-                      label: 'Chuẩn bị giao hàng',
-                    })
-                  "
-                >
+                <a-menu-item @click="
+                  statusValue({
+                    value: 'preparing_shipment',
+                    label: 'Chuẩn bị giao hàng',
+                  })
+                  ">
                   Chuẩn bị giao hàng
                 </a-menu-item>
-                <a-menu-item
-                  @click="
-                    statusValue({ value: 'in_transit', label: 'Đang giao' })
-                  "
-                >
+                <a-menu-item @click="
+                  statusValue({ value: 'in_transit', label: 'Đang giao' })
+                  ">
                   Đang giao
                 </a-menu-item>
-                <a-menu-item
-                  @click="statusValue({ value: 'extended', label: 'Gia hạn' })"
-                >
+                <a-menu-item @click="statusValue({ value: 'extended', label: 'Gia hạn' })">
                   Gia hạn
                 </a-menu-item>
-                <a-menu-item
-                  @click="statusValue({ value: 'active', label: 'Đang thuê' })"
-                >
+                <a-menu-item @click="statusValue({ value: 'active', label: 'Đang thuê' })">
                   Đang thuê
                 </a-menu-item>
-                <a-menu-item
-                  @click="
-                    statusValue({
-                      value: 'returning',
-                      label: ' Đang trả sách',
-                    })
-                  "
-                >
+                <a-menu-item @click="
+                  statusValue({
+                    value: 'returning',
+                    label: ' Đang trả sách',
+                  })
+                  ">
                   Đang trả sách
                 </a-menu-item>
-                <a-menu-item
-                  @click="
-                    statusValue({ value: 'completed', label: 'Hoàn thành' })
-                  "
-                >
+                <a-menu-item @click="
+                  statusValue({ value: 'completed', label: 'Hoàn thành' })
+                  ">
                   Hoàn thành
                 </a-menu-item>
-                <a-menu-item
-                  @click="statusValue({ value: 'canceled', label: 'Đã hủy' })"
-                >
+                <a-menu-item @click="statusValue({ value: 'canceled', label: 'Đã hủy' })">
                   Đã hủy
                 </a-menu-item>
-                <a-menu-item
-                  @click="statusValue({ value: 'overdue', label: 'Quá hạn' })"
-                >
+                <a-menu-item @click="statusValue({ value: 'overdue', label: 'Quá hạn' })">
                   Quá hạn
                 </a-menu-item>
               </a-menu>
@@ -126,12 +93,8 @@
         </div>
       </div>
 
-      <a-table
-        :loading="orderStore?.isLoading"
-        :columns="columns"
-        :data-source="orderStore?.orders?.orders"
-        :pagination="false"
-      >
+      <a-table :loading="orderStore?.isLoading" :columns="columns" :data-source="orderStore?.orders?.orders"
+        :pagination="false">
         <template #headerCell="{ column }">
           <template v-if="column.key === 'name'">
             <span> Mã đơn hàng </span>
@@ -152,109 +115,73 @@
 
           <template v-if="column.key === 'created_at'">
             <span>
-              {{ $dayjs(record?.created_at).format("DD/MM/YYYY") }}
-            </span>
-          </template>
-          <template v-if="column.key === 'expired_date'">
-            <span>
-              {{ $dayjs(record?.expired_date).format("DD/MM/YYYY") }}
+              {{ $dayjs(record?.created_at).format("DD/MM/YYYY - HH:mm:ss") }}
             </span>
           </template>
 
+
           <!--  -->
           <template v-if="column.key === 'payment_method'">
-            <span
-              class="flex justify-center"
-              v-if="record?.payment_method === 'online'"
-            >
+            <span class="flex justify-center" v-if="record?.payment_method === 'online'">
               Chuyển khoản
             </span>
-            <span
-              class="flex justify-center"
-              v-else-if="record?.payment_method === 'cash'"
-            >
+            <span class="flex justify-center" v-else-if="record?.payment_method === 'cash'">
               Tiền mặt
             </span>
           </template>
           <!--  -->
           <template v-if="column.key === 'status'">
             <span class="flex justify-center">
-              <a-tag
-                v-if="record?.status === 'wating_payment'"
-                class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg"
-              >
+              <a-tag v-if="record?.status === 'wating_payment'"
+                class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg">
                 Chờ thanh toán
               </a-tag>
-              <a-tag
-                v-if="record?.status === 'pending'"
-                class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg"
-              >
+              <a-tag v-if="record?.status === 'pending'"
+                class="text-tag-text-01 bg-tag-bg-01 border-none py-1 px-3 rounded-lg">
                 Đang xử lý
               </a-tag>
-              <a-tag
-                v-else-if="record?.status === 'approved'"
-                class="text-tag-text-02 bg-tag-bg-02 border-none py-1 px-3 rounded-lg"
-              >
+              <a-tag v-else-if="record?.status === 'approved'"
+                class="text-tag-text-02 bg-tag-bg-02 border-none py-1 px-3 rounded-lg">
                 Đã xác nhận
               </a-tag>
-              <a-tag
-                v-else-if="
-                  record?.status === 'ready_for_pickup' &&
-                  record?.delivery_method === 'pickup'
-                "
-                class="text-tag-text-14 bg-tag-bg-14 border-none py-1 px-3 rounded-lg"
-              >
+              <a-tag v-else-if="
+                record?.status === 'ready_for_pickup' &&
+                record?.delivery_method === 'pickup'
+              " class="text-tag-text-14 bg-tag-bg-14 border-none py-1 px-3 rounded-lg">
                 Đơn hàng sẵn sàng
               </a-tag>
-              <a-tag
-                v-else-if="
-                  record?.status === 'preparing_shipment' &&
-                  record?.delivery_method === 'shipper'
-                "
-                class="text-tag-text-15 bg-tag-bg-15 border-none py-1 px-3 rounded-lg"
-              >
+              <a-tag v-else-if="
+                record?.status === 'preparing_shipment' &&
+                record?.delivery_method === 'shipper'
+              " class="text-tag-text-15 bg-tag-bg-15 border-none py-1 px-3 rounded-lg">
                 Chờ giao hàng
               </a-tag>
-              <a-tag
-                v-else-if="record?.status === 'in_transit'"
-                class="text-tag-text-03 bg-tag-bg-03 border-none py-1 px-3 rounded-lg"
-              >
+              <a-tag v-else-if="record?.status === 'in_transit'"
+                class="text-tag-text-03 bg-tag-bg-03 border-none py-1 px-3 rounded-lg">
                 Đang giao
               </a-tag>
-              <a-tag
-                v-else-if="record?.status === 'extended'"
-                class="text-tag-text-12 bg-tag-bg-12 border-none py-1 px-3 rounded-lg"
-              >
+              <a-tag v-else-if="record?.status === 'extended'"
+                class="text-tag-text-12 bg-tag-bg-12 border-none py-1 px-3 rounded-lg">
                 Gia hạn
               </a-tag>
-              <a-tag
-                v-else-if="record?.status === 'active'"
-                class="text-tag-text-04 bg-tag-bg-04 border-none py-1 px-3 rounded-lg"
-              >
+              <a-tag v-else-if="record?.status === 'active'"
+                class="text-tag-text-04 bg-tag-bg-04 border-none py-1 px-3 rounded-lg">
                 Đang thuê
               </a-tag>
-              <a-tag
-                v-else-if="record?.status === 'returning'"
-                class="text-tag-text-13 bg-tag-bg-13 border-none py-1 px-3 rounded-lg"
-              >
+              <a-tag v-else-if="record?.status === 'returning'"
+                class="text-tag-text-13 bg-tag-bg-13 border-none py-1 px-3 rounded-lg">
                 Đang gia hạn
               </a-tag>
-              <a-tag
-                v-else-if="record?.status === 'completed'"
-                class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg"
-              >
+              <a-tag v-else-if="record?.status === 'completed'"
+                class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg">
                 Hoàn thành
               </a-tag>
-              <a-tag
-                v-else-if="record?.status === 'canceled'"
-                class="text-tag-text-07 bg-tag-bg-07 border-none py-1 px-3 rounded-lg"
-              >
+              <a-tag v-else-if="record?.status === 'canceled'"
+                class="text-tag-text-07 bg-tag-bg-07 border-none py-1 px-3 rounded-lg">
                 Đã hủy
               </a-tag>
-              <a-tag
-                v-else-if="record?.status === 'overdue'"
-                class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg"
-              >
+              <a-tag v-else-if="record?.status === 'overdue'"
+                class="text-tag-text-06 bg-tag-bg-06 border-none py-1 px-3 rounded-lg">
                 Quá hạn
               </a-tag>
             </span>
@@ -288,12 +215,8 @@
                     <span>Xem chi tiết</span>
                   </template>
                   <button
-                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] p-2 rounded-md flex items-center justify-center"
-                  >
-                    <Icon
-                      icon="heroicons:eye"
-                      class="group-hover:text-[#212122]"
-                    />
+                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] p-2 rounded-md flex items-center justify-center">
+                    <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
                   </button>
                 </a-tooltip>
               </NuxtLink>
@@ -302,18 +225,11 @@
                 <template #title>
                   <span>Hủy</span>
                 </template>
-                <button
-                  @click="showCancelConfirm(record.id)"
-                  v-if="
-                    record.status === 'pending' ||
-                    record.status === 'wating_payment'
-                  "
-                  class="hover:bg-[#131313]/20 bg-[#e4e1e1] p-2 rounded-md flex items-center justify-center"
-                >
-                  <UIcon
-                    class="group-hover:text-black"
-                    name="i-material-symbols-close-rounded"
-                  />
+                <button @click="showCancelConfirm(record.id)" v-if="
+                  record.status === 'pending' ||
+                  record.status === 'wating_payment'
+                " class="hover:bg-[#131313]/20 bg-[#e4e1e1] p-2 rounded-md flex items-center justify-center">
+                  <UIcon class="group-hover:text-black" name="i-material-symbols-close-rounded" />
                 </button>
               </a-tooltip>
             </div>
@@ -323,14 +239,9 @@
       <div class="mt-4 flex justify-between items-center">
         <span class="text-sm text-orange-600">
           Lưu ý: Tiền cọc thuê sách sẽ được hoàn trả 100% nếu không có phụ phí
-          phát sinh</span
-        >
-        <a-pagination
-          v-model:current="current"
-          :total="orderStore?.orders?.totalResults"
-          :pageSize="orderStore?.orders?.pageSize"
-          show-less-items
-        />
+          phát sinh</span>
+        <a-pagination v-model:current="current" :total="orderStore?.orders?.totalResults"
+          :pageSize="orderStore?.orders?.pageSize" show-less-items />
       </div>
     </div>
   </div>
@@ -418,11 +329,7 @@ const columns = [
     dataIndex: "created_at",
     key: "created_at",
   },
-  {
-    title: "Ngày nhận",
-    dataIndex: "expired_date",
-    key: "expired_date",
-  },
+
   {
     title: "Phương thức thanh toán",
     key: "payment_method",

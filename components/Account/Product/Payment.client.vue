@@ -28,7 +28,7 @@
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  }).format(bookStore?.book?.price * (20 / 100))
+                  }).format(bookStore?.book?.price * (bookStore?.book?.hire_percent / 100))
                 }}
               </span>
             </div>

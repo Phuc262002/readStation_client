@@ -43,6 +43,18 @@
                 {{ orderStore?.order?.user?.phone }}
               </span>
             </div>
+            <div class="grid grid-cols-4">
+              <span class="col-span-1 font-bold">Vai trò:</span>
+              <div class="font-bold">
+                <a-tag :bordered="false" color="purple" v-if="authStore?.authUser?.user?.role?.name === 'user'">
+                  Khách hàng
+                </a-tag>
+                <a-tag :bordered="false" color="purple" v-else-if="authStore?.authUser?.user?.role?.name === 'student'">
+                  HSSV
+                </a-tag>
+                <a-tag :bordered="false" color="purple" v-else> Quản lý </a-tag>
+              </div>
+            </div>
           </div>
           <div class="w-1/2 pl-5 space-y-3">
             <div class="grid grid-cols-8">
@@ -146,57 +158,17 @@
             </div>
 
             <div class="grid grid-cols-8">
-              <span class="col-span-3 font-bold">Ngày đặt sách:</span>
+              <span class="col-span-3 font-bold">Ngày thuê sách:</span>
               <span class="col-span-5">
                 {{
                   $dayjs(orderStore?.order?.created_at).format(
-                    "DD/MM/YYYY - HH:MM"
+                    "DD/MM/YYYY"
                   )
                 }}
               </span>
             </div>
-            <div class="grid grid-cols-8" v-if="
-              orderStore?.order?.status === 'active' ||
-              orderStore?.order?.status === 'overdue' ||
-              orderStore?.order?.status === 'returning'
-            ">
-              <span class="col-span-3 font-bold">Ngày nhận sách:</span>
-              <span class="col-span-5">
-                {{
-                  $dayjs(orderStore?.order?.created_at).format(
-                    "DD/MM/YYYY - HH:MM"
-                  )
-                }}
-              </span>
-            </div>
-            <div class="grid grid-cols-8" v-if="
-              orderStore?.order?.status === 'active' ||
-              orderStore?.order?.status === 'overdue' ||
-              orderStore?.order?.status === 'returning'
-            ">
-              <span class="col-span-3 font-bold">Ngày trả dự kiến:</span>
-              <span class="col-span-5">
-                {{
-                  $dayjs(orderStore?.order?.created_at).format(
-                    "DD/MM/YYYY - HH:MM"
-                  )
-                }}
-              </span>
-            </div>
-            <div class="grid grid-cols-8" v-if="
-              orderStore?.order?.status === 'active' ||
-              orderStore?.order?.status === 'overdue' ||
-              orderStore?.order?.status === 'returning'
-            ">
-              <span class="col-span-3 font-bold">Ngày trả thực tế:</span>
-              <span class="col-span-5">
-                {{
-                  $dayjs(orderStore?.order?.created_at).format(
-                    "DD/MM/YYYY - HH:MM"
-                  )
-                }}
-              </span>
-            </div>
+
+
 
             <div class="grid grid-cols-8" v-if="
               orderStore?.order?.status === 'active' ||
@@ -285,17 +257,19 @@
       </div>
 
       <div class="flex justify-end pt-4 gap-2" v-if="
-        orderStore?.order?.status === 'active' ||
-        $dayjs(new Date()).format('YYYY-MM-DD') ===
-        $dayjs(orderStore?.order?.current_due_date).format('YYYY-MM-DD')
+        orderStore?.order?.status === 'active' || orderStore?.order?.status === 'extended'
       ">
         <a-button @click="showReturnAll" class="h-10 border-orange-400 text-orange-400">
           Trả sách toàn bộ
         </a-button>
-        <a-button @click="showExtendAll" class="h-10 bg-orange-500 !text-white border-none">
+
+        <a-button @click="showExtendAll(orderStore?.order?.loan_order_details)"
+          class="h-10 bg-orange-500 !text-white border-none">
           Gia hạn toàn bộ
         </a-button>
       </div>
+
+
     </div>
     <!--  -->
     <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">
@@ -347,7 +321,8 @@
 
     <AccountOrderReturnAllBook :openReturnAll="openReturnAll" :closeReturnAll="closeReturnAll" />
     <AccountOrderHistoryExtendBook :openHistoryExtend="openHistoryExtend" :closeHistoryExtend="closeHistoryExtend" />
-    <AccountOrderExtendAllBook :openExtendAll="openExtendAll" :closeExtendAll="closeExtendAll" />
+    <AccountOrderExtendAllBook :openExtendAll="openExtendAll" :closeExtendAll="closeExtendAll" :data="extendsionBooks"
+      :id="id" />
   </div>
 </template>
 <script setup lang="ts">
@@ -358,7 +333,7 @@ const route = useRoute();
 const id = route.params.id;
 const rating = ref<number>(5);
 const errors = ref({});
-
+const extendsionBooks = ref([])
 const onCancelOrderDetail = async (id: any) => {
   await orderStore.cancelOrder(id);
 };
@@ -399,8 +374,10 @@ const closeHistoryExtend = () => {
 };
 // Modal Extend All
 const openExtendAll = ref(false);
-const showExtendAll = () => {
+const showExtendAll = (books) => {
   openExtendAll.value = true;
+  extendsionBooks.value = books;
+  console.log('extendsionBooks.value ', extendsionBooks.value)
 };
 const closeExtendAll = () => {
   openExtendAll.value = false;

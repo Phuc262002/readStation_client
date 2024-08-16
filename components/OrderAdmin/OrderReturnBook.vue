@@ -11,9 +11,9 @@
       </div>
       <div class="flex flex-col gap-2 mt-4">
         <label class="text-base">Tình trạng sách</label>
-        <a-select v-model:value="valueReturnEachBook.actual_return_condition" show-search placeholder="Trạng thái"
+        <a-select show-search placeholder="Trạng thái" v-model:value="valueReturnEachBook.actual_return_condition"
           size="large" :options="options" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
-          @change="handleChange"></a-select>
+          @change="handleConditionChange"></a-select>
       </div>
       <div class="flex flex-col gap-2 mt-4">
         <label class="text-base">Chi tiết</label>
@@ -25,20 +25,92 @@
           <label class="text-base">Lý do phạt</label>
           <a-popover v-model:open="visible" trigger="click" placement="topLeft">
             <template #content>
-              <p>Bồi thường thường từ 10% đến 50% giá trị của cuốn sách, tùy thuộc vào mức độ hư hỏng.</p>
+              <table style="
+                  border-collapse: collapse;
+                  width: 100%;
+                  border: 1px solid black;
+                ">
+                <tr>
+                  <td style="padding-left: 8px; border: 1px solid black">
+                    <strong> Tình trạng </strong>
+                  </td>
+                  <td style="padding-left: 8px; border: 1px solid black">
+                    <strong> Mức phạt </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="
+                      padding-left: 8px;
+                      border: 1px solid black;
+                      width: 220px;
+                    ">
+                    Mất sách hoặc làm cho sách hoàn toàn không sử dụng được
+                  </td>
+                  <td style="padding-left: 8px; border: 1px solid black">
+                    Đền 100% giá trị sách
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-left: 8px; border: 1px solid black">
+                    Mất trang
+                  </td>
+                  <td style="padding-left: 8px; border: 1px solid black">
+                    10.000đ/tờ
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-left: 8px; border: 1px solid black">
+                    Làm bẩn, viết vẽ bẩn lên sách
+                  </td>
+                  <td style="padding-left: 8px; border: 1px solid black">
+                    2.000đ/tờ
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-left: 8px; border: 1px solid black">
+                    Làm bong bìa
+                  </td>
+                  <td style="padding-left: 8px; border: 1px solid black">
+                    15.000đ/1 cuốn
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-left: 8px; border: 1px solid black">
+                    Làm rách sách
+                  </td>
+                  <td rowspan="3" style="padding-left: 8px; border: 1px solid black">
+                    30.000đ/ sách
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-left: 8px; border: 1px solid black">
+                    Làm ướt sách
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-left: 8px; border: 1px solid black">
+                    Bóc nhãn, phiếu ghi chú trên sách
+                  </td>
+                </tr>
+              </table>
             </template>
-            <template #title>
-              <span>Rách hoặc mất trang sách:</span>
-            </template>
+
             <Icon icon="heroicons:eye" class="group-hover:text-[#212122] w-5 h-5" />
           </a-popover>
         </div>
         <a-select show-search placeholder="Lý do phạt" size="large" :options="penaltyReason"
-          :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur" @change="handleChange"></a-select>
+          :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur" @change="handleChange"
+          :disabled="isDisabled"></a-select>
+      </div>
+      <div v-if="valueReturnEachBook.penalty_reason == 1 || valueReturnEachBook.penalty_reason == 2"
+        class="flex flex-col gap-2 mt-4">
+        <label class="text-base">Số tờ hư hại</label>
+        <a-input size="large" placeholder="Số tờ hư hại" v-model:value="page" number :min="1" :disabled="isDisabled" />
       </div>
       <div class="flex flex-col gap-2 mt-4">
         <label class="text-base">Số tiền phạt</label>
-        <a-input size="large" placeholder="Số tiền phạt" readonly />
+        <a-input size="large" placeholder="Số tiền phạt" v-model:value="valueReturnEachBook.fine_amount" readonly
+          :disabled="isDisabled" />
       </div>
       <div class="flex justify-end gap-2 mt-4">
         <a-button type="default" @click="handleClose">Hủy</a-button>
@@ -58,7 +130,6 @@ const props = defineProps({
   CloseModal: Function,
   loan_order_detail: Object,
 });
-
 const open = ref(props.openModal);
 const loan_order_detail_id = ref(props.loan_order_detail?.id);
 watch(
@@ -105,38 +176,39 @@ const options = ref([
 ]);
 const penaltyReason = ref([
   {
-    value: "0",
-    label: "Rách hoặc mất trang sách"
+    value: "lost",
+    label: "Mất sách hoặc làm cho sách hoàn toàn không sử dụng được",
   },
   {
     value: "1",
-    label: "Gãy hoặc hỏng gáy sách"
+    label: "Mất trang",
   },
   {
     value: "2",
-    label: "Bị ướt hoặc ẩm mốc"
+    label: "Làm bẩn, viết vẽ bẩn lên sách",
   },
   {
     value: "3",
-    label: "Vết bẩn, mực hoặc các chất lỏng khác"
+    label: "Làm bong bìa",
   },
   {
     value: "4",
-    label: "Gập hoặc nhăn trang sách"
+    label: "Làm rách sách",
   },
   {
     value: "5",
-    label: "Hỏng bìa sách"
+    label: "Làm ướt sách",
   },
   {
     value: "6",
-    label: "Viết hoặc vẽ trong sách"
+    label: "Bóc nhãn, phiếu ghi chú trên sách",
   },
 ]);
 const valueReturnEachBook = ref({
   condition: "",
   actual_return_condition: "",
-  fine_amount: "",
+  fine_amount: 0,
+  penalty_reason: "",
 });
 
 const onSubmit = async () => {
@@ -159,9 +231,58 @@ const onSubmit = async () => {
   }
 
 };
-const handleChange = (value) => {
-  console.log(`selected ${value}`);
+const page = ref(1);
+const isDisabled = ref(false);
+const handleConditionChange = (value) => {
+  if (value === 'excellent' || value === 'good') {
+    isDisabled.value = true;
+    valueReturnEachBook.value.penalty_reason = "";
+    valueReturnEachBook.value.fine_amount = 0;
+  } else {
+    isDisabled.value = false;
+  }
+  handleChange(valueReturnEachBook.value.penalty_reason);
 };
+const handleChange = (value) => {
+  valueReturnEachBook.value.penalty_reason = value;
+  switch (value) {
+    case "lost":
+      valueReturnEachBook.value.fine_amount = props.loan_order_detail?.deposit_fee;
+      break;
+    case "1":
+      valueReturnEachBook.value.fine_amount = 10000 * page.value;
+      break;
+    case "2":
+      valueReturnEachBook.value.fine_amount = 2000 * page.value
+      break;
+    case "3":
+      valueReturnEachBook.value.fine_amount = 15000;
+      break;
+    case "4":
+      valueReturnEachBook.value.fine_amount = 30000;
+      break;
+    case "5":
+      valueReturnEachBook.value.fine_amount = 30000;
+      break;
+    case "6":
+      valueReturnEachBook.value.fine_amount = 30000;
+      break;
+    default:
+      valueReturnEachBook.value.fine_amount = 0;
+      break;
+  }
+  if (valueReturnEachBook.value.fine_amount > props.loan_order_detail?.deposit_fee) {
+    valueReturnEachBook.value.fine_amount = props.loan_order_detail?.deposit_fee;
+  }
+};
+watch(
+  () => page.value,
+  (value) => {
+    if (valueReturnEachBook.value.penalty_reason == 1 || valueReturnEachBook.value.penalty_reason == 2) {
+      handleChange(valueReturnEachBook.value.penalty_reason);
+    }
+  }
+);
 const handleBlur = () => {
   console.log("blur");
 };
