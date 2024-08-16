@@ -1,5 +1,12 @@
 <template>
   <div>
+
+    <Head>
+      <Title>ReadStation | Chi tiết đơn hàng</Title>
+      <Meta name="description" content="Chi tiết đơn hàng" />
+      <Meta property="og:title" content="ReadStation | Chi tiết đơn hàng" />
+      <Meta property="og:description" content="Chi tiết đơn hàng" />
+    </Head>
     <div v-if="orderStore?.isLoading" class="fixed inset-0 bg-black/40 z-[99999] flex items-center justify-center">
       <a-spin size="large" />
     </div>
@@ -21,7 +28,7 @@
     <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">
       <div>
         <h3 class="font-bold border-b border-rtgray-50 pb-5">
-          Thông tin của bạn
+          Thông tin khách hàng
         </h3>
         <div class="flex py-5 text-sm">
           <div class="w-1/2 border-r border-rtgray-50 space-y-3">
@@ -75,6 +82,44 @@
           </div>
         </div>
       </div>
+      <!--  -->
+
+    </div>
+    <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5 mt-5"
+      v-if="orderStore?.order?.delivery_method === 'shipper'">
+      <div>
+        <h3 class="font-bold border-b border-rtgray-50 pb-5">
+          Thông tin giao hàng
+        </h3>
+        <div class="py-5 text-sm">
+          <div class="space-y-3">
+            <div class="grid grid-cols-12">
+              <span class="col-span-2 font-bold">Tên khách hàng:</span>
+              <span class="col-span-10">
+                {{ orderStore?.order?.delivery_info?.fullname }}
+              </span>
+            </div>
+
+            <div class="grid grid-cols-12">
+              <span class="col-span-2 font-bold">Số điện thoại:</span>
+              <span class="col-span-10">
+                {{ orderStore?.order?.delivery_info?.phone }}
+              </span>
+            </div>
+
+            <div class="grid grid-cols-12">
+              <span class="col-span-2 font-bold">Địa chỉ giao hàng:</span>
+              <span class="col-span-10">
+                {{ orderStore?.order?.delivery_info?.address }}
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <!--  -->
+
     </div>
     <!--  -->
     <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5 my-5">
@@ -173,19 +218,20 @@
             <div class="grid grid-cols-8" v-if="
               orderStore?.order?.status === 'active' ||
               orderStore?.order?.status === 'overdue' ||
+              orderStore?.order?.status === 'extended' ||
               orderStore?.order?.status === 'returning'
             ">
               <span class="col-span-3 font-bold">Số lần gia hạn:</span>
-              <span class="col-span-5"> {{ orderStore?.order?.extensions?.length }} / {{
+              <span class="col-span-5"> {{ orderStore?.order?.current_extensions }} / {{
                 orderStore?.order?.max_extensions }} </span>
             </div>
             <div class="grid grid-cols-8">
-              <span class="col-span-3 font-bold">Hình thức giao sách:</span>
+              <span class="col-span-3 font-bold">Hình thức nhận sách:</span>
               <span class="col-span-5" v-if="orderStore?.order?.delivery_method === 'pickup'">
-                Giao sách tại thư viện
+                Nhận sách tại thư viện
               </span>
               <span class="col-span-2" v-else-if="orderStore?.order?.delivery_method === 'shipper'">
-                Giao sách tại nhà
+                Nhận sách tại nhà
               </span>
             </div>
             <div class="grid grid-cols-8" v-if="orderStore?.order?.status === 'canceled'">
@@ -248,6 +294,7 @@
             </div>
             <a-button @click="showHistoryExtend" v-if="
               orderStore?.order?.status === 'active' ||
+              orderStore?.order?.status === 'completed' ||
               orderStore?.order?.status === 'extended'
             " class="text-sm text-orange-400 text-right col-span-4 border-none shadow-none">
               Lịch sử gia hạn
@@ -257,16 +304,18 @@
       </div>
 
       <div class="flex justify-end pt-4 gap-2" v-if="
-        orderStore?.order?.status === 'active' || orderStore?.order?.status === 'extended'
+        (orderStore?.order?.status === 'active' || orderStore?.order?.status === 'extended') && isStatus
       ">
+
         <a-button @click="showReturnAll" class="h-10 border-orange-400 text-orange-400">
           Trả sách toàn bộ
         </a-button>
 
         <a-button @click="showExtendAll(orderStore?.order?.loan_order_details)"
-          class="h-10 bg-orange-500 !text-white border-none">
+          v-if="orderStore?.order?.current_extensions < 3" class="h-10 bg-orange-500 !text-white border-none">
           Gia hạn toàn bộ
         </a-button>
+
       </div>
 
 
@@ -315,6 +364,7 @@
             v-if="orderStore?.order?.status === 'wating_payment'">
             Thanh toán
           </a-button>
+
         </NuxtLink>
       </div>
     </div>
@@ -333,10 +383,24 @@ const route = useRoute();
 const id = route.params.id;
 const rating = ref<number>(5);
 const errors = ref({});
+const isStatus = ref(true);
 const extendsionBooks = ref([])
 const onCancelOrderDetail = async (id: any) => {
   await orderStore.cancelOrder(id);
 };
+
+if (orderStore?.order?.loan_order_details) {
+  orderStore?.order?.loan_order_details.forEach(item => {
+    if (item.status === 'completed' || item.status === 'returning') {
+      isStatus.value = false;
+      return;
+
+    }
+    console.log('isStatus.value', isStatus.value)
+  });
+}
+
+
 
 const showCancelConfirm = (id: any) => {
   Modal.confirm({

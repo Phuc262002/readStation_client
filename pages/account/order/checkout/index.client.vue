@@ -1,5 +1,12 @@
-div<template>
+<template>
   <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
+
+    <Head>
+      <Title>ReadStation | Đặt hàng</Title>
+      <Meta name="description" content="Đặt hàng" />
+      <Meta property="og:title" content="ReadStation | Đặt hàng" />
+      <Meta property="og:description" content="Đặt hàng" />
+    </Head>
     <div v-if="isSubmitting"
       class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default">
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
@@ -620,11 +627,6 @@ const calcShippingFee = () => {
 // Tổng tiền
 const calcTotalAllFee = () => {
   totalAllFee.value = Number(total_depositFee.value) + Number(total_serviceFee.value) + Number(shippingFee.value);
-  console.log('totalAllFee.value', totalAllFee.value)
-  console.log('total_depositFee.value', total_depositFee.value)
-  console.log('total_serviceFee.value', total_serviceFee.value)
-  console.log('shippingFee.value', shippingFee.value)
-
 }
 
 useAsyncData(
@@ -671,12 +673,16 @@ const payCart = async () => {
     message.error("Hiện tại chưa có hình thức vận chuyển khu vực này !");
     return;
   }
+
   try {
     const res = await orderStore.createOrder({
       ...valueOrder.value,
-      shipping_method_id: shipping_method_id.value
+      shipping_method_id: shipping_method_id.value,
+      total_shipping_fee: parseFloat(shippingFee.value),
+      delivery_method: delivery_method.value,
     });
     if (res.data._rawValue?.status == true && payment_method.value === "cash") {
+      type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
       message.success("Thêm đơn hàng thành công");
       navigateTo("/account/order");
     } else if (

@@ -1,19 +1,18 @@
 <template>
-  <div
-    class="bg-[url('assets/images/bg-404.svg')] w-full h-[100vh] bg-cover bg-no-repeat bg-center"
-  >
-    <div
-      v-if="isSubmitting"
-      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
-    >
+  <div class="bg-[url('assets/images/bg-404.svg')] w-full h-[100vh] bg-cover bg-no-repeat bg-center">
+
+    <Head>
+      <Title>ReadStation | Xác thực Email</Title>
+      <Meta name="description" content="Xác thực Email" />
+      <Meta property="og:title" content="ReadStation | Xác thực Email" />
+      <Meta property="og:description" content="Xác thực Email" />
+    </Head>
+    <div v-if="isSubmitting"
+      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default">
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
     </div>
-    <div
-      class="md:py-10 flex justify-center items-center mx-auto container min-h-[100vh]"
-    >
-      <div
-        class="flex space-y-3 flex-col justify-center bg-white shadow-cs_01 p-8 w-[400px] rounded-lg"
-      >
+    <div class="md:py-10 flex justify-center items-center mx-auto container min-h-[100vh]">
+      <div class="flex space-y-3 flex-col justify-center bg-white shadow-cs_01 p-8 w-[400px] rounded-lg">
         <div>
           <NuxtLink to="/" class="mb-10 flex justify-center">
             <img src="../../assets/images/logo_header.svg" alt="" />
@@ -30,11 +29,8 @@
         <form @submit="onSubmit" class="w-full space-y-6">
           <div class="flex items-center gap-1 justify-center">
             <span>Không nhận được thư ?</span>
-            <a-button
-              html-type="submit"
-              class="text-indigo-400 hover:text-indigo-900 border-none"
-              :loading="isSubmitting"
-            >
+            <a-button html-type="submit" class="text-indigo-400 hover:text-indigo-900 border-none"
+              :loading="isSubmitting">
               Gửi lại
             </a-button>
           </div>

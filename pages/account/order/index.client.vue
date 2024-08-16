@@ -1,5 +1,12 @@
 <template>
   <div>
+
+    <Head>
+      <Title>ReadStation | Danh sách đơn hàng</Title>
+      <Meta name="description" content="Danh sách đơn hàng" />
+      <Meta property="og:title" content="ReadStation | Danh sách đơn hàng" />
+      <Meta property="og:description" content="Danh sách đơn hàng" />
+    </Head>
     <h2 class="text-sm font-bold pb-5">Danh sách đơn hàng</h2>
     <div class="w-full w-2/3 bg-white rounded-lg shadow-md shadow-gray-300 p-5">
       <div class="relative w-2/4 md:block hidden mb-5">

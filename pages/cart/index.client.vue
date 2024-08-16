@@ -1,5 +1,12 @@
 <template>
   <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
+
+    <Head>
+      <Title>ReadStation | Thông tin sách thuê</Title>
+      <Meta name="description" content="Thông tin sách thuê" />
+      <Meta property="og:title" content="ReadStation | Thông tin sách thuê" />
+      <Meta property="og:description" content="Thông tin sách thuê" />
+    </Head>
     <div v-if="cartStore?.carts.length > 0">
       <div class="flex justify-between h-auto gap-5">
         <!-- Left -->
@@ -62,10 +69,10 @@
                 <template v-else-if="column.key === 'number_of_days'">
                   <span>
                     <a-input :value="record.number_of_days" class="w-[100px]" type="number" @change="(e) =>
-                        cartStore.updateNumberOfDays(
-                          record.id,
-                          e.target.value
-                        )
+                      cartStore.updateNumberOfDays(
+                        record.id,
+                        e.target.value
+                      )
                       " />
                   </span>
                 </template>

@@ -1,9 +1,16 @@
 <template>
   <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
-    <div
-      v-if="bookStore?.isLoading"
-      class="fixed inset-0 bg-black/40 z-[99999] flex items-center justify-center"
-    >
+
+    <Head>
+      <Title>ReadStation | {{ bookStore.book?.book?.title }}</Title>
+      <Meta name="description" :content="bookStore.book?.book?.description_summary" />
+      <Meta property="og:title" :content="`ReadStation | ${bookStore.book?.book?.title}`" />
+      <Meta property="og:description" :content="bookStore.book?.book?.description_summary" />
+      <Meta property="og:image" :content="bookStore.book?.poster" />
+      <Meta property="twitter:card" :content="bookStore.book?.poster" />
+    </Head>
+
+    <div v-if="bookStore?.isLoading" class="fixed inset-0 bg-black/40 z-[99999] flex items-center justify-center">
       <a-spin size="large" />
     </div>
     <div class="flex gap-6">
@@ -17,89 +24,59 @@
         <AccountProductPayment :book="bookStore.book" />
       </div>
     </div>
-    <div
-      class="space-y-5 mt-5 bg-white h-auto border border-rtgray-50 overflow-hidden rounded-lg p-5"
-    >
+    <div class="space-y-5 mt-5 bg-white h-auto border border-rtgray-50 overflow-hidden rounded-lg p-5">
       <h2 class="font-bold text-xl">Đánh giá</h2>
       <div v-if="detailReview?.reviews?.bookReviews.length > 0">
         <p class="mb-3">Lọc theo</p>
         <div class="flex gap-4">
-          <a-button
-            :class="[
-              'rounded-xl',
-              arrange === 'asc' ? 'bg-orange-500 !text-white' : '',
-            ]"
-            @click="handleCheckSort('asc')"
-          >
+          <a-button :class="[
+            'rounded-xl',
+            arrange === 'asc' ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckSort('asc')">
             Mới nhất
           </a-button>
-          <a-button
-            :class="[
-              'rounded-xl',
-              arrange === 'desc' ? 'bg-orange-500 !text-white' : '',
-            ]"
-            @click="handleCheckSort('desc')"
-          >
+          <a-button :class="[
+            'rounded-xl',
+            arrange === 'desc' ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckSort('desc')">
             Cũ nhất
           </a-button>
-          <a-button
-            :class="[
-              'rounded-xl',
-              filter === 5 ? 'bg-orange-500 !text-white' : '',
-            ]"
-            @click="handleCheckRating(5)"
-          >
+          <a-button :class="[
+            'rounded-xl',
+            filter === 5 ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckRating(5)">
             5 sao
           </a-button>
-          <a-button
-            :class="[
-              'rounded-xl',
-              filter === 4 ? 'bg-orange-500 !text-white' : '',
-            ]"
-            @click="handleCheckRating(4)"
-          >
+          <a-button :class="[
+            'rounded-xl',
+            filter === 4 ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckRating(4)">
             4 sao
           </a-button>
-          <a-button
-            :class="[
-              'rounded-xl',
-              filter === 3 ? 'bg-orange-500 !text-white' : '',
-            ]"
-            @click="handleCheckRating(3)"
-          >
+          <a-button :class="[
+            'rounded-xl',
+            filter === 3 ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckRating(3)">
             3 sao
           </a-button>
-          <a-button
-            :class="[
-              'rounded-xl',
-              filter === 2 ? 'bg-orange-500 !text-white' : '',
-            ]"
-            @click="handleCheckRating(2)"
-          >
+          <a-button :class="[
+            'rounded-xl',
+            filter === 2 ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckRating(2)">
             2 sao
           </a-button>
-          <a-button
-            :class="[
-              'rounded-xl',
-              filter === 1 ? 'bg-orange-500 !text-white' : '',
-            ]"
-            @click="handleCheckRating(1)"
-          >
+          <a-button :class="[
+            'rounded-xl',
+            filter === 1 ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckRating(1)">
             1 sao
           </a-button>
         </div>
       </div>
-      <div
-        class="space-y-5"
-        v-for="review in detailReview?.reviews?.bookReviews"
-      >
+      <div class="space-y-5" v-for="review in detailReview?.reviews?.bookReviews">
         <div class="flex gap-5 pb-5 border-b border-rtgray-50">
           <div class="">
-            <img
-              :src="review?.user?.avatar"
-              class="w-10 h-10 rounded-full"
-              alt=""
-            />
+            <img :src="review?.user?.avatar" class="w-10 h-10 rounded-full" alt="" />
           </div>
           <div class="space-y-1">
             <p>{{ review?.user?.fullname }}</p>
@@ -112,38 +89,22 @@
           </div>
         </div>
       </div>
-      <p
-        class="text-center mb-5 font-semibold"
-        v-if="detailReview?.reviews?.bookReviews.length == 0"
-      >
+      <p class="text-center mb-5 font-semibold" v-if="detailReview?.reviews?.bookReviews.length == 0">
         Sách hiện tại chưa có đánh giá nào.
       </p>
     </div>
     <div>
       <h2 class="font-bold text-xl my-5">Có thể bạn sẽ thích</h2>
       <div class="grid grid-cols-5 gap-5">
-        <div
-          class="mt-10 w-full"
-          v-for="(book, index) in recommendationBooks"
-          :key="book.id || index"
-        >
+        <div class="mt-10 w-full" v-for="(book, index) in recommendationBooks" :key="book.id || index">
           <div class="flex flex-col gap-5 p-3 border rounded-lg">
-            <NuxtLink
-              :to="`/products/${book?.book?.slug}-${book?.id}`"
-              class="mx-auto"
-            >
-              <img
-                class="rounded-lg w-[180px] h-[284px]"
-                :src="book?.poster"
-                alt=""
-              />
+            <NuxtLink :to="`/products/${book?.book?.slug}-${book?.id}`" class="mx-auto">
+              <img class="rounded-lg w-[180px] h-[284px]" :src="book?.poster" alt="" />
             </NuxtLink>
 
             <div class="flex flex-col gap-1">
-              <NuxtLink
-                :to="`/products/${book?.book?.slug}-${book?.id}`"
-                class="text-xl font-bold hover:text-[#f65d4e] line-clamp-1"
-              >
+              <NuxtLink :to="`/products/${book?.book?.slug}-${book?.id}`"
+                class="text-xl font-bold hover:text-[#f65d4e] line-clamp-1">
                 {{ book?.book?.title }}
               </NuxtLink>
 
@@ -153,10 +114,8 @@
               <div class="flex justify-start">
                 <CommonRating :rating="book?.average_rate" />
               </div>
-              <NuxtLink
-                :to="`/products?author=${book?.book?.author?.slug}`"
-                class="text-sm text-[#999999] hover:text-[#f65d4e]"
-              >
+              <NuxtLink :to="`/products?author=${book?.book?.author?.slug}`"
+                class="text-sm text-[#999999] hover:text-[#f65d4e]">
                 {{ book?.book?.author?.author }}
               </NuxtLink>
               <div class="text-orange-600 font-extrabold text-xl">
