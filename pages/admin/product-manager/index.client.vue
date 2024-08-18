@@ -207,53 +207,55 @@
               </div>
               <a-dropdown :trigger="['click']">
                 <template #overlay>
-                  <a-menu>
-                    <a-menu-item @click="
-                      statusValue({ value: '', label: 'Tất cả trạng thái' })
-                      ">Tất cả trạng thái</a-menu-item>
-                    <a-menu-item @click="
-                      statusValue({ value: 'pending', label: 'Đang xử lý' })
-                      ">Đang xử lý</a-menu-item>
-                    <a-menu-item @click="
-                      statusValue({ value: 'approved', label: 'Đã xác nhận' })
-                      ">Đã xác nhận</a-menu-item>
-                    <a-menu-item @click="
-                      statusValue({
-                        value: 'ready_for_pickup',
-                        label: 'Đơn hàng sẵn sàn',
-                      })
-                      ">Đơn hàng sẵn sàng</a-menu-item>
-                    <a-menu-item @click="
-                      statusValue({
-                        value: 'preparing_shipment',
-                        label: 'Chuẩn bị giao hàng',
-                      })
-                      ">Chuẩn bị giao hàng</a-menu-item>
-                    <a-menu-item @click="
-                      statusValue({ value: 'in_transit', label: 'Đang giao' })
-                      ">Đang giao</a-menu-item>
-                    <a-menu-item @click="
-                      statusValue({ value: 'extended', label: 'Gia hạn' })
-                      ">Gia hạn</a-menu-item>
-                    <a-menu-item @click="
-                      statusValue({ value: 'active', label: 'Đang thuê' })
-                      ">Đang thuê</a-menu-item>
-                    <a-menu-item @click="
-                      statusValue({
-                        value: 'returning',
-                        label: ' Đang trả sách',
-                      })
-                      ">Đang trả sách</a-menu-item>
-                    <a-menu-item @click="
-                      statusValue({ value: 'completed', label: 'Hoàn thành' })
-                      ">Hoàn thành</a-menu-item>
-                    <a-menu-item @click="
-                      statusValue({ value: 'canceled', label: 'Đã hủy' })
-                      ">Đã hủy</a-menu-item>
-                    <a-menu-item @click="
-                      statusValue({ value: 'overdue', label: 'Quá hạn' })
-                      ">Quá hạn</a-menu-item>
-                  </a-menu>
+                  <div class="h-[300px] overflow-auto">
+                    <a-menu>
+                      <a-menu-item @click="
+                        statusValue({ value: '', label: 'Tất cả trạng thái' })
+                        ">Tất cả trạng thái</a-menu-item>
+                      <a-menu-item @click="
+                        statusValue({ value: 'pending', label: 'Đang xử lý' })
+                        ">Đang xử lý</a-menu-item>
+                      <a-menu-item @click="
+                        statusValue({ value: 'approved', label: 'Đã xác nhận' })
+                        ">Đã xác nhận</a-menu-item>
+                      <a-menu-item @click="
+                        statusValue({
+                          value: 'ready_for_pickup',
+                          label: 'Đơn hàng sẵn sàn',
+                        })
+                        ">Đơn hàng sẵn sàng</a-menu-item>
+                      <a-menu-item @click="
+                        statusValue({
+                          value: 'preparing_shipment',
+                          label: 'Chuẩn bị giao hàng',
+                        })
+                        ">Chuẩn bị giao hàng</a-menu-item>
+                      <a-menu-item @click="
+                        statusValue({ value: 'in_transit', label: 'Đang giao' })
+                        ">Đang giao</a-menu-item>
+                      <a-menu-item @click="
+                        statusValue({ value: 'extended', label: 'Gia hạn' })
+                        ">Gia hạn</a-menu-item>
+                      <a-menu-item @click="
+                        statusValue({ value: 'active', label: 'Đang thuê' })
+                        ">Đang thuê</a-menu-item>
+                      <a-menu-item @click="
+                        statusValue({
+                          value: 'returning',
+                          label: ' Đang trả sách',
+                        })
+                        ">Đang trả sách</a-menu-item>
+                      <a-menu-item @click="
+                        statusValue({ value: 'completed', label: 'Hoàn thành' })
+                        ">Hoàn thành</a-menu-item>
+                      <a-menu-item @click="
+                        statusValue({ value: 'canceled', label: 'Đã hủy' })
+                        ">Đã hủy</a-menu-item>
+                      <a-menu-item @click="
+                        statusValue({ value: 'overdue', label: 'Quá hạn' })
+                        ">Quá hạn</a-menu-item>
+                    </a-menu>
+                  </div>
                 </template>
                 <a-button size="large" class="flex gap-3 items-center">
                   {{

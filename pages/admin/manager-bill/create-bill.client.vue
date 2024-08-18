@@ -151,6 +151,7 @@ import { ref } from "vue";
 import { LoadingOutlined } from "@ant-design/icons-vue";
 import { h } from "vue";
 import { watch } from "vue";
+import debounce from "lodash.debounce";
 const invoiceEnter = useInvoiceEnterStore();
 const data = ref([]);
 const errors = ref({})
@@ -166,7 +167,9 @@ const options = ref([]);
 const supplierStore = useSupplierStore();
 useAsyncData(async () => {
   try {
-    await supplierStore.getAllSupplier({});
+    await supplierStore.getAllSupplier({
+      pageSize: 1000,
+    });
     options.value = supplierStore?.SupplierAdmin?.suppliers.map((supplier) => ({
       value: supplier.id,
       label: supplier.name,
@@ -176,6 +179,12 @@ useAsyncData(async () => {
   }
 });
 const bookDetailStore = useBookDetailStore();
+const onSearchBook = debounce(() => {
+  bookDetailStore.getAllBookDetail({
+    search: valueSearch.value,
+  });
+}, 500);
+watch(valueSearch, onSearchBook);
 useAsyncData(
   async () => {
     try {
@@ -187,7 +196,7 @@ useAsyncData(
     }
   },
   {
-    watch: [valueSearch],
+    watch: [],
   }
 );
 const showConfirm = (id) => {

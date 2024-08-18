@@ -94,32 +94,29 @@
             <IconMul v-else />
           </template>
           <template v-else-if="column.key === 'status'">
-            <div v-if="record.is_featured"></div>
-            <div v-else>
-              <a-tag
-                :bordered="false"
-                v-if="record.status === CategoryStatus.ACTIVE"
-                class="bg-tag-bg-09 text-tag-text-09"
-              >
-                Công khai
-              </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === CategoryStatus.ACTIVE"
+              class="bg-tag-bg-09 text-tag-text-09"
+            >
+              Công khai
+            </a-tag>
 
-              <a-tag
-                :bordered="false"
-                v-if="record.status === CategoryStatus.INACTIVE"
-                class="bg-tag-bg-07 text-tag-text-07"
-              >
-                Đang ẩn
-              </a-tag>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === CategoryStatus.INACTIVE"
+              class="bg-tag-bg-07 text-tag-text-07"
+            >
+              Đang ẩn
+            </a-tag>
 
-              <a-tag
-                :bordered="false"
-                v-if="record.status === CategoryStatus.DELETED"
-                class="bg-tag-bg-06 text-tag-text-06"
-              >
-                Đã xóa
-              </a-tag>
-            </div>
+            <a-tag
+              :bordered="false"
+              v-if="record.status === CategoryStatus.DELETED"
+              class="bg-tag-bg-06 text-tag-text-06"
+            >
+              Đã xóa
+            </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-2">
@@ -195,7 +192,6 @@ watch(valueSearch, onSearch);
 useAsyncData(
   async () => {
     await categoryStore.getAllCategory({
-      pageSize: 1000,
       page: current.value,
       search: valueSearch.value,
       status: queryStatus.value.value,

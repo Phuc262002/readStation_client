@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div
-      class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
-    >
+    <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-bold">
           Chi tiết {{ bookShelves?.adminGetOneBookShelve.name }}
@@ -23,20 +21,12 @@
           </p>
         </div>
         <div>
-          <a-button
-            class="flex justify-center items-center gap-1"
-            type="primary"
-            @click="showModalEdit"
-            size="large"
-          >
+          <a-button class="flex justify-center items-center gap-1" type="primary" @click="showModalEdit" size="large">
             <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
             <span class="text-white text-base">Chỉnh sửa</span>
           </a-button>
-          <BookShelvesEdit
-            :openModalEdit="openModalEdit"
-            :openModal="CloseModalEdit"
-            :shelvesId="bookShelves?.adminGetOneBookShelve?.id"
-          />
+          <BookShelvesEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit"
+            :shelvesId="bookShelves?.adminGetOneBookShelve?.id" />
         </div>
       </div>
     </div>
@@ -44,65 +34,61 @@
       <div class="flex justify-between pb-4">
         <div class="relative w-1/4 md:block hidden">
           <div class="flex">
-            <a-input placeholder="Nhập tên sách để tìm kiếm" class="h-10">
+            <a-input placeholder="Nhập tên kệ để tìm kiếm" class="h-10" v-model:value="valueSearch">
               <template #prefix>
                 <SearchOutlined />
               </template>
             </a-input>
           </div>
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <UIcon class="text-gray-500" name="i-material-symbols-search" />
           </div>
         </div>
         <div class="">
-          <a-button type="primary" @click="showModalAdd" size="large"
-            >Thêm sách</a-button
-          >
-          <CommonSearch
-            :openModalAdd="openModalAdd"
-            :openModal="CloseModalAdd"
-          />
+          <a-button type="primary" @click="showModalAdd" size="large">Thêm sách</a-button>
+          <CommonSearch :openModalAdd="openModalAdd" :openModal="CloseModalAdd" />
         </div>
       </div>
-      <a-table
-        :columns="columns"
-        :data-source="bookShelves?.adminGetOneBookShelve?.book_details"
-        :loading="bookShelves.isLoading"
-      >
+      <a-table :columns="columns" :data-source="bookShelves?.bookOfShelves?.books" :loading="bookShelves.isLoading">
         <template #bodyCell="{ column, record }">
           <template v-if="column.dataIndex === 'name'">
             <a>{{ record }}</a>
           </template>
           <template v-if="column.key === 'poster'">
-            <a-image :src="record.poster" :width="100" :height="140" />
+            <div v-for="(items) in record?.book_detail">
+              <a-image :src="items?.poster" :width="100" :height="140" />
+            </div>
           </template>
           <template v-if="column.key === 'title'">
             <span class="flex justify-start gap-2">
-              <p>{{ record?.book.title }}</p>
+              <p>{{ record?.title }}</p>
+            </span>
+          </template>
+          <template v-if="column.key === 'book_version'" v-for="(items) in record?.book_detail">
+            <span class="flex justify-start gap-2">
+              <p>{{ items?.book_version }}</p>
             </span>
           </template>
           <template v-if="column.key === 'author'">
             <span class="flex justify-start gap-2">
-              <p>{{ record?.book?.author.author }}</p>
+              <p>{{ record?.author.author }}</p>
             </span>
           </template>
           <template v-if="column.key === 'price'">
-            <span class="flex justify-start gap-2">
+            <span class="flex justify-start gap-2" v-for="(items) in record?.book_detail">
               <p>
                 {{
                   new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  }).format(record?.price)
+                  }).format(items?.price)
                 }}
               </p>
             </span>
           </template>
           <template v-if="column.key === 'category'">
             <span class="flex justify-start gap-2">
-              <p>{{ record?.book?.category.name }}</p>
+              <p>{{ record?.category.name }}</p>
             </span>
           </template>
           <template v-else-if="column.key === 'is_featured'">
@@ -111,10 +97,7 @@
           </template>
           <template v-if="column.key === 'status'">
             <span>
-              <a-tag
-                :color="record.status === 'active' ? 'green' : 'volcano'"
-                style="border: none"
-              >
+              <a-tag :color="record.status === 'active' ? 'green' : 'volcano'" style="border: none">
                 {{
                   record.status === "active" ? "hoạt động" : "Không hoạt động"
                 }}
@@ -123,25 +106,12 @@
           </template>
           <template v-else-if="column.key === 'action'">
             <div class="flex text-[16px] gap-2">
-              <!-- <a-tooltip placement="top">
-                <template #title>
-                  <span>Xem chi tiết</span>
-                </template>
-  <button @click="showModal"
-    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
-    <div>
-      <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
-    </div>
-  </button>
-  </a-tooltip> -->
               <a-tooltip placement="top">
                 <template #title>
                   <span>Xóa</span>
                 </template>
-                <button
-                  @click.prevent="showConfirm(record?.book?.id)"
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                >
+                <button @click.prevent="showConfirm(record?.id)"
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                   <Icon icon="hugeicons:delete-01" class="text-lg" />
                 </button>
               </a-tooltip>
@@ -156,17 +126,19 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
-
+import debounce from 'lodash.debounce'
 const route = useRoute();
+const detailShelvesId = route.params.id;
 const openModalAdd = ref<boolean>(false);
 const openModalEdit = ref<boolean>(false);
 const open = ref(false);
 const showModal = () => {
   open.value = true;
 };
-const detailShelvesId = route.params.id;
-
+const valueSearch = ref("");
+const current = ref(1);
 const bookShelves = useShelvesStore();
+const bookStore = useBookStore();
 useAsyncData(async () => {
   try {
     await bookShelves.getOneShelves(detailShelvesId);
@@ -174,7 +146,32 @@ useAsyncData(async () => {
     console.error(error);
   }
 });
-const bookStore = useBookStore();
+const onSearch = debounce(() => {
+  current.value = 1;
+  bookShelves.getBookOfShelves({
+    id: detailShelvesId,
+    page: current.value,
+    search: valueSearch.value,
+  });
+}, 500);
+
+watch(valueSearch, onSearch);
+
+useAsyncData(
+  async () => {
+    await bookShelves.getBookOfShelves({
+      id: detailShelvesId,
+      page: current.value,
+      search: valueSearch.value,
+    });
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
+
+
 const updateDetailShelves = async (id) => {
   try {
     const idShelves = {
@@ -184,6 +181,11 @@ const updateDetailShelves = async (id) => {
     if (res.data._rawValue?.status == true) {
       message.success("Xóa sách ra khỏi kệ thành công");
       await bookShelves.getOneShelves(detailShelvesId);
+      await bookShelves.getBookOfShelves({
+        id: detailShelvesId,
+        page: current.value,
+        search: valueSearch.value,
+      });
     } else {
       message.error(res.error.value.data.message);
     }

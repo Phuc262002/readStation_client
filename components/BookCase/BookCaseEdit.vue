@@ -157,7 +157,7 @@ const onUpdate = async () => {
       bookcase: data,
     });
     if (res.data._rawValue?.status == true) {
-      await bookCaseStore.getAllBookcases({});
+      await bookCaseStore.getOneBookcase(bookCaseId.value);
       props.openModal();
       message.success("Cập nhật tủ sách thành công");
     } else {

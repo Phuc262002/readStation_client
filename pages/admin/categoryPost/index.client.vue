@@ -156,6 +156,7 @@
           :total="categoryStore.categoriesAdmin?.totalResults"
           :pageSize="categoryStore.categoriesAdmin?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
     </div>
@@ -195,7 +196,6 @@ watch(valueSearch, onSearch);
 useAsyncData(
   async () => {
     await categoryStore.getAllCategory({
-      pageSize: 1000,
       page: current.value,
       search: valueSearch.value,
       status: queryStatus.value.value,
