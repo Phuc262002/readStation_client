@@ -22,17 +22,15 @@
         {{ bookStore?.book?.book_version }}
       </div>
       <div class="flex gap-5 text-sm mb-2">
+
         <div>
           <span>Danh mục: </span>
           <span> {{ bookStore?.book?.book?.category?.name }} </span>
         </div>
+
         <div>
-          <span>Tủ sách: </span>
-          <span> {{ bookStore?.book?.book?.category?.name }} </span>
-        </div>
-        <div>
-          <span>Mã kệ: </span>
-          <span> {{ bookStore?.book?.book?.sku_generated }} </span>
+          <span>Số lượng: </span>
+          <span> {{ bookStore?.book?.stock }} </span>
         </div>
       </div>
       <div class="flex gap-3">
@@ -58,34 +56,61 @@
 
     <div class="bg-white w-full h-fit p-4 rounded-lg border border-rtgray-50">
       <div class="font-bold text-base pb-3">
-        <div>Mô tả sản phẩm</div>
+        <div> Thông tin chi tiết</div>
       </div>
 
       <div class="text-sm">
-        <div class="flex border-b border-rtgray-50 pb-1">
+        <div class="flex border-b border-rtgray-50 p-2">
+          <p class="w-1/2 text-rtgray-100">Mã hàng</p>
+          <p class="w-1/2">{{ bookStore?.book?.sku_origin }}</p>
+        </div>
+        <div class="flex border-b border-rtgray-50 p-2">
           <p class="w-1/2 text-rtgray-100">Công ty phát hành</p>
           <p class="w-1/2">{{ bookStore?.book?.issuing_company }}</p>
         </div>
-        <div class="flex border-b border-rtgray-50 p-1">
+        <div class="flex border-b border-rtgray-50 p-2">
           <p class="w-1/2 text-rtgray-100">Loại bìa</p>
           <p class="w-1/2">
             {{ bookStore?.book?.cardboard === "soft" ? "Bìa mềm" : "Bìa cứng" }}
           </p>
         </div>
-        <div class="flex border-b border-rtgray-50 p-1">
+        <div class="flex border-b border-rtgray-50 p-2">
           <p class="w-1/2 text-rtgray-100">Số trang</p>
           <p class="w-1/2">{{ bookStore?.book?.total_page }}</p>
         </div>
-        <div class="flex border-b border-rtgray-50 p-1">
+        <div class="flex border-b border-rtgray-50 p-2">
           <p class="w-1/2 text-rtgray-100">Nhà xuất bản</p>
           <p class="w-1/2">{{ bookStore?.book?.publishing_company?.name }}</p>
         </div>
+
+        <div class="flex border-b border-rtgray-50 p-2" v-if="bookStore.book.book.shelve !== 'null'">
+          <p class="w-1/2 text-rtgray-100">Tủ sách</p>
+          <p class="w-1/2">{{ bookStore?.book?.book?.shelve?.bookcase?.name }}</p>
+        </div>
+        <div class="flex border-b border-rtgray-50 p-2" v-if="bookStore?.book?.book?.shelve !== 'null'">
+          <p class="w-1/2 text-rtgray-100">Kệ sách</p>
+          <p class="w-1/2">{{ bookStore?.book?.book?.shelve?.name }}</p>
+        </div>
+        <div class="flex border-b border-rtgray-50 p-2">
+          <p class="w-1/2 text-rtgray-100">Ngày xuất bản</p>
+          <p class="w-1/2">{{ $dayjs(bookStore?.book?.publish_date).format("DD/MM/YYYY") }}</p>
+        </div>
+        <div class="flex border-b border-rtgray-50 p-2">
+          <p class="w-1/2 text-rtgray-100">Kích thước</p>
+          <p class="w-1/2">{{ bookStore?.book?.book_size }}</p>
+        </div>
+        <div class="flex border-b border-rtgray-50 p-2">
+          <p class="w-1/2 text-rtgray-100">Số trang</p>
+          <p class="w-1/2">{{ bookStore?.book?.total_page }} trang</p>
+        </div>
+
+
       </div>
     </div>
 
     <div class="bg-white w-full h-fit p-4 rounded-lg border border-rtgray-50">
       <div class="font-semibold text-base pb-2">
-        <div>Thông tin chi tiết</div>
+        <div>Mô tả sản phẩm</div>
       </div>
       <div class="">
         <div class="relative" :class="!viewMore && 'line-clamp-6'" v-html="bookStore?.book?.book?.description"></div>
@@ -100,6 +125,8 @@
 </template>
 
 <script setup lang="ts">
+import dayjs from 'dayjs';
+
 const bookStore = useBookPublicStore();
 const viewMore = ref(false);
 </script>

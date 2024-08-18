@@ -99,7 +99,7 @@
         <div class="mt-10 w-full" v-for="(book, index) in recommendationBooks" :key="book.id || index">
           <div class="flex flex-col gap-5 p-3 border rounded-lg">
             <NuxtLink :to="`/products/${book?.book?.slug}-${book?.id}`" class="mx-auto">
-              <img class="rounded-lg w-[180px] h-[284px]" :src="book?.poster" alt="" />
+              <img class="rounded-lg w-[180px] h-[284px] object-cover" :src="book?.poster" alt="" />
             </NuxtLink>
 
             <div class="flex flex-col gap-1">
@@ -194,7 +194,7 @@ const recommendationBooks = computed(() =>
     })
     ?.slice(0, 5)
 );
-console.log("first", recommendationBooks);
+
 useAsyncData(async () => {
   await bookStore.getAllBooks({});
 });

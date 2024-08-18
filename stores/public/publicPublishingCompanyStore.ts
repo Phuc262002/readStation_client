@@ -12,9 +12,11 @@ export const usePublishingCompanyPublicStore = defineStore(
     },
     actions: {
       // client
-      async getAllPublishingCompanyClient() {
+      async getAllPublishingCompanyClient({ page, pageSize }: any) {
         const data: any = await useCustomFetch(
-          "/api/v1/public/publishing-companies"
+          `/api/v1/public/publishing-companies?${page ? `&page=${page}` : ""}${
+            pageSize ? `&pageSize=${pageSize}` : ""
+          }`
         );
         this.publishingCompany = data.data._value?.data;
         return data;

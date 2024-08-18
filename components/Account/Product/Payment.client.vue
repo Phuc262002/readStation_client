@@ -38,7 +38,7 @@
               % giá sách
             </p>
           </div>
-          <div class="grid gap-2 py-4">
+          <div class="grid gap-2 py-4" v-if="bookStore?.book?.stock > 0">
             <a-button @click="handleRentNow"
               class="bg-rtprimary border-none border border-lg rounded-lg text-center !text-white text-sm h-10 w-full">
               Thuê ngay
@@ -47,6 +47,10 @@
               class="border border-lg border-x-rtgray-50 rounded-lg text-center text-rtprimary text-sm h-10">
               Thêm vào danh sách thuê
             </a-button>
+          </div>
+          <div class="grid gap-2 p-4 text-xs bg-orange-50 rounded-lg mt-4" v-if="bookStore?.book?.stock < 1">
+            <p class="text-red-500"><span class="text-base">* </span> Sản phẩm hiện đang hết hàng. Vui lòng quay lại
+              sau !</p>
           </div>
         </div>
       </div>
