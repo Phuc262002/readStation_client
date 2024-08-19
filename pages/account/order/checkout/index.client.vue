@@ -651,6 +651,16 @@ const payCart = async () => {
       return;
     }
   }
+  console.log('first', {
+    ...valueOrder.value,
+    shipping_method_id: shipping_method_id.value,
+    total_shipping_fee: parseFloat(shippingFee.value),
+    delivery_method: delivery_method.value,
+    payment_method: payment_method.value,
+    total_all_fee: totalAllFee.value,
+    user_note: userNote.value,
+  })
+  return
 
 
   try {

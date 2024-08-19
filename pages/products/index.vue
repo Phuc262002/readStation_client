@@ -236,7 +236,7 @@ const authorFromQuery = route.query.author;
 const current = ref(1);
 const isShow = ref([]);
 const filter = ref({
-  sort: "asc",
+  sort: "desc",
   category_id: null,
   author_id: null,
   publishing_company_id: null,
@@ -318,11 +318,11 @@ watch(
 const sortOptions = [
   {
     label: "Mới nhất",
-    value: "asc",
+    value: "desc",
   },
   {
     label: "Cũ nhất",
-    value: "desc",
+    value: "asc",
   },
   {
     label: "Phổ biến",
