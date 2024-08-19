@@ -1,19 +1,19 @@
 <template>
-  <div
-    class="bg-[url('assets/images/bg-404.svg')] w-full h-[100vh] bg-cover bg-no-repeat bg-center"
-  >
-    <div
-      v-if="isSubmitting"
-      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
-    >
+  <div class="bg-[url('assets/images/bg-404.svg')] w-full h-[100vh] bg-cover bg-no-repeat bg-center">
+
+    <Head>
+      <Title>ReadStation | Xác minh mã OTP</Title>
+      <Meta name="description" content="Xác minh mã OTP" />
+      <Meta property="og:title" content="ReadStation | Xác minh mã OTP" />
+      <Meta property="og:description" content="Xác minh mã OTP" />
+    </Head>
+
+    <div v-if="isSubmitting"
+      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default">
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
     </div>
-    <div
-      class="md:py-10 flex justify-center items-center mx-auto container min-h-[100vh]"
-    >
-      <div
-        class="flex space-y-3 flex-col justify-center items-center bg-white shadow-cs_01 p-8 w-[450px] rounded-lg"
-      >
+    <div class="md:py-10 flex justify-center items-center mx-auto container min-h-[100vh]">
+      <div class="flex space-y-3 flex-col justify-center items-center bg-white shadow-cs_01 p-8 w-[450px] rounded-lg">
         <div>
           <NuxtLink to="/" class="mb-10 flex justify-center">
             <img src="../../assets/images/logo_header.svg" alt="" />
@@ -30,34 +30,21 @@
         <form @submit="onSubmit" class="w-full space-y-6">
           <span>Nhập mã bảo mật gồm 6 chữ số của bạn</span>
           <div class="">
-            <v-otp-input
-              ref="otpInput"
-              input-classes="otp-input"
-              :conditionalClass="['one', 'two', 'three', 'four', 'five', 'six']"
-              inputType="letter-numeric"
-              :num-inputs="6"
-              v-model:value="bindValue"
-              :should-auto-focus="true"
-              :should-focus-order="true"
-              @on-change="handleOnChange"
-              @on-complete="handleOnComplete"
-              :placeholder="['*', '*', '*', '*', '*', '*']"
-            />
+            <v-otp-input ref="otpInput" input-classes="otp-input"
+              :conditionalClass="['one', 'two', 'three', 'four', 'five', 'six']" inputType="letter-numeric"
+              :num-inputs="6" v-model:value="bindValue" :should-auto-focus="true" :should-focus-order="true"
+              @on-change="handleOnChange" @on-complete="handleOnComplete"
+              :placeholder="['*', '*', '*', '*', '*', '*']" />
           </div>
-          <a-button
-            html-type="submit"
+          <a-button html-type="submit"
             class="w-full bg-rtprimary h-[45px] !text-white hover:bg-rtsecondary border-none text-base"
-            :loading="isSubmitting"
-          >
+            :loading="isSubmitting">
             <span>Xác nhận</span>
           </a-button>
         </form>
         <div class="flex items-center gap-1 justify-center">
           <span>Không nhận được thư ?</span>
-          <button
-            @click="resendOtp"
-            class="text-indigo-400 hover:text-indigo-900"
-          >
+          <button @click="resendOtp" class="text-indigo-400 hover:text-indigo-900">
             Gửi lại
           </button>
         </div>
@@ -193,15 +180,18 @@ const onSubmit = handleSubmit(async (values) => {
   border: 1px solid rgba(0, 0, 0, 0.3);
   text-align: center;
 }
+
 /* Background colour of an input field with value */
 .otp-input.is-complete {
   background-color: #e4e4e4;
 }
+
 .otp-input::-webkit-inner-spin-button,
 .otp-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 input::placeholder {
   font-size: 15px;
   text-align: center;

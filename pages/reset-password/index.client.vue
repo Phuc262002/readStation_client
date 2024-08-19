@@ -1,19 +1,19 @@
 <template>
-  <div
-    class="bg-[url('assets/images/bg-404.svg')] w-full h-[100vh] bg-cover bg-no-repeat bg-center"
-  >
-    <div
-      class="md:py-10 flex justify-center items-center container min-h-[100vh]"
-    >
-      <div
-        v-if="isSubmitting"
-        class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default"
-      >
+  <div class="bg-[url('assets/images/bg-404.svg')] w-full h-[100vh] bg-cover bg-no-repeat bg-center">
+
+    <Head>
+      <Title>ReadStation | Đặt lại mật khẩu</Title>
+      <Meta name="description" content="Đặt lại mật khẩu" />
+      <Meta property="og:title" content="ReadStation | Đặt lại mật khẩu" />
+      <Meta property="og:description" content="Đặt lại mật khẩu" />
+    </Head>
+
+    <div class="md:py-10 flex justify-center items-center container min-h-[100vh]">
+      <div v-if="isSubmitting"
+        class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default">
         <a-spin size="large" class="absolute top-1/2 left-1/2" />
       </div>
-      <div
-        class="flex space-y-3 flex-col justify-center mx-auto bg-white shadow-cs_01 p-8 w-[400px] rounded-lg"
-      >
+      <div class="flex space-y-3 flex-col justify-center mx-auto bg-white shadow-cs_01 p-8 w-[400px] rounded-lg">
         <div>
           <NuxtLink to="/" class="mb-10 flex justify-center">
             <img src="../../assets/images/logo_header.svg" alt="" />
@@ -31,75 +31,45 @@
 
         <form @submit="onSubmit" class="w-full space-y-6">
           <div class="space-y-2">
-            <a-alert
-              v-if="resErrors"
-              v-for="(error, index) in resErrors"
-              :message="error"
-              type="error"
-              show-icon
-            />
+            <a-alert v-if="resErrors" v-for="(error, index) in resErrors" :message="error" type="error" show-icon />
           </div>
           <div>
-            <label
-              for="password"
-              class="flex gap-1 text-sm font-medium text-gray-700"
-            >
+            <label for="password" class="flex gap-1 text-sm font-medium text-gray-700">
               <span>Mật khẩu</span><span class="text-red-600">*</span>
             </label>
             <div>
-              <a-input-password
-                placeholder="Nhập mật khẩu mới"
-                class="mt-1 h-11"
-                :status="errors.password ? 'error' : ''"
-                id="password"
-                v-bind="password"
-                name="password"
-                type="password"
-              />
+              <a-input-password placeholder="Nhập mật khẩu mới" class="mt-1 h-11"
+                :status="errors.password ? 'error' : ''" id="password" v-bind="password" name="password"
+                type="password" />
             </div>
             <small class="mt-2 text-red-500">
               {{ errors.password }}
             </small>
           </div>
           <div>
-            <label
-              for="password_confirmation"
-              class="flex gap-1 text-sm font-medium text-gray-700"
-            >
-              <span>Xác nhận lại mật khẩu</span
-              ><span class="text-red-600">*</span>
+            <label for="password_confirmation" class="flex gap-1 text-sm font-medium text-gray-700">
+              <span>Xác nhận lại mật khẩu</span><span class="text-red-600">*</span>
             </label>
             <div>
-              <a-input-password
-                placeholder="Xác nhận lại mật khẩu mới"
-                class="mt-1 h-11"
-                :status="errors.password_confirmation ? 'error' : ''"
-                id="password_confirmation"
-                v-bind="password_confirmation"
-                name="password_confirmation"
-                type="password"
-              />
+              <a-input-password placeholder="Xác nhận lại mật khẩu mới" class="mt-1 h-11"
+                :status="errors.password_confirmation ? 'error' : ''" id="password_confirmation"
+                v-bind="password_confirmation" name="password_confirmation" type="password" />
             </div>
             <small class="mt-2 text-red-500">
               {{ errors.password_confirmation }}
             </small>
           </div>
 
-          <a-button
-            html-type="submit"
+          <a-button html-type="submit"
             class="w-full bg-rtprimary h-[45px] !text-white hover:bg-rtsecondary border-none text-base"
-            :loading="isSubmitting"
-          >
+            :loading="isSubmitting">
             <span>Đặt lại mật khẩu mới</span>
           </a-button>
           <div class="text-center">
-            <NuxtLink
-              to="/login"
-              class="flex items-center gap-1 justify-center text-indigo-400 hover:text-indigo-900"
-            >
+            <NuxtLink to="/login" class="flex items-center gap-1 justify-center text-indigo-400 hover:text-indigo-900">
               <UIcon name="i-ion-return-down-back-outline" />
-              Quay lại trang đăng nhập</NuxtLink
-            >
+              Quay lại trang đăng nhập
+            </NuxtLink>
           </div>
         </form>
       </div>

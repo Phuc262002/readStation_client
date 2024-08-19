@@ -1,5 +1,12 @@
-div<template>
+<template>
   <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
+
+    <Head>
+      <Title>ReadStation | Đặt hàng</Title>
+      <Meta name="description" content="Đặt hàng" />
+      <Meta property="og:title" content="ReadStation | Đặt hàng" />
+      <Meta property="og:description" content="Đặt hàng" />
+    </Head>
     <div v-if="isSubmitting"
       class="absolute top-0 left-0 min-w-full min-h-[100vh] bg-black/40 z-[99999] cursor-default">
       <a-spin size="large" class="absolute top-1/2 left-1/2" />
@@ -7,6 +14,7 @@ div<template>
     <div class="flex justify-between h-auto gap-5">
       <!-- Left -->
       <div class="w-3/4 space-y-5">
+
         <div class="bg-white h-auto shadow-md rounded-lg overflow-hidden p-5">
           <a-table :columns="columns" :data-source="dataSource" :pagination="false">
             <template #headerCell="{ column }">
@@ -171,8 +179,8 @@ div<template>
                   <Icon class="text-orange-600" icon="ic:outline-info" />
                 </a-popover>
               </div>
-              <a-input placeholder="Nhập số ngày thuê sách" size="large" :value="cartStore.rentNow[0].number_of_days"
-                @change="(e) =>
+              <a-input type="number" placeholder="Nhập số ngày thuê sách" size="large"
+                :value="cartStore.rentNow[0].number_of_days" @change="(e) =>
                   cartStore.updateNumberOfDays(
                     cartStore.rentNow[0].id,
                     e.target.value
@@ -350,21 +358,14 @@ let checkcate = ref(true);
   }
 });
 
-
 let orderDetail;
 if (isCheckAuth === "student") {
   // 1. student đã xác thực và chọn danh mục " Giáo dục"
   if (isCheckVerify && checkcate.value) {
     valueOrder.value = {
-      payment_method: payment_method.value,
-      delivery_method: delivery_method.value,
       payment_portal: paymentPortal.value,
-      user_note: userNote.value,
-      shipping_method_id: shipping_method_id.value,
-      total_shipping_fee: parseFloat(shippingFee.value),
       total_service_fee: 0,
       total_deposit_fee: 0,
-      total_all_fee: 0,
       order_details: [],
       delivery_info: newInfo,
     };
@@ -399,19 +400,12 @@ if (isCheckAuth === "student") {
 
     valueOrder.value.total_service_fee = total_serviceFee.value;
     valueOrder.value.total_deposit_fee = total_depositFee.value;
-    valueOrder.value.total_all_fee = total_depositFee.value + total_serviceFee.value;
     // 2. stundent chưa xác thực nhưng chọn danh mục " Giáo dục"
   } else if (!isCheckVerify && checkcate.value) {
     valueOrder.value = {
-      payment_method: payment_method.value,
-      delivery_method: delivery_method.value,
       payment_portal: paymentPortal.value,
-      user_note: userNote.value,
-      shipping_method_id: shipping_method_id.value,
-      total_shipping_fee: parseFloat(shippingFee.value),
       total_service_fee: 0,
       total_deposit_fee: 0,
-      total_all_fee: 0,
       order_details: [],
       delivery_info: newInfo,
     };
@@ -445,19 +439,12 @@ if (isCheckAuth === "student") {
 
     valueOrder.value.total_service_fee = total_serviceFee.value;
     valueOrder.value.total_deposit_fee = total_depositFee.value;
-    valueOrder.value.total_all_fee = total_depositFee.value + total_serviceFee.value;
   } else {
     // 3. student chưa xác thực
     valueOrder.value = {
-      payment_method: payment_method.value,
-      delivery_method: delivery_method.value,
       payment_portal: paymentPortal.value,
-      user_note: userNote.value,
-      shipping_method_id: shipping_method_id.value,
-      total_shipping_fee: parseFloat(shippingFee.value),
       total_service_fee: 0,
       total_deposit_fee: 0,
-      total_all_fee: 0,
       order_details: [],
       delivery_info: newInfo,
     };
@@ -490,22 +477,15 @@ if (isCheckAuth === "student") {
 
     valueOrder.value.total_service_fee = total_serviceFee.value;
     valueOrder.value.total_deposit_fee = total_depositFee.value;
-    valueOrder.value.total_all_fee = total_depositFee.value + total_serviceFee.value;
   }
 
 } else {
   // 4. user chưa xác thực
   if (isCheckVerify === null) {
     valueOrder.value = {
-      payment_method: payment_method.value,
-      delivery_method: delivery_method.value,
       payment_portal: paymentPortal.value,
-      user_note: userNote.value,
-      shipping_method_id: shipping_method_id.value,
-      total_shipping_fee: parseFloat(shippingFee.value),
       total_service_fee: 0,
       total_deposit_fee: 0,
-      total_all_fee: 0,
       order_details: [],
       delivery_info: newInfo,
     };
@@ -540,21 +520,13 @@ if (isCheckAuth === "student") {
 
     valueOrder.value.total_service_fee = total_serviceFee.value;
     valueOrder.value.total_deposit_fee = total_depositFee.value;
-    valueOrder.value.total_all_fee = total_depositFee.value + total_serviceFee.value;
-
 
   } else {
     // 5. user đã xác thực
     valueOrder.value = {
-      payment_method: payment_method.value,
-      delivery_method: delivery_method.value,
       payment_portal: paymentPortal.value,
-      user_note: userNote.value,
-      shipping_method_id: shipping_method_id.value,
-      total_shipping_fee: parseFloat(shippingFee.value),
       total_service_fee: 0,
       total_deposit_fee: 0,
-      total_all_fee: 0,
       order_details: [],
       delivery_info: newInfo,
     };
@@ -587,7 +559,6 @@ if (isCheckAuth === "student") {
 
     valueOrder.value.total_service_fee = total_serviceFee.value;
     valueOrder.value.total_deposit_fee = total_depositFee.value;
-    valueOrder.value.total_all_fee = total_depositFee.value + total_serviceFee.value;
 
   }
 }
@@ -620,11 +591,6 @@ const calcShippingFee = () => {
 // Tổng tiền
 const calcTotalAllFee = () => {
   totalAllFee.value = Number(total_depositFee.value) + Number(total_serviceFee.value) + Number(shippingFee.value);
-  console.log('totalAllFee.value', totalAllFee.value)
-  console.log('total_depositFee.value', total_depositFee.value)
-  console.log('total_serviceFee.value', total_serviceFee.value)
-  console.log('shippingFee.value', shippingFee.value)
-
 }
 
 useAsyncData(
@@ -634,12 +600,16 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [cartStore.shippingFee, delivery_method.value],
+    watch: [cartStore.shippingFee, delivery_method.value, payment_method.value],
   }
 );
+
 watch(
   () => delivery_method.value,
-  () => {
+  (newValue) => {
+    if (newValue === "shipper") {
+      payment_method.value = "online";
+    }
     calcShippingFee();
     calcTotalAllFee();
   }
@@ -651,7 +621,14 @@ watch(
     calcTotalAllFee();
   }
 );
+
 const payCart = async () => {
+
+  const newInfo = {
+    fullname: authStore?.authUser?.user?.fullname,
+    phone: authStore?.authUser?.user?.phone,
+    address: authStore?.authUser?.user?.address_detail,
+  };
 
   // check address
   if (
@@ -671,12 +648,21 @@ const payCart = async () => {
     message.error("Hiện tại chưa có hình thức vận chuyển khu vực này !");
     return;
   }
+
+
   try {
     const res = await orderStore.createOrder({
       ...valueOrder.value,
-      shipping_method_id: shipping_method_id.value
+      shipping_method_id: shipping_method_id.value,
+      total_shipping_fee: parseFloat(shippingFee.value),
+      delivery_method: delivery_method.value,
+      payment_method: payment_method.value,
+      total_all_fee: totalAllFee.value,
+      user_note: userNote.value,
     });
+    console.log('res', res)
     if (res.data._rawValue?.status == true && payment_method.value === "cash") {
+      type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
       message.success("Thêm đơn hàng thành công");
       navigateTo("/account/order");
     } else if (
@@ -692,12 +678,10 @@ const payCart = async () => {
         res?.data?._rawValue?.data.order_code
       );
     } else {
-      message.error({
-        content: "Đặt hàng thất bại",
-      });
+      message.error(res?.data?._rawValue?.errors);
     }
   } catch (error) {
-    message.error("Đặt hàng thất bại");
+    message.error(res?.data?._rawValue?.errors);
   }
 };
 

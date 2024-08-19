@@ -164,4 +164,12 @@ const columns = [
     dataIndex: "created_at",
   },
 ];
+useSeoMeta({
+  title: "ReadStation | Quản lý số dư",
+  ogTitle: "ReadStation | Quản lý số dư",
+  description: "Quản lý số dư",
+  ogDescription: "Quản lý số dư",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+});
 </script>

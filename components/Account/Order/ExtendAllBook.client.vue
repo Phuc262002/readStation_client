@@ -112,24 +112,26 @@ console.log('props.data', props.data);
 const handleCloseExtendAll = async () => {
   props.closeExtendAll();
 };
-// const updateNumberOfDays = (id, quantity) => {
-//   console.log("🚀 ~ updateNumberOfDays ~ quantity:", quantity);
+const updateNumberOfDays = (id, quantity) => {
+  const book = props.data.find(item => item.id === id);
 
-//   let fee = 0;
-//   const price = props.extendsionBook?.book_details?.price || 0;
+  if (!book) return;  // Kiểm tra nếu không tìm thấy cuốn sách
 
-//   if (price < 50000) {
-//     fee = 1000;
-//   } else if (price >= 50000 && price <= 100000) {
-//     fee = 2000;
-//   } else {
-//     fee = 4000;
-//   }
+  let fee = 0;
+  const price = book.book_details?.price || 0;
 
+  if (price < 50000) {
+    fee = 1000;
+  } else if (price >= 50000 && price <= 100000) {
+    fee = 2000;
+  } else {
+    fee = 4000;
+  }
 
-//   props.extendsionBook.service_fee = quantity * fee;
-//   props.extendsionBook.number_of_days = quantity;
-// };
+  // Cập nhật số ngày và phí gia hạn
+  book.service_fee = quantity * fee;
+  book.number_of_days = quantity;
+};
 const onSubmit = async () => {
   const body = props.data.map((item, index) => {
     return {

@@ -5,7 +5,8 @@ export const useShelvesStore = defineStore("shelves-store", {
       isSubmitting: false,
       isLoading: false,
       adminBookSheleves: [],
-      adminGetOneBookShelve:[] ,
+      adminGetOneBookShelve: [],
+      bookOfShelves: [],
     };
   },
   actions: {
@@ -41,9 +42,12 @@ export const useShelvesStore = defineStore("shelves-store", {
       return data;
     },
     async deleteShelves(id: string) {
-      const data: any = await useCustomFetch(`/api/v1/admin/shelves/delete/${id}`, {
-        method: "DELETE",
-      });
+      const data: any = await useCustomFetch(
+        `/api/v1/admin/shelves/delete/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
       return data;
     },
     async getOneShelves(id: number) {
@@ -53,12 +57,26 @@ export const useShelvesStore = defineStore("shelves-store", {
       this.isLoading = false;
       return data;
     },
+    async getBookOfShelves({id, page, pageSize, search }: any) {
+      this.isLoading = true;
+      const data: any = await useCustomFetch(
+        `/api/v1/admin/shelves/${id}/books?${page ? `&page=${page}` : ""}${
+          pageSize ? `&pageSize=${pageSize}` : ""
+        }${search ? `&search=${search}` : ""}`
+      );
+      this.bookOfShelves = data?.data?._value?.data;
+      this.isLoading = false;
+      return data;
+    },
     async updateShelves({ id, valueUpdateShelves }: any) {
       this.isSubmitting = true;
-      const data: any = await useCustomFetch(`/api/v1/admin/shelves/update/${id}`, {
-        method: "PUT",
-        body: JSON.stringify(valueUpdateShelves),
-      });
+      const data: any = await useCustomFetch(
+        `/api/v1/admin/shelves/update/${id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(valueUpdateShelves),
+        }
+      );
       this.isSubmitting = false;
       return data;
     },

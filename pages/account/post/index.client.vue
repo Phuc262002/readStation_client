@@ -1,15 +1,17 @@
 <template>
   <div>
+
+    <Head>
+      <Title>ReadStation | Quản lý bài viết của bạn</Title>
+      <Meta name="description" content="Quản lý bài viết của bạn" />
+      <Meta property="og:title" content="ReadStation | Quản lý bài viết của bạn" />
+      <Meta property="og:description" content="Quản lý bài viết của bạn" />
+    </Head>
     <h2 class="text-sm font-bold pb-5">Bài viết của bạn</h2>
     <div class="bg-white rounded-lg shadow-md shadow-gray-300 p-5">
       <div class="relative w-2/4 md:block hidden">
-        <a-input
-          v-model:value="searchValue"
-          placeholder="Nhập tên bài viết để tìm kiếm"
-          enter-button
-          class="h-10 w-[385px]"
-          allow-clear
-        >
+        <a-input v-model:value="searchValue" placeholder="Nhập tên bài viết để tìm kiếm" enter-button
+          class="h-10 w-[385px]" allow-clear>
           <template #prefix>
             <SearchOutlined />
           </template>
@@ -18,92 +20,67 @@
       <!--  -->
       <div class="flex items-center justify-between py-5">
         <div class="flex gap-2">
-          <a-button
-            :class="[
-              'flex items-center justify-center rounded-lg h-10 border-none shadow-none gap-2',
-              filter === null ? 'bg-orange-500 !text-white' : '',
-            ]"
-            @click="handleCheckStatus(null)"
-          >
+          <a-button :class="[
+            'flex items-center justify-center rounded-lg h-10 border-none shadow-none gap-2',
+            filter === null ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckStatus(null)">
             <Icon icon="material-symbols:file-copy-outline" />
             <span class="font-bold">Tất cả bài viết</span>
           </a-button>
 
           <!--  -->
-          <a-button
-            :class="[
-              'flex items-center justify-center rounded-lg h-10 border-none shadow-none gap-2',
-              filter === 'published' ? 'bg-orange-500 !text-white' : '',
-            ]"
-            @click="handleCheckStatus('published')"
-          >
+          <a-button :class="[
+            'flex items-center justify-center rounded-lg h-10 border-none shadow-none gap-2',
+            filter === 'published' ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckStatus('published')">
             <Icon icon="teenyicons:file-tick-outline" />
             <span class="font-bold">Công khai</span>
           </a-button>
 
           <!--  -->
-          <a-button
-            :class="[
-              'flex items-center rounded-lg h-10 border-none shadow-none gap-2',
-              filter === 'wating_approve' ? 'bg-orange-500 !text-white' : '',
-            ]"
-            @click="handleCheckStatus('wating_approve')"
-          >
+          <a-button :class="[
+            'flex items-center rounded-lg h-10 border-none shadow-none gap-2',
+            filter === 'wating_approve' ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckStatus('wating_approve')">
             <Icon icon="nonicons:loading-16" />
             <span class="font-bold">Chờ duyệt</span>
           </a-button>
 
           <!--  -->
-          <a-button
-            :class="[
-              'flex items-center rounded-lg h-10 border-none shadow-none gap-2',
-              filter === 'draft' ? 'bg-orange-500 !text-white' : '',
-            ]"
-            @click="handleCheckStatus('draft')"
-          >
+          <a-button :class="[
+            'flex items-center rounded-lg h-10 border-none shadow-none gap-2',
+            filter === 'draft' ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckStatus('draft')">
             <Icon icon="material-symbols:draft-outline" />
             <span class="font-bold">Nháp</span>
           </a-button>
 
           <!--  -->
-          <a-button
-            :class="[
-              'flex items-center rounded-lg h-10 border-none shadow-none gap-2',
-              filter === 'approve_canceled' ? 'bg-orange-500 !text-white' : '',
-            ]"
-            @click="handleCheckStatus('approve_canceled')"
-          >
+          <a-button :class="[
+            'flex items-center rounded-lg h-10 border-none shadow-none gap-2',
+            filter === 'approve_canceled' ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckStatus('approve_canceled')">
             <Icon icon="carbon:rule-cancelled" />
             <span class="font-bold">Bị từ chối</span>
           </a-button>
 
           <!--  -->
-          <a-button
-            :class="[
-              'flex items-center rounded-lg h-10 border-none shadow-none gap-2',
-              filter === 'hidden' ? 'bg-orange-500 !text-white' : '',
-            ]"
-            @click="handleCheckStatus('hidden')"
-          >
+          <a-button :class="[
+            'flex items-center rounded-lg h-10 border-none shadow-none gap-2',
+            filter === 'hidden' ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckStatus('hidden')">
             <Icon icon="uil:eye-slash" />
             <span class="font-bold">Đang ẩn</span>
           </a-button>
         </div>
-        <NuxtLink to="/account/post/create-post"
-          ><a-button
-            class="bg-orange-500 border-none !text-white rounded-lg h-10"
-          >
+        <NuxtLink to="/account/post/create-post"><a-button
+            class="bg-orange-500 border-none !text-white rounded-lg h-10">
             Bài viết mới
-          </a-button></NuxtLink
-        >
+          </a-button></NuxtLink>
       </div>
       <!--  -->
-      <a-table
-        :columns="columns"
-        :data-source="postStore?.posts?.posts"
-        :pagination="false"
-        :loading="postStore?.isLoading"
-      >
+      <a-table :columns="columns" :data-source="postStore?.posts?.posts" :pagination="false"
+        :loading="postStore?.isLoading">
         <template #bodyCell="{ column, record }">
           <!--  -->
           <template v-if="column.key === 'image'">
@@ -122,31 +99,15 @@
           <!--  -->
           <template v-if="column.key === 'status'">
             <span>
-              <a-tag
-                v-if="record.status === 'published'"
-                class="text-tag-text-09 bg-tag-bg-09 border-none px-3 py-1"
-                >Công khai</a-tag
-              >
-              <a-tag
-                v-else-if="record.status === 'wating_approve'"
-                class="text-tag-text-pending bg-tag-bg-pending border-none px-3 py-1"
-                >Chờ phê duyệt</a-tag
-              >
-              <a-tag
-                v-else-if="record.status === 'draft'"
-                class="text-tag-text-draft bg-tag-bg-draft border-none px-3 py-1"
-                >Nháp</a-tag
-              >
-              <a-tag
-                v-else-if="record.status === 'hidden'"
-                class="text-tag-text-draft bg-tag-bg-canceled border-none px-3 py-1"
-                >Ẩn</a-tag
-              >
-              <a-tag
-                v-else-if="record.status === 'deleted'"
-                class="text-tag-text bg-tag-bg border-none"
-                >Đã xóa</a-tag
-              >
+              <a-tag v-if="record.status === 'published'"
+                class="text-tag-text-09 bg-tag-bg-09 border-none px-3 py-1">Công khai</a-tag>
+              <a-tag v-else-if="record.status === 'wating_approve'"
+                class="text-tag-text-pending bg-tag-bg-pending border-none px-3 py-1">Chờ phê duyệt</a-tag>
+              <a-tag v-else-if="record.status === 'draft'"
+                class="text-tag-text-draft bg-tag-bg-draft border-none px-3 py-1">Nháp</a-tag>
+              <a-tag v-else-if="record.status === 'hidden'"
+                class="text-tag-text-draft bg-tag-bg-canceled border-none px-3 py-1">Ẩn</a-tag>
+              <a-tag v-else-if="record.status === 'deleted'" class="text-tag-text bg-tag-bg border-none">Đã xóa</a-tag>
             </span>
           </template>
           <template v-else-if="column.key === 'action'">
@@ -156,15 +117,10 @@
                   <template #title>
                     <span>Xem chi tiết</span>
                   </template>
-                  <button
-                    @click="showModal(record.id)"
-                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                  >
+                  <button @click="showModal(record.id)"
+                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                     <div class="flex items-center">
-                      <Icon
-                        icon="heroicons:eye"
-                        class="group-hover:text-[#212122]"
-                      />
+                      <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
                     </div>
                   </button>
                 </a-tooltip>
@@ -172,22 +128,15 @@
 
               <a-dropdown :trigger="['click']" placement="bottom">
                 <button
-                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                >
-                  <UIcon
-                    class="group-hover:text-[#131313]"
-                    name="i-solar-menu-dots-bold"
-                  />
+                  class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                  <UIcon class="group-hover:text-[#131313]" name="i-solar-menu-dots-bold" />
                 </button>
                 <template #overlay>
                   <a-menu>
                     <NuxtLink :to="`/account/post/${record?.id}`">
                       <a-menu-item key="2" class="p-4">
                         <span class="flex items-center gap-2 text-blue-400">
-                          <Icon
-                            icon="fluent:edit-48-regular"
-                            class="text-lg text-tag-text-02"
-                          />
+                          <Icon icon="fluent:edit-48-regular" class="text-lg text-tag-text-02" />
                           <span>Sửa</span>
                         </span>
                       </a-menu-item>
@@ -195,14 +144,8 @@
 
                     <a-menu-item key="3" class="p-4">
                       <span>
-                        <button
-                          class="flex items-center gap-1 text-blue-400"
-                          @click="showDeleteConfirm(record?.id)"
-                        >
-                          <UIcon
-                            class="group-hover:text-[red] text-lg"
-                            name="i-material-symbols-delete-outline"
-                          />
+                        <button class="flex items-center gap-1 text-blue-400" @click="showDeleteConfirm(record?.id)">
+                          <UIcon class="group-hover:text-[red] text-lg" name="i-material-symbols-delete-outline" />
                           <span>Xóa</span>
                         </button>
                       </span>
@@ -215,19 +158,11 @@
         </template>
       </a-table>
       <div class="mt-4 flex justify-end">
-        <a-pagination
-          v-model:current="current"
-          :total="postStore?.posts?.totalResults"
-          :pageSize="postStore?.posts?.pageSize"
-          show-less-items
-        />
+        <a-pagination v-model:current="current" :total="postStore?.posts?.totalResults"
+          :pageSize="postStore?.posts?.pageSize" show-less-items />
       </div>
     </div>
-    <AccountPostFormDetail
-      :openModal="openModal"
-      :closeModal="closeModal"
-      :postDetailId="postDetailId"
-    />
+    <AccountPostFormDetail :openModal="openModal" :closeModal="closeModal" :postDetailId="postDetailId" />
   </div>
 </template>
 <script setup lang="ts">

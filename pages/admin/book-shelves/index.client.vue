@@ -38,7 +38,7 @@
 
           <a-dropdown :trigger="['click']">
             <template #overlay>
-              <div>
+              <div class="h-[300px] overflow-auto w-[190px]">
                 <a-menu>
                   <a-menu-item>
                     <div @click="categoryValue({ id: null, label: 'Tất cả danh mục' })">
@@ -59,7 +59,7 @@
 
           <a-dropdown :trigger="['click']">
             <template #overlay>
-              <div>
+              <div class="h-[300px] overflow-auto w-[190px]">
                 <a-menu>
                   <a-menu-item>
                     <div @click="bookcaseValue({ id: null, label: 'Tất cả tủ sách' })">
@@ -94,15 +94,10 @@
               {{ record.bookshelf_code }}
             </a>
           </template>
-          <template v-if="column.key === 'bookcase_id'">
+          <template v-if="column.key === 'bookcase'">
             <a>
-              {{ record.bookcase.description }}
+              {{ record.bookcase ? record.bookcase.name : 'Chưa được thêm vào tủ' }}
             </a>
-          </template>
-          <template v-if="column.key === 'category_id'">
-            <span>
-              {{ record.category.name }}
-            </span>
           </template>
           <template v-if="column.key === 'books'">
             <span class="flex justify-start gap-2">
@@ -203,7 +198,8 @@ const categoryQuery = ref({
 useAsyncData(async () => {
   try {
     await categoryStore.getAllCategory({
-      type: 'book'
+      type: 'book',
+      pageSize: 1000,
     });
   } catch (error) {
     console.error(error);
@@ -221,7 +217,9 @@ const bookcaseQuery = ref({
 });
 useAsyncData(async () => {
   try {
-    await bookcaseStore.getAllBookcases({});
+    await bookcaseStore.getAllBookcases({
+      pageSize: 1000,
+    });
   } catch (error) {
     console.error(error);
   }
@@ -316,7 +314,7 @@ const columns = [
   {
     title: "Thuộc tủ",
     dataIndex: "bookcase",
-    key: "bookcase_id",
+    key: "bookcase",
   },
   {
     title: "Số lượng sách",

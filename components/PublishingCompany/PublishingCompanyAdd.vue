@@ -156,7 +156,7 @@ const onSubmit = async () => {
   const data = {
     name: publishingCompany.value.name,
     description: publishingCompany.value.description,
-    logo_company: imageInfo.value?.publicId,
+    logo_company: imageInfo.value?.url,
   };
   try {
     const res = await publishingCompanyStore.createPublishingCompany(data);

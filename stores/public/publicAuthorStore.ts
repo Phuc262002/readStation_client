@@ -9,7 +9,11 @@ export const useAuthorPublicStore = defineStore("author-public-store", {
   },
   actions: {
     async getAllAuthorClient({ page, pageSize }: any) {
-      const data: any = await useCustomFetch(`/api/v1/public/authors`);
+      const data: any = await useCustomFetch(
+        `/api/v1/public/authors?${page ? `&page=${page}` : ""}${
+          pageSize ? `&pageSize=${pageSize}` : ""
+        }`
+      );
       this.authorClient = data.data._value?.data;
       return data;
     },

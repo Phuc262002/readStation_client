@@ -681,8 +681,8 @@ const columns = [
   },
 ];
 useSeoMeta({
-    title: "ReadStation - Dashboard",
-    ogTitle: "ReadStation - Dashboard",
+    title: "ReadStation | Dashboard",
+    ogTitle: "ReadStation | Dashboard",
     description: "Dashboard",
     ogDescription: "Dashboard",
     ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",

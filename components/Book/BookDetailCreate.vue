@@ -238,7 +238,9 @@ const optionsPublishingcompany = ref([]);
 const publishingcompanyValue = usePublishingCompanyStore();
 const getDataPublishingcompanyValue = async () => {
   try {
-    const data = await publishingcompanyValue.getAllPublishingCompany({});
+    const data = await publishingcompanyValue.getAllPublishingCompany({
+      pageSizes: 1000, 
+    });
     optionsPublishingcompany.value = data.data._rawValue.data.publishing_companies.map((publishingcompany) => {
       return {
         value: publishingcompany.id,

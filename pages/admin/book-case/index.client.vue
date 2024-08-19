@@ -77,7 +77,7 @@
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'bookcase_code'">
-            <a> Mã tủ sách </a>
+            <span> Mã tủ sách </span>
           </template>
         </template>
 
@@ -332,8 +332,8 @@ const columns = [
 ];
 
 useSeoMeta({
-  title: "ReadStation - Quản lý tủ sách",
-  ogTitle: "ReadStation - Quản lý tủ sách",
+  title: "ReadStation | Quản lý tủ sách",
+  ogTitle: "ReadStation | Quản lý tủ sách",
   description: "Quản lý tủ sách",
   ogDescription: "Quản lý tủ sách",
   ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
