@@ -640,13 +640,16 @@ const payCart = async () => {
     });
     return;
   }
+
   // check khu vực
-  const locations = shippingMethodStore?.shippings?.filter(
-    (item) => item.id === shipping_method_id.value
-  )[0]?.location;
-  if (!locations.includes(authStore?.authUser?.user?.province?.ProvinceName)) {
-    message.error("Hiện tại chưa có hình thức vận chuyển khu vực này !");
-    return;
+  if (delivery_method.value === 'shipper') {
+    const locations = shippingMethodStore?.shippings?.filter(
+      (item) => item.id === shipping_method_id.value
+    )[0]?.location;
+    if (!locations.includes(authStore?.authUser?.user?.province?.ProvinceName)) {
+      message.error("Hiện tại chưa có hình thức vận chuyển khu vực này !");
+      return;
+    }
   }
 
 
