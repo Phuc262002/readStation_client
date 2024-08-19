@@ -91,7 +91,7 @@
             <div class="grid grid-cols-4" v-if="order?.data?.status === 'completed'">
               <span class="col-span-2 font-bold">Đánh giá:</span>
               <span class="col-span-2">
-                <a-rate v-model:value="rating" :readonly="isReviewSubmitted">
+                <a-rate v-model:value="rating" :disabled="isReviewSubmitted">
                   <template #character>
                     <svg :style="{
                       pointerEvents: isReviewSubmitted ? 'none' : 'auto',
@@ -191,13 +191,18 @@ const rating = ref<number>(5);
 const route = useRoute();
 const idBook = route.params.id;
 const isReviewSubmitted = ref(false);
-console.log("idBook", idBook);
 
 const reviewStore = useReviewBookClientStore();
 
 const review = ref({
   review_text: "",
 });
+watch(isReviewSubmitted, () => {
+  // Buộc tái render bằng cách cập nhật một thuộc tính reactive khác, nếu cần
+});
+console.log("isReviewSubmitted:", isReviewSubmitted.value);
+console.log("rating:", rating.value);
+
 const handleReviewBook = async (id) => {
   try {
     const res = await reviewStore.createReviewBook({
@@ -207,7 +212,9 @@ const handleReviewBook = async (id) => {
     });
     console.log("res", res);
     if (res.data._rawValue?.status == true) {
-      isReviewSubmitted.value = true;
+      rating.value = res.data._rawValue?.rating || rating.value;
+
+      isReviewSubmitted.value = true; // Khóa thao tác trên a-rate
       navigateTo("/account/order/" + idBook);
       orderStore.getOneOrder(idBook);
       message.success("Thêm đánh giá thành công");

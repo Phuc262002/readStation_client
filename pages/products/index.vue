@@ -409,10 +409,9 @@ useAsyncData(async () => {
     pageSize: 1000,
   });
   response.value = response?.data?._rawValue?.data;
-  console.log('response.value', response.value)
+
 });
 
-console.log('categoryStore?.categories', categoryStore?.categories)
 useAsyncData(async () => {
   const response =
     await publishingCompanyStore.getAllPublishingCompanyClient({
