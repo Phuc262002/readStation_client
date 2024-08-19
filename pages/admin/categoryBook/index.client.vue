@@ -75,9 +75,9 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
-            <a>
+            <span>
               {{ record.name }}
-            </a>
+            </span>
           </template>
           <template v-else-if="column.key === 'image'">
             <a-image
@@ -88,6 +88,11 @@
               :src="record.image"
             />
             <span v-else></span>
+          </template>
+          <template v-else-if="column.key === 'total_books'">
+            <span>
+              {{ record.total_books }}
+            </span>
           </template>
           <template v-else-if="column.key === 'is_featured'">
             <IconTick v-if="record.is_featured" />
@@ -244,6 +249,11 @@ const columns = [
     title: "Tên danh mục",
     dataIndex: "name",
     key: "name",
+  },
+  {
+    title: "Số lượng sách",
+    dataIndex: "total_books",
+    key: "total_books",
   },
   {
     title: "Nội dung",
