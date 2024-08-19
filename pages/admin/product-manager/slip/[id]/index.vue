@@ -53,9 +53,10 @@
           <div class="grid grid-cols-3">
             <span class="text-base font-bold col-span-1">Ngày khách trả sách:</span>
             <span class="text-base col-span-2">{{
-              $dayjs(returnHistoryStore?.ReturnLoanDetail?.return_date).format(
-                "DD/MM/YYYY - HH:mm"
-              )
+              returnHistoryStore?.ReturnLoanDetail?.return_date ?
+                $dayjs(returnHistoryStore?.ReturnLoanDetail?.return_date).format(
+                  "DD/MM/YYYY - HH:mm"
+                ) : ''
             }}</span>
           </div>
           <div class="grid grid-cols-3">
@@ -69,23 +70,34 @@
               returnHistoryStore?.ReturnLoanDetail?.return_method === 'pickup'
             ">Trả sách tại nhà</span>
           </div>
-          <div class="grid grid-cols-3">
+          <div class="grid grid-cols-3" v-if="
+            returnHistoryStore?.ReturnLoanDetail?.return_method === 'pickup'
+          ">
             <span class="text-base font-bold col-span-1">Địa chỉ lấy sách:</span>
             <span class="text-base col-span-2">{{
               returnHistoryStore?.ReturnLoanDetail?.pickup_info?.address
             }}</span>
           </div>
-          <div class="grid grid-cols-3">
+          <div class="grid grid-cols-3" v-if="
+            returnHistoryStore?.ReturnLoanDetail?.return_method === 'pickup'
+          ">
             <span class="text-base font-bold col-span-1">Ngày lấy sách:</span>
-            <span class="text-base col-span-2">11/06/2024 - 15:30</span>
+            <span class="text-base col-span-2">{{
+              returnHistoryStore?.ReturnLoanDetail?.pickup_date ?
+                $dayjs(returnHistoryStore?.ReturnLoanDetail?.pickup_date).format(
+                  "DD/MM/YYYY - HH:MM"
+                ) : ''
+            }}</span>
           </div>
           <div class="grid grid-cols-3">
             <span class="text-base font-bold col-span-1">Ngày trả sách đến TV:</span>
             <span class="text-base col-span-2">{{
-              $dayjs(
-                returnHistoryStore?.ReturnLoanDetail?.loan_order_detail
-                  ?.current_due_date
-              ).format("DD/MM/YYYY - HH:MM")
+              returnHistoryStore?.ReturnLoanDetail?.loan_order_detail
+                ?.current_due_date ?
+                $dayjs(
+                  returnHistoryStore?.ReturnLoanDetail?.loan_order_detail
+                    ?.current_due_date
+                ).format("DD/MM/YYYY - HH:MM") : ''
             }}</span>
           </div>
         </div>
@@ -107,7 +119,7 @@
             <span class="text-base font-bold col-span-2">Tình trạng sách:</span>
             <span class="text-base col-span-3" v-if="returnHistoryStore?.ReturnLoanDetail?.status === 'completed'">
               Hoàn thành</span>
-            <span class="text-base col-span-3" v-else>
+            <span class="text-base col-span-3" v-if="returnHistoryStore?.ReturnLoanDetail?.status === 'pending'">
               Đang xử lý</span>
           </div>
           <div class="grid grid-cols-5">
