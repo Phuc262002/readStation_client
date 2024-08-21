@@ -55,8 +55,8 @@
                   v-model:value="valueBookDetail.price" />
               </div>
               <div class="flex flex-col gap-2">
-                <label class="text-sm font-semibold" for="">Tiền cọc <span class="text-red-500">*</span></label>
-                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Tiền cọc" required
+                <label class="text-sm font-semibold" for="">Phần trăm cọc <span class="text-red-500">*</span></label>
+                <a-input type="number" class="border p-2 rounded-md h-10" placeholder="Phần trăm cọc" required
                   v-model:value="valueBookDetail.hire_percent" :min="1" :max="100" />
               </div>
             </div>
