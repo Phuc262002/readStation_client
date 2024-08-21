@@ -74,23 +74,20 @@
             {{ bookStore?.book?.cardboard === "soft" ? "Bìa mềm" : "Bìa cứng" }}
           </p>
         </div>
-        <div class="flex border-b border-rtgray-50 p-2">
-          <p class="w-1/2 text-rtgray-100">Số trang</p>
-          <p class="w-1/2">{{ bookStore?.book?.total_page }}</p>
-        </div>
+
         <div class="flex border-b border-rtgray-50 p-2">
           <p class="w-1/2 text-rtgray-100">Nhà xuất bản</p>
           <p class="w-1/2">{{ bookStore?.book?.publishing_company?.name }}</p>
         </div>
 
-        <div class="flex border-b border-rtgray-50 p-2" v-if="bookStore.book.book.shelve !== 'null'">
+        <!-- <div class="flex border-b border-rtgray-50 p-2" v-if="bookStore.book.book.shelve !== 'null'">
           <p class="w-1/2 text-rtgray-100">Tủ sách</p>
           <p class="w-1/2">{{ bookStore?.book?.book?.shelve?.bookcase?.name }}</p>
         </div>
         <div class="flex border-b border-rtgray-50 p-2" v-if="bookStore?.book?.book?.shelve !== 'null'">
           <p class="w-1/2 text-rtgray-100">Kệ sách</p>
           <p class="w-1/2">{{ bookStore?.book?.book?.shelve?.name }}</p>
-        </div>
+        </div> -->
         <div class="flex border-b border-rtgray-50 p-2">
           <p class="w-1/2 text-rtgray-100">Ngày xuất bản</p>
           <p class="w-1/2">{{ $dayjs(bookStore?.book?.publish_date).format("DD/MM/YYYY") }}</p>

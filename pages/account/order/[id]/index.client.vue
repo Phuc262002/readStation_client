@@ -441,7 +441,6 @@ const openExtendAll = ref(false);
 const showExtendAll = (books) => {
   openExtendAll.value = true;
   extendsionBooks.value = books;
-  console.log('extendsionBooks.value ', extendsionBooks.value)
 };
 const closeExtendAll = () => {
   openExtendAll.value = false;
