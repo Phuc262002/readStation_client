@@ -1,9 +1,5 @@
 <template>
   <div>
-    <div v-if="orderStore?.isSubmitting"
-      class="absolute top-0 left-0 min-w-[100vw] min-h-full bg-black/40 z-[99999] cursor-default">
-      <a-spin size="large" class="absolute top-1/2 left-1/2" />
-    </div>
     <a-modal v-model:open="props.openReturnAll" :footer="null" width="50%" :onCancel="handleClose">
       <div class="mt-5 space-y-5">
         <h3 class="font-bold text-base">Bạn muốn trả sách toàn bộ ?</h3>
@@ -46,7 +42,7 @@
               </span>
             </div>
             <div class="grid grid-cols-6">
-              <span class="col-span-3 font-bold">Ngày hết hạn mới:</span>
+              <span class="col-span-3 font-bold">Ngày hết hạn:</span>
               <span class="col-span-3">
                 {{
                   $dayjs(order?.current_due_date).format("DD/MM/YYYY")

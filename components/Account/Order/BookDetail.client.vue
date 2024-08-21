@@ -147,18 +147,23 @@
       </div>
 
       <div class="mt-3 space-y-3" v-if="
-        order?.data?.status === 'completed' &&
-        order?.data?.book_reviews.length < 1
+        order?.data?.status === 'completed'
+
       ">
-        <span class="text-sm font-bold">Đánh giá chi tiết</span>
-        <a-textarea v-model:value="review.review_text" placeholder="Nhập nội dung đánh giá sách của bạn" :rows="4"
-          required />
-        <div class="text-end">
-          <a-button @click="handleReviewBook(order?.data?.id)" html-type="submit" :loading="reviewStore?.isLoading"
-            class="h-10 bg-orange-500 !text-white border-none">
-            Gửi đánh giá
-          </a-button>
+
+        <span class="text-sm font-bold">Đánh giá chi tiết:</span>
+        <div v-if="order?.data?.book_reviews.length < 1">
+          <a-textarea v-model:value="review.review_text" placeholder="Nhập nội dung đánh giá sách của bạn" :rows="4"
+            required />
+          <div class="text-end">
+            <a-button @click="handleReviewBook(order?.data?.id)" html-type="submit" :loading="reviewStore?.isLoading"
+              class="h-10 bg-orange-500 !text-white border-none">
+              Gửi đánh giá
+            </a-button>
+          </div>
         </div>
+        <p class="text-sm"> {{ order?.data?.book_reviews[0]?.review_text }}</p>
+
       </div>
 
       <div class="flex justify-end pt-4 gap-2">
