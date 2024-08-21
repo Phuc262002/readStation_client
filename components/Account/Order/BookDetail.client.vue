@@ -90,8 +90,9 @@
             </div>
             <div class="grid grid-cols-4" v-if="order?.data?.status === 'completed'">
               <span class="col-span-2 font-bold">Đánh giá:</span>
+
               <span class="col-span-2">
-                <a-rate v-model:value="rating" :disabled="false">
+                <a-rate v-model:value="rating" :disabled="order.data.book_reviews.length > 0">
                   <template #character>
                     <svg focusable="false" data-icon="star" width="1em" height="1em" fill="currentColor"
                       aria-hidden="true" viewBox="64 64 896 896">
@@ -195,7 +196,18 @@ const reviewStore = useReviewBookClientStore();
 const review = ref({
   review_text: "",
 });
+watch(
+  () => order.data.book_reviews,
+  (newValue) => {
 
+    if (newValue > 0) {
+      rating.value = rating.value
+    }
+
+  },
+  { immediate: true }
+
+)
 const handleReviewBook = async (id) => {
   try {
     const res = await reviewStore.createReviewBook({
@@ -203,7 +215,7 @@ const handleReviewBook = async (id) => {
       review_text: review.value?.review_text,
       rating: rating.value,
     });
-    console.log("res", res);
+
     if (res.data._rawValue?.status == true) {
       rating.value = res.data._rawValue?.rating || rating.value;
 

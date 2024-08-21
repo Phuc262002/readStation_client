@@ -39,7 +39,7 @@
                         <div class="grid grid-cols-12 gap-2">
                           <span class="font-bold col-span-6"> Phiên bản: </span>
                           <span class="col-span-6">
-                            {{ record?.cardboard }}</span>
+                            {{ record?.book_version }}</span>
                         </div>
                       </div>
                     </div>
