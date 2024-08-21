@@ -123,7 +123,7 @@
                                     }}</span>
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
-                                    <span class="font-bold text-base">Tiền cọc: </span>
+                                    <span class="font-bold text-base">Phần trăm cọc: </span>
                                     <span class="text-base"> {{
                                        items?.hire_percent
                                     }}%</span>
@@ -139,7 +139,7 @@
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Kích thước: </span>
-                                    <span class="text-base">{{ items?.book_size }} cm</span>
+                                    <span class="text-base">{{ items?.book_size }}</span>
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Ngôn ngữ: </span>
