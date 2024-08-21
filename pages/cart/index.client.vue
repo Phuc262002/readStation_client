@@ -67,13 +67,22 @@
                 </template>
 
                 <template v-else-if="column.key === 'number_of_days'">
-                  <span>
+                  <span
+                    v-if="authStore?.authUser?.user?.role?.name === 'student' && record?.book?.category?.name === 'Giáo dục'">
                     <a-input :value="record.number_of_days" class="w-[100px]" type="number" @change="(e) =>
                       cartStore.updateNumberOfDays(
                         record.id,
                         e.target.value
                       )
-                      " />
+                      " required :min="1" :max="30" />
+                  </span>
+                  <span v-else>
+                    <a-input :value="record.number_of_days" class="w-[100px]" type="number" @change="(e) =>
+                      cartStore.updateNumberOfDays(
+                        record.id,
+                        e.target.value
+                      )
+                      " required :min="1" :max="5" />
                   </span>
                 </template>
                 <template v-else-if="column.key === 'totalFee'">
@@ -202,7 +211,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
-
+const authStore = useAuthStore();
 const cartStore = useCartStore();
 const depositFee = ref(0);
 const serviceFee = ref(0);
