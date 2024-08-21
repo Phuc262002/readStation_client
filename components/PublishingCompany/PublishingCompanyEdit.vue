@@ -232,7 +232,9 @@ const onUpdate = async () => {
       publishingCompany: data,
     });
     if (res.data._rawValue?.status == true) {
-      await publishingCompanyStore.getAllPublishingCompany({});
+      await publishingCompanyStore.getAllPublishingCompany({
+        page: publishingCompanyStore.publishingCompaniesAdmin.page,
+      });
       handleClose();
       message.success("Cập nhật nhà xuất bản thành công");
     } else {
