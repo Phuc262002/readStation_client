@@ -151,7 +151,8 @@
         order?.data?.book_reviews.length < 1
       ">
         <span class="text-sm font-bold">Đánh giá chi tiết</span>
-        <a-textarea v-model:value="review.review_text" placeholder="Nhập nội dung đánh giá sách của bạn" :rows="4" />
+        <a-textarea v-model:value="review.review_text" placeholder="Nhập nội dung đánh giá sách của bạn" :rows="4"
+          required />
         <div class="text-end">
           <a-button @click="handleReviewBook(order?.data?.id)" html-type="submit" :loading="reviewStore?.isLoading"
             class="h-10 bg-orange-500 !text-white border-none">
@@ -189,25 +190,19 @@ const extendsionBook = ref();
 const rating = ref<number>(5);
 const route = useRoute();
 const idBook = route.params.id;
-const isReviewSubmitted = ref(false);
 
 const reviewStore = useReviewBookClientStore();
 
 const review = ref({
   review_text: "",
 });
-watch(
-  () => order.data.book_reviews,
-  (newValue) => {
-
-    if (newValue > 0) {
-      rating.value = rating.value
-    }
-
-  },
-  { immediate: true }
-
-)
+watchEffect(() => {
+  if (order?.data?.book_reviews?.length > 0) {
+    // Nếu đã có đánh giá, đặt rating thành giá trị rating hiện có
+    const ratingArray = order.data.book_reviews.map((review) => review.rating);
+    rating.value = ratingArray || 5; // Mặc định là 5 nếu rating không có sẵn
+  }
+});
 const handleReviewBook = async (id) => {
   try {
     const res = await reviewStore.createReviewBook({
@@ -217,14 +212,10 @@ const handleReviewBook = async (id) => {
     });
 
     if (res.data._rawValue?.status == true) {
-      rating.value = res.data._rawValue?.rating || rating.value;
-
-      isReviewSubmitted.value = true;
       navigateTo("/account/order/" + idBook);
-      orderStore.getOneOrder(idBook);
+      await orderStore.getOneOrder(idBook);
       message.success("Thêm đánh giá thành công");
     } else {
-      errors.value = res.error.value.data.errors;
       message.error("Thêm đánh giá thất bại");
     }
   } catch (error) {

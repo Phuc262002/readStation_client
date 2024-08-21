@@ -42,7 +42,7 @@
                       </div>
                       <div class="grid grid-cols-12 gap-2">
                         <span class="font-bold col-span-6"> Phiên bản: </span>
-                        <span class="col-span-6"> {{ record?.cardboard }}</span>
+                        <span class="col-span-6"> {{ record?.book_version }}</span>
                       </div>
                     </div>
                   </div>
@@ -688,7 +688,7 @@ const payCart = async () => {
       total_all_fee: totalAllFee.value,
       user_note: userNote.value,
     });
-    console.log('res', res)
+
     if (res.data._rawValue?.status == true && payment_method.value === "cash") {
       type === "thue_ngay" ? (cartStore.rentNow = []) : (cartStore.carts = []);
       message.success("Thêm đơn hàng thành công");
@@ -706,10 +706,11 @@ const payCart = async () => {
         res?.data?._rawValue?.data.order_code
       );
     } else {
-      message.error(res?.data?._rawValue?.errors);
+      message.error(res?.data?._rawValue?.message);
+
     }
   } catch (error) {
-    message.error(res?.data?._rawValue?.errors);
+    message.error(res?.data?._rawValue?.message);
   }
 };
 

@@ -115,6 +115,11 @@
                   >Đang xử lý</a-tag
                 >
               </span>
+              <span v-if="record?.status === 'lost'">
+                <a-tag :bordered="false" class="bg-tag-bg-06 text-tag-text-06"
+                  >Đã Mất</a-tag
+                >
+              </span>
             </template>
             <template v-if="column.key === 'action'">
               <NuxtLink

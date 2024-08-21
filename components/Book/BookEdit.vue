@@ -9,25 +9,34 @@
                 <div class="grid grid-cols-4 gap-4">
                     <div class="flex flex-col gap-2">
                         <label class="text-sm font-semibold">Tên sách</label>
-                        <a-input class="border p-2 rounded-md h-10" :value="dataGet.title" readonly />
+                        <a-input class="border p-2 rounded-md h-10" v-model:value="dataGet.title" />
                     </div>
                     <div class="flex flex-col gap-2">
                         <label class="text-sm font-semibold">Tác giả</label>
-                        <a-input class="border p-2 rounded-md h-10" :value="dataGet.author" readonly />
+                        <a-select v-model:value="dataGet.author" show-search size="large" placeholder="Mã tác giả"
+                            :options="optionsAuthor" :filter-option="filterOption" @focus="handleFocus"
+                            @blur="handleBlur" @change="handleChange" required></a-select>
                     </div>
 
                     <div class="flex flex-col gap-2">
                         <label class="text-sm font-semibold">Danh mục</label>
-                        <a-input class="border p-2 rounded-md h-10" :value="dataGet.category" readonly />
+                        <a-select v-model:value="dataGet.category" show-search size="large" required
+                            placeholder="Mã danh mục" :options="optionsCategory" :filter-option="filterOption"
+                            @focus="handleFocus" @blur="handleBlur" @change="handleChange"></a-select>
                     </div>
 
                     <div class="flex flex-col gap-2">
                         <label class="text-sm font-semibold">Tủ sách</label>
-                        <a-input class="border p-2 rounded-md h-10" :value="dataGet.bookcase" readonly />
+                        <a-select v-model:value="dataGet.bookcase" show-search size="large" placeholder="Mã tủ sách"
+                            :options="optionsCase" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
+                            @change="handleChange"></a-select>
+
                     </div>
                     <div class="flex flex-col gap-2">
                         <label class="text-sm font-semibold">Kệ sách</label>
-                        <a-input class="border p-2 rounded-md h-10" :value="dataGet.shelve" readonly />
+                        <a-select v-model:value="dataGet.shelve" show-search size="large" placeholder="Mã kệ sách"
+                            :options="optionsShelve" :filter-option="filterOption" @focus="handleFocus"
+                            @blur="handleBlur" @change="handleChange"></a-select>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2">
@@ -87,14 +96,96 @@ const handleClose = () => {
     props.openModal();
 };
 
+const optionsAuthor = ref([]);
+const authorValue = useAuthorStore();
+const getDataAuthor = async () => {
+    try {
+        const data = await authorValue.getAllAuthor({
+            pageSize: 1000,
+        });
+        optionsAuthor.value = data.data._rawValue.data.authors.map((author) => {
+            return {
+                value: author.id,
+                label: author.author,
+            };
+        });
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const optionsCategory = ref([]);
+const categoryValue = useCategoryStore();
+const getDataCategory = async () => {
+    try {
+        const data = await categoryValue.getAllCategory({ type: "book", pageSize: 1000 });
+        optionsCategory.value = data.data._rawValue.data.categories.map(
+            (category) => {
+                return {
+                    value: category.id,
+                    label: category.name,
+                };
+            }
+        );
+    } catch (error) {
+        console.error(error);
+    }
+};
+const optionsShelve = ref([]);
+const shelvesValue = useShelvesStore();
+const getDataShelvesValue = async () => {
+    try {
+        const data = await shelvesValue.getAllShelves({
+            pageSize: 1000,
+        });
+        optionsShelve.value = data.data._rawValue.data.shelves.map((shelve) => {
+            return {
+                value: shelve.id,
+                label: shelve.description,
+            };
+        });
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+
+const optionsCase = ref([]);
+const CaseValue = useBookcaseStore();
+const getDataCaseValue = async () => {
+    try {
+        const data = await CaseValue.getAllBookcases({
+            pageSize: 1000,
+        });
+        optionsCase.value = data.data._rawValue.data.bookcases.map((items) => {
+            return {
+                value: items.id,
+                label: items.description,
+            };
+        });
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+useAsyncData(async () => {
+    await getDataAuthor();
+    await getDataCategory();
+    await getDataShelvesValue();
+    await getDataCaseValue();
+});
 const onSubmit = async () => {
     try {
         const dataUpdate = {
+            title: dataGet.value.title,
+            author: dataGet.value.author,
+            category: dataGet.value.category,
+            bookcase: dataGet.value.bookcase,
+            shelve: dataGet.value.shelve,
             description: dataGet.value.description,
             description_summary: dataGet.value.description_summary,
         };
         const res = await bookStore.updateBook({ id: bookID, value: dataUpdate });
-        console.log(res);
         if (res.data._rawValue?.status == true) {
             handleClose();
             message.success("Cập nhật sách thành công");

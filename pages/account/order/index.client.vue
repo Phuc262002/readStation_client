@@ -177,7 +177,7 @@
               </a-tag>
               <a-tag v-else-if="record?.status === 'returning'"
                 class="text-tag-text-13 bg-tag-bg-13 border-none py-1 px-3 rounded-lg">
-                Đang gia hạn
+                Đang trả sách
               </a-tag>
               <a-tag v-else-if="record?.status === 'completed'"
                 class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg">
@@ -274,10 +274,11 @@ const onCancelOrder = async (id: any) => {
 const showCancelConfirm = (id: any) => {
   Modal.confirm({
     title: "Bạn đang muốn hủy đơn hàng?",
-    content: "Sau khi hủy sẽ không khôi phục lại",
+    content: "Sau khi hủy sẽ không khôi phục lại được đơn hàng này",
     okText: "Đồng ý",
     okType: "danger",
     cancelText: "Hủy",
+    width: "500px",
     onOk() {
       onCancelOrder(id);
     },
