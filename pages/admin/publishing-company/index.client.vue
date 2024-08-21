@@ -104,6 +104,11 @@
               {{ record.description }}
             </p>
           </template>
+          <template v-else-if="column.key === 'total_books'">
+            <p class="p-0">
+              {{ record.total_books }}
+            </p>
+          </template>
           <template v-else-if="column.key === 'status'">
             <a-tag
               :bordered="false"
@@ -260,6 +265,12 @@ const columns = [
     name: "Name",
     dataIndex: "name",
     key: "name",
+    width: "150px",
+  },
+  {
+    title: "Số lượng sách",
+    dataIndex: "total_books",
+    key: "total_books",
     width: "150px",
   },
   {

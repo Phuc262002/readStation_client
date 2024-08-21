@@ -278,7 +278,7 @@
                 <template v-if="column.dataIndex === 'user'">
                   <div class="flex justify-start gap-2 items-center">
                     <div>
-                      <a-image v-if="record.user.avatar" :src="record.user.avatar" :width="40" :height="40"
+                      <a-image v-if="record.user.avatar" :src="record.user.avatar.replace('=s96-c', '')" :width="40" :height="40"
                         class="rounded-3xl" />
                     </div>
                     <div class="flex flex-col">

@@ -9,14 +9,14 @@ export const useBookReviewStore = defineStore("book-review-store", {
     };
   },
   actions: {
-    async getAllBookReviews({ page, pageSize, rating, status, sort }: any) {
+    async getAllBookReviews({ page, pageSize, rating, status, sort, search }: any) {
       this.isLoading = true;
       const data = await useCustomFetch(
         `/api/v1/admin/book-reviews?${page ? `page=${page}` : ""}${
           pageSize ? `&pageSize=${pageSize}` : ""
         }${rating ? `&rating=${rating}` : ""}${
           status ? `&status=${status}` : ""
-        }${sort ? `&sort=${sort}` : ""}`
+        }${sort ? `&sort=${sort}` : ""}${search ? `&search=${search}` : ""}`
       );
       this.adminBookReviews = data?.data?._value?.data;
       this.isLoading = false;

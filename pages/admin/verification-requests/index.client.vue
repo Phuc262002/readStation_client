@@ -120,7 +120,7 @@
                 <a-image
                   class="w-5 h-5 rounded-full p-0"
                   :width="50"
-                  :src="record.user_request?.avatar"
+                  :src="record.user_request?.avatar.replace('=s96-c', '')"
                 />
               </div>
               <div>
