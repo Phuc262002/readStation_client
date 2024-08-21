@@ -84,7 +84,7 @@
                     <div class="bg-[white] rounded-lg h-auto flex flex-col gap-3 p-4"
                         v-for="(items, index) in bookStore?.OneBookAdmin?.book_detail" :key="index">
                         <div class="flex justify-between">
-                            <h1 class="text-base font-bold">Phiên bản {{ items.book_version }} </h1>
+                            <h1 class="text-base font-bold">Phiên bản {{ items.book_version }} - {{ items?.sku_origin }} </h1>
                             <a-button @click="showModalEdit(items?.id)"
                                 class="flex justify-center items-center gap-1 bg-[#344054]" type="primary" size="large">
                                 <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
@@ -123,7 +123,7 @@
                                     }}</span>
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
-                                    <span class="font-bold text-base">Tiền cọc: </span>
+                                    <span class="font-bold text-base">Phần trăm cọc: </span>
                                     <span class="text-base"> {{
                                        items?.hire_percent
                                     }}%</span>
@@ -139,7 +139,7 @@
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Kích thước: </span>
-                                    <span class="text-base">{{ items?.book_size }} cm</span>
+                                    <span class="text-base">{{ items?.book_size }}</span>
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Ngôn ngữ: </span>

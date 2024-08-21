@@ -15,6 +15,7 @@ export const usePublicCategoryStore = defineStore("public-category-store", {
           pageSize ? `&pageSize=${pageSize}` : ""
         }`
       );
+      console.log({ data });
       this.categories = data.data._value?.data;
       return data;
     },

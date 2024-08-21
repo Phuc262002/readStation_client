@@ -151,7 +151,7 @@
 import { Modal } from "ant-design-vue";
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
-import debounce from 'lodash.debounce'
+import debounce from "lodash.debounce";
 const route = useRoute();
 const open = ref(false);
 const openModalEdit = ref(false);
@@ -169,10 +169,10 @@ useAsyncData(async () => {
 const onSearch = debounce(() => {
   current.value = 1;
   bookCaseStore.getShelveOfBookcase({
-      id: detailBookCaseId,
-      page: current.value,
-      search: valueSearch.value,
-    });
+    id: detailBookCaseId,
+    page: current.value,
+    search: valueSearch.value,
+  });
 }, 500);
 
 watch(valueSearch, onSearch);
@@ -203,6 +203,11 @@ const updateDetailCase = async (id) => {
     if (res.data._rawValue?.status == true) {
       message.success("Xóa kệ sách thành công");
       await bookCaseStore.getOneBookcase(detailBookCaseId);
+      await bookCaseStore.getShelveOfBookcase({
+        id: detailBookCaseId,
+        page: current.value,
+        search: valueSearch.value,
+      });
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);
@@ -267,11 +272,11 @@ const columns = [
   },
 ];
 useSeoMeta({
-    title: "ReadStation | Chi tiết tủ sách",
-    ogTitle: "ReadStation | Chi tiết tủ sách",
-    description: "Chi tiết tủ sách",
-    ogDescription: "Chi tiết tủ sách",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  title: "ReadStation | Chi tiết tủ sách",
+  ogTitle: "ReadStation | Chi tiết tủ sách",
+  description: "Chi tiết tủ sách",
+  ogDescription: "Chi tiết tủ sách",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>

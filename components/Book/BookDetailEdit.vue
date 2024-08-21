@@ -27,7 +27,7 @@
                 </ClientOnly>
               </div>
               <div class="flex flex-col gap-2"><label class="text-sm font-semibold" for="">Bộ sưu tập</label>
-                <a-upload list-type="picture":file-list="images" :action="uploadImages" :multiple="true"
+                <a-upload list-type="picture" :file-list="images" :action="uploadImages" :multiple="true"
                   :before-upload="beforeUpload" :on-change="handleChangeImages" :on-remove="deleteImage">
                   <a-button class="flex justify-between gap-3 items-center">
                     <upload-outlined />
@@ -163,7 +163,6 @@ const uploadFile = async (file) => {
     imageInfo.value = dataUpload.data._rawValue.data?.url;
   } catch (error) {
     message.error("Upload ảnh thất bại");
-    console.log("🚀 ~ uploadFile ~ error:", error);
   }
 };
 const handleChangeUploadImg = (info) => {
@@ -270,7 +269,9 @@ const optionsPublishingcompany = ref([]);
 const publishingcompanyValue = usePublishingCompanyStore();
 useAsyncData(async () => {
   try {
-    const data = await publishingcompanyValue.getAllPublishingCompany({});
+    const data = await publishingcompanyValue.getAllPublishingCompany({
+      pageSize: 1000,
+    });
     optionsPublishingcompany.value = data.data._rawValue.data.publishing_companies.map((publishingcompany) => {
       return {
         value: publishingcompany.id,

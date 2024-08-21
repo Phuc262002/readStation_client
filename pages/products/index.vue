@@ -19,8 +19,9 @@
                 src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
                 alt="" />
             </div>
-            <div class="border-t px-4 py-2" v-if="isShow.includes('category')">
+            <div class="border-t px-4 py-2 h-[300px] overflow-auto" v-if="isShow.includes('category')">
               <!--  -->
+
               <ul class="px-4 space-y-1">
                 <li>
                   <a-radio :checked="filter.category_id === null ? true : false" @click="
@@ -55,7 +56,7 @@
                 src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
                 alt="" />
             </div>
-            <div class="border-t px-4 py-2" v-if="isShow.includes('author')">
+            <div class="border-t px-4 py-2 h-[300px] overflow-auto" v-if="isShow.includes('author')">
               <ul class="px-4 space-y-1">
                 <li>
                   <a-radio :checked="filter.author_id === null ? true : false" @click="
@@ -88,7 +89,7 @@
                 src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
                 alt="" />
             </div>
-            <div class="border-t px-4 py-2" v-if="isShow.includes('publishing')">
+            <div class="border-t px-4 py-2 h-[300px] overflow-auto" v-if="isShow.includes('publishing')">
               <ul class="px-4 space-y-1">
                 <li>
                   <a-radio :checked="filter.publishing_company_id === null ? true : false
@@ -216,7 +217,7 @@
           </div>
           <div class="flex justify-center">
             <a-pagination v-model:current="current" :total="bookstore?.books?.totalResults"
-              :pageSize="bookstore?.books?.pageSize" show-less-items />
+              :pageSize="bookstore?.books?.pageSize" :showSizeChanger="null" />
           </div>
         </div>
       </div>
@@ -232,10 +233,10 @@ const route = useRoute();
 const bookFromQuery = ref(route.query.search);
 const categoryFromQuery = route.query.category;
 const authorFromQuery = route.query.author;
-// console.log("authorFromQuery", authorFromQuery);
+const current = ref(1);
 const isShow = ref([]);
 const filter = ref({
-  sort: "asc",
+  sort: "desc",
   category_id: null,
   author_id: null,
   publishing_company_id: null,
@@ -254,7 +255,7 @@ watch(
 // Chỉ định danh mục
 const updateCategoryFromQuery = async (categorySlug) => {
   console.log("categorySlug", categorySlug);
-  await categoryStore.getAllCategoryClient({ type: "book" });
+  await categoryStore.getAllCategoryClient({ type: "book", pageSize: 1000, });
 
   const matchedCategory = categoryStore?.categories?.categories?.find(
     (cate) => cate.slug === categorySlug
@@ -286,7 +287,9 @@ watch(
 // Chỉ định theo tác giả
 const updateAuthorFromQuery = async (authorSlug) => {
   console.log("authorSlug", authorSlug);
-  await authorStore.getAllAuthorClient({});
+  await authorStore.getAllAuthorClient({
+    pageSize: 1000
+  });
   const matchedAuthor = authorStore?.authorClient?.authors?.find(
     (author) => author.slug === authorSlug
   );
@@ -315,11 +318,11 @@ watch(
 const sortOptions = [
   {
     label: "Mới nhất",
-    value: "asc",
+    value: "desc",
   },
   {
     label: "Cũ nhất",
-    value: "desc",
+    value: "asc",
   },
   {
     label: "Phổ biến",
@@ -334,10 +337,6 @@ const handleIsShow = (section) => {
   }
 };
 
-const dataCompanies = ref({});
-const current = ref(1);
-
-const isLoading = ref(false);
 
 const fetchBooks = async () => {
   try {
@@ -387,50 +386,38 @@ const handleCheckbox = ({ type, id }: any) => {
     default:
       break;
   }
-  console.log("filter.value.rating", filter.value.rating);
+  current.value = 1;
+  fetchBooks();
+
 };
 
 const handleSortChange = (value: string) => {
   filter.value.sort = value;
-  // console.log("aaa", filter.value);
+  current.value = 1;
+  fetchBooks();
 };
 
 useAsyncData(async () => {
-  isLoading.value = true;
-  try {
-    await authorStore.getAllAuthorClient({});
-  } catch (error) {
-    console.error(error);
-  } finally {
-    isLoading.value = false;
-  }
+  await authorStore.getAllAuthorClient({
+    pageSize: 1000,
+  });
 });
 
 useAsyncData(async () => {
-  isLoading.value = true;
-  try {
-    await categoryStore.getAllCategoryClient({
-      type: "book",
+  const response = await categoryStore.getAllCategoryClient({
+    type: "book",
+    pageSize: 1000,
+  });
+  response.value = response?.data?._rawValue?.data;
+
+});
+
+useAsyncData(async () => {
+  const response =
+    await publishingCompanyStore.getAllPublishingCompanyClient({
+      pageSize: 1000
     });
-  } catch (error) {
-    console.error(error);
-  } finally {
-    isLoading.value = false;
-  }
-});
-
-useAsyncData(async () => {
-  isLoading.value = true;
-  try {
-    const response =
-      await publishingCompanyStore.getAllPublishingCompanyClient();
-    dataCompanies.value = response?.data?._rawValue?.data;
-    // console.log("aaabb", dataCompanies);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    isLoading.value = false;
-  }
+  response.value = response?.data?._rawValue?.data;
 });
 </script>
 

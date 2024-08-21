@@ -91,7 +91,7 @@
 
           <a-dropdown :trigger="['click']">
             <template #overlay>
-              <div>
+              <div class="h-[300px] overflow-auto w-[170px]">
                 <a-menu>
                   <a-menu-item>
                     <div
@@ -320,14 +320,17 @@ const categoryQuery = ref({
 const categoryValue = ({ id, label }) => {
   categoryQuery.value.id = id;
   categoryQuery.value.label = label;
+  current.value = 1;
 };
 const typeValue = ({ value, label }) => {
   queryType.value.value = value;
   queryType.value.label = label;
+  current.value = 1;
 };
 const statusValue = ({ value, label }) => {
   queryStatus.value.value = value;
   queryStatus.value.label = label;
+  current.value = 1;
 };
 const onSearch = debounce(() => {
   current.value = 1;

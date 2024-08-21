@@ -113,7 +113,6 @@ const new_password_confirmation = defineInputBinds("new_password_confirmation");
 
 // Submit handler
 const onSubmit = handleSubmit(async (values) => {
-  console.log("1", values);
   // Submit to API
   try {
     isSubmitting.value = true;

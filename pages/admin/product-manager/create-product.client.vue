@@ -73,7 +73,7 @@
                     </template>
                   </a-input>
                   <template #overlay>
-                    <a-menu class="overflow-auto max-h-[400px]">
+                    <a-menu class="overflow-auto max-h-[300px]">
                       <a-menu-item v-if="bookDetailStore.isLoading">
                         <div class="p-10 flex justify-center">
                           <a-spin />
@@ -187,10 +187,19 @@
 
 <script setup>
 import { ref } from "vue";
+import debounce from "lodash.debounce";
 const errors = ref({});
 const orderStore = useOrderStore();
 const valueSearchUser = ref("");
 const userStore = useUserStore();
+
+const onSearchUser = debounce(() => {
+  userStore.getUser({
+    search: valueSearchUser.value,
+  });
+}, 500);
+
+watch(valueSearchUser, onSearchUser);
 useAsyncData(
   async () => {
     try {
@@ -203,7 +212,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [valueSearchUser],
+    watch: [],
   }
 );
 const inforUser = ref({
@@ -225,6 +234,13 @@ const showOneUser = async (id) => {
 };
 const valueSearchBook = ref("");
 const bookDetailStore = useBookDetailStore();
+const onSearchBook = debounce(() => {
+  bookDetailStore.getAllBookDetail({
+    search: valueSearchBook.value,
+  });
+}, 500);
+
+watch(valueSearchBook, onSearchBook);
 useAsyncData(
   async () => {
     try {
@@ -237,7 +253,7 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [valueSearchBook],
+    watch: [],
   }
 );
 const data = ref([]);
@@ -355,7 +371,7 @@ const onSubmit = async () => {
           desposive = 4000;
         }
         totalService += desposive * number_of_days.value[index] * 1,
-        totalDeposit += (item.hire_percent / 100) * item.price;
+          totalDeposit += (item.hire_percent / 100) * item.price;
         valueOrder.total_service_fee += totalService;
         valueOrder.total_deposit_fee += totalDeposit;
         valueOrder.total_all_fee += totalService + totalDeposit;

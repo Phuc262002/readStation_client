@@ -4,9 +4,6 @@
       clickable: true,
     }" :modules="modules" class="mySwiper">
       <swiper-slide>
-        <img class="w-[1920px] h-[600px]" src="assets/images/banner1.jpg" alt="">
-      </swiper-slide>
-      <swiper-slide>
         <img class="w-[1920px] h-[600px]" src="assets/images/0001.jpg" alt="">
       </swiper-slide>
       <swiper-slide>

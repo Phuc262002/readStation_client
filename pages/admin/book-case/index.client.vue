@@ -77,7 +77,7 @@
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'bookcase_code'">
-            <a> Mã tủ sách </a>
+            <span> Mã tủ sách </span>
           </template>
         </template>
 
@@ -241,7 +241,6 @@ watch(valueSearch, onSearch);
 useAsyncData(
   async () => {
     await bookCaseStore.getAllBookcases({
-      pageSize: 1000,
       page: current.value,
       search: valueSearch.value,
       status: queryStatus.value.value,
