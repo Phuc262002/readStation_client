@@ -172,20 +172,35 @@
                 <a-popover trigger="hover" placement="topRight">
                   <template #content>
                     <p class="text-sm text-orange-600 flex flex-col">
-                      <span>* Học sinh, sinh viên thuê tối đa 30 ngày</span>
+                      <span>* Học sinh, sinh viên chọn sách theo danh mục "Giáo dục" thuê tối đa 30 ngày</span>
                       <span>* Khách hàng thuê tối đa 5 ngày</span>
                     </p>
                   </template>
                   <Icon class="text-orange-600" icon="ic:outline-info" />
                 </a-popover>
               </div>
-              <a-input type="number" placeholder="Nhập số ngày thuê sách" size="large"
-                :value="cartStore.rentNow[0].number_of_days" @change="(e) =>
-                  cartStore.updateNumberOfDays(
-                    cartStore.rentNow[0].id,
-                    e.target.value
-                  )
-                  " />
+              <div>
+                <span
+                  v-if="authStore?.authUser?.user?.role?.name === 'student' && cartStore.rentNow[0]?.book?.category?.name === 'Giáo dục'">
+                  <a-input type="number" placeholder="Nhập số ngày thuê sách" size="large"
+                    :value="cartStore.rentNow[0].number_of_days" @change="(e) =>
+                      cartStore.updateNumberOfDays(
+                        cartStore.rentNow[0].id,
+                        e.target.value
+                      )
+                      " required :min="1" :max="30" />
+                </span>
+                <span v-else>
+                  <a-input type="number" placeholder="Nhập số ngày thuê sách" size="large"
+                    :value="cartStore.rentNow[0].number_of_days" @change="(e) =>
+                      cartStore.updateNumberOfDays(
+                        cartStore.rentNow[0].id,
+                        e.target.value
+                      )
+                      " required :min="1" :max="5" />
+                </span>
+              </div>
+
             </div>
           </div>
         </div>
@@ -651,6 +666,16 @@ const payCart = async () => {
       return;
     }
   }
+  // console.log('first', {
+  //   ...valueOrder.value,
+  //   shipping_method_id: shipping_method_id.value,
+  //   total_shipping_fee: parseFloat(shippingFee.value),
+  //   delivery_method: delivery_method.value,
+  //   payment_method: payment_method.value,
+  //   total_all_fee: totalAllFee.value,
+  //   user_note: userNote.value,
+  // })
+  // return
 
 
   try {

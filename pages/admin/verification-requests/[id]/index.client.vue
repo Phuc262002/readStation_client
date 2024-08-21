@@ -205,7 +205,12 @@
           </div>
           <div class="grid grid-cols-3">
             <span class="text-base col-span-1 font-bold">Thời gian tạo: </span>
-            <span class="text-base">
+            <span
+              v-if="
+                verificationRequestsStore.oneVerificationRequest?.created_at
+              "
+              class="text-base"
+            >
               {{
                 dayjs(
                   verificationRequestsStore.oneVerificationRequest?.created_at
@@ -217,7 +222,13 @@
             <span class="text-base col-span-1 font-bold"
               >Thời gian xử lý:
             </span>
-            <span class="text-base">
+            <span
+              v-if="
+                verificationRequestsStore.oneVerificationRequest
+                  ?.verification_date
+              "
+              class="text-base"
+            >
               {{
                 dayjs(
                   verificationRequestsStore.oneVerificationRequest
