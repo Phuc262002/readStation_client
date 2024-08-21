@@ -358,7 +358,13 @@
               <template v-if="column.dataIndex === 'user'">
                 <div class="flex justify-start gap-2 items-center">
                   <div>
-                    <a-avatar :src="record.user.avatar" />
+                    <a-image
+                      v-if="record.user.avatar"
+                      :src="record.user.avatar"
+                      :width="40"
+                      :height="40"
+                      class="rounded-3xl"
+                    />
                   </div>
                   <div class="flex flex-col">
                     <span>{{ record.user.fullname }}</span>
@@ -369,11 +375,11 @@
               <template v-else-if="column.dataIndex === 'order_details'">
                 <span>{{ record.loan_order_details.length }} quyển</span>
               </template>
-              <template v-else-if="column.dataIndex === 'loan_date'">
+              <template v-else-if="column.dataIndex === 'created_at'">
                 <span>
                   {{
-                    record.loan_date
-                      ? $dayjs(record.loan_date).format("DD/MM/YYYY")
+                    record.created_at
+                      ? $dayjs(record.created_at).format("DD/MM/YYYY HH:mm:ss")
                       : ""
                   }}
                 </span>
@@ -681,11 +687,11 @@ const columns = [
   },
 ];
 useSeoMeta({
-    title: "ReadStation | Dashboard",
-    ogTitle: "ReadStation | Dashboard",
-    description: "Dashboard",
-    ogDescription: "Dashboard",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  title: "ReadStation | Dashboard",
+  ogTitle: "ReadStation | Dashboard",
+  description: "Dashboard",
+  ogDescription: "Dashboard",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>
