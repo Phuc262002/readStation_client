@@ -236,6 +236,7 @@
                 ).format(" DD/MM/YYYY HH:mm:ss")
               }}
             </span>
+            <span v-else>Chưa xử lý</span>
           </div>
         </div>
       </div>
