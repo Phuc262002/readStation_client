@@ -69,9 +69,9 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'post_id'">
-            <span>
+            <NuxtLink :to="`/post/${record.post.slug}`">
               {{ record.post?.title }}
-            </span>
+            </NuxtLink>
           </template>
           <template v-if="column.key === 'user_id'">
             <span>
@@ -395,11 +395,11 @@ const columns = [
   },
 ];
 useSeoMeta({
-    title: "ReadStation | Quản lý bình luận",
-    ogTitle: "ReadStation | Quản lý bình luận",
-    description: "Quản lý bình luận",
-    ogDescription: "Quản lý bình luận",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  title: "ReadStation | Quản lý bình luận",
+  ogTitle: "ReadStation | Quản lý bình luận",
+  description: "Quản lý bình luận",
+  ogDescription: "Quản lý bình luận",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>

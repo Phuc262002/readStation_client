@@ -138,16 +138,13 @@
         :pagination="false"
       >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'name'">
-            <a>
+
+          <template v-if="column.key === 'title'">
+            <NuxtLink  :to="`/post/${record.slug}`">
               {{ record.title }}
-            </a>
+            </NuxtLink>
           </template>
-          <template v-if="column.key === 'name'">
-            <a>
-              {{ record.title }}
-            </a>
-          </template>
+
           <template v-if="column.key === 'category_id'">
             <span>
               {{ record.category.name }}
@@ -382,6 +379,7 @@ const onDelete = async (id) => {
 const showDeleteConfirm = (id) => {
   Modal.confirm({
     title: "Bạn có chắc chắn muốn xóa bài viết này?",
+    content: 'Khi bạn xóa bài viết, tất cả bình luận của bài viết cũng sẽ bị xóa và không thể khôi phục',
     okText: "Xóa",
     okType: "danger",
     cancelText: "Hủy",
@@ -405,12 +403,7 @@ const columns = [
     key: "title",
     width: "250px",
   },
-  // {
-  //   title: "Tiêu đề",
-  //   dataIndex: "summary",
-  //   key: "summary",
-  //   width: "200px",
-  // },
+
   {
     title: "Người đăng",
     dataIndex: "user_id",

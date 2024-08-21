@@ -156,11 +156,11 @@
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Công ty phát hành: </span>
-                                    <span class="text-base">{{ items?.publishing_company?.name }}</span>
+                                    <span class="text-base">{{ items?.issuing_company }}</span>
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Đánh giá: </span>
-                                    <span class="text-base">4.8</span>
+                                    <span class="text-base"><CommonRating :rating="items?.reviews_avg"/></span>
                                 </div>
                             </div>
                         </div>

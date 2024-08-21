@@ -144,7 +144,7 @@
 
                     <a-menu-item key="3" class="p-4">
                       <span>
-                        <button class="flex items-center gap-1 text-blue-400" @click="showDeleteConfirm(record?.id)">
+                        <button class="flex items-center gap-1 text-tag-text-06" @click="showDeleteConfirm(record?.id)">
                           <UIcon class="group-hover:text-[red] text-lg" name="i-material-symbols-delete-outline" />
                           <span>Xóa</span>
                         </button>
@@ -227,7 +227,7 @@ const onDelete = async (id: any) => {
 const showDeleteConfirm = (id: any) => {
   Modal.confirm({
     title: "Bạn đang muốn xóa bài viết?",
-    content: "Sau khi xóa sẽ không khôi phục lại",
+    content: "Sau khi xóa sẽ không khôi phục lại bài viết này!",
     okText: "Đồng ý",
     okType: "danger",
     cancelText: "Hủy",

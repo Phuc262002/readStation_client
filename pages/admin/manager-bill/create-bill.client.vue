@@ -35,7 +35,7 @@
               <label class="text-base font-semibold">Tìm kiếm sản phẩm</label>
               <div class="flex">
                 <a-dropdown :open="valueSearch != ''">
-                  <a-input v-model:value="valueSearch" placeholder="Nhập mã kệ để tìm kiếm" class="h-10" allow-clear
+                  <a-input v-model:value="valueSearch" placeholder="Nhập tên sách để tìm kiếm" class="h-10" allow-clear
                     @click.prevent>
                     <template #prefix>
                       <SearchOutlined />
@@ -84,7 +84,7 @@
                   </template>
                   <template v-if="column.dataIndex === 'book_version'">
                     <div class="flex gap-4">
-                      <span>Phiên bản năm {{ record?.book_version }}</span>
+                      <span>{{ record?.book_version }}</span>
                     </div>
                   </template>
                   <template v-if="column.dataIndex === 'quantity'">
