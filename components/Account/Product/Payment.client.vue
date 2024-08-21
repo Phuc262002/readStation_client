@@ -33,9 +33,8 @@
               </span>
             </div>
             <p class="text-xs">
-              <span class="text-red-600 text-base">* </span> Phí thuê sẽ bằng
-              {{ bookStore?.book?.hire_percent }}
-              % giá sách
+              <span class="text-red-600 text-base">* </span> Phí cọc thuê sẽ bằng
+              {{ bookStore?.book?.hire_percent }}% giá sách
             </p>
           </div>
           <div class="grid gap-2 py-4" v-if="bookStore?.book?.stock > 0">
