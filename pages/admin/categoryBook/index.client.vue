@@ -91,7 +91,7 @@
           </template>
           <template v-else-if="column.key === 'total_books'">
             <span>
-              {{ record.total_books }}
+              {{ record.total_books }} sách
             </span>
           </template>
           <template v-else-if="column.key === 'is_featured'">
