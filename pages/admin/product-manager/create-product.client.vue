@@ -138,7 +138,7 @@
                   </div>
                 </template>
                 <template v-if="column.key === 'number_of_days'">
-                  <div v-if="inforUser?.role?.name === 'student' && record?.book?.category?.name === 'Giáo Dục'">
+                  <div v-if="inforUser?.role?.name === 'student' && record?.book?.category?.name === 'Sách giáo khoa'">
                     <a-input type="number" class="w-3/4" size="large" v-model:value="number_of_days[index]" :min="1"
                       :max="30" required />
                   </div>
@@ -294,7 +294,7 @@ const number_of_days = ref([1, 1, 1]);
 const onSubmit = async () => {
   let checkcate = ref(true);
   const cate = data.value.forEach((item) => {
-    if (item?.book?.category?.name !== 'Giáo Dục') {
+    if (item?.book?.category?.name !== 'Sách giáo khoa') {
       checkcate.value = false;
     }
   });
