@@ -278,7 +278,8 @@
                 </span>
               </div>
 
-              <div class="grid grid-cols-4">
+              <div class="grid grid-cols-4"
+                v-if="orderStore?.order?.status === 'wating_payment' || orderStore?.order?.status === 'pending'">
                 <span class="col-span-2 font-bold">
                   Số tiền cần thanh toán:
                 </span>
@@ -291,10 +292,25 @@
                   }}
                 </span>
               </div>
+              <div class="grid grid-cols-4" v-else>
+                <span class="col-span-2 font-bold">
+                  Đã thanh toán:
+                </span>
+                <span class="col-span-2">
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(orderStore?.order?.total_all_fee + orderStore?.order?.total_shipping_fee)
+                  }}
+                </span>
+              </div>
             </div>
             <a-button @click="showHistoryExtend" v-if="
               orderStore?.order?.status === 'active' ||
               orderStore?.order?.status === 'completed' ||
+              orderStore?.order?.status === 'overdue' ||
+              orderStore?.order?.status === 'returning' ||
               orderStore?.order?.status === 'extended'
             " class="text-sm text-orange-400 text-right col-span-4 border-none shadow-none">
               Lịch sử gia hạn
@@ -304,7 +320,7 @@
       </div>
 
       <div class="flex justify-end pt-4 gap-2" v-if="
-        (orderStore?.order?.status === 'active' || orderStore?.order?.status === 'extended') && isStatus
+        orderStore?.order?.status === 'active' || orderStore?.order?.status === 'extended'
       ">
 
         <a-button @click="showReturnAll" class="h-10 border-orange-400 text-orange-400">
@@ -383,22 +399,13 @@ const route = useRoute();
 const id = route.params.id;
 const rating = ref<number>(5);
 const errors = ref({});
-const isStatus = ref(true);
+
 const extendsionBooks = ref([])
 const onCancelOrderDetail = async (id: any) => {
   await orderStore.cancelOrder(id);
 };
 
-if (orderStore?.order?.loan_order_details) {
-  orderStore?.order?.loan_order_details.forEach(item => {
-    if (item.status === 'completed' || item.status === 'returning') {
-      isStatus.value = false;
-      return;
 
-    }
-    console.log('isStatus.value', isStatus.value)
-  });
-}
 
 
 

@@ -1,7 +1,7 @@
 <template>
-  <div class="md:px-20 px-8 md:container md:mx-auto md:py-10 py-5">
+  <div class="md:px-20 px-8 md:container  md:mx-auto md:py-10 py-5">
     <div class="grid grid-cols-4 gap-4">
-      <div class="col-span-3 shadow-md rounded-md p-5 space-y-12">
+      <div class="col-span-3 shadow-md bg-white rounded-md p-5 space-y-12">
         <div class="md:col-span-1 space-y-3">
           <!-- <div class="grid grid-cols-1"> -->
           <div class="flex place-content-between">
@@ -147,7 +147,7 @@
         </div>
       </div>
 
-      <div class="col-span-1 space-y-5 h-fit rounded-md shadow-md p-5">
+      <div class="col-span-1 bg-white space-y-5 h-fit rounded-md shadow-md p-5">
         <div>
           <div class="font-bold text-2xl">Số tiền cần thanh toán</div>
           <div
