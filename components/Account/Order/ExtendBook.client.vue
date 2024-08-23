@@ -77,7 +77,7 @@
                 <a-input type="number" class="w-1/2" v-model:value="number_of_days" @change="(e) =>
                   updateNumberOfDays(props.extendsionBook?.id, number_of_days
                   )
-                  " />
+                  " :min="1" :max="5" required />
               </span>
             </div>
           </div>

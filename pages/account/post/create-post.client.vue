@@ -59,8 +59,7 @@
           <NuxtLink to="/account/post">
             <a-button class="h-10 text-base">Hủy</a-button>
           </NuxtLink>
-          <a-button @click="status = 'draft'" html-type="submit" :loading="postStore?.isSubmitting"
-            class="h-10 text-base !text-orange-500 border-orange-500">
+          <a-button @click="status = 'draft'" class="h-10 text-base !text-orange-500 border-orange-500">
             Lưu nháp
           </a-button>
           <a-button @click="status = 'published'" html-type="submit" :loading="postStore?.isSubmitting"
@@ -118,11 +117,10 @@ const onSubmit = async () => {
       message.success("Thêm bài viết thành công");
       navigateTo("/account/post");
     } else {
-      errors.value = res.error.value.data.errors;
-      message.error("Thêm thất bại");
+      message.error(res.error.value.data.message);
     }
   } catch (error) {
-    message.error("Thêm thất bại");
+    message.error(res.error.value.data.message);
   }
 };
 // Upload Image

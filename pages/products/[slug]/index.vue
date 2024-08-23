@@ -26,7 +26,7 @@
     </div>
     <div class="space-y-5 mt-5 bg-white h-auto border border-rtgray-50 overflow-hidden rounded-lg p-5">
       <h2 class="font-bold text-xl">Đánh giá</h2>
-      <div v-if="detailReview?.reviews?.bookReviews.length > 0">
+      <div v-if="hasReviews">
         <p class="mb-3">Lọc theo</p>
         <div class="flex gap-4">
           <a-button :class="[
@@ -41,35 +41,12 @@
           ]" @click="handleCheckSort('desc')">
             Cũ nhất
           </a-button>
-          <a-button :class="[
+
+          <a-button v-for="i in [5, 4, 3, 2, 1]" :key="i" @click="handleCheckRating(i)" :class="[
             'rounded-xl',
-            filter === 5 ? 'bg-orange-500 !text-white' : '',
-          ]" @click="handleCheckRating(5)">
-            5 sao
-          </a-button>
-          <a-button :class="[
-            'rounded-xl',
-            filter === 4 ? 'bg-orange-500 !text-white' : '',
-          ]" @click="handleCheckRating(4)">
-            4 sao
-          </a-button>
-          <a-button :class="[
-            'rounded-xl',
-            filter === 3 ? 'bg-orange-500 !text-white' : '',
-          ]" @click="handleCheckRating(3)">
-            3 sao
-          </a-button>
-          <a-button :class="[
-            'rounded-xl',
-            filter === 2 ? 'bg-orange-500 !text-white' : '',
-          ]" @click="handleCheckRating(2)">
-            2 sao
-          </a-button>
-          <a-button :class="[
-            'rounded-xl',
-            filter === 1 ? 'bg-orange-500 !text-white' : '',
-          ]" @click="handleCheckRating(1)">
-            1 sao
+            filter === i ? 'bg-orange-500 !text-white' : '',
+          ]">
+            {{ i }} sao
           </a-button>
         </div>
       </div>
@@ -89,7 +66,7 @@
           </div>
         </div>
       </div>
-      <p class="text-center mb-5 font-semibold" v-if="detailReview?.reviews?.bookReviews.length == 0">
+      <p class="text-center mb-5 font-semibold" v-if="!hasReviews">
         Sách hiện tại chưa có đánh giá nào.
       </p>
     </div>
@@ -183,7 +160,8 @@ useAsyncData(
     watch: [current, filter, arrange],
   }
 );
-
+//
+const hasReviews = () => detailReview?.reviews?.bookReviews.length > 0
 const recommendationBooks = computed(() =>
   bookStore?.books?.books
     ?.filter((book) => {

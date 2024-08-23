@@ -164,7 +164,7 @@
           </div>
         </div>
         <!--  -->
-        <div class="bg-white shadow-md rounded-lg" v-if="route.query.type === 'thue_ngay'">
+        <!-- <div class="bg-white shadow-md rounded-lg" v-if="route.query.type === 'thue_ngay'">
           <div class="p-6 w-full">
             <div class="flex flex-col gap-5">
               <div class="flex gap-3 border-b border-rtgray-50 pb-5">
@@ -172,7 +172,7 @@
                 <a-popover trigger="hover" placement="topRight">
                   <template #content>
                     <p class="text-sm text-orange-600 flex flex-col">
-                      <span>* Học sinh, sinh viên chọn sách theo danh mục "Giáo dục" thuê tối đa 30 ngày</span>
+                      <span>* Học sinh, sinh viên chọn sách theo danh mục "Sách giáo khoa" thuê tối đa 30 ngày</span>
                       <span>* Khách hàng thuê tối đa 5 ngày</span>
                     </p>
                   </template>
@@ -181,7 +181,7 @@
               </div>
               <div>
                 <span
-                  v-if="authStore?.authUser?.user?.role?.name === 'student' && cartStore.rentNow[0]?.book?.category?.name === 'Giáo dục'">
+                  v-if="authStore?.authUser?.user?.role?.name === 'student' && cartStore.rentNow[0]?.book?.category?.name === 'Sách giáo khoa'">
                   <a-input type="number" placeholder="Nhập số ngày thuê sách" size="large"
                     :value="cartStore.rentNow[0].number_of_days" @change="(e) =>
                       cartStore.updateNumberOfDays(
@@ -203,7 +203,7 @@
 
             </div>
           </div>
-        </div>
+        </div> -->
         <!--  -->
         <div class="bg-white shadow-md rounded-lg" v-if="delivery_method === 'shipper'">
           <div class="p-6 w-full">
@@ -344,7 +344,7 @@ const type = route.query.type;
 const userNote = ref();
 const totalCarts = ref([]);
 let valueOrder = ref([])
-const number_of_days = ref();
+
 
 const dataSource = computed(() => {
   return route.query.type === "thue_ngay"
@@ -364,18 +364,18 @@ const newInfo = {
 const isCheckAuth = authStore?.authUser?.user?.role?.name;
 const isCheckVerify = authStore?.authUser?.user?.user_verified_at;
 
-// check danh mục "Giáo dục"
-console.log("🚀 ~ cartStore.rentNow:", cartStore.rentNow)
+// check danh mục "Sách giáo khoa"
+
 let checkcate = ref(true);
 (type === "thue_ngay" ? cartStore.rentNow : cartStore.carts).forEach((item) => {
-  if (item?.book?.category?.name !== "Giáo dục") {
+  if (item?.book?.category?.name !== "Sách giáo khoa") {
     checkcate.value = false;
   }
 });
 
 let orderDetail;
 if (isCheckAuth === "student") {
-  // 1. student đã xác thực và chọn danh mục " Giáo dục"
+  // 1. student đã xác thực và chọn danh mục " Sách giáo khoa"
   if (isCheckVerify && checkcate.value) {
     valueOrder.value = {
       payment_portal: paymentPortal.value,
@@ -415,7 +415,7 @@ if (isCheckAuth === "student") {
 
     valueOrder.value.total_service_fee = total_serviceFee.value;
     valueOrder.value.total_deposit_fee = total_depositFee.value;
-    // 2. stundent chưa xác thực nhưng chọn danh mục " Giáo dục"
+    // 2. stundent chưa xác thực nhưng chọn danh mục " Sách giáo khoa"
   } else if (!isCheckVerify && checkcate.value) {
     valueOrder.value = {
       payment_portal: paymentPortal.value,
@@ -517,7 +517,8 @@ if (isCheckAuth === "student") {
       }
 
       orderDetail = {
-        number_of_days: item.number_of_days,
+        number_of_days: type === "thue_ngay" ? cartStore.rentNow[0].number_of_days : item.number_of_days,
+
         book_details_id: item.id,
         service_fee: fee * item.number_of_days,
         deposit_fee: (item.hire_percent / 100) * item.price,
@@ -600,7 +601,6 @@ useAsyncData(async () => {
 const calcShippingFee = () => {
   shippingFee.value =
     delivery_method.value === "pickup" ? 0 : cartStore.shippingFee;
-  console.log('shippingFee.value', shippingFee.value)
 };
 
 // Tổng tiền

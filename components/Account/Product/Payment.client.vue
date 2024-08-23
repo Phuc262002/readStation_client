@@ -66,7 +66,7 @@ const handleRentNow = () => {
     message.success({
       content: "Thêm sản phẩm thành công. Chuyển hướng đến trang thanh toán!",
     });
-    navigateTo("/account/order/checkout?type=thue_ngay", {
+    navigateTo("/cart?type=thue_ngay", {
       external: 'blank'
     });
   } else {

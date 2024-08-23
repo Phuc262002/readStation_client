@@ -15,7 +15,8 @@
           {{ props?.book?.book_version }}
         </div>
         <div class="flex justify-start">
-          <CommonRating :rating="props?.book?.average_rate" />
+          <CommonRating v-if="props?.book?.average_rate !== 0" :rating="props?.book?.average_rate" />
+          <CommonRating v-else :rating="5"></CommonRating>
         </div>
         <NuxtLink :to="`/products?author=${props?.book?.book?.author?.slug}`"
           class="text-sm text-[#999999] hover:text-[#f65d4e]">

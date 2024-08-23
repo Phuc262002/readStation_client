@@ -22,8 +22,8 @@
         <div class="flex gap-2">
           <a-button :class="[
             'flex items-center justify-center rounded-lg h-10 border-none shadow-none gap-2',
-            filter === null ? 'bg-orange-500 !text-white' : '',
-          ]" @click="handleCheckStatus(null)">
+            filter === 'client_post' ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckStatus('client_post')">
             <Icon icon="material-symbols:file-copy-outline" />
             <span class="font-bold">Tất cả bài viết</span>
           </a-button>
@@ -102,12 +102,13 @@
               <a-tag v-if="record.status === 'published'"
                 class="text-tag-text-09 bg-tag-bg-09 border-none px-3 py-1">Công khai</a-tag>
               <a-tag v-else-if="record.status === 'wating_approve'"
-                class="text-tag-text-pending bg-tag-bg-pending border-none px-3 py-1">Chờ phê duyệt</a-tag>
+                class="text-tag-text-01 bg-tag-bg-01 border-none px-3 py-1">Chờ phê duyệt</a-tag>
               <a-tag v-else-if="record.status === 'draft'"
-                class="text-tag-text-draft bg-tag-bg-draft border-none px-3 py-1">Nháp</a-tag>
+                class="text-tag-text-08 bg-tag-bg-08 border-none px-3 py-1">Nháp</a-tag>
               <a-tag v-else-if="record.status === 'hidden'"
-                class="text-tag-text-draft bg-tag-bg-canceled border-none px-3 py-1">Ẩn</a-tag>
-              <a-tag v-else-if="record.status === 'deleted'" class="text-tag-text bg-tag-bg border-none">Đã xóa</a-tag>
+                class="text-tag-text-06 bg-tag-bg-06 border-none px-3 py-1">Đang ẩn</a-tag>
+              <a-tag v-else-if="record.status === 'approve_canceled'" class="text-tag-text-11 bg-tag-bg-11 border-none">
+                Bị từ chối </a-tag>
             </span>
           </template>
           <template v-else-if="column.key === 'action'">
