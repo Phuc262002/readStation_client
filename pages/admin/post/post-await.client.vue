@@ -133,6 +133,11 @@
               :src="record.image"
             />
           </template>
+          <template v-else-if="column.key === 'reason_cancel'">
+            <span>
+              {{ record.reason_cancel }}
+            </span>
+          </template>
           <template v-else-if="column.key === 'status'">
             <a-tag
               :bordered="false"
@@ -389,12 +394,6 @@ const columns = [
     key: "title",
     width: "250px",
   },
-  // {
-  //   title: "Tiêu đề",
-  //   dataIndex: "summary",
-  //   key: "summary",
-  //   width: "200px",
-  // },
   {
     title: "Người đăng",
     dataIndex: "user_id",
@@ -410,6 +409,11 @@ const columns = [
     title: "Lượt xem",
     dataIndex: "view",
     key: "view",
+  },
+  {
+    title: "Lý do từ chối",
+    dataIndex: "reason_cancel",
+    key: "reason_cancel",
   },
 
   {

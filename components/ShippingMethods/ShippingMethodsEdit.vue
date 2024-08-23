@@ -329,7 +329,9 @@ const onUpdate = async () => {
       shippingMethod: data,
     });
     if (res.data._rawValue?.status == true) {
-      await shippingMethodStore.getAllShippingMethods({});
+      await shippingMethodStore.getAllShippingMethods({
+        page: shippingMethodStore.shippingMethodsAdmin.page,
+      });
       handleClose();
       message.success("Cập nhật phương thức vận chuyển thành công");
     } else {
