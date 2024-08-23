@@ -77,7 +77,7 @@
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'bookcase_code'">
-            <span> Mã tủ sách </span>
+            <NuxtLink> Mã tủ sách </NuxtLink>
           </template>
         </template>
 
