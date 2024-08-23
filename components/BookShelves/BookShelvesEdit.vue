@@ -109,7 +109,7 @@ useAsyncData(async () => {
     valueShelves.value.name = data.data._value?.data?.name;
     valueShelves.value.description = data.data._value?.data?.description;
     valueShelves.value.bookshelf_code = data.data._value?.data?.bookshelf_code;
-    valueShelves.value.bookcase_id = data.data._value?.data?.bookcase?.description;
+    valueShelves.value.bookcase_id = data.data._value?.data?.bookcase?.name;
     valueShelves.value.category_id = data.data._value?.data?.category?.name;
     valueShelves.value.status = data.data._value?.data?.status;
   } catch (error) {

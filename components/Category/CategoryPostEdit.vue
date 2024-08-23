@@ -37,14 +37,14 @@
 
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Mô tả <span class="text-red-500">*</span>
+            Nội dung
           </label>
           <div class="mt-1">
             <a-textarea
               :rows="6"
               v-model:value="category.description"
               class="w-[450px] h-[45px]"
-              placeholder="Nhập mô tả"
+              placeholder="Nhập nội dung"
             />
           </div>
         </div>
@@ -194,14 +194,16 @@ useAsyncData(
     category.value.status = data.data._value?.data?.status;
 
     category.value.image = data.data._value?.data?.image;
-    fileList.value =  data.data._value?.data?.image ? [
-      {
-        uid: "-1",
-        name: "image.png",
-        status: "done",
-        url: data.data._value?.data?.image,
-      },
-    ] : [];
+    fileList.value = data.data._value?.data?.image
+      ? [
+          {
+            uid: "-1",
+            name: "image.png",
+            status: "done",
+            url: data.data._value?.data?.image,
+          },
+        ]
+      : [];
   },
   {
     watch: [categoryId, open],
@@ -226,6 +228,7 @@ const onUpdate = async () => {
     if (res.data._rawValue?.status == true) {
       await categoryStore.getAllCategory({
         type: "post",
+        page: categoryStore.categoriesAdmin.page,
       });
       handleClose();
       message.success("Cập nhật danh mục bài viết thành công");

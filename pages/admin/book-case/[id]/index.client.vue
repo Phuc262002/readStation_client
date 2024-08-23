@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="space-y-5">
     <div
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
     >
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">
-          <h5 class="text-xl text-[#1e293b] font-bold uppercase">
+          <h5 class="text-xl text-[#1e293b] font-bold ">
             Chi tiết tủ sách {{ bookCaseStore.bookCase?.name }}
           </h5>
         </h5>
@@ -76,9 +76,14 @@
 
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
-            <span>
+            <NuxtLink :to="`/admin/book-shelves/${record.id}`">
               {{ record.name }}
-            </span>
+            </NuxtLink>
+          </template>
+          <template v-if="column.key === 'bookshelf_code'">
+            <NuxtLink :to="`/admin/book-shelves/${record.id}`">
+              {{ record.bookshelf_code }}
+            </NuxtLink>
           </template>
           <template v-if="column.key === 'books'">
             <span class="flex justify-start gap-2">

@@ -63,7 +63,7 @@ const getDataCase = async () => {
     optionsCase.value = data?.data?._rawValue?.data?.bookcases.map((items) => {
       return {
         value: items.id,
-        label: items.description,
+        label: items.name,
       };
     });
     return data;

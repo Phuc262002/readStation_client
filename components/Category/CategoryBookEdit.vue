@@ -50,14 +50,14 @@
 
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Mô tả
+            Nội dung
           </label>
           <div class="mt-1">
             <a-textarea
               :rows="6"
               v-model:value="category.description"
               class="w-full h-10"
-              placeholder="Nhập mô tả"
+              placeholder="Nhập nội dung"
             />
           </div>
         </div>
@@ -245,6 +245,7 @@ const onUpdate = async () => {
       message.success("Cập nhật danh mục sản phẩm thành công");
       await categoryStore.getAllCategory({
         type: "book",
+        page: categoryStore.categoriesAdmin.page,
       });
       handleClose();
     } else {

@@ -20,7 +20,7 @@
         <a-textarea class="border border-gray-300 rounded-md p-2" v-model:value="data.condition" required></a-textarea>
       </div>
       <div>
-        <div class="flex flex-col gap-2 mt-4">
+        <div class="flex flex-col gap-2 mt-4"  v-if="isDisabled">
           <div class="flex gap-2 items-center">
             <label class="text-base">Lý do phạt</label>
             <a-popover v-model:open="visible" trigger="click" placement="topLeft">
@@ -36,18 +36,6 @@
                     </td>
                     <td style="padding-left: 8px; border: 1px solid black">
                       <strong> Mức phạt </strong>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="
-                      padding-left: 8px;
-                      border: 1px solid black;
-                      width: 220px;
-                    ">
-                      Mất sách hoặc làm cho sách hoàn toàn không sử dụng được
-                    </td>
-                    <td style="padding-left: 8px; border: 1px solid black">
-                      Đền 100% giá trị sách
                     </td>
                   </tr>
                   <tr>
@@ -99,24 +87,15 @@
             </a-popover>
           </div>
           <a-select show-search placeholder="Lý do phạt" size="large" :options="penaltyReason"
-            :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur" @change="handleChange"
-            :disabled="isDisabled"></a-select>
+            :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur" @change="handleChange"></a-select>
         </div>
         <div v-if="data.penalty_reason == 1 || data.penalty_reason == 2" class="flex flex-col gap-2 mt-4">
           <label class="text-base">Số tờ hư hại</label>
-          <a-input size="large" placeholder="Số tờ hư hại" v-model:value="page" number :min="1"
-            :disabled="isDisabled" />
+          <a-input size="large" placeholder="Số tờ hư hại" v-model:value="page" number :min="1" />
         </div>
-
-        <div class="flex flex-col gap-2 mt-4">
-          <!-- <div>
-            <span class="text-[red]">Lưu ý : Nếu số tiền phạt lớn hơn tiền cọc sách thì số tiền phạt bằng với tiền cọc
-              quyển
-              sách</span>
-          </div> -->
+        <div class="flex flex-col gap-2 mt-4" v-if="isShowFineAmount || isDisabled ">
           <label class="text-base">Số tiền phạt</label>
-          <a-input size="large" placeholder="Số tiền phạt" v-model:value="data.fine_amount" readonly
-            :disabled="isDisabled" />
+          <a-input size="large" placeholder="Số tiền phạt" v-model:value="data.fine_amount" readonly />
         </div>
       </div>
       <div class="flex justify-end gap-2 mt-4">
@@ -178,10 +157,6 @@ const options = ref([
 ]);
 const penaltyReason = ref([
   {
-    value: "lost",
-    label: "Mất sách hoặc làm cho sách hoàn toàn không sử dụng được",
-  },
-  {
     value: "1",
     label: "Mất trang",
   },
@@ -233,21 +208,28 @@ const onSubmit = async () => {
   }
 };
 const isDisabled = ref(false);
+const isShowFineAmount = ref(false);
 const handleConditionChange = (value) => {
   if (value === 'excellent' || value === 'good') {
-    isDisabled.value = true;
+    isDisabled.value = false;
+    isShowFineAmount.value = false;
     data.value.penalty_reason = "";
     data.value.fine_amount = 0;
-  } else {
+    data.value.condition = "";
+  } else if (value === 'lost') {
     isDisabled.value = false;
+    isShowFineAmount.value = true;
+    data.value.fine_amount = props.data?.loan_order_detail?.deposit_fee;
+    data.value.condition = "";
+  } else {
+    isDisabled.value = true;
+    data.value.fine_amount = 0;
+    data.value.condition = "";
   }
 };
 const handleChange = (value) => {
   data.value.penalty_reason = value;
   switch (value) {
-    case "lost":
-      data.value.fine_amount = props.data?.loan_order_detail?.deposit_fee;
-      break;
     case "1":
       data.value.fine_amount = 10000 * page.value;
       break;
