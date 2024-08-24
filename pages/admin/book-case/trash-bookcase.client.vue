@@ -85,6 +85,7 @@
       </a-table>
       <div class="mt-4 flex justify-end">
         <a-pagination
+          v-if="bookCaseStore.getAllBookcases"
           v-model:current="current"
           :total="bookCaseStore.getAllBookcases?.totalResults"
           :pageSize="bookCaseStore.getAllBookcases?.pageSize"
@@ -156,7 +157,6 @@ const showRecoverConfirm = (id) => {
       onRecover(id);
     },
     onCancel() {
-      console.log("Cancel");
     },
   });
 };

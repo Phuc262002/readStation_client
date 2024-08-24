@@ -32,13 +32,13 @@
 
         <div>
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Mô tả
+            Nội dung
           </label>
           <div class="mt-1">
             <a-textarea
               :rows="6"
               v-model:value="category.description"
-              placeholder="Nhập mô tả"
+              placeholder="Nhập nội dung"
        
             />
           </div>
@@ -131,7 +131,6 @@ const uploadFile = async (file) => {
 const handleChange = (info) => {
   const status = info.file.status;
   if (status !== "uploading") {
-    console.log(info.file, info.fileList);
   }
   if (status === "done") {
     message.success(`${info.file.name} file uploaded successfully.`);
@@ -144,7 +143,6 @@ const deleteFile = async (file) => {
 };
 
 function handleDrop(e) {
-  console.log(e);
 }
 const beforeUpload = (file) => {
   const isImage = file.type.startsWith("image/");

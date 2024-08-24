@@ -162,7 +162,6 @@ const onSubmit = handleSubmit(async (values) => {
       }
     }
   } catch (error) {
-    console.log("error", error);
     otpInput.value?.clearInput();
   } finally {
     isSubmitting.value = false;

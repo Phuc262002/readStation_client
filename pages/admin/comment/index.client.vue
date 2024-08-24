@@ -219,6 +219,7 @@
       </a-table>
       <div class="mt-4 flex justify-end">
         <a-pagination
+        v-if="commentStore?.commentAdmin?.totalResults > 0"
           v-model:current="current"
           :total="commentStore?.commentAdmin?.totalResults"
           :pageSize="commentStore?.commentAdmin?.pageSize"
@@ -273,7 +274,6 @@ const showDeleteConfirm = (comment_id) => {
       onDelete(comment_id);
     },
     onCancel() {
-      console.log("Cancel");
     },
   });
 };
@@ -288,7 +288,6 @@ const showPublishedConfirm = (id) => {
       onPublishedDelete(id);
     },
     onCancel() {
-      console.log("Cancel");
     },
   });
 };
@@ -352,7 +351,6 @@ const showRecoverConfirm = (id) => {
       onRecover(id);
     },
     onCancel() {
-      console.log("Cancel");
     },
   });
 };

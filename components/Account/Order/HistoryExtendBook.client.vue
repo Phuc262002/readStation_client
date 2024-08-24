@@ -4,14 +4,15 @@
       <div class="border-b border-rtgray-50 pb-5">
         <span class="font-bold">Lịch sử gia hạn</span>
       </div>
-      <a-table :columns="columns" :data-source="orderStore?.order?.extensions" class="components-table-demo-nested">
+      <a-table :columns="columns" :data-source="orderStore?.order?.extensions" class="components-table-demo-nested"
+        :expanded-row-keys="expandedRowKeys" rowKey="key">
         <template #bodyCell="{ column, index }">
           <template v-if="column.key === 'extensions'">
             <span>Gia hạn lần {{ index + 1 }}</span>
           </template>
         </template>
 
-        <template v-slot:expandedRowRender="{ record }">
+        <template #expandedRowRender="{ record }">
           <a-table :columns="innerColumns" :data-source="record.extension_details" :pagination="false">
             <template #bodyCell="{ column, index }">
               <template v-if="column.key === 'title'">
@@ -37,7 +38,7 @@
         </template>
       </a-table>
 
-      <div class="flex justify-end gap-2">
+      <div class="flex justify-end gap-2 mt-4">
         <a-button class="h-10" @click="handleClose">Trở về</a-button>
       </div>
     </a-modal>
@@ -45,7 +46,6 @@
 </template>
 
 <script setup lang="ts">
-
 
 const orderStore = useOrderClientStore();
 const route = useRoute();
@@ -64,7 +64,11 @@ const handleClose = () => {
 
 useAsyncData(async () => {
   await orderStore.getOneOrder(id);
+
+  expandedRowKeys.value = orderStore.order.extensions.map((ext: any, index: number) => ext.key);
 });
+
+const expandedRowKeys = ref<string[]>([]);
 
 const columns = [
   { title: 'Lần gia hạn', dataIndex: 'extensions', key: 'extensions' },

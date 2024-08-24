@@ -77,7 +77,7 @@
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'bookcase_code'">
-            <span> Mã tủ sách </span>
+            <NuxtLink> Mã tủ sách </NuxtLink>
           </template>
         </template>
 
@@ -188,6 +188,7 @@
       </a-table>
       <div class="mt-4 flex justify-end">
         <a-pagination
+        v-if="bookCaseStore?.bookCaseAdmin?.totalResults > 0"
           v-model:current="current"
           :total="bookCaseStore?.bookCaseAdmin?.totalResults"
           :pageSize="bookCaseStore?.bookCaseAdmin?.pageSize"
@@ -277,7 +278,6 @@ const showDeleteConfirm = (id) => {
       onDelete(id);
     },
     onCancel() {
-      console.log("Cancel");
     },
   });
 };

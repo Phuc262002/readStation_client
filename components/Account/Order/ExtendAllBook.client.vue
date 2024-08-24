@@ -108,7 +108,7 @@ const props = defineProps({
   id: Number,
 });
 const open = ref(props.openExtendAll);
-console.log('props.data', props.data);
+
 const handleCloseExtendAll = async () => {
   props.closeExtendAll();
 };
@@ -139,7 +139,7 @@ const onSubmit = async () => {
       number_of_days: number_of_days.value[index],
     }
   })
-  console.log('body', body)
+
   const valueExtendsion = ref({
     extended_method: extended_method.value,
     extension: body
@@ -148,7 +148,7 @@ const onSubmit = async () => {
     id: props.id,
     body: valueExtendsion.value
   });
-  console.log('resData', resData)
+
   if (
     resData?.data?._rawValue?.status == true &&
     extended_method.value == "cash"

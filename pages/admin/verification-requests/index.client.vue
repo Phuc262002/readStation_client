@@ -224,6 +224,7 @@
       </a-table>
       <div class="mt-4 flex justify-end">
         <a-pagination
+        v-if="verificationRequestsStore.verificationRequestsAdmin?.totalResults > 0"
           v-model:current="current"
           :total="
             verificationRequestsStore.verificationRequestsAdmin?.totalResults
@@ -232,6 +233,7 @@
             verificationRequestsStore.verificationRequestsAdmin?.pageSize
           "
           show-less-items
+          pageSizeOptions
         />
       </div>
     </div>
