@@ -673,7 +673,7 @@ const handleSubmit = async () => {
 
     if (res.data._rawValue?.status == true) {
       message.success("Cập nhập người dùng thành công");
-      navigateTo("/admin/user");
+      navigateTo(`/admin/user?page=${userStore?.userAdmin?.page}`);
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);

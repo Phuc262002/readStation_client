@@ -323,6 +323,10 @@
                     }}</span>
                   </div>
                   <div class="grid grid-cols-2">
+                    <span class="text-base font-bold">Số ngày gia hạn:</span>
+                    <span class="text-base "></span>
+                  </div>
+                  <div class="grid grid-cols-2">
                     <span class="text-base font-bold">Ngày trả thực tế:</span>
                     <span class="text-base ">{{ items?.return_date
                       ?
