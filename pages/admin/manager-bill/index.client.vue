@@ -75,7 +75,7 @@
                       }}
                     </h1>
                     <span class="text-base text-gray-500">{{
-                      $dayjs(items?.invoice_date).format("DD/MM/YYYY - HH:mm")
+                      $dayjs(items?.invoice_date).format("DD/MM/YYYY")
                     }}</span>
                   </div>
                 </div>
