@@ -130,14 +130,14 @@ const bookStore = useBookPublicStore();
 const route = useRoute();
 const value = ref<string>(route.query.search ? route.query.search : "");
 
-const bookFromQuery = route.query.search;
 const onSearchDebounce = debounce(() => {
-  navigateTo({
-    query: {
-      search: value.value,
-    },
-  });
- 
+  if (window.location.pathname === "/products") {
+    navigateTo({
+      query: {
+        search: value.value,
+      },
+    });
+  }
 }, 500);
 watch(value, onSearchDebounce);
 
