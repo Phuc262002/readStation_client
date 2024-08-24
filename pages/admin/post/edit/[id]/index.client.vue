@@ -156,6 +156,7 @@ const categoryStore = useCategoryStore();
 const errors = ref({});
 const baseStore = useBaseStore();
 const postGeneralStore = useGeneralPostStore();
+const postStore = usePostStore();
 const post = ref({
   title: "",
   category_id: "",
@@ -255,7 +256,7 @@ const updatePost = async () => {
     const res = await postGeneralStore.updatePost({ id: postID, post: data });
     if (res.data._rawValue?.status == true) {
       message.success("Cập nhật bài viết thành công");
-      navigateTo("/admin/post");
+      navigateTo(`/admin/post?page=${postStore?.postsAdmin?.page}`);
     } else {
       errors.value = res.error.value.data.errors;
       message.error("Cập nhật bài viết thất bại");
