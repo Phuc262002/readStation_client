@@ -4,7 +4,7 @@
       clickable: true,
     }" :modules="modules" class="mySwiper">
       <swiper-slide>
-        <img class="w-[1920px] h-[600px]" src="assets/images/0001.jpg" alt="">
+        <img class="w-[1920px] h-[600px]" src="assets/images/0004.jpg" alt="">
       </swiper-slide>
       <swiper-slide>
         <img class="w-[1920px] h-[600px]" src="assets/images/0002.png" alt="">
@@ -13,7 +13,7 @@
         <img class="w-[1920px] h-[600px]" src="assets/images/0003.png" alt="">
       </swiper-slide>
       <swiper-slide>
-        <img class="w-[1920px] h-[600px]" src="assets/images/0004.jpg" alt="">
+        <img class="w-[1920px] h-[600px]" src="assets/images/0001.jpg" alt="">
       </swiper-slide>
       <swiper-slide>
         <img class="w-[1920px] h-[600px]" src="assets/images/0005.jpg" alt="">

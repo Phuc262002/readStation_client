@@ -28,8 +28,15 @@
                         </div>
                         <div class="grid grid-cols-3">
                             <p class="text-base font-bold col-span-2">Chọn thêm ngày gia hạn:</p>
-                            <a-input type="number" class="w-3/4" v-model:value="number_of_days" :min="1" :max="5"
-                                required />
+                            <div
+                                v-if="props?.items?.book_details?.book?.category?.name === 'Sách giáo khoa' && orderStore?.getOneOrderAdmin?.data?.user?.role?.name === 'stundent'">
+                                <a-input type="number" class="w-3/4" v-model:value="number_of_days" :min="1" :max="30"
+                                    required />
+                            </div>
+                            <div v-else>
+                                <a-input type="number" class="w-3/4" v-model:value="number_of_days" :min="1" :max="5"
+                                    required />
+                            </div>
                         </div>
                         <div class="grid grid-cols-3">
                             <p class="text-base font-bold col-span-2">Ngày hết hạn mới:</p>
@@ -58,6 +65,8 @@
                     <a-button type="primary" html-type="submit" :loading="orderStore.isSubmitting">Xác nhận</a-button>
                 </div>
             </div>
+            {{ props?.items?.book_details?.book?.category?.name === 'Sách giáo khoa' }}
+            {{ orderStore?.getOneOrderAdmin?.data?.user?.role?.name === 'stundent' }}
         </form>
 
     </a-modal>
@@ -69,7 +78,6 @@ const props = defineProps({
     items: Object
 })
 const id = useRoute().params.id;
-
 const open = ref(props.openModal);
 watch(
     () => props.openModal,

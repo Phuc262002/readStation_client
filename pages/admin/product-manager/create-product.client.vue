@@ -62,7 +62,9 @@
                         </div>
                     </div> -->
           <div class="flex flex-col gap-5 mt-5" v-if="inforUser.fullname">
-            <div class="font-bold text-xl">Tạo đơn hàng cho khách hàng {{ inforUser?.fullname }}</div>
+            <div class="font-bold text-xl">Tạo đơn hàng cho {{ inforUser?.fullname }} ({{ inforUser?.role?.name ===
+              "student" ?
+              "Học sinh" : "Khách hàng" }})</div>
             <div class="relative w-full md:block hidden">
               <div class="flex">
                 <a-dropdown :open="valueSearchBook !== ''">

@@ -171,7 +171,7 @@ const sortValue = ({ value, label }) => {
 };
 const onSearch = debounce(() => {
   current.value = 1;
-  getAllBookReviews({
+  bookreviewStore.getAllBookReviews({
     page: current.value,
     rating: queryRating.value?.value,
     status: queryStatus.value?.value,
