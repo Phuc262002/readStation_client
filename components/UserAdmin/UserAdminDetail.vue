@@ -106,7 +106,7 @@
                       v-if="userStore?.user?.status === UserStatus.ACTIVE"
                       class="bg-tag-bg-09 text-tag-text-09"
                     >
-                      Công khai
+                      Đang hoạt động
                     </a-tag>
                     <a-tag
                       :bordered="false"

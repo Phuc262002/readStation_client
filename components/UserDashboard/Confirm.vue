@@ -82,7 +82,6 @@ const handleSubmit = async () => {
       message.error(res.error?.value?.data?.message);
     }
   } catch (error) {
-    console.log("🚀 ~ handleSubmit ~ error:", error)
     message.error(error.message);
   }
 };

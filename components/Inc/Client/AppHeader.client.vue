@@ -123,25 +123,35 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import debounce from "lodash.debounce";
 const authStore = useAuthStore();
 const cartStore = useCartStore();
 const bookStore = useBookPublicStore();
-
-const value = ref<string>("");
 const route = useRoute();
-const bookFromQuery = route.query.search;
+const value = ref<string>(route.query.search ? route.query.search : "");
 
-onMounted(() => {
-  console.log("slug", bookFromQuery);
-});
+const onSearchDebounce = debounce(() => {
+  if (window.location.pathname === "/products") {
+    navigateTo({
+      query: {
+        search: value.value,
+      },
+    });
+  }
+}, 500);
+watch(value, onSearchDebounce);
+
 const onSearch = async (searchValue: string) => {
   if (!searchValue?.trim()) return;
-  console.log("first", searchValue);
   navigateTo("/products?search=" + searchValue);
 };
 </script>
 <style scoped>
 :deep(.ant-btn-primary) {
   box-shadow: initial;
+}
+
+:deep(.ant-input::placeholder) {
+  text-align: left;
 }
 </style>

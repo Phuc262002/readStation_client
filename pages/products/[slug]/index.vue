@@ -10,9 +10,6 @@
       <Meta property="twitter:card" :content="bookStore.book?.poster" />
     </Head>
 
-    <div v-if="bookStore?.isLoading" class="fixed inset-0 bg-black/40 z-[99999] flex items-center justify-center">
-      <a-spin size="large" />
-    </div>
     <div class="flex gap-6">
       <div class="w-2/6">
         <AccountProductImage :book="bookStore.book" />
@@ -26,9 +23,10 @@
     </div>
     <div class="space-y-5 mt-5 bg-white h-auto border border-rtgray-50 overflow-hidden rounded-lg p-5">
       <h2 class="font-bold text-xl">Đánh giá</h2>
-      <div v-if="detailReview?.reviews?.bookReviews.length > 0">
+      <div v-if="hasReviews">
         <p class="mb-3">Lọc theo</p>
         <div class="flex gap-4">
+
           <a-button :class="[
             'rounded-xl',
             arrange === 'asc' ? 'bg-orange-500 !text-white' : '',
@@ -43,33 +41,15 @@
           </a-button>
           <a-button :class="[
             'rounded-xl',
-            filter === 5 ? 'bg-orange-500 !text-white' : '',
-          ]" @click="handleCheckRating(5)">
-            5 sao
+            arrange === null && filter === '' ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckSort(null)">
+            Tất cả
           </a-button>
-          <a-button :class="[
+          <a-button v-for="i in [5, 4, 3, 2, 1]" :key="i" @click="handleCheckRating(i)" :class="[
             'rounded-xl',
-            filter === 4 ? 'bg-orange-500 !text-white' : '',
-          ]" @click="handleCheckRating(4)">
-            4 sao
-          </a-button>
-          <a-button :class="[
-            'rounded-xl',
-            filter === 3 ? 'bg-orange-500 !text-white' : '',
-          ]" @click="handleCheckRating(3)">
-            3 sao
-          </a-button>
-          <a-button :class="[
-            'rounded-xl',
-            filter === 2 ? 'bg-orange-500 !text-white' : '',
-          ]" @click="handleCheckRating(2)">
-            2 sao
-          </a-button>
-          <a-button :class="[
-            'rounded-xl',
-            filter === 1 ? 'bg-orange-500 !text-white' : '',
-          ]" @click="handleCheckRating(1)">
-            1 sao
+            filter === i ? 'bg-orange-500 !text-white' : '',
+          ]">
+            {{ i }} sao
           </a-button>
         </div>
       </div>
@@ -89,7 +69,7 @@
           </div>
         </div>
       </div>
-      <p class="text-center mb-5 font-semibold" v-if="detailReview?.reviews?.bookReviews.length == 0">
+      <p class="text-center mb-5 font-semibold" v-if="!hasReviews">
         Sách hiện tại chưa có đánh giá nào.
       </p>
     </div>
@@ -149,16 +129,20 @@ const current = ref(1);
 useAsyncData(async () => {
   await authorStore.getAllAuthorClient();
 });
-// Check arrange
+// Xử lý sắp xếp
 const handleCheckSort = (sort) => {
   arrange.value = sort;
-  console.log(sort);
+  filter.value = ""; // Đặt lại bộ lọc để hiển thị tất cả đánh giá
+  current.value = 1; // Đặt lại trang về trang đầu tiên
+  fetchReviews(); // Tải lại danh sách đánh giá với bộ lọc và sắp xếp mới
+
 };
 
 // Check rating
 const handleCheckRating = (rating) => {
   filter.value = rating;
-  console.log(rating);
+  current.value = 1; // Đặt lại trang về trang đầu tiên
+  fetchReviews(); // Tải lại danh sách đánh giá với bộ lọc và sắp xếp mới
 };
 // Get One book
 useAsyncData(async () => {
@@ -168,22 +152,23 @@ useAsyncData(async () => {
     console.error("error", error);
   }
 });
-// Get All Book Review
-useAsyncData(
-  async () => {
-    await detailReview.getAllReviewBook({
-      book_details_id: lastPart,
-      rating: filter.value,
-      sort: arrange.value,
-      page: current.value,
-    });
-  },
-  {
-    immediate: true,
-    watch: [current, filter, arrange],
-  }
-);
 
+// Lấy danh sách đánh giá dựa trên bộ lọc hiện tại, sắp xếp và trang
+const fetchReviews = async () => {
+  await detailReview.getAllReviewBook({
+    book_details_id: lastPart,
+    rating: filter.value,
+    sort: arrange.value,
+    page: current.value,
+  });
+};
+// Lấy danh sách đánh giá khi trang được tải và khi bộ lọc thay đổi
+useAsyncData(fetchReviews, {
+  immediate: true,
+  watch: [current, filter, arrange],
+});
+//
+const hasReviews = () => detailReview?.reviews?.bookReviews.length > 0
 const recommendationBooks = computed(() =>
   bookStore?.books?.books
     ?.filter((book) => {

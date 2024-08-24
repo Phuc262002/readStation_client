@@ -227,7 +227,7 @@
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'avatar'">
             <a-image
-              class=" rounded-full"
+              class="rounded-full"
               :src="record.avatar.replace('=s96-c', '')"
               :width="60"
               :height="60"
@@ -308,7 +308,7 @@
             >
               Đã chặn
             </a-tag>
-          
+
             <a-tag
               :bordered="false"
               v-if="record.status === UserStatus.BANNED"
@@ -346,7 +346,7 @@
                 <template #overlay>
                   <a-menu class="space-y-1">
                     <NuxtLink :to="`/admin/user/edit/${record.id}`">
-                      <a-menu-item key="1" class="p-4 hover:!bg-tag-bg-02">
+                      <a-menu-item v-if="record.status !== UserStatus.BANNED " key="1" class="p-4 hover:!bg-tag-bg-02">
                         <button class="flex items-center gap-2">
                           <Icon
                             icon="fluent:edit-48-regular"
@@ -404,10 +404,12 @@
       />
       <div class="mt-4 flex justify-end">
         <a-pagination
+          v-if="userStore?.userAdmin?.totalResults > 0"
           v-model:current="current"
           :total="userStore?.userAdmin?.totalResults"
           :pageSize="userStore?.userAdmin?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
 
@@ -425,8 +427,9 @@ import { UserStatus } from "~/types/admin/user";
 import { UserRole } from "~/types/admin/user";
 import { Icon } from "@iconify/vue";
 import { Modal } from "ant-design-vue";
-import debounce from 'lodash.debounce'
-const current = ref(1);
+import debounce from "lodash.debounce";
+const route = useRoute();
+const current = ref(route.query.page ? parseInt(route.query.page) : 1);
 const userStore = useUserStore();
 const roleStore = useRoleStore();
 const openModalConfirm = ref(false);
@@ -480,6 +483,14 @@ const onSearch = debounce(() => {
 
 watch(valueSearch, onSearch);
 
+watch(current, () => {
+  navigateTo({
+    query: {
+      page: current.value,
+    },
+  });
+});
+
 useAsyncData(
   async () => {
     await userStore.getUser({
@@ -525,9 +536,7 @@ const showDeleteConfirm = (id) => {
     onOk() {
       onActiveConfirm(id);
     },
-    onCancel() {
-      console.log("Cancel");
-    },
+    onCancel() {},
   });
 };
 const onActiveConfirm = async (id) => {
@@ -617,11 +626,11 @@ const showModalDetail = (id) => {
   userDetailId.value = id;
 };
 useSeoMeta({
-    title: "ReadStation | Danh Sách Người Dùng",
-    ogTitle: "ReadStation | Danh Sách Người Dùng",
-    description: "Danhs sách người dùng",
-    ogDescription: "Danhs sách người dùng",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  title: "ReadStation | Danh Sách Người Dùng",
+  ogTitle: "ReadStation | Danh Sách Người Dùng",
+  description: "Danhs sách người dùng",
+  ogDescription: "Danhs sách người dùng",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>

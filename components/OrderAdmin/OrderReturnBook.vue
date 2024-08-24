@@ -16,101 +16,90 @@
           @change="handleConditionChange"></a-select>
       </div>
       <div class="flex flex-col gap-2 mt-4">
-        <label class="text-base">Chi tiết</label>
-        <a-textarea class="border border-gray-300 rounded-md p-2"
-          v-model:value="valueReturnEachBook.condition"></a-textarea>
+        <label class="text-base">Chi tiết <span class="text-red-500">*</span></label>
+        <a-textarea class="border border-gray-300 rounded-md p-2" v-model:value="valueReturnEachBook.condition"
+          required></a-textarea>
       </div>
-      <div class="flex flex-col gap-2 mt-4">
-        <div class="flex gap-2 items-center">
-          <label class="text-base">Lý do phạt</label>
-          <a-popover v-model:open="visible" trigger="click" placement="topLeft">
-            <template #content>
-              <table style="
+      <div v-if="isDisabled">
+        <div class="flex flex-col gap-2 mt-4">
+          <div class="flex gap-2 items-center">
+            <label class="text-base">Lý do phạt</label>
+            <a-popover v-model:open="visible" trigger="click" placement="topLeft">
+              <template #content>
+                <table style="
                   border-collapse: collapse;
                   width: 100%;
                   border: 1px solid black;
                 ">
-                <tr>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    <strong> Tình trạng </strong>
-                  </td>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    <strong> Mức phạt </strong>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="
-                      padding-left: 8px;
-                      border: 1px solid black;
-                      width: 220px;
-                    ">
-                    Mất sách hoặc làm cho sách hoàn toàn không sử dụng được
-                  </td>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    Đền 100% giá trị sách
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    Mất trang
-                  </td>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    10.000đ/tờ
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    Làm bẩn, viết vẽ bẩn lên sách
-                  </td>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    2.000đ/tờ
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    Làm bong bìa
-                  </td>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    15.000đ/1 cuốn
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    Làm rách sách
-                  </td>
-                  <td rowspan="3" style="padding-left: 8px; border: 1px solid black">
-                    30.000đ/ sách
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    Làm ướt sách
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-left: 8px; border: 1px solid black">
-                    Bóc nhãn, phiếu ghi chú trên sách
-                  </td>
-                </tr>
-              </table>
-            </template>
-
-            <Icon icon="heroicons:eye" class="group-hover:text-[#212122] w-5 h-5" />
-          </a-popover>
+                  <tr>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      <strong> Tình trạng </strong>
+                    </td>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      <strong> Mức phạt </strong>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      Mất trang
+                    </td>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      10.000đ/tờ
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      Làm bẩn, viết vẽ bẩn lên sách
+                    </td>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      2.000đ/tờ
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      Làm bong bìa
+                    </td>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      15.000đ/1 cuốn
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      Làm rách sách
+                    </td>
+                    <td rowspan="3" style="padding-left: 8px; border: 1px solid black">
+                      30.000đ/ sách
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      Làm ướt sách
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: 8px; border: 1px solid black">
+                      Bóc nhãn, phiếu ghi chú trên sách
+                    </td>
+                  </tr>
+                </table>
+              </template>
+              <Icon icon="heroicons:eye" class="group-hover:text-[#212122] w-5 h-5" />
+            </a-popover>
+          </div>
+          <a-select show-search placeholder="Lý do phạt" size="large" :options="penaltyReason"
+            :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur" @change="handleChange"></a-select>
         </div>
-        <a-select show-search placeholder="Lý do phạt" size="large" :options="penaltyReason"
-          :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur" @change="handleChange"
-          :disabled="isDisabled"></a-select>
+        <div v-if="valueReturnEachBook.penalty_reason == 1 || valueReturnEachBook.penalty_reason == 2"
+          class="flex flex-col gap-2 mt-4">
+          <label class="text-base">Số tờ hư hại</label>
+          <a-input size="large" placeholder="Số tờ hư hại" v-model:value="page" number :min="1" />
+        </div>
       </div>
-      <div v-if="valueReturnEachBook.penalty_reason == 1 || valueReturnEachBook.penalty_reason == 2"
-        class="flex flex-col gap-2 mt-4">
-        <label class="text-base">Số tờ hư hại</label>
-        <a-input size="large" placeholder="Số tờ hư hại" v-model:value="page" number :min="1" :disabled="isDisabled" />
-      </div>
-      <div class="flex flex-col gap-2 mt-4">
+
+
+      <div class="flex flex-col gap-2 mt-4" v-if="isShowFineAmount || isDisabled">
         <label class="text-base">Số tiền phạt</label>
-        <a-input size="large" placeholder="Số tiền phạt" v-model:value="valueReturnEachBook.fine_amount" readonly
-          :disabled="isDisabled" />
+        <a-input size="large" placeholder="Số tiền phạt" v-model:value="valueReturnEachBook.fine_amount" readonly />
       </div>
       <div class="flex justify-end gap-2 mt-4">
         <a-button type="default" @click="handleClose">Hủy</a-button>
@@ -176,10 +165,6 @@ const options = ref([
 ]);
 const penaltyReason = ref([
   {
-    value: "lost",
-    label: "Mất sách hoặc làm cho sách hoàn toàn không sử dụng được",
-  },
-  {
     value: "1",
     label: "Mất trang",
   },
@@ -233,22 +218,28 @@ const onSubmit = async () => {
 };
 const page = ref(1);
 const isDisabled = ref(false);
+const isShowFineAmount = ref(false);
 const handleConditionChange = (value) => {
   if (value === 'excellent' || value === 'good') {
-    isDisabled.value = true;
+    isDisabled.value = false;
+    isShowFineAmount.value = false;
     valueReturnEachBook.value.penalty_reason = "";
     valueReturnEachBook.value.fine_amount = 0;
-  } else {
+    valueReturnEachBook.value.condition = "";
+  } else if (value === 'lost') {
     isDisabled.value = false;
+    isShowFineAmount.value = true;
+    valueReturnEachBook.value.fine_amount = props.loan_order_detail?.deposit_fee
+    valueReturnEachBook.value.condition = "";
+  } else {
+    isDisabled.value = true;
+    valueReturnEachBook.value.fine_amount = 0;
+    valueReturnEachBook.value.condition = "";
   }
-  handleChange(valueReturnEachBook.value.penalty_reason);
 };
 const handleChange = (value) => {
   valueReturnEachBook.value.penalty_reason = value;
   switch (value) {
-    case "lost":
-      valueReturnEachBook.value.fine_amount = props.loan_order_detail?.deposit_fee;
-      break;
     case "1":
       valueReturnEachBook.value.fine_amount = 10000 * page.value;
       break;

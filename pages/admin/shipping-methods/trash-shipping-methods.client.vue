@@ -90,6 +90,7 @@
       </a-table>
       <div class="mt-4 flex justify-end">
         <a-pagination
+        v-if="shippingMethodStore?.shippingMethodsAdmin?.totalResults > 0"
           v-model:current="current"
           :total="shippingMethodStore?.shippingMethodsAdmin?.totalResults"
           :pageSize="shippingMethodStore?.shippingMethodsAdmin?.pageSize"
@@ -147,7 +148,6 @@ const showRecoverConfirm = (id) => {
       onRecover(id);
     },
     onCancel() {
-      console.log("Cancel");
     },
   });
 };

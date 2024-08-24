@@ -7,12 +7,14 @@
       <Meta property="og:title" content="ReadStation | Thông tin sách thuê" />
       <Meta property="og:description" content="Thông tin sách thuê" />
     </Head>
-    <div v-if="cartStore?.carts.length > 0">
-      <div class="flex justify-between h-auto gap-5">
+
+    <div v-if="dataSource.length > 0">
+      <form @submit.prevent="onSubmit" class="flex justify-between h-auto gap-5">
         <!-- Left -->
         <div class="w-3/4">
+
           <div class="bg-white h-auto shadow-md overflow-hidden rounded-lg p-5">
-            <a-table :columns="columns" :data-source="cartStore?.carts" :pagination="false">
+            <a-table :columns="columns" :data-source="dataSource" :pagination="false">
               <template #headerCell="{ column }">
                 <template v-if="column.key === 'name'">
                   <span> Sản phẩm </span>
@@ -68,7 +70,7 @@
 
                 <template v-else-if="column.key === 'number_of_days'">
                   <span
-                    v-if="authStore?.authUser?.user?.role?.name === 'student' && record?.book?.category?.name === 'Giáo dục'">
+                    v-if="authStore?.authUser?.user?.role?.name === 'student' && record?.book?.category?.name === 'Sách giáo khoa'">
                     <a-input :value="record.number_of_days" class="w-[100px]" type="number" @change="(e) =>
                       cartStore.updateNumberOfDays(
                         record.id,
@@ -169,13 +171,12 @@
                     Phí vận chuyển (nếu có) sẽ được tính ở trang thanh toán.
                   </span>
                 </div>
-                <div class="w-full">
-                  <nuxt-link to="/account/order/checkout">
-                    <button class="bg-rtprimary text-white uppercase text-sm w-full h-8 rounded-lg">
-                      Thanh toán
-                    </button>
-                  </nuxt-link>
-                </div>
+
+                <a-button html-type="submit"
+                  class="bg-rtprimary !text-white uppercase border-none text-sm w-full h-8 rounded-lg">
+                  Thanh toán
+                </a-button>
+
                 <div class="flex justify-center">
                   <Nuxt-link to="/products">
                     <button class="flex justify-center text-sm items-center gap-2 hover:text-rtsecondary">
@@ -188,7 +189,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
     <!--  -->
     <div v-else class="flex flex-col items-center justify-center text-center">
@@ -216,18 +217,24 @@ const cartStore = useCartStore();
 const depositFee = ref(0);
 const serviceFee = ref(0);
 const totalFee = ref(0);
-const number_of_days = ref();
+const route = useRoute();
+const type = route.query.type;
+// check
+const dataSource = computed(() => {
+  return type === "thue_ngay" ? cartStore?.rentNow : cartStore?.carts;
+});
+
 
 // phí cọc
 const calcDepositFee = () => {
-  depositFee.value = cartStore.carts.reduce(
+  depositFee.value = (type === "thue_ngay" ? cartStore?.rentNow : cartStore?.carts).reduce(
     (acc, curr) => acc + curr.price * (curr.hire_percent / 100),
     0
   );
 };
 // phí dịch vụ
 const calcServiceFee = () => {
-  serviceFee.value = cartStore.carts.reduce(
+  serviceFee.value = (type === "thue_ngay" ? cartStore?.rentNow : cartStore?.carts).reduce(
     (acc, curr) => acc + curr.service_fee,
     0
   );
@@ -244,16 +251,26 @@ useAsyncData(
   },
   {
     immediate: true,
-    watch: [() => cartStore.carts],
+    watch: [() => dataSource],
   }
 );
 watch(
-  () => cartStore.carts,
-
+  dataSource,
   () => {
     calcDepositFee(), calcServiceFee(), calcTotalFee();
   }
 );
+const onSubmit = () => {
+  try {
+    if (type === "thue_ngay") {
+      navigateTo("/account/order/checkout?type=thue_ngay");
+    } else {
+      navigateTo("/account/order/checkout");
+    }
+  } catch (error) {
+    message.error("Chuyển sang thanh toán thất bại. Vui lòng check lại thông tin đặt hàng!")
+  }
+}
 
 const columns = ref([
   {

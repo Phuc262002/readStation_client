@@ -237,6 +237,7 @@
       </a-table>
       <div class="mt-4 flex justify-end">
         <a-pagination
+        v-if="transactionAdminStore?.transactionAdmin?.totalResults > 0"
           v-model:current="current"
           :total="transactionAdminStore?.transactionAdmin?.totalResults"
           :pageSize="transactionAdminStore?.transactionAdmin?.pageSize"

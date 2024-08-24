@@ -259,13 +259,11 @@ const uploadFile = async (file) => {
     imageInfo.value = dataUpload.data._rawValue.data;
   } catch (error) {
     message.error("Upload ảnh thất bại");
-    console.log("🚀 ~ uploadFile ~ error:", error);
   }
 };
 const handleChangeUploadImg = (info) => {
   const status = info.file.status;
   if (status !== "uploading") {
-    console.log(info.file, info.fileList);
   }
   if (status === "done") {
     message.success(`${info.file.name} file uploaded successfully.`);
@@ -278,7 +276,6 @@ const deleteFile = async (file) => {
 };
 
 function handleDrop(e) {
-  console.log(e);
 }
 const beforeUpload = (file) => {
   const isImage = file.type.startsWith("image/");
@@ -329,7 +326,9 @@ const onUpdate = async () => {
       shippingMethod: data,
     });
     if (res.data._rawValue?.status == true) {
-      await shippingMethodStore.getAllShippingMethods({});
+      await shippingMethodStore.getAllShippingMethods({
+        page: shippingMethodStore.shippingMethodsAdmin.page,
+      });
       handleClose();
       message.success("Cập nhật phương thức vận chuyển thành công");
     } else {

@@ -46,6 +46,10 @@
           <span class="text-tag-text-05 bg-tag-bg-05 p-2 rounded-lg flex justify-center items-center">
             Hoàn thành</span>
         </div>
+        <div v-if="returnHistoryStore?.ReturnLoanDetail?.status === 'lost'">
+          <span class="text-tag-text-06 bg-tag-bg-06 p-2 rounded-lg flex justify-center items-center">
+            Đã Mất</span>
+        </div>
       </div>
       <div class="border border-gray-100"></div>
       <div class="grid md:grid-cols-5">
@@ -117,10 +121,24 @@
           </div>
           <div class="grid grid-cols-5">
             <span class="text-base font-bold col-span-2">Tình trạng sách:</span>
-            <span class="text-base col-span-3" v-if="returnHistoryStore?.ReturnLoanDetail?.status === 'completed'">
-              Hoàn thành</span>
-            <span class="text-base col-span-3" v-if="returnHistoryStore?.ReturnLoanDetail?.status === 'pending'">
-              Đang xử lý</span>
+            <span class="text-base col-span-3"
+              v-if="returnHistoryStore?.ReturnLoanDetail?.actual_return_condition === 'excellent'">
+              Xuất sắc</span>
+            <span class="text-base col-span-3"
+              v-if="returnHistoryStore?.ReturnLoanDetail?.actual_return_condition === 'good'">
+              Tốt</span>
+            <span class="text-base col-span-3"
+              v-if="returnHistoryStore?.ReturnLoanDetail?.actual_return_condition === 'fair'">
+              Trung bình</span>
+            <span class="text-base col-span-3"
+              v-if="returnHistoryStore?.ReturnLoanDetail?.actual_return_condition === 'poor'">
+              Kém</span>
+            <span class="text-base col-span-3"
+              v-if="returnHistoryStore?.ReturnLoanDetail?.actual_return_condition === 'damaged'">
+              Hư hỏng</span>
+            <span class="text-base col-span-3"
+              v-if="returnHistoryStore?.ReturnLoanDetail?.actual_return_condition === 'lost'">
+              Mất</span>
           </div>
           <div class="grid grid-cols-5">
             <span class="text-base font-bold col-span-2">Mô tả tình trạng sách:</span>

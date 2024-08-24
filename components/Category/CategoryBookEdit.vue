@@ -50,14 +50,14 @@
 
         <div class="pb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">
-            Mô tả
+            Nội dung
           </label>
           <div class="mt-1">
             <a-textarea
               :rows="6"
               v-model:value="category.description"
               class="w-full h-10"
-              placeholder="Nhập mô tả"
+              placeholder="Nhập nội dung"
             />
           </div>
         </div>
@@ -174,13 +174,11 @@ const uploadFile = async (file) => {
     imageInfo.value = dataUpload.data._rawValue.data;
   } catch (error) {
     message.error("Upload ảnh thất bại");
-    console.log("🚀 ~ uploadFile ~ error:", error);
   }
 };
 const handleChangeUploadImg = (info) => {
   const status = info.file.status;
   if (status !== "uploading") {
-    console.log(info.file, info.fileList);
   }
   if (status === "done") {
     message.success(`${info.file.name} file uploaded successfully.`);
@@ -193,7 +191,6 @@ const deleteFile = async (file) => {
 };
 
 function handleDrop(e) {
-  console.log(e);
 }
 const beforeUpload = (file) => {
   const isImage = file.type.startsWith("image/");
@@ -245,6 +242,7 @@ const onUpdate = async () => {
       message.success("Cập nhật danh mục sản phẩm thành công");
       await categoryStore.getAllCategory({
         type: "book",
+        page: categoryStore.categoriesAdmin.page,
       });
       handleClose();
     } else {

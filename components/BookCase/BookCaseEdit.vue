@@ -78,7 +78,7 @@
             >
               <a-select-option value="active">Hoạt động</a-select-option>
               <a-select-option value="inactive"
-                >Không hoạt động</a-select-option
+                >Đang ẩn</a-select-option
               >
             </a-select>
           </div>
@@ -158,6 +158,9 @@ const onUpdate = async () => {
     });
     if (res.data._rawValue?.status == true) {
       await bookCaseStore.getOneBookcase(bookCaseId.value);
+      await bookCaseStore.getAllBookcases({
+        page: bookCaseStore.bookCaseAdmin.page,
+      });
       props.openModal();
       message.success("Cập nhật tủ sách thành công");
     } else {

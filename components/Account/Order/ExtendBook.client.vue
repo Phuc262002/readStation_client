@@ -77,7 +77,7 @@
                 <a-input type="number" class="w-1/2" v-model:value="number_of_days" @change="(e) =>
                   updateNumberOfDays(props.extendsionBook?.id, number_of_days
                   )
-                  " />
+                  " :min="1" :max="5" required />
               </span>
             </div>
           </div>
@@ -121,7 +121,7 @@ const props = defineProps({
 });
 const open = ref(props.openModalExtend);
 const bookDetailId = ref(props.extendsionBook?.id);
-console.log('props.extendsionBook.id', props?.extendsionBook)
+
 watch(
   () => props.openModalExtend,
   (newValue) => {
@@ -138,7 +138,6 @@ const handleCloseExtend = async () => {
   props.closeModalExtend();
 };
 const updateNumberOfDays = (id, quantity) => {
-  console.log("🚀 ~ updateNumberOfDays ~ quantity:", quantity);
 
   let fee = 0;
   const price = props.extendsionBook?.book_details?.price || 0;
@@ -163,7 +162,6 @@ const onSubmit = async () => {
       number_of_days: number_of_days.value,
     },
   });
-  console.log("resData", resData);
 
   if (
     resData?.data?._rawValue?.status == true &&

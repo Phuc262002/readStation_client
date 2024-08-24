@@ -145,11 +145,12 @@ const onSubmit = async () => {
   });
 
   if (resData?.data?._rawValue?.status == true) {
+    await authStore.getProfile();
     message.success({
       content: "Chỉnh sửa thành công",
     });
-    await authStore.getProfile();
     handleClose();
+
   } else {
 
     message.error({

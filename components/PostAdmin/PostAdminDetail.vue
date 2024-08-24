@@ -114,6 +114,12 @@
               }}
             </span>
           </div>
+          <div v-if="postStore.post?.status === 'approve_canceled'" class="grid grid-cols-4">
+            <span class="text-base col-span-1 font-bold">Lý do từ chối: </span>
+            <span class="text-base col-span-3">
+              {{ postStore.post?.reason_cancel }}
+            </span>
+          </div>
         </div>
       </div>
       <div class="md:border-y md:border-gray-200 py-5">
@@ -122,7 +128,7 @@
       </div>
 
       <div>
-        <h1 class="font-bold text-base">Mô tả ngắn</h1>
+        <h1 class="font-bold text-base">Nội dung bài viết</h1>
         <div v-html="postStore.post?.content"></div>
       </div>
     </div>

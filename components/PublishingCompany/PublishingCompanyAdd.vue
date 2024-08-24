@@ -128,7 +128,6 @@ const uploadFile = async (file) => {
 const handleChange = (info) => {
   const status = info.file.status;
   if (status !== "uploading") {
-    console.log(info.file, info.fileList);
   }
   if (status === "done") {
     message.success(`${info.file.name} Upload file thành công.`);
@@ -141,7 +140,6 @@ const deleteFile = async (file) => {
 };
 
 function handleDrop(e) {
-  console.log(e);
 }
 const beforeUpload = (file) => {
   const isImage = file.type.startsWith("image/");

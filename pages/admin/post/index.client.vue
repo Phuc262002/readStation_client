@@ -138,9 +138,8 @@
         :pagination="false"
       >
         <template #bodyCell="{ column, record }">
-
           <template v-if="column.key === 'title'">
-            <NuxtLink  :to="`/post/${record.slug}`">
+            <NuxtLink :to="`/post/${record.slug}`">
               {{ record.title }}
             </NuxtLink>
           </template>
@@ -275,6 +274,7 @@
       </a-table>
       <div class="mt-4 flex justify-end">
         <a-pagination
+          v-if="postStore?.postsAdmin?.totalResults > 0"
           v-model:current="current"
           :total="postStore?.postsAdmin?.totalResults"
           :pageSize="postStore?.postsAdmin?.pageSize"
@@ -300,7 +300,9 @@ const postStore = usePostStore();
 const categoryStore = useCategoryStore();
 const postDetailId = ref();
 const openModalDetail = ref(false);
-const current = ref(1);
+const route = useRoute();
+const current = ref(route.query.page ? parseInt(route.query.page) : 1);
+
 const valueSearch = ref("");
 const queryType = ref({
   value: "",
@@ -342,6 +344,14 @@ const onSearch = debounce(() => {
 
 watch(valueSearch, onSearch);
 
+watch(current, () => {
+  navigateTo({
+    query: {
+      page: current.value,
+    },
+  });
+});
+
 useAsyncData(
   async () => {
     await postStore.getAllPost({
@@ -379,16 +389,15 @@ const onDelete = async (id) => {
 const showDeleteConfirm = (id) => {
   Modal.confirm({
     title: "Bạn có chắc chắn muốn xóa bài viết này?",
-    content: 'Khi bạn xóa bài viết, tất cả bình luận của bài viết cũng sẽ bị xóa và không thể khôi phục',
+    content:
+      "Khi bạn xóa bài viết, tất cả bình luận của bài viết cũng sẽ bị xóa và không thể khôi phục",
     okText: "Xóa",
     okType: "danger",
     cancelText: "Hủy",
     onOk() {
       onDelete(id);
     },
-    onCancel() {
-      console.log("Cancel");
-    },
+    onCancel() {},
   });
 };
 const columns = [
