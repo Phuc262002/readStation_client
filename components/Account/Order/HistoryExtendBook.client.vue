@@ -5,15 +5,15 @@
         <span class="font-bold">Lịch sử gia hạn</span>
       </div>
       <a-table :columns="columns" :data-source="orderStore?.order?.extensions" class="components-table-demo-nested"
-        :expanded-row-keys="expandedRowKeys" @expand="handleExpand" rowKey="key">
+        :expanded-row-keys="expandedRowKeys" rowKey="key">
         <template #bodyCell="{ column, index }">
           <template v-if="column.key === 'extensions'">
             <span>Gia hạn lần {{ index + 1 }}</span>
           </template>
         </template>
 
-        <template v-slot:expandedRowRender="{ record }">
-          <a-table :columns="innerColumns" rowKey="key" :data-source="record.extension_details" :pagination="false">
+        <template #expandedRowRender="{ record }">
+          <a-table :columns="innerColumns" :data-source="record.extension_details" :pagination="false">
             <template #bodyCell="{ column, index }">
               <template v-if="column.key === 'title'">
                 <span>{{ record.extension_details[index]?.loan_order_detail?.book_details?.book?.title }}</span>
@@ -38,7 +38,7 @@
         </template>
       </a-table>
 
-      <div class="flex justify-end gap-2">
+      <div class="flex justify-end gap-2 mt-4">
         <a-button class="h-10" @click="handleClose">Trở về</a-button>
       </div>
     </a-modal>
@@ -46,7 +46,6 @@
 </template>
 
 <script setup lang="ts">
-
 
 const orderStore = useOrderClientStore();
 const route = useRoute();
@@ -65,14 +64,11 @@ const handleClose = () => {
 
 useAsyncData(async () => {
   await orderStore.getOneOrder(id);
+
+  expandedRowKeys.value = orderStore.order.extensions.map((ext: any, index: number) => ext.key);
 });
-const handleExpand = (expanded: boolean, record: any) => {
-  if (expanded) {
-    expandedRowKeys.value = [record.key];
-  } else {
-    expandedRowKeys.value = [];
-  }
-};
+
+const expandedRowKeys = ref<string[]>([]);
 
 const columns = [
   { title: 'Lần gia hạn', dataIndex: 'extensions', key: 'extensions' },
