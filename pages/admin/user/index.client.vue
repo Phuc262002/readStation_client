@@ -346,7 +346,7 @@
                 <template #overlay>
                   <a-menu class="space-y-1">
                     <NuxtLink :to="`/admin/user/edit/${record.id}`">
-                      <a-menu-item key="1" class="p-4 hover:!bg-tag-bg-02">
+                      <a-menu-item v-if="record.status !== UserStatus.BANNED " key="1" class="p-4 hover:!bg-tag-bg-02">
                         <button class="flex items-center gap-2">
                           <Icon
                             icon="fluent:edit-48-regular"

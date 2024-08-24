@@ -125,6 +125,7 @@
                     class="border p-2 rounded-md"
                     placeholder="Email"
                     required
+                    readonly
                   />
                 </div>
               </div>

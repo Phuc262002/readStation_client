@@ -604,6 +604,7 @@ const payCart = async () => {
     phone: authStore?.authUser?.user?.phone,
     address: authStore?.authUser?.user?.address_detail,
   };
+  console.log("🚀 ~ payCart ~ newInfo.authStore?.authUser?.user:", authStore?.authUser?.user)
 
   // check address
   if (
@@ -626,17 +627,15 @@ const payCart = async () => {
       return;
     }
   }
-  // console.log('first', {
-  //   ...valueOrder.value,
-  //   shipping_method_id: shipping_method_id.value,
-  //   total_shipping_fee: parseFloat(shippingFee.value),
-  //   delivery_method: delivery_method.value,
-  //   payment_method: payment_method.value,
-  //   total_all_fee: totalAllFee.value,
-  //   user_note: userNote.value,
-  // })
-  // return
-
+  console.log('first', {
+    ...valueOrder.value,
+    shipping_method_id: shipping_method_id.value,
+    total_shipping_fee: parseFloat(shippingFee.value),
+    delivery_method: delivery_method.value,
+    payment_method: payment_method.value,
+    total_all_fee: totalAllFee.value,
+    user_note: userNote.value,
+  })
 
   try {
     const res = await orderStore.createOrder({

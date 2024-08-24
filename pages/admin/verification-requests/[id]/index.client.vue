@@ -238,6 +238,18 @@
             </span>
             <span v-else>Chưa xử lý</span>
           </div>
+          <div
+            v-if="
+              verificationRequestsStore.oneVerificationRequest?.status ===
+              'rejected'
+            "
+            class="grid grid-cols-3"
+          >
+            <span class="text-base col-span-1 font-bold">Lý do từ chối: </span>
+            <span class="text-base">
+              {{ verificationRequestsStore.oneVerificationRequest?.reason }}
+            </span>
+          </div>
         </div>
       </div>
     </div>

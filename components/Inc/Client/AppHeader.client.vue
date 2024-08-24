@@ -3,7 +3,8 @@
     <div class="mx-auto container md:px-20 px-8">
       <div class="h-50 pt-5">
         <div
-          class="h-max bg-[white] w-full border-2 border-[#ffffffad] shadow-sm rounded-lg flex justify-between py-3 px-10">
+          class="h-max bg-[white] w-full border-2 border-[#ffffffad] shadow-sm rounded-lg flex justify-between py-3 px-10"
+        >
           <!-- Logo -->
           <NuxtLink to="/">
             <div class="flex items-center gap-1">
@@ -15,28 +16,41 @@
           <div class="md:block hidden">
             <ul class="flex items-center py-[3px]">
               <li>
-                <NuxtLink to="/products"><a-button
-                    class="text-black text-base hover:-translate-y-1 transition-transform" type="link">
+                <NuxtLink to="/products"
+                  ><a-button
+                    class="text-black text-base hover:-translate-y-1 transition-transform"
+                    type="link"
+                  >
                     Cửa hàng
                   </a-button>
                 </NuxtLink>
               </li>
               <li>
-                <NuxtLink to="/post"><a-button class="text-black text-base hover:-translate-y-1 transition-transform"
-                    type="link">
+                <NuxtLink to="/post"
+                  ><a-button
+                    class="text-black text-base hover:-translate-y-1 transition-transform"
+                    type="link"
+                  >
                     Blog
-                  </a-button></NuxtLink>
+                  </a-button></NuxtLink
+                >
               </li>
               <li>
-                <NuxtLink to="/about-us"><a-button
-                    class="text-black text-base hover:-translate-y-1 transition-transform" type="link">
+                <NuxtLink to="/about-us"
+                  ><a-button
+                    class="text-black text-base hover:-translate-y-1 transition-transform"
+                    type="link"
+                  >
                     Giới thiệu
                   </a-button>
                 </NuxtLink>
               </li>
               <li>
-                <NuxtLink to="/contact"><a-button class="text-black text-base hover:-translate-y-1 transition-transform"
-                    type="link">
+                <NuxtLink to="/contact"
+                  ><a-button
+                    class="text-black text-base hover:-translate-y-1 transition-transform"
+                    type="link"
+                  >
                     Liên hệ
                   </a-button>
                 </NuxtLink>
@@ -45,8 +59,13 @@
           </div>
           <!-- Search -->
           <div class="relative w-1/4 md:block hidden h-10">
-            <a-input-search v-model:value="value" placeholder="Tìm kiếm... " enter-button="Tìm kiếm" @search="onSearch"
-              class="flex items-center h-full" />
+            <a-input-search
+              v-model:value="value"
+              placeholder="Tìm kiếm... "
+              enter-button="Tìm kiếm"
+              @search="onSearch"
+              class="flex items-center h-full"
+            />
           </div>
 
           <!-- Cart && Account -->
@@ -59,7 +78,10 @@
               <NuxtLink to="/login" v-else>
                 <button class="w-32 hover:bg-gray-100 hover:rounded-xl h-10">
                   <div class="flex justify-center items-center gap-3 text-base">
-                    <UIcon class="text-xl" name="i-material-symbols-mood-outline-rounded" />
+                    <UIcon
+                      class="text-xl"
+                      name="i-material-symbols-mood-outline-rounded"
+                    />
                     <h2>Tài khoản</h2>
                   </div>
                 </button>
@@ -68,13 +90,19 @@
             <div class="border-solid border border-gray-300 h-8"></div>
             <div class="ml-3">
               <NuxtLink to="/cart">
-                <button class="relative w-10 hover:bg-orange-200 hover:rounded-xl h-10">
+                <button
+                  class="relative w-10 hover:bg-orange-200 hover:rounded-xl h-10"
+                >
                   <div class="text-2xl flex justify-center items-center">
-                    <UIcon class="text-2xl" name="i-material-symbols-shopping-bag-outline" />
+                    <UIcon
+                      class="text-2xl"
+                      name="i-material-symbols-shopping-bag-outline"
+                    />
                   </div>
                   <ClientOnly>
                     <div
-                      class="absolute top-0 right-0 bg-red-500 text-white w-4 h-4 rounded-full flex justify-center items-center text-xs">
+                      class="absolute top-0 right-0 bg-red-500 text-white w-4 h-4 rounded-full flex justify-center items-center text-xs"
+                    >
                       {{ cartStore?.carts ? cartStore?.carts?.length : 0 }}
                     </div>
                   </ClientOnly>
@@ -95,20 +123,26 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import debounce from "lodash.debounce";
 const authStore = useAuthStore();
 const cartStore = useCartStore();
 const bookStore = useBookPublicStore();
-
-const value = ref<string>("");
 const route = useRoute();
-const bookFromQuery = route.query.search;
+const value = ref<string>(route.query.search ? route.query.search : "");
 
-onMounted(() => {
-  console.log("slug", bookFromQuery);
-});
+const onSearchDebounce = debounce(() => {
+  if (window.location.pathname === "/products") {
+    navigateTo({
+      query: {
+        search: value.value,
+      },
+    });
+  }
+}, 500);
+watch(value, onSearchDebounce);
+
 const onSearch = async (searchValue: string) => {
   if (!searchValue?.trim()) return;
-  console.log("first", searchValue);
   navigateTo("/products?search=" + searchValue);
 };
 </script>

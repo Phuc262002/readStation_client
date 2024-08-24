@@ -144,20 +144,6 @@
           </span>
         </div>
 
-        <div class="grid grid-cols-8"
-          v-if="['overdue', 'completed', 'returning', 'extended', 'active'].includes(order?.data?.status)">
-          <span class="col-span-2 font-bold">Phí trả sách:</span>
-          <span class="col-span-6">
-            {{
-              new Intl.NumberFormat("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              }).format(
-                order?.data?.return_histories[0]?.return_shipping_fee || 0
-              )
-            }}
-          </span>
-        </div>
       </div>
     </div>
 
