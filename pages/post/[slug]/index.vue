@@ -231,14 +231,10 @@ useAsyncData(async () => {
     if (!postStore.post) {
       navigateTo("/404");
     }
-  } catch (error) {
-    console.error(error);
-  }
+  } catch (error) {}
   try {
     await commentStore.getComment({ post_id: postStore.post?.id });
-  } catch (error) {
-    console.error(error);
-  }
+  } catch (error) {}
   try {
     const data = await postStore.getPosts({
       page: 1,
@@ -246,9 +242,7 @@ useAsyncData(async () => {
       category_id: postStore.post.category.id,
     });
     postStore.posts = data.data._value?.data;
-  } catch (error) {
-    console.error(error);
-  }
+  } catch (error) {}
 });
 useAsyncData(async () => {
   try {
@@ -258,9 +252,7 @@ useAsyncData(async () => {
       sort: "popular",
     });
     postStore.postsPopular = data.data._value?.data;
-  } catch (error) {
-    console.error(error);
-  }
+  } catch (error) {}
 });
 
 const handleShareFacebook = () => {
@@ -288,6 +280,5 @@ const handleSharePinterest = () => {
 }
 :deep(.image-style-align-center) {
   margin: auto !important;
-
 }
 </style>

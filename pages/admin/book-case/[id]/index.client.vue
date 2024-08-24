@@ -5,7 +5,7 @@
     >
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">
-          <h5 class="text-xl text-[#1e293b] font-bold ">
+          <h5 class="text-xl text-[#1e293b] font-bold">
             Chi tiết tủ sách {{ bookCaseStore.bookCase?.name }}
           </h5>
         </h5>
@@ -138,10 +138,12 @@
       </a-table>
       <div class="mt-4 flex justify-end">
         <a-pagination
+          v-if="bookCaseStore?.shelveOfBookcase?.totalResults > 0"
           v-model:current="current"
           :total="bookCaseStore?.shelveOfBookcase?.totalResults"
           :pageSize="bookCaseStore?.shelveOfBookcase?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
       <BookCaseEdit

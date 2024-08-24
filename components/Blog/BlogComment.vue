@@ -474,7 +474,6 @@ const handleSubmit = async () => {
 };
 
 const handleSubmitReply = async () => {
-  console.log("🚀 ~ handleSubmitReply ~ showReply:", showReply.value);
   if (!showReply.value.content) {
     message.error("Vui lòng nhập nội dung bình luận");
     return;
@@ -523,10 +522,7 @@ const handleCloseEditComment = () => {
   showEditComment.value.comment_hash = null;
 };
 const updateComment = async () => {
-  console.log(
-    "🚀 ~ handleCloseEditComment ~ showEditComment:",
-    showEditComment.value.comment_id
-  );
+  
 
   if (!showEditComment.value.content) {
     message.error("Vui lòng nhập nội dung bình luận");

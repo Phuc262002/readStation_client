@@ -2,10 +2,7 @@
   <div>
     <Head>
       <Title>ReadStation | {{ postGeneralStore?.post.title }}</Title>
-      <Meta
-        name="description"
-        :content="postGeneralStore.post?.summary"
-      />
+      <Meta name="description" :content="postGeneralStore.post?.summary" />
       <Meta
         property="og:title"
         :content="`ReadStation | ${postGeneralStore.post.title}`"
@@ -14,7 +11,6 @@
         property="og:description"
         :content="postGeneralStore.post?.summary"
       />
-     
     </Head>
     <div
       class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
@@ -194,13 +190,11 @@ const uploadFile = async (file) => {
     imageInfo.value = dataUpload.data._rawValue.data;
   } catch (error) {
     message.error("Upload ảnh thất bại");
-    console.log("🚀 ~ uploadFile ~ error:", error);
   }
 };
 const handleChangeUploadImg = (info) => {
   const status = info.file.status;
   if (status !== "uploading") {
-    console.log(info.file, info.fileList);
   }
   if (status === "done") {
     message.success(`${info.file.name} file uploaded successfully.`);
@@ -237,14 +231,16 @@ useAsyncData(async () => {
   post.value.image = data.data._value?.data?.image;
   post.value.content = data.data._value?.data?.content;
   post.value.summary = data.data._value?.data?.summary;
-  fileList.value = post.value.image ?[
-    {
-      uid: "-1",
-      name: "image.png",
-      status: "done",
-      url: post.value.image,
-    },
-  ] : [];
+  fileList.value = post.value.image
+    ? [
+        {
+          uid: "-1",
+          name: "image.png",
+          status: "done",
+          url: post.value.image,
+        },
+      ]
+    : [];
 });
 const updatePost = async () => {
   try {
@@ -272,15 +268,9 @@ const updatePost = async () => {
 const handClose = () => {
   navigateTo("/admin/post");
 };
-const handleChange = (value) => {
-  console.log(`selected ${value}`);
-};
-const handleBlur = () => {
-  console.log("blur");
-};
-const handleFocus = () => {
-  console.log("focus");
-};
+const handleChange = (value) => {};
+const handleBlur = () => {};
+const handleFocus = () => {};
 const filterOption = (input, option) => {
   return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
@@ -367,7 +357,6 @@ const editorConfiguration = {
   },
   language: "vi",
 };
-
 </script>
 <style>
 .ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar,

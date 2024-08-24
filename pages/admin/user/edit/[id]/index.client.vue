@@ -492,7 +492,6 @@ const uploadFile = async (file) => {
 const handleChangeUploadImg = (info) => {
   const status = info.file.status;
   if (status !== "uploading") {
-    console.log(info.file, info.fileList);
   }
   if (status === "done") {
     message.success(`${info.file.name} file uploaded successfully.`);
@@ -504,9 +503,7 @@ const deleteFile = async (file) => {
   await baseStore.deleteImg(imageInfo.value?.publicId);
 };
 
-function handleDrop(e) {
-  console.log(e);
-}
+function handleDrop(e) {}
 const beforeUpload = (file) => {
   const isImage = file.type.startsWith("image/");
   if (!isImage) {

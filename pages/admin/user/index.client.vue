@@ -404,10 +404,12 @@
       />
       <div class="mt-4 flex justify-end">
         <a-pagination
+        v-if="userStore?.userAdmin?.totalResults > 0"
           v-model:current="current"
           :total="userStore?.userAdmin?.totalResults"
           :pageSize="userStore?.userAdmin?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
 
@@ -526,7 +528,6 @@ const showDeleteConfirm = (id) => {
       onActiveConfirm(id);
     },
     onCancel() {
-      console.log("Cancel");
     },
   });
 };

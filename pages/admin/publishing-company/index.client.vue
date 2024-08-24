@@ -249,7 +249,6 @@ const showDeleteConfirm = (id) => {
       onDelete(id);
     },
     onCancel() {
-      console.log("Cancel");
     },
   });
 };

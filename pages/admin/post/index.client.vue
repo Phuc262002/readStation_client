@@ -275,6 +275,7 @@
       </a-table>
       <div class="mt-4 flex justify-end">
         <a-pagination
+        v-if="postStore?.postsAdmin?.totalResults > 0"
           v-model:current="current"
           :total="postStore?.postsAdmin?.totalResults"
           :pageSize="postStore?.postsAdmin?.pageSize"
@@ -387,7 +388,6 @@ const showDeleteConfirm = (id) => {
       onDelete(id);
     },
     onCancel() {
-      console.log("Cancel");
     },
   });
 };

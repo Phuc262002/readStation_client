@@ -101,7 +101,6 @@ const showConfirm = (id) => {
       updateDetailCase(id);
     },
     onCancel() {
-      console.log("Cancel");
     },
     class: "test",
   });
