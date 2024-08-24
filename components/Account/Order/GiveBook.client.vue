@@ -132,7 +132,7 @@
             </a-select>
 
             <div class="flex gap-2">
-              <label class="font-bold"> Phí vận chuyển </label>
+              <label class="font-bold"> Phí vận chuyển: </label>
               <span class="text-orange-400">
                 {{
                   new Intl.NumberFormat("vi-VN", {
@@ -140,6 +140,13 @@
                     currency: "VND",
                   }).format(shippingValue?.fee)
                 }}
+              </span>
+            </div>
+
+            <div class="flex gap-2">
+              <label class="font-bold"> Khu vực vận chuyển: </label>
+              <span class="text-orange-400">
+                {{ shippingValue?.location.join(', ') }}
               </span>
             </div>
             <!--  -->
@@ -228,6 +235,7 @@ watch(
     calcShippingFee();
   }
 );
+
 const province_id = ref(undefined);
 const district_id = ref(undefined);
 const ward_id = ref(undefined);
@@ -249,6 +257,7 @@ const renderInfor = () => {
 };
 
 const onSubmit = async () => {
+  await calcShippingFee();
   const pickup_info = {
     fullname: user.value.fullname,
     phone: user.value.phone,
@@ -260,17 +269,55 @@ const onSubmit = async () => {
         ? `${address.value.street}, ${address.value.ward}, ${address.value.district}, ${address.value.province}`
         : null,
   };
+
   const pickupInfo = return_method.value === "library" ? null : pickup_info;
+  // check name, phone
+  const phonePattern = /^(0[3|5|7|8|9])+([0-9]{8})$/;
+  const fullNamePattern = /^[a-zA-ZÀ-ỹ\s\(\)]+$/;
+  if (return_method.value === "pickup" && !phonePattern.test(user.value.phone)) {
+    message.error({
+      content: "Số điện thoại không hợp lệ!",
+    });
+    return;
+  }
+  if (return_method.value === "pickup" && !fullNamePattern.test(user.value.fullname)) {
+    message.error({
+      content: "Họ tên không nhập số và ký tự đặc biệt!",
+    });
+    return;
+  }
+  // check address
+  if (
+    return_method.value === "pickup" &&
+    (!pickup_info.phone || !pickup_info.address)
+  ) {
+    message.error({
+      content: "Vui lòng điền đầy đủ thông tin giao hàng!",
+    });
+    return;
+  }
+  // check khu vực
+  if (return_method.value === "pickup") {
+    const locations = shippingMethodStore?.shippings?.filter(
+      (item) => item.id === shipping_method_id.value
+    )[0]?.location;
+
+    if (!locations.includes(address.value.province)) {
+      message.error("Hiện tại chưa có hình thức vận chuyển khu vực này !");
+      return;
+    }
+  }
+
   const resData = await orderStore.returnBook({
     id: props.bookDetail?.id,
     body: {
       return_method: return_method.value,
       shipping_method_id: shipping_method_id.value,
-      total_shipping_fee: parseFloat(shippingFee.value),
+      return_shipping_fee: shippingFee.value,
       pickup_info: pickupInfo,
     },
   });
-  console.log("resData", resData);
+
   if (resData?.data?._rawValue?.status == true) {
     message.success({
       content: "Trả sách thành công",

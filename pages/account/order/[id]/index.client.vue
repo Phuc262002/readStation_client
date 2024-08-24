@@ -213,6 +213,18 @@
               </span>
             </div>
 
+            <div class="grid grid-cols-8"
+              v-if="!['wating_payment', 'pending', 'approved', 'ready_for_pickup'].includes(orderStore?.order?.status)">
+              <span class="col-span-3 font-bold">Ngày nhận sách:</span>
+              <span class="col-span-5">
+                {{ orderStore?.order?.pickup_date ?
+                  $dayjs(orderStore?.order?.pickup_date).format(
+                    "DD/MM/YYYY"
+                  ) : "Chưa có thông tin ngày nhận sách"
+                }}
+              </span>
+            </div>
+
 
 
             <div class="grid grid-cols-8" v-if="
@@ -262,7 +274,7 @@
                     new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(orderStore?.order?.total_shipping_fee)
+                    }).format(orderStore?.order?.shipping_method?.fee)
                   }}
                 </span>
               </div>
@@ -302,6 +314,50 @@
                       style: "currency",
                       currency: "VND",
                     }).format(orderStore?.order?.total_all_fee + orderStore?.order?.total_shipping_fee)
+                  }}
+                </span>
+              </div>
+              <!-- <div class="grid grid-cols-4"
+                v-if="orderStore?.order?.status !== 'wating_payment' || orderStore?.order?.status !== 'pending' || orderStore?.order?.status !== 'approved' || orderStore?.order?.status !== 'ready_for_pickup' || orderStore?.order?.status !== 'preparing_shipment' || orderStore?.order?.status !== 'in_transit'"> -->
+              <div class="grid grid-cols-4"
+                v-if="!['wating_payment', 'pending', 'approved', 'ready_for_pickup', 'preparing_shipment', 'in_transit'].includes(orderStore?.order?.status)">
+                <span class="col-span-2 font-bold">
+                  Tổng phí gia hạn:
+                </span>
+                <span class="col-span-2">
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(totalExtensionFee())
+                  }}
+                </span>
+              </div>
+              <div class="grid grid-cols-4"
+                v-if="!['wating_payment', 'pending', 'approved', 'ready_for_pickup', 'preparing_shipment', 'in_transit'].includes(orderStore?.order?.status)">
+                <span class="col-span-2 font-bold">
+                  Tổng phí giao trả sách:
+                </span>
+                <span class="col-span-2">
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(orderStore?.order?.total_shipping_fee)
+                  }}
+                </span>
+              </div>
+              <div class="grid grid-cols-4"
+                v-if="!['wating_payment', 'in_transit', 'pending', 'approved', 'ready_for_pickup'].includes(orderStore?.order?.status)">
+                <span class="col-span-2 font-bold">
+                  Số tiền hoàn trả lại:
+                </span>
+                <span class="col-span-2">
+                  {{
+                    new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(orderStore?.order?.total_return_fee)
                   }}
                 </span>
               </div>
@@ -405,9 +461,11 @@ const onCancelOrderDetail = async (id: any) => {
   await orderStore.cancelOrder(id);
 };
 
-
-
-
+// Phí gia hạn
+const totalExtensionFee = () => {
+  const extension = orderStore?.order?.extensions;
+  return extension.reduce((acc, curr) => acc + curr.extension_fee || 0, 0)
+}
 
 const showCancelConfirm = (id: any) => {
   Modal.confirm({

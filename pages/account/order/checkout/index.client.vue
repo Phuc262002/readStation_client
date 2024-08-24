@@ -163,47 +163,7 @@
             </div>
           </div>
         </div>
-        <!--  -->
-        <!-- <div class="bg-white shadow-md rounded-lg" v-if="route.query.type === 'thue_ngay'">
-          <div class="p-6 w-full">
-            <div class="flex flex-col gap-5">
-              <div class="flex gap-3 border-b border-rtgray-50 pb-5">
-                <span class="font-bold">Nhập số ngày thuê sách</span>
-                <a-popover trigger="hover" placement="topRight">
-                  <template #content>
-                    <p class="text-sm text-orange-600 flex flex-col">
-                      <span>* Học sinh, sinh viên chọn sách theo danh mục "Sách giáo khoa" thuê tối đa 30 ngày</span>
-                      <span>* Khách hàng thuê tối đa 5 ngày</span>
-                    </p>
-                  </template>
-                  <Icon class="text-orange-600" icon="ic:outline-info" />
-                </a-popover>
-              </div>
-              <div>
-                <span
-                  v-if="authStore?.authUser?.user?.role?.name === 'student' && cartStore.rentNow[0]?.book?.category?.name === 'Sách giáo khoa'">
-                  <a-input type="number" placeholder="Nhập số ngày thuê sách" size="large"
-                    :value="cartStore.rentNow[0].number_of_days" @change="(e) =>
-                      cartStore.updateNumberOfDays(
-                        cartStore.rentNow[0].id,
-                        e.target.value
-                      )
-                      " required :min="1" :max="30" />
-                </span>
-                <span v-else>
-                  <a-input type="number" placeholder="Nhập số ngày thuê sách" size="large"
-                    :value="cartStore.rentNow[0].number_of_days" @change="(e) =>
-                      cartStore.updateNumberOfDays(
-                        cartStore.rentNow[0].id,
-                        e.target.value
-                      )
-                      " required :min="1" :max="5" />
-                </span>
-              </div>
 
-            </div>
-          </div>
-        </div> -->
         <!--  -->
         <div class="bg-white shadow-md rounded-lg" v-if="delivery_method === 'shipper'">
           <div class="p-6 w-full">
