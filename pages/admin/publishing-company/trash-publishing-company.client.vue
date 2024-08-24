@@ -85,6 +85,7 @@
       </a-table>
       <div class="mt-4 flex justify-end">
         <a-pagination
+        v-if="publishingCompanyStore?.publishingCompaniesAdmin?.totalResults > 0"
           v-model:current="current"
           :total="
             publishingCompanyStore?.publishingCompaniesAdmin?.totalResults
@@ -151,7 +152,6 @@ const showRecoverConfirm = (id) => {
       onRecover(id);
     },
     onCancel() {
-      console.log("Cancel");
     },
   });
 };

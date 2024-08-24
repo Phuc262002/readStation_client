@@ -644,7 +644,6 @@ useAsyncData(async () => {
 });
 const handleCheckStatus = (status) => {
   filter.value = status;
-  console.log(status);
 };
 
 const columns = [
@@ -658,13 +657,6 @@ const columns = [
     title: "Thông tin cá nhân",
     dataIndex: "user",
     key: "user",
-  },
-
-  {
-    title: "Ngày thuê",
-    dataIndex: "receipt_date",
-    key: "receipt_date",
-    width: 120,
   },
   {
     title: "Số lượng sách",

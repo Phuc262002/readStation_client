@@ -50,7 +50,6 @@ const page = ref(1);
 const postStore = usePublicPostStore();
 const pageChange = () => {
   page.value++;
-  console.log(page.value);
 };
 useAsyncData(
   async () => {
@@ -61,7 +60,6 @@ useAsyncData(
       });
       postStore.posts = data.data._value?.data;
     } catch (error) {
-      console.error(error);
     }
   },
   {
