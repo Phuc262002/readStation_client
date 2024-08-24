@@ -137,34 +137,15 @@
                     })
                     ">Tất cả</a-radio>
                 </li>
+
                 <li>
-                  <a-radio class="flex items-center" :checked="filter.rating === 1 ? true : false" @click="
+                  <a-radio class="flex items-center" :checked="filter.rating === 5 ? true : false" @click="
                     handleCheckbox({
                       type: 'rating',
-                      id: 1,
+                      id: 5,
                     })
                     ">
-                    <CommonRating :rating="1" />
-                  </a-radio>
-                </li>
-                <li>
-                  <a-radio class="flex items-center" :checked="filter.rating === 2 ? true : false" @click="
-                    handleCheckbox({
-                      type: 'rating',
-                      id: 2,
-                    })
-                    ">
-                    <CommonRating :rating="2" />
-                  </a-radio>
-                </li>
-                <li>
-                  <a-radio class="flex items-center" :checked="filter.rating === 3 ? true : false" @click="
-                    handleCheckbox({
-                      type: 'rating',
-                      id: 3,
-                    })
-                    ">
-                    <CommonRating :rating="3" />
+                    <CommonRating :rating="5" />
                   </a-radio>
                 </li>
                 <li>
@@ -178,15 +159,36 @@
                   </a-radio>
                 </li>
                 <li>
-                  <a-radio class="flex items-center" :checked="filter.rating === 5 ? true : false" @click="
+                  <a-radio class="flex items-center" :checked="filter.rating === 3 ? true : false" @click="
                     handleCheckbox({
                       type: 'rating',
-                      id: 5,
+                      id: 3,
                     })
                     ">
-                    <CommonRating :rating="5" />
+                    <CommonRating :rating="3" />
                   </a-radio>
                 </li>
+                <li>
+                  <a-radio class="flex items-center" :checked="filter.rating === 2 ? true : false" @click="
+                    handleCheckbox({
+                      type: 'rating',
+                      id: 2,
+                    })
+                    ">
+                    <CommonRating :rating="2" />
+                  </a-radio>
+                </li>
+                <li>
+                  <a-radio class="flex items-center" :checked="filter.rating === 1 ? true : false" @click="
+                    handleCheckbox({
+                      type: 'rating',
+                      id: 1,
+                    })
+                    ">
+                    <CommonRating :rating="1" />
+                  </a-radio>
+                </li>
+
               </ul>
             </div>
           </div>

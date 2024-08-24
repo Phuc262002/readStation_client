@@ -2,12 +2,11 @@
   <div class="w-full space-y-4">
     <div class="bg-white w-full h-fit p-4 rounded-lg border border-rtgray-50">
       <div class="flex pb-1 gap-2">
-        <div>
+
+        <div v-if="bookStore?.book?.book?.is_featured === true">
           <img class="w-full h-[20px]" src="../../../assets/images/icon-standing.svg" alt="" />
         </div>
-        <div class="px-1">
-          <img class="w-full h-[20px]" src="../../../assets/images/icon-real.svg" alt="" />
-        </div>
+
         <div class="flex gap-2 text-sm font-normal">
           <p>Tác giả:</p>
           <p class="text-rtprimary">
@@ -33,7 +32,7 @@
           <span> {{ bookStore?.book?.stock }} </span>
         </div>
       </div>
-      <div class="flex gap-3">
+      <div class="flex gap-3" v-if="bookStore?.book?.average_rate > 0">
         <p class="text-sm font-medium">
           {{ bookStore?.book?.average_rate }} sao
         </p>
@@ -41,6 +40,9 @@
         <p class="text-[#787878] text-sm">
           ( {{ bookStore?.book?.rating_total }} đánh giá)
         </p>
+      </div>
+      <div class="flex gap-3" v-else>
+        <CommonRating :rating="5" />
       </div>
       <div class="flex items-center gap-3 pt-1">
         <p class="font-bold text-2xl">

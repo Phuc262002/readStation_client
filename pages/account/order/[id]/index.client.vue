@@ -274,7 +274,7 @@
                     new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(orderStore?.order?.shipping_method?.fee)
+                    }).format(orderStore?.order?.total_shipping_fee)
                   }}
                 </span>
               </div>
@@ -333,20 +333,7 @@
                   }}
                 </span>
               </div>
-              <div class="grid grid-cols-4"
-                v-if="!['wating_payment', 'pending', 'approved', 'ready_for_pickup', 'preparing_shipment', 'in_transit'].includes(orderStore?.order?.status)">
-                <span class="col-span-2 font-bold">
-                  Tổng phí giao trả sách:
-                </span>
-                <span class="col-span-2">
-                  {{
-                    new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(orderStore?.order?.total_shipping_fee)
-                  }}
-                </span>
-              </div>
+
               <div class="grid grid-cols-4"
                 v-if="!['wating_payment', 'in_transit', 'pending', 'approved', 'ready_for_pickup'].includes(orderStore?.order?.status)">
                 <span class="col-span-2 font-bold">
