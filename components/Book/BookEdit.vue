@@ -62,10 +62,19 @@
 const props = defineProps({
     openModalBook: Boolean,
     openModal: Function,
+    id: Number,
 });
 const errors = ref({});
-const route = useRoute()
-const bookID = route.params.id
+const bookID = ref(props.id);
+watch(
+    () => props.bookID,
+    (newVal) => {
+        bookID.value = newVal;
+    }
+);
+const handleClose = () => {
+    props.openModal();
+};
 const bookStore = useBookStore();
 const dataGet = ref({
     title: '',
@@ -78,8 +87,8 @@ const dataGet = ref({
 })
 useAsyncData(async () => {
     try {
-        const data = await bookStore.getOneBookAdmin(bookID);
-        console.log(data);
+        const data = await bookStore.getOneBookAdmin(bookID.value);
+        console.log("🚀 ~ useAsyncData ~ data:", data)
         dataGet.value.title = data?.data?._value?.data?.title;
         dataGet.value.author = data?.data?._value?.data?.author?.author;
         dataGet.value.category = data?.data?._value?.data?.category?.name;
@@ -90,11 +99,11 @@ useAsyncData(async () => {
     } catch (error) {
         console.error(error);
     }
+}, {
+    watch: [bookID],
 });
-const open = ref(props.openModalBook);
-const handleClose = () => {
-    props.openModal();
-};
+
+
 
 const optionsAuthor = ref([]);
 const authorValue = useAuthorStore();
@@ -160,7 +169,7 @@ const getDataCaseValue = async () => {
         optionsCase.value = data.data._rawValue.data.bookcases.map((items) => {
             return {
                 value: items.id,
-                label: items.description,
+                label: items.name,
             };
         });
     } catch (error) {
@@ -174,28 +183,28 @@ useAsyncData(async () => {
     await getDataShelvesValue();
     await getDataCaseValue();
 });
-const onSubmit = async () => {
-    try {
-        const dataUpdate = {
-            title: dataGet.value.title,
-            author: dataGet.value.author,
-            category: dataGet.value.category,
-            bookcase: dataGet.value.bookcase,
-            shelve: dataGet.value.shelve,
-            description: dataGet.value.description,
-            description_summary: dataGet.value.description_summary,
-        };
-        const res = await bookStore.updateBook({ id: bookID, value: dataUpdate });
-        if (res.data._rawValue?.status == true) {
-            handleClose();
-            message.success("Cập nhật sách thành công");
-            await bookStore.getOneBookAdmin(bookID)
-        } else {
-            errors.value = res.data._rawValue?.errors;
-            message.error(res.error.value.data.message);
-        }
-    } catch (error) {
-        console.error(error);
-    }
-};
+// const onSubmit = async () => {
+//     try {
+//         const dataUpdate = {
+//             title: dataGet.value.title,
+//             author: dataGet.value.author,
+//             category: dataGet.value.category,
+//             bookcase: dataGet.value.bookcase,
+//             shelve: dataGet.value.shelve,
+//             description: dataGet.value.description,
+//             description_summary: dataGet.value.description_summary,
+//         };
+//         const res = await bookStore.updateBook({ id: bookID, value: dataUpdate });
+//         if (res.data._rawValue?.status == true) {
+//             handleClose();
+//             message.success("Cập nhật sách thành công");
+//             // await bookStore.getOneBookAdmin(bookID)
+//         } else {
+//             errors.value = res.data._rawValue?.errors;
+//             message.error(res.error.value.data.message);
+//         }
+//     } catch (error) {
+//         console.error(error);
+//     }
+// };
 </script>

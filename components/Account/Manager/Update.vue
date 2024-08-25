@@ -96,7 +96,7 @@
           <div class="w-1/2 text-left">
             <a-select v-if="isShow" class="w-full" size="large" v-model:value="province_id" show-search
               placeholder="Tỉnh/Thành phố" :filter-option="filterOption" :options="optionsPronvines"
-              @focus="handleFocus" @blur="handleBlur" @change="handleChangeProvince" :loading="baseStore.isLoading">
+               @change="handleChangeProvince" :loading="baseStore.isLoading">
             </a-select>
             <span v-else>{{
               authStore?.authUser?.user?.province?.ProvinceName
@@ -108,8 +108,8 @@
           <span class="w-1/2 h-8 flex items-center font-semibold">Quận/ Huyện</span>
           <div class="w-1/2 text-left">
             <a-select v-if="isShow" class="w-full" size="large" v-model:value="district_id" show-search
-              placeholder="Quận/Huyện" :options="optionsDistricts" :filter-option="filterOption" @focus="handleFocus"
-              @blur="handleBlur" @change="handleChangeDistrict" :disabled="!province_id" :loading="baseStore.isLoading">
+              placeholder="Quận/Huyện" :options="optionsDistricts" :filter-option="filterOption" 
+               @change="handleChangeDistrict" :disabled="!province_id" :loading="baseStore.isLoading">
             </a-select>
             <span v-else>{{
               authStore?.authUser?.user?.district?.DistrictName
@@ -121,8 +121,8 @@
           <span class="w-1/2 h-8 flex items-center font-semibold">Xã/ Phường/ Thị trấn</span>
           <div class="w-1/2 text-left">
             <a-select v-if="isShow" class="w-full" size="large" v-model:value="ward_id" show-search
-              placeholder="Phường/Xã" :options="optionsWards" :filter-option="filterOption" @focus="handleFocus"
-              @blur="handleBlur" @change="handleChangeWard" :disabled="!district_id" :loading="baseStore.isLoading">
+              placeholder="Phường/Xã" :options="optionsWards" :filter-option="filterOption" 
+               @change="handleChangeWard" :disabled="!district_id" :loading="baseStore.isLoading">
             </a-select>
             <span v-else>{{ authStore?.authUser?.user?.ward?.WardName }}</span>
           </div>
@@ -336,12 +336,7 @@ const handleChangeWard = (value) => {
   ).label;
 };
 
-const handleBlur = () => {
-  console.log("blur");
-};
-const handleFocus = () => {
-  console.log("focus");
-};
+
 const filterOption = (input, option) => {
   return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };

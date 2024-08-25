@@ -195,7 +195,6 @@ const onSubmit = handleSubmit(async (values) => {
       });
     }
   } catch (error) {
-    // console.log(error);
     message.error({
       content: "Đăng ký không thành công",
     });

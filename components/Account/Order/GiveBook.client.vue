@@ -85,7 +85,7 @@
                 <label class="font-bold"> Tỉnh/ Thành phố </label>
                 <div class="mt-2">
                   <a-select class="w-full" size="large" v-model:value="province_id" show-search
-                    placeholder="Tỉnh/Thành phố" :options="optionsPronvines" @focus="handleFocus" @blur="handleBlur"
+                    placeholder="Tỉnh/Thành phố" :options="optionsPronvines" 
                     @change="handleChangeProvince" :loading="baseStore.isLoading">
                   </a-select>
                 </div>
@@ -94,7 +94,7 @@
                 <label class="font-bold"> Quận/ Huyện </label>
                 <div class="mt-2">
                   <a-select class="w-full" size="large" v-model:value="district_id" show-search placeholder="Quận/Huyện"
-                    :options="optionsDistricts" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
+                    :options="optionsDistricts" :filter-option="filterOption" 
                     @change="handleChangeDistrict" :disabled="!province_id" :loading="baseStore.isLoading">
                   </a-select>
                 </div>
@@ -105,7 +105,7 @@
                 <label class="font-bold"> Phường/ Xã </label>
                 <div class="mt-2">
                   <a-select class="w-full" size="large" v-model:value="ward_id" show-search placeholder="Phường/Xã"
-                    :options="optionsWards" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
+                    :options="optionsWards" :filter-option="filterOption" 
                     @change="handleChangeWard" :disabled="!district_id" :loading="baseStore.isLoading">
                   </a-select>
                 </div>
@@ -128,7 +128,7 @@
             </div>
 
             <a-select placeholder="Chọn hình thức vận chuyển" size="large" v-model:value="shipping_method_id"
-              style="width: 30%" @focus="focus" @change="handleChange" :options="options">
+              style="width: 30%" @change="handleChange" :options="options">
             </a-select>
 
             <div class="flex gap-2">
@@ -419,10 +419,6 @@ watch(
     bookDetailId.value = newValue;
   }
 );
-
-const focus = () => {
-  console.log("focus");
-};
 
 const handleChange = (value: string) => {
   shippingValue.value = shippingMethodStore?.shippings.filter(
