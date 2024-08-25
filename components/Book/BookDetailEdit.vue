@@ -303,6 +303,7 @@ const data = ref(
 )
 
 useAsyncData(async () => {
+  if (idBookDetail.value === undefined) return;
   const res = await bookDetailStore.getOneBookDetail(idBookDetail.value);
   data.value.sku_origin = res.data._value?.data?.sku_origin;
   data.value.book_version = res.data._value?.data?.book_version;

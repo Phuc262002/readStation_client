@@ -1,11 +1,11 @@
 <template>
-
     <Head>
         <Title>ReadStation | Chi tiết sách {{ bookStore?.OneBookAdmin?.title }}</Title>
         <Meta name="description" content="Chi tiết sách" />
         <Meta property="og:title" content="ReadStation | Chi tiết sách" />
         <Meta property="og:description" content="Chi tiết sách" />
     </Head>
+    <div>hello {{ bookID }}</div>
     <div>
         <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
             <div class="flex flex-col gap-5 w-full">
@@ -183,13 +183,23 @@
     </div>
 </template>
 <script setup lang="ts">
+const bookStore = useBookStore();
 const openModalAdd = ref<boolean>(false);
 const openModalEdit = ref<boolean>(false);
 const openModalBook = ref<boolean>(false);
-// const route = useRoute()
-// const bookID = route.params.id
+const route = useRoute()
+const bookID = route.params.id
 const id_bookEdit = ref<number>();
 const itemBookDetail = ref()
+useAsyncData(async () => {
+    try {
+        if (bookID) {
+            await bookStore.getOneBookAdmin(bookID);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+})
 const showModal = (id: number) => {
     openModalBook.value = true;
     id_bookEdit.value = id;
@@ -210,12 +220,4 @@ const showModalEdit = (id: any) => {
 const CloseModalEdit = () => {
     openModalEdit.value = false;
 };
-const bookStore = useBookStore();
-// useAsyncData(async () => {
-//     try {
-//         await bookStore.getOneBookAdmin(bookID);
-//     } catch (error) {
-//         console.error(error);
-//     }
-// });
 </script>

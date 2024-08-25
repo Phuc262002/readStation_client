@@ -103,6 +103,7 @@ const valueShelves = ref({
 
 useAsyncData(async () => {
   try {
+    if (shelvesId.value === undefined) return;
     const data = await shelvesStore.getOneShelves(shelvesId.value);
     valueShelves.value.name = data.data._value?.data?.name;
     valueShelves.value.description = data.data._value?.data?.description;

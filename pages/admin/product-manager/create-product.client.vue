@@ -520,6 +520,8 @@ const columns = [
 const showConfirm = (id) => {
   Modal.confirm({
     title: "Bạn có chắc loại bỏ sách này không?",
+    okText: "Có",
+    cancelText: "Hủy",
     onOk() {
       deleteBook(id);
     },

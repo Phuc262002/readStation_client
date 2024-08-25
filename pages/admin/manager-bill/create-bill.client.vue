@@ -59,7 +59,7 @@
                       <a-menu-item v-else v-for="(items, index) in bookDetailStore
                         ?.getAllBookdetailAdmin?.books" :key="index">
                         <div class="grid grid-cols-5 gap-5 items-center"
-                          v-if="bookDetailStore?.getAllBookdetailAdmin?.books" @click="showConfirm(items?.id)">
+                          v-if="bookDetailStore?.getAllBookdetailAdmin?.books" @click="pushBook(items?.id)">
                           <div>
                             <img class="rounded-lg w-20 h-28" :src="items?.poster" alt="" />
                           </div>
@@ -97,15 +97,8 @@
                   </template>
                   <template v-if="column.dataIndex === 'quantity'">
                     <div class="flex items-center gap-3">
-                      <button @click.prevent="decreaseQuantity(record)"
-                        class="border rounded-lg w-10 h-10 flex justify-center items-center text-lg">
-                        -
-                      </button>
-                      {{ record?.quantity }}
-                      <button @click.prevent="increaseQuantity(record)"
-                        class="border rounded-lg w-10 h-10 flex justify-center items-center text-lg">
-                        +
-                      </button>
+                      <a-input-number v-model:value="record.quantity" :min="1" 
+                        @change="handleQuantityChange(record)" />
                     </div>
                   </template>
                   <template v-if="column.dataIndex === 'price'">
@@ -207,14 +200,45 @@ useAsyncData(
     watch: [],
   }
 );
-const showConfirm = (id) => {
-  Modal.confirm({
-    title: "Bạn có chắc muốn thêm sách này vào danh sách nhập hàng không ?",
-    okText: "Có",
-    okType: "danger",
-    cancelText: "Hủy",
-    onOk() {
-      const selectedBook = bookDetailStore?.getAllBookdetailAdmin?.books.find((book) => book?.id === id);
+// const showConfirm = (id) => {
+//   Modal.confirm({
+//     title: "Bạn có chắc muốn thêm sách này vào danh sách nhập hàng không ?",
+//     okText: "Có",
+//     okType: "danger",
+//     cancelText: "Hủy",
+//     onOk() {
+//       const selectedBook = bookDetailStore?.getAllBookdetailAdmin?.books.find((book) => book?.id === id);
+//       console.log(selectedBook?.id);
+//       const existingBook = data.value.find(
+//         (item) => item.id === selectedBook?.id
+//       );
+//       if (!existingBook) {
+//         if (selectedBook) {
+//           const newData = [...data.value];
+//           newData.push({
+//             id: selectedBook?.id,
+//             title: selectedBook?.book?.title,
+//             book_version: selectedBook?.book_version,
+//             sku_origin: selectedBook?.sku_origin,
+//             quantity: 1,
+//             price: selectedBook?.price,
+//             total: selectedBook.price,
+//           });
+//           data.value = newData;
+//         }
+//       } else {
+//         message.error("Sách đã được thêm");
+//       }
+//       valueSearch.value = "";
+//     },
+//     onCancel() {
+//       console.log("Cancel");
+//     },
+//     class: "test",
+//   });
+// };
+const pushBook = id => {
+  const selectedBook = bookDetailStore?.getAllBookdetailAdmin?.books.find((book) => book?.id === id);
       console.log(selectedBook?.id);
       const existingBook = data.value.find(
         (item) => item.id === selectedBook?.id
@@ -237,13 +261,7 @@ const showConfirm = (id) => {
         message.error("Sách đã được thêm");
       }
       valueSearch.value = "";
-    },
-    onCancel() {
-      console.log("Cancel");
-    },
-    class: "test",
-  });
-};
+}
 const calculateTotal = () => {
   // Tính tổng của tất cả các sản phẩm trong danh sách data
   const total = data.value.reduce((sum, item) => sum + item.total, 0);
@@ -254,33 +272,15 @@ const calculateTotal = () => {
 watch(data, (newValue) => {
   calculateTotal();
 }, { deep: true });
-const increaseQuantity = (record) => {
+const handleQuantityChange = (record) => {
   // Tìm sản phẩm trong danh sách data
   const updatedData = data.value.map((item) => {
     if (item.id === record.id) {
       return {
         ...item,
-        quantity: item.quantity + 1,
-        total: (item.quantity + 1) * item.price,
+        quantity: record.quantity,
+        total: record.quantity * item.price,
       };
-    }
-    return item;
-  });
-  data.value = updatedData;
-  calculateTotal();
-};
-
-const decreaseQuantity = (record) => {
-  // Tìm sản phẩm trong danh sách data
-  const updatedData = data.value.map((item) => {
-    if (item.id === record.id) {
-      if (item.quantity > 1) {
-        return {
-          ...item,
-          quantity: item.quantity - 1,
-          total: (item.quantity - 1) * item.price,
-        };
-      }
     }
     return item;
   });
@@ -378,6 +378,7 @@ const columns = [
     title: "Số lượng",
     dataIndex: "quantity",
     key: "quantity",
+    width: 80,
   },
   {
     title: "Giá",
@@ -388,6 +389,7 @@ const columns = [
     title: "Tổng tiền",
     dataIndex: "total",
     key: "total",
+    width: 200,
   },
   {
     title: "Thao tác",
