@@ -1,4 +1,10 @@
 <template>
+  <Head>
+      <Title>ReadStation | Tạo đơn hàng</Title>
+      <Meta name="description" content="Tạo đơn hàng" />
+      <Meta property="og:title" content="ReadStation | Tạo đơn hàng" />
+      <Meta property="og:description" content="Tạo đơn hàng" />
+    </Head>
   <div>
     <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">

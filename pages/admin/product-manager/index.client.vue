@@ -1,5 +1,12 @@
 <template>
   <div class="flex flex-col gap-5">
+
+    <Head>
+      <Title>ReadStation | Quản lý đơn hàng</Title>
+      <Meta name="description" content="Quản lý đơn hàng" />
+      <Meta property="og:title" content="ReadStation | Quản lý đơn hàng" />
+      <Meta property="og:description" content="Quản lý đơn hàng" />
+    </Head>
     <h1 class="text-xl text-[#1e293b] font-bold pb-3">Quản lý đơn hàng</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       <div class="flex flex-col">
@@ -207,99 +214,95 @@
               </div>
               <a-dropdown :trigger="['click']">
                 <template #overlay>
-                  <div class="h-[300px] overflow-auto">
-                    <a-menu>
-                      <a-menu-item>
-                        <div @click="
-                          statusValue({ value: '', label: 'Tất cả trạng thái' })
-                          ">
-                          Tất cả trạng thái
-                        </div>
-                      </a-menu-item>
-                      <a-menu-item>
-                        <div @click="
-                          statusValue({ value: 'pending', label: 'Đang xử lý' })
-                          ">
-                          Đang xử lý
-                        </div>
-                      </a-menu-item>
-                      <a-menu-item>
-                        <div @click="
-                          statusValue({
-                            value: 'approved',
-                            label: 'Đã xác nhận',
-                          })
-                          ">Đã xác nhận</div>
-                      </a-menu-item>
-                      <a-menu-item>
-                        <div @click="
-                          statusValue({
-                            value: 'ready_for_pickup',
-                            label: 'Đơn hàng sẵn sàn',
-                          })
-                          ">Đơn hàng sẵn sàng</div>
-                      </a-menu-item>
-                      <a-menu-item>
-                        <div @click="
-                          statusValue({
-                            value: 'preparing_shipment',
-                            label: 'Chuẩn bị giao hàng',
-                          })
-                          ">
-                          Chuẩn bị giao hàng
-                        </div>
-                      </a-menu-item>
-                      <a-menu-item>
-                        <div @click="
-                          statusValue({
-                            value: 'in_transit',
-                            label: 'Đang giao',
-                          })
-                          ">Đang giao</div>
-                      </a-menu-item>
-                      <a-menu-item>
-                        <div @click="
-                          statusValue({ value: 'extended', label: 'Gia hạn' })
-                          ">Gia hạn</div>
-                      </a-menu-item>
-                      <a-menu-item>
-                        <div @click="
-                          statusValue({ value: 'active', label: 'Đang thuê' })
-                          ">Đang thuê</div>
-                      </a-menu-item>
-                      <a-menu-item>
-                        <div @click="
-                          statusValue({
-                            value: 'returning',
-                            label: ' Đang trả sách',
-                          })
-                          ">Đang trả sách</div>
-                      </a-menu-item>
-                      <a-menu-item>
-                        <div @click="
-                          statusValue({
-                            value: 'completed',
-                            label: 'Hoàn thành',
-                          })
-                          ">Hoàn thành</div>
-                      </a-menu-item>
-                      <a-menu-item>
-                        <div @click="
-                          statusValue({ value: 'canceled', label: 'Đã hủy' })
-                          ">Đã hủy</div>
-                      </a-menu-item>
-                      <a-menu-item>
-                        <div @click="
-                          statusValue({ value: 'overdue', label: 'Quá hạn' })
-                          ">Quá hạn</div>
-                      </a-menu-item>
-                    </a-menu>
-                  </div>
+                  <a-menu class="h-[300px] overflow-auto">
+                    <a-menu-item>
+                      <div @click="
+                        statusValue({ value: '', label: 'Tất cả trạng thái' })
+                        ">
+                        Tất cả trạng thái
+                      </div>
+                    </a-menu-item>
+                    <a-menu-item>
+                      <div @click="
+                        statusValue({ value: 'pending', label: 'Đang xử lý' })
+                        ">
+                        Đang xử lý
+                      </div>
+                    </a-menu-item>
+                    <a-menu-item>
+                      <div @click="
+                        statusValue({
+                          value: 'approved',
+                          label: 'Đã xác nhận',
+                        })
+                        ">Đã xác nhận</div>
+                    </a-menu-item>
+                    <a-menu-item>
+                      <div @click="
+                        statusValue({
+                          value: 'ready_for_pickup',
+                          label: 'Đơn hàng sẵn sàn',
+                        })
+                        ">Đơn hàng sẵn sàng</div>
+                    </a-menu-item>
+                    <a-menu-item>
+                      <div @click="
+                        statusValue({
+                          value: 'preparing_shipment',
+                          label: 'Chuẩn bị giao hàng',
+                        })
+                        ">
+                        Chuẩn bị giao hàng
+                      </div>
+                    </a-menu-item>
+                    <a-menu-item>
+                      <div @click="
+                        statusValue({
+                          value: 'in_transit',
+                          label: 'Đang giao',
+                        })
+                        ">Đang giao</div>
+                    </a-menu-item>
+                    <a-menu-item>
+                      <div @click="
+                        statusValue({ value: 'extended', label: 'Gia hạn' })
+                        ">Gia hạn</div>
+                    </a-menu-item>
+                    <a-menu-item>
+                      <div @click="
+                        statusValue({ value: 'active', label: 'Đang thuê' })
+                        ">Đang thuê</div>
+                    </a-menu-item>
+                    <a-menu-item>
+                      <div @click="
+                        statusValue({
+                          value: 'returning',
+                          label: ' Đang trả sách',
+                        })
+                        ">Đang trả sách</div>
+                    </a-menu-item>
+                    <a-menu-item>
+                      <div @click="
+                        statusValue({
+                          value: 'completed',
+                          label: 'Hoàn thành',
+                        })
+                        ">Hoàn thành</div>
+                    </a-menu-item>
+                    <a-menu-item>
+                      <div @click="
+                        statusValue({ value: 'canceled', label: 'Đã hủy' })
+                        ">Đã hủy</div>
+                    </a-menu-item>
+                    <a-menu-item>
+                      <div @click="
+                        statusValue({ value: 'overdue', label: 'Quá hạn' })
+                        ">Quá hạn</div>
+                    </a-menu-item>
+                  </a-menu>
                 </template>
                 <a-button size="large" class="flex gap-3 items-center">
-                  {{
-                    queryStatus.label ? queryStatus.label : "Tất cả trạng thái"
-                  }}
+                  {{ queryStatus.label ? queryStatus.label : "Tất cả trạng thái" }}
                   <DownOutlined />
                 </a-button>
               </a-dropdown>
