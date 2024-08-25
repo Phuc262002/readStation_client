@@ -590,26 +590,21 @@ const handleSubmit = async () => {
     user.value.place_of_issue
   ) {
     if (
-      user.value.citizen_name === "" ||
-      user.value.citizen_code === "" ||
-      user.value.date_of_issue === "" ||
-      user.value.place_of_issue === ""
+      user.value.citizen_name === undefined ||
+      user.value.citizen_code === undefined ||
+      user.value.date_of_issue === undefined ||
+      user.value.place_of_issue === undefined
     ) {
       message.error("Vui lòng nhập đầy đủ thông tin CMT/ CCCD");
       return false;
     }
   }
-  if (
-    user.value.student_name ||
-    user.value.student_code ||
-    user.value.student_card_expired ||
-    user.value.place_of_study
-  ) {
+  if (user.value.role_id === 2) {
     if (
-      user.value.student_name === "" ||
-      user.value.student_code === "" ||
-      user.value.student_card_expired === "" ||
-      user.value.place_of_study === ""
+      user.value.student_name === undefined ||
+      user.value.student_code === undefined ||
+      user.value.student_card_expired === undefined ||
+      user.value.place_of_study === undefined
     ) {
       message.error("Vui lòng nhập đầy đủ thông tin sinh viên");
       return false;

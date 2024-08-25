@@ -541,6 +541,7 @@ const updateComment = async () => {
     content: showEditComment.value.content,
   });
   submittingReply.value = false;
+  
   await commentStore.getComment({ post_id: postStore.post?.id });
   showEditComment.value.content = "";
   showEditComment.value.comment_id = null;
