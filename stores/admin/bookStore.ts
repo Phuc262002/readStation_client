@@ -98,7 +98,7 @@ export const useBookStore = defineStore("book-store", {
       this.isSubmitting = false;
       return data;
     },
-    async getOneBookAdmin(id: string) {
+    async getOneBookAdmin(id: any) {
       this.isLoading = true;
       const data: any = await useCustomFetch(`/api/v1/admin/books/${id}`);
       this.OneBookAdmin = data.data._value?.data;
