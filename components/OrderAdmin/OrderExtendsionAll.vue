@@ -29,8 +29,16 @@ import { number } from 'yup';
                             </div>
                             <div class="grid grid-cols-2  gap-x-8 items-center">
                                 <p class="text-base font-bold">Chọn thêm ngày gia hạn:</p>
-                                <a-input type="number" class="w-1/2" v-model:value="number_of_days[index]" :min="1"
-                                    :max="5" required />
+                                <div
+                                    v-if="items?.book_details?.book?.category?.name === 'Sách giáo khoa' && orderStore?.getOneOrderAdmin?.data?.user?.role?.name === 'student'">
+                                    <a-input type="number" class="w-1/2" v-model:value="number_of_days[index]" :min="1"
+                                        :max="30" required />
+                                </div>
+                                <div v-else>
+                                    <a-input type="number" class="w-1/2" v-model:value="number_of_days[index]" :min="1"
+                                        :max="5" required />
+                                </div>
+
                             </div>
                             <div class="grid grid-cols-2  gap-x-8">
                                 <p class="text-base font-bold">Ngày hết hạn mới:</p>
@@ -59,6 +67,7 @@ import { number } from 'yup';
                     <a-button type="primary" html-type="submit" :loading="orderStore.isSubmitting">Xác nhận</a-button>
                 </div>
             </div>
+
         </form>
 
     </a-modal>

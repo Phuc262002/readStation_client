@@ -1,4 +1,11 @@
 <template>
+
+    <Head>
+        <Title>ReadStation | Chi tiết sách {{ bookStore?.OneBookAdmin?.title }}</Title>
+        <Meta name="description" content="Chi tiết sách" />
+        <Meta property="og:title" content="ReadStation | Chi tiết sách" />
+        <Meta property="og:description" content="Chi tiết sách" />
+    </Head>
     <div>
         <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
             <div class="flex flex-col gap-5 w-full">
@@ -84,7 +91,8 @@
                     <div class="bg-[white] rounded-lg h-auto flex flex-col gap-3 p-4"
                         v-for="(items, index) in bookStore?.OneBookAdmin?.book_detail" :key="index">
                         <div class="flex justify-between">
-                            <h1 class="text-base font-bold">Phiên bản {{ items.book_version }} - {{ items?.sku_origin }} </h1>
+                            <h1 class="text-base font-bold">Phiên bản {{ items.book_version }} - {{ items?.sku_origin }}
+                            </h1>
                             <a-button @click="showModalEdit(items?.id)"
                                 class="flex justify-center items-center gap-1 bg-[#344054]" type="primary" size="large">
                                 <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
@@ -125,7 +133,7 @@
                                 <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Phần trăm cọc: </span>
                                     <span class="text-base"> {{
-                                       items?.hire_percent
+                                        items?.hire_percent
                                     }}%</span>
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
@@ -160,7 +168,9 @@
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Đánh giá: </span>
-                                    <span class="text-base"><CommonRating :rating="items?.reviews_avg"/></span>
+                                    <span class="text-base">
+                                        <CommonRating :rating="items?.reviews_avg" />
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -189,7 +199,7 @@ const showModalAdd = () => {
 const CloseModalAdd = () => {
     openModalAdd.value = false;
 };
-const showModalEdit = (id : any) => {
+const showModalEdit = (id: any) => {
     itemBookDetail.value = id;
     openModalEdit.value = true;
 };

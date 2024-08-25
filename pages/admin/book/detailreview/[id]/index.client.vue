@@ -1,8 +1,13 @@
 <template>
+
+  <Head>
+    <Title>ReadStation | Đánh giá sách “{{ bookDetail.getOneBookDetailAdmin?.book?.title }}</Title>
+    <Meta name="description" content="Đánh giá sách" />
+    <Meta property="og:title" content="ReadStation | Đánh giá sách" />
+    <Meta property="og:description" content="Đánh giá sách" />
+  </Head>
   <div class="flex flex-col gap-5">
-    <div
-      class="flex flex-col gap-2 pt-4 md:flex-row md:items-center print:hidden"
-    >
+    <div class="flex flex-col gap-2 pt-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-semibold">
           Đánh giá sách “{{ bookDetail.getOneBookDetailAdmin?.book?.title }} -
@@ -15,21 +20,14 @@
         <div class="flex justify-start gap-5">
           <div>
             <button class="w-14 h-14 rounded-full bg-orange-200">
-              <UIcon
-                class="text-3xl text-orange-400 items-center"
-                name="i-material-symbols-book-4"
-              />
+              <UIcon class="text-3xl text-orange-400 items-center" name="i-material-symbols-book-4" />
             </button>
           </div>
           <div class="flex flex-col gap-1">
-            <span class="text-gray-500"
-              >Sách
-              {{ bookDetail.getOneBookDetailAdmin?.book?.category?.name }}</span
-            >
-            <span class="text-lg font-bold"
-              >{{ bookDetail.getOneBookDetailAdmin?.book?.title }} - Phiên bản
-              năm {{ bookDetail.getOneBookDetailAdmin?.book_version }}</span
-            >
+            <span class="text-gray-500">Sách
+              {{ bookDetail.getOneBookDetailAdmin?.book?.category?.name }}</span>
+            <span class="text-lg font-bold">{{ bookDetail.getOneBookDetailAdmin?.book?.title }} - Phiên bản
+              năm {{ bookDetail.getOneBookDetailAdmin?.book_version }}</span>
           </div>
         </div>
       </div>
@@ -38,10 +36,7 @@
       <div class="">
         <div class="flex justify-start gap-3 items-center">
           <span class="text-base font-bold">Thông tin chung</span>
-          <UIcon
-            class="text-lg text-gray-500"
-            name="i-material-symbols-draft-orders-outline-rounded"
-          />
+          <UIcon class="text-lg text-gray-500" name="i-material-symbols-draft-orders-outline-rounded" />
         </div>
       </div>
       <div class="border border-gray-100"></div>
@@ -49,10 +44,7 @@
         <div class="md:col-span-1 space-y-2 border-r border-gray-200">
           <div class="grid grid-cols-3">
             <span class="font-bold text-base">Ảnh bìa: </span>
-            <img
-              class="rounded-lg"
-              :src="bookDetail.getOneBookDetailAdmin?.poster"
-            />
+            <img class="rounded-lg" :src="bookDetail.getOneBookDetailAdmin?.poster" />
           </div>
           <div class="grid grid-cols-3">
             <span class="font-bold text-base">Tác giả: </span>
@@ -89,15 +81,11 @@
             <span class="text-base col-span-3">
               {{
                 bookDetail.getOneBookDetailAdmin?.book?.description_summary
-              }}</span
-            >
+              }}</span>
           </div>
           <div class="grid grid-cols-4">
             <span class="text-base font-bold col-span-1">Mô tả chi tiết:</span>
-            <span
-              class="text-base col-span-3"
-              v-html="bookDetail.getOneBookDetailAdmin?.book?.description"
-            >
+            <span class="text-base col-span-3" v-html="bookDetail.getOneBookDetailAdmin?.book?.description">
             </span>
           </div>
         </div>
@@ -108,39 +96,21 @@
         <a-dropdown :trigger="['click']">
           <template #overlay>
             <a-menu class="">
-              <a-menu-item
-                @click="fitlerRating({ value: '', label: 'Tất cả sao' })"
-                >Tất cả sao</a-menu-item
-              >
+              <a-menu-item @click="fitlerRating({ value: '', label: 'Tất cả sao' })">Tất cả sao</a-menu-item>
               <a-menu-item>
-                <CommonRating
-                  @click="fitlerRating({ value: 5, label: '5 sao' })"
-                  :rating="5"
-                />
+                <CommonRating @click="fitlerRating({ value: 5, label: '5 sao' })" :rating="5" />
               </a-menu-item>
               <a-menu-item>
-                <CommonRating
-                  @click="fitlerRating({ value: 4, label: '4 sao' })"
-                  :rating="4"
-                />
+                <CommonRating @click="fitlerRating({ value: 4, label: '4 sao' })" :rating="4" />
               </a-menu-item>
               <a-menu-item>
-                <CommonRating
-                  @click="fitlerRating({ value: 3, label: '3 sao' })"
-                  :rating="3"
-                />
+                <CommonRating @click="fitlerRating({ value: 3, label: '3 sao' })" :rating="3" />
               </a-menu-item>
               <a-menu-item>
-                <CommonRating
-                  @click="fitlerRating({ value: 2, label: '2 sao' })"
-                  :rating="2"
-                />
+                <CommonRating @click="fitlerRating({ value: 2, label: '2 sao' })" :rating="2" />
               </a-menu-item>
               <a-menu-item>
-                <CommonRating
-                  @click="fitlerRating({ value: 1, label: '1 sao' })"
-                  :rating="1"
-                />
+                <CommonRating @click="fitlerRating({ value: 1, label: '1 sao' })" :rating="1" />
               </a-menu-item>
             </a-menu>
           </template>
@@ -152,20 +122,11 @@
         <a-dropdown :trigger="['click']">
           <template #overlay>
             <a-menu class="">
-              <a-menu-item
-                @click="statusValue({ value: '', label: 'Trạng thái' })"
-                >Tất cả trạng thái</a-menu-item
-              >
-              <a-menu-item
-                @click="statusValue({ value: 'active', label: 'Hoạt động' })"
-                >Hoạt động</a-menu-item
-              >
-              <a-menu-item
-                @click="
-                  statusValue({ value: 'inactive', label: 'Không hoạt động' })
-                "
-                >Không hoạt động</a-menu-item
-              >
+              <a-menu-item @click="statusValue({ value: '', label: 'Trạng thái' })">Tất cả trạng thái</a-menu-item>
+              <a-menu-item @click="statusValue({ value: 'active', label: 'Hoạt động' })">Hoạt động</a-menu-item>
+              <a-menu-item @click="
+                statusValue({ value: 'inactive', label: 'Không hoạt động' })
+                ">Không hoạt động</a-menu-item>
             </a-menu>
           </template>
           <a-button size="large" class="flex gap-3 items-center">
@@ -176,14 +137,8 @@
         <a-dropdown :trigger="['click']">
           <template #overlay>
             <a-menu class="">
-              <a-menu-item
-                @click="sortValue({ value: 'desc', label: 'Mới nhất' })"
-                >Mới nhất</a-menu-item
-              >
-              <a-menu-item
-                @click="sortValue({ value: 'asc', label: 'Cũ nhất' })"
-                >Cũ nhất</a-menu-item
-              >
+              <a-menu-item @click="sortValue({ value: 'desc', label: 'Mới nhất' })">Mới nhất</a-menu-item>
+              <a-menu-item @click="sortValue({ value: 'asc', label: 'Cũ nhất' })">Cũ nhất</a-menu-item>
             </a-menu>
           </template>
           <a-button size="large" class="flex gap-3 items-center">
@@ -192,12 +147,8 @@
           </a-button>
         </a-dropdown>
       </div>
-      <a-table
-        :columns="columns"
-        :data-source="bookDetailReview.adminGetOneBookReview?.bookReviews"
-        :loading="bookDetailReview.isLoading"
-        :pagination="false"
-      >
+      <a-table :columns="columns" :data-source="bookDetailReview.adminGetOneBookReview?.bookReviews"
+        :loading="bookDetailReview.isLoading" :pagination="false">
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'user'">
             <div class="flex flex-col gap-1">
@@ -222,32 +173,21 @@
             <span>{{ record?.review_text }}</span>
           </template>
           <template v-else-if="column.key === 'action'">
-            <a-tooltip
-              placement="top"
-              color="black"
-              v-if="record.status === 'active'"
-            >
+            <a-tooltip placement="top" color="black" v-if="record.status === 'active'">
               <template #title>
                 <span>Ẩn</span>
               </template>
-              <button
-                @click="showHiddenConfirm(record.id)"
-                class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
-              >
-                <Icon
-                  icon="bitcoin-icons:hidden-filled"
-                  class="group-hover:text-[#212122]"
-                />
+              <button @click="showHiddenConfirm(record.id)"
+                class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md">
+                <Icon icon="bitcoin-icons:hidden-filled" class="group-hover:text-[#212122]" />
               </button>
             </a-tooltip>
             <a-tooltip placement="top" color="black" v-else>
               <template #title>
                 <span>Khôi phục</span>
               </template>
-              <button
-                @click="showRecoverConfirm(record.id)"
-                class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md"
-              >
+              <button @click="showRecoverConfirm(record.id)"
+                class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center cursor-pointer w-8 h-8 rounded-md">
                 <Icon icon="charm:tick" class="group-hover:text-[#212122]" />
               </button>
             </a-tooltip>
@@ -255,13 +195,8 @@
         </template>
       </a-table>
       <div class="mt-4 flex justify-end">
-        <a-pagination
-          v-model:current="current"
-          :total="bookDetailReview.adminGetOneBookReview?.totalResults"
-          :pageSize="bookDetailReview.adminGetOneBookReview?.pageSize"
-          show-less-items
-          pageSizeOptions
-        />
+        <a-pagination v-model:current="current" :total="bookDetailReview.adminGetOneBookReview?.totalResults"
+          :pageSize="bookDetailReview.adminGetOneBookReview?.pageSize" show-less-items pageSizeOptions />
       </div>
       <div class="mt-4 flex justify-end">
         <a-button @click="() => $router.back()">Trở về</a-button>

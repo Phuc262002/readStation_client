@@ -1,4 +1,11 @@
 <template>
+
+  <Head>
+    <Title>ReadStation | Quản lý đánh giá sách</Title>
+    <Meta name="description" content="Quản lý đánh giá sách" />
+    <Meta property="og:title" content="ReadStation | Quản lý đánh giá sách" />
+    <Meta property="og:description" content="Quản lý đánh giá sách" />
+  </Head>
   <div>
     <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
@@ -171,7 +178,7 @@ const sortValue = ({ value, label }) => {
 };
 const onSearch = debounce(() => {
   current.value = 1;
-  getAllBookReviews({
+  bookreviewStore.getAllBookReviews({
     page: current.value,
     rating: queryRating.value?.value,
     status: queryStatus.value?.value,

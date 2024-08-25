@@ -1,4 +1,11 @@
 <template>
+
+  <Head>
+    <Title>ReadStation | Quản lý phiếu nhập hàng</Title>
+    <Meta name="description" content="Quản lý phiếu nhập hàng" />
+    <Meta property="og:title" content="ReadStation | Quản lý phiếu nhập hàng" />
+    <Meta property="og:description" content="Quản lý phiếu nhập hàng" />
+  </Head>
   <div>
     <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
@@ -75,7 +82,7 @@
                       }}
                     </h1>
                     <span class="text-base text-gray-500">{{
-                      $dayjs(items?.invoice_date).format("DD/MM/YYYY - HH:mm")
+                      $dayjs(items?.invoice_date).format("DD/MM/YYYY")
                     }}</span>
                   </div>
                 </div>

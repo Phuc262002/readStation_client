@@ -1,4 +1,11 @@
 <template>
+
+  <Head>
+    <Title>ReadStation | Tạo phiếu nhập hàng</Title>
+    <Meta name="description" content="Tạo phiếu nhập hàng" />
+    <Meta property="og:title" content="ReadStation | Tạo phiếu nhập hàng" />
+    <Meta property="og:description" content="Tạo phiếu nhập hàng" />
+  </Head>
   <div>
     <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
@@ -13,8 +20,9 @@
         <div class="flex flex-col gap-5">
           <div class="grid grid-cols-4 gap-4">
             <div class="flex flex-col gap-3">
-              <label class="text-base font-semibold" for="">Tên hóa đơn <span class="text-red-500">*</span></label>
-              <a-input v-model:value="valueInvoiceEnter.invoice_name" type="text" placeholder="Tên hóa đơn"
+              <label class="text-base font-semibold" for="">Tên phiếu nhập hàng <span
+                  class="text-red-500">*</span></label>
+              <a-input v-model:value="valueInvoiceEnter.invoice_name" type="text" placeholder="Tên phiếu nhập hàng"
                 style="height: 40px" required />
             </div>
             <div class="flex flex-col gap-3">
@@ -25,9 +33,9 @@
           </div>
           <div class="grid mt-5">
             <div class="flex flex-col gap-3">
-              <label class="text-base font-semibold" for="">Mô tả hóa đơn <span class="text-red-500">*</span></label>
+              <label class="text-base font-semibold" for="">Mô tả <span class="text-red-500">*</span></label>
               <a-textarea required v-model:value="valueInvoiceEnter.invoice_description" rows="4"
-                placeholder="Nhập mô tả hóa đơn" />
+                placeholder="Nhập mô tả" />
             </div>
           </div>
           <div>
@@ -112,11 +120,11 @@
                   </template>
                   <template v-if="column.dataIndex === 'total'">
                     <span>{{
-                        new Intl.NumberFormat("vi-VN", {
-                          style: "currency",
-                          currency: "VND",
-                        }).format(record?.total)
-                      }}</span>
+                      new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(record?.total)
+                    }}</span>
                   </template>
                   <template v-if="column.dataIndex === 'action'">
                     <a-tooltip placement="top" color="red">
@@ -239,7 +247,7 @@ const showConfirm = (id) => {
 const calculateTotal = () => {
   // Tính tổng của tất cả các sản phẩm trong danh sách data
   const total = data.value.reduce((sum, item) => sum + item.total, 0);
-  
+
   // Cập nhật trường total trong valueInvoiceEnter
   valueInvoiceEnter.value.total = total;
 };

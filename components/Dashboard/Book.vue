@@ -9,7 +9,7 @@
       <div class="flex justify-center items-start gap-2">
         <img
           class="w-20 h-20 object-cover rounded-md"
-          src="https://cdn0.fahasa.com/media/catalog/product/8/9/8935244875805.jpg"
+          :src="props?.dashboard?.poster"
           alt=""
         />
         <div class=" ">

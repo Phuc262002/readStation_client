@@ -28,8 +28,15 @@
                         </div>
                         <div class="grid grid-cols-3">
                             <p class="text-base font-bold col-span-2">Chọn thêm ngày gia hạn:</p>
-                            <a-input type="number" class="w-3/4" v-model:value="number_of_days" :min="1" :max="5"
-                                required />
+                            <div
+                                v-if="props?.items?.book_details?.book?.category?.name === 'Sách giáo khoa' && orderStore?.getOneOrderAdmin?.data?.user?.role?.name === 'student'">
+                                <a-input type="number" class="w-3/4" v-model:value="number_of_days" :min="1" :max="30"
+                                    required />
+                            </div>
+                            <div v-else>
+                                <a-input type="number" class="w-3/4" v-model:value="number_of_days" :min="1" :max="5"
+                                    required />
+                            </div>
                         </div>
                         <div class="grid grid-cols-3">
                             <p class="text-base font-bold col-span-2">Ngày hết hạn mới:</p>
@@ -37,7 +44,6 @@
                                 $dayjs(items?.current_due_date).add(number_of_days, 'day').format("DD/MM/YYYY") : '' }}
                             </p>
                         </div>
-
                     </div>
                 </div>
                 <div class="">
@@ -69,7 +75,6 @@ const props = defineProps({
     items: Object
 })
 const id = useRoute().params.id;
-
 const open = ref(props.openModal);
 watch(
     () => props.openModal,
