@@ -102,7 +102,6 @@
           <a-button
             @click="posts.status = 'draft'"
             html-type="submit"
-            :loading="postStore.isSubmitting"
           >
             Lưu nháp</a-button
           >
@@ -127,7 +126,7 @@ const fileList = ref([]);
 const imageInfo = ref("");
 const errors = ref({});
 const options = ref([]);
-
+const isSubmitting = ref(false);
 const posts = ref({
   title: "",
   content: "",
@@ -164,8 +163,7 @@ const deleteFile = async (file) => {
   await baseStore.deleteImg(imageInfo.value?.publicId);
 };
 
-function handleDrop(e) {
-}
+function handleDrop(e) {}
 const beforeUpload = (file) => {
   const isImage = file.type.startsWith("image/");
   if (!isImage) {
@@ -187,6 +185,7 @@ useAsyncData(async () => {
 
 const onSubmit = async () => {
   try {
+    isSubmitting.value = true;
     const res = await postStore.createPost({
       image: imageInfo.value?.url,
       title: posts.value.title,
@@ -195,6 +194,7 @@ const onSubmit = async () => {
       category_id: posts.value.category,
       status: posts.value.status,
     });
+    isSubmitting.value = false;
     if (res.data._rawValue?.status == true) {
       navigateTo("/admin/post");
       message.success("Thêm bài viết thành công");
@@ -207,21 +207,18 @@ const onSubmit = async () => {
   }
 };
 
-const handleChangeSelect = (value) => {
-};
-const handleBlur = () => {
-};
-const handleFocus = () => {
-};
+const handleChangeSelect = (value) => {};
+const handleBlur = () => {};
+const handleFocus = () => {};
 const filterOption = (input, option) => {
   return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
 useSeoMeta({
-    title: "ReadStation | Thêm bài viết",
-    ogTitle: "ReadStation | Thêm bài viết",
-    description: "Thêm bài viết",
-    ogDescription: "Thêm bài viết",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  title: "ReadStation | Thêm bài viết",
+  ogTitle: "ReadStation | Thêm bài viết",
+  description: "Thêm bài viết",
+  ogDescription: "Thêm bài viết",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>
