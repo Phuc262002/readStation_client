@@ -28,7 +28,7 @@
               <label class="text-sm font-bold"> Tỉnh/ Thành phố </label>
               <div class="mt-1">
                 <a-select :filter-option="filterOption" v-model:value="province_id" :options="optionsProvines"
-                  @focus="handleFocus" @blur="handleBlur" @change="handleChangeProvince" :loading="baseStore.isLoading"
+                   @change="handleChangeProvince" :loading="baseStore.isLoading"
                   class="w-full" size="large" show-search placeholder="Tỉnh/Thành phố">
                 </a-select>
               </div>
@@ -37,7 +37,7 @@
               <label class="text-sm font-bold"> Quận/ Huyện </label>
               <div class="mt-1">
                 <a-select v-model:value="district_id" :options="optionsDistricts" :filter-option="filterOption"
-                  @focus="handleFocus" @blur="handleBlur" @change="handleChangeDistrict" :disabled="!province_id"
+                   @change="handleChangeDistrict" :disabled="!province_id"
                   :loading="baseStore.isLoading" class="w-full" size="large" show-search placeholder="Quận/ Huyện">
                 </a-select>
               </div>
@@ -48,7 +48,7 @@
               <label class="text-sm font-bold"> Phường/ Xã/ Thị trấn </label>
               <div class="mt-1">
                 <a-select v-model:value="ward_id" :options="optionsWards" :filter-option="filterOption"
-                  @focus="handleFocus" @blur="handleBlur" @change="handleChangeWard" :disabled="!district_id"
+                   @change="handleChangeWard" :disabled="!district_id"
                   :loading="baseStore.isLoading" class="w-full" size="large" show-search
                   placeholder="Xã/ Phường/ Thị trấn">
                 </a-select>
@@ -244,12 +244,6 @@ const handleClose = async () => {
   props.openModal();
 };
 
-const handleBlur = () => {
-  console.log("blur");
-};
-const handleFocus = () => {
-  console.log("focus");
-};
 const filterOption = (input, option) => {
   return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };

@@ -63,7 +63,7 @@ const handleClose = () => {
 };
 // Create post
 const onSubmit = async () => {
-  console.log("Image info before submit:", imageInfo.value);
+  
   if (!imageInfo.value?.url) {
     message.error(
       "Vui lòng chọn ảnh đại diện, hoặc ấn ' Hủy ' để quay trở lại!"

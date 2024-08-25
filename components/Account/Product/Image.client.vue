@@ -3,38 +3,16 @@
     <div class="p-5 bg-white border border-rtgray-50 rounded-lg">
       <div class="flex flex-col items-center">
         <div class="mb-8 w-full h-[370px] flex justify-center">
-          <a-image
-            :height="370"
-            :src="selectedImage"
-            alt="Main Image"
-            class="w-full h-full object-contain rounded-lg"
-          />
+          <a-image :height="370" :src="selectedImage" alt="Main Image"
+            class="w-full h-full object-contain rounded-lg" />
         </div>
 
         <div class="w-full overflow-hidden">
-          <swiper
-            :slides-per-view="7"
-            :space-between="7"
-            @swiper="onSwiper"
-            :loop="true"
-            ref="swiperRef"
-          >
-            <swiper-slide
-              v-for="(image, index) in [
-                bookStore.book?.poster,
-                ...bookStore.book?.images,
-              ]"
-              :key="index"
-            >
-              <div
-                class="h-[54px] w-[54px] p-[6px] cursor-pointer border border-rtgray-50 rounded-lg"
-                @click="selectImage(image)"
-              >
-                <img
-                  :src="image"
-                  alt="Thumbnail Image"
-                  class="rounded-lg w-full h-full object-contain"
-                />
+          <swiper :slides-per-view="7" :space-between="7" @swiper="onSwiper" :loop="true" ref="swiperRef">
+            <swiper-slide v-for="(image, index) in [bookStore.book?.poster, ...bookStore.book?.images,]" :key="index">
+              <div class="h-[54px] w-[54px] p-[6px] cursor-pointer border border-rtgray-50 rounded-lg"
+                @click="selectImage(image)">
+                <img :src="image" alt="Thumbnail Image" class="rounded-lg w-full h-full object-contain" />
               </div>
             </swiper-slide>
           </swiper>

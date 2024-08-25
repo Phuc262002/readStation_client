@@ -207,7 +207,7 @@ watchEffect(() => {
   }
 });
 const handleReviewBook = async (id) => {
-  console.log('first', review.value)
+  
   if (!review.value.trim()) {
     message.error("Vui lòng nhập nội dung đánh giá!");
     return;
@@ -242,7 +242,7 @@ const openModalExtend = ref(false);
 const showModalExtend = (order: any) => {
   openModalExtend.value = true;
   extendsionBook.value = order;
-  // console.log("id book ex", order);
+  
 };
 const closeModalExtend = () => {
   openModalExtend.value = false;

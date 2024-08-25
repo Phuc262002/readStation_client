@@ -72,11 +72,19 @@
       <p class="text-center mb-5 font-semibold" v-if="!hasReviews">
         Sách hiện tại chưa có đánh giá nào.
       </p>
+      <div class="flex justify-center">
+    <a-pagination v-if="hasReviews"
+      v-model:current="current"
+      :total="detailReview?.reviews?.totalResults"
+      :pageSize="detailReview?.reviews?.pageSize"
+      show-less-items
+    />
+  </div>
     </div>
     <div>
       <h2 class="font-bold text-xl my-5">Có thể bạn sẽ thích</h2>
       <div class="grid grid-cols-5 gap-5">
-        <div class="mt-10 w-full" v-for="(book, index) in recommendationBooks" :key="book.id || index">
+        <div class="mt-10 w-full" v-for="(book, index) in bookStore.books?.books?.filter(item => item?.id !== bookStore.book?.id)" :key="book.id || index">
           <div class="flex flex-col gap-5 p-3 border rounded-lg">
             <NuxtLink :to="`/products/${book?.book?.slug}-${book?.id}`" class="mx-auto">
               <img class="rounded-lg w-[180px] h-[284px] object-cover" :src="book?.poster" alt="" />
@@ -129,6 +137,9 @@ const current = ref(1);
 useAsyncData(async () => {
   await authorStore.getAllAuthorClient();
 });
+//
+const hasReviews = () => detailReview?.reviews?.bookReviews.length > 0
+
 // Xử lý sắp xếp
 const handleCheckSort = (sort) => {
   arrange.value = sort;
@@ -167,20 +178,10 @@ useAsyncData(fetchReviews, {
   immediate: true,
   watch: [current, filter, arrange],
 });
-//
-const hasReviews = () => detailReview?.reviews?.bookReviews.length > 0
-const recommendationBooks = computed(() =>
-  bookStore?.books?.books
-    ?.filter((book) => {
-      const isDifferWithCurrentBook = book?.id !== bookStore?.book?.id;
-      const isBeLongToCurrentType =
-        book?.book?.category?.slug === bookStore?.book?.book?.category?.slug;
-      return isBeLongToCurrentType && isDifferWithCurrentBook;
-    })
-    ?.slice(0, 5)
-);
 
 useAsyncData(async () => {
-  await bookStore.getAllBooks({});
+  await bookStore.getAllBooks({
+    category_id: bookStore.book.book?.category?.id
+  });
 });
 </script>

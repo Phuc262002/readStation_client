@@ -5,7 +5,7 @@
         <span class="font-bold">Lịch sử gia hạn</span>
       </div>
       <a-table :columns="columns" :data-source="orderStore?.order?.extensions" class="components-table-demo-nested"
-        :expanded-row-keys="expandedRowKeys" rowKey="key">
+        :expanded-row-keys="expandedRowKeys" rowKey="key" :pagination="false">
         <template #bodyCell="{ column, index }">
           <template v-if="column.key === 'extensions'">
             <span>Gia hạn lần {{ index + 1 }}</span>
@@ -64,7 +64,6 @@ const handleClose = () => {
 
 useAsyncData(async () => {
   await orderStore.getOneOrder(id);
-
   expandedRowKeys.value = orderStore.order.extensions.map((ext: any, index: number) => ext.key);
 });
 

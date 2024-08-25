@@ -376,7 +376,7 @@ const handleCheckbox = ({ type, id }: any) => {
     default:
       break;
   }
-  console.log("filter.value.rating", filter.value.rating);
+  // console.log("filter.value.rating", filter.value.rating);
 
 };
 
