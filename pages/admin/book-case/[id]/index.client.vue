@@ -169,7 +169,7 @@ const bookShelves = useShelvesStore();
 const valueSearch = ref("");
 const current = ref(1);
 useAsyncData(async () => {
-  if (detailBookCaseId !== undefined) {
+  if (detailBookCaseId) {
     await bookCaseStore.getOneBookcase(detailBookCaseId);
   }
 });

@@ -134,10 +134,12 @@
       </a-table>
       <div class="mt-4 flex justify-end">
         <a-pagination
+          v-if="trangsactionStore?.transaction?.totalResults > 0"
           v-model:current="current"
           :total="trangsactionStore?.transaction?.totalResults"
           :pageSize="trangsactionStore?.transaction?.pageSize"
           show-less-items
+          pageSizeOptions
         />
       </div>
     </div>

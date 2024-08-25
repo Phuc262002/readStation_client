@@ -117,10 +117,10 @@ const updateDetailCase = async (id) => {
     if (res.data._rawValue?.status == true) {
       handleClose();
       message.success("Thêm kệ sách thành công");
+      await bookCaseStore.getOneBookcase(detailBookCaseId);
       await bookCaseStore.getShelveOfBookcase({
         id: detailBookCaseId,
       });
-      // await bookCaseStore.getOneBookcase(detailBookCaseId);
       
     } else {
       errors.value = res.error.value.data.errors;
