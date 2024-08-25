@@ -322,7 +322,7 @@
                         ''
                     }}</span>
                   </div>
-                  <div class="grid grid-cols-2">
+                  <div class="grid grid-cols-2" v-if="false">
                     <span class="text-base font-bold">Số ngày gia hạn:</span>
                     <span class="text-base "></span>
                   </div>

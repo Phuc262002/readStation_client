@@ -13,8 +13,8 @@
         <div class="flex flex-col gap-5">
           <div class="grid grid-cols-4 gap-4">
             <div class="flex flex-col gap-3">
-              <label class="text-base font-semibold" for="">Tên hóa đơn <span class="text-red-500">*</span></label>
-              <a-input v-model:value="valueInvoiceEnter.invoice_name" type="text" placeholder="Tên hóa đơn"
+              <label class="text-base font-semibold" for="">Tên phiếu nhập hàng <span class="text-red-500">*</span></label>
+              <a-input v-model:value="valueInvoiceEnter.invoice_name" type="text" placeholder="Tên phiếu nhập hàng"
                 style="height: 40px" required />
             </div>
             <div class="flex flex-col gap-3">
@@ -25,9 +25,9 @@
           </div>
           <div class="grid mt-5">
             <div class="flex flex-col gap-3">
-              <label class="text-base font-semibold" for="">Mô tả hóa đơn <span class="text-red-500">*</span></label>
+              <label class="text-base font-semibold" for="">Mô tả <span class="text-red-500">*</span></label>
               <a-textarea required v-model:value="valueInvoiceEnter.invoice_description" rows="4"
-                placeholder="Nhập mô tả hóa đơn" />
+                placeholder="Nhập mô tả" />
             </div>
           </div>
           <div>
