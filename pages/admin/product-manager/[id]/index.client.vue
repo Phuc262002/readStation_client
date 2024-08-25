@@ -332,9 +332,11 @@
                   </div>
                   <div class="grid grid-cols-2" v-if="true">
                     <span class="text-base font-bold">Số ngày gia hạn:</span>
-                    <span class="text-base "></span>
+                    <span class="text-base ">{{ items?.extensions_details.reduce((sum, days) => {
+                      return sum + days.number_of_days
+                    }, 0) }}</span>
                   </div>
-                  <div class="grid grid-cols-2">
+                  <div class="grid grid-cols-2" v-if="items?.return_date">
                     <span class="text-base font-bold">Ngày trả thực tế:</span>
                     <span class="text-base ">{{ items?.return_date
                       ?
