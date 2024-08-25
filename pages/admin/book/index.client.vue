@@ -104,7 +104,7 @@
           <a-button type="primary">Thêm sách</a-button>
         </NuxtLink>
       </div>
-
+      <BookEdit :openModalBook="openModalBook" :openModal="CloseModal" :id="IdBook" />
       <a-table :columns="columns" :data-source="allAdminBooks?.adminBooks?.books" :loading="allAdminBooks.isLoading"
         :pagination="false">
         <template #headerCell="{ column }">
@@ -158,7 +158,7 @@
                   <template #title>
                     <span>Xem chi tiết</span>
                   </template>
-                  <button @click="showModal"
+                  <button
                     class="group hover:bg-[#131313]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                     <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
                   </button>
@@ -173,7 +173,7 @@
                   <a-menu class="space-y-1">
                     <NuxtLink>
                       <a-menu-item key="1" class="p-4 hover:!bg-tag-bg-02">
-                        <button class="flex items-center gap-2" @click="showModal">
+                        <button class="flex items-center gap-2" @click="showModal(record?.id)">
                           <Icon icon="fluent:edit-48-regular" class="text-lg text-tag-text-02" />
                           <span class="text-tag-text-02 font-bold">Sửa</span>
                         </button>
@@ -198,14 +198,16 @@
           :pageSize="allAdminBooks?.adminBooks?.pageSize" show-less-items pageSizeOptions />
       </div>
     </div>
+
   </div>
-  <!-- <BookEdit :openModalBook="openModalBook" :openModal="CloseModal" /> -->
+
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
 import debounce from "lodash.debounce";
 const openModalBook = ref<boolean>(false);
+const IdBook = ref<number>();
 const valueSearch = ref("");
 const queryStatus = ref({
   value: "",
@@ -328,8 +330,9 @@ const cancel = (e: MouseEvent) => {
   console.log(e);
   message.error("Xóa thất bại");
 };
-const showModal = () => {
+const showModal = (id: number) => {
   openModalBook.value = true;
+  IdBook.value = id;
 };
 const CloseModal = () => {
   openModalBook.value = false;

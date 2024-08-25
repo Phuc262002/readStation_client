@@ -77,7 +77,7 @@
                         </div>
                     </div>
                 </div>
-                <BookEdit :openModalBook="openModalBook" :openModal="CloseModal" />
+                <!-- <BookEdit :openModalBook="openModalBook" :openModal="CloseModal" /> -->
                 <div>
                     <a-button class="flex justify-center items-center gap-2" type="primary" size="large"
                         @click="showModalAdd">
