@@ -1,4 +1,11 @@
 <template>
+
+  <Head>
+    <Title>ReadStation | Chi tiết kệ sách {{ bookShelves?.adminGetOneBookShelve.name }}</Title>
+    <Meta name="description" content="Chi tiết kệ sách" />
+    <Meta property="og:title" content="ReadStation | Chi tiết kệ sách" />
+    <Meta property="og:description" content="Chi tiết kệ sách" />
+  </Head>
   <div>
     <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">

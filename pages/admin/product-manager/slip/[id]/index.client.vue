@@ -1,4 +1,15 @@
 <template>
+
+  <Head>
+    <Title>ReadStation | Phiếu trả của đơn hàng
+      {{
+        returnHistoryStore?.ReturnLoanDetail?.loan_order_detail?.loan_order
+          ?.order_code
+      }}</Title>
+    <Meta name="description" content="Phiếu trả của đơn hàng" />
+    <Meta property="og:title" content="ReadStation | Phiếu trả của đơn hàng" />
+    <Meta property="og:description" content="Phiếu trả của đơn hàng" />
+  </Head>
   <h1 class="text-xl text-[#1e293b] font-bold p-3">
     Phiếu trả của đơn hàng
     {{

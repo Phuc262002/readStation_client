@@ -59,10 +59,11 @@
           <NuxtLink to="/account/post">
             <a-button class="h-10 text-base">Hủy</a-button>
           </NuxtLink>
-          <a-button @click="status = 'draft'" class="h-10 text-base !text-orange-500 border-orange-500">
+          <a-button @click="saveAsDraft" :loading="isDraftLoading"
+            class="h-10 text-base !text-orange-500 border-orange-500">
             Lưu nháp
           </a-button>
-          <a-button @click="status = 'published'" html-type="submit" :loading="postStore?.isSubmitting"
+          <a-button @click="saveAsPublish" :loading="isPublishLoading"
             class="h-10 text-base bg-orange-500 border-none !text-white">
             Đăng bài
           </a-button>
@@ -80,6 +81,8 @@ const status = ref("published");
 const errors = ref({});
 const baseStore = useBaseStore();
 const imageInfo = ref("");
+const isDraftLoading = ref(false);
+const isPublishLoading = ref(false);
 const post = ref({
   category_id: "",
   title: "",
@@ -102,8 +105,31 @@ useAsyncData(async () => {
     console.log(error);
   }
 });
+
+// Handle Save Draft
+const saveAsDraft = async () => {
+  status.value = 'draft';
+  isDraftLoading.value = true;
+  try {
+    await onSubmit();
+  } finally {
+    isDraftLoading.value = false;
+  }
+}
+// Handle Save Publish
+const saveAsPublish = async () => {
+  status.value = 'published';
+  isPublishLoading.value = true;
+  try {
+    await onSubmit();
+  } finally {
+    isPublishLoading.value = false;
+  }
+}
+
 // Create post
 const onSubmit = async () => {
+
   try {
     const res = await postStore.createPost({
       category_id: post.value?.category,
@@ -114,13 +140,16 @@ const onSubmit = async () => {
       status: status.value,
     });
     if (res.data._rawValue?.status == true) {
-      message.success("Thêm bài viết thành công");
+      message.success(status.value === 'draft' ? "Lưu nháp thành công" : "Thêm bài viết thành công");
       navigateTo("/account/post");
     } else {
       message.error(res.error.value.data.message);
     }
   } catch (error) {
     message.error(res.error.value.data.message);
+
+  } finally {
+    isDraftLoading.value = false;
   }
 };
 // Upload Image

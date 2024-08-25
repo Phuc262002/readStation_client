@@ -73,12 +73,21 @@
             </div>
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Nhập số ngày gia hạn:</span>
-              <span class="col-span-3">
+              <!-- student -->
+              <span class="col-span-3" v-if="isCheckAuth && isCheckCate">
+                <a-input type="number" class="w-1/2" v-model:value="number_of_days" @change="(e) =>
+                  updateNumberOfDays(props.extendsionBook?.id, number_of_days
+                  )
+                  " :min="1" :max="30" required />
+              </span>
+              <!-- user -->
+              <span class="col-span-3" v-else>
                 <a-input type="number" class="w-1/2" v-model:value="number_of_days" @change="(e) =>
                   updateNumberOfDays(props.extendsionBook?.id, number_of_days
                   )
                   " :min="1" :max="5" required />
               </span>
+
             </div>
           </div>
         </div>
@@ -109,6 +118,7 @@
   </div>
 </template>
 <script setup lang="ts">
+const authStore = useAuthStore()
 const orderStore = useOrderClientStore();
 const extended_method = ref("cash");
 const route = useRoute();
@@ -121,7 +131,8 @@ const props = defineProps({
 });
 const open = ref(props.openModalExtend);
 const bookDetailId = ref(props.extendsionBook?.id);
-
+const isCheckAuth = authStore?.authUser?.user?.role?.name === 'student';
+const isCheckCate = props.extendsionBook?.book_details?.book?.category?.name === 'Sách giáo khoa';
 watch(
   () => props.openModalExtend,
   (newValue) => {
@@ -155,6 +166,7 @@ const updateNumberOfDays = (id, quantity) => {
 };
 // updateNumberOfDays(id, quantity)
 const onSubmit = async () => {
+
   const resData = await orderStore.extensionBook({
     id: props.extendsionBook?.id,
     body: {
@@ -162,6 +174,7 @@ const onSubmit = async () => {
       number_of_days: number_of_days.value,
     },
   });
+
 
   if (
     resData?.data?._rawValue?.status == true &&

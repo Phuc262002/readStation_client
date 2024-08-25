@@ -1,4 +1,11 @@
 <template>
+
+  <Head>
+    <Title>ReadStation | Thêm tác giả</Title>
+    <Meta name="description" content="Thêm tác giả" />
+    <Meta property="og:title" content="ReadStation | Thêm tác giả" />
+    <Meta property="og:description" content="Thêm tác giả" />
+  </Head>
   <div>
     <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">

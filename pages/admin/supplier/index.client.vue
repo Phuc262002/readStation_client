@@ -1,8 +1,13 @@
 <template>
+
+  <Head>
+    <Title>ReadStation | Quản lý nhà cung cấp</Title>
+    <Meta name="description" content="Quản lý  nhà cung cấp" />
+    <Meta property="og:title" content="ReadStation | Quản lý  nhà cung cấp" />
+    <Meta property="og:description" content="Quản lý  nhà cung cấp" />
+  </Head>
   <div>
-    <div
-      class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden"
-    >
+    <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
         <h5 class="text-xl text-[#1e293b] font-bold">Tất cả nhà cung cấp</h5>
       </div>
@@ -14,41 +19,26 @@
         <div class="w-1/2 flex items-center gap-2">
           <div class="relative w-2/3 md:block hidden">
             <div class="flex">
-              <a-input
-                placeholder="Nhập nhà cung cấp để tìm kiếm"
-                class="h-10"
-                v-model:value="valueSearch"
-              >
+              <a-input placeholder="Nhập nhà cung cấp để tìm kiếm" class="h-10" v-model:value="valueSearch">
                 <template #prefix>
                   <SearchOutlined />
                 </template>
               </a-input>
             </div>
-            <div
-              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-            >
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <UIcon class="text-gray-500" name="i-material-symbols-search" />
             </div>
           </div>
           <a-dropdown :trigger="['click']">
             <template #overlay>
               <a-menu class="">
-                <a-menu-item
-                  @click="
-                    statusValue({ value: '', label: 'Tất cả trạng thái' })
-                  "
-                  >Tất cả trạng thái</a-menu-item
-                >
-                <a-menu-item
-                  @click="statusValue({ value: 'active', label: 'Hoạt động' })"
-                  >Hoạt động</a-menu-item
-                >
-                <a-menu-item
-                  @click="
-                    statusValue({ value: 'inactive', label: 'Không hoạt động' })
-                  "
-                  >Không hoạt động</a-menu-item
-                >
+                <a-menu-item @click="
+                  statusValue({ value: '', label: 'Tất cả trạng thái' })
+                  ">Tất cả trạng thái</a-menu-item>
+                <a-menu-item @click="statusValue({ value: 'active', label: 'Hoạt động' })">Hoạt động</a-menu-item>
+                <a-menu-item @click="
+                  statusValue({ value: 'inactive', label: 'Không hoạt động' })
+                  ">Không hoạt động</a-menu-item>
               </a-menu>
             </template>
             <a-button size="large" class="flex gap-3 items-center">
@@ -58,29 +48,16 @@
           </a-dropdown>
         </div>
         <div class="">
-          <a-button
-            @click="showModalAdd"
-            class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary"
-            >Thêm nhà cung cấp</a-button
-          >
-          <SupplierCreate
-            :openModalAdd="openModalAdd"
-            :openModal="CloseModalAdd"
-          />
-          <SupplierEdit
-            :openModalEdit="openModalEdit"
-            :openModal="CloseModalEdit"
-            :supplierId="supplierId"
-          />
+          <a-button @click="showModalAdd"
+            class="text-white bg-rtprimary hover:!text-white border-none hover:bg-rtsecondary">Thêm nhà cung
+            cấp</a-button>
+          <SupplierCreate :openModalAdd="openModalAdd" :openModal="CloseModalAdd" />
+          <SupplierEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit" :supplierId="supplierId" />
         </div>
       </div>
       <div>
-        <a-table
-          :columns="columns"
-          :data-source="supplierStore?.SupplierAdmin?.suppliers"
-          :loading="supplierStore.isLoading"
-          :pagination="false"
-        >
+        <a-table :columns="columns" :data-source="supplierStore?.SupplierAdmin?.suppliers"
+          :loading="supplierStore.isLoading" :pagination="false">
           <template #bodyCell="{ column, record, index }">
             <template v-if="column.key === 'name'">
               <a>
@@ -94,10 +71,7 @@
             </template>
             <template v-if="column.key === 'status'">
               <span>
-                <a-tag
-                  :color="record.status === 'active' ? 'green' : 'volcano'"
-                  style="border: none"
-                >
+                <a-tag :color="record.status === 'active' ? 'green' : 'volcano'" style="border: none">
                   {{
                     record.status === "active" ? "hoạt động" : "Không hoạt động"
                   }}
@@ -111,10 +85,8 @@
                   <template #title>
                     <span>Sửa</span>
                   </template>
-                  <button
-                    @click="showModalEdit(record?.id)"
-                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                  >
+                  <button @click="showModalEdit(record?.id)"
+                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
                     <Icon icon="fluent:edit-48-regular" class="text-lg" />
                   </button>
                 </a-tooltip>
@@ -122,11 +94,9 @@
                   <template #title>
                     <span>Xóa</span>
                   </template>
-                  <button
-                    @click="showDeleteConfirm(record?.id)"
+                  <button @click="showDeleteConfirm(record?.id)"
                     class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md"
-                    s
-                  >
+                    s>
                     <Icon icon="hugeicons:delete-01" class="text-lg" />
                   </button>
                 </a-tooltip>
@@ -135,13 +105,8 @@
           </template>
         </a-table>
         <div class="mt-4 flex justify-end">
-          <a-pagination
-            v-model:current="current"
-            :total="supplierStore?.SupplierAdmin?.totalResults"
-            :pageSize="supplierStore?.SupplierAdmin?.pageSize"
-            show-less-items
-            pageSizeOptions
-          />
+          <a-pagination v-model:current="current" :total="supplierStore?.SupplierAdmin?.totalResults"
+            :pageSize="supplierStore?.SupplierAdmin?.pageSize" show-less-items pageSizeOptions />
         </div>
       </div>
     </div>

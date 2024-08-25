@@ -1,4 +1,12 @@
 <template>
+
+  <Head>
+    <Title>ReadStation | Chi tiết đơn hàng {{
+      orderStore?.getOneOrderAdmin?.data?.order_code }}</Title>
+    <Meta name="description" content="Chi tiết đơn hàng" />
+    <Meta property="og:title" content="ReadStation | Chi tiết đơn hàng" />
+    <Meta property="og:description" content="Chi tiết đơn hàng" />
+  </Head>
   <div class="flex flex-col gap-2">
     <h1 class="text-xl text-[#1e293b] font-bold pb-3">Chi tiết đơn hàng {{
       orderStore?.getOneOrderAdmin?.data?.order_code }}</h1>
@@ -322,11 +330,13 @@
                         ''
                     }}</span>
                   </div>
-                  <div class="grid grid-cols-2" v-if="false">
+                  <div class="grid grid-cols-2" v-if="true">
                     <span class="text-base font-bold">Số ngày gia hạn:</span>
-                    <span class="text-base "></span>
+                    <span class="text-base ">{{ items?.extensions_details.reduce((sum, days) => {
+                      return sum + days.number_of_days
+                    }, 0) }}</span>
                   </div>
-                  <div class="grid grid-cols-2">
+                  <div class="grid grid-cols-2" v-if="items?.return_date">
                     <span class="text-base font-bold">Ngày trả thực tế:</span>
                     <span class="text-base ">{{ items?.return_date
                       ?

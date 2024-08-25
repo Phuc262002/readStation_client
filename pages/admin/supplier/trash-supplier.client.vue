@@ -1,4 +1,11 @@
 <template>
+
+  <Head>
+    <Title>ReadStation | Thùng rác nhà cung cấp</Title>
+    <Meta name="description" content="Thùng rác nhà cung cấp" />
+    <Meta property="og:title" content="ReadStation | Thùng rác nhà cung cấp" />
+    <Meta property="og:description" content="Thùng rác nhà cung cấp" />
+  </Head>
   <div>
     <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
       <div class="grow">
