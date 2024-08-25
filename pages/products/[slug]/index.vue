@@ -29,14 +29,14 @@
 
           <a-button :class="[
             'rounded-xl',
-            arrange === 'asc' ? 'bg-orange-500 !text-white' : '',
-          ]" @click="handleCheckSort('asc')">
+            arrange === 'desc' ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckSort('desc')">
             Mới nhất
           </a-button>
           <a-button :class="[
             'rounded-xl',
-            arrange === 'desc' ? 'bg-orange-500 !text-white' : '',
-          ]" @click="handleCheckSort('desc')">
+            arrange === 'asc' ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckSort('asc')">
             Cũ nhất
           </a-button>
           <a-button :class="[
@@ -123,7 +123,7 @@ const slug = route.params.slug;
 const parts = slug.split("-");
 const lastPart = parts.pop();
 const filter = ref("");
-const arrange = ref("asc");
+const arrange = ref("desc");
 const current = ref(1);
 // Get all author
 useAsyncData(async () => {
