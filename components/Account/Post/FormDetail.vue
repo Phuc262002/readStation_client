@@ -150,7 +150,7 @@ useAsyncData(
     await postStore.getOnePost(props.postDetailId);
   },
   {
-    watch: [postDetailId],
+    watch: [postDetailId, open],
     initialCache: false,
   }
 );
