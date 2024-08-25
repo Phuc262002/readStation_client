@@ -138,7 +138,7 @@
               </a-tooltip>
               <a-tooltip v-else placement="top" color="black">
                 <template #title>
-                  <span>Hoạt động</span>
+                  <span>Công khai</span>
                 </template>
                 <button
                   @click="showPublishedConfirm(record?.id)"
