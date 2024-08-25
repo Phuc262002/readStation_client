@@ -174,7 +174,7 @@
               </div>
               <div class="text-base space-y-5">
                 <a-select placeholder="Chọn hình thức vận chuyển" size="large" v-model:value="shipping_method_id"
-                  style="width: 100%" @focus="focus" @change="handleChange" :options="options">
+                  style="width: 100%" @change="handleChange" :options="options">
                 </a-select>
                 <div class="text-sm space-y-3" v-if="shippingValue?.method">
                   <div>
@@ -635,6 +635,7 @@ const payCart = async () => {
     total_all_fee: totalAllFee.value,
     user_note: userNote.value,
   })
+  return
 
   try {
     const res = await orderStore.createOrder({
@@ -670,10 +671,6 @@ const payCart = async () => {
   } catch (error) {
     message.error(res?.data?._rawValue?.message);
   }
-};
-
-const focus = () => {
-  console.log("focus");
 };
 
 const handleChange = (value: string) => {

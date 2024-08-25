@@ -3,7 +3,7 @@
 
     <div class="flex gap-3">
       <h3 class="font-bold">
-        {{ order?.data?.book_details?.book?.title }} - Phiên bản năm
+        {{ order?.data?.book_details?.book?.title }} -
         {{ order?.data?.book_details?.book_version }}
       </h3>
       <div>
@@ -144,6 +144,20 @@
           </span>
         </div>
 
+        <div class="grid grid-cols-8">
+          <span class="col-span-2 font-bold">Phí trễ hạn:</span>
+          <span class="col-span-6">
+            {{
+              new Intl.NumberFormat("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              }).format(
+                order?.data?.deposit_fee + order?.data?.service_fee
+              )
+            }}aaaaaaaaaaaaaaa
+          </span>
+        </div>
+
       </div>
     </div>
 
@@ -207,7 +221,7 @@ watchEffect(() => {
   }
 });
 const handleReviewBook = async (id) => {
-  
+
   if (!review.value.trim()) {
     message.error("Vui lòng nhập nội dung đánh giá!");
     return;
@@ -242,7 +256,7 @@ const openModalExtend = ref(false);
 const showModalExtend = (order: any) => {
   openModalExtend.value = true;
   extendsionBook.value = order;
-  
+
 };
 const closeModalExtend = () => {
   openModalExtend.value = false;
