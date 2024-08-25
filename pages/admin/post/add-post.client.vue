@@ -102,12 +102,12 @@
           <a-button
             @click="posts.status = 'draft'"
             html-type="submit"
-            :loading="postStore.isSubmitting"
+            :loading="isSubmitdraft"
           >
             Lưu nháp</a-button
           >
           <a-button
-            :loading="postStore.isSubmitting"
+            :loading="isSubmitAdd"
             type="primary"
             html-type="submit"
           >
@@ -121,13 +121,13 @@
 <script setup>
 const categoryStore = useCategoryStore();
 const postStore = useGeneralPostStore();
-
 const baseStore = useBaseStore();
 const fileList = ref([]);
 const imageInfo = ref("");
 const errors = ref({});
 const options = ref([]);
-
+const isSubmitAdd = ref(false);
+const isSubmitdraft = ref(false);
 const posts = ref({
   title: "",
   content: "",
@@ -164,8 +164,7 @@ const deleteFile = async (file) => {
   await baseStore.deleteImg(imageInfo.value?.publicId);
 };
 
-function handleDrop(e) {
-}
+function handleDrop(e) {}
 const beforeUpload = (file) => {
   const isImage = file.type.startsWith("image/");
   if (!isImage) {
@@ -187,6 +186,11 @@ useAsyncData(async () => {
 
 const onSubmit = async () => {
   try {
+    if (posts.value.status === "draft") {
+      isSubmitdraft.value = true;
+    } else {
+      isSubmitAdd.value = true;
+    }
     const res = await postStore.createPost({
       image: imageInfo.value?.url,
       title: posts.value.title,
@@ -204,24 +208,27 @@ const onSubmit = async () => {
     }
   } catch (error) {
     message.error("Thêm bài viết thất bại");
+  } finally {
+    if (posts.value.status === "draft") {
+      isSubmitdraft.value = false;
+    } else {
+      isSubmitAdd.value = false;
+    }
   }
 };
 
-const handleChangeSelect = (value) => {
-};
-const handleBlur = () => {
-};
-const handleFocus = () => {
-};
+const handleChangeSelect = (value) => {};
+const handleBlur = () => {};
+const handleFocus = () => {};
 const filterOption = (input, option) => {
   return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
 useSeoMeta({
-    title: "ReadStation | Thêm bài viết",
-    ogTitle: "ReadStation | Thêm bài viết",
-    description: "Thêm bài viết",
-    ogDescription: "Thêm bài viết",
-    ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
-    twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  title: "ReadStation | Thêm bài viết",
+  ogTitle: "ReadStation | Thêm bài viết",
+  description: "Thêm bài viết",
+  ogDescription: "Thêm bài viết",
+  ogImage: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
+  twitterCard: "https://readstation.store/_nuxt/logo_header.DUGKFBsU.svg",
 });
 </script>

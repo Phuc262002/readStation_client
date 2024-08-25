@@ -1,5 +1,6 @@
 <template>
   <div class="md:py-10 h-auto mx-auto md:px-20 px-8 container">
+
     <Head>
       <Title>ReadStation | Sản phẩm</Title>
       <Meta name="description" content="Sản phẩm" />
@@ -12,54 +13,32 @@
 
         <div class="bg-white">
           <div class="text-base cursor-pointer rounded-xl border">
-            <div
-              class="flex justify-between items-center px-4 py-2"
-              @click="() => handleIsShow('category')"
-            >
+            <div class="flex justify-between items-center px-4 py-2" @click="() => handleIsShow('category')">
               <span>Danh mục</span>
-              <img
-                ref="bookIcon2"
-                class="rotate-180"
-                width="20"
-                height="20"
+              <img ref="bookIcon2" class="rotate-180" width="20" height="20"
                 src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
-                alt=""
-              />
+                alt="" />
             </div>
-            <div
-              class="border-t px-4 py-2 h-[300px] overflow-auto"
-              v-if="isShow.includes('category')"
-            >
+            <div class="border-t px-4 py-2 h-[300px] overflow-auto" v-if="isShow.includes('category')">
               <!--  -->
 
               <ul class="px-4 space-y-1">
                 <li>
-                  <a-radio
-                    :checked="filter.category_id === null ? true : false"
-                    @click="
-                      handleCheckbox({
-                        type: 'category_id',
-                        id: null,
-                      })
-                    "
-                    >Tất cả</a-radio
-                  >
+                  <a-radio :checked="filter.category_id === null ? true : false" @click="
+                    handleCheckbox({
+                      type: 'category_id',
+                      id: null,
+                    })
+                    ">Tất cả</a-radio>
                 </li>
-                <li
-                  class="flex items-center"
-                  v-for="(category, index) in categoryStore?.categories
-                    ?.categories"
-                  :key="index"
-                >
-                  <a-radio
-                    :checked="category.id === filter.category_id ? true : false"
-                    @click="
-                      handleCheckbox({
-                        type: 'category_id',
-                        id: category.id,
-                      })
-                    "
-                  >
+                <li class="flex items-center" v-for="(category, index) in categoryStore?.categories
+                  ?.categories" :key="index">
+                  <a-radio :checked="category.id === filter.category_id ? true : false" @click="
+                    handleCheckbox({
+                      type: 'category_id',
+                      id: category.id,
+                    })
+                    ">
                     {{ category?.name }}
                   </a-radio>
                 </li>
@@ -71,53 +50,31 @@
 
         <div class="bg-white">
           <div class="text-base cursor-pointer rounded-xl border">
-            <div
-              class="flex justify-between items-center px-4 py-2"
-              @click="() => handleIsShow('author')"
-            >
+            <div class="flex justify-between items-center px-4 py-2" @click="() => handleIsShow('author')">
               <span>Tác giả</span>
-              <img
-                ref="bookIcon2"
-                class="rotate-180"
-                width="20"
-                height="20"
+              <img ref="bookIcon2" class="rotate-180" width="20" height="20"
                 src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
-                alt=""
-              />
+                alt="" />
             </div>
-            <div
-              class="border-t px-4 py-2 h-[300px] overflow-auto"
-              v-if="isShow.includes('author')"
-            >
+            <div class="border-t px-4 py-2 h-[300px] overflow-auto" v-if="isShow.includes('author')">
               <ul class="px-4 space-y-1">
                 <li>
-                  <a-radio
-                    :checked="filter.author_id === null ? true : false"
-                    @click="
-                      handleCheckbox({
-                        type: 'author_id',
-                        id: null,
-                      })
-                    "
-                    >Tất cả</a-radio
-                  >
+                  <a-radio :checked="filter.author_id === null ? true : false" @click="
+                    handleCheckbox({
+                      type: 'author_id',
+                      id: null,
+                    })
+                    ">Tất cả</a-radio>
                 </li>
-                <li
-                  class="flex items-center"
-                  v-for="(author, index) in authorStore?.authorClient?.authors"
-                  :key="index"
-                >
-                  <a-radio
-                    :checked="author.id === filter.author_id ? true : false"
-                    @click="
-                      handleCheckbox({
-                        type: 'author_id',
-                        id: author.id,
-                      })
-                    "
-                  >
-                    {{ author?.author }}</a-radio
-                  >
+                <li class="flex items-center" v-for="(author, index) in authorStore?.authorClient?.authors"
+                  :key="index">
+                  <a-radio :checked="author.id === filter.author_id ? true : false" @click="
+                    handleCheckbox({
+                      type: 'author_id',
+                      id: author.id,
+                    })
+                    ">
+                    {{ author?.author }}</a-radio>
                 </li>
               </ul>
             </div>
@@ -126,57 +83,34 @@
 
         <div class="bg-white">
           <div class="text-base cursor-pointer rounded-xl border">
-            <div
-              class="flex justify-between items-center px-4 py-2"
-              @click="() => handleIsShow('publishing')"
-            >
+            <div class="flex justify-between items-center px-4 py-2" @click="() => handleIsShow('publishing')">
               <span>Nhà xuất bản</span>
-              <img
-                ref="bookIcon2"
-                class="rotate-180"
-                width="20"
-                height="20"
+              <img ref="bookIcon2" class="rotate-180" width="20" height="20"
                 src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
-                alt=""
-              />
+                alt="" />
             </div>
-            <div
-              class="border-t px-4 py-2 h-[300px] overflow-auto"
-              v-if="isShow.includes('publishing')"
-            >
+            <div class="border-t px-4 py-2 h-[300px] overflow-auto" v-if="isShow.includes('publishing')">
               <ul class="px-4 space-y-1">
                 <li>
-                  <a-radio
-                    :checked="
-                      filter.publishing_company_id === null ? true : false
-                    "
-                    @click="
+                  <a-radio :checked="filter.publishing_company_id === null ? true : false
+                    " @click="
                       handleCheckbox({
                         type: 'publishing_company_id',
                         id: null,
                       })
-                    "
-                  >
+                      ">
                     Tất cả
                   </a-radio>
                 </li>
-                <li
-                  class="flex items-center"
-                  v-for="(company, index) in publishingCompanyStore
-                    ?.publishingCompany?.publishing_companies"
-                  :key="index"
-                >
-                  <a-radio
-                    :checked="
-                      company.id === filter.publishing_company_id ? true : false
-                    "
-                    @click="
+                <li class="flex items-center" v-for="(company, index) in publishingCompanyStore
+                  ?.publishingCompany?.publishing_companies" :key="index">
+                  <a-radio :checked="company.id === filter.publishing_company_id ? true : false
+                    " @click="
                       handleCheckbox({
                         type: 'publishing_company_id',
                         id: company.id,
                       })
-                    "
-                  >
+                      ">
                     {{ company?.name }}
                   </a-radio>
                 </li>
@@ -187,33 +121,21 @@
 
         <div class="bg-white">
           <div class="text-base cursor-pointer rounded-xl border">
-            <div
-              class="flex justify-between items-center px-4 py-2"
-              @click="() => handleIsShow('rating')"
-            >
+            <div class="flex justify-between items-center px-4 py-2" @click="() => handleIsShow('rating')">
               <span>Đánh giá</span>
-              <img
-                ref="bookIcon2"
-                class="rotate-180"
-                width="20"
-                height="20"
+              <img ref="bookIcon2" class="rotate-180" width="20" height="20"
                 src="https://salt.tikicdn.com/cache/100x100/ts/ta/6c/37/a4/7ee5c72cc1c35b6b90b70b2ce3498215.png.webp"
-                alt=""
-              />
+                alt="" />
             </div>
             <div v-if="isShow.includes('rating')" class="border-t px-4 py-2">
               <ul class="px-4 space-y-1">
                 <li>
-                  <a-radio
-                    :checked="filter.rating === null ? true : false"
-                    @click="
-                      handleCheckbox({
-                        type: 'rating',
-                        id: null,
-                      })
-                    "
-                    >Tất cả</a-radio
-                  >
+                  <a-radio :checked="filter.rating === null ? true : false" @click="
+                    handleCheckbox({
+                      type: 'rating',
+                      id: null,
+                    })
+                    ">Tất cả</a-radio>
                 </li>
 
                 <li>
@@ -227,16 +149,12 @@
                   </a-radio>
                 </li>
                 <li>
-                  <a-radio
-                    class="flex items-center"
-                    :checked="filter.rating === 4 ? true : false"
-                    @click="
-                      handleCheckbox({
-                        type: 'rating',
-                        id: 4,
-                      })
-                    "
-                  >
+                  <a-radio class="flex items-center" :checked="filter.rating === 4 ? true : false" @click="
+                    handleCheckbox({
+                      type: 'rating',
+                      id: 4,
+                    })
+                    ">
                     <CommonRating :rating="4" />
                   </a-radio>
                 </li>
@@ -285,20 +203,14 @@
               <span class="text-orange-500">{{ bookFromQuery }}</span> ”
             </div>
             <div class="text-xl px-4 py-3" v-else>Tất cả sản phẩm</div>
-            <div
-              class="flex gap-5 justify-between items-center px-4 h-fit border-t"
-            >
+            <div class="flex gap-5 justify-between items-center px-4 h-fit border-t">
               <div class="text-base">
                 {{ bookstore?.books?.totalResults }} sản phẩm
               </div>
               <div class="text-base px-4 py-3 text-right flex items-center">
                 <div class="px-4 text-[#cac9cd]">Sắp xếp</div>
-                <a-select
-                  :options="sortOptions"
-                  v-model:value="filter.sort"
-                  @change="handleSortChange"
-                  style="width: 100px"
-                >
+                <a-select :options="sortOptions" v-model:value="filter.sort" @change="handleSortChange"
+                  style="width: 100px">
                 </a-select>
               </div>
             </div>
@@ -306,20 +218,12 @@
 
           <div>
             <div class="grid grid-cols-4">
-              <CommonBookShop
-                v-for="(book, index) in bookstore?.books?.books"
-                :key="book.id || index"
-                :book="book"
-              />
+              <CommonBookShop v-for="(book, index) in bookstore?.books?.books" :key="book.id || index" :book="book" />
             </div>
           </div>
           <div class="flex justify-center">
-            <a-pagination
-              v-model:current="current"
-              :total="bookstore?.books?.totalResults"
-              :pageSize="bookstore?.books?.pageSize"
-              :showSizeChanger="null"
-            />
+            <a-pagination v-model:current="current" :total="bookstore?.books?.totalResults"
+              :pageSize="bookstore?.books?.pageSize" :showSizeChanger="null" />
           </div>
         </div>
       </div>
@@ -356,7 +260,6 @@ watch(
 
 // Chỉ định danh mục
 const updateCategoryFromQuery = async (categorySlug) => {
-  console.log("categorySlug", categorySlug);
   await categoryStore.getAllCategoryClient({ type: "book", pageSize: 1000 });
 
   const matchedCategory = categoryStore?.categories?.categories?.find(
@@ -388,7 +291,7 @@ watch(
 
 // Chỉ định theo tác giả
 const updateAuthorFromQuery = async (authorSlug) => {
-  console.log("authorSlug", authorSlug);
+
   await authorStore.getAllAuthorClient({
     pageSize: 1000,
   });
@@ -456,20 +359,6 @@ const fetchBooks = async () => {
   }
 };
 
-useAsyncData(
-  async () => {
-    try {
-      await fetchBooks();
-    } catch (error) {
-      console.error(error);
-    }
-  },
-  {
-    immediate: true,
-    watch: [current, filter.value, filter.value.sort],
-  }
-);
-
 const handleCheckbox = ({ type, id }: any) => {
   switch (type) {
     case "category_id":
@@ -487,9 +376,18 @@ const handleCheckbox = ({ type, id }: any) => {
     default:
       break;
   }
-  current.value = 1;
-  fetchBooks();
+  // console.log("filter.value.rating", filter.value.rating);
+
 };
+
+watch(
+  filter,
+  () => {
+    current.value = 1;
+    fetchBooks();
+  },
+  { deep: true, immediate: true }
+)
 
 const handleSortChange = (value: string) => {
   filter.value.sort = value;
@@ -498,25 +396,11 @@ const handleSortChange = (value: string) => {
 };
 
 useAsyncData(async () => {
-  await authorStore.getAllAuthorClient({
-    pageSize: 1000,
-  });
+  await authorStore.getAllAuthorClient({ pageSize: 1000 });
+  await categoryStore.getAllCategoryClient({ type: "book", pageSize: 1000 });
+  await publishingCompanyStore.getAllPublishingCompanyClient({ pageSize: 1000 });
 });
 
-useAsyncData(async () => {
-  const response = await categoryStore.getAllCategoryClient({
-    type: "book",
-    pageSize: 1000,
-  });
-  response.value = response?.data?._rawValue?.data;
-});
-
-useAsyncData(async () => {
-  const response = await publishingCompanyStore.getAllPublishingCompanyClient({
-    pageSize: 1000,
-  });
-  response.value = response?.data?._rawValue?.data;
-});
 </script>
 
 <style scoped>

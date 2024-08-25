@@ -175,7 +175,6 @@ const shippingMethodStore = useShippingMethodPublicStore();
 const shippingFee = ref(0);
 const route = useRoute();
 const idOrder = route.params.id;
-console.log("idOrder", idOrder);
 
 useAsyncData(async () => {
   await shippingMethodStore.getAllShipping();
@@ -260,7 +259,7 @@ const onSubmit = async () => {
       pickup_info: pickupInfo,
     },
   });
-  console.log("resData", resData);
+ 
   if (resData?.data?._rawValue?.status == true) {
     message.success({
       content: "Trả toàn bộ sách thành công",

@@ -10,7 +10,7 @@
       <a-dropdown :open="valueSearch ? true : false">
         <a-input
           v-model:value="valueSearch"
-          placeholder="Nhập mã tủ để tìm kiếm"
+          placeholder="Nhập tên kệ để tìm kiếm"
           class="h-10"
           allow-clear
           @click.prevent
@@ -118,6 +118,10 @@ const updateDetailCase = async (id) => {
       handleClose();
       message.success("Thêm kệ sách thành công");
       await bookCaseStore.getOneBookcase(detailBookCaseId);
+      await bookCaseStore.getShelveOfBookcase({
+        id: detailBookCaseId,
+      });
+      
     } else {
       errors.value = res.error.value.data.errors;
       message.error(res.error.value.data.message);

@@ -47,7 +47,7 @@
               </NuxtLink>
               <a-tooltip placement="top">
                 <template #title>
-                  <span>Hủy</span>
+                  <span>Xóa</span>
                 </template>
                 <button @click="showDeleteConfirm(record.id)"
                   class="hover:bg-[#131313]/20 bg-[#e4e1e1] p-2 rounded-lg flex items-center justify-center">

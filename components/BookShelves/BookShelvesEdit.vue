@@ -1,4 +1,3 @@
-
 <template>
   <a-modal v-model:open="props.openModalEdit" title="Sửa kệ sách" :footer="null" :onCancel="handleClose">
     <div class="bg-white py-2">
@@ -20,8 +19,7 @@
             </div>
             <div class="flex flex-col gap-2">
               <label>Mô tả <span class="text-red-500">*</span></label>
-              <a-textarea v-model:value="valueShelves.description" placeholder="Nhập tên kệ sách"
-                size="large" />
+              <a-textarea v-model:value="valueShelves.description" placeholder="Nhập tên kệ sách" size="large" />
             </div>
           </div>
           <div class="grid grid-cols-2 gap-4">
@@ -105,6 +103,7 @@ const valueShelves = ref({
 
 useAsyncData(async () => {
   try {
+    if (shelvesId.value === undefined) return;
     const data = await shelvesStore.getOneShelves(shelvesId.value);
     valueShelves.value.name = data.data._value?.data?.name;
     valueShelves.value.description = data.data._value?.data?.description;
@@ -116,7 +115,7 @@ useAsyncData(async () => {
     console.error(error);
   }
 }, {
-  watch: [shelvesId],
+  watch: [shelvesId, open],
   initialCache: false,
 })
 

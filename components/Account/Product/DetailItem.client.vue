@@ -20,18 +20,33 @@
         {{ bookStore?.book?.cardboard === "soft" ? "Bìa mềm" : "Bìa cứng" }} -
         {{ bookStore?.book?.book_version }}
       </div>
+
       <div class="flex gap-5 text-sm mb-2">
+        <div class="w-1/2">
+          <div class="grid grid-cols-12">
+            <span class="font-semibold col-span-4 mb-1">Danh mục: </span>
+            <span class="col-span-8"> {{ bookStore?.book?.book?.category?.name }} </span>
+          </div>
 
-        <div>
-          <span>Danh mục: </span>
-          <span> {{ bookStore?.book?.book?.category?.name }} </span>
+          <div class="grid grid-cols-12">
+            <span class="font-semibold col-span-4 mb-1">Số lượng: </span>
+            <span class="col-span-8"> {{ bookStore?.book?.stock }} </span>
+          </div>
         </div>
-
-        <div>
-          <span>Số lượng: </span>
-          <span> {{ bookStore?.book?.stock }} </span>
+        <div class="w-1/2">
+          <div class="grid grid-cols-12">
+            <span class="font-semibold col-span-4 mb-1">Tủ sách:</span>
+            <span class="col-span-8">{{ bookStore?.book?.book?.shelve?.bookcase?.name || 'Chưa có thông tin' }}</span>
+          </div>
+          <div class="grid grid-cols-12">
+            <span class="font-semibold col-span-4 mb-1">Kệ sách:</span>
+            <span class="col-span-8">{{ bookStore?.book?.book?.shelve?.name || 'Chưa có thông tin' }}</span>
+          </div>
         </div>
       </div>
+
+
+
       <div class="flex gap-3" v-if="bookStore?.book?.average_rate > 0">
         <p class="text-sm font-medium">
           {{ bookStore?.book?.average_rate }} sao
@@ -44,7 +59,7 @@
       <div class="flex gap-3" v-else>
         <CommonRating :rating="5" />
       </div>
-      <div class="flex items-center gap-3 pt-1">
+      <div class="flex items-center gap-3 pt-2">
         <p class="font-bold text-2xl">
           {{
             new Intl.NumberFormat("vi-VN", {
@@ -82,14 +97,7 @@
           <p class="w-1/2">{{ bookStore?.book?.publishing_company?.name }}</p>
         </div>
 
-        <!-- <div class="flex border-b border-rtgray-50 p-2" v-if="bookStore.book.book.shelve !== 'null'">
-          <p class="w-1/2 text-rtgray-100">Tủ sách</p>
-          <p class="w-1/2">{{ bookStore?.book?.book?.shelve?.bookcase?.name }}</p>
-        </div>
-        <div class="flex border-b border-rtgray-50 p-2" v-if="bookStore?.book?.book?.shelve !== 'null'">
-          <p class="w-1/2 text-rtgray-100">Kệ sách</p>
-          <p class="w-1/2">{{ bookStore?.book?.book?.shelve?.name }}</p>
-        </div> -->
+
         <div class="flex border-b border-rtgray-50 p-2">
           <p class="w-1/2 text-rtgray-100">Ngày xuất bản</p>
           <p class="w-1/2">{{ $dayjs(bookStore?.book?.publish_date).format("DD/MM/YYYY") }}</p>

@@ -24,14 +24,6 @@
                             placeholder="Mã danh mục" :options="optionsCategory" :filter-option="filterOption"
                             @focus="handleFocus" @blur="handleBlur" @change="handleChange"></a-select>
                     </div>
-
-                    <div class="flex flex-col gap-2">
-                        <label class="text-sm font-semibold">Tủ sách</label>
-                        <a-select v-model:value="dataGet.bookcase" show-search size="large" placeholder="Mã tủ sách"
-                            :options="optionsCase" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
-                            @change="handleChange"></a-select>
-
-                    </div>
                     <div class="flex flex-col gap-2">
                         <label class="text-sm font-semibold">Kệ sách</label>
                         <a-select v-model:value="dataGet.shelve" show-search size="large" placeholder="Mã kệ sách"
@@ -62,39 +54,47 @@
 const props = defineProps({
     openModalBook: Boolean,
     openModal: Function,
+    id: Number,
 });
 const errors = ref({});
-const route = useRoute()
-const bookID = route.params.id
+const bookID = ref(props.id);
+watch(
+    () => props.id,
+    (newVal) => {
+        bookID.value = newVal;
+    }
+);
+const handleClose = () => {
+    props.openModal();
+};
 const bookStore = useBookStore();
 const dataGet = ref({
     title: '',
     author: '',
     category: '',
-    bookcase: '',
     shelve: '',
     description: '',
     description_summary: '',
 })
 useAsyncData(async () => {
     try {
-        const data = await bookStore.getOneBookAdmin(bookID);
-        console.log(data);
+        if (bookID.value === undefined) return;
+        const data = await bookStore.getOneBookAdmin(bookID.value);
         dataGet.value.title = data?.data?._value?.data?.title;
-        dataGet.value.author = data?.data?._value?.data?.author?.author;
-        dataGet.value.category = data?.data?._value?.data?.category?.name;
-        dataGet.value.bookcase = data?.data?._value?.data?.shelve?.bookcase?.name;
-        dataGet.value.shelve = data?.data?._value?.data?.shelve?.name;
+        dataGet.value.author = data?.data?._value?.data?.author?.id;
+        dataGet.value.category = data?.data?._value?.data?.category?.id;
+        dataGet.value.shelve = data?.data?._value?.data?.shelve?.id;
         dataGet.value.description = data?.data?._value?.data?.description;
         dataGet.value.description_summary = data?.data?._value?.data?.description_summary;
     } catch (error) {
         console.error(error);
     }
+}, {
+    immediate: true,
+    watch: [bookID, props.openModalBook],
 });
-const open = ref(props.openModalBook);
-const handleClose = () => {
-    props.openModal();
-};
+
+
 
 const optionsAuthor = ref([]);
 const authorValue = useAuthorStore();
@@ -148,48 +148,27 @@ const getDataShelvesValue = async () => {
         console.error(error);
     }
 };
-
-
-const optionsCase = ref([]);
-const CaseValue = useBookcaseStore();
-const getDataCaseValue = async () => {
-    try {
-        const data = await CaseValue.getAllBookcases({
-            pageSize: 1000,
-        });
-        optionsCase.value = data.data._rawValue.data.bookcases.map((items) => {
-            return {
-                value: items.id,
-                label: items.description,
-            };
-        });
-    } catch (error) {
-        console.error(error);
-    }
-};
-
 useAsyncData(async () => {
     await getDataAuthor();
     await getDataCategory();
     await getDataShelvesValue();
-    await getDataCaseValue();
 });
 const onSubmit = async () => {
     try {
         const dataUpdate = {
             title: dataGet.value.title,
-            author: dataGet.value.author,
-            category: dataGet.value.category,
-            bookcase: dataGet.value.bookcase,
-            shelve: dataGet.value.shelve,
+            author_id: dataGet.value.author,
+            category_id: dataGet.value.category,
+            shelve_id: dataGet.value.shelve,
             description: dataGet.value.description,
             description_summary: dataGet.value.description_summary,
         };
-        const res = await bookStore.updateBook({ id: bookID, value: dataUpdate });
+        const res = await bookStore.updateBook({ id: bookID.value, value: dataUpdate });
         if (res.data._rawValue?.status == true) {
             handleClose();
             message.success("Cập nhật sách thành công");
-            await bookStore.getOneBookAdmin(bookID)
+            await bookStore.getAdminBooks({});
+            await bookStore.getOneBookAdmin(bookID.value)
         } else {
             errors.value = res.data._rawValue?.errors;
             message.error(res.error.value.data.message);

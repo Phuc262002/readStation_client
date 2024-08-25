@@ -11,7 +11,7 @@
           {{ props.extendsionBook?.book_details?.book?.title }}
         </h3>
         <a-radio-group v-model:value="extended_method" class="flex gap-5 my-5">
-          <a-radio value="cash" class="w-1/2 p-5 border rounded-lg">
+          <a-radio value="cash" class="w-1/2 p-5 border rounded-lg" disabled>
             Gia hạn tại thư viện
           </a-radio>
           <a-radio value="online" class="w-1/2 p-5 border rounded-lg">
@@ -48,7 +48,7 @@
               </span>
             </div>
             <div class="grid grid-cols-6">
-              <span class="col-span-3 font-bold">Ngày hết hạn cũ:</span>
+              <span class="col-span-3 font-bold">Ngày hết hạn:</span>
               <span class="col-span-3">
                 {{
                   $dayjs(props.extendsionBook?.original_due_date).format(
@@ -57,28 +57,28 @@
                 }}
               </span>
             </div>
-            <div class="grid grid-cols-6">
-              <span class="col-span-3 font-bold">Ngày hết hạn mới:</span>
-              <span class="col-span-3">
-                {{
-                  $dayjs(props.extendsionBook?.original_due_date)
-                    .add(5, "day")
-                    .format("DD/MM/YYYY")
-                }}
-              </span>
-            </div>
+
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Phí gia hạn:</span>
               <span class="col-span-3"> {{ props.extendsionBook?.service_fee }} </span>
             </div>
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Nhập số ngày gia hạn:</span>
-              <span class="col-span-3">
+              <!-- student -->
+              <span class="col-span-3" v-if="isCheckAuth && isCheckCate">
+                <a-input type="number" class="w-1/2" v-model:value="number_of_days" @change="(e) =>
+                  updateNumberOfDays(props.extendsionBook?.id, number_of_days
+                  )
+                  " :min="1" :max="30" required />
+              </span>
+              <!-- user -->
+              <span class="col-span-3" v-else>
                 <a-input type="number" class="w-1/2" v-model:value="number_of_days" @change="(e) =>
                   updateNumberOfDays(props.extendsionBook?.id, number_of_days
                   )
                   " :min="1" :max="5" required />
               </span>
+
             </div>
           </div>
         </div>
@@ -109,8 +109,9 @@
   </div>
 </template>
 <script setup lang="ts">
+const authStore = useAuthStore()
 const orderStore = useOrderClientStore();
-const extended_method = ref("cash");
+const extended_method = ref("online");
 const route = useRoute();
 const id = route.params.id;
 const number_of_days = ref(5);
@@ -121,7 +122,8 @@ const props = defineProps({
 });
 const open = ref(props.openModalExtend);
 const bookDetailId = ref(props.extendsionBook?.id);
-
+const isCheckAuth = authStore?.authUser?.user?.role?.name === 'student';
+const isCheckCate = props.extendsionBook?.book_details?.book?.category?.name === 'Sách giáo khoa';
 watch(
   () => props.openModalExtend,
   (newValue) => {
@@ -155,6 +157,15 @@ const updateNumberOfDays = (id, quantity) => {
 };
 // updateNumberOfDays(id, quantity)
 const onSubmit = async () => {
+  console.log('first', {
+    id: props.extendsionBook?.id,
+    body: {
+      extended_method: extended_method.value,
+      number_of_days: number_of_days.value,
+    },
+  })
+  return
+
   const resData = await orderStore.extensionBook({
     id: props.extendsionBook?.id,
     body: {
@@ -162,6 +173,7 @@ const onSubmit = async () => {
       number_of_days: number_of_days.value,
     },
   });
+
 
   if (
     resData?.data?._rawValue?.status == true &&

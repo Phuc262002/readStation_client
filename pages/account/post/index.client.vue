@@ -180,7 +180,6 @@ const searchValue = ref("");
 const showModal = (id) => {
   openModal.value = true;
   postDetailId.value = id;
-  console.log(id);
 };
 
 const closeModal = () => {
@@ -189,6 +188,7 @@ const closeModal = () => {
 const onSearch = debounce(() => {
   current.value = 1;
   getDataPost();
+
 }, 500);
 
 watch(searchValue, onSearch);
@@ -217,7 +217,6 @@ useAsyncData(
 // Handle Check Status Post
 const handleCheckStatus = (status) => {
   filter.value = status;
-  console.log(status);
 };
 
 // Delete a Post
@@ -240,7 +239,8 @@ const showDeleteConfirm = (id: any) => {
     },
   });
 };
-const value = ref<string>("");
+console.log('Status:', filter.value);
+console.log('Search:', searchValue.value);
 
 
 const columns = [

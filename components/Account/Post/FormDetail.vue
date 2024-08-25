@@ -147,10 +147,12 @@ watch(
 );
 useAsyncData(
   async () => {
-    await postStore.getOnePost(props.postDetailId);
+    if (props.postDetailId) {
+      await postStore.getOnePost(props.postDetailId);
+    }
   },
   {
-    watch: [postDetailId],
+    watch: [postDetailId, open],
     initialCache: false,
   }
 );

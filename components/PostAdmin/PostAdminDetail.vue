@@ -178,7 +178,7 @@ useAsyncData(
     }
   },
   {
-    watch: [postDetailId],
+    watch: [postDetailId, open],
     initialCache: false,
   }
 );

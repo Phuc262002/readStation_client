@@ -29,14 +29,14 @@
 
           <a-button :class="[
             'rounded-xl',
-            arrange === 'asc' ? 'bg-orange-500 !text-white' : '',
-          ]" @click="handleCheckSort('asc')">
+            arrange === 'desc' ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckSort('desc')">
             Mới nhất
           </a-button>
           <a-button :class="[
             'rounded-xl',
-            arrange === 'desc' ? 'bg-orange-500 !text-white' : '',
-          ]" @click="handleCheckSort('desc')">
+            arrange === 'asc' ? 'bg-orange-500 !text-white' : '',
+          ]" @click="handleCheckSort('asc')">
             Cũ nhất
           </a-button>
           <a-button :class="[
@@ -68,53 +68,84 @@
             </p>
           </div>
         </div>
+
+      </div>
+      <div class="flex justify-center" v-if="hasReviews">
+        <a-pagination v-model:current="current" :total="detailReview?.reviews?.totalResults"
+          :pageSize="detailReview?.reviews?.pageSize" show-less-items />
       </div>
       <p class="text-center mb-5 font-semibold" v-if="!hasReviews">
         Sách hiện tại chưa có đánh giá nào.
       </p>
+
     </div>
-    <div>
-      <h2 class="font-bold text-xl my-5">Có thể bạn sẽ thích</h2>
-      <div class="grid grid-cols-5 gap-5">
-        <div class="mt-10 w-full" v-for="(book, index) in recommendationBooks" :key="book.id || index">
-          <div class="flex flex-col gap-5 p-3 border rounded-lg">
-            <NuxtLink :to="`/products/${book?.book?.slug}-${book?.id}`" class="mx-auto">
-              <img class="rounded-lg w-[180px] h-[284px] object-cover" :src="book?.poster" alt="" />
-            </NuxtLink>
+    <div v-if="bookStore.books?.books?.length > 0">
+      <h2 class="font-bold text-xl mt-5">Có thể bạn sẽ thích</h2>
+      <div>
+        <div v-if="bookStore.isLoading" class="flex justify-center my-5">
+          <a-spin size="large" />
+        </div>
+        <div v-else class="relative">
+          <swiper :slidesPerView="5" :spaceBetween="16" :pagination="{
+            clickable: true,
+          }" :modules="Pagination" class="mySwiper" @swiper="onSwiper" :loop="true" ref="swiperRef">
+            <swiper-slide class="mt-10 w-full"
+              v-for="(book, index) in bookStore.books?.books?.filter(item => item?.id !== bookStore.book?.id)"
+              :key="book.id || index">
 
-            <div class="flex flex-col gap-1">
-              <NuxtLink :to="`/products/${book?.book?.slug}-${book?.id}`"
-                class="text-xl font-bold hover:text-[#f65d4e] line-clamp-1">
-                {{ book?.book?.title }}
-              </NuxtLink>
+              <div class="flex flex-col gap-5 p-3 border rounded-lg">
+                <NuxtLink :to="`/products/${book?.book?.slug}-${book?.id}`" class="mx-auto">
+                  <img class="rounded-lg w-[180px] h-[284px] object-cover" :src="book?.poster" alt="" />
+                </NuxtLink>
 
-              <div class="text-sm text-[#999999]">
-                {{ book?.book_version }}
+                <div class="flex flex-col gap-1">
+                  <NuxtLink :to="`/products/${book?.book?.slug}-${book?.id}`"
+                    class="text-xl font-bold hover:text-[#f65d4e] line-clamp-1">
+                    {{ book?.book?.title }}
+                  </NuxtLink>
+
+                  <div class="text-sm text-[#999999]">
+                    {{ book?.book_version }}
+                  </div>
+                  <div class="flex justify-start">
+                    <CommonRating :rating="book?.average_rate" />
+                  </div>
+                  <NuxtLink :to="`/products?author=${book?.book?.author?.slug}`"
+                    class="text-sm text-[#999999] hover:text-[#f65d4e]">
+                    {{ book?.book?.author?.author }}
+                  </NuxtLink>
+                  <div class="text-orange-600 font-extrabold text-xl">
+                    {{
+                      new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(book?.price)
+                    }}
+                  </div>
+                </div>
               </div>
-              <div class="flex justify-start">
-                <CommonRating :rating="book?.average_rate" />
-              </div>
-              <NuxtLink :to="`/products?author=${book?.book?.author?.slug}`"
-                class="text-sm text-[#999999] hover:text-[#f65d4e]">
-                {{ book?.book?.author?.author }}
-              </NuxtLink>
-              <div class="text-orange-600 font-extrabold text-xl">
-                {{
-                  new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(book?.price)
-                }}
-              </div>
-            </div>
-          </div>
+            </swiper-slide>
+          </swiper>
+          <button @click="swiperPrevSlide"
+            class="border absolute top-1/2 left-0 z-10 bg-white -translate-x-5 -translate-y-1/2 border-gray-300 rounded-full w-10 h-10 flex justify-center items-center">
+            <ArrowLeftOutlined />
+          </button>
+          <button @click="swiperNextSlide"
+            class="border absolute top-1/2 right-0 z-10 bg-white border-gray-300 translate-x-5 -translate-y-1/2 rounded-full w-10 h-10 flex justify-center items-center">
+            <ArrowRightOutlined />
+          </button>
         </div>
       </div>
+
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { Swiper, SwiperSlide } from "swiper/vue";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
 const bookStore = useBookPublicStore();
 const detailReview = useBookDetailReviewStore();
 const authorStore = useAuthorPublicStore();
@@ -123,12 +154,17 @@ const slug = route.params.slug;
 const parts = slug.split("-");
 const lastPart = parts.pop();
 const filter = ref("");
-const arrange = ref("asc");
+const arrange = ref("desc");
 const current = ref(1);
+const swiperInstance = ref();
+
 // Get all author
 useAsyncData(async () => {
   await authorStore.getAllAuthorClient();
 });
+//
+const hasReviews = computed(() => detailReview?.reviews?.bookReviews.length > 0);
+
 // Xử lý sắp xếp
 const handleCheckSort = (sort) => {
   arrange.value = sort;
@@ -148,11 +184,22 @@ const handleCheckRating = (rating) => {
 useAsyncData(async () => {
   try {
     await bookStore.getOneBook(slug as string);
+    await bookStore.getAllBooks({
+      category_id: bookStore.book.book?.category?.id
+    });
   } catch (error) {
     console.error("error", error);
   }
 });
-
+function onSwiper(swiper) {
+  swiperInstance.value = swiper;
+}
+const swiperNextSlide = () => {
+  swiperInstance.value.slideNext();
+};
+const swiperPrevSlide = () => {
+  swiperInstance.value.slidePrev();
+};
 // Lấy danh sách đánh giá dựa trên bộ lọc hiện tại, sắp xếp và trang
 const fetchReviews = async () => {
   await detailReview.getAllReviewBook({
@@ -166,21 +213,5 @@ const fetchReviews = async () => {
 useAsyncData(fetchReviews, {
   immediate: true,
   watch: [current, filter, arrange],
-});
-//
-const hasReviews = () => detailReview?.reviews?.bookReviews.length > 0
-const recommendationBooks = computed(() =>
-  bookStore?.books?.books
-    ?.filter((book) => {
-      const isDifferWithCurrentBook = book?.id !== bookStore?.book?.id;
-      const isBeLongToCurrentType =
-        book?.book?.category?.slug === bookStore?.book?.book?.category?.slug;
-      return isBeLongToCurrentType && isDifferWithCurrentBook;
-    })
-    ?.slice(0, 5)
-);
-
-useAsyncData(async () => {
-  await bookStore.getAllBooks({});
 });
 </script>

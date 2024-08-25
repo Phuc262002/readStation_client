@@ -97,8 +97,6 @@ const updateDetailShelves = async (id) => {
             await bookShelves.getOneShelves(detailShelvesId);
             await bookShelves.getBookOfShelves({
                 id: detailShelvesId,
-                page: current.value,
-                search: valueSearch.value,
             });
         } else {
             errors.value = res.error.value.data.errors;
