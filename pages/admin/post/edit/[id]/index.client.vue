@@ -170,7 +170,6 @@ const editor = $ckeditor.classicEditor;
 const options = ref([]);
 const optionsStatus = ref([
   // { value: "wating_approve", label: "Chờ duyệt" },
-  { value: "approve_canceled", label: "Từ chối" },
   { value: "draft", label: "Nháp" },
   { value: "published", label: "Công khai" },
   { value: "hidden", label: "Ẩn" },

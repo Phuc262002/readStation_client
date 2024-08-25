@@ -84,7 +84,6 @@ const email = defineInputBinds("email");
 // Submit handler
 const onSubmit = handleSubmit(async (values) => {
   // Submit to API
-  console.log("object1", values);
   try {
     isSubmitting.value = true;
     const resData = await authStore.sendResetPassword(values);
@@ -101,7 +100,7 @@ const onSubmit = handleSubmit(async (values) => {
       });
     }
   } catch (error) {
-    // console.log(error);
+    
     message.error({
       content: "Gửi xác thực Email không thành công",
     });

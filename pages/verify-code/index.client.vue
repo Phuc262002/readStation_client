@@ -33,7 +33,7 @@
             <v-otp-input ref="otpInput" input-classes="otp-input"
               :conditionalClass="['one', 'two', 'three', 'four', 'five', 'six']" inputType="letter-numeric"
               :num-inputs="6" v-model:value="bindValue" :should-auto-focus="true" :should-focus-order="true"
-              @on-change="handleOnChange" @on-complete="handleOnComplete"
+              
               :placeholder="['*', '*', '*', '*', '*', '*']" />
           </div>
           <a-button html-type="submit"
@@ -67,18 +67,10 @@ const email = ref("");
 const otpInput = ref<InstanceType<typeof VOtpInput> | null>(null);
 const bindValue = ref("");
 
-const handleOnComplete = (value: string) => {
-  console.log("OTP completed: ", value);
-};
-
-const handleOnChange = (value: string) => {
-  console.log("OTP changed: ", value);
-};
 const clearInput = () => {
   otpInput.value?.clearInput();
 };
 const fillInput = (value: string) => {
-  console.log(value);
   otpInput.value?.fillInput(value);
 };
 // Create the form
@@ -91,7 +83,6 @@ onMounted(() => {
 
   if (typeof emailFromQuery === "string") {
     email.value = emailFromQuery;
-    console.log(email.value);
   } else {
     email.value = "";
   }
@@ -137,7 +128,6 @@ const onSubmit = handleSubmit(async (values) => {
       otpCode,
       email: email.value,
     });
-    console.log("resData", resData?.data);
     if (!resData?.data?._rawValue) {
       message.error({
         content: "Mã OTP không được để trống",

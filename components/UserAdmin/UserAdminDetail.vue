@@ -307,7 +307,7 @@ useAsyncData(
     if (userDetailId.value) await userStore.getOneUser(userDetailId.value);
   },
   {
-    watch: [userDetailId],
+    watch: [userDetailId, open],
     initialCache: false,
   }
 );

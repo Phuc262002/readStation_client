@@ -319,13 +319,7 @@ useAsyncData(
 const handleCheckStatus = (status) => {
   filter.value = status;
 };
-const focus = () => {
-  console.log("focus");
-};
 
-const handleChange = (value: string) => {
-  console.log(`selected ${value}`);
-};
 const columns = [
   {
     title: "Mã đơn hàng",

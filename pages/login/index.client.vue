@@ -181,7 +181,6 @@ const onSubmit = handleSubmit(async (values) => {
   try {
     isSubmitting.value = true;
     const resData = await authStore.login(values);
-    console.log("resData", resData);
 
     if (resData?.data?._rawValue?.status == true) {
       message.success({

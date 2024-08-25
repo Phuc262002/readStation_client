@@ -80,7 +80,6 @@ const addToCart = () => {
     const bookToAdd = bookStore?.book;
     const isCheck = cartStore?.carts.some((item) => item.id === bookToAdd.id);
     const isCheckStock = bookStore?.book.stock;
-    console.log("isCheckStock", isCheckStock);
 
     if (isCheck) {
       message.error({

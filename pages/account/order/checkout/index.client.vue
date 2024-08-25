@@ -604,7 +604,6 @@ const payCart = async () => {
     phone: authStore?.authUser?.user?.phone,
     address: authStore?.authUser?.user?.address_detail,
   };
-  console.log("🚀 ~ payCart ~ newInfo.authStore?.authUser?.user:", authStore?.authUser?.user)
 
   // check address
   if (

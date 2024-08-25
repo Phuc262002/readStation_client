@@ -57,10 +57,8 @@ onMounted(() => {
 
   if (typeof emailFromQuery === "string") {
     email.value = emailFromQuery;
-    console.log(email.value);
   } else {
     email.value = "";
-    console.error("Invalid email parameter:", emailFromQuery);
   }
 });
 
@@ -69,8 +67,6 @@ const onSubmit = handleSubmit(async (values) => {
   // Submit to API
 
   values = { email: email.value };
-  console.log("object", values);
-
   try {
     isSubmitting.value = true;
     const resData = await authStore.sendResetPassword({ email: email.value });

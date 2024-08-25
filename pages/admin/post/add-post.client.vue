@@ -102,11 +102,12 @@
           <a-button
             @click="posts.status = 'draft'"
             html-type="submit"
+            :loading="isSubmitdraft"
           >
             Lưu nháp</a-button
           >
           <a-button
-            :loading="postStore.isSubmitting"
+            :loading="isSubmitAdd"
             type="primary"
             html-type="submit"
           >
@@ -120,13 +121,13 @@
 <script setup>
 const categoryStore = useCategoryStore();
 const postStore = useGeneralPostStore();
-
 const baseStore = useBaseStore();
 const fileList = ref([]);
 const imageInfo = ref("");
 const errors = ref({});
 const options = ref([]);
-const isSubmitting = ref(false);
+const isSubmitAdd = ref(false);
+const isSubmitdraft = ref(false);
 const posts = ref({
   title: "",
   content: "",
@@ -185,7 +186,11 @@ useAsyncData(async () => {
 
 const onSubmit = async () => {
   try {
-    isSubmitting.value = true;
+    if (posts.value.status === "draft") {
+      isSubmitdraft.value = true;
+    } else {
+      isSubmitAdd.value = true;
+    }
     const res = await postStore.createPost({
       image: imageInfo.value?.url,
       title: posts.value.title,
@@ -194,7 +199,6 @@ const onSubmit = async () => {
       category_id: posts.value.category,
       status: posts.value.status,
     });
-    isSubmitting.value = false;
     if (res.data._rawValue?.status == true) {
       navigateTo("/admin/post");
       message.success("Thêm bài viết thành công");
@@ -204,6 +208,12 @@ const onSubmit = async () => {
     }
   } catch (error) {
     message.error("Thêm bài viết thất bại");
+  } finally {
+    if (posts.value.status === "draft") {
+      isSubmitdraft.value = false;
+    } else {
+      isSubmitAdd.value = false;
+    }
   }
 };
 
