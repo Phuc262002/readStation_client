@@ -5,6 +5,7 @@
         <Meta property="og:title" content="ReadStation | Chi tiết sách" />
         <Meta property="og:description" content="Chi tiết sách" />
     </Head>
+    <div>hello {{ bookID }}</div>
     <div>
         <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
             <div class="flex flex-col gap-5 w-full">
@@ -192,7 +193,9 @@ const id_bookEdit = ref<number>();
 const itemBookDetail = ref()
 useAsyncData(async () => {
     try {
-        await bookStore.getOneBookAdmin(bookID);
+        if (bookID) {
+            await bookStore.getOneBookAdmin(bookID);
+        }
     } catch (error) {
         console.log(error);
     }

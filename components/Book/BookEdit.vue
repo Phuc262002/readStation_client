@@ -78,6 +78,7 @@ const dataGet = ref({
 })
 useAsyncData(async () => {
     try {
+        if (bookID.value === undefined) return;
         const data = await bookStore.getOneBookAdmin(bookID.value);
         dataGet.value.title = data?.data?._value?.data?.title;
         dataGet.value.author = data?.data?._value?.data?.author?.id;
