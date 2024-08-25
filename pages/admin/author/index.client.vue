@@ -142,6 +142,15 @@ const onSearch = debounce(() => {
 }, 500);
 
 watch(valueSearch, onSearch);
+
+watch(current, () => {
+  navigateTo({
+    query: {
+      page: current.value,
+    },
+  });
+});
+
 const getDataAuthor = async () => {
   try {
     await AuthorStore.getAllAuthor({

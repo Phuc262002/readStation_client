@@ -1,11 +1,11 @@
 <template>
-
     <Head>
         <Title>ReadStation | Chi tiết sách {{ bookStore?.OneBookAdmin?.title }}</Title>
         <Meta name="description" content="Chi tiết sách" />
         <Meta property="og:title" content="ReadStation | Chi tiết sách" />
         <Meta property="og:description" content="Chi tiết sách" />
     </Head>
+    <div>hello {{ bookID }}</div>
     <div>
         <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
             <div class="flex flex-col gap-5 w-full">
@@ -34,7 +34,7 @@
                         </div>
                         <div>
                             <a-button class="flex justify-center gap-2 items-center" type="primary" size="large"
-                                @click="showModal">
+                                @click="showModal(bookStore?.OneBookAdmin?.id)">
                                 <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
                                 <span class="text-white">Chỉnh sửa</span>
                             </a-button>
@@ -77,7 +77,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- <BookEdit :openModalBook="openModalBook" :openModal="CloseModal" /> -->
+                <BookEdit :openModalBook="openModalBook" :openModal="CloseModal" :id="id_bookEdit" />
                 <div>
                     <a-button class="flex justify-center items-center gap-2" type="primary" size="large"
                         @click="showModalAdd">
@@ -134,7 +134,7 @@
                                     <span class="font-bold text-base">Phần trăm cọc: </span>
                                     <span class="text-base"> {{
                                         items?.hire_percent
-                                    }}%</span>
+                                        }}%</span>
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Loại bìa: </span>
@@ -183,12 +183,26 @@
     </div>
 </template>
 <script setup lang="ts">
+const bookStore = useBookStore();
 const openModalAdd = ref<boolean>(false);
 const openModalEdit = ref<boolean>(false);
 const openModalBook = ref<boolean>(false);
+const route = useRoute()
+const bookID = route.params.id
+const id_bookEdit = ref<number>();
 const itemBookDetail = ref()
-const showModal = () => {
+useAsyncData(async () => {
+    try {
+        if (bookID) {
+            await bookStore.getOneBookAdmin(bookID);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+})
+const showModal = (id: number) => {
     openModalBook.value = true;
+    id_bookEdit.value = id;
 };
 const CloseModal = () => {
     openModalBook.value = false;
@@ -206,14 +220,4 @@ const showModalEdit = (id: any) => {
 const CloseModalEdit = () => {
     openModalEdit.value = false;
 };
-const route = useRoute()
-const bookID = route.params.id
-const bookStore = useBookStore();
-useAsyncData(async () => {
-    try {
-        await bookStore.getOneBookAdmin(bookID);
-    } catch (error) {
-        console.error(error);
-    }
-});
 </script>
