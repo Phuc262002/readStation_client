@@ -2,6 +2,7 @@
   <a-comment v-if="authStore.isLogged">
     <template #avatar>
       <a-avatar
+        class="mt-1"
         :src="authStore.authUser?.user?.avatar"
         :alt="authStore.authUser?.user?.fullname"
       />
@@ -13,7 +14,7 @@
       <a-form-item>
         <a-button
           html-type="submit"
-          :loading="comentGeneralStore.isSubmitting"
+          :loading="submittingCmt"
           type="primary"
           @click="handleSubmit"
         >
@@ -110,7 +111,7 @@
           <a-form-item>
             <a-button
               html-type="submit"
-              :loading="comentGeneralStore.isSubmitting"
+              :loading="submittingReply"
               type="primary"
               @click="handleSubmitReply"
             >
@@ -143,7 +144,7 @@
               Hủy
             </a-button>
             <a-button
-              :loading="comentGeneralStore.isSubmitting"
+              :loading="submittingReply"
               type="primary"
               @click="updateComment"
             >
@@ -232,7 +233,7 @@
             <a-form-item>
               <a-button
                 html-type="submit"
-                :loading="comentGeneralStore.isSubmitting"
+                :loading="submittingReply"
                 type="primary"
                 @click="handleSubmitReply"
               >
@@ -266,7 +267,7 @@
                 Hủy
               </a-button>
               <a-button
-                :loading="comentGeneralStore.isSubmitting"
+                :loading="submittingReply"
                 type="primary"
                 @click="updateComment"
               >
@@ -360,7 +361,7 @@
                   Hủy
                 </a-button>
                 <a-button
-                  :loading="comentGeneralStore.isSubmitting"
+                  :loading="submittingReply"
                   type="primary"
                   @click="updateComment"
                 >
@@ -405,11 +406,15 @@
     </a-comment>
   </a-spin>
 
-  <p class="text-center mb-5 font-semibold" v-if="commentStore.comment?.comments?.length == 0">
+  <p
+    class="text-center mb-5 font-semibold"
+    v-if="commentStore.comment?.comments?.length == 0"
+  >
     Bài viết này hiện chưa có bình luận nào. Hãy là người đầu tiên bình luận.
   </p>
   <div class="flex justify-center">
-    <a-pagination v-if="commentStore.comment?.comments?.length > 0"
+    <a-pagination
+      v-if="commentStore.comment?.comments?.length > 0"
       v-model:current="current"
       :total="commentStore?.comment?.total"
       :pageSize="commentStore?.comment?.pageSize"
@@ -428,7 +433,6 @@ const showEditComment = ref({
   comment_id: null,
   comment_hash: null,
 });
-
 const authStore = useAuthStore();
 const showReply = ref({
   content: "",
@@ -441,11 +445,11 @@ const postStore = usePublicPostStore();
 
 type Comment = Record<string, string>;
 const comments = ref<Comment[]>([]);
-const submitting = ref<boolean>(false);
+const submittingCmt = ref<boolean>(false);
+const submittingReply = ref<boolean>(false);
 const value = ref<string>("");
 const id = useId();
 const current = ref(1);
-
 useAsyncData(
   async () => {
     isloading.value = true;
@@ -465,10 +469,12 @@ const handleSubmit = async () => {
     message.error("Vui lòng nhập nội dung bình luận");
     return;
   }
+  submittingCmt.value = true;
   await comentGeneralStore.createComment({
     post_id: postStore.post?.id,
     content: value.value,
   });
+  submittingCmt.value = false;
   await commentStore.getComment({ post_id: postStore.post?.id });
   value.value = "";
 };
@@ -479,12 +485,13 @@ const handleSubmitReply = async () => {
     message.error("Vui lòng nhập nội dung bình luận");
     return;
   }
-
+  submittingReply.value = true;
   await comentGeneralStore.createComment({
     post_id: postStore.post?.id,
     content: showReply.value.content,
     parent_id: showReply.value.parent_id,
   });
+  submittingReply.value = false;
   await commentStore.getComment({ post_id: postStore.post?.id });
   showReply.value.content = "";
   showReply.value.parent_id = null;
@@ -523,19 +530,17 @@ const handleCloseEditComment = () => {
   showEditComment.value.comment_hash = null;
 };
 const updateComment = async () => {
-  console.log(
-    "🚀 ~ handleCloseEditComment ~ showEditComment:",
-    showEditComment.value.comment_id
-  );
 
   if (!showEditComment.value.content) {
     message.error("Vui lòng nhập nội dung bình luận");
     return;
   }
+  submittingReply.value = true;
   await comentGeneralStore.updateComment({
     comment_id: showEditComment.value.comment_id,
     content: showEditComment.value.content,
   });
+  submittingReply.value = false;
   await commentStore.getComment({ post_id: postStore.post?.id });
   showEditComment.value.content = "";
   showEditComment.value.comment_id = null;
