@@ -80,7 +80,7 @@
                     >Xác thực tài khoản:
                   </span>
                   <span class="text-base col-span-2">
-                    <IconTick v-if="userStore?.user?.email_verified_at" />
+                    <IconTick v-if="userStore?.user?.citizen_identity_card" />
                     <IconMul v-else />
                   </span>
                 </div>

@@ -163,7 +163,7 @@ useAsyncData(async () => {
   await authorStore.getAllAuthorClient();
 });
 //
-const hasReviews = () => detailReview?.reviews?.bookReviews.length > 0
+const hasReviews = computed(() => detailReview?.reviews?.bookReviews.length > 0);
 
 // Xử lý sắp xếp
 const handleCheckSort = (sort) => {
