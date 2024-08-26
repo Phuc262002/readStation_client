@@ -13,6 +13,7 @@
         :columns="columns"
         :data-source="bookCaseStore?.bookCaseAdmin?.bookcases"
         :loading="bookCaseStore.isLoading"
+        :pagination="false"
       >
         <template #headerCell="{ column }">
           <template v-if="column.key === 'bookcase_code'">
