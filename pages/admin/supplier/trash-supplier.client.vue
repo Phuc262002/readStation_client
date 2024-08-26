@@ -52,7 +52,7 @@
         </a-table>
       </div>
       <div class="mt-4 flex justify-end">
-        <a-pagination v-if="supplierStore.getAllSupplier?.totalResults > 0" v-model:current="current"
+        <a-pagination v-if="supplierStore.getAllSupplier?.totalResults > 10" v-model:current="current"
           :total="supplierStore.getAllSupplier?.totalResults" :pageSize="supplierStore.getAllSupplier?.pageSize"
           show-less-items />
       </div>

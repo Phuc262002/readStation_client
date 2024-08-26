@@ -138,7 +138,7 @@
       </a-table>
       <div class="mt-4 flex justify-end">
         <a-pagination
-          v-if="bookCaseStore?.shelveOfBookcase?.totalResults > 0"
+          v-if="bookCaseStore?.shelveOfBookcase?.totalResults > 10"
           v-model:current="current"
           :total="bookCaseStore?.shelveOfBookcase?.totalResults"
           :pageSize="bookCaseStore?.shelveOfBookcase?.pageSize"
