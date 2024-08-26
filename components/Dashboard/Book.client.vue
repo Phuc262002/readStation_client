@@ -1,14 +1,14 @@
 <template>
   <NuxtLink
-    class="hover:text-[black]"
+    class="hover:text-[black] "
     :to="`/products/${props.dashboard?.book?.slug}-${props.dashboard?.id}`"
   >
     <div
       class="flex justify-between cursor-pointer hover:bg-[#f1f1f1] p-2 hover:rounded-md"
     >
-      <div class="flex justify-center items-start gap-2">
+      <div class="flex justify-center items-start gap-2  w-3/5">
         <img
-          class="w-20 h-20 object-cover rounded-md"
+          class="min-w-20 h-20 object-cover rounded-md"
           :src="props?.dashboard?.poster"
           alt=""
         />
@@ -24,7 +24,7 @@
           </p>
         </div>
       </div>
-      <p class="flex justify-end items-start w-1/5">
+      <p class="flex justify-end items-start w-2/5">
         {{ props?.dashboard?.hire_count }} lượt thuê
       </p>
     </div>
