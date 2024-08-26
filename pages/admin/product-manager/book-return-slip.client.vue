@@ -73,8 +73,8 @@
               <span>{{ $dayjs(record.return_date).format("DD/MM/YYYY") }}</span>
             </template>
             <template v-if="column.key === 'return_method'">
-              <span v-if="record?.return_method === 'library'">Giao trả tại thư viện</span>
-              <span v-if="record?.return_method === 'pickup'">Giao trả đến thư viện</span>
+              <span v-if="record?.return_method === 'library'">Trả sách tại thư viện</span>
+              <span v-if="record?.return_method === 'pickup'">Trả sách tại nhà</span>
             </template>
             <template v-if="column.key === 'processed_by'">
               <span>{{
