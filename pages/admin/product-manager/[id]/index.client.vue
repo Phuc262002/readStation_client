@@ -1,9 +1,8 @@
 <template>
+
   <Head>
-    <Title
-      >ReadStation | Chi tiết đơn hàng
-      {{ orderStore?.getOneOrderAdmin?.data?.order_code }}</Title
-    >
+    <Title>ReadStation | Chi tiết đơn hàng
+      {{ orderStore?.getOneOrderAdmin?.data?.order_code }}</Title>
     <Meta name="description" content="Chi tiết đơn hàng" />
     <Meta property="og:title" content="ReadStation | Chi tiết đơn hàng" />
     <Meta property="og:description" content="Chi tiết đơn hàng" />
@@ -15,16 +14,10 @@
 
     <div v-if="orderStore?.getOneOrderAdmin?.data?.status === 'overdue'">
       <div class="w-full p-5 bg-[white] rounded-lg flex flex-col gap-2">
-        <span class="text-tag-text-06"
-          >Khách hàng đã quá hạn trả sách. Hãy thông báo cho khách hàng lựa chọn
-          một trong hai phương án sau:</span
-        >
-        <span class="text-tag-text-06 pl-5"
-          >1. Tiếp tục gia hạn thời gian thuê sách</span
-        >
-        <span class="text-tag-text-06 pl-5"
-          >2. Trả sách ngay để tránh thêm phí phạt.</span
-        >
+        <span class="text-tag-text-06">Khách hàng đã quá hạn trả sách. Hãy thông báo cho khách hàng lựa chọn
+          một trong hai phương án sau:</span>
+        <span class="text-tag-text-06 pl-5">1. Tiếp tục gia hạn thời gian thuê sách</span>
+        <span class="text-tag-text-06 pl-5">2. Trả sách ngay để tránh thêm phí phạt.</span>
       </div>
     </div>
     <div class="flex flex-col gap-5">
@@ -34,9 +27,7 @@
         <div class="grid md:grid-cols-5">
           <div class="md:col-span-2 space-y-3 border-r border-gray-200">
             <div class="grid grid-cols-3">
-              <span class="text-base font-bold col-span-1"
-                >Tên khách hàng:</span
-              >
+              <span class="text-base font-bold col-span-1">Tên khách hàng:</span>
               <span class="text-base col-span-2">{{
                 orderStore?.getOneOrderAdmin?.data?.user?.fullname
               }}</span>
@@ -58,31 +49,22 @@
             <div class="grid grid-cols-3">
               <span class="text-base font-bold col-span-1">Vai trò</span>
               <span class="text-base col-span-2">
-                <div
-                  class="p-1 w-24 text-center rounded-lg text-tag-text-02 bg-tag-bg-02"
-                  v-if="
-                    orderStore?.getOneOrderAdmin?.data?.user?.role
-                      ?.description === 'User'
-                  "
-                >
+                <div class="p-1 w-24 text-center rounded-lg text-tag-text-02 bg-tag-bg-02" v-if="
+                  orderStore?.getOneOrderAdmin?.data?.user?.role
+                    ?.description === 'User'
+                ">
                   Khách hàng
                 </div>
-                <div
-                  class="p-1 w-24 text-center rounded-lg text-tag-text-01 bg-tag-bg-01"
-                  v-if="
-                    orderStore?.getOneOrderAdmin?.data?.user?.role
-                      ?.description === 'Student'
-                  "
-                >
+                <div class="p-1 w-24 text-center rounded-lg text-tag-text-01 bg-tag-bg-01" v-if="
+                  orderStore?.getOneOrderAdmin?.data?.user?.role
+                    ?.description === 'Student'
+                ">
                   HS/ SV
                 </div>
-                <div
-                  class="p-1 w-24 text-center rounded-lg text-tag-text-04 bg-tag-bg-04"
-                  v-if="
-                    orderStore?.getOneOrderAdmin?.data?.user?.role
-                      ?.description === 'Administrator'
-                  "
-                >
+                <div class="p-1 w-24 text-center rounded-lg text-tag-text-04 bg-tag-bg-04" v-if="
+                  orderStore?.getOneOrderAdmin?.data?.user?.role
+                    ?.description === 'Administrator'
+                ">
                   Quản trị
                 </div>
               </span>
@@ -90,8 +72,7 @@
           </div>
           <div class="md:col-span-3 space-y-3 ml-5">
             <div class="grid grid-cols-4">
-              <span class="text-base font-bold col-span-1"
-                >Địa chỉ nhận sách:
+              <span class="text-base font-bold col-span-1">Địa chỉ nhận sách:
               </span>
               <span class="text-base col-span-3">{{
                 orderStore?.getOneOrderAdmin?.data?.delivery_info?.address
@@ -100,40 +81,27 @@
               }}</span>
             </div>
             <div class="grid grid-cols-4">
-              <span class="text-base font-bold col-span-1"
-                >Phương thức thanh toán:
+              <span class="text-base font-bold col-span-1">Phương thức thanh toán:
               </span>
-              <span
-                class="text-base col-span-3"
-                v-if="
-                  orderStore?.getOneOrderAdmin?.data?.payment_method === 'cash'
-                "
-                >Tiền mặt</span
-              >
-              <span
-                class="text-base col-span-3"
-                v-if="
-                  orderStore?.getOneOrderAdmin?.data?.payment_method ===
-                  'online'
-                "
-                >Chuyển khoản</span
-              >
+              <span class="text-base col-span-3" v-if="
+                orderStore?.getOneOrderAdmin?.data?.payment_method === 'cash'
+              ">Tiền mặt</span>
+              <span class="text-base col-span-3" v-if="
+                orderStore?.getOneOrderAdmin?.data?.payment_method ===
+                'online'
+              ">Chuyển khoản</span>
             </div>
           </div>
         </div>
       </div>
-      <div
-        class="w-full p-5 flex flex-col gap-4 bg-[white] rounded-lg"
-        v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'shipper'"
-      >
+      <div class="w-full p-5 flex flex-col gap-4 bg-[white] rounded-lg"
+        v-if="orderStore?.getOneOrderAdmin?.data?.delivery_method === 'shipper'">
         <h1 class="text-base font-bold">Thông tin giao hàng</h1>
         <div class="border border-gray-100"></div>
         <div class="grid md:grid-cols-3">
           <div class="md:col-span-2 space-y-3">
             <div class="grid grid-cols-4">
-              <span class="text-base font-bold col-span-1"
-                >Tên khách hàng:</span
-              >
+              <span class="text-base font-bold col-span-1">Tên khách hàng:</span>
               <span class="text-base col-span-1">{{
                 orderStore?.getOneOrderAdmin?.data?.delivery_info?.fullname
                   ? orderStore?.getOneOrderAdmin?.data?.delivery_info?.fullname
@@ -149,15 +117,12 @@
               }}</span>
             </div>
             <div class="grid grid-cols-4">
-              <span class="text-base font-bold col-span-1"
-                >Địa chỉ giao hàng:</span
-              >
-              <span class="text-base col-span-3"
-                >{{
-                  orderStore?.getOneOrderAdmin?.data?.delivery_info?.address
-                    ? orderStore?.getOneOrderAdmin?.data?.delivery_info?.address
-                    : " Không có địa chỉ giao hàng"
-                }}
+              <span class="text-base font-bold col-span-1">Địa chỉ giao hàng:</span>
+              <span class="text-base col-span-3">{{
+                orderStore?.getOneOrderAdmin?.data?.delivery_info?.address
+                  ? orderStore?.getOneOrderAdmin?.data?.delivery_info?.address
+                  : " Không có địa chỉ giao hàng"
+              }}
               </span>
             </div>
           </div>
@@ -168,90 +133,47 @@
         <div class="flex gap-2 items-center">
           <h1 class="text-base font-bold">Thông tin đơn hàng</h1>
           <span>
-            <a-tag
-              :bordered="false"
-              v-if="
-                orderStore?.getOneOrderAdmin?.data?.status === 'wating_payment'
-              "
-              class="text-tag-text-01 bg-tag-bg-01 p-2 rounded-lg flex justify-center items-center"
-            >
+            <a-tag :bordered="false" v-if="
+              orderStore?.getOneOrderAdmin?.data?.status === 'wating_payment'
+            " class="text-tag-text-01 bg-tag-bg-01 p-2 rounded-lg flex justify-center items-center">
               Chờ thanh toán
             </a-tag>
           </span>
-          <span
-            v-if="orderStore?.getOneOrderAdmin?.data?.status === 'pending'"
-            class="text-tag-text-01 bg-tag-bg-01 p-2 rounded-lg flex justify-center items-center"
-            >Đang xử lý</span
-          >
-          <span
-            v-else-if="
-              orderStore?.getOneOrderAdmin?.data?.status === 'approved'
-            "
-            class="text-tag-text-02 bg-tag-bg-02 p-2 rounded-lg flex justify-center items-center"
-            >Đã xác nhận</span
-          >
-          <span
-            v-else-if="
-              orderStore?.getOneOrderAdmin?.data?.status === 'ready_for_pickup'
-            "
-            class="bg-tag-bg-14 text-tag-text-14 p-2 rounded-lg flex justify-center items-center"
-            >Đơn hàng sẵn sàng</span
-          >
-          <span
-            v-else-if="
-              orderStore?.getOneOrderAdmin?.data?.status ===
-              'preparing_shipment'
-            "
-            class="text-tag-text-01 bg-tag-bg-01 p-2 rounded-lg flex justify-center items-center"
-            >Chuẩn bị giao hàng</span
-          >
-          <span
-            v-else-if="
-              orderStore?.getOneOrderAdmin?.data?.status === 'in_transit'
-            "
-            class="text-tag-text-03 bg-tag-bg-03 p-2 rounded-lg flex justify-center items-center"
-            >Đang giao</span
-          >
-          <span
-            v-else-if="
-              orderStore?.getOneOrderAdmin?.data?.status === 'extended'
-            "
-            class="text-tag-text-12 bg-tag-bg-12 p-2 rounded-lg flex justify-center items-center"
-            >Gia hạn</span
-          >
-          <span
-            v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'active'"
-            class="text-tag-text-04 bg-tag-bg-04 p-2 rounded-lg flex justify-center items-center"
-            >Đang thuê</span
-          >
-          <span
-            v-else-if="
-              orderStore?.getOneOrderAdmin?.data?.status === 'returning'
-            "
-            class="text-tag-text-13 bg-tag-bg-13 p-2 rounded-lg flex justify-center items-center"
-          >
-            Đang trả sách</span
-          >
-          <span
-            v-else-if="
-              orderStore?.getOneOrderAdmin?.data?.status === 'completed'
-            "
-            class="text-tag-text-05 bg-tag-bg-05 p-2 rounded-lg flex justify-center items-center"
-          >
-            Hoàn thành</span
-          >
-          <span
-            v-else-if="
-              orderStore?.getOneOrderAdmin?.data?.status === 'canceled'
-            "
-            class="text-tag-text-07 bg-tag-bg-07 p-2 rounded-lg flex justify-center items-center"
-            >Đã hủy</span
-          >
-          <span
-            v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'overdue'"
-            class="text-tag-text-06 bg-tag-bg-06 p-2 rounded-lg flex justify-center items-center"
-            >Quá hạn</span
-          >
+          <span v-if="orderStore?.getOneOrderAdmin?.data?.status === 'pending'"
+            class="text-tag-text-01 bg-tag-bg-01 p-2 rounded-lg flex justify-center items-center">Đang xử lý</span>
+          <span v-else-if="
+            orderStore?.getOneOrderAdmin?.data?.status === 'approved'
+          " class="text-tag-text-02 bg-tag-bg-02 p-2 rounded-lg flex justify-center items-center">Đã xác nhận</span>
+          <span v-else-if="
+            orderStore?.getOneOrderAdmin?.data?.status === 'ready_for_pickup'
+          " class="bg-tag-bg-14 text-tag-text-14 p-2 rounded-lg flex justify-center items-center">Đơn hàng sẵn
+            sàng</span>
+          <span v-else-if="
+            orderStore?.getOneOrderAdmin?.data?.status ===
+            'preparing_shipment'
+          " class="text-tag-text-01 bg-tag-bg-01 p-2 rounded-lg flex justify-center items-center">Chuẩn bị giao
+            hàng</span>
+          <span v-else-if="
+            orderStore?.getOneOrderAdmin?.data?.status === 'in_transit'
+          " class="text-tag-text-03 bg-tag-bg-03 p-2 rounded-lg flex justify-center items-center">Đang giao</span>
+          <span v-else-if="
+            orderStore?.getOneOrderAdmin?.data?.status === 'extended'
+          " class="text-tag-text-12 bg-tag-bg-12 p-2 rounded-lg flex justify-center items-center">Gia hạn</span>
+          <span v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'active'"
+            class="text-tag-text-04 bg-tag-bg-04 p-2 rounded-lg flex justify-center items-center">Đang thuê</span>
+          <span v-else-if="
+            orderStore?.getOneOrderAdmin?.data?.status === 'returning'
+          " class="text-tag-text-13 bg-tag-bg-13 p-2 rounded-lg flex justify-center items-center">
+            Đang trả sách</span>
+          <span v-else-if="
+            orderStore?.getOneOrderAdmin?.data?.status === 'completed'
+          " class="text-tag-text-05 bg-tag-bg-05 p-2 rounded-lg flex justify-center items-center">
+            Hoàn thành</span>
+          <span v-else-if="
+            orderStore?.getOneOrderAdmin?.data?.status === 'canceled'
+          " class="text-tag-text-07 bg-tag-bg-07 p-2 rounded-lg flex justify-center items-center">Đã hủy</span>
+          <span v-else-if="orderStore?.getOneOrderAdmin?.data?.status === 'overdue'"
+            class="text-tag-text-06 bg-tag-bg-06 p-2 rounded-lg flex justify-center items-center">Quá hạn</span>
         </div>
         <div class="border border-gray-100"></div>
         <div class="grid md:grid-cols-5">
@@ -267,60 +189,43 @@
               <span class="text-base col-span-2">{{
                 orderStore?.getOneOrderAdmin?.data?.created_at
                   ? $dayjs(
-                      orderStore?.getOneOrderAdmin?.data?.created_at
-                    ).format("DD/MM/YYYY")
+                    orderStore?.getOneOrderAdmin?.data?.created_at
+                  ).format("DD/MM/YYYY")
                   : ""
               }}</span>
             </div>
             <div class="grid grid-cols-4">
-              <span class="text-base font-bold col-span-2"
-                >Ngày nhận sách:</span
-              >
+              <span class="text-base font-bold col-span-2">Ngày nhận sách:</span>
               <span class="text-base col-span-2">{{
                 orderStore?.getOneOrderAdmin?.data?.pickup_date
                   ? $dayjs(
-                      orderStore?.getOneOrderAdmin?.data?.pickup_date
-                    ).format("DD/MM/YYYY")
+                    orderStore?.getOneOrderAdmin?.data?.pickup_date
+                  ).format("DD/MM/YYYY")
                   : ""
               }}</span>
             </div>
             <div class="grid grid-cols-4">
-              <span class="text-base font-bold col-span-2"
-                >Số lần gia hạn:</span
-              >
+              <span class="text-base font-bold col-span-2">Số lần gia hạn:</span>
               <span class="text-base col-span-2">
                 {{ orderStore?.getOneOrderAdmin?.data?.extensions.length }} /{{
                   orderStore?.getOneOrderAdmin?.data?.max_extensions
-                }}</span
-              >
+                }}</span>
             </div>
             <div class="grid grid-cols-4">
-              <span class="text-base font-bold col-span-2"
-                >Hình thức vận chuyển:</span
-              >
-              <span
-                class="text-base col-span-2"
-                v-if="
-                  orderStore?.getOneOrderAdmin?.data?.delivery_method ===
-                  'shipper'
-                "
-                >Giao hàng tận nơi</span
-              >
-              <span
-                class="text-base col-span-2"
-                v-if="
-                  orderStore?.getOneOrderAdmin?.data?.delivery_method ===
-                  'pickup'
-                "
-                >Nhận tại thư viện</span
-              >
+              <span class="text-base font-bold col-span-2">Hình thức vận chuyển:</span>
+              <span class="text-base col-span-2" v-if="
+                orderStore?.getOneOrderAdmin?.data?.delivery_method ===
+                'shipper'
+              ">Giao hàng tận nơi</span>
+              <span class="text-base col-span-2" v-if="
+                orderStore?.getOneOrderAdmin?.data?.delivery_method ===
+                'pickup'
+              ">Nhận tại thư viện</span>
             </div>
           </div>
           <div class="md:col-span-2 space-y-3 ml-5">
             <div class="grid grid-cols-4">
-              <span class="text-base font-bold col-span-2"
-                >Tổng tiền cọc thuê sách:</span
-              >
+              <span class="text-base font-bold col-span-2">Tổng tiền cọc thuê sách:</span>
               <span class="text-base col-span-2">{{
                 new Intl.NumberFormat("vi-VN", {
                   style: "currency",
@@ -328,25 +233,19 @@
                 }).format(orderStore?.getOneOrderAdmin?.data?.total_deposit_fee)
               }}</span>
             </div>
-            <div
-              class="grid grid-cols-4"
-              v-if="
-                orderStore?.getOneOrderAdmin?.data?.delivery_method ===
-                'shipper'
-              "
-            >
-              <span class="text-base font-bold col-span-2"
-                >Phí vận chuyển:</span
-              >
-              <span class="text-base col-span-2"
-                >{{
-                  new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(
-                    orderStore?.getOneOrderAdmin?.data?.total_shipping_fee
-                  )
-                }}
+            <div class="grid grid-cols-4" v-if="
+              orderStore?.getOneOrderAdmin?.data?.delivery_method ===
+              'shipper'
+            ">
+              <span class="text-base font-bold col-span-2">Phí vận chuyển:</span>
+              <span class="text-base col-span-2">{{
+                new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(
+                  orderStore?.getOneOrderAdmin?.data?.total_shipping_fee
+                )
+              }}
               </span>
             </div>
             <div class="grid grid-cols-4">
@@ -359,9 +258,7 @@
               }}</span>
             </div>
             <div class="grid grid-cols-4">
-              <span class="text-base font-bold col-span-2"
-                >Tổng phí gia hạn:</span
-              >
+              <span class="text-base font-bold col-span-2">Tổng phí gia hạn:</span>
               <span class="text-base col-span-2">
                 {{
                   new Intl.NumberFormat("vi-VN", {
@@ -379,11 +276,7 @@
               </span>
             </div>
             <a-flex align="center" class="grid grid-cols-4">
-              <a-flex
-                gap="small"
-                align="center"
-                class="text-base font-bold col-span-2"
-                >Tổng phí phạt
+              <a-flex gap="small" align="center" class="text-base font-bold col-span-2">Tổng phí phạt
                 <a-popover placement="topLeft">
                   <template #content>
                     <p>
@@ -406,9 +299,7 @@
               </span>
             </a-flex>
             <div class="grid grid-cols-4">
-              <span class="text-base font-bold col-span-2"
-                >Tổng tiền thanh toán:</span
-              >
+              <span class="text-base font-bold col-span-2">Tổng tiền thanh toán:</span>
               <span class="text-base col-span-2">
                 {{
                   new Intl.NumberFormat("vi-VN", {
@@ -419,9 +310,7 @@
               </span>
             </div>
             <div class="grid grid-cols-4">
-              <span class="text-base font-bold col-span-2"
-                >Tiền cọc trả lại:</span
-              >
+              <span class="text-base font-bold col-span-2">Tiền cọc trả lại:</span>
               <span class="text-base col-span-2">
                 {{
                   new Intl.NumberFormat("vi-VN", {
@@ -435,32 +324,20 @@
             </div>
           </div>
           <div class="md:col-span-1 text-right">
-            <a-button
-              v-if="orderStore?.getOneOrderAdmin?.data?.status === 'extended'"
-              @click="showModalHistoryExtend()"
-              class="text-sm text-orange-400 text-right col-span-4 border-none shadow-none"
-              >Lịch sử gia hạn</a-button
-            >
+            <a-button v-if="orderStore?.getOneOrderAdmin?.data?.status === 'extended'" @click="showModalHistoryExtend()"
+              class="text-sm text-orange-400 text-right col-span-4 border-none shadow-none">Lịch sử gia hạn</a-button>
           </div>
         </div>
-        <div
-          class="flex justify-end"
-          v-if="
-            orderStore?.getOneOrderAdmin?.data?.status === 'extended' ||
-            orderStore?.getOneOrderAdmin?.data?.status === 'active'
-          "
-        >
+        <div class="flex justify-end" v-if="
+          orderStore?.getOneOrderAdmin?.data?.status === 'extended' ||
+          orderStore?.getOneOrderAdmin?.data?.status === 'active'
+        ">
           <div class="flex gap-2">
-            <a-button
-              type="primary"
-              v-if="orderStore?.getOneOrderAdmin?.data?.current_extensions <= 2"
-              @click="
-                showModalExtendsionAll(
-                  orderStore?.getOneOrderAdmin?.data?.loan_order_details
-                )
-              "
-              >Gia hạn toàn bộ</a-button
-            >
+            <a-button type="primary" v-if="orderStore?.getOneOrderAdmin?.data?.current_extensions <= 2" @click="
+              showModalExtendsionAll(
+                orderStore?.getOneOrderAdmin?.data?.loan_order_details
+              )
+              ">Gia hạn toàn bộ</a-button>
           </div>
         </div>
       </div>
@@ -469,62 +346,37 @@
         <div v-if="orderStore?.getOneOrderAdmin?.data?.status === 'active'">
           <div class="w-full bg-[white] rounded-lg flex flex-col gap-2">
             <span class="text-tag-text-06">Lưu ý: :</span>
-            <span class="text-tag-text-06 pl-5"
-              >1. Thời gian gia hạn sẽ được cộng dồn
+            <span class="text-tag-text-06 pl-5">1. Thời gian gia hạn sẽ được cộng dồn
             </span>
-            <span class="text-tag-text-06 pl-5"
-              >2. Gia hạn riêng lẻ từng sách sẽ tính là 1 lần gia hạn. Nếu bạn
+            <span class="text-tag-text-06 pl-5">2. Gia hạn riêng lẻ từng sách sẽ tính là 1 lần gia hạn. Nếu bạn
               muốn gia hạn toàn bộ trong 1 lần hãy chọn “ Gia hạn toàn bộ ” ở
-              trên.</span
-            >
+              trên.</span>
           </div>
         </div>
-        <div
-          v-for="(items, index) in orderStore?.getOneOrderAdmin?.data
-            ?.loan_order_details"
-          :key="index"
-        >
+        <div v-for="(items, index) in orderStore?.getOneOrderAdmin?.data
+          ?.loan_order_details" :key="index">
           <div class="border-t-2 border-gray-100 p-5 space-y-3">
             <div class="flex gap-2 items-center">
               <h1 class="text-base font-bold">
                 {{ items?.book_details?.book?.title }} - Phiên bản năm
                 {{ items?.book_details.book_version }}
               </h1>
-              <span
-                v-if="items?.status === 'active'"
-                class="bg-tag-bg-04 text-tag-text-04 p-2 rounded-lg flex justify-center items-center"
-                >Đang thuê</span
-              >
-              <span
-                v-else-if="items?.status === 'extended'"
-                class="text-tag-text-12 bg-tag-bg-12 p-2 rounded-lg flex justify-center items-center"
-              >
-                Gia hạn</span
-              >
-              <span
-                v-else-if="items?.status === 'returning'"
-                class="text-tag-text-13 bg-tag-bg-13 p-2 rounded-lg flex justify-center items-center"
-              >
-                Đang trả sách</span
-              >
-              <span
-                v-else-if="items?.status === 'completed'"
-                class="text-tag-text-05 bg-tag-bg-05 p-2 rounded-lg flex justify-center items-center"
-              >
-                Hoàn thành</span
-              >
-              <span
-                v-else-if="items?.status === 'overdue'"
-                class="text-tag-text-06 bg-tag-bg-06 p-2 rounded-lg flex justify-center items-center"
-                >Quá hạn</span
-              >
+              <span v-if="items?.status === 'active'"
+                class="bg-tag-bg-04 text-tag-text-04 p-2 rounded-lg flex justify-center items-center">Đang thuê</span>
+              <span v-else-if="items?.status === 'extended'"
+                class="text-tag-text-12 bg-tag-bg-12 p-2 rounded-lg flex justify-center items-center">
+                Gia hạn</span>
+              <span v-else-if="items?.status === 'returning'"
+                class="text-tag-text-13 bg-tag-bg-13 p-2 rounded-lg flex justify-center items-center">
+                Đang trả sách</span>
+              <span v-else-if="items?.status === 'completed'"
+                class="text-tag-text-05 bg-tag-bg-05 p-2 rounded-lg flex justify-center items-center">
+                Hoàn thành</span>
+              <span v-else-if="items?.status === 'overdue'"
+                class="text-tag-text-06 bg-tag-bg-06 p-2 rounded-lg flex justify-center items-center">Quá hạn</span>
             </div>
             <div class="flex gap-5">
-              <img
-                class="w-32 h-48"
-                :src="items?.book_details?.poster"
-                alt=""
-              />
+              <img class="w-32 h-48" :src="items?.book_details?.poster" alt="" />
               <div class="grid md:grid-cols-5">
                 <div class="md:col-span-3 space-y-3 border-r border-gray-200">
                   <div class="grid grid-cols-2">
@@ -572,31 +424,10 @@
                         : ""
                     }}</span>
                   </div>
-                  <div class="grid grid-cols-2">
-                    <span class="text-base font-bold">Hình thức trả sách:</span>
-                    <span
-                      class="text-base"
-                      v-if="
-                        orderStore?.getOneOrderAdmin?.data?.delivery_method ===
-                        'shipper'
-                      "
-                      >Giao hàng tận nơi</span
-                    >
-                    <span
-                      class="text-base"
-                      v-if="
-                        orderStore?.getOneOrderAdmin?.data?.delivery_method ===
-                        'pickup'
-                      "
-                      >Nhận tại thư viện</span
-                    >
-                  </div>
                 </div>
                 <div class="md:col-span-2 space-y-3 ml-4">
                   <div class="grid grid-cols-3">
-                    <span class="text-base font-bold col-span-2"
-                      >Tiền cọc sách:</span
-                    >
+                    <span class="text-base font-bold col-span-2">Tiền cọc sách:</span>
                     <span class="text-base col-span-1">{{
                       new Intl.NumberFormat("vi-VN", {
                         style: "currency",
@@ -605,11 +436,7 @@
                     }}</span>
                   </div>
                   <a-flex align="center" class="grid grid-cols-3">
-                    <a-flex
-                      gap="small"
-                      align="center"
-                      class="text-base font-bold col-span-2"
-                      >Phí phạt
+                    <a-flex gap="small" align="center" class="text-base font-bold col-span-2">Phí phạt
                       <a-popover placement="topLeft">
                         <template #content>
                           <p>
@@ -630,9 +457,7 @@
                     }}</span>
                   </a-flex>
                   <div class="grid grid-cols-3">
-                    <span class="text-base font-bold col-span-2"
-                      >Phí dịch vụ:</span
-                    >
+                    <span class="text-base font-bold col-span-2">Phí dịch vụ:</span>
                     <span class="text-base col-span-1">
                       {{
                         new Intl.NumberFormat("vi-VN", {
@@ -643,9 +468,7 @@
                     </span>
                   </div>
                   <div class="grid grid-cols-3">
-                    <span class="text-base font-bold col-span-2"
-                      >Phí gia hạn:</span
-                    >
+                    <span class="text-base font-bold col-span-2">Phí gia hạn:</span>
                     <span class="text-base col-span-1">{{
                       new Intl.NumberFormat("vi-VN", {
                         style: "currency",
@@ -658,199 +481,106 @@
                       )
                     }}</span>
                   </div>
-                  <div
-                    class="grid grid-cols-3"
-                    v-if="
-                      orderStore?.getOneOrderAdmin?.data?.delivery_method ===
-                      'shipper'
-                    "
-                  >
-                    <span class="text-base font-bold col-span-2"
-                      >Phí giao trả sách:</span
-                    >
-                    <span class="text-base col-span-1"></span>
-                  </div>
                 </div>
               </div>
             </div>
-            <div
-              class="flex justify-end gap-2"
-              v-if="items?.status == 'active'"
-            >
+            <div class="flex justify-end gap-2" v-if="items?.status == 'active'">
               <a-button @click="showReturnBook(items)">Trả sách</a-button>
-              <a-button
-                v-if="
-                  orderStore?.getOneOrderAdmin?.data?.current_extensions <= 2
-                "
-                type="primary"
-                @click="showModalExtend(items)"
-                >Gia hạn</a-button
-              >
+              <a-button v-if="
+                orderStore?.getOneOrderAdmin?.data?.current_extensions <= 2
+              " type="primary" @click="showModalExtend(items)">Gia hạn</a-button>
             </div>
             <div class="flex justify-end" v-if="items?.status === 'extended'">
               <div class="flex gap-2">
-                <a-button
-                  class="border-orange-400 text-orange-500"
-                  @click="showReturnBook(items)"
-                  >Trả sách</a-button
-                >
-                <a-button
-                  v-if="
-                    orderStore?.getOneOrderAdmin?.data?.current_extensions <= 2
-                  "
-                  type="primary"
-                  @click="showModalExtend(items)"
-                  >Gia hạn</a-button
-                >
+                <a-button class="border-orange-400 text-orange-500" @click="showReturnBook(items)">Trả sách</a-button>
+                <a-button v-if="
+                  orderStore?.getOneOrderAdmin?.data?.current_extensions <= 2
+                " type="primary" @click="showModalExtend(items)">Gia hạn</a-button>
               </div>
             </div>
-            <div
-              class="flex justify-end"
-              v-else-if="items?.status === 'overdue'"
-            >
+            <div class="flex justify-end" v-else-if="items?.status === 'overdue'">
               <div class="flex gap-2">
-                <a-button
-                  class="border-orange-400 text-orange-500"
-                  @click="showReturnBook(items)"
-                  >Trả sách</a-button
-                >
+                <a-button class="border-orange-400 text-orange-500" @click="showReturnBook(items)">Trả sách</a-button>
               </div>
             </div>
           </div>
         </div>
         <form>
-          <div
-            v-if="
+          <div class="flex gap-2 justify-end items-center">
+            <div>
+              <a-button @click="$router.back()">Trở về</a-button>
+            </div>
+            <div v-if="
               orderStore?.getOneOrderAdmin?.data?.status === 'wating_payment'
-            "
-          >
-            <div class="flex justify-end gap-2">
-              <a-button type="primary" @click="setStatus('pending')"
-                >Đã thanh toán</a-button
-              >
+            ">
+              <div class="flex justify-end gap-2">
+                <a-button type="primary" @click="setStatus('pending')">Đã thanh toán</a-button>
+              </div>
             </div>
-          </div>
-          <div v-if="orderStore?.getOneOrderAdmin?.data?.status === 'pending'">
-            <div class="flex justify-end gap-2">
-              <a-button
-                class="border border-orange-400 text-orange-500"
-                @click="showModalAdd"
-                >Hủy</a-button
-              >
-              <NuxtLink :to="`/admin/product-manager`">
-                <a-button type="primary" @click="setStatus('approved')"
-                  >Xác nhận</a-button
-                >
-              </NuxtLink>
+            <div v-if="orderStore?.getOneOrderAdmin?.data?.status === 'pending'">
+              <div class="flex justify-end gap-2">
+                <a-button class="border border-orange-400 text-orange-500" @click="showModalAdd">Hủy</a-button>
+                <NuxtLink :to="`/admin/product-manager`">
+                  <a-button type="primary" @click="setStatus('approved')">Xác nhận</a-button>
+                </NuxtLink>
+              </div>
             </div>
-          </div>
-          <div
-            v-else-if="
+            <div v-else-if="
               orderStore?.getOneOrderAdmin?.data?.status === 'approved'
-            "
-          >
-            <div
-              v-if="
+            ">
+              <div v-if="
                 orderStore?.getOneOrderAdmin?.data?.delivery_method ===
                 'shipper'
-              "
-            >
-              <div class="flex justify-end gap-2">
-                <NuxtLink :to="`/admin/product-manager`">
-                  <a-button>Trở về</a-button>
-                </NuxtLink>
-                <a-button
-                  type="primary"
-                  @click="setStatus('preparing_shipment')"
-                  >Chuẩn bị giao hàng</a-button
-                >
-                <a-button type="primary" @click="setStatus('in_transit')"
-                  >Đang giao</a-button
-                >
+              ">
+                <div class="flex justify-end gap-2">
+                  <a-button type="primary" @click="setStatus('preparing_shipment')">Chuẩn bị giao hàng</a-button>
+                  <a-button type="primary" @click="setStatus('in_transit')">Đang giao</a-button>
+                </div>
               </div>
-            </div>
-            <div
-              v-else-if="
+              <div v-else-if="
                 orderStore?.getOneOrderAdmin?.data?.delivery_method === 'pickup'
-              "
-            >
+              ">
+                <div class="flex justify-end gap-2">
+                  <NuxtLink :to="`/admin/product-manager`">
+                    <a-button type="primary" @click="setStatus('ready_for_pickup')">Đơn hàng sẵn sàng</a-button>
+                  </NuxtLink>
+                </div>
+              </div>
+            </div>
+            <div v-else-if="
+              orderStore?.getOneOrderAdmin?.data?.status === 'ready_for_pickup'
+            ">
               <div class="flex justify-end gap-2">
                 <NuxtLink :to="`/admin/product-manager`">
-                  <a-button
-                    type="primary"
-                    @click="setStatus('ready_for_pickup')"
-                    >Đơn hàng sẵn sàng</a-button
-                  >
+                  <a-button type="primary" @click="setStatus('active')">Đã giao</a-button>
                 </NuxtLink>
               </div>
             </div>
-          </div>
-          <div
-            v-else-if="
-              orderStore?.getOneOrderAdmin?.data?.status === 'ready_for_pickup'
-            "
-          >
-            <div class="flex justify-end gap-2">
-              <NuxtLink :to="`/admin/product-manager`">
-                <a-button type="primary" @click="setStatus('active')"
-                  >Đã giao</a-button
-                >
-              </NuxtLink>
-            </div>
-          </div>
-          <div
-            v-else-if="
+            <div v-else-if="
               orderStore?.getOneOrderAdmin?.data?.status ===
               'preparing_shipment'
-            "
-          >
-            <div class="flex justify-end gap-2">
-              <a-button type="primary" @click="setStatus('in_transit')"
-                >Đang giao</a-button
-              >
+            ">
+              <div class="flex justify-end gap-2">
+                <a-button type="primary" @click="setStatus('in_transit')">Đang giao</a-button>
+              </div>
             </div>
-          </div>
-          <div
-            v-else-if="
+            <div v-else-if="
               orderStore?.getOneOrderAdmin?.data?.status === 'in_transit'
-            "
-          >
-            <div class="flex justify-end gap-2">
-              <a-button type="primary" @click="setStatus('active')"
-                >Đã giao</a-button
-              >
+            ">
+              <div class="flex justify-end gap-2">
+                <a-button type="primary" @click="setStatus('active')">Đã giao</a-button>
+              </div>
             </div>
-          </div>
-
-          <div class="flex justify-end">
-            <a-button @click="$router.back()">Trở về</a-button>
           </div>
         </form>
-        <OrderAdminOrderCanceled
-          :openModal="openModalAdd"
-          :CloseModal="CloseModalAdd"
-          :orderId="orderId"
-        />
-        <OrderAdminOrderExtendsionAll
-          :openModal="openModalExtendsionAll"
-          :CloseModal="CloseModalExtendsionAll"
-          :data="extendsionBooks"
-          :id="orderId"
-        />
-        <OrderAdminOrderExtended
-          :openModal="openModalExtend"
-          :CloseModal="CloseModalExtend"
-          :items="extendsionBook"
-        />
-        <OrderAdminOrderReturnBook
-          :openModal="openModalReturnBook"
-          :CloseModal="CloseReturnBook"
-          :loan_order_detail="loan_order_detail"
-        />
-        <OrderAdminHistoryExtended
-          :openHistoryExtend="openModalHistoryExtend"
-          :closeHistoryExtend="CloseModalHistoryExtend"
-        />
+        <OrderAdminOrderCanceled :openModal="openModalAdd" :CloseModal="CloseModalAdd" :orderId="orderId" />
+        <OrderAdminOrderExtendsionAll :openModal="openModalExtendsionAll" :CloseModal="CloseModalExtendsionAll"
+          :data="extendsionBooks" :id="orderId" />
+        <OrderAdminOrderExtended :openModal="openModalExtend" :CloseModal="CloseModalExtend" :items="extendsionBook" />
+        <OrderAdminOrderReturnBook :openModal="openModalReturnBook" :CloseModal="CloseReturnBook"
+          :loan_order_detail="loan_order_detail" />
+        <OrderAdminHistoryExtended :openHistoryExtend="openModalHistoryExtend"
+          :closeHistoryExtend="CloseModalHistoryExtend" />
       </div>
     </div>
   </div>
