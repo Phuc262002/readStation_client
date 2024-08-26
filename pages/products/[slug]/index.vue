@@ -107,8 +107,11 @@
                   <div class="text-sm text-[#999999]">
                     {{ book?.book_version }}
                   </div>
-                  <div class="flex justify-start">
+                  <div class="flex justify-start" v-if="book?.average_rate > 0">
                     <CommonRating :rating="book?.average_rate" />
+                  </div>
+                  <div class="flex justify-start" v-else>
+                    <CommonRating :rating="5" />
                   </div>
                   <NuxtLink :to="`/products?author=${book?.book?.author?.slug}`"
                     class="text-sm text-[#999999] hover:text-[#f65d4e]">
