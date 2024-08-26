@@ -180,7 +180,7 @@
                 Đang trả sách
               </a-tag>
               <a-tag v-else-if="record?.status === 'completed'"
-                class="text-tag-text-05 bg-tag-bg-05 border-none py-1 px-3 rounded-lg">
+                class="text-tag-text-09 bg-tag-bg-09 border-none py-1 px-3 rounded-lg">
                 Hoàn thành
               </a-tag>
               <a-tag v-else-if="record?.status === 'canceled'"

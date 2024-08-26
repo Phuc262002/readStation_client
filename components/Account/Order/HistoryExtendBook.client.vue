@@ -7,9 +7,24 @@
       <a-table :columns="columns" :data-source="orderStore?.order?.extensions" class="components-table-demo-nested"
         :expanded-row-keys="expandedRowKeys" rowKey="key" :pagination="false">
         <template #bodyCell="{ column, index }">
-          <template v-if="column.key === 'extensions'">
-            <span>Gia hạn lần {{ index + 1 }}</span>
-          </template>
+          <div class="flex items-center gap-10">
+            <template v-if="column.key === 'extensions'">
+              <span>Gia hạn lần {{ index + 1 }}</span>
+            </template>
+            <NuxtLink>
+              <a-tooltip placement="top">
+                <template #title>
+                  <span class="text-xs">Thanh toán ngay</span>
+                </template>
+                <button
+                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                  <div class="flex items-center">
+                    <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
+                  </div>
+                </button>
+              </a-tooltip>
+            </NuxtLink>
+          </div>
         </template>
 
         <template #expandedRowRender="{ record }">
@@ -46,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-
+import { Icon } from "@iconify/vue";
 const orderStore = useOrderClientStore();
 const route = useRoute();
 const id = route.params.id;

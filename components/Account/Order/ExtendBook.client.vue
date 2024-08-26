@@ -11,7 +11,7 @@
           {{ props.extendsionBook?.book_details?.book?.title }}
         </h3>
         <a-radio-group v-model:value="extended_method" class="flex gap-5 my-5">
-          <a-radio value="cash" class="w-1/2 p-5 border rounded-lg">
+          <a-radio value="cash" class="w-1/2 p-5 border rounded-lg" disabled>
             Gia hạn tại thư viện
           </a-radio>
           <a-radio value="online" class="w-1/2 p-5 border rounded-lg">
@@ -48,7 +48,7 @@
               </span>
             </div>
             <div class="grid grid-cols-6">
-              <span class="col-span-3 font-bold">Ngày hết hạn cũ:</span>
+              <span class="col-span-3 font-bold">Ngày hết hạn:</span>
               <span class="col-span-3">
                 {{
                   $dayjs(props.extendsionBook?.original_due_date).format(
@@ -57,16 +57,7 @@
                 }}
               </span>
             </div>
-            <div class="grid grid-cols-6">
-              <span class="col-span-3 font-bold">Ngày hết hạn mới:</span>
-              <span class="col-span-3">
-                {{
-                  $dayjs(props.extendsionBook?.original_due_date)
-                    .add(5, "day")
-                    .format("DD/MM/YYYY")
-                }}
-              </span>
-            </div>
+
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Phí gia hạn:</span>
               <span class="col-span-3"> {{ props.extendsionBook?.service_fee }} </span>
@@ -120,7 +111,7 @@
 <script setup lang="ts">
 const authStore = useAuthStore()
 const orderStore = useOrderClientStore();
-const extended_method = ref("cash");
+const extended_method = ref("online");
 const route = useRoute();
 const id = route.params.id;
 const number_of_days = ref(5);
@@ -166,6 +157,14 @@ const updateNumberOfDays = (id, quantity) => {
 };
 // updateNumberOfDays(id, quantity)
 const onSubmit = async () => {
+  console.log('first', {
+    id: props.extendsionBook?.id,
+    body: {
+      extended_method: extended_method.value,
+      number_of_days: number_of_days.value,
+    },
+  })
+  return
 
   const resData = await orderStore.extensionBook({
     id: props.extendsionBook?.id,
