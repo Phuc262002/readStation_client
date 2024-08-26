@@ -404,7 +404,7 @@
       />
       <div class="mt-4 flex justify-end">
         <a-pagination
-          v-if="userStore?.userAdmin?.totalResults > 0"
+          v-if="userStore?.userAdmin?.totalResults > 10"
           v-model:current="current"
           :total="userStore?.userAdmin?.totalResults"
           :pageSize="userStore?.userAdmin?.pageSize"

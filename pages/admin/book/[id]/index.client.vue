@@ -103,9 +103,9 @@
                         <div class="grid grid-cols-2">
                             <div class="py-10 px-5">
                                 <div class="flex justify-center items-center gap-4">
-                                    <img class="w-28 h-44" :src="items.poster" alt="">
+                                    <img class="w-28 h-44 object-cover" :src="items.poster" alt="">
                                     <div class="flex-flex-col items-start">
-                                        <div class="p-2" v-for="(image, index) in items?.images" :key="index">
+                                        <div class="p-2" v-for="(image, index) in items?.images.slice(0,3)" :key="index">
                                             <img class="w-12 h-20" :src="image" alt="">
                                         </div>
                                     </div>

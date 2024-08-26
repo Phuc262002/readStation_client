@@ -33,7 +33,7 @@
                     <upload-outlined />
                     <h1>Upload hình ảnh chi tiết</h1>
                   </a-button>
-                </a-upload>
+                </a-upload> 
               </div>
             </div>
           </div>

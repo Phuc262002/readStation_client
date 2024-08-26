@@ -219,7 +219,7 @@
       </a-table>
       <div class="mt-4 flex justify-end">
         <a-pagination
-        v-if="commentStore?.commentAdmin?.totalResults > 0"
+        v-if="commentStore?.commentAdmin?.totalResults > 10"
           v-model:current="current"
           :total="commentStore?.commentAdmin?.totalResults"
           :pageSize="commentStore?.commentAdmin?.pageSize"
