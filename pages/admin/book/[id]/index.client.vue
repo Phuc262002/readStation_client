@@ -1,11 +1,11 @@
 <template>
+
     <Head>
         <Title>ReadStation | Chi tiết sách {{ bookStore?.OneBookAdmin?.title }}</Title>
         <Meta name="description" content="Chi tiết sách" />
         <Meta property="og:title" content="ReadStation | Chi tiết sách" />
         <Meta property="og:description" content="Chi tiết sách" />
     </Head>
-    <div>hello {{ bookID }}</div>
     <div>
         <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
             <div class="flex flex-col gap-5 w-full">
@@ -134,7 +134,7 @@
                                     <span class="font-bold text-base">Phần trăm cọc: </span>
                                     <span class="text-base"> {{
                                         items?.hire_percent
-                                        }}%</span>
+                                    }}%</span>
                                 </div>
                                 <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Loại bìa: </span>
@@ -169,7 +169,7 @@
                                 <div class="grid grid-cols-2 space-x-5">
                                     <span class="font-bold text-base">Đánh giá: </span>
                                     <span class="text-base">
-                                        <CommonRating :rating="items?.reviews_avg" />
+                                        <CommonRating :rating="items?.reviews_avg ? items?.reviews_avg : 5" />
                                     </span>
                                 </div>
                             </div>
