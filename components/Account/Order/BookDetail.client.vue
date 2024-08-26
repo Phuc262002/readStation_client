@@ -47,17 +47,7 @@
               {{ order?.data?.book_details?.book?.category?.name }}
             </span>
           </div>
-          <div class="grid grid-cols-4" v-if="
-            orderStore?.order?.status === 'extended' ||
-            orderStore?.order?.status === 'active' ||
-            orderStore?.order?.status === 'overdue' ||
-            orderStore?.order?.status === 'returning'
-          ">
-            <span class="col-span-2 font-bold">Số lần gia hạn:</span>
-            <span class="col-span-2"> {{ order?.data?.extensions_details?.length }} / {{
-              orderStore?.order?.max_extensions }}
-            </span>
-          </div>
+
           <div class="grid grid-cols-4" v-if="
             orderStore?.order?.status === 'extended' ||
             orderStore?.order?.status === 'active' ||
@@ -129,6 +119,17 @@
             }}
           </span>
         </div>
+        <div class="grid grid-cols-8">
+          <span class="col-span-2 font-bold">Phí phạt:</span>
+          <span class="col-span-6">
+            {{
+              new Intl.NumberFormat("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              }).format(order?.data?.fine_amount)
+            }}
+          </span>
+        </div>
         <div class="grid grid-cols-8"
           v-if="!['overdue', 'completed', 'returning', 'extended'].includes(order?.data?.status)">
           <span class="col-span-2 font-bold">Tổng tiền:</span>
@@ -141,20 +142,6 @@
                 order?.data?.deposit_fee + order?.data?.service_fee
               )
             }}
-          </span>
-        </div>
-
-        <div class="grid grid-cols-8">
-          <span class="col-span-2 font-bold">Phí trễ hạn:</span>
-          <span class="col-span-6">
-            {{
-              new Intl.NumberFormat("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              }).format(
-                order?.data?.deposit_fee + order?.data?.service_fee
-              )
-            }}aaaaaaaaaaaaaaa
           </span>
         </div>
 
@@ -183,7 +170,8 @@
 
     <div class="flex justify-end pt-4 gap-2">
       <div v-if="
-        order?.data?.status === 'extended' || order?.data?.status === 'active'" class="flex justify-end pt-4 gap-2">
+        order?.data?.status === 'extended' || order?.data?.status === 'overdue' || order?.data?.status === 'active'"
+        class="flex justify-end pt-4 gap-2">
         <a-button class="h-10" @click="showModalGive(order?.data)">
           Trả sách
         </a-button>

@@ -223,7 +223,7 @@
           </div>
           <div class="flex justify-center">
             <a-pagination v-model:current="current" :total="bookstore?.books?.totalResults"
-              :pageSize="bookstore?.books?.pageSize" :showSizeChanger="null" />
+              :pageSize="bookstore?.books?.pageSize" :showSizeChanger="null" show-less-items />
           </div>
         </div>
       </div>
@@ -388,6 +388,19 @@ watch(
   },
   { deep: true, immediate: true }
 )
+useAsyncData(
+  async () => {
+    try {
+      await fetchBooks();
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  {
+    immediate: true,
+    watch: [current],
+  }
+);
 
 const handleSortChange = (value: string) => {
   filter.value.sort = value;
