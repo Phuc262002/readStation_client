@@ -59,11 +59,7 @@
             </div>
 
             <div class="grid grid-cols-6">
-              <span class="col-span-3 font-bold">Phí gia hạn:</span>
-              <span class="col-span-3"> {{ props.extendsionBook?.service_fee }} </span>
-            </div>
-            <div class="grid grid-cols-6">
-              <span class="col-span-3 font-bold">Nhập số ngày gia hạn:</span>
+              <span class="col-span-3 font-bold">Nhập thêm số ngày gia hạn:</span>
               <!-- student -->
               <span class="col-span-3" v-if="isCheckAuth && isCheckCate">
                 <a-input type="number" class="w-1/2" v-model:value="number_of_days" @change="(e) =>
@@ -109,7 +105,7 @@
   </div>
 </template>
 <script setup lang="ts">
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 const orderStore = useOrderClientStore();
 const extended_method = ref("online");
 const route = useRoute();
