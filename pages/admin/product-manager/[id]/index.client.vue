@@ -47,7 +47,7 @@
               }}</span>
             </div>
             <div class="grid grid-cols-3">
-              <span class="text-base font-bold col-span-1">Vai trò</span>
+              <span class="text-base font-bold col-span-1">Vai trò: </span>
               <span class="text-base col-span-2">
                 <div class="p-1 w-24 text-center rounded-lg text-tag-text-02 bg-tag-bg-02" v-if="
                   orderStore?.getOneOrderAdmin?.data?.user?.role
@@ -408,7 +408,7 @@
                         : ""
                     }}</span>
                   </div>
-                  <div class="grid grid-cols-2" v-if="true">
+                  <div class="grid grid-cols-2">
                     <span class="text-base font-bold">Số ngày gia hạn:</span>
                     <span class="text-base">{{
                       items?.extensions_details.reduce((sum, days) => {
@@ -422,6 +422,12 @@
                       items?.return_date
                         ? $dayjs(items?.return_date).format("DD/MM/YYYY")
                         : ""
+                    }}</span>
+                  </div>
+                  <div class="grid grid-cols-2" v-for="(return_method, index) in items?.return_histories">
+                    <span class="text-base font-bold">Hình thức trả sách:</span>
+                    <span class="text-base">{{
+                      return_method?.return_method === 'library' ? 'Nhận sách tại thư viện' : 'Nhận sách tại nhà'
                     }}</span>
                   </div>
                 </div>
@@ -481,11 +487,20 @@
                       )
                     }}</span>
                   </div>
+                  <div class="grid grid-cols-3" v-for="(return_fee, index) in items?.return_histories">
+                    <span class="text-base font-bold col-span-2">Phí trả tiền lấy sách:</span>
+                    <span class="text-base col-span-1">
+                      {{ new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(return_fee?.return_shipping_fee) }}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="flex justify-end gap-2" v-if="items?.status == 'active'">
-              <a-button @click="showReturnBook(items)">Trả sách</a-button>
+              <a-button class="border-orange-400 text-orange-500" @click="showReturnBook(items)">Trả sách</a-button>
               <a-button v-if="
                 orderStore?.getOneOrderAdmin?.data?.current_extensions <= 2
               " type="primary" @click="showModalExtend(items)">Gia hạn</a-button>

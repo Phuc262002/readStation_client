@@ -152,6 +152,8 @@ useAsyncData(async () => {
   } catch (error) {
     console.error(error);
   }
+},{
+  watch: [detailShelvesId]
 });
 const onSearch = debounce(() => {
   current.value = 1;
