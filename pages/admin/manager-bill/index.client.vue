@@ -68,7 +68,7 @@
                     </a-tag>
                   </div>
                   <div class="flex justify-between items-center">
-                    <h1 class="text-base font-semibold">
+                    <h1 class="text-base font-semibold text-left">
                       {{ items?.user?.fullname }}
                     </h1>
                   </div>

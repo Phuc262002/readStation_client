@@ -117,11 +117,8 @@
             </a>
           </template>
           <template v-if="column.key === 'bookcase'">
-            <NuxtLink :to="`/admin/book-case/${record.bookcase.id}`">
-              {{
-                record.bookcase ? record.bookcase.name : "Chưa được thêm vào tủ"
-              }}
-            </NuxtLink>
+            <a @click="() => navigateTo(`/admin/book-case/${record.bookcase.id}`)"> {{ record?.bookcase ?
+              record?.bookcase.name : "Chưa được thêm vào tủ" }}</A>
           </template>
           <template v-if="column.key === 'books'">
             <span class="flex justify-start gap-2">
