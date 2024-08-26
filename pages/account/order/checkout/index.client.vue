@@ -22,7 +22,7 @@
                 <span> Sản phẩm </span>
               </template>
             </template>
-
+            {{ record }}
             <template #bodyCell="{ column, record }">
               <template v-if="column.key === 'name'">
                 <div class="flex justify-start gap-5">

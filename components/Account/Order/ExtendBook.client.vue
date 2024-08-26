@@ -157,14 +157,6 @@ const updateNumberOfDays = (id, quantity) => {
 };
 // updateNumberOfDays(id, quantity)
 const onSubmit = async () => {
-  console.log('first', {
-    id: props.extendsionBook?.id,
-    body: {
-      extended_method: extended_method.value,
-      number_of_days: number_of_days.value,
-    },
-  })
-  return
 
   const resData = await orderStore.extensionBook({
     id: props.extendsionBook?.id,
