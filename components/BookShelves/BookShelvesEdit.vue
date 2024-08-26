@@ -59,7 +59,7 @@ const props = defineProps({
   openModal: Function,
   shelvesId: Number,
 });
-const shelvesId = ref(props.shelvesId);
+const id = ref(props.shelvesId);
 const open = ref(props.openModalEdit);
 watch(
   () => props.openModalEdit,
@@ -70,7 +70,7 @@ watch(
 watch(
   () => props.shelvesId,
   (newVal) => {
-    shelvesId.value = newVal;
+    id.value = newVal;
   }
 );
 const handleClose = () => {
@@ -103,8 +103,8 @@ const valueShelves = ref({
 
 useAsyncData(async () => {
   try {
-    if (shelvesId.value === undefined) return;
-    const data = await shelvesStore.getOneShelves(shelvesId.value);
+    if (id.value === undefined) return;
+    const data = await shelvesStore.getOneShelves(id.value);
     valueShelves.value.name = data.data._value?.data?.name;
     valueShelves.value.description = data.data._value?.data?.description;
     valueShelves.value.bookshelf_code = data.data._value?.data?.bookshelf_code;
@@ -115,7 +115,7 @@ useAsyncData(async () => {
     console.error(error);
   }
 }, {
-  watch: [shelvesId, open],
+  watch: [id, open],
   initialCache: false,
 })
 
@@ -127,7 +127,7 @@ const updateShelves = async () => {
       bookshelf_code: valueShelves.value?.bookshelf_code,
       status: valueShelves.value?.status,
     }
-    const res = await shelvesStore.updateShelves({ id: shelvesId.value, valueUpdateShelves: valueUpdateShelves });
+    const res = await shelvesStore.updateShelves({ id: id.value, valueUpdateShelves: valueUpdateShelves });
     if (res.data._rawValue?.status == true) {
       handleClose();
       message.success("Cập nhật kệ sách thành công");
