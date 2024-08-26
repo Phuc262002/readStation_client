@@ -8,7 +8,7 @@
       <form @submit.prevent="onSubmit" class="mt-5 space-y-5">
         <h3 class="font-bold text-base">Bạn muốn gia hạn "Toàn bộ sách" ?</h3>
         <a-radio-group v-model:value="extended_method" class="flex gap-5 my-5">
-          <a-radio value="cash" class="w-1/2 p-5 border rounded-lg">
+          <a-radio value="cash" class="w-1/2 p-5 border rounded-lg" disabled>
             Gia hạn tại thư viện
           </a-radio>
           <a-radio value="online" class="w-1/2 p-5 border rounded-lg">
@@ -40,32 +40,27 @@
               </span>
             </div>
             <div class="grid grid-cols-6">
-              <span class="col-span-3 font-bold">Ngày hết hạn cũ:</span>
+              <span class="col-span-3 font-bold">Ngày hết hạn:</span>
               <span class="col-span-3">
                 {{
                   $dayjs(order?.original_due_date).format("DD/MM/YYYY")
                 }}
               </span>
             </div>
-            <div class="grid grid-cols-6">
-              <span class="col-span-3 font-bold">Ngày hết hạn mới:</span>
-              <span class="col-span-3">
-                {{
-                  $dayjs(order?.original_due_date)
-                    .add(5, "day")
-                    .format("DD/MM/YYYY")
-                }}
-              </span>
-            </div>
-            <div class="grid grid-cols-6">
-              <span class="col-span-3 font-bold">Phí gia hạn:</span>
-              <span class="col-span-3"> {{ order?.service_fee }} </span>
-            </div>
+
+
             <div class="grid grid-cols-6">
               <span class="col-span-3 font-bold">Nhập thêm số ngày gia hạn:</span>
-              <span class="col-span-3">
+              <!-- student -->
+              <span class="col-span-3"
+                v-if="isCheckAuth && order?.book_details?.book?.category?.name === 'Sách giáo khoa'">
                 <a-input type="number" class="w-1/2" v-model:value="number_of_days[index]"
-                  @change="(e) => updateNumberOfDays(order?.id, number_of_days[index])" />
+                  @change="(e) => updateNumberOfDays(order?.id, number_of_days[index])" :min="1" :max="30" required />
+              </span>
+              <!-- user -->
+              <span class="col-span-3" v-else>
+                <a-input type="number" class="w-1/2" v-model:value="number_of_days[index]"
+                  @change="(e) => updateNumberOfDays(order?.id, number_of_days[index])" :min="1" :max="5" required />
               </span>
             </div>
           </div>
@@ -96,8 +91,9 @@
   </div>
 </template>
 <script setup lang="ts">
+const authStore = useAuthStore();
 const orderStore = useOrderClientStore();
-const extended_method = ref("cash");
+const extended_method = ref("online");
 const route = useRoute();
 const id = route.params.id;
 const number_of_days = ref([5, 5, 5]);
@@ -108,7 +104,8 @@ const props = defineProps({
   id: Number,
 });
 const open = ref(props.openExtendAll);
-
+const isCheckAuth = authStore?.authUser?.user?.role?.name === 'student';
+// const isCheckCate = ;
 const handleCloseExtendAll = async () => {
   props.closeExtendAll();
 };
@@ -144,6 +141,7 @@ const onSubmit = async () => {
     extended_method: extended_method.value,
     extension: body
   });
+
   const resData = await orderStore.extensionAllBook({
     id: props.id,
     body: valueExtendsion.value
@@ -154,7 +152,7 @@ const onSubmit = async () => {
     extended_method.value == "cash"
   ) {
     message.success({
-      content: "Gia hạn sách sách thành công",
+      content: "Gia hạn toàn bộ sách thành công",
     });
     handleCloseExtendAll();
     orderStore.getOneOrder(id);
@@ -163,7 +161,7 @@ const onSubmit = async () => {
     extended_method.value == "online"
   ) {
     message.success({
-      content: "Gia hạn sách sách thành công",
+      content: "Gia hạn toàn bộ sách thành công",
     });
     navigateTo(resData.data._rawValue.data.transaction.extra_info.checkoutUrl, {
       external: true,

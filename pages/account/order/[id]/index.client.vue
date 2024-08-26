@@ -395,7 +395,7 @@
         </a-button>
 
         <a-button @click="showExtendAll(orderStore?.order?.loan_order_details)"
-          v-if="orderStore?.order?.current_extensions < 3" class="h-10 bg-orange-500 !text-white border-none hidden">
+          v-if="orderStore?.order?.current_extensions < 3" class="h-10 bg-orange-500 !text-white border-none">
           Gia hạn toàn bộ
         </a-button>
 

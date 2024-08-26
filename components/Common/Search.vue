@@ -38,6 +38,7 @@
 <script setup>
 import { ref } from 'vue';
 import { Modal } from 'ant-design-vue';
+import debounce from "lodash.debounce";
 const shelvesStore = useShelvesStore();
 const valueSearch = ref('');
 const route = useRoute()
@@ -45,6 +46,7 @@ const categoryId = ref(shelvesStore?.adminGetOneBookShelve?.category?.id);
 const bookStore = useBookStore();
 const detailShelvesId = route.params.id;
 const bookShelves = useShelvesStore();
+const current = ref(1);
 const handleClose = () => {
     valueSearch.value = '';
     props.openModal();
@@ -60,6 +62,14 @@ watch(
         open.value = newVal;
     }
 );
+const onSearch = debounce(() => {
+    bookStore.getAdminBooks({
+        search: valueSearch.value,
+        category_id: categoryId.value
+    });
+}, 500);
+
+watch(valueSearch, onSearch);
 const showConfirm = (id) => {
     Modal.confirm({
         title: 'Bạn có muốn thêm sách này vào kệ không?',
@@ -83,7 +93,7 @@ useAsyncData(async () => {
         category_id: categoryId.value
     });
 }, {
-    watch: [valueSearch, categoryId],
+    watch: [categoryId],
 })
 const updateDetailShelves = async (id) => {
     try {
