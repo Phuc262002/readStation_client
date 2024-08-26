@@ -1,12 +1,21 @@
 <template>
   <NuxtLink
-    class="hover:text-[black] "
-    :to="`/products/${props.dashboard?.book?.slug}-${props.dashboard?.id}`"
+    class="hover:text-[black]"
+    :to="
+      props?.dashboard?.status === 'active'
+        ? `/products/${props.dashboard?.book?.slug}-${props.dashboard?.id}`
+        : ''
+    "
   >
     <div
-      class="flex justify-between cursor-pointer hover:bg-[#f1f1f1] p-2 hover:rounded-md"
+      class="flex justify-between  hover:bg-[#f1f1f1] p-2 hover:rounded-md cursor-not-allowed"
+      :class="
+        props?.dashboard?.status === 'active'
+          ? 'cursor-pointer'
+          : 'cursor-not-allowed bg-[#e9ecef] rounded-md opacity-50'
+      "
     >
-      <div class="flex justify-center items-start gap-2  w-3/5">
+      <div class="flex justify-center items-start gap-2 w-3/5">
         <img
           class="min-w-20 h-20 object-cover rounded-md"
           :src="props?.dashboard?.poster"
