@@ -130,6 +130,14 @@
             }}
           </span>
         </div>
+        <!-- <div class="grid grid-cols-8">
+          <span class="col-span-2 font-bold">Mô tả tình trạng:</span>
+          <span class="col-span-6">
+            {{
+              order?.data?.return_histories[0]?.condition
+            }}
+          </span>
+        </div> -->
         <div class="grid grid-cols-8"
           v-if="!['overdue', 'completed', 'returning', 'extended'].includes(order?.data?.status)">
           <span class="col-span-2 font-bold">Tổng tiền:</span>
