@@ -12,9 +12,9 @@
           :src="props?.dashboard?.poster"
           alt=""
         />
-        <div class=" ">
+        <div class="w-10 h-10">
           <p>{{ props?.dashboard?.book?.title }}</p>
-          <p>
+          <p class="line-clamp-1" >
             {{ props?.dashboard?.book_version }} -
             <span> {{ props?.dashboard?.book?.author?.author }}</span>
           </p>
@@ -24,7 +24,7 @@
           </p>
         </div>
       </div>
-      <p class="flex items-start">
+      <p class="flex justify-end items-start w-1/5 ">
         {{ props?.dashboard?.hire_count }} lượt thuê
       </p>
     </div>
