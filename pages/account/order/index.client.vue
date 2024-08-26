@@ -315,11 +315,6 @@ useAsyncData(
   }
 );
 
-// handle check Status Order
-const handleCheckStatus = (status) => {
-  filter.value = status;
-};
-
 const columns = [
   {
     title: "Mã đơn hàng",
