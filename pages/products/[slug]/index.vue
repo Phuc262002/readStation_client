@@ -23,7 +23,7 @@
     </div>
     <div class="space-y-5 mt-5 bg-white h-auto border border-rtgray-50 overflow-hidden rounded-lg p-5">
       <h2 class="font-bold text-xl">Đánh giá</h2>
-      <div v-if="hasReviews">
+      <div>
         <p class="mb-3">Lọc theo</p>
         <div class="flex gap-4">
 
@@ -52,31 +52,36 @@
             {{ i }} sao
           </a-button>
         </div>
-      </div>
-      <div class="space-y-5" v-for="review in detailReview?.reviews?.bookReviews">
-        <div class="flex gap-5 pb-5 border-b border-rtgray-50">
-          <div class="">
-            <img :src="review?.user?.avatar" class="w-10 h-10 rounded-full" alt="" />
+        <div class="space-y-5 mt-5" v-for="review in detailReview?.reviews?.bookReviews" v-if="hasReviews">
+          <div class="flex gap-5 pb-5 border-b border-rtgray-50">
+            <div class="">
+              <img :src="review?.user?.avatar" class="w-10 h-10 rounded-full" alt="" />
+            </div>
+            <div class="space-y-1">
+              <p>{{ review?.user?.fullname }}</p>
+              <p>
+                <CommonRating :rating="review?.rating" />
+              </p>
+              <p>
+                {{ review?.review_text }}
+              </p>
+            </div>
           </div>
-          <div class="space-y-1">
-            <p>{{ review?.user?.fullname }}</p>
-            <p>
-              <CommonRating :rating="review?.rating" />
-            </p>
-            <p>
-              {{ review?.review_text }}
-            </p>
-          </div>
+
         </div>
 
+        <p class="text-center my-5 font-semibold" v-if="!hasReviews">
+          Chưa có đánh giá.
+        </p>
+
+        <div class="flex justify-center mt-5" v-if="hasReviews">
+          <a-pagination v-model:current="current" :total="detailReview?.reviews?.totalResults"
+            :pageSize="detailReview?.reviews?.pageSize" show-less-items />
+        </div>
       </div>
-      <div class="flex justify-center" v-if="hasReviews">
-        <a-pagination v-model:current="current" :total="detailReview?.reviews?.totalResults"
-          :pageSize="detailReview?.reviews?.pageSize" show-less-items />
-      </div>
-      <p class="text-center mb-5 font-semibold" v-if="!hasReviews">
-        Sách hiện tại chưa có đánh giá nào.
-      </p>
+
+
+
 
     </div>
     <div v-if="bookStore.books?.books?.length > 0">

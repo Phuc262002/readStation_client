@@ -6,24 +6,26 @@
       </div>
       <a-table :columns="columns" :data-source="orderStore?.order?.extensions" class="components-table-demo-nested"
         :expanded-row-keys="expandedRowKeys" rowKey="key" :pagination="false">
-        <template #bodyCell="{ column, index }">
+        <template #bodyCell="{ column, index, record }">
           <div class="flex items-center gap-10">
             <template v-if="column.key === 'extensions'">
               <span>Gia hạn lần {{ index + 1 }}</span>
             </template>
-            <NuxtLink>
-              <a-tooltip placement="top">
-                <template #title>
-                  <span class="text-xs">Thanh toán ngay</span>
-                </template>
-                <button
-                  class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
-                  <div class="flex items-center">
-                    <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
-                  </div>
-                </button>
-              </a-tooltip>
-            </NuxtLink>
+            <div v-if="record?.status === 'pending'">
+              <NuxtLink :to="record?.fee_transaction?.extra_info?.checkoutUrl">
+                <a-tooltip placement="top">
+                  <template #title>
+                    <span class="text-xs">Thanh toán ngay</span>
+                  </template>
+                  <button
+                    class="group hover:bg-[#212122]/20 bg-[#e4e1e1] flex items-center justify-center w-8 h-8 rounded-md">
+                    <div class="flex items-center">
+                      <Icon icon="heroicons:eye" class="group-hover:text-[#212122]" />
+                    </div>
+                  </button>
+                </a-tooltip>
+              </NuxtLink>
+            </div>
           </div>
         </template>
 
@@ -47,6 +49,16 @@
               </template>
               <template v-if="column.key === 'new_due_date'">
                 <span>{{ $dayjs(record.extension_details[index]?.new_due_date).format("DD/MM/YYYY") }}</span>
+              </template>
+              <template v-if="column.key === 'status'">
+                <span>
+                  <a-tag v-if="record?.fee_transaction?.status === 'pending'"
+                    class="text-tag-text-07 bg-tag-bg-07 border-none"> Chờ xử lý </a-tag>
+                  <a-tag v-if="record?.fee_transaction?.status === 'rejected'"
+                    class="text-tag-text-11 bg-tag-bg-11 border-none"> Thất bại </a-tag>
+                  <a-tag v-if="record?.fee_transaction?.status === 'approved'"
+                    class="text-tag-text-09 bg-tag-bg-09 border-none"> Thành công </a-tag>
+                </span>
               </template>
             </template>
           </a-table>
@@ -114,6 +126,11 @@ const innerColumns = [
     title: 'Ngày tới hạn',
     key: 'new_due_date',
     dataIndex: 'new_due_date',
+  },
+  {
+    title: 'Trạng thái',
+    key: 'status',
+    dataIndex: 'status',
   },
 ];
 </script>

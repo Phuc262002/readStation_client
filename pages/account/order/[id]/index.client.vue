@@ -2,7 +2,7 @@
   <div>
 
     <Head>
-      <Title>ReadStation | Chi tiết đơn hàng</Title>
+      <Title>ReadStation | Thông tin chi tiết đơn hàng</Title>
       <Meta name="description" content="Chi tiết đơn hàng" />
       <Meta property="og:title" content="ReadStation | Chi tiết đơn hàng" />
       <Meta property="og:description" content="Chi tiết đơn hàng" />

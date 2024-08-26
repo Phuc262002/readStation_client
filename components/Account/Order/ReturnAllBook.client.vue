@@ -74,7 +74,7 @@
                 <label class="font-bold"> Tỉnh/ Thành phố </label>
                 <div class="mt-2">
                   <a-select class="w-full" size="large" v-model:value="province_id" show-search
-                    placeholder="Tỉnh/Thành phố" :options="optionsPronvines" @focus="handleFocus" @blur="handleBlur"
+                    placeholder="Tỉnh/Thành phố" :options="optionsPronvines" @blur="handleBlur"
                     @change="handleChangeProvince" :loading="baseStore.isLoading">
                   </a-select>
                 </div>
@@ -83,7 +83,7 @@
                 <label class="font-bold"> Quận/ Huyện </label>
                 <div class="mt-2">
                   <a-select class="w-full" size="large" v-model:value="district_id" show-search placeholder="Quận/Huyện"
-                    :options="optionsDistricts" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
+                    :options="optionsDistricts" :filter-option="filterOption" @blur="handleBlur"
                     @change="handleChangeDistrict" :disabled="!province_id" :loading="baseStore.isLoading">
                   </a-select>
                 </div>
@@ -94,8 +94,8 @@
                 <label class="font-bold"> Phường/ Xã </label>
                 <div class="mt-2">
                   <a-select class="w-full" size="large" v-model:value="ward_id" show-search placeholder="Phường/Xã"
-                    :options="optionsWards" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
-                    @change="handleChangeWard" :disabled="!district_id" :loading="baseStore.isLoading">
+                    :options="optionsWards" :filter-option="filterOption" @blur="handleBlur" @change="handleChangeWard"
+                    :disabled="!district_id" :loading="baseStore.isLoading">
                   </a-select>
                 </div>
               </div>
@@ -117,7 +117,7 @@
             </div>
 
             <a-select placeholder="Chọn hình thức vận chuyển" size="large" v-model:value="shipping_method_id"
-              style="width: 30%" @focus="focus" @change="handleChange" :options="options">
+              style="width: 30%" @change="handleChange" :options="options">
             </a-select>
 
             <div class="flex gap-2">
@@ -129,6 +129,12 @@
                     currency: "VND",
                   }).format(shippingValue?.fee)
                 }}
+              </span>
+            </div>
+            <div class="flex gap-2">
+              <label class="font-bold"> Khu vực vận chuyển: </label>
+              <span class="text-orange-400">
+                {{ shippingValue?.location.join(', ') }}
               </span>
             </div>
             <!--  -->
@@ -250,6 +256,43 @@ const onSubmit = async () => {
         : null,
   };
   const pickupInfo = return_method.value === "library" ? null : pickup_info;
+  // check name, phone
+  const phonePattern = /^(0[3|5|7|8|9])+([0-9]{8})$/;
+  const fullNamePattern = /^[a-zA-ZÀ-ỹ\s\(\)]+$/;
+  if (return_method.value === "pickup" && !phonePattern.test(user.value.phone)) {
+    message.error({
+      content: "Số điện thoại không hợp lệ!",
+    });
+    return;
+  }
+  if (return_method.value === "pickup" && !fullNamePattern.test(user.value.fullname)) {
+    message.error({
+      content: "Họ tên không nhập số và ký tự đặc biệt!",
+    });
+    return;
+  }
+  // check address
+  if (
+    return_method.value === "pickup" &&
+    (!pickup_info.phone || !pickup_info.address)
+  ) {
+    message.error({
+      content: "Vui lòng điền đầy đủ thông tin giao hàng!",
+    });
+    return;
+  }
+  // check khu vực
+  if (return_method.value === "pickup") {
+    const locations = shippingMethodStore?.shippings?.filter(
+      (item) => item.id === shipping_method_id.value
+    )[0]?.location;
+
+    if (!locations.includes(address.value.province)) {
+      message.error("Hiện tại chưa có hình thức vận chuyển khu vực này !");
+      return;
+    }
+  }
+
   const resData = await orderStore.returnAllBook({
     id: idOrder,
     body: {
@@ -259,7 +302,7 @@ const onSubmit = async () => {
       pickup_info: pickupInfo,
     },
   });
- 
+
   if (resData?.data?._rawValue?.status == true) {
     message.success({
       content: "Trả toàn bộ sách thành công",
@@ -353,10 +396,6 @@ watch(
     open.value = newValue;
   }
 );
-
-const focus = () => {
-  console.log("focus");
-};
 
 const handleChange = (value: string) => {
   shippingValue.value = shippingMethodStore?.shippings.filter(

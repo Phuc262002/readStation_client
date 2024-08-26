@@ -11,7 +11,6 @@ export const useCartStore = defineStore("cart-store", {
   },
   actions: {
     updateNumberOfDays(id, quantity) {
-      console.log("🚀 ~ updateNumberOfDays ~ quantity:", quantity);
       this.carts = this.carts.map((item) => {
         let fee = 0;
         if (item.price < 50000) {
@@ -69,7 +68,7 @@ export const useCartStore = defineStore("cart-store", {
       if (isCheckVerify === null) {
         deposit_fee = (item.hire_percent / 100) * item.price;
       } else {
-        deposit_fee = ((item.hire_percent - 30) / 100) * item.price;
+        deposit_fee = ((item.hire_percent - 20) / 100) * item.price;
       }
       this.rentNow = [
         {
