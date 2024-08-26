@@ -164,7 +164,7 @@
       </a-table>
       <div class="mt-4 flex justify-end">
         <a-pagination
-        v-if="publishingCompanyStore?.publishingCompaniesAdmin?.totalResults > 0"
+        v-if="publishingCompanyStore?.publishingCompaniesAdmin?.totalResults > 10"
           v-model:current="current"
           :total="
             publishingCompanyStore?.publishingCompaniesAdmin?.totalResults

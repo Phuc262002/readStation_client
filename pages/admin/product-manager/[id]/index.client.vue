@@ -535,9 +535,7 @@
             <div v-if="orderStore?.getOneOrderAdmin?.data?.status === 'pending'">
               <div class="flex justify-end gap-2">
                 <a-button class="border border-orange-400 text-orange-500" @click="showModalAdd">Hủy</a-button>
-                <NuxtLink :to="`/admin/product-manager`">
-                  <a-button type="primary" @click="setStatus('approved')">Xác nhận</a-button>
-                </NuxtLink>
+                <a-button type="primary" @click="setStatus('approved')">Xác nhận</a-button>
               </div>
             </div>
             <div v-else-if="
@@ -556,9 +554,7 @@
                 orderStore?.getOneOrderAdmin?.data?.delivery_method === 'pickup'
               ">
                 <div class="flex justify-end gap-2">
-                  <NuxtLink :to="`/admin/product-manager`">
-                    <a-button type="primary" @click="setStatus('ready_for_pickup')">Đơn hàng sẵn sàng</a-button>
-                  </NuxtLink>
+                  <a-button type="primary" @click="setStatus('ready_for_pickup')">Đơn hàng sẵn sàng</a-button>
                 </div>
               </div>
             </div>
@@ -566,9 +562,7 @@
               orderStore?.getOneOrderAdmin?.data?.status === 'ready_for_pickup'
             ">
               <div class="flex justify-end gap-2">
-                <NuxtLink :to="`/admin/product-manager`">
-                  <a-button type="primary" @click="setStatus('active')">Đã giao</a-button>
-                </NuxtLink>
+                <a-button type="primary" @click="setStatus('active')">Đã giao</a-button>
               </div>
             </div>
             <div v-else-if="

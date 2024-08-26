@@ -28,12 +28,12 @@
           </p>
         </div>
         <div>
-          <a-button class="flex justify-center items-center gap-1" type="primary" @click="showModalEdit" size="large">
+          <a-button class="flex justify-center items-center gap-1" type="primary"
+            @click="showModalEdit(bookShelves?.adminGetOneBookShelve.id)" size="large">
             <UIcon class="text-lg text-white" name="i-material-symbols-edit" />
             <span class="text-white text-base">Chỉnh sửa</span>
           </a-button>
-          <BookShelvesEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit"
-            :shelvesId="bookShelves?.adminGetOneBookShelve?.id" />
+          <BookShelvesEdit :openModalEdit="openModalEdit" :openModal="CloseModalEdit" :shelvesId="idShevels" />
         </div>
       </div>
     </div>
@@ -138,6 +138,7 @@ const route = useRoute();
 const detailShelvesId = route.params.id;
 const openModalAdd = ref<boolean>(false);
 const openModalEdit = ref<boolean>(false);
+const idShevels = ref<number>();
 const open = ref(false);
 const showModal = () => {
   open.value = true;
@@ -147,13 +148,12 @@ const current = ref(1);
 const bookShelves = useShelvesStore();
 const bookStore = useBookStore();
 useAsyncData(async () => {
+  if (detailShelvesId === undefined) return
   try {
     await bookShelves.getOneShelves(detailShelvesId);
   } catch (error) {
     console.error(error);
   }
-},{
-  watch: [detailShelvesId]
 });
 const onSearch = debounce(() => {
   current.value = 1;
@@ -271,7 +271,8 @@ const showModalAdd = () => {
 const CloseModalAdd = () => {
   openModalAdd.value = false;
 };
-const showModalEdit = () => {
+const showModalEdit = (id: any) => {
+  idShevels.value = id;
   openModalEdit.value = true;
 };
 const CloseModalEdit = () => {

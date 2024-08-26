@@ -414,7 +414,7 @@
   </p>
   <div class="flex justify-center">
     <a-pagination
-      v-if="commentStore.comment?.comments?.length > 0"
+      v-if="commentStore?.comment?.total > 10"
       v-model:current="current"
       :total="commentStore?.comment?.total"
       :pageSize="commentStore?.comment?.pageSize"
@@ -530,7 +530,6 @@ const handleCloseEditComment = () => {
   showEditComment.value.comment_hash = null;
 };
 const updateComment = async () => {
-
   if (!showEditComment.value.content) {
     message.error("Vui lòng nhập nội dung bình luận");
     return;
@@ -541,7 +540,7 @@ const updateComment = async () => {
     content: showEditComment.value.content,
   });
   submittingReply.value = false;
-  
+
   await commentStore.getComment({ post_id: postStore.post?.id });
   showEditComment.value.content = "";
   showEditComment.value.comment_id = null;
