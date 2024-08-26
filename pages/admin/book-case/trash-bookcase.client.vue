@@ -10,7 +10,7 @@
 
     <div class="bg-white min-h-[360px] w-full rounded-lg p-5 shadow-sm">
       <a-table
-        :columns="columns"
+      :columns="columns"
         :data-source="bookCaseStore?.bookCaseAdmin?.bookcases"
         :loading="bookCaseStore.isLoading"
         :pagination="false"
@@ -86,10 +86,10 @@
       </a-table>
       <div class="mt-4 flex justify-end">
         <a-pagination
-          v-if="bookCaseStore.getAllBookcases?.totalResults > 0"
+          v-if="bookCaseStore?.bookCaseAdmin?.totalResults > 0"
           v-model:current="current"
-          :total="bookCaseStore.getAllBookcases?.totalResults"
-          :pageSize="bookCaseStore.getAllBookcases?.pageSize"
+          :total="bookCaseStore?.bookCaseAdmin?.totalResults"
+          :pageSize="bookCaseStore?.bookCaseAdmin?.pageSize"
           show-less-items
           pageSizeOptions
         />
@@ -157,8 +157,7 @@ const showRecoverConfirm = (id) => {
     onOk() {
       onRecover(id);
     },
-    onCancel() {
-    },
+    onCancel() {},
   });
 };
 
