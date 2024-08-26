@@ -215,7 +215,17 @@
 
             <div class="grid grid-cols-8"
               v-if="!['wating_payment', 'pending', 'approved', 'ready_for_pickup'].includes(orderStore?.order?.status)">
-              <span class="col-span-3 font-bold">Ngày nhận sách:</span>
+              <span class="col-span-3 font-bold">Ngày nhận sách thực tế:</span>
+              <span class="col-span-5">
+                {{ orderStore?.order?.delivered_date ?
+                  $dayjs(orderStore?.order?.delivered_date).format(
+                    "DD/MM/YYYY"
+                  ) : "Chưa có thông tin ngày nhận sách"
+                }}
+              </span>
+            </div>
+            <div class="grid grid-cols-8" v-if="orderStore?.order?.delivery_method === 'shipper'">
+              <span class="col-span-3 font-bold">Ngày nhận sách dự kiến:</span>
               <span class="col-span-5">
                 {{ orderStore?.order?.pickup_date ?
                   $dayjs(orderStore?.order?.pickup_date).format(

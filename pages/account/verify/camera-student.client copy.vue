@@ -138,10 +138,7 @@ export default defineComponent({
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
             const photoData = canvas.toDataURL("image/png");
             this.photos.push(photoData);
-            console.log(
-              `Photo ${this.photos.length === 1 ? "front" : "back"} captured:`,
-              photoData
-            );
+            
           }
           if (this.photos.length === 2) {
             this.showInputs = true;
@@ -168,13 +165,6 @@ export default defineComponent({
         message.error("Mã số học sinh/sinh viên không được chứa ký tự đặc biệt.");
         return;
       }
-
-      console.log("Họ và Tên:", this.student_name);
-      console.log("Mã số học sinh/sinh viên:", this.student_code);
-      console.log("Thời hạn thẻ:", this.student_card_expired);
-      console.log("Trường:", this.place_of_study);
-      console.log("Photos:", this.photos);
-
       if (this.photos.length !== 2) {
         message.error("Hãy chụp lại ảnh mặt trước và mặt sau thẻ HS/SV của bạn");
         return;
@@ -229,7 +219,6 @@ export default defineComponent({
 
       try {
         const dataUpload = await baseStore.uploadImg(formData);
-        console.log("Upload success:", dataUpload.data._rawValue.data);
         return dataUpload.data._rawValue.data;
       } catch (error) {
         message.error("Upload ảnh thất bại");

@@ -80,10 +80,10 @@
               returnHistoryStore?.ReturnLoanDetail?.return_method ===
               'library'
             ">
-              Nhận sách tại thư viện</span>
+              Trả sách tại thư viện</span>
             <span class="text-base col-span-2" v-if="
               returnHistoryStore?.ReturnLoanDetail?.return_method === 'pickup'
-            ">Nhận sách tại nhà</span>
+            ">Trả sách tại nhà</span>
           </div>
           <div class="grid grid-cols-3" v-if="
             returnHistoryStore?.ReturnLoanDetail?.return_method === 'pickup'
@@ -236,11 +236,11 @@
                     returnHistoryStore?.ReturnLoanDetail?.return_method ===
                     'library'
                   ">
-                    Nhận sách tại thư viện</span>
+                    Trả sách tại thư viện</span>
                   <span class="text-base col-span-2" v-if="
                     returnHistoryStore?.ReturnLoanDetail?.return_method ===
                     'pickup'
-                  ">Nhận sách tại nhà</span>
+                  ">Trả sách tại nhà</span>
                 </div>
               </div>
               <div class="md:col-span-1 space-y-3 ml-5">
