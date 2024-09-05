@@ -115,6 +115,9 @@
                   - Bạn có thể tham khảo các mức phí đã được đề cập ở trên.
                 </li>
                 <li>
+                  - Các phí trên chưa bao gồm ưu đãi từ thư viện.
+                </li>
+                <li>
                   - Để xem chi tiết cụ thể các khoản phí, vui lòng truy cập
                   trang "Thanh toán".
                 </li>
@@ -224,7 +227,6 @@ const dataSource = computed(() => {
   return type === "thue_ngay" ? cartStore?.rentNow : cartStore?.carts;
 });
 
-
 // phí cọc
 const calcDepositFee = () => {
   depositFee.value = (type === "thue_ngay" ? cartStore?.rentNow : cartStore?.carts).reduce(
@@ -254,12 +256,14 @@ useAsyncData(
     watch: [() => dataSource],
   }
 );
+
 watch(
   dataSource,
   () => {
     calcDepositFee(), calcServiceFee(), calcTotalFee();
   }
 );
+
 const onSubmit = () => {
   try {
     if (type === "thue_ngay") {

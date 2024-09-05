@@ -52,12 +52,12 @@
               </template>
               <template v-if="column.key === 'status'">
                 <span>
-                  <a-tag v-if="record?.fee_transaction?.status === 'pending'"
-                    class="text-tag-text-07 bg-tag-bg-07 border-none"> Chờ xử lý </a-tag>
-                  <a-tag v-if="record?.fee_transaction?.status === 'rejected'"
-                    class="text-tag-text-11 bg-tag-bg-11 border-none"> Thất bại </a-tag>
-                  <a-tag v-if="record?.fee_transaction?.status === 'approved'"
-                    class="text-tag-text-09 bg-tag-bg-09 border-none"> Thành công </a-tag>
+                  <a-tag v-if="record?.status === 'pending'" class="text-tag-text-07 bg-tag-bg-07 border-none"> Chờ xử
+                    lý </a-tag>
+                  <a-tag v-if="record?.status === 'rejected'" class="text-tag-text-11 bg-tag-bg-11 border-none"> Thất
+                    bại </a-tag>
+                  <a-tag v-if="record?.status === 'approved'" class="text-tag-text-09 bg-tag-bg-09 border-none"> Thành
+                    công </a-tag>
                 </span>
               </template>
             </template>

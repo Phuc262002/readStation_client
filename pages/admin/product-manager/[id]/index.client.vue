@@ -427,7 +427,7 @@
                   <div class="grid grid-cols-2" v-for="(return_method, index) in items?.return_histories">
                     <span class="text-base font-bold">Hình thức trả sách:</span>
                     <span class="text-base">{{
-                      return_method?.return_method === 'library' ? 'Nhận sách tại thư viện' : 'Nhận sách tại nhà'
+                      return_method?.return_method === 'library' ? 'Trả sách tại thư viện' : 'Trả sách tại nhà'
                     }}</span>
                   </div>
                 </div>
