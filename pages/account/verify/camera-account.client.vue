@@ -289,7 +289,7 @@ export default defineComponent({
 
       try {
         const dataUpload = await baseStore.uploadImg(formData);
-        return dataUpload.data._rawValue.data;
+        return dataUpload.data._rawValue.data; 
       } catch (error) {
         message.error("Upload ảnh thất bại");
         throw error;
